@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<form action="">
+			<div class="box-body">
+				
+				{{ form.as_p }}
+				<input type="submit" value="Agregar" class="btn btn-primary">
+				<section>
+					{{ form.cgpo }}
+					{{ form.cgpo.label }}
+				</section>
+			</div>
+		</form>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+

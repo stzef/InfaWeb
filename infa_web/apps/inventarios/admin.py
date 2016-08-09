@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from infa_web.apps.inventarios.models import *
+
+admin.site.register(Invinicab)
+admin.site.register(Invinideta)
