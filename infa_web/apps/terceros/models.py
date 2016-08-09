@@ -9,9 +9,6 @@ class Autorre(models.Model):
 	def __str__(self):
 		return self.nautorre
 
-	def __init__(self):
-		return self.nautorre
-
 class Vende(models.Model):
 	cvende = models.AutoField(primary_key=True)
 	nvende = models.CharField(max_length=80)
@@ -19,9 +16,6 @@ class Vende(models.Model):
 	cesdo = models.ForeignKey(Esdo)
 
 	def __str__(self):
-		return self.nvende
-
-	def __init__(self):
 		return self.nvende
 
 class Ruta(models.Model):
@@ -32,18 +26,12 @@ class Ruta(models.Model):
 	def __str__(self):
 		return self.nruta
 
-	def __init__(self):
-		return self.nruta
-
 class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
 	activo = models.CharField(max_length=1)
 
 	def __str__(self):
-		return self.nzona
-
-	def __init__(self):
 		return self.nzona
 
 class Tercero(models.Model):
@@ -82,5 +70,3 @@ class Tercero(models.Model):
 	def __str__(self):
 		return self.nomcomer
 
-	def __init__(self):
-		return self.nomcomer

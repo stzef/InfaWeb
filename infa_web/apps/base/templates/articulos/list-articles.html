@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<h1>Articles</h1>
+		<ul>
+		{% for article in object_list %}
+			<li>
+				<a href="{% url 'edit-article' article.carlos %}" target="_blank">{{ article.carlos }} - {{ article.nlargo }}</a>
+				<a href="{% url 'delete-article' article.carlos %}" target="_blank">Borrar</a>
+			</li>
+		{% empty %}
+			<li>No hay Articulos Registrados.</li>
+			<li><a href="{% url 'add-article' %}" target="_blank">Empieza a Crearlos</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
