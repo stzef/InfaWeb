@@ -1,12 +1,56 @@
 from __future__ import unicode_literals
-
+from infa_web.apps.base.models import *
 from django.db import models
 
-class Terceros(models.Model):
+class Autorre(models.Model):
+	cautorre = models.AutoField(primary_key=True)
+	nautorre = models.CharField(max_length=40)
+
+	def __str__(self):
+		return self.nautorre
+
+	def __init__(self):
+		return self.nautorre
+
+class Vende(models.Model):
+	cvende = models.AutoField(primary_key=True)
+	nvende = models.CharField(max_length=80)
+	porventa = models.DecimalField(max_digits=7, decimal_places=4)
+	cesdo = models.ForeignKey(Esdo)
+
+	def __str__(self):
+		return self.nvende
+
+	def __init__(self):
+		return self.nvende
+
+class Ruta(models.Model):
+	cruta = models.AutoField(primary_key=True)
+	nruta = models.CharField(max_length=45)
+	cesdo = models.ForeignKey(Esdo)
+
+	def __str__(self):
+		return self.nruta
+
+	def __init__(self):
+		return self.nruta
+
+class Zona(models.Model):
+	czona = models.AutoField(primary_key=True)
+	nzona = models.CharField(max_length=40)
+	activo = models.CharField(max_length=1)
+
+	def __str__(self):
+		return self.nzona
+
+	def __init__(self):
+		return self.nzona
+
+class Tercero(models.Model):
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
 	dv = models.CharField(max_length=1)
-	ctiide = models.ForeignKey('Tiide', models.DO_NOTHING, db_column='ctiide')
+	ctiide = models.ForeignKey(Tiide)
 	rasocial = models.CharField(max_length=200)
 	nomcomer = models.CharField(max_length=200)
 	ape1 = models.CharField(max_length=40)
@@ -19,58 +63,24 @@ class Terceros(models.Model):
 	dirterce = models.CharField(max_length=80)
 	telterce = models.CharField(max_length=20)
 	faxterce = models.CharField(max_length=20)
-	cciu = models.ForeignKey(Ciudades, models.DO_NOTHING, db_column='cciu')
+	cciu = models.ForeignKey(Ciudad)
 	email = models.CharField(max_length=40)
 	contacto = models.CharField(max_length=20)
-	cregiva = models.ForeignKey(Regiva, models.DO_NOTHING, db_column='cregiva')
-	cautorre = models.ForeignKey(Autorre, models.DO_NOTHING, db_column='cautorre')
-	cesdo = models.ForeignKey(Esdos, models.DO_NOTHING, db_column='cesdo')
-	cvende = models.ForeignKey('Vende', models.DO_NOTHING, db_column='cvende')
+	cregiva = models.ForeignKey(Regiva)
+	cautorre = models.ForeignKey(Autorre)
+	cesdo = models.ForeignKey(Esdo)
+	cvende = models.ForeignKey(Vende)
 	topcxc = models.DecimalField(max_digits=15, decimal_places=2)
 	ndiacxc = models.IntegerField()
-	czona = models.ForeignKey('Zonas', models.DO_NOTHING, db_column='czona')
+	czona = models.ForeignKey(Zona)
 	clipre = models.IntegerField()
 	fnaci = models.DateField()
 	naju = models.IntegerField()
-	cruta = models.ForeignKey(Rutas, models.DO_NOTHING, db_column='cruta')
+	cruta = models.ForeignKey(Ruta)
 	ordenruta = models.IntegerField()
 
-	class Meta:
-		managed = False
-		db_table = 'terceros'
+	def __str__(self):
+		return self.nomcomer
 
-class Autorre(models.Model):
-	cautorre = models.AutoField(primary_key=True)
-	nautorre = models.CharField(max_length=40)
-
-	class Meta:
-		managed = False
-		db_table = 'autorre'
-
-class Rutas(models.Model):
-	cruta = models.AutoField(primary_key=True)
-	nruta = models.CharField(max_length=45)
-	cesdo = models.ForeignKey(Esdos, models.DO_NOTHING, db_column='cesdo')
-
-	class Meta:
-		managed = False
-		db_table = 'rutas'
-
-class Vende(models.Model):
-	cvende = models.AutoField(primary_key=True)
-	nvende = models.CharField(max_length=80)
-	porventa = models.DecimalField(max_digits=7, decimal_places=4)
-	cesdo = models.ForeignKey(Esdos, models.DO_NOTHING, db_column='cesdo')
-
-	class Meta:
-		managed = False
-		db_table = 'vende'
-
-class Zonas(models.Model):
-	czona = models.AutoField(primary_key=True)
-	nzona = models.CharField(max_length=40)
-	activo = models.CharField(max_length=1)
-
-	class Meta:
-		managed = False
-		db_table = 'zonas'
+	def __init__(self):
+		return self.nomcomer

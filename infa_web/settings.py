@@ -39,8 +39,11 @@ DJANGO_APPS = [
 	'django.contrib.staticfiles',
 ]
 PROJECT_APPS = [
+	'infa_web.apps.base',
 	'infa_web.apps.inventarios',
-	'infa_web.apps.articulos'
+	'infa_web.apps.articulos',
+	'infa_web.apps.movimientos',
+	'infa_web.apps.terceros',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
