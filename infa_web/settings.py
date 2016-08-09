@@ -123,9 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -137,4 +137,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = 'static'
+
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
+
+STATICFILES_DIRS = (
+	os.path.join(BASE_DIR, 'infa_web/static'),
+)
