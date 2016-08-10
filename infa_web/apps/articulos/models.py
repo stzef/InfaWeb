@@ -87,6 +87,7 @@ class Bode(models.Model):
 	cbode = models.AutoField(primary_key=True)
 	nbode = models.CharField(max_length=80)
 	esbode = models.CharField(max_length=2)
+	cesdo = models.ForeignKey(Esdo)
 
 	def __str__(self):
 		return self.nbode
