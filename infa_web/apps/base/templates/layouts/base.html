@@ -19,8 +19,6 @@
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
 	<script src="{% static 'js/app.min.js' %}"></script>
-	<script>
-		{% block content_script %}{% endblock content_script %}
-	</script>
+	{% block content_script %}{% endblock content_script %}
 </body>
 </html>
