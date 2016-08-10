@@ -11,6 +11,7 @@ class ArticleCreate(CreateView):
 	template_name = "articulos/article.html"
 	form = Article
 	fields = "__all__"
+	success_url=reverse_lazy("/articles")
 	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 
 class ArticleUpdate(UpdateView):
