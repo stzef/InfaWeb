@@ -14,9 +14,6 @@ class Timo(models.Model):
 	def __str__(self):
 		return self.ntimo
 
-	def __init__(self):
-		return self.ntimo
-
 class Mven(models.Model):
 	cmven = models.AutoField(primary_key=True)
 	fmven = models.DateTimeField()
@@ -33,9 +30,6 @@ class Mven(models.Model):
 	def __str__(self):
 		return str(self.cmven)
 
-	def __init__(self):
-		return str(self.cmven)
-
 class Mvendeta(models.Model):
 	cmven = models.ForeignKey(Mven)
 	it = models.CharField(max_length=4)
@@ -44,10 +38,6 @@ class Mvendeta(models.Model):
 	canti = models.DecimalField(max_digits=15, decimal_places=2)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2)
-
-	class Meta:
-		managed = False
-		unique_together = (('cmven', 'it'),)
 
 class Mvsa(models.Model):
 	cmvsa = models.AutoField(primary_key=True)
@@ -70,8 +60,3 @@ class Mvsadeta(models.Model):
 	canti = models.DecimalField(max_digits=15, decimal_places=2)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2)
-
-	class Meta:
-		managed = False
-		unique_together = (('cmvsa', 'it'),)
-

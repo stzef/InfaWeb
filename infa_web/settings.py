@@ -40,10 +40,10 @@ DJANGO_APPS = [
 ]
 PROJECT_APPS = [
 	'infa_web.apps.base',
-	'infa_web.apps.inventarios',
-	'infa_web.apps.articulos',
-	'infa_web.apps.movimientos',
 	'infa_web.apps.terceros',
+	'infa_web.apps.articulos',
+	'infa_web.apps.inventarios',
+	'infa_web.apps.movimientos',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS

@@ -77,11 +77,10 @@ class Arlosdesglo(models.Model):
 	vtoglo = models.DecimalField(max_digits=15, decimal_places=2)
 	cesdo = models.ForeignKey(Esdo)
 
-	class Meta:
-		managed = False
-		unique_together = (('carlosp', 'itglo'),)
-
 	def __str__(self):
+		return str(self.carlosp)+' - '+str(self.itglo)
+
+	def __unicode__(self):
 		return str(self.carlosp)+' - '+str(self.itglo)
 
 class Bode(models.Model):
