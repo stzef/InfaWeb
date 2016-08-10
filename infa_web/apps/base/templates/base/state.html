@@ -1,0 +1,57 @@
+{%extends 'layouts/base.html'%}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Nuevo Estado</h3>
+					</div>
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row">
+								<div class="form-group">
+									<label for="{{form.nesdo.id_for_label}}" class="col-sm-2 control-label">{{form.nesdo.label}}</label>
+									{%if form.nesdo.errors%}
+									{{form.nesdo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<input class="form-control" type="text" value="{{form.nesdo.value|default_if_none:''}}" id="{{form.nesdo.id_for_label}}" name="{{form.nesdo.html_name}}" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.estavali.id_for_label}}" class="col-sm-2 control-label">{{form.estavali.label}}</label>
+									{%if form.estavali.errors%}
+									{{form.estavali.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<input class="form-control" type="text" value="{{form.estavali.value|default_if_none:''}}" id="{{form.estavali.id_for_label}}" name="{{form.estavali.html_name}}" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.colfon.id_for_label}}" class="col-sm-2 control-label">{{form.colfon.label}}</label>
+									{%if form.colfon.errors%}
+									{{form.colfon.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<input class="form-control" type="text" value="{{form.colfon.value|default_if_none:''}}" id="{{form.colfon.id_for_label}}" name="{{form.colfon.html_name}}" >
+									</div>
+								</div>
+							</section>
+							<input type="submit" value="Agregar" class="btn btn-primary">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+
