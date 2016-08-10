@@ -4,7 +4,7 @@ from infa_web.apps.articulos.views import *
 urlArticles = [
 	url(r'^articles/$', ArticleList.as_view(), {'title': 'Crear Articulos'}, name = 'list-article'),
 	url(r'^articles/add/$', ArticleCreate.as_view(), {'title': 'Crear Articulos'}, name = 'add-article'),
-	url(r'^article/edit/(?P<pk>[0-9])/$', ArticleUpdate.as_view(), {'title': 'Editar Articulos'}, name = 'edit-article'),
+	url(r'^articles/edit/(?P<pk>[0-9])/$', ArticleUpdate.as_view(), {'title': 'Editar Articulos'}, name = 'edit-article'),
 ]
 urlGroups = [
 	url(r'^groups/$', GroupList.as_view(), {'title': 'Crear Grupo'}, name = 'list-group'),
