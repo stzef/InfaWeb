@@ -30,4 +30,9 @@ urlLocations = [
 	url(r'^locations/edit/(?P<pk>[0-9])/$', LocationUpdate.as_view(), {'title': 'Editar Ubicacion'}, name = 'edit-location'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations
+urlBrands = [
+	url(r'^brands/$', BrandsList.as_view(), {'title': 'Crear Marca'}, name = 'list-brands'),
+	url(r'^brands/add/$', BrandCreate.as_view(), {'title': 'Crear Marca'}, name = 'add-brand'),
+	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), {'title': 'Editar Marca'}, name = 'edit-brand'),
+]
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands
