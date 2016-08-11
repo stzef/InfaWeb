@@ -29,7 +29,8 @@ class Ruta(models.Model):
 class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
-	activo = models.CharField(max_length=1)
+	cesdo = models.ForeignKey(Esdo)
+	#activo = models.CharField(max_length=1)
 
 	def __str__(self):
 		return self.nzona

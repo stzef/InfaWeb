@@ -1,12 +1,14 @@
 from __future__ import unicode_literals
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
+from infa_web.apps.base.constantes import *
+
 from django.db import models
 
 class Gpo(models.Model):
 	cgpo = models.IntegerField(primary_key=True)
 	ngpo = models.CharField(max_length=80)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.ngpo
@@ -14,7 +16,7 @@ class Gpo(models.Model):
 class Marca(models.Model):
 	cmarca = models.AutoField(primary_key=True)
 	nmarca = models.CharField(max_length=60)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nmarca
@@ -22,14 +24,14 @@ class Marca(models.Model):
 class Arlo(models.Model):
 	carlos = models.IntegerField(primary_key=True)
 	cbarras = models.CharField(max_length=50)
-	cgpo = models.ForeignKey(Gpo)
+	cgpo = models.ForeignKey(Gpo,default=DEFAULT_GRUPO)
 	ncorto = models.CharField(max_length=20)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2)
 	vcosto = models.DecimalField(max_digits=15, decimal_places=2)
 	ifcostear = models.BooleanField()
 	ifpvfijo = models.BooleanField()
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	ciudad = models.ForeignKey(Ciudad)
 	ivas_civa = models.ForeignKey(Iva)
 	stomin = models.DecimalField(max_digits=15, decimal_places=2)
@@ -51,10 +53,10 @@ class Arlo(models.Model):
 	fcosto3 = models.DateField(blank=True,null=True)
 	ifedinom = models.BooleanField(max_length=1)
 	refe = models.CharField(max_length=20)
-	cmarca = models.ForeignKey(Marca)
+	cmarca = models.ForeignKey(Marca,default=DEFAULT_MARCAR)
 	ifdesglo = models.BooleanField()
 	mesesgara = models.IntegerField()
-	cubica = models.ForeignKey(Ubica)
+	cubica = models.ForeignKey(Ubica,default=DEFAULT_UBICACION)
 	porult1 = models.DecimalField(max_digits=6, decimal_places=2)
 	porult2 = models.DecimalField(max_digits=6, decimal_places=2)
 	porult3 = models.DecimalField(max_digits=6, decimal_places=2)
@@ -75,7 +77,7 @@ class Arlosdesglo(models.Model):
 	cantiglo = models.DecimalField(max_digits=15, decimal_places=2)
 	costoglo = models.DecimalField(max_digits=15, decimal_places=2)
 	vtoglo = models.DecimalField(max_digits=15, decimal_places=2)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return str(self.carlosp)+' - '+str(self.itglo)
@@ -87,7 +89,7 @@ class Bode(models.Model):
 	cbode = models.AutoField(primary_key=True)
 	nbode = models.CharField(max_length=80)
 	esbode = models.CharField(max_length=2)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nbode

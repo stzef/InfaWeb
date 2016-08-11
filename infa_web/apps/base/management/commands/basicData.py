@@ -4,13 +4,42 @@ from django.contrib.auth.models import User
 
 from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
+from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 		Esdo.objects.all().delete()
 		estadoActivo = Esdo.objects.create(cesdo=CESTADO_ACTIVO,nesdo="ACTIVO",estavali=1,colfon=1)
 		estadoInactivo = Esdo.objects.create(cesdo=CESTADO_INACTIVO,nesdo="INACTIVO",estavali=0,colfon=0)
-		
+
+		Regiva.objects.all().delete()
+		Regiva.objects.create(cregiva=1,nregiva="REGIMEN COMUN")
+		Regiva.objects.create(cregiva=2,nregiva="REGIMEN SIMPLIFICADO")
+
+		Tiide.objects.all().delete()
+		Tiide.objects.create(idtiide=1,ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(idtiide=2,ntiide="NIT")
+		Tiide.objects.create(idtiide=3,ntiide="NUMERO UNICO DE IDENTIFICACION")
+
+		Autorre.objects.all().delete()
+		Autorre.objects.create(cautorre=1,nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(cautorre=2,nautorre="SI AUTORRETENEDOR")
+
+
+
+		Ruta.objects.all().delete()
+		Ruta.objects.create(cruta=DEFAULT_RUTA,nruta="SIN RUTA",cesdo=estadoActivo)
+
+		Zona.objects.all().delete()
+		Zona.objects.create(czona=DEFAULT_ZONA,nzona="SIN ZONA",cesdo=estadoActivo)
+
+		Iva.objects.all().delete()
+		Iva.objects.create(civa=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
+		Iva.objects.create(civa=2,niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
+		Iva.objects.create(civa=3,niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
+		Iva.objects.create(civa=4,niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
+		Iva.objects.create(civa=5,niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
+
 		Marca.objects.all().delete()
 		Marca.objects.create(cmarca=DEFAULT_MARCAR,nmarca="SIN MARCA",cesdo=estadoActivo)
 
@@ -77,3 +106,49 @@ class Command(BaseCommand):
 		Ciudad.objects.create(nciu='Villapinzón',cdepar=departamento)
 		Ciudad.objects.create(nciu='Villeta',cdepar=departamento)
 		Ciudad.objects.create(nciu='Zipaquirá',cdepar=departamento)
+
+		Timo.objects.all().delete()
+		Timo.objects.create(ctimo=1000,ntimo="*** ENTRADA INVENTARIOS ***",prefijo="",filas=50,nrepo="")
+		Timo.objects.create(ctimo=1001,ntimo="COMPRA MERCANCIA",prefijo="EA",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1002,ntimo="DEVOLUCIONES COMPRAS",prefijo="EB",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1003,ntimo="AJUSTE ENTRADA",prefijo="EC",filas=45,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1004,ntimo="OTRAS ENTRADAS",prefijo="EC",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=2000,ntimo="*** SALIDA INVENTARIOS ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=2001,ntimo="SALIDAS MERCANCIA",prefijo="SA",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2002,ntimo="DEVOLUCIONES SALIDAS",prefijo="SB",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2003,ntimo="BAJAS MERCANCIA",prefijo="SC",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2004,ntimo="SALIDAS FACTURACION",prefijo="SD",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2005,ntimo="GASTOS ALMACEN",prefijo="SE",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2006,ntimo="AJUSTE SALIDA",prefijo="SF",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=3000,ntimo="*** INGRESOS CAJA ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=3001,ntimo="RECIBOS CAJA ABONOS FACTURAS",prefijo="IA",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3002,ntimo="RECIBO ABONOS EMPLEADOS",prefijo="IB",filas=1,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3003,ntimo="PRESTAMOS TERCEROS",prefijo="IC",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3008,ntimo="INGRESOS VARIOS",prefijo="IH",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3100,ntimo="**** EGRESOS CAJA ****",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=3101,ntimo="PAGO PROVEEDORES",prefijo="GA",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3102,ntimo="PRESTAMOS EMPLEADOS",prefijo="GB",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3103,ntimo="LABORES MENSUALES",prefijo="GC",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3104,ntimo="SERVICIOS PUBLICOS",prefijo="GD",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3105,ntimo="GASTOS ARRIENDO",prefijo="GE",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3106,ntimo="GASTO VEHICULO",prefijo="GF",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3107,ntimo="COMISIONES",prefijo="GH",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3108,ntimo="DOTACION",prefijo="GI",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3109,ntimo="PAGO PRESTAMOS TERCEROS",prefijo="GJ",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3110,ntimo="EGRESOS VARIOS",prefijo="GJ",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=4000,ntimo="*** CARGOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4001,ntimo="SALDO CXC",prefijo="CA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4002,ntimo="CARGOS CXC",prefijo="CB",filas=10,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4003,ntimo="OTROS CARGOS CXC",prefijo="CC",filas=10,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4100,ntimo="*** ABONOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4101,ntimo="ABONOS CXC",prefijo="OA",filas=5,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4102,ntimo="OTROS ABONOS CXC",prefijo="OB",filas=5,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4200,ntimo="*** CARGOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4201,ntimo="SALDO CXP",prefijo="RA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4202,ntimo="CARGOS CXP",prefijo="RB",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4203,ntimo="OTROS CARGOS CXP",prefijo="RC",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4300,ntimo="*** ABONOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4301,ntimo="ABONOS CXP",prefijo="PA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4302,ntimo="OTROS ABONOS CXP",prefijo="PB",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")

@@ -29,7 +29,7 @@ class ArticleForm(forms.ModelForm):
 			'ifpvfijo':'Precio Venta Fijo',
 			'cesdo':'Estado',
 			'ciudad':'Ciudad',
-			'ivas_civa':'',
+			'ivas_civa':'IVA',
 			'stomin':'Stock Minimo',
 			'stomax':'Stock Maximo',
 			'pvta1':'Precio Venta 1',
