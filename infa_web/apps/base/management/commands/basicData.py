@@ -2,25 +2,26 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
+from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
 from infa_web.apps.articulos.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 		Esdo.objects.all().delete()
-		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali=1,colfon=1)
-		estadoInactivo = Esdo.objects.create(nesdo="INACTIVO",estavali=0,colfon=0)
+		estadoActivo = Esdo.objects.create(cesdo=CESTADO_ACTIVO,nesdo="ACTIVO",estavali=1,colfon=1)
+		estadoInactivo = Esdo.objects.create(cesdo=CESTADO_INACTIVO,nesdo="INACTIVO",estavali=0,colfon=0)
 		
 		Marca.objects.all().delete()
-		Marca.objects.create(nmarca="SIN MARCA",cesdo=estadoActivo)
+		Marca.objects.create(cmarca=DEFAULT_MARCAR,nmarca="SIN MARCA",cesdo=estadoActivo)
 
 		Bode.objects.all().delete()
-		Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
+		Bode.objects.create(cbode=DEFAULT_BODEGA,nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
 
 		Ubica.objects.all().delete()
-		Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
+		Ubica.objects.create(cubica=DEFAULT_UBICACION,nubica="SIN UBICACION",cesdo=estadoActivo)
 
 		Gpo.objects.all().delete()
-		Gpo.objects.create(cgpo=0,ngpo="SIN GRUPO",cesdo=estadoActivo)
+		Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
 		
 		Departamento.objects.all().delete()
 		departamento = Departamento.objects.create(cdepar=9,ndepar="Cundinamarca")

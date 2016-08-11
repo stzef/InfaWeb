@@ -13,7 +13,7 @@ class Esdo(models.Model):
 class Ubica(models.Model):
 	cubica = models.AutoField(primary_key=True)
 	nubica = models.CharField(max_length=80)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo) 
 
 	def __str__(self):
 		return self.nubica
@@ -29,8 +29,9 @@ class Ciudad(models.Model):
 	cciu = models.AutoField(primary_key=True)
 	nciu = models.CharField(max_length=40)
 	cdepar = models.ForeignKey(Departamento)
-
 	def __str__(self):
+		return self.nciu
+	def __unicode__(self):
 		return self.nciu
 
 class Iva(models.Model):
