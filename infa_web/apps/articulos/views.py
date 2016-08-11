@@ -25,7 +25,7 @@ class ArticleUpdate(UpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
-	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
+	#exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 
 class ArticleList(ListView):
 	model = Arlo

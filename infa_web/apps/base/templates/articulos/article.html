@@ -1,5 +1,5 @@
 {%extends 'layouts/base.html'%}
-
+{% load humanize %}
 {%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
@@ -72,7 +72,7 @@
 										{{form.canti.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.canti.value|default_if_none:''|floatformat:'0'}}" id="{{form.canti.id_for_label}}" name="{{form.canti.html_name}}" >
+											<input class="form-control" type="number" value="{{form.canti.value|default_if_none:''|intcomma}}" id="{{form.canti.id_for_label}}" name="{{form.canti.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -81,7 +81,7 @@
 										{{form.vcosto.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.vcosto.value|default_if_none:''|floatformat:'0'}}" id="{{form.vcosto.id_for_label}}" name="{{form.vcosto.html_name}}" >
+											<input class="form-control" type="number" value="{{form.vcosto.value|default_if_none:''}}" id="{{form.vcosto.id_for_label}}" name="{{form.vcosto.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -156,55 +156,55 @@
 													<tr>
 														<th>1</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult1.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult1.id_for_label}}" name="{{form.porult1.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult1.value|default_if_none:''|intcomma}}" id="{{form.porult1.id_for_label}}" name="{{form.porult1.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta1.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta1.id_for_label}}" name="{{form.pvta1.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta1.value|default_if_none:''}}" id="{{form.pvta1.id_for_label}}" name="{{form.pvta1.html_name}}" >
 														</th>
 													</tr>
 													<tr>
 														<th>2</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult2.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult2.id_for_label}}" name="{{form.porult2.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult2.value|default_if_none:''|intcomma}}" id="{{form.porult2.id_for_label}}" name="{{form.porult2.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta2.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta2.id_for_label}}" name="{{form.pvta2.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta2.value|default_if_none:''}}" id="{{form.pvta2.id_for_label}}" name="{{form.pvta2.html_name}}" >
 														</th>
 													</tr>
 													<tr>
 														<th>3</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult3.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult3.id_for_label}}" name="{{form.porult3.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult3.value|default_if_none:''|intcomma}}" id="{{form.porult3.id_for_label}}" name="{{form.porult3.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta3.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta3.id_for_label}}" name="{{form.pvta3.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta3.value|default_if_none:''}}" id="{{form.pvta3.id_for_label}}" name="{{form.pvta3.html_name}}" >
 														</th>
 													</tr>
 													<tr>
 														<th>4</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult4.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult4.id_for_label}}" name="{{form.porult4.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult4.value|default_if_none:''|intcomma}}" id="{{form.porult4.id_for_label}}" name="{{form.porult4.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta4.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta4.id_for_label}}" name="{{form.pvta4.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta4.value|default_if_none:''}}" id="{{form.pvta4.id_for_label}}" name="{{form.pvta4.html_name}}" >
 														</th>
 													</tr>
 													<tr>
 														<th>5</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult5.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult5.id_for_label}}" name="{{form.porult5.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult5.value|default_if_none:''|intcomma}}" id="{{form.porult5.id_for_label}}" name="{{form.porult5.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta5.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta5.id_for_label}}" name="{{form.pvta5.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta5.value|default_if_none:''}}" id="{{form.pvta5.id_for_label}}" name="{{form.pvta5.html_name}}" >
 														</th>
 													</tr>
 													<tr>
 														<th>6</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.porult6.value|default_if_none:''|floatformat:'0'}}" id="{{form.porult6.id_for_label}}" name="{{form.porult6.html_name}}" >
+															<input class="form-control" type="number" value="{{form.porult6.value|default_if_none:''|intcomma}}" id="{{form.porult6.id_for_label}}" name="{{form.porult6.html_name}}" >
 														</th>
 														<th>
-															<input class="form-control" type="number" value="{{form.pvta6.value|default_if_none:''|floatformat:'0'}}" id="{{form.pvta6.id_for_label}}" name="{{form.pvta6.html_name}}" >
+															<input class="form-control" type="number" value="{{form.pvta6.value|default_if_none:''}}" id="{{form.pvta6.id_for_label}}" name="{{form.pvta6.html_name}}" >
 														</th>
 													</tr>
 												</tbody>
@@ -294,7 +294,7 @@
 										{{form.stomin.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.stomin.value|default_if_none:''|floatformat:'2'}}" id="{{form.stomin.id_for_label}}" name="{{form.stomin.html_name}}" >
+											<input class="form-control" type="number" value="{{form.stomin.value|default_if_none:''|intcomma}}" id="{{form.stomin.id_for_label}}" name="{{form.stomin.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -303,7 +303,7 @@
 										{{form.stomax.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.stomax.value|default_if_none:''|floatformat:'2'}}" id="{{form.stomax.id_for_label}}" name="{{form.stomax.html_name}}" >
+											<input class="form-control" type="number" value="{{form.stomax.value|default_if_none:''|intcomma}}" id="{{form.stomax.id_for_label}}" name="{{form.stomax.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
