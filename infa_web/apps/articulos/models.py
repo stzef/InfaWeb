@@ -5,6 +5,13 @@ from infa_web.apps.base.constantes import *
 
 from django.db import models
 
+class Tiarlos(models.Model):
+	ctiarlos = models.IntegerField(primary_key=True)
+	ntiarlos = models.CharField(max_length=40)
+	
+	def __str__(self):
+		return self.ngpo
+
 class Gpo(models.Model):
 	cgpo = models.IntegerField(primary_key=True)
 	ngpo = models.CharField(max_length=80)
@@ -32,6 +39,7 @@ class Arlo(models.Model):
 	ifcostear = models.BooleanField()
 	ifpvfijo = models.BooleanField()
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	ctiarlo = models.ForeignKey(Tiarlos)
 	ciudad = models.ForeignKey(Ciudad)
 	ivas_civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 	stomin = models.DecimalField(max_digits=15, decimal_places=2)

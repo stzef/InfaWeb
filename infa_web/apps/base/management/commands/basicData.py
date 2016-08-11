@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+import os
 
 from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
@@ -8,30 +9,51 @@ from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
+
+		if 'APPEMPRESARIAL_USER' in os.environ:
+			if not User.objects.filter(username=APPEMPRESARIAL_USER).exists():
+				print "Super Usuario Creado Con exito."
+				User.objects.create_superuser(APPEMPRESARIAL_USER, APPEMPRESARIAL_EMAIL, APPEMPRESARIAL_PASS)
+			else:
+				print "El Super Usuario ya Existe."
+		else:
+			print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
+
+		Tiarlos.objects.all().delete()
+		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
+		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
+		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
+		print "Tiarlos. Registros Creados Correctamente."
+		
+		
 		Esdo.objects.all().delete()
 		estadoActivo = Esdo.objects.create(cesdo=CESTADO_ACTIVO,nesdo="ACTIVO",estavali=1,colfon=1)
 		estadoInactivo = Esdo.objects.create(cesdo=CESTADO_INACTIVO,nesdo="INACTIVO",estavali=0,colfon=0)
+		print "Esdo. Registros Creados Correctamente."
 
 		Regiva.objects.all().delete()
 		Regiva.objects.create(cregiva=1,nregiva="REGIMEN COMUN")
 		Regiva.objects.create(cregiva=2,nregiva="REGIMEN SIMPLIFICADO")
+		print "Regiva. Registros Creados Correctamente."
 
 		Tiide.objects.all().delete()
 		Tiide.objects.create(idtiide=1,ntiide="CEDULA DE CIUDADANIA")
 		Tiide.objects.create(idtiide=2,ntiide="NIT")
 		Tiide.objects.create(idtiide=3,ntiide="NUMERO UNICO DE IDENTIFICACION")
+		print "Tiide. Registros Creados Correctamente."
 
 		Autorre.objects.all().delete()
 		Autorre.objects.create(cautorre=1,nautorre="NO AUTORRETENEDOR")
 		Autorre.objects.create(cautorre=2,nautorre="SI AUTORRETENEDOR")
-
-
+		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
 		Ruta.objects.create(cruta=DEFAULT_RUTA,nruta="SIN RUTA",cesdo=estadoActivo)
+		print "Ruta. Registros Creados Correctamente."
 
 		Zona.objects.all().delete()
 		Zona.objects.create(czona=DEFAULT_ZONA,nzona="SIN ZONA",cesdo=estadoActivo)
+		print "Zona. Registros Creados Correctamente."
 
 		Iva.objects.all().delete()
 		Iva.objects.create(civa=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
@@ -39,21 +61,27 @@ class Command(BaseCommand):
 		Iva.objects.create(civa=3,niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
 		Iva.objects.create(civa=4,niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
 		Iva.objects.create(civa=5,niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
+		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()
 		Marca.objects.create(cmarca=DEFAULT_MARCAR,nmarca="SIN MARCA",cesdo=estadoActivo)
+		print "Marca. Registros Creados Correctamente."
 
 		Bode.objects.all().delete()
 		Bode.objects.create(cbode=DEFAULT_BODEGA,nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
+		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
 		Ubica.objects.create(cubica=DEFAULT_UBICACION,nubica="SIN UBICACION",cesdo=estadoActivo)
+		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
 		Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
+		print "Gpo. Registros Creados Correctamente."
 		
 		Departamento.objects.all().delete()
 		departamento = Departamento.objects.create(cdepar=9,ndepar="Cundinamarca")
+		print "Departamento. Registros Creados Correctamente."
 
 		Ciudad.objects.all().delete()
 		Ciudad.objects.create(nciu='Alban',cdepar=departamento)
@@ -106,6 +134,7 @@ class Command(BaseCommand):
 		Ciudad.objects.create(nciu='Villapinzón',cdepar=departamento)
 		Ciudad.objects.create(nciu='Villeta',cdepar=departamento)
 		Ciudad.objects.create(nciu='Zipaquirá',cdepar=departamento)
+		print "Cuidad. Registros Creados Correctamente."
 
 		Timo.objects.all().delete()
 		Timo.objects.create(ctimo=1000,ntimo="*** ENTRADA INVENTARIOS ***",prefijo="",filas=50,nrepo="")
@@ -152,3 +181,4 @@ class Command(BaseCommand):
 		Timo.objects.create(ctimo=4302,ntimo="OTROS ABONOS CXP",prefijo="PB",filas=1,nrepo="R01701WIN")
 		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
 		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
+		print "Timo. Registros Creados Correctamente."
