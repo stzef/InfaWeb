@@ -25,7 +25,7 @@
 								</div>
 							</div>
 							<div class="box-footer text-center">
-								<a href="{% url 'inventory_latest' %}" class="btn btn-primary" id="btn-create">Crear</a>
+								<a href="{% url 'inventory_latest' %}" class="btn btn-primary btn-create">Crear</a>
 								<a href="#" class="btn btn-default" id="btn-find">Buscar</a>
 							</div>
 						</form>
@@ -39,7 +39,8 @@
 {% endblock %}
 
 {% block content_script %}
-	$('#btn-create').click(function(e){
+<script>
+	$(document).on("click", ".btn-create", function(e){
 		e.preventDefault();
 		$.ajax({
 			url: $(this).attr('href'),
@@ -51,4 +52,5 @@
 			}
 		});
 	});
+</script>
 {% endblock content_script %}
