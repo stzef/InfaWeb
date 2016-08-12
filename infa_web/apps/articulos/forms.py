@@ -17,6 +17,29 @@ class ArticleForm(forms.ModelForm):
 			'cmarca' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'cubica' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'ctiarlo' : forms.Select(attrs={'class': 'form-control','required':''}),
+
+			'ncorto' : forms.TextInput(attrs={'required':True}),
+			'nlargo' : forms.TextInput(attrs={'required':True}),
+			'refe' : forms.TextInput(attrs={'required':True}),
+
+			'cbarras' : forms.NumberInput(attrs={'class': 'form-control','step':'1'}),
+			'mesesgara' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1'}),
+			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'stomin' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'stomax' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'porult1':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'porult2':forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'porult3':forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'porult4':forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'porult5':forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'porult6':forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'pvta1': forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
+			'pvta2': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'pvta3': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'pvta4': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'pvta5': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+			'pvta6': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
 		}
 		labels = {
 			'carlos':'Codigo Interno',
@@ -91,4 +114,15 @@ class BrandForm(forms.ModelForm):
 			'cmarca' : 'Codigo Interno',
 			'nmarca' : 'Nombre',
 			'cesdo' : 'Estado'
+		}
+
+class TiarlosForm(forms.ModelForm):
+	class Meta:
+		model = Tiarlos
+		fields = "__all__"
+		exclude = ["ctiarlos"]
+		widgets = {}
+		labels = {
+			'ctiarlos' : 'Codigo Interno',
+			'ntiarlos' : 'Nombre',
 		}

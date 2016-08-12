@@ -5,6 +5,9 @@
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
 	<section class="content">
+		{% for message in messages %}
+                {{ message }}
+            {% endfor %}
 		<div class="row">
 			<div class="col-md-12">
 
@@ -15,8 +18,6 @@
 
 
 					<form action="" method="POST" role="form" class="form-horizontal">
-						{{messages}}
-						{{form.errors}}
 						{%csrf_token%}
 						<div class="box-body">
 							<section class="row">
@@ -39,13 +40,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
 									{%if form.cesdo.errors%}
 									{{form.cesdo.errors}}
 									{%endif%}
-									<div class="col-sm-10">
-										{{form.cesdo}} 
-										<a class="btn" href="/states/add" target="_blank"><i class="fa fa-plus-square"></i></a>
+									<div class="col-sm-8">
+										<div class="input-group">
+											{{form.cesdo}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
 									</div>
 								</div>
 							</section>

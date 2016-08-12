@@ -15,7 +15,6 @@
 
 
 					<form action="" method="POST" role="form" class="form-horizontal" target="_blank">
-						{{form.errors}}
 						{%csrf_token%}
 						<div class="box-body">
 							<section class="row">
@@ -26,7 +25,7 @@
 										{{form.carlos.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.carlos.value|default_if_none:''}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
+											<input class="form-control" type="number" readonly value="{{pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -35,7 +34,7 @@
 										{{form.cbarras.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="text" value="{{form.cbarras.value|default_if_none:''}}" id="{{form.cbarras.id_for_label}}" name="{{form.cbarras.html_name}}" >
+											{{form.cbarras}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -86,7 +85,7 @@
 										{{form.canti.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.canti.value|default_if_none:''|intcomma}}" id="{{form.canti.id_for_label}}" name="{{form.canti.html_name}}" >
+											{{form.canti}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -95,7 +94,7 @@
 										{{form.vcosto.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.vcosto.value|default_if_none:''}}" id="{{form.vcosto.id_for_label}}" name="{{form.vcosto.html_name}}" >
+											{{form.vcosto}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -174,57 +173,33 @@
 												<tbody>
 													<tr>
 														<th>1</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult1.value|default_if_none:''|intcomma}}" id="{{form.porult1.id_for_label}}" name="{{form.porult1.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta1.value|default_if_none:''}}" id="{{form.pvta1.id_for_label}}" name="{{form.pvta1.html_name}}" >
-														</th>
+														<th>{{form.porult1}}</th>
+														<th>{{form.pvta1}}</th>
 													</tr>
 													<tr>
 														<th>2</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult2.value|default_if_none:''|intcomma}}" id="{{form.porult2.id_for_label}}" name="{{form.porult2.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta2.value|default_if_none:''}}" id="{{form.pvta2.id_for_label}}" name="{{form.pvta2.html_name}}" >
-														</th>
+														<th>{{form.porult2}}</th>
+														<th>{{form.pvta2}}</th>
 													</tr>
 													<tr>
 														<th>3</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult3.value|default_if_none:''|intcomma}}" id="{{form.porult3.id_for_label}}" name="{{form.porult3.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta3.value|default_if_none:''}}" id="{{form.pvta3.id_for_label}}" name="{{form.pvta3.html_name}}" >
-														</th>
+														<th>{{form.porult3}}</th>
+														<th>{{form.pvta3}}</th>
 													</tr>
 													<tr>
 														<th>4</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult4.value|default_if_none:''|intcomma}}" id="{{form.porult4.id_for_label}}" name="{{form.porult4.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta4.value|default_if_none:''}}" id="{{form.pvta4.id_for_label}}" name="{{form.pvta4.html_name}}" >
-														</th>
+														<th>{{form.porult4}}</th>
+														<th>{{form.pvta4}}</th>
 													</tr>
 													<tr>
 														<th>5</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult5.value|default_if_none:''|intcomma}}" id="{{form.porult5.id_for_label}}" name="{{form.porult5.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta5.value|default_if_none:''}}" id="{{form.pvta5.id_for_label}}" name="{{form.pvta5.html_name}}" >
-														</th>
+														<th>{{form.porult5}}</th>
+														<th>{{form.pvta5}}</th>
 													</tr>
 													<tr>
 														<th>6</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.porult6.value|default_if_none:''|intcomma}}" id="{{form.porult6.id_for_label}}" name="{{form.porult6.html_name}}" >
-														</th>
-														<th>
-															<input class="form-control" type="number" value="{{form.pvta6.value|default_if_none:''}}" id="{{form.pvta6.id_for_label}}" name="{{form.pvta6.html_name}}" >
-														</th>
+														<th>{{form.porult6}}</th>
+														<th>{{form.pvta6}}</th>
 													</tr>
 												</tbody>
 											</table>
@@ -286,7 +261,7 @@
 										<div class="col-sm-8">
 											<div class="input-group">
 												{{form.ivas_civa}}
-												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
 									</div>
@@ -322,7 +297,7 @@
 										{{form.stomin.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.stomin.value|default_if_none:''|intcomma}}" id="{{form.stomin.id_for_label}}" name="{{form.stomin.html_name}}" >
+											{{form.stomin}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -331,7 +306,7 @@
 										{{form.stomax.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.stomax.value|default_if_none:''|intcomma}}" id="{{form.stomax.id_for_label}}" name="{{form.stomax.html_name}}" >
+											{{form.stomax}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -340,7 +315,7 @@
 										{{form.mesesgara.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" value="{{form.mesesgara.value|default_if_none:''}}" id="{{form.mesesgara.id_for_label}}" name="{{form.mesesgara.html_name}}" >
+											{{form.mesesgara}}
 										</div>
 									</div>
 								</div>
@@ -362,12 +337,4 @@
 	</div>
 	{%include 'elements/footer.html'%}
 {%endblock%}
-{% block content_script %}
-	<script>
-		$("[data-new-window]").click(function(event){
-			event.preventDefault()
-			window.open(this.href,"", "height=600,width=600")
-		})
-	</script>
-{% endblock %}
 

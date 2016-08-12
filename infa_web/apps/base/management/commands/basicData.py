@@ -27,8 +27,13 @@ class Command(BaseCommand):
 		
 		
 		Esdo.objects.all().delete()
-		estadoActivo = Esdo.objects.create(cesdo=CESTADO_ACTIVO,nesdo="ACTIVO",estavali=1,colfon=1)
-		estadoInactivo = Esdo.objects.create(cesdo=CESTADO_INACTIVO,nesdo="INACTIVO",estavali=0,colfon=0)
+		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T",colfon="255,255,255,255")
+		estadoInactivo = Esdo.objects.create(nesdo="EN TRANSICION",estavali="T",colfon="255,255,255,255")
+		estadoInactivo = Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F",colfon="255,255,0,0")
+		estadoInactivo = Esdo.objects.create(nesdo="CONGELADA",estavali="F",colfon="255,255,0,0")
+		estadoInactivo = Esdo.objects.create(nesdo="CERRADA",estavali="T",colfon="255,255,255,255")
+		estadoInactivo = Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F",colfon="255,255,0,0")
+		estadoInactivo = Esdo.objects.create(nesdo="ANULADA",estavali="F",colfon="255,255,0,0")
 		print "Esdo. Registros Creados Correctamente."
 
 		Regiva.objects.all().delete()
