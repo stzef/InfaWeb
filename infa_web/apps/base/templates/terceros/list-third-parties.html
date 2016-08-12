@@ -1,4 +1,8 @@
 {%extends 'layouts/base.html'%}
+{% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
 {% load humanize %}
 {%block content%}
 	{%include 'elements/nav.html'%}
@@ -9,32 +13,31 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Articulos</h3>
+					<h3 class="box-title">Terceros</h3>
 
-					<div class="box-tools">
-						<div class="input-group input-group-sm" style="width: 150px;">
-							<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-							<div class="input-group-btn">
-								<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-							</div>
-						</div>
-					</div>
+					
 				</div>
-				<div class="box-body table-responsive no-padding">
-					<table class="table table-hover">
+				<div class="box-body">
+					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Identificación</th>
+								<th>Primer Apellido</th>
+								<th>Segundo Apellido</th>
+								<th>Primer Nombre</th>
+								<th>Segundo Nombre</th>
+								<th>Editar</th>
+							</tr>
+						</thead>
 						<tbody>
 							{% for thirdParty in object_list %}
 								<tr>
-									<td>
-										<a href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">{{ thirdParty.nameFull }}</a>
-									</td>
-								</tr>
-							{% empty %}
-								<tr>
-									<td>No hay Terceros Registrados.</td>
-								</tr>
-								<tr>
-									<td><a href="{% url 'add-third-party' %}" target="_blank">Empieza a Crearlos</a></td>
+									<td>{{ thirdParty.idterce }}</td>
+									<td>{{ thirdParty.nom1 }}</td>
+									<td>{{ thirdParty.nom2 }}</td>
+									<td>{{ thirdParty.ape1 }}</td>
+									<td>{{ thirdParty.ape2 }}</td>
+									<td><a href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -48,5 +51,40 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script></script>
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+
+
+		$(document).ready(function() {
+			$('#example').DataTable(
+				{
+					"language": {
+						sProcessing: "Procesando...",
+						sLengthMenu: "Mostrar _MENU_ registros",
+						sZeroRecords: "No se encontraron resultados",
+						sEmptyTable: "Ningún dato disponible en esta tabla",
+						sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+						sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+						sInfoPostFix: "",
+						sSearch: "Buscar:",
+						sUrl: "",
+						sInfoThousands: ",",
+						sLoadingRecords: "Cargando...",
+						oPaginate: {
+							sFirst: "Primero",
+							sLast: "Ãšltimo",
+							sNext: "Siguiente",
+							sPrevious: "Anterior"
+						},
+						oAria: {
+							sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+							sSortDescending: ": Activar para ordenar la columna de manera descendente"
+						}
+					}
+				}
+			);
+		});
+	</script>
 {% endblock %}
