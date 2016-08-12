@@ -7,7 +7,6 @@ from .models import *
 from .utils import *
 from .forms import *
 import json
-from urlparse import parse_qs
 
 
 class InventoryView(FormView):
@@ -40,6 +39,27 @@ def inventory_latest(request):
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")
 
+def inventory_find(request, cii):
+	response = {}
+	try:
+		value = Invinicab.objects.get(cii = cii)
+		response['cii'] = value.pk
+		response['type'] = 1
+	except Invinicab.DoesNotExist:
+		response['cii'] = cii
+		response['type'] = 0
+	return HttpResponse(json.dumps(response), "application/json")
+
 @csrf_exempt
 def inventory_save(request):
-	print parse_qs(request.body)
+	response = {}
+	response_data = json.loads(request.POST.get('data_r'))
+	cii = request.POST.get('cii')
+	invini = Invinicab(cii = cii)
+	invini.save()
+	for cii_deta in response_data:
+		carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
+		invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (int(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
+		invini_deta.save()
+	response['msg'] = 'Exito al guardar'
+	return HttpResponse(json.dumps(response), "application/json")

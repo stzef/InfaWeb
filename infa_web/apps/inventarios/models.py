@@ -6,7 +6,7 @@ from django.db import models
 
 class Invinicab(models.Model):
 	cii = models.CharField(max_length=8, primary_key=True)
-	fii = models.DateTimeField()
+	fii = models.DateTimeField(auto_now = True)
 	fuaii = models.DateTimeField(null=True, blank=True)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
