@@ -13,7 +13,7 @@ class ArticleCreate(CreateView):
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
 	success_url=reverse_lazy("add-article")
-	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
+	#exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 	success_message = "Articulo creado."
 
 	def form_valid(self, form):
@@ -25,7 +25,6 @@ class ArticleUpdate(UpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
-	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 
 class ArticleList(ListView):
 	model = Arlo
@@ -35,16 +34,14 @@ class ArticleList(ListView):
 # Groups #
 class GroupCreate(CreateView):
 	model = Gpo
+	form_class = GpoForm
 	template_name = "articulos/group.html"
-	fields = "__all__"
 	success_url=reverse_lazy("add-group")
-	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 
 class GroupUpdate(UpdateView):
 	model = Gpo
+	form_class = GpoForm
 	template_name = "articulos/group.html"
-	fields = "__all__"
-	exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 
 class GroupList(ListView):
 	model = Gpo

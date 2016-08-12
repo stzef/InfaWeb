@@ -29,7 +29,7 @@ class ArticleForm(forms.ModelForm):
 			'ifpvfijo':'Precio Venta Fijo',
 			'cesdo':'Estado',
 			'ciudad':'Ciudad',
-			'ivas_civa':'',
+			'ivas_civa':'IVA',
 			'stomin':'Stock Minimo',
 			'stomax':'Stock Maximo',
 			'pvta1':'Precio Venta 1',
@@ -62,4 +62,31 @@ class ArticleForm(forms.ModelForm):
 			'foto1':'Foto 1',
 			'foto2':'Foto 2',
 			'foto3':'Foto 3'
+		}
+
+class GpoForm(forms.ModelForm):
+	class Meta:
+		model = Gpo
+		fields = "__all__"
+		widgets = {
+			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
+		}
+		labels = {
+			'cgpo' : 'Codigo Interno',
+			'ngpo' : 'Nombre',
+			'cesdo' : 'Estado'
+		}
+
+class BrandForm(forms.ModelForm):
+	class Meta:
+		model = Marca
+		fields = "__all__"
+		exclude = ["cmarca"]
+		widgets = {
+			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
+		}
+		labels = {
+			'cmarca' : 'Codigo Interno',
+			'nmarca' : 'Nombre',
+			'cesdo' : 'Estado'
 		}

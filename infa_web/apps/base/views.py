@@ -74,3 +74,19 @@ class LocationsList(ListView):
 	template_name = "articulos/list-locations.html"
 # Locations #
 
+# Brands #
+class BrandCreate(CreateView):
+	model = Marca
+	form_class = BrandForm
+	template_name = "base/brand.html"
+	success_url=reverse_lazy("add-brand")
+
+class BrandUpdate(UpdateView):
+	model = Marca
+	form_class = BrandForm
+	template_name = "base/brand.html"
+
+class BrandsList(ListView):
+	model = Marca
+	template_name = "base/list-brands.html"
+# Brands #

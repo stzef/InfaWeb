@@ -1,13 +1,14 @@
 from __future__ import unicode_literals
 from infa_web.apps.articulos.models import *
 from infa_web.apps.base.models import *
+from infa_web.apps.base.constantes import *
 from django.db import models
 
 class Invinicab(models.Model):
 	cii = models.CharField(max_length=8, primary_key=True)
 	fii = models.DateTimeField()
 	fuaii = models.DateTimeField(null=True, blank=True)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.cii

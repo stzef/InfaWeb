@@ -3,6 +3,7 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
 from django.db import models
+from infa_web.apps.base.constantes import *
 
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
@@ -20,12 +21,12 @@ class Mven(models.Model):
 	docrefe = models.CharField(max_length=10)
 	citerce = models.ForeignKey(Tercero)
 	ctimo = models.ForeignKey(Timo)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2)
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
-	cbode0 = models.ForeignKey(Bode, related_name='cbode0')
-	cbode1 = models.ForeignKey(Bode, related_name='cbode1')
+	cbode0 = models.ForeignKey(Bode, related_name='cbode0',default=DEFAULT_BODEGA)
+	cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA)
 
 	def __str__(self):
 		return str(self.cmven)
@@ -45,12 +46,12 @@ class Mvsa(models.Model):
 	docrefe = models.CharField(max_length=10)
 	citerce = models.ForeignKey(Tercero)
 	ctimo = models.ForeignKey(Timo)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2)
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
-	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0')
-	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1')
+	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
+	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',default=DEFAULT_BODEGA)
 
 class Mvsadeta(models.Model):
 	cmvsa = models.ForeignKey(Mvsa)
