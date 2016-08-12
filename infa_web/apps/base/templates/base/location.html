@@ -28,12 +28,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
 									{%if form.cesdo.errors%}
 									{{form.cesdo.errors}}
 									{%endif%}
-									<div class="col-sm-10">
-										{{ form.cesdo }}
+									<div class="col-sm-8">
+										<div class="input-group">
+											{{form.cesdo}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
 									</div>
 								</div>
 							</section>

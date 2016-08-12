@@ -35,4 +35,17 @@ urlBrands = [
 	url(r'^brands/add/$', BrandCreate.as_view(), {'title': 'Crear Marca'}, name = 'add-brand'),
 	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), {'title': 'Editar Marca'}, name = 'edit-brand'),
 ]
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands
+
+urlIva = [
+	url(r'^iva/$', IvaList.as_view(), {'title': 'Crear IVA'}, name = 'list-iva'),
+	url(r'^iva/add/$', IvaCreate.as_view(), {'title': 'Crear IVA'}, name = 'add-iva'),
+	url(r'^iva/edit/(?P<pk>[0-9])+/$', IvaUpdate.as_view(), {'title': 'Editar IVA'}, name = 'edit-iva'),
+]
+
+urlRegiva = [
+	url(r'^reg-iva/$', RegIvasList.as_view(), {'title': 'Crear Regimen de Iva'}, name = 'list-reg-iva'),
+	url(r'^reg-iva/add/$', RegIvaCreate.as_view(), {'title': 'Crear Regimen de Iva'}, name = 'add-reg-iva'),
+	url(r'^reg-iva/edit/(?P<pk>[0-9])+/$', RegIvaUpdate.as_view(), {'title': 'Editar Regimen de Iva'}, name = 'edit-reg-iva'),
+]
+
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva

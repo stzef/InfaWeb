@@ -10,32 +10,37 @@
 
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Nuevo Grupo</h3>
+						<h3 class="box-title">Nuevo IVA</h3>
 					</div>
-
-
 					<form action="" method="POST" role="form" class="form-horizontal">
-						{{messages}}
-						{{form.errors}}
 						{%csrf_token%}
 						<div class="box-body">
 							<section class="row">
 								<div class="form-group">
-									<label for="{{form.cgpo.id_for_label}}" class="col-sm-2 control-label">{{form.cgpo.label}}</label>
-									{%if form.cgpo.errors%}
-									{{form.cgpo.errors}}
+									<label for="{{form.niva.id_for_label}}" class="col-sm-2 control-label">{{form.niva.label}}</label>
+									{%if form.niva.errors%}
+									{{form.niva.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="number" value="{{form.cgpo.value|default_if_none:''}}" id="{{form.cgpo.id_for_label}}" name="{{form.cgpo.html_name}}" >
+										<input class="form-control" type="text" value="{{form.niva.value|default_if_none:''}}" id="{{form.niva.id_for_label}}" name="{{form.niva.html_name}}" >
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="{{form.ngpo.id_for_label}}" class="col-sm-2 control-label">{{form.ngpo.label}}</label>
-									{%if form.ngpo.errors%}
-									{{form.ngpo.errors}}
+									<label for="{{form.poriva.id_for_label}}" class="col-sm-2 control-label">{{form.poriva.label}}</label>
+									{%if form.poriva.errors%}
+									{{form.poriva.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.ngpo.value|default_if_none:''}}" id="{{form.ngpo.id_for_label}}" name="{{form.ngpo.html_name}}" >
+										<input class="form-control" type="text" value="{{form.poriva.value|default_if_none:''}}" id="{{form.poriva.id_for_label}}" name="{{form.poriva.html_name}}" >
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.idtira.id_for_label}}" class="col-sm-2 control-label">{{form.idtira.label}}</label>
+									{%if form.idtira.errors%}
+									{{form.idtira.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<input class="form-control" type="text" value="{{form.idtira.value|default_if_none:''}}" id="{{form.idtira.id_for_label}}" name="{{form.idtira.html_name}}" >
 									</div>
 								</div>
 								<div class="form-group">
