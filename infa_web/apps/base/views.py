@@ -18,6 +18,7 @@ class StateUpdate(UpdateView):
 	model = Esdo
 	template_name = "base/state.html"
 	form_class = StateForm
+	success_url=reverse_lazy("add-state")
 
 class StatesList(ListView):
 	model = Esdo
@@ -35,6 +36,7 @@ class CityUpdate(UpdateView):
 	model = Ciudad
 	template_name = "base/city.html"
 	form_class = CiudadForm
+	success_url=reverse_lazy("add-city")
 
 class CitiesList(ListView):
 	model = Ciudad
@@ -52,6 +54,7 @@ class DepartamentUpdate(UpdateView):
 	model = Departamento
 	template_name = "base/departament.html"
 	form_class = DepartamentoForm
+	success_url=reverse_lazy("add-departament")
 
 class DepartamentsList(ListView):
 	model = Departamento
@@ -65,10 +68,16 @@ class LocationCreate(CreateView):
 	form_class = UbicaForm
 	success_url=reverse_lazy("add-location")
 
+	def save(self):
+		# This method is called when valid form data has been POSTed.
+		# It should return an HttpResponse.
+		print("save")
+
 class LocationUpdate(UpdateView):
 	model = Ubica
 	template_name = "base/location.html"
 	form_class = UbicaForm
+	success_url=reverse_lazy("add-location")
 
 class LocationsList(ListView):
 	model = Ubica
@@ -86,6 +95,7 @@ class BrandUpdate(UpdateView):
 	model = Marca
 	form_class = BrandForm
 	template_name = "base/brand.html"
+	success_url=reverse_lazy("add-brand")
 
 class BrandsList(ListView):
 	model = Marca
@@ -103,6 +113,7 @@ class IvaUpdate(UpdateView):
 	model = Iva
 	form_class = IvaForm
 	template_name = "base/iva.html"
+	success_url=reverse_lazy("add-iva")
 
 class IvaList(ListView):
 	model = Iva
@@ -120,6 +131,7 @@ class RegIvaUpdate(UpdateView):
 	model = Regiva
 	form_class = RegivaForm
 	template_name = "base/reg-iva.html"
+	success_url=reverse_lazy("add-reg-iva")
 
 class RegIvasList(ListView):
 	model = Regiva
