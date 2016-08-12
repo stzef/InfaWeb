@@ -12,4 +12,10 @@ urlGroups = [
 	url(r'^groups/edit/(?P<pk>[0-9])+/$', GroupUpdate.as_view(), {'title': 'Editar Grupo'}, name = 'edit-group'),
 ]
 
-urlpatterns = urlArticles + urlGroups
+urlTypesArticles = [
+	url(r'^types-articles/$', TypesArticleList.as_view(), {'title': 'Crear Tipo de Articulo'}, name = 'list-types-articles'),
+	url(r'^types-articles/add/$', TypesArticleCreate.as_view(), {'title': 'Crear Tipo de Articulo'}, name = 'add-type-article'),
+	url(r'^types-articles/edit/(?P<pk>[0-9])+/$', TypesArticleUpdate.as_view(), {'title': 'Editar Tipo de Articulo'}, name = 'edit-type-article'),
+]
+
+urlpatterns = urlArticles + urlGroups + urlTypesArticles

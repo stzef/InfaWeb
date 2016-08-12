@@ -92,3 +92,14 @@ class BrandForm(forms.ModelForm):
 			'nmarca' : 'Nombre',
 			'cesdo' : 'Estado'
 		}
+
+class TiarlosForm(forms.ModelForm):
+	class Meta:
+		model = Tiarlos
+		fields = "__all__"
+		exclude = ["ctiarlos"]
+		widgets = {}
+		labels = {
+			'ctiarlos' : 'Codigo Interno',
+			'ntiarlos' : 'Nombre',
+		}

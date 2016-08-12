@@ -4,7 +4,7 @@
 			<!-- Sidebar user panel -->
 			<div class="user-panel">
 				<div class="pull-left image">
-					<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+					<img src="/static/img/users/profile-user.png" class="img-circle" alt="User Image">
 				</div>
 				<div class="pull-left info">
 					<p>Usuario</p>
@@ -16,35 +16,31 @@
 				<li class="header">NAVEGACIÓN</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-share"></i> <span>Multilevel</span>
+						<i class="fa fa-share"></i> <span>Inventario</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+						<li><a href="{% url 'add-article' %}"><i class="fa fa-circle-o"></i> Articulos</a></li>
 						<li>
-							<a href="#"><i class="fa fa-circle-o"></i> Level One
+							<a href="#"><i class="fa fa-circle-o"></i> Maestros
 								<span class="pull-right-container">
 									<i class="fa fa-angle-left pull-right"></i>
 								</span>
 							</a>
 							<ul class="treeview-menu">
-								<li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-								<li>
-									<a href="#"><i class="fa fa-circle-o"></i> Level Two
-										<span class="pull-right-container">
-											<i class="fa fa-angle-left pull-right"></i>
-										</span>
-									</a>
-									<ul class="treeview-menu">
-										<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-										<li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-									</ul>
-								</li>
+								<li><a href="{% url 'add-brand' %}"><i class="fa fa-circle-o"></i> Marcas</a></li>
+								<li><a href="{% url 'add-group' %}"><i class="fa fa-circle-o"></i> Grupos</a></li>
+								<li><a href="{% url 'add-iva' %}"><i class="fa fa-circle-o"></i> Ivas</a></li>
+								<li><a href="{% url 'add-reg-iva' %}"><i class="fa fa-circle-o"></i> Regimenes de IVA</a></li>
+								<li><a href="{% url 'add-type-article' %}"><i class="fa fa-circle-o"></i> Tipos de Articulos</a></li>
+								<li><a href="{% url 'add-state' %}"><i class="fa fa-circle-o"></i> Estados</a></li>
+								<li><a href="{% url 'add-location' %}"><i class="fa fa-circle-o"></i> Ubicaciones</a></li>
+								<li><a href="{% url 'add-city' %}"><i class="fa fa-circle-o"></i> Ciudades</a></li>
+								<li><a href="{% url 'add-departament' %}"><i class="fa fa-circle-o"></i> Departamentos</a></li>
 							</ul>
 						</li>
-						<li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
 					</ul>
 				</li>
 			</ul>

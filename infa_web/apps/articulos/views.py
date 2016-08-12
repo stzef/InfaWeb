@@ -41,3 +41,20 @@ class GroupList(ListView):
 	model = Gpo
 	template_name = "articulos/list-groups.html"
 # Groups #
+
+# Types Articles #
+class TypesArticleCreate(CreateView):
+	model = Tiarlos
+	form_class = TiarlosForm
+	template_name = "articulos/tipe-article.html"
+	success_url=reverse_lazy("add-tipe-article")
+
+class TypesArticleUpdate(UpdateView):
+	model = Tiarlos
+	form_class = TiarlosForm
+	template_name = "articulos/tipe-article.html"
+
+class TypesArticleList(ListView):
+	model = Tiarlos
+	template_name = "articulos/list-groups.html"
+# Types Articles #
