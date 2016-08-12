@@ -16,6 +16,7 @@ class ArticleForm(forms.ModelForm):
 			'citerce3' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'cmarca' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'cubica' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'ctiarlo' : forms.Select(attrs={'class': 'form-control','required':''}),
 		}
 		labels = {
 			'carlos':'Codigo Interno',
@@ -29,6 +30,7 @@ class ArticleForm(forms.ModelForm):
 			'ifpvfijo':'Precio Venta Fijo',
 			'cesdo':'Estado',
 			'ciudad':'Ciudad',
+			'ctiarlo':'Tipo de Articulo',
 			'ivas_civa':'IVA',
 			'stomin':'Stock Minimo',
 			'stomax':'Stock Maximo',

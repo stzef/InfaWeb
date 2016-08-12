@@ -51,6 +51,18 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label for="{{form.ctiarlo.id_for_label}}" class="col-sm-4 control-label">{{form.ctiarlo.label}}</label>
+										{%if form.ctiarlo.errors%}
+										{{form.ctiarlo.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<div class="input-group">
+												{{form.ctiarlo}} 
+												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="{{form.ncorto.id_for_label}}" class="col-sm-4 control-label">{{form.ncorto.label}}</label>
 										{%if form.ncorto.errors%}
 										{{form.ncorto.errors}}

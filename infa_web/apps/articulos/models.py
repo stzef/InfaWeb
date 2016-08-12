@@ -10,7 +10,7 @@ class Tiarlos(models.Model):
 	ntiarlos = models.CharField(max_length=40)
 	
 	def __str__(self):
-		return self.ngpo
+		return self.ntiarlos
 
 class Gpo(models.Model):
 	cgpo = models.IntegerField(primary_key=True)
@@ -39,7 +39,7 @@ class Arlo(models.Model):
 	ifcostear = models.BooleanField()
 	ifpvfijo = models.BooleanField()
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	ctiarlo = models.ForeignKey(Tiarlos)
+	ctiarlo = models.ForeignKey(Tiarlos,default=CTIARLO_ARTICULO)
 	ciudad = models.ForeignKey(Ciudad)
 	ivas_civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 	stomin = models.DecimalField(max_digits=15, decimal_places=2)

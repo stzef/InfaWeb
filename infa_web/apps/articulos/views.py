@@ -13,13 +13,7 @@ class ArticleCreate(CreateView):
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
 	success_url=reverse_lazy("add-article")
-	#exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 	success_message = "Articulo creado."
-
-	def form_valid(self, form):
-		print (form.cleaned_data["ifcostear"])
-		##form.send_email()
-		return super(ArticleCreate, self).form_valid(form)
 
 class ArticleUpdate(UpdateView):
 	model = Arlo
