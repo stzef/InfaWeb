@@ -71,9 +71,9 @@ class Arlo(models.Model):
 	porult4 = models.DecimalField(max_digits=6, decimal_places=2,default=0,blank=True, null=True)
 	porult5 = models.DecimalField(max_digits=6, decimal_places=2,default=0,blank=True, null=True)
 	porult6 = models.DecimalField(max_digits=6, decimal_places=2,default=0,blank=True, null=True)
-	foto1 = models.CharField(max_length=250, blank=True, null=True)
-	foto2 = models.CharField(max_length=250, blank=True, null=True)
-	foto3 = models.CharField(max_length=250, blank=True, null=True)
+	foto1 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
+	foto2 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
+	foto3 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
 
 	def __str__(self):
 		return self.nlargo

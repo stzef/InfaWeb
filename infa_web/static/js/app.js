@@ -6,3 +6,4 @@ $("[data-new-window]").click(function(event){
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y )
 })
+

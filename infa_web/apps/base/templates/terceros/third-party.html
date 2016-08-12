@@ -1,0 +1,331 @@
+{%extends 'layouts/base.html'%}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Nuevo Tercero</h3>
+					</div>
+
+
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row">
+								<div class="form-group">
+									<label for="{{form.idterce.id_for_label}}" class="col-sm-2 control-label">{{form.idterce.label}}</label>
+									{%if form.idterce.errors%}
+									{{form.idterce.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.idterce}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.dv.id_for_label}}" class="col-sm-2 control-label">{{form.dv.label}}</label>
+									{%if form.dv.errors%}
+									{{form.dv.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.dv}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ctiide.id_for_label}}" class="col-sm-2 control-label">{{form.ctiide.label}}</label>
+									{%if form.ctiide.errors%}
+									{{form.ctiide.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.ctiide}}
+											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.rasocial.id_for_label}}" class="col-sm-2 control-label">{{form.rasocial.label}}</label>
+									{%if form.rasocial.errors%}
+									{{form.rasocial.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.rasocial}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.nomcomer.id_for_label}}" class="col-sm-2 control-label">{{form.nomcomer.label}}</label>
+									{%if form.nomcomer.errors%}
+									{{form.nomcomer.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nomcomer}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ape1.id_for_label}}" class="col-sm-2 control-label">{{form.ape1.label}}</label>
+									{%if form.ape1.errors%}
+									{{form.ape1.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ape1}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ape2.id_for_label}}" class="col-sm-2 control-label">{{form.ape2.label}}</label>
+									{%if form.ape2.errors%}
+									{{form.ape2.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ape2}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.nom1.id_for_label}}" class="col-sm-2 control-label">{{form.nom1.label}}</label>
+									{%if form.nom1.errors%}
+									{{form.nom1.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nom1}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.nom2.id_for_label}}" class="col-sm-2 control-label">{{form.nom2.label}}</label>
+									{%if form.nom2.errors%}
+									{{form.nom2.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nom2}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.sigla.id_for_label}}" class="col-sm-2 control-label">{{form.sigla.label}}</label>
+									{%if form.sigla.errors%}
+									{{form.sigla.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.sigla}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.nomegre.id_for_label}}" class="col-sm-2 control-label">{{form.nomegre.label}}</label>
+									{%if form.nomegre.errors%}
+									{{form.nomegre.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nomegre}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.replegal.id_for_label}}" class="col-sm-2 control-label">{{form.replegal.label}}</label>
+									{%if form.replegal.errors%}
+									{{form.replegal.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.replegal}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.dirterce.id_for_label}}" class="col-sm-2 control-label">{{form.dirterce.label}}</label>
+									{%if form.dirterce.errors%}
+									{{form.dirterce.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.dirterce}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.telterce.id_for_label}}" class="col-sm-2 control-label">{{form.telterce.label}}</label>
+									{%if form.telterce.errors%}
+									{{form.telterce.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.telterce}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.faxterce.id_for_label}}" class="col-sm-2 control-label">{{form.faxterce.label}}</label>
+									{%if form.faxterce.errors%}
+									{{form.faxterce.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.faxterce}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cciu.id_for_label}}" class="col-sm-2 control-label">{{form.cciu.label}}</label>
+									{%if form.cciu.errors%}
+									{{form.cciu.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cciu}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-city' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.email.id_for_label}}" class="col-sm-2 control-label">{{form.email.label}}</label>
+									{%if form.email.errors%}
+									{{form.email.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.email}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.contacto.id_for_label}}" class="col-sm-2 control-label">{{form.contacto.label}}</label>
+									{%if form.contacto.errors%}
+									{{form.contacto.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.contacto}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cregiva.id_for_label}}" class="col-sm-2 control-label">{{form.cregiva.label}}</label>
+									{%if form.cregiva.errors%}
+									{{form.cregiva.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cregiva}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-reg-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cautorre.id_for_label}}" class="col-sm-2 control-label">{{form.cautorre.label}}</label>
+									{%if form.cautorre.errors%}
+									{{form.cautorre.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cautorre}}
+											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									{%if form.cesdo.errors%}
+									{{form.cesdo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cesdo}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cvende.id_for_label}}" class="col-sm-2 control-label">{{form.cvende.label}}</label>
+									{%if form.cvende.errors%}
+									{{form.cvende.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cvende}}
+											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.topcxc.id_for_label}}" class="col-sm-2 control-label">{{form.topcxc.label}}</label>
+									{%if form.topcxc.errors%}
+									{{form.topcxc.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.topcxc}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ndiacxc.id_for_label}}" class="col-sm-2 control-label">{{form.ndiacxc.label}}</label>
+									{%if form.ndiacxc.errors%}
+									{{form.ndiacxc.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ndiacxc}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.czona.id_for_label}}" class="col-sm-2 control-label">{{form.czona.label}}</label>
+									{%if form.czona.errors%}
+									{{form.czona.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.czona}}
+											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.clipre.id_for_label}}" class="col-sm-2 control-label">{{form.clipre.label}}</label>
+									{%if form.clipre.errors%}
+									{{form.clipre.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.clipre}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.fnaci.id_for_label}}" class="col-sm-2 control-label">{{form.fnaci.label}}</label>
+									{%if form.fnaci.errors%}
+									{{form.fnaci.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.fnaci}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.naju.id_for_label}}" class="col-sm-2 control-label">{{form.naju.label}}</label>
+									{%if form.naju.errors%}
+									{{form.naju.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.naju}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cruta.id_for_label}}" class="col-sm-2 control-label">{{form.cruta.label}}</label>
+									{%if form.cruta.errors%}
+									{{form.cruta.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										<div class="input-group">
+											{{form.cruta}}
+											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ordenruta.id_for_label}}" class="col-sm-2 control-label">{{form.ordenruta.label}}</label>
+									{%if form.ordenruta.errors%}
+									{{form.ordenruta.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ordenruta}}
+									</div>
+								</div>
+							</section>
+							<input type="submit" value="Agregar" class="btn btn-primary">
+							<div class="btn-group">
+								<button type="button" class="btn btn-info">
+									<a data-new-window href="{% url 'list-third-parties' %}"><i class="fa fa-list"></i>Listar</a>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+

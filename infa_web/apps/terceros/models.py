@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from infa_web.apps.base.models import *
 from django.db import models
+from infa_web.apps.base.constantes import *
 
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
@@ -34,7 +35,6 @@ class Zona(models.Model):
 
 	def __str__(self):
 		return self.nzona
-
 class Tercero(models.Model):
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
@@ -57,16 +57,19 @@ class Tercero(models.Model):
 	contacto = models.CharField(max_length=20)
 	cregiva = models.ForeignKey(Regiva)
 	cautorre = models.ForeignKey(Autorre)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	cvende = models.ForeignKey(Vende)
 	topcxc = models.DecimalField(max_digits=15, decimal_places=2)
 	ndiacxc = models.IntegerField()
-	czona = models.ForeignKey(Zona)
+	czona = models.ForeignKey(Zona,default=DEFAULT_ZONA)
 	clipre = models.IntegerField()
 	fnaci = models.DateField()
 	naju = models.IntegerField()
-	cruta = models.ForeignKey(Ruta)
+	cruta = models.ForeignKey(Ruta,default=DEFAULT_RUTA)
 	ordenruta = models.IntegerField()
+
+	def nameFull(self):
+		return self.nom1 + " " + self.nom2 + " " + self.ape1 + " " + self.ape2
 
 	def __str__(self):
 		return self.nomcomer

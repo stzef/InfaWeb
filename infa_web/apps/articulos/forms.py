@@ -40,6 +40,10 @@ class ArticleForm(forms.ModelForm):
 			'pvta4': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
 			'pvta5': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
 			'pvta6': forms.NumberInput(attrs={'class': 'form-control','step':'0.01'}),
+
+			'foto1':forms.FileInput(attrs={'class': 'form-control'}),
+			'foto2':forms.FileInput(attrs={'class': 'form-control'}),
+			'foto3':forms.FileInput(attrs={'class': 'form-control'})
 		}
 		labels = {
 			'carlos':'Codigo Interno',

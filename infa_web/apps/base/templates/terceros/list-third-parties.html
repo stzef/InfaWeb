@@ -1,0 +1,52 @@
+{%extends 'layouts/base.html'%}
+{% load humanize %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Articulos</h3>
+
+					<div class="box-tools">
+						<div class="input-group input-group-sm" style="width: 150px;">
+							<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+							<div class="input-group-btn">
+								<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-body table-responsive no-padding">
+					<table class="table table-hover">
+						<tbody>
+							{% for thirdParty in object_list %}
+								<tr>
+									<td>
+										<a href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">{{ thirdParty.nameFull }}</a>
+									</td>
+								</tr>
+							{% empty %}
+								<tr>
+									<td>No hay Terceros Registrados.</td>
+								</tr>
+								<tr>
+									<td><a href="{% url 'add-third-party' %}" target="_blank">Empieza a Crearlos</a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script></script>
+{% endblock %}
