@@ -40,15 +40,118 @@
 
 {% block content_script %}
 <script>
+	Number.prototype.format = function(n, x) {
+		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+	};
 	$(document).on("click", ".btn-create", function(e){
 		e.preventDefault();
 		$.ajax({
 			url: $(this).attr('href'),
 			type: 'post',
 			dataType: "json",
-			success: function(data){
-				$('#id_codigo').val(data.code).prop('readonly', true);
-				console.log(data)
+			success: function(response){
+				$('#id_codigo').val(response.code).prop('readonly', true);
+				$('#table-inventory').empty();
+				$('#table-inventory').append(
+					'<div class="box">'+
+						'<div class="box-header with-border">'+
+							'<h3></h3>'+
+							'<div class="box-tools">'+
+								'<a class="btn btn-success" id="save">Guardar</a>'+
+							'</div>'+
+						'</div>'+
+						'<div class="box-body no-padding">'+
+							'<table class="table" id="table">'+
+								'<thead>'+
+									'<tr>'+
+										'<th>Código</th>'+
+										'<th>Código Barras</th>'+
+										'<th>Nombre</th>'+
+										'<th>Grupo</th>'+
+										'<th>Cant. Calculada</th>'+
+										'<th>Cant. Contada</th>'+
+										'<th>Costo Unitario</th>'+
+										'<th>Costo Total</th>'+
+										'<th>Ajuste Entrada</th>'+
+										'<th>Ajuste Salida</th>'+
+									'</tr>'+
+								'<thead>'+
+								'<tbody id="content-data">'+
+								'</tbody>'+
+							'</table>'+
+						'</div>'+
+					'</div>'
+				);
+				$.each(response.data, function (key, item) {
+					$('#content-data').append(
+						'<tr class="cont-data" id="'+item.carlos+'">'+
+							'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
+							'<td>'+item.cbarras+'</td>'+
+							'<td id="nlargo-'+item.carlos+'">'+item.nlargo+'</td>'+
+							'<td>'+item.ngpo+'</td>'+
+							'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.canti+'</td>'+
+							'<td>'+
+								'<input type="text" id="cant-'+item.carlos+'" class="text-right cant" value="0" style="border: none;">'+
+							'</td>'+
+							'<td>'+
+								'<input type="text" id="vunita-'+item.carlos+'" class="text-right value" value="'+item.vcosto+'" style="border: none;">'+
+							'</td>'+
+							'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti*item.vcosto).format(2)+'</td>'+
+							'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
+							'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
+						'</tr>'
+					);
+				});
+				$('.cant').keyup(function(){
+					var id = $(this).parent().parent().attr('id');
+					var this_value = $(this).val();
+					var cant_calcu = parseInt($('#cancalcu-'+id).text());
+					var cant = (this_value - cant_calcu);
+					var value_tot = (this_value == 0 ? parseInt($('#cancalcu-'+id).text()): this_value)*$('#vunita-'+id).val()
+					$('#vtotal-'+id).text(value_tot.format(2));
+					if(cant < 0){
+						$('#ajusal-'+id).text(Math.abs(cant));
+						$('#ajuent-'+id).text('0');
+					}else{
+						$('#ajusal-'+id).text('0');
+						$('#ajuent-'+id).text(cant);
+					}
+				});
+				$('.value').keyup(function(){
+					var id =$(this).parent().parent().attr('id');
+					var this_value = $('.cant').val();
+					var value_tot = (this_value == 0 ? parseInt($('#cancalcu-'+id).text()): this_value)*$('#vunita').val()
+					$('#vtotal-'+id).text(value_tot.format(2));
+				});
+				$(document).on("click", "#save", function(e){
+					e.preventDefault();
+					var data_r = [];
+					$('.cont-data').each(function() {
+						var id = this.id;
+						data_r.push({
+							'carlos': $('#carlos-'+id).text(),
+							'nlargo': $('#nlargo-'+id).text(),
+							'cancalcu': $('#cancalcu-'+id).text(),
+							'cant': $('#cant-'+id).val(),
+							'vunita': $('#vunita-'+id).val(),
+							'ajuent': $('#ajuent-'+id).text(),
+							'ajusal': $('#ajusal-'+id).text(),
+						});
+					});
+					console.log(data_r)
+					$.ajax({
+						url: {% url 'inventory_save' %},
+						type: 'post',
+						data: {
+							'data_r': data_r
+						},
+						dataType: "json",
+						success: function(response){
+							console.log(response)
+						}
+					});
+				});
 			}
 		});
 	});
