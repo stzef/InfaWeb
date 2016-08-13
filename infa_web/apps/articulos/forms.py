@@ -106,6 +106,29 @@ class GpoForm(forms.ModelForm):
 			'cesdo' : 'Estado'
 		}
 
+class BreakdownArticleForm(forms.ModelForm):
+	class Meta:
+		model = Arlosdesglo
+		fields = "__all__"
+		exclude = ["arlosp"]
+		widgets = {
+			'cesdo' : forms.Select(attrs={'name':'cesdo[]','class': 'form-control','required': True}),
+			'carlosglo' : forms.Select(attrs={'name':'carlosglo[]','class': 'form-control','required': True}),
+			'itglo' : forms.NumberInput(attrs={'name':'itglo[]','required': True}),
+			'cantiglo' : forms.NumberInput(attrs={'name':'cantiglo[]','required': True}),
+			'costoglo' : forms.NumberInput(attrs={'name':'costoglo[]','required': True}),
+			'vtoglo' : forms.NumberInput(attrs={'name':'vtoglo[]','required': True}),
+		}
+		labels = {
+			"carlosp":"",
+			"itglo":"",
+			"carlosglo":"",
+			"cantiglo":"",
+			"costoglo":"",
+			"vtoglo":"",
+			"cesdo":"",
+		}
+
 class BrandForm(forms.ModelForm):
 	class Meta:
 		model = Marca

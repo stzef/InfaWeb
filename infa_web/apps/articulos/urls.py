@@ -6,6 +6,10 @@ urlArticles = [
 	url(r'^articles/add/$', ArticleCreate.as_view(), {'title': 'Crear Articulos'}, name = 'add-article'),
 	url(r'^articles/edit/(?P<pk>\d+)/$', ArticleUpdate.as_view(), {'title': 'Editar Articulos'}, name = 'edit-article'),
 ]
+
+urlBreakdownArticles = [
+	url(r'^articles/(?P<pk>\d+)/breakdown$', BreakdownArticle.as_view(), {'title': 'Desglozar Articulos'}, name = 'breakdown-article'),
+]
 urlGroups = [
 	url(r'^groups/$', GroupList.as_view(), {'title': 'Crear Grupo'}, name = 'list-group'),
 	url(r'^groups/add/$', GroupCreate.as_view(), {'title': 'Crear Grupo'}, name = 'add-group'),
@@ -18,4 +22,4 @@ urlTypesArticles = [
 	url(r'^types-articles/edit/(?P<pk>[0-9])+/$', TypesArticleUpdate.as_view(), {'title': 'Editar Tipo de Articulo'}, name = 'edit-type-article'),
 ]
 
-urlpatterns = urlArticles + urlGroups + urlTypesArticles
+urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles
