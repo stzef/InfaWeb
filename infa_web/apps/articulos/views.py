@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView,DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django import forms
@@ -12,6 +12,17 @@ from infa_web.apps.articulos.forms import *
 from django.db.models import Max
 
 # Articles #
+class BreakdownArticle(FormView):
+	model = Arlosdesglo
+	template_name = 'articulos/breakdown-article.html'
+	form_class = BreakdownArticleForm
+
+	def get_context_data(self,**kwargs):
+		context = super(BreakdownArticle, self).get_context_data(**kwargs)
+		print kwargs
+		context['article'] = Arlo.objects.get(carlos=self.kwargs["pk"])
+		return context
+
 class ArticleCreate(CreateView):
 	model = Arlo
 	template_name = "articulos/article.html"

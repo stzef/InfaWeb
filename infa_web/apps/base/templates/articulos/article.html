@@ -320,17 +320,19 @@
 									</div>
 								</div>
 							</div>
-							<input type="submit" value="Agregar" class="btn btn-primary">
 							<div class="btn-group">
-								<button type="button" class="btn btn-info">
-									<a data-new-window href="{% url 'list-articles' %}"><i class="fa fa-list"></i>Listar</a>
+								<button class="btn btn-app btn-info" type="submit">
+									<i class="fa fa-plus-square-o"></i>Agregar
 								</button>
-								<button type="button" class="btn btn-info">
-									<a data-new-window href=""><i class="fa fa-list"></i>Duplicar</a>
-								</button>
-								<button type="button" class="btn btn-info">
-									<a data-new-window href=""><i class="fa fa-list"></i>Desglose</a>
-								</button>
+								<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
+									<i class="fa fa-list"></i>Listar
+								</a>
+								<a class="btn btn-app" data-new-window href="">
+									<i class="fa fa-copy"></i>Duplicar
+								</a>
+								<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' pk %}">
+									<i class="fa fa-object-group"></i>Desglose
+								</a>
 							</div>
 						</div>
 					</form>

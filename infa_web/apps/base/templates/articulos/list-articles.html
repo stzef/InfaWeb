@@ -1,4 +1,8 @@
 {%extends 'layouts/base.html'%}
+{% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
 {% load humanize %}
 {%block content%}
 	{%include 'elements/nav.html'%}
@@ -11,30 +15,39 @@
 				<div class="box-header">
 					<h3 class="box-title">Articulos</h3>
 
-					<div class="box-tools">
-						<div class="input-group input-group-sm" style="width: 150px;">
-							<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-							<div class="input-group-btn">
-								<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-							</div>
-						</div>
-					</div>
+					
 				</div>
-				<div class="box-body table-responsive no-padding">
-					<table class="table table-hover">
+				<div class="box-body">
+					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Codigo</th>
+								<th>Nombre Largo</th>
+								<th>Cantidad</th>
+								<th>Costo</th>
+								<th>Estado</th>
+								<th>Stock Minimo</th>
+								<th>Stock Maximo</th>
+								<th>Referencia</th>
+								<th>Marca</th>
+								<th>Foto 1</th>
+								<th>Editar</th>
+							</tr>
+						</thead>
 						<tbody>
 							{% for article in object_list %}
 								<tr>
-									<td>
-										<a href="{% url 'edit-article' article.carlos %}" target="_blank">{{ article.carlos }} - {{ article.nlargo }}</a>
-									</td>
-								</tr>
-							{% empty %}
-								<tr>
-									<td>No hay Articulos Registrados.</td>
-								</tr>
-								<tr>
-									<td><a href="{% url 'add-article' %}" target="_blank">Empieza a Crearlos</a></td>
+									<td>{{ article.carlos }}</td>
+									<td>{{ article.nlargo }}</td>
+									<td>{{ article.canti }}</td>
+									<td>{{ article.vcosto }}</td>
+									<td>{{ article.cesdo }}</td>
+									<td>{{ article.stomin }}</td>
+									<td>{{ article.stomax }}</td>
+									<td>{{ article.refe }}</td>
+									<td>{{ article.cmarca }}</td>
+									<td><img class="ae-img-list" src="/{{ article.foto1 }}" alt=""></td>
+									<td><a href="{% url 'edit-article' article.carlos %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -48,5 +61,11 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script></script>
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable({"language": languageDataTable});
+		});
+	</script>
 {% endblock %}

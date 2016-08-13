@@ -17,7 +17,7 @@
 						
 
 						<div class="box-body">
-							<section class="row">
+							<section class="row col-md-12">
 								<div class="form-group">
 									<label for="{{form.nubica.id_for_label}}" class="col-sm-2 control-label">{{form.nubica.label}}</label>
 									{%if form.nubica.errors%}
@@ -40,7 +40,11 @@
 									</div>
 								</div>
 							</section>
-							<input type="submit" value="Agregar" class="btn btn-primary">
+							<div class="btn-group">
+								<button class="btn btn-app btn-info" type="submit">
+									<i class="fa fa-plus-square-o"></i>Agregar
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>

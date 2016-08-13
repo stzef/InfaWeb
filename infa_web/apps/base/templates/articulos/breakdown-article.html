@@ -1,0 +1,93 @@
+{%extends 'layouts/base.html'%}
+{% load humanize %}
+{% load static %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Articulo: {{ article.nlargo }}</h3>
+					</div>
+					<form action="" method="POST" role="form" >
+						{%csrf_token%}
+						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>itglo</th>
+									<th>carlosglo</th>
+									<th>cantiglo</th>
+									<th>costoglo</th>
+									<th>vtoglo</th>
+									<th>cesdo</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<div class="btn-group">
+							<button type="button" class="btn btn-app" id="addItem">
+								<i class="fa fa-plus-square-o"></i>Agregar
+							</button>
+							<button type="submit" class="btn btn-app">
+								<i class="fa fa-plus-square-o"></i>Guardar
+							</button>
+							
+						</div>
+					</form>
+					<template id="breakdown-article">
+							<tr>
+								<th>itglo</th>
+								<th>
+									{{form.carlosglo}}
+								</th>
+								<th>
+									<input class="form-control" type="number" id="{{form.cantiglo.id_for_label}}" name="{{form.cantiglo.html_name}}" >
+								</th>
+								<th>
+									<input class="form-control" type="number" id="{{form.costoglo.id_for_label}}" name="{{form.costoglo.html_name}}" >
+								</th>
+								<th>
+									<input class="form-control" type="number" id="{{form.vtoglo.id_for_label}}" name="{{form.vtoglo.html_name}}" >
+								</th>
+								<th>
+									<div class="input-group">
+										{{form.cesdo}}
+										<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+									</div>
+								</th>
+							</tr>
+					</template>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$("#addItem").trigger("click")
+			$('#example').DataTable({"language": languageDataTable});
+		});
+		$("#addItem").click(function(event){
+			var clone = $("#breakdown-article")[0].content.cloneNode(true);
+			$("table tbody").append(clone)
+			
+		})
+	</script>
+{% endblock %}
+
