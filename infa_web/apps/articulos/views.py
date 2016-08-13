@@ -20,9 +20,23 @@ from django.db.models import Max
 def SaveBreakdownArticle(request,pk):
 	data = json.loads(request.body)
 	print type(data)
+	itglo = 0
+	for item in data:
+		#return HttpResponse(json.dumps(item), "application/json")
+		
+		cesdo = Esdo.objects.get(cesdo=item["cesdo"])
+		carlosp = Arlo.objects.get(carlos=item["carlosp"]) 
+		carlosglo = Arlo.objects.get(carlos=item["carlosglo"]) 
+	
+		#itglo = item["itglo"]
+		cantiglo = item["cantiglo"]
+		costoglo = item["costoglo"]
+		vtoglo = item["vtoglo"]
+
+		Arlosdesglo.objects.create(cesdo=cesdo,carlosp=carlosp,carlosglo=carlosglo,itglo=itglo,cantiglo=cantiglo,costoglo=costoglo,vtoglo=vtoglo)
+		itglo += 1
+
 	response = {}
-	response['data'] = {}
-	response['data']['algo'] = data
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BreakdownArticle(FormView):
@@ -34,6 +48,8 @@ class BreakdownArticle(FormView):
 		context = super(BreakdownArticle, self).get_context_data(**kwargs)
 		print kwargs
 		context['article'] = Arlo.objects.get(carlos=self.kwargs["pk"])
+		context["partsArticle"] = Arlosdesglo.objects.filter(carlosp=self.kwargs["pk"])
+		print context["partsArticle"][0].carlosglo
 		return context
 
 class ArticleCreate(CreateView):
