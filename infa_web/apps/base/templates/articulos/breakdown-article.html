@@ -17,8 +17,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Articulo: {{ article.nlargo }}</h3>
 					</div>
-					<form action="" method="POST" role="form" >
-						{%csrf_token%}
+					<form action="">
 						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -37,7 +36,7 @@
 							<button type="button" class="btn btn-app" id="addItem">
 								<i class="fa fa-plus-square-o"></i>Agregar
 							</button>
-							<button type="submit" class="btn btn-app">
+							<button type="submit" class="btn btn-app" id="save">
 								<i class="fa fa-plus-square-o"></i>Guardar
 							</button>
 							
@@ -45,7 +44,10 @@
 					</form>
 					<template id="breakdown-article">
 							<tr>
-								<th>itglo</th>
+								<th>
+									<input type="hidden" name="carlosp" value="{{ article.carlos }}">
+									itglo
+								</th>
 								<th>
 									{{form.carlosglo}}
 								</th>
@@ -79,15 +81,31 @@
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
+		$("form").submit(function(event){
+			event.preventDefault()
+			var dataRequest = [];
+			$("table tbody tr").each(function(index,tr){
+				var data = {};
+				data.carlosp = $(tr).find("[name=carlosp]").val();
+				data.itglo = $(tr).find("[name=itglo]").val();
+				data.carlosglo = $(tr).find("[name=carlosglo]").val();
+				data.cantiglo = $(tr).find("[name=cantiglo]").val();
+				data.costoglo = $(tr).find("[name=costoglo]").val();
+				data.vtoglo = $(tr).find("[name=vtoglo]").val();
+				data.cesdo = $(tr).find("[name=cesdo]").val();
+				dataRequest.push(data);
+			});
+			console.log(dataRequest)
+		});
 		$(document).ready(function() {
-			$("#addItem").trigger("click")
-			$('#example').DataTable({"language": languageDataTable});
+			$("#addItem").trigger("click");
+			$("#example").DataTable({"language": languageDataTable});
 		});
 		$("#addItem").click(function(event){
 			var clone = $("#breakdown-article")[0].content.cloneNode(true);
-			$("table tbody").append(clone)
+			$("table tbody").append(clone);
 			
-		})
+		});
 	</script>
 {% endblock %}
 
