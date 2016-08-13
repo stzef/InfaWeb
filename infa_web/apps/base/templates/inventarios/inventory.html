@@ -53,28 +53,6 @@
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 	};
-	$(document).on("click", ".btn-create", function(e){
-		e.preventDefault();
-		$.post($(this).attr('href'), function(response){
-			create_table(response);
-		});
-	});
-	$(document).on("click", "#btn-find", function(e){
-		e.preventDefault();
-		cii = $('#id_codigo');
-		if(cii.val() != ''){
-			$.get('/inventory-find/'+cii.val()+'/', function(response){
-				if(response.type == 0){
-					if (confirm('No existe inventario con el codigo ingresado. Desea crear un nuevo con el codigo '+response.cii+'?')){
-						$(".btn-create").trigger('click');
-					}
-				}
-			});
-		}else{
-			alert('Digite el código a buscar');
-			cii.focus();
-		}
-	});
 	function create_table(response){
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
 		cii = ''
@@ -102,11 +80,14 @@
 					'</table>'+
 				'</div>'+
 				'<div class="box-footer text-center">'+
-					'<a href="" class="btn btn-primary">Valores en ceros</a> <a href="" class="btn btn-info">Actualizar nombres</a> <a class="btn btn-success" id="save">Guardar</a> <a class="btn btn-default">Imprimir</a>'+
+					'<a href="" class="btn btn-primary" id="reset">Valores en ceros</a> <a href="" class="btn btn-info" id="rename">Actualizar nombres</a> <a class="btn btn-success" id="save">Guardar</a> <a class="btn btn-default">Imprimir</a>'+
 				'</div>'+
 			'</div>'
 		);
-		$.each(response.data, function (key, item) {
+		data_table(response.data);
+	}
+	function data_table(data){
+		$.each(data, function (key, item) {
 			$('#content-data').append(
 				'<tr class="cont-data" id="'+item.carlos+'">'+
 					'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
@@ -115,10 +96,10 @@
 					'<td>'+item.ngpo+'</td>'+
 					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.canti+'</td>'+
 					'<td>'+
-						'<input type="text" id="cant-'+item.carlos+'" class="text-right cant" value="0" style="border: none;">'+
+						'<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="0" style="border: none;">'+
 					'</td>'+
 					'<td>'+
-						'<input type="text" id="vunita-'+item.carlos+'" class="text-right value" value="'+item.vcosto+'" style="border: none;">'+
+						'<input type="text" id="vunita-'+item.carlos+'" class="text-right value val" value="'+item.vcosto+'" style="border: none;">'+
 					'</td>'+
 					'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti*item.vcosto).format(2)+'</td>'+
 					'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
@@ -128,6 +109,50 @@
 		});
 		$('.table').DataTable();
 	}
+	$(document).on("click", "#reset", function(e){
+		e.preventDefault();
+		$(':input.val').val(0).trigger('keyup');
+	});
+	$(document).on("click", "#rename", function(e){
+		e.preventDefault();
+		$.post({% url 'get_name_arlo' %}, function(response){
+			console.log(response)
+			$.each(response.data, function (key, item){
+				$('#nlargo-'+item.carlos).text(item.nlargo)
+			});
+		});
+	});
+	$(document).on("click", ".btn-create", function(e){
+		e.preventDefault();
+		$.post($(this).attr('href'), function(response){
+			create_table(response);
+		});
+	});
+	$(document).on("click", "#btn-find", function(e){
+		e.preventDefault();
+		cii = $('#id_codigo');
+		if(cii.val() != ''){
+			$.get('/inventory-find/'+cii.val()+'/', function(response){
+				if(response.type == 0){
+					if (confirm('No existe inventario con el codigo ingresado. Desea crear un nuevo con el codigo '+response.cii+'?')){
+						$(".btn-create").trigger('click');
+					}
+				}else{
+					$.post({% url 'inventory_edit' %}, {pk: cii.val()}, function(response){
+						create_table(response);
+						if(response.count_extra > 0){
+							if (confirm('Hay '+response.count_extra+' nuevos articulos. Desea agregarlos al inventario en edición?')){
+								data_table(response.data_extra);
+							}
+						}
+					});
+				}
+			});
+		}else{
+			alert('Digite el código a buscar');
+			cii.focus();
+		}
+	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
 		var this_value = $(this).val();
@@ -164,7 +189,6 @@
 				'ajusal': $('#ajusal-'+id).text(),
 			});
 		});
-		console.log(data_r)
 		$.ajax({
 			url: {% url 'inventory_save' %},
 			type: 'post',

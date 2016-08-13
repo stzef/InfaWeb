@@ -26,3 +26,9 @@ class Invinideta(models.Model):
 	cancalcu = models.DecimalField(max_digits=15, decimal_places=2)
 	ajuent = models.DecimalField(max_digits=15, decimal_places=2)
 	ajusal = models.DecimalField(max_digits=15, decimal_places=2)
+
+	def __str__(self):
+		return str(self.cii.pk) + '-' + str(self.carlos.pk)
+
+	def __unicode__(self):
+		return str(self.cii.pk) + '-' + str(self.carlos.pk)
