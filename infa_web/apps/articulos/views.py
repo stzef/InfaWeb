@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
+import json
+
 from django import forms
 
 from infa_web.apps.base.constantes import EMPRESA
@@ -12,6 +16,15 @@ from infa_web.apps.articulos.forms import *
 from django.db.models import Max
 
 # Articles #
+@csrf_exempt
+def SaveBreakdownArticle(request,pk):
+	data = json.loads(request.body)
+	print type(data)
+	response = {}
+	response['data'] = {}
+	response['data']['algo'] = data
+	return HttpResponse(json.dumps(response), "application/json")
+
 class BreakdownArticle(FormView):
 	model = Arlosdesglo
 	template_name = 'articulos/breakdown-article.html'

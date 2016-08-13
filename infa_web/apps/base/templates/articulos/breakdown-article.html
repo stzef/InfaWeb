@@ -96,6 +96,15 @@
 				dataRequest.push(data);
 			});
 			console.log(dataRequest)
+			$.ajax({
+				url: "{% url 'breakdown-article-save' article.carlos %}",
+				type: 'post',
+				data: {data: dataRequest},
+				dataType: "json",
+				success: function(response){
+					alert(response)
+				}
+			});
 		});
 		$(document).ready(function() {
 			$("#addItem").trigger("click");

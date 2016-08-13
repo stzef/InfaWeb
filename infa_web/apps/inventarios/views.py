@@ -9,7 +9,6 @@ from .forms import *
 import datetime
 import json
 
-
 class InventoryView(FormView):
 	template_name = 'inventarios/inventory.html'
 	form_class = InventoryForm
