@@ -72,11 +72,11 @@ class Command(BaseCommand):
 		print "Zona. Registros Creados Correctamente."
 
 		Iva.objects.all().delete()
-		Iva.objects.create(civa=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
-		Iva.objects.create(civa=2,niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
-		Iva.objects.create(civa=3,niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
-		Iva.objects.create(civa=4,niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
-		Iva.objects.create(civa=5,niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
+		Iva.objects.create(niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
+		Iva.objects.create(niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
+		Iva.objects.create(niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
+		Iva.objects.create(niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
+		Iva.objects.create(niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()

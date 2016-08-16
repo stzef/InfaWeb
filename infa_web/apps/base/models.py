@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from infa_web.apps.base.constantes import *
+from django.core.validators import MinValueValidator
+
 
 class Esdo(models.Model):
 	cesdo = models.AutoField(primary_key=True)
@@ -11,16 +13,21 @@ class Esdo(models.Model):
 	def __str__(self):
 		return self.nesdo
 
+	def natural_key(self):
+		return (self.cesdo)
+
 class Modules(models.Model):
 	smodule = models.CharField(max_length=5)
 	nmodule = models.CharField(max_length=20)
 	enabled_enterprise = models.BooleanField()
 	enabled = models.BooleanField()
-
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO) 
 
 	def __str__(self):
 		return self.nmodule
+
+	def natural_key(self):
+		return (self.smodule)
 
 class Parameters(models.Model):
 	cparam = models.CharField(max_length=10)
@@ -48,6 +55,9 @@ class Departamento(models.Model):
 	def __str__(self):
 		return self.ndepar
 
+	def natural_key(self):
+		return (self.cdepar)
+
 class Ciudad(models.Model):
 	cciu = models.AutoField(primary_key=True)
 	nciu = models.CharField(max_length=40)
@@ -60,7 +70,7 @@ class Ciudad(models.Model):
 class Iva(models.Model):
 	civa = models.AutoField(primary_key=True)
 	niva = models.CharField(max_length=40)
-	poriva = models.DecimalField(max_digits=6, decimal_places=2)
+	poriva = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)])
 	idtira = models.CharField(max_length=1)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 

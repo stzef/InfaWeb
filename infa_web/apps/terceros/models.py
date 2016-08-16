@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from infa_web.apps.base.models import *
 from django.db import models
 from infa_web.apps.base.constantes import *
+from django.core.validators import MinValueValidator
+
 
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
@@ -13,7 +15,7 @@ class Autorre(models.Model):
 class Vende(models.Model):
 	cvende = models.AutoField(primary_key=True)
 	nvende = models.CharField(max_length=80)
-	porventa = models.DecimalField(max_digits=7, decimal_places=4)
+	porventa = models.DecimalField(max_digits=7, decimal_places=4,validators=[MinValueValidator(0)])
 	cesdo = models.ForeignKey(Esdo)
 
 	def __str__(self):

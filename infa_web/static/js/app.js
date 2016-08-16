@@ -1,3 +1,6 @@
+if(window.opener){
+	console.log(window.opener)
+}
 $("[data-new-window]").click(function(event){
 	event.preventDefault();
 	if(window.location.href == this.href) {

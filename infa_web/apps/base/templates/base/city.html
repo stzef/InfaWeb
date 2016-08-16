@@ -53,3 +53,32 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 
+{% block content_script %}
+	<script>
+			$("form").submit(function(event){
+				event.preventDefault()
+				$.ajax({
+					{% if mode_view == "edit" %}
+						url: '{% url 'edit-city' current_pk %}',
+					{% elif mode_view == "create" %}
+						url: '{% url 'add-city' %}',
+					{% else %}
+						url: '',
+					{% endif %}
+					type: 'POST',
+					data: $("form").serialize(),
+					contentType: "application/x-www-form-urlencoded",
+					success: function(response){
+						var object = JSON.parse(response.object)[0]
+						var fields = object.fields
+						if(window.opener){
+							window.opener.$("select[name=ciudad")
+								.append($("<option>",{value:response.pk,html:fields.nciu}).attr("selected",true))
+								.focus()
+							window.close()
+						}
+					}
+				});
+			})
+	</script>
+{%endblock%}

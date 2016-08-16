@@ -8,14 +8,14 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 class Tiarlos(models.Model):
-	ctiarlos = models.IntegerField(primary_key=True)
+	ctiarlos = models.AutoField(primary_key=True)
 	ntiarlos = models.CharField(max_length=40)
 	
 	def __str__(self):
 		return self.ntiarlos
 
 class Gpo(models.Model):
-	cgpo = models.IntegerField(primary_key=True)
+	cgpo = models.IntegerField(primary_key=True,validators=[MinValueValidator(0)])
 	ngpo = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
@@ -53,13 +53,13 @@ class Arlo(models.Model):
 	pvta5 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
 	pvta6 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
 	citerce1 = models.ForeignKey(Tercero, related_name='citerce1', blank=True, null=True)
-	vcosto1 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True)
+	vcosto1 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True,validators=[MinValueValidator(0)])
 	fcosto1 = models.DateField(blank=True,null=True)
 	citerce2 = models.ForeignKey(Tercero, related_name='citerce2', blank=True, null=True)
-	vcosto2 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True)
+	vcosto2 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True,validators=[MinValueValidator(0)])
 	fcosto2 = models.DateField(blank=True,null=True)
 	citerce3 = models.ForeignKey(Tercero, related_name='citerce3', blank=True, null=True)
-	vcosto3 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True)
+	vcosto3 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True,validators=[MinValueValidator(0)])
 	fcosto3 = models.DateField(blank=True,null=True)
 	ifedinom = models.BooleanField(max_length=1)
 	refe = models.CharField(max_length=20)
@@ -82,11 +82,11 @@ class Arlo(models.Model):
 
 class Arlosdesglo(models.Model):
 	carlosp = models.ForeignKey(Arlo, related_name='carlosp')
-	itglo = models.CharField(max_length=4)
+	itglo = models.CharField(max_length=4,validators=[MinValueValidator(0)])
 	carlosglo = models.ForeignKey(Arlo, related_name='carlosglo')
-	cantiglo = models.DecimalField(max_digits=15, decimal_places=2)
-	costoglo = models.DecimalField(max_digits=15, decimal_places=2)
-	vtoglo = models.DecimalField(max_digits=15, decimal_places=2)
+	cantiglo = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	costoglo = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	vtoglo = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):

@@ -4,6 +4,8 @@ from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
 from django.db import models
 from infa_web.apps.base.constantes import *
+from django.core.validators import MinValueValidator
+
 
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
@@ -22,7 +24,7 @@ class Mven(models.Model):
 	citerce = models.ForeignKey(Tercero)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	vttotal = models.DecimalField(max_digits=15, decimal_places=2)
+	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
 	cbode0 = models.ForeignKey(Bode, related_name='cbode0',default=DEFAULT_BODEGA)
@@ -36,9 +38,9 @@ class Mvendeta(models.Model):
 	it = models.CharField(max_length=4)
 	carlos = models.ForeignKey(Arlo)
 	nlargo = models.CharField(max_length=100)
-	canti = models.DecimalField(max_digits=15, decimal_places=2)
-	vunita = models.DecimalField(max_digits=15, decimal_places=2)
-	vtotal = models.DecimalField(max_digits=15, decimal_places=2)
+	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 
 class Mvsa(models.Model):
 	cmvsa = models.AutoField(primary_key=True)
@@ -47,7 +49,7 @@ class Mvsa(models.Model):
 	citerce = models.ForeignKey(Tercero)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	vttotal = models.DecimalField(max_digits=15, decimal_places=2)
+	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
@@ -58,6 +60,6 @@ class Mvsadeta(models.Model):
 	it = models.CharField(max_length=4)
 	citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
-	canti = models.DecimalField(max_digits=15, decimal_places=2)
-	vunita = models.DecimalField(max_digits=15, decimal_places=2)
-	vtotal = models.DecimalField(max_digits=15, decimal_places=2)
+	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
