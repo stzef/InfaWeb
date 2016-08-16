@@ -25,8 +25,9 @@
 									<th>carlosglo</th>
 									<th>cantiglo</th>
 									<th>costoglo</th>
-									<th>vtoglo</th>
-									<th>cesdo</th>
+									<th>Valor</th>
+									<th>Estado</th>
+									<th>Borrar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -37,7 +38,7 @@
 										itglo - {{partArticle.carlosglo}}
 									</th>
 									<th>
-										<select class="form-control" name="" id="" id="{{form.cantiglo.id_for_label}}" name="{{form.cantiglo.html_name}}" value="{{partArticle.carlosglo}}">
+										<select class="form-control" id="{{form.cantiglo.id_for_label}}" name="{{form.carlosglo.html_name}}" value="{{partArticle.carlosglo}}">
 											{% for id,html_value in form.carlosglo.field.choices %}
 												{% if partArticle.carlosglo == html_value %}
 													selected
@@ -45,7 +46,6 @@
 												<option value="{{id}}">{{html_value}}</option>
 											{% endfor %}
 										</select>
-										
 									</th>
 									<th>
 										<input class="form-control" type="number" value="{{ partArticle.cantiglo }}" id="{{form.cantiglo.id_for_label}}" name="{{form.cantiglo.html_name}}" >
@@ -61,6 +61,9 @@
 											{{form.cesdo}}
 											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 										</div>
+									</th>
+									<th>
+										<button class="btn btn-danger" data-delete>Borrar</button>
 									</th>
 								</tr>
 							{% endfor %}
@@ -100,6 +103,9 @@
 										<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 									</div>
 								</th>
+								<th>
+									<button class="btn btn-danger" data-delete>Borrar</button>
+								</th>
 							</tr>
 					</template>
 
@@ -116,7 +122,7 @@
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
 		$("form").submit(function(event){
-			event.preventDefault()
+			event.preventDefault();
 			var dataRequest = [];
 			$("table tbody tr").each(function(index,tr){
 				var data = {};
@@ -132,7 +138,7 @@
 			console.log(dataRequest)
 			$.ajax({
 				url: "{% url 'breakdown-article-save' article.carlos %}",
-				type: 'post',
+				type: "POST",
 				data: JSON.stringify(dataRequest),
 				contentType: "application/json",
 				success: function(response){
@@ -148,7 +154,7 @@
 		$("#addItem").click(function(event){
 			var clone = $("#breakdown-article")[0].content.cloneNode(true);
 			$("table tbody").append(clone);
-			
+			$("table tr th button[data-delete]").click(function(event){$(this).closest("tr").remove();});
 		});
 	</script>
 {% endblock %}

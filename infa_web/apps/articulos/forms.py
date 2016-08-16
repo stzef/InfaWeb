@@ -50,7 +50,7 @@ class ArticleForm(forms.ModelForm):
 			'cbarras':'Codigo de Barras',
 			'cgpo':'Grupo',
 			'ncorto':'Nombre Corto',
-			'nlargo':'Nombre Largo',
+			'nlargo':'Descripcion',
 			'canti':'Cantidad',
 			'vcosto':'Costo',
 			'ifcostear':'Costear',
