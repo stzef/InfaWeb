@@ -22,15 +22,12 @@
 						<thead>
 							<tr>
 								<th>Codigo</th>
-								<th>Nombre Largo</th>
+								<th>Descripcion</th>
 								<th>Cantidad</th>
 								<th>Costo</th>
 								<th>Estado</th>
-								<th>Stock Minimo</th>
-								<th>Stock Maximo</th>
 								<th>Referencia</th>
 								<th>Marca</th>
-								<th>Foto 1</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
@@ -42,11 +39,8 @@
 									<td>{{ article.canti }}</td>
 									<td>{{ article.vcosto }}</td>
 									<td>{{ article.cesdo }}</td>
-									<td>{{ article.stomin }}</td>
-									<td>{{ article.stomax }}</td>
 									<td>{{ article.refe }}</td>
 									<td>{{ article.cmarca }}</td>
-									<td><img class="ae-img-list" src="/{{ article.foto1 }}" alt=""></td>
 									<td><a href="{% url 'edit-article' article.carlos %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}

@@ -17,8 +17,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Articulo: {{ article.nlargo }}</h3>
 					</div>
-					<form action="" method="POST" role="form" >
-						{%csrf_token%}
+					<form action="">
 						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -26,18 +25,55 @@
 									<th>carlosglo</th>
 									<th>cantiglo</th>
 									<th>costoglo</th>
-									<th>vtoglo</th>
-									<th>cesdo</th>
+									<th>Valor</th>
+									<th>Estado</th>
+									<th>Borrar</th>
 								</tr>
 							</thead>
 							<tbody>
+							{% for partArticle in partsArticle %}
+								<tr>
+									<th>
+										<input type="hidden" name="carlosp" value="{{ article.carlos }}">
+										itglo - {{partArticle.carlosglo}}
+									</th>
+									<th>
+										<select class="form-control" id="{{form.cantiglo.id_for_label}}" name="{{form.carlosglo.html_name}}" value="{{partArticle.carlosglo}}">
+											{% for id,html_value in form.carlosglo.field.choices %}
+												{% if partArticle.carlosglo == html_value %}
+													selected
+												{% endif %}
+												<option value="{{id}}">{{html_value}}</option>
+											{% endfor %}
+										</select>
+									</th>
+									<th>
+										<input class="form-control" type="number" value="{{ partArticle.cantiglo }}" id="{{form.cantiglo.id_for_label}}" name="{{form.cantiglo.html_name}}" >
+									</th>
+									<th>
+										<input class="form-control" type="number" value="{{ partArticle.costoglo }}" id="{{form.costoglo.id_for_label}}" name="{{form.costoglo.html_name}}" >
+									</th>
+									<th>
+										<input class="form-control" value="{{ partArticle.vtoglo }}" type="number" id="{{form.vtoglo.id_for_label}}" name="{{form.vtoglo.html_name}}" >
+									</th>
+									<th>
+										<div class="input-group">
+											{{form.cesdo}}
+											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										</div>
+									</th>
+									<th>
+										<button class="btn btn-danger" data-delete>Borrar</button>
+									</th>
+								</tr>
+							{% endfor %}
 							</tbody>
 						</table>
 						<div class="btn-group">
 							<button type="button" class="btn btn-app" id="addItem">
 								<i class="fa fa-plus-square-o"></i>Agregar
 							</button>
-							<button type="submit" class="btn btn-app">
+							<button type="submit" class="btn btn-app" id="save">
 								<i class="fa fa-plus-square-o"></i>Guardar
 							</button>
 							
@@ -45,7 +81,10 @@
 					</form>
 					<template id="breakdown-article">
 							<tr>
-								<th>itglo</th>
+								<th>
+									<input type="hidden" name="carlosp" value="{{ article.carlos }}">
+									itglo
+								</th>
 								<th>
 									{{form.carlosglo}}
 								</th>
@@ -64,6 +103,9 @@
 										<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 									</div>
 								</th>
+								<th>
+									<button class="btn btn-danger" data-delete>Borrar</button>
+								</th>
 							</tr>
 					</template>
 
@@ -79,15 +121,41 @@
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
+		$("form").submit(function(event){
+			event.preventDefault();
+			var dataRequest = [];
+			$("table tbody tr").each(function(index,tr){
+				var data = {};
+				data.carlosp = $(tr).find("[name=carlosp]").val();
+				data.itglo = $(tr).find("[name=itglo]").val();
+				data.carlosglo = $(tr).find("[name=carlosglo]").val();
+				data.cantiglo = $(tr).find("[name=cantiglo]").val();
+				data.costoglo = $(tr).find("[name=costoglo]").val();
+				data.vtoglo = $(tr).find("[name=vtoglo]").val();
+				data.cesdo = $(tr).find("[name=cesdo]").val();
+				dataRequest.push(data);
+			});
+			console.log(dataRequest)
+			$.ajax({
+				url: "{% url 'breakdown-article-save' article.carlos %}",
+				type: "POST",
+				data: JSON.stringify(dataRequest),
+				contentType: "application/json",
+				success: function(response){
+					alert(response)
+				}
+			});
+		});
 		$(document).ready(function() {
-			$("#addItem").trigger("click")
-			$('#example').DataTable({"language": languageDataTable});
+			//
+			if(!$("table tbody tr:not(.odd)").length) $("#addItem").trigger("click");
+			$("#example").DataTable({"language": languageDataTable});
 		});
 		$("#addItem").click(function(event){
 			var clone = $("#breakdown-article")[0].content.cloneNode(true);
-			$("table tbody").append(clone)
-			
-		})
+			$("table tbody").append(clone);
+			$("table tr th button[data-delete]").click(function(event){$(this).closest("tr").remove();});
+		});
 	</script>
 {% endblock %}
 

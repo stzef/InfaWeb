@@ -10,9 +10,8 @@
 
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Nuevo Articulo</h3>
+						<h3 class="box-title">{{title}}</h3>
 					</div>
-
 
 					<form action="" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data" target="_blank">
 						{%csrf_token%}
@@ -130,33 +129,6 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
-										{%if form.foto1.errors%}
-										{{form.foto1.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.foto1}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
-										{%if form.foto2.errors%}
-										{{form.foto2.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.foto2}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
-										{%if form.foto3.errors%}
-										{{form.foto3.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.foto3}}
-										</div>
-									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="box box-primary">
@@ -206,123 +178,158 @@
 										</div>
 									</div>
 
-									<div class="box box-primary">
-										<div class="box-header with-border">
-											<h3 class="box-title">Otras Caracteristicas</h3>
-										</div>
-										<div class="box-body">
-											<div class="form-group">
-												<div class="checkbox">
-													<label for="{{form.ifdesglo.id_for_label}}" class="col-sm-4 control-label">
-														{{form.ifdesglo}}
-														{{form.ifdesglo.label}}
-													</label>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="checkbox">
-													<label for="{{form.ifedinom.id_for_label}}" class="col-sm-4 control-label">
-														{{form.ifedinom}}
-														{{form.ifedinom.label}}
-													</label>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="checkbox">
-													<label for="{{form.ifcostear.id_for_label}}" class="col-sm-4 control-label">
-														{{form.ifcostear}}
-														{{form.ifcostear.label}}
-													</label>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="checkbox">
-													<label for="{{form.ifpvfijo.id_for_label}}" class="col-sm-4 control-label">
-														{{form.ifpvfijo}}
-														{{form.ifpvfijo.label}}
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</section>
-							<div class="box box-primary">
-								<div class="box-header with-border">
-									<h3 class="box-title">Otros</h3>
-								</div>
-
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-4 control-label">{{form.ivas_civa.label}}</label>
-										{%if form.ivas_civa.errors%}
-										{{form.ivas_civa.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.ivas_civa}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Otras Caracteristicas</h3>
+									</div>
+									<div class="box-body">
+										<div class="form-group col-md-3">
+											<div class="checkbox">
+												<label for="{{form.ifdesglo.id_for_label}}" class="col-sm-10 control-label">
+													{{form.ifdesglo}}
+													{{form.ifdesglo.label}}
+												</label>
 											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cubica.id_for_label}}" class="col-sm-4 control-label">{{form.cubica.label}}</label>
-										{%if form.cubica.errors%}
-										{{form.cubica.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.cubica}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										<div class="form-group col-md-3">
+											<div class="checkbox">
+												<label for="{{form.ifedinom.id_for_label}}" class="col-sm-10 control-label">
+													{{form.ifedinom}}
+													{{form.ifedinom.label}}
+												</label>
 											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
-										{%if form.cesdo.errors%}
-										{{form.cesdo.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.cesdo}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										<div class="form-group col-md-3">
+											<div class="checkbox">
+												<label for="{{form.ifcostear.id_for_label}}" class="col-sm-10 control-label">
+													{{form.ifcostear}}
+													{{form.ifcostear.label}}
+												</label>
 											</div>
 										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
-										{%if form.stomin.errors%}
-										{{form.stomin.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.stomin}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
-										{%if form.stomax.errors%}
-										{{form.stomax.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.stomax}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.mesesgara.id_for_label}}" class="col-sm-4 control-label">{{form.mesesgara.label}}</label>
-										{%if form.mesesgara.errors%}
-										{{form.mesesgara.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.mesesgara}}
+										<div class="form-group col-md-3">
+											<div class="checkbox">
+												<label for="{{form.ifpvfijo.id_for_label}}" class="col-sm-10 control-label">
+													{{form.ifpvfijo}}
+													{{form.ifpvfijo.label}}
+												</label>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Otros</h3>
+									</div>
+									<div class="box-body">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
+												{%if form.foto1.errors%}
+												{{form.foto1.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.foto1}}
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
+												{%if form.foto2.errors%}
+												{{form.foto2.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.foto2}}
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
+												{%if form.foto3.errors%}
+												{{form.foto3.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.foto3}}
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-4 control-label">{{form.ivas_civa.label}}</label>
+												{%if form.ivas_civa.errors%}
+												{{form.ivas_civa.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.ivas_civa}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.cubica.id_for_label}}" class="col-sm-4 control-label">{{form.cubica.label}}</label>
+												{%if form.cubica.errors%}
+												{{form.cubica.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.cubica}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
+												{%if form.cesdo.errors%}
+												{{form.cesdo.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.cesdo}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
+												{%if form.stomin.errors%}
+												{{form.stomin.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.stomin}}
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
+												{%if form.stomax.errors%}
+												{{form.stomax.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.stomax}}
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="{{form.mesesgara.id_for_label}}" class="col-sm-4 control-label">{{form.mesesgara.label}}</label>
+												{%if form.mesesgara.errors%}
+												{{form.mesesgara.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.mesesgara}}
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
 							<div class="btn-group">
 								<button class="btn btn-app btn-info" type="submit">
-									<i class="fa fa-plus-square-o"></i>Agregar
+									<i class="fa fa-plus-square-o"></i>Guardar
 								</button>
 								<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
 									<i class="fa fa-list"></i>Listar
@@ -344,5 +351,22 @@
 	</section>
 	</div>
 	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>
+		$("#id_vcosto").change(function(){
+			$("[name*=porult]").trigger("change");
+		});
+		$("[name*=porult]").change(function(){
+			var porcentaje = parseFloat($(this).val());
+			if(porcentaje > 0){
+				console.log(porcentaje);
+				var costo = parseFloat($("#id_vcosto").val());
+				var valor = costo/((100-porcentaje)/100);
+				console.warn($(this));
+				$(this).closest("tr").find("[name*=pvta]").val(valor);
+			}
+		})
+	</script>
 {%endblock%}
 

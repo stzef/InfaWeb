@@ -50,7 +50,7 @@ class ArticleForm(forms.ModelForm):
 			'cbarras':'Codigo de Barras',
 			'cgpo':'Grupo',
 			'ncorto':'Nombre Corto',
-			'nlargo':'Nombre Largo',
+			'nlargo':'Descripcion',
 			'canti':'Cantidad',
 			'vcosto':'Costo',
 			'ifcostear':'Costear',
@@ -112,12 +112,8 @@ class BreakdownArticleForm(forms.ModelForm):
 		fields = "__all__"
 		exclude = ["arlosp"]
 		widgets = {
-			'cesdo' : forms.Select(attrs={'name':'cesdo[]','class': 'form-control','required': True}),
-			'carlosglo' : forms.Select(attrs={'name':'carlosglo[]','class': 'form-control','required': True}),
-			'itglo' : forms.NumberInput(attrs={'name':'itglo[]','required': True}),
-			'cantiglo' : forms.NumberInput(attrs={'name':'cantiglo[]','required': True}),
-			'costoglo' : forms.NumberInput(attrs={'name':'costoglo[]','required': True}),
-			'vtoglo' : forms.NumberInput(attrs={'name':'vtoglo[]','required': True}),
+			'cesdo' : forms.Select(attrs={'class': 'form-control','required': True}),
+			'carlosglo' : forms.Select(attrs={'class': 'form-control','required': True}),
 		}
 		labels = {
 			"carlosp":"",

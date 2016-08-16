@@ -9,6 +9,7 @@ urlArticles = [
 
 urlBreakdownArticles = [
 	url(r'^articles/(?P<pk>\d+)/breakdown$', BreakdownArticle.as_view(), {'title': 'Desglozar Articulos'}, name = 'breakdown-article'),
+	url(r'^articles/(?P<pk>\d+)/breakdown/save$', SaveBreakdownArticle, name = 'breakdown-article-save'),
 ]
 urlGroups = [
 	url(r'^groups/$', GroupList.as_view(), {'title': 'Crear Grupo'}, name = 'list-group'),
