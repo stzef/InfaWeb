@@ -48,7 +48,21 @@ class AjaxableResponseMixin(object):
 class ParametersList(ListView):
 	model = Parameters
 	template_name = "parametros/parameters.html"
-	
+
+	def get_context_data(self, **kwargs):
+		context = super(ParametersList, self).get_context_data(**kwargs)
+		context['title'] = 'Parametros'
+		context['modules'] = {}
+		for module in Modules.objects.all():
+			if not module.pk in context['modules'].keys():
+				context['modules'][module.pk] = []
+			
+			for parameter in Parameters.objects.all():
+				print parameter.module.pk
+				context['modules'][parameter.module.pk].append(parameter)
+		print context['modules']
+		return context
+
 def ParameterCreate(request):
 	data = json.loads(request.body)
 	return HttpResponse(json.dumps(data), "application/json")
