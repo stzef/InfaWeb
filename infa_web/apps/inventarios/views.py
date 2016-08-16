@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from infa_web.apps.articulos.models import *
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import *
@@ -16,6 +16,15 @@ class InventoryView(FormView):
 	def get_context_data(self, **kwargs):
 		context = super(InventoryView, self).get_context_data(**kwargs)
 		context['title'] = 'Inventarios'
+		return context
+
+class InventoryListView(ListView):
+	template_name = 'inventarios/list-inventory.html'
+	model = Invinicab
+
+	def get_context_data(self, **kwargs):
+		context = super(InventoryListView, self).get_context_data(**kwargs)
+		context['title'] = 'Lista de inventarios'
 		return context
 
 @csrf_exempt
@@ -58,7 +67,7 @@ def inventory_edit(request):
 	response['esdo'] = {}
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
 	value_extra = Arlo.objects.exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
-	response['val_tot'] = value.vttotal
+	response['val_tot'] = int(value.vttotal)
 	for arlo in value.invinideta_set.all():
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos.pk
