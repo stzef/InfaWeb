@@ -48,4 +48,10 @@ urlRegiva = [
 	url(r'^reg-iva/edit/(?P<pk>[0-9])+/$', RegIvaUpdate.as_view(), {'title': 'Editar Regimen de Iva'}, name = 'edit-reg-iva'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva
+urlParameters = [
+	url(r'^parameters/$', ParametersList.as_view(), name = 'list-parameter'),
+	url(r'^parameters/add/$', ParameterCreate, name = 'add-parameter'),
+	url(r'^parameters/edit/(?P<pk>[0-9])+/$', ParameterUpdate, name = 'edit-parameter'),
+]
+
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva + urlParameters

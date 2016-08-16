@@ -11,15 +11,27 @@ class Esdo(models.Model):
 	def __str__(self):
 		return self.nesdo
 
+class Modules(models.Model):
+	smodule = models.CharField(max_length=5)
+	nmodule = models.CharField(max_length=20)
+	enabled_enterprise = models.BooleanField()
+	enabled = models.BooleanField()
+
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO) 
+
+	def __str__(self):
+		return self.nmodule
+
 class Parameters(models.Model):
 	cparam = models.CharField(max_length=10)
+	module = models.ForeignKey(Modules)
 	nparam = models.CharField(max_length=40)
 
 	val_boolean = models.BooleanField(blank=True)
 	val_integer = models.IntegerField(blank=True, null=True)
 	val_string = models.CharField(max_length=40,blank=True, null=True)
 	def __str__(self):
-		return self.descripcion
+		return self.nparam
 
 class Ubica(models.Model):
 	cubica = models.AutoField(primary_key=True)

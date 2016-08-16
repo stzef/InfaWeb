@@ -7,6 +7,23 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
 
+# Parameters #
+class ParametersList(ListView):
+	model = Parameters
+	template_name = "parametros/parameters.html"
+	
+def ParameterCreate(request):
+	data = json.loads(request.body)
+	return HttpResponse(json.dumps(data), "application/json")
+	
+	Parameters.objects.create()
+
+def ParameterUpdate(request,pk):
+	parameter = Parameters.objects.get(cparam=pk)
+	return HttpResponse(json.dumps(parameter), "application/json")
+
+# Parameters #
+
 # States #
 class StateCreate(CreateView):
 	model = Esdo

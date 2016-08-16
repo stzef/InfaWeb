@@ -47,6 +47,17 @@ class Command(BaseCommand):
 		Tiide.objects.create(idtiide=3,ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
 
+		Modules.objects.all().delete()
+		Modules.objects.create(smodule="I",nmodule="Inventarios",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+		Modules.objects.create(smodule="F",nmodule="Facturacion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="P",nmodule="POS",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CAR",nmodule="Cartera",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CAJ",nmodule="Caja",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="F",nmodule="Financiero",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		print "Modules. Registros Creados Correctamente."
+
 		Autorre.objects.all().delete()
 		Autorre.objects.create(cautorre=1,nautorre="NO AUTORRETENEDOR")
 		Autorre.objects.create(cautorre=2,nautorre="SI AUTORRETENEDOR")
