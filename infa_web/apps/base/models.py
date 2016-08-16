@@ -11,6 +11,16 @@ class Esdo(models.Model):
 	def __str__(self):
 		return self.nesdo
 
+class Parameters(models.Model):
+	cparam = models.CharField(max_length=10)
+	nparam = models.CharField(max_length=40)
+
+	val_boolean = models.BooleanField(blank=True)
+	val_integer = models.IntegerField(blank=True, null=True)
+	val_string = models.CharField(max_length=40,blank=True, null=True)
+	def __str__(self):
+		return self.descripcion
+
 class Ubica(models.Model):
 	cubica = models.AutoField(primary_key=True)
 	nubica = models.CharField(max_length=80)
