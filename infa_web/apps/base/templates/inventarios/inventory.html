@@ -31,7 +31,14 @@
 								</div>
 							</div>
 							<div class="box-footer text-center">
-								<a href="{% url 'inventory_latest' %}" class="btn btn-primary btn-create">Crear</a>
+								<div class="btn-group">
+									<a class="btn btn-app btn-info btn-create" href="{% url 'inventory_latest' %}">
+										<i class="fa fa-plus-square-o"></i>Nuevo
+									</a>
+									<a class="btn btn-app" href="#">
+										<i class="fa fa-list"></i>Listar
+									</a>
+								</div>
 								<a href="#" class="btn btn-default" id="btn-find">Buscar</a>
 							</div>
 						</form>
@@ -48,17 +55,28 @@
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script>
-	var cii = ''
+	var cii = '';
+	var val_tot = 0;
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 	};
 	function create_table(response){
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
-		cii = ''
+		cii = '';
 		$('#table-inventory').empty();
 		$('#table-inventory').append(
 			'<div class="box">'+
+				'<div class="box-header">'+
+					'<p><b>Estado: </b>'+
+						'<select name="estado" id="id_estado" class="form-control" style="width: 150px; display: inline;">'+
+							'<option value="">Seleccione un estado</option>'+
+						'</select>'+
+					'</p>'+	
+					'<div class="box-tools">'+
+						'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
+					'</div>'+
+				'</div>'+
 				'<div class="box-body">'+
 					'<table class="table table-striped" id="table">'+
 						'<thead>'+
@@ -80,33 +98,56 @@
 					'</table>'+
 				'</div>'+
 				'<div class="box-footer text-center">'+
-					'<a href="" class="btn btn-primary" id="reset">Valores en ceros</a> <a href="" class="btn btn-info" id="rename">Actualizar nombres</a> <a class="btn btn-success" id="save">Guardar</a> <a class="btn btn-default">Imprimir</a>'+
+					'<div class="box-footer text-center">'+
+						'<div class="btn-group">'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="reset" href="#">'+
+								'<i class="fa fa-undo"></i>Valores en cero'+
+							'</a>'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="rename" href="#">'+
+								'<i class="fa fa-pencil-square-o"></i>Actualizar nombres'+
+							'</a>'+
+							'<a class="btn btn-app btn-info btn btn-primary" href="#">'+
+								'<i class="fa fa-print"></i>Imprimir'+
+							'</a>'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="save" href="#">'+
+								'<i class="fa fa-floppy-o"></i>Guardar'+
+							'</a>'+
+						'</div>'+
+					'</div>'+
 				'</div>'+
 			'</div>'
 		);
 		data_table(response.data);
+		data_esdo(response.esdo);
+	}
+	function data_esdo(esdo){id_estado
+		$.each(esdo, function (key, item) {
+			$('#id_estado').append('<option value="'+item.cesdo+'" '+item.selected+'>'+item.nesdo+'</option>');
+		});
 	}
 	function data_table(data){
 		$.each(data, function (key, item) {
+			val_tot += (item.canti*item.vcosto);
 			$('#content-data').append(
 				'<tr class="cont-data" id="'+item.carlos+'">'+
 					'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
 					'<td>'+item.cbarras+'</td>'+
 					'<td id="nlargo-'+item.carlos+'">'+item.nlargo+'</td>'+
 					'<td>'+item.ngpo+'</td>'+
-					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.canti+'</td>'+
+					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
 					'<td>'+
-						'<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="0" style="border: none;">'+
+						'<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="'+item.canti+'" style="border: none;">'+
 					'</td>'+
 					'<td>'+
 						'<input type="text" id="vunita-'+item.carlos+'" class="text-right value val" value="'+item.vcosto+'" style="border: none;">'+
 					'</td>'+
-					'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti*item.vcosto).format(2)+'</td>'+
+					'<td id="vtotal-'+item.carlos+'" class="text-right" val="'+(item.canti*item.vcosto)+'">'+(item.canti*item.vcosto).format(2)+'</td>'+
 					'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
 					'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
 				'</tr>'
 			);
 		});
+		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
 		$('.table').DataTable();
 	}
 	$(document).on("click", "#reset", function(e){
@@ -155,11 +196,13 @@
 	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
-		var this_value = $(this).val();
+		var this_value = parseInt($(this).val());
 		var cant_calcu = parseInt($('#cancalcu-'+id).text());
 		var cant = (this_value - cant_calcu);
-		var value_tot = (this_value == 0 ? parseInt($('#cancalcu-'+id).text()): this_value)*$('#vunita-'+id).val()
-		$('#vtotal-'+id).text(value_tot.format(2));
+		var value_tot = this_value*$('#vunita-'+id).val();
+		var val_calcu = (parseInt($('#val-tot').attr('val'))-parseInt($('#vtotal-'+id).attr('val')))+value_tot;
+		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		if(cant < 0){
 			$('#ajusal-'+id).text(Math.abs(cant));
 			$('#ajuent-'+id).text('0');
@@ -170,37 +213,47 @@
 	});
 	$(document).on("keyup", ".value", function(e){
 		var id =$(this).parent().parent().attr('id');
-		var this_value = $('#cant-'+id).val();
-		var value_tot = (this_value == 0 ? parseInt($('#cancalcu-'+id).text()): this_value)*$('#vunita-'+id).val()
-		$('#vtotal-'+id).text(value_tot.format(2));
+		var this_value = parseInt($('#cant-'+id).val());
+		var value_tot = this_value*$('#vunita-'+id).val()
+		var val_calcu = (parseInt($('#val-tot').attr('val'))-parseInt($('#vtotal-'+id).attr('val')))+value_tot;
+		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 	});
 	$(document).on("click", "#save", function(e){
 		e.preventDefault();
 		var data_r = [];
-		$('.cont-data').each(function() {
-			var id = this.id;
-			data_r.push({
-				'carlos': $('#carlos-'+id).text(),
-				'nlargo': $('#nlargo-'+id).text(),
-				'cancalcu': $('#cancalcu-'+id).text(),
-				'cant': $('#cant-'+id).val(),
-				'vunita': $('#vunita-'+id).val(),
-				'ajuent': $('#ajuent-'+id).text(),
-				'ajusal': $('#ajusal-'+id).text(),
+		cesdo = $('#id_estado');
+		if(cesdo.val() != ''){
+			$('.cont-data').each(function() {
+				var id = this.id;
+				data_r.push({
+					'carlos': $('#carlos-'+id).text(),
+					'nlargo': $('#nlargo-'+id).text(),
+					'cancalcu': $('#cancalcu-'+id).text(),
+					'cant': $('#cant-'+id).val(),
+					'vunita': $('#vunita-'+id).val(),
+					'ajuent': $('#ajuent-'+id).text(),
+					'ajusal': $('#ajusal-'+id).text(),
+				});
 			});
-		});
-		$.ajax({
-			url: {% url 'inventory_save' %},
-			type: 'post',
-			data: {
-				'cii': $('#id_codigo').val(),
-				'data_r': JSON.stringify(data_r)
-			},
-			dataType: "json",
-			success: function(response){
-				alert(response.msg)
-			}
-		});
+			$.ajax({
+				url: {% url 'inventory_save' %},
+				type: 'post',
+				data: {
+					'cii': $('#id_codigo').val(),
+					'val_tot': $('#val-tot').attr('val'),
+					'cesdo': cesdo.val(),
+					'data_r': JSON.stringify(data_r)
+				},
+				dataType: "json",
+				success: function(response){
+					alert(response.msg)
+				}
+			});
+		}else{
+			alert('Seleccione un estado.')
+			cesdo.focus();
+		}
 	});
 </script>
 {% endblock content_script %}

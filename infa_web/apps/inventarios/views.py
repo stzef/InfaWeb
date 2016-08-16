@@ -24,6 +24,8 @@ def inventory_latest(request):
 	response = {}
 	c = 0
 	response['data'] = {}
+	response['esdo'] = {}
+	response['val_tot'] = 0
 	try:
 		value = Invinicab.objects.all().latest('pk')
 		response['code'] = sum_invini(value.pk)
@@ -35,8 +37,16 @@ def inventory_latest(request):
 		response['data'][c]['cbarras'] = arlo.cbarras
 		response['data'][c]['nlargo'] = arlo.nlargo
 		response['data'][c]['ngpo'] = arlo.cgpo.ngpo
-		response['data'][c]['canti'] = int(arlo.canti)
+		response['data'][c]['canti'] = 0
+		response['data'][c]['cancalcu'] = int(arlo.canti)
 		response['data'][c]['vcosto'] = int(arlo.vcosto)
+		c += 1
+	c = 0
+	for esdo in Esdo.objects.all():
+		response['esdo'][c] = {}
+		response['esdo'][c]['cesdo'] = esdo.cesdo
+		response['esdo'][c]['nesdo'] = esdo.nesdo
+		response['esdo'][c]['selected'] = ''
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -46,8 +56,10 @@ def inventory_edit(request):
 	c = 0
 	response['data'] = {}
 	response['data_extra'] = {}
+	response['esdo'] = {}
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
 	value_extra = Arlo.objects.exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
+	response['val_tot'] = value.vttotal
 	for arlo in value.invinideta_set.all():
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos.pk
@@ -55,6 +67,7 @@ def inventory_edit(request):
 		response['data'][c]['nlargo'] = arlo.nlargo
 		response['data'][c]['ngpo'] = arlo.carlos.cgpo.ngpo
 		response['data'][c]['canti'] = int(arlo.canti)
+		response['data'][c]['cancalcu'] = int(arlo.cancalcu)
 		response['data'][c]['vcosto'] = int(arlo.vunita)
 		c += 1
 	c = 0
@@ -64,8 +77,16 @@ def inventory_edit(request):
 		response['data_extra'][c]['cbarras'] = arlo_extra.cbarras
 		response['data_extra'][c]['nlargo'] = arlo_extra.nlargo
 		response['data_extra'][c]['ngpo'] = arlo_extra.cgpo.ngpo
-		response['data_extra'][c]['canti'] = int(arlo_extra.canti)
+		response['data_extra'][c]['cancalcu'] = int(arlo_extra.canti)
+		response['data_extra'][c]['canti'] = 0
 		response['data_extra'][c]['vcosto'] = int(arlo_extra.vcosto)
+		c += 1
+	c = 0
+	for esdo in Esdo.objects.all():
+		response['esdo'][c] = {}
+		response['esdo'][c]['cesdo'] = esdo.cesdo
+		response['esdo'][c]['nesdo'] = esdo.nesdo
+		response['esdo'][c]['selected'] = 'selected' if esdo.cesdo == value.cesdo.cesdo else ''
 		c += 1
 	response['count_extra'] = value_extra.count()
 	return HttpResponse(json.dumps(response), "application/json")
@@ -86,9 +107,13 @@ def inventory_save(request):
 	response = {}
 	response_data = json.loads(request.POST.get('data_r'))
 	cii = request.POST.get('cii')
+	val_tot = request.POST.get('val_tot')
+	cesdo = Esdo.objects.get(cesdo = request.POST.get('cesdo'))
 	try:
 		invini = Invinicab.objects.get(cii = cii)
+		invini.cesdo = cesdo
 		invini.fuaii = datetime.datetime.now()
+		invini.vttotal = val_tot
 		invini.save()
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
@@ -107,7 +132,7 @@ def inventory_save(request):
 				invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (int(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
 				invini_deta.save()
 	except Invinicab.DoesNotExist:
-		invini = Invinicab(cii = cii)
+		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot)
 		invini.save()
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])

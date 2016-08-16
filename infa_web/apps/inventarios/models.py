@@ -9,6 +9,7 @@ class Invinicab(models.Model):
 	fii = models.DateTimeField(auto_now = True)
 	fuaii = models.DateTimeField(null=True, blank=True)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	vttotal = models.DecimalField(max_digits=15, decimal_places=2, default=0)
 
 	def __str__(self):
 		return self.cii
