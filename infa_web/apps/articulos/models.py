@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
@@ -22,6 +23,9 @@ class Gpo(models.Model):
 	def __str__(self):
 		return self.ngpo
 
+	def __unicode__(self):
+		return self.ngpo
+
 class Marca(models.Model):
 	cmarca = models.AutoField(primary_key=True)
 	nmarca = models.CharField(max_length=60)
@@ -30,11 +34,14 @@ class Marca(models.Model):
 	def __str__(self):
 		return self.nmarca
 
+	def __unicode__(self):
+		return self.nmarca
+
 class Arlo(models.Model):
 	carlos = models.IntegerField(primary_key=True)
 	cbarras = models.CharField(max_length=50)
 	cgpo = models.ForeignKey(Gpo,default=DEFAULT_GRUPO)
-	ncorto = models.CharField(max_length=20)
+	ncorto = models.CharField(max_length=50)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vcosto = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
