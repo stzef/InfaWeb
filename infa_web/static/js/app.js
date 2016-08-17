@@ -25,6 +25,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 				var object = JSON.parse(response.object)[0]
 				var fields = object.fields
 				currentForm.prepend(message)
+				//currentForm.trigger("reset")
 				if(window.opener){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))
