@@ -1,5 +1,7 @@
 from django import forms
 from infa_web.apps.articulos.models import *
+from django.core.exceptions import ValidationError
+
 
 class ArticleForm(forms.ModelForm):
 	class Meta:
@@ -92,6 +94,9 @@ class ArticleForm(forms.ModelForm):
 			'foto2':'Foto 2',
 			'foto3':'Foto 3'
 		}
+	def clean(self):
+		if self.cleaned_data["stomin"] > self.cleaned_data["stomax"]:
+			self.add_error( "stomin", "El Strock Minimo debe ser menor al Stock Mayor" )
 
 class GpoForm(forms.ModelForm):
 	class Meta:

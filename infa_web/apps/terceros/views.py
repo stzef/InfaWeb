@@ -37,6 +37,8 @@ class AutorrtenedorCreate(AjaxableResponseMixin,CreateView):
 		context = super(AutorrtenedorCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Autorretenedor'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-autorretenedor',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 	
 class AutorrtenedorUpdate(AjaxableResponseMixin,UpdateView):
@@ -49,6 +51,8 @@ class AutorrtenedorUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Autorretenedor'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-autorretenedor',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class AutorrtenedorList(ListView):
@@ -66,6 +70,8 @@ class ZoneCreate(AjaxableResponseMixin,CreateView):
 		context = super(ZoneCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Zona'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-zone')
+
 		return context
 	
 class ZoneUpdate(AjaxableResponseMixin,UpdateView):
@@ -78,6 +84,8 @@ class ZoneUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Zona'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-zone',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class ZonesList(ListView):
@@ -95,6 +103,8 @@ class RouteCreate(AjaxableResponseMixin,CreateView):
 		context = super(RouteCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Ruta'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-route')
+
 		return context
 	
 class RouteUpdate(AjaxableResponseMixin,UpdateView):
@@ -107,6 +117,8 @@ class RouteUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Ruta'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-route',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class RoutesList(ListView):

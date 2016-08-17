@@ -86,6 +86,7 @@ class StateCreate(AjaxableResponseMixin,CreateView):
 		context = super(StateCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Estado'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-state')
 		return context
 
 class StateUpdate(AjaxableResponseMixin,UpdateView):
@@ -98,6 +99,7 @@ class StateUpdate(AjaxableResponseMixin,UpdateView):
 		context = super(StateUpdate, self).get_context_data(**kwargs)
 		context['title'] = 'Editar Estado'
 		context['mode_view'] = 'edit'
+		context['url'] = reverse_lazy('edit-state',kwargs={'pk': self.kwargs["pk"]},)
 		context['current_pk'] = self.kwargs["pk"]
 		return context
 
@@ -117,6 +119,8 @@ class CityCreate(AjaxableResponseMixin,CreateView):
 		context = super(CityCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Ciudad'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('edit-city')
+
 		return context
 
 class CityUpdate(AjaxableResponseMixin,UpdateView):
@@ -130,6 +134,8 @@ class CityUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Ciudad'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-city',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class CitiesList(ListView):
@@ -148,6 +154,8 @@ class DepartamentCreate(AjaxableResponseMixin,CreateView):
 		context = super(DepartamentCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Departamento'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-departament')
+
 		return context
 
 class DepartamentUpdate(AjaxableResponseMixin,UpdateView):
@@ -161,6 +169,8 @@ class DepartamentUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Departamento'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-departament',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class DepartamentsList(ListView):
@@ -179,6 +189,8 @@ class LocationCreate(AjaxableResponseMixin,CreateView):
 		context = super(LocationCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Departamento'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-location')
+
 		return context
 
 class LocationUpdate(AjaxableResponseMixin,UpdateView):
@@ -192,6 +204,8 @@ class LocationUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Departamento'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-location',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class LocationsList(ListView):
@@ -210,6 +224,8 @@ class BrandCreate(AjaxableResponseMixin,CreateView):
 		context = super(BrandCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Marca'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-brand')
+
 		return context
 
 class BrandUpdate(AjaxableResponseMixin,UpdateView):
@@ -223,6 +239,8 @@ class BrandUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Marca'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-brand',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class BrandsList(ListView):
@@ -241,6 +259,8 @@ class IvaCreate(AjaxableResponseMixin,CreateView):
 		context = super(IvaCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Editar IVA'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-iva')
+
 		return context
 
 class IvaUpdate(AjaxableResponseMixin,UpdateView):
@@ -254,6 +274,8 @@ class IvaUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar IVA'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-iva',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class IvaList(ListView):
@@ -272,6 +294,8 @@ class RegIvaCreate(AjaxableResponseMixin,CreateView):
 		context = super(RegIvaCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Regimen de IVA'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-reg-iva')
+
 		return context
 
 class RegIvaUpdate(AjaxableResponseMixin,UpdateView):
@@ -285,6 +309,8 @@ class RegIvaUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Regimen de IVA'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-reg-iva',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class RegIvasList(ListView):
@@ -303,6 +329,8 @@ class IDTypeCreate(AjaxableResponseMixin,CreateView):
 		context = super(IDTypeCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Tipo de Identificacion'
 		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-id-type')
+
 		return context
 
 class IDTypeUpdate(AjaxableResponseMixin,UpdateView):
@@ -316,6 +344,8 @@ class IDTypeUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Tipo de Identificacion'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-id-type',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class IDTypesList(ListView):

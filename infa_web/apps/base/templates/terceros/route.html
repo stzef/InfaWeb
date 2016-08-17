@@ -17,7 +17,7 @@
 						{%csrf_token%}
 						<div class="box-body">
 							<section class="row col-md-12">
-								<div class="col-md-8 form-group">
+								<div class="form-group">
 									<label for="{{form.nruta.id_for_label}}" class="col-sm-2 control-label">{{form.nruta.label}}</label>
 									{%if form.nruta.errors%}
 									{{form.nruta.errors}}
@@ -56,31 +56,5 @@
 {%endblock%}
 
 {% block content_script %}
-	<script>
-			$("form").submit(function(event){
-				event.preventDefault()
-				$.ajax({
-					{% if mode_view == "edit" %}
-						url: '{% url 'edit-route' current_pk %}',
-					{% elif mode_view == "create" %}
-						url: '{% url 'add-route' %}',
-					{% else %}
-						url: '',
-					{% endif %}
-					type: 'POST',
-					data: $("form").serialize(),
-					contentType: "application/x-www-form-urlencoded",
-					success: function(response){
-						var object = JSON.parse(response.object)[0]
-						var fields = object.fields
-						if(window.opener){
-							window.opener.$("select[name=cruta")
-								.append($("<option>",{value:response.pk,html:fields.nruta}).attr("selected",true))
-								.focus()
-							window.close()
-						}
-					}
-				});
-			})
-	</script>
-{%endblock%}
+	<script>AJAXGenericView("form","select[name=cesdo]","nesdo","{{url}}");</script>
+{% endblock %}

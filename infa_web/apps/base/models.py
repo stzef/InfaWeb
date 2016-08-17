@@ -8,7 +8,6 @@ class Esdo(models.Model):
 	cesdo = models.AutoField(primary_key=True)
 	nesdo = models.CharField(max_length=40)
 	estavali = models.CharField(max_length=10)
-	colfon = models.CharField(max_length=20)
 
 	def __str__(self):
 		return self.nesdo
