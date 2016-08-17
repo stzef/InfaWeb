@@ -32,7 +32,7 @@
 							</div>
 							<div class="box-footer text-center">
 								<div class="btn-group">
-									<a class="btn btn-app btn-info btn-create" href="{% url 'inventory_latest' %}">
+									<a class="btn btn-app btn-info btn-new" href="{% url 'inventory_latest' %}">
 										<i class="fa fa-plus-square-o"></i>Nuevo
 									</a>
 									<a class="btn btn-app" href="{% url 'inventory_list' %}" id="btn-list">
@@ -55,7 +55,6 @@
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script>
 	var cii = '';
-	var val_tot = 0;
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -63,7 +62,7 @@
 	function create_table(response){
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
 		cii = '';
-		$('#table-inventory').empty();
+		$('#table-inventory').children().remove();
 		$('#table-inventory').append(
 			'<div class="box">'+
 				'<div class="box-header">'+
@@ -130,7 +129,7 @@
 			$.get('/inventory/find/'+cii.val()+'/', function(response){
 				if(response.type == 0){
 					if (confirm('No existe inventario con el codigo ingresado. Desea crear un nuevo con el codigo '+response.cii+'?')){
-						$(".btn-create").trigger('click');
+						$(".btn-new").trigger('click');
 					}
 				}else{
 					$.post('{% url 'inventory_edit' %}', {pk: cii.val()}, function(response){
@@ -149,6 +148,7 @@
 		}
 	}
 	function data_table(data){
+		var val_tot = 0;
 		$.each(data, function (key, item) {
 			val_tot += (item.canti*item.vcosto);
 			$('#content-data').append(
@@ -190,7 +190,7 @@
 			});
 		});
 	});
-	$(document).on("click", ".btn-create", function(e){
+	$(document).on("click", ".btn-new", function(e){
 		e.preventDefault();
 		$.post($(this).attr('href'), function(response){
 			create_table(response);

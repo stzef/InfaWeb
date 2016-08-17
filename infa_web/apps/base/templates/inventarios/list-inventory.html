@@ -61,6 +61,7 @@
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script>
 	$(document).on("click", ".btn-edit", function(){
+		window.opener.$('#table-inventory').empty();
 		window.opener.$("#id_codigo").val($(this).attr('id'));
 		window.opener.edit_inventory();
 		window.close();
