@@ -3,6 +3,8 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.base.models import *
 from infa_web.apps.base.constantes import *
 from django.db import models
+from django.core.validators import MinValueValidator
+
 
 class Invinicab(models.Model):
 	cii = models.CharField(max_length=8, primary_key=True)

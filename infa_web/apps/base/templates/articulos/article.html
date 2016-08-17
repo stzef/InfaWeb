@@ -24,7 +24,7 @@
 										{{form.carlos.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											<input class="form-control" type="number" readonly value="{{pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
+											<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -337,7 +337,7 @@
 								<a class="btn btn-app" data-new-window href="">
 									<i class="fa fa-copy"></i>Duplicar
 								</a>
-								<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' pk %}">
+								<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' current_pk %}">
 									<i class="fa fa-object-group"></i>Desglose
 								</a>
 							</div>
@@ -354,19 +354,16 @@
 {%endblock%}
 {% block content_script %}
 	<script>
-		$("#id_vcosto").change(function(){
-			$("[name*=porult]").trigger("change");
-		});
+		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
+		
 		$("[name*=porult]").change(function(){
 			var porcentaje = parseFloat($(this).val());
-			if(porcentaje > 0){
-				console.log(porcentaje);
+			var valor = costo/((100-porcentaje)/100);
+			if(porcentaje > 0 && valor){
 				var costo = parseFloat($("#id_vcosto").val());
-				var valor = costo/((100-porcentaje)/100);
-				console.warn($(this));
 				$(this).closest("tr").find("[name*=pvta]").val(valor);
 			}
-		})
+		});
 	</script>
 {%endblock%}
 

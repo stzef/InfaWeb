@@ -8,7 +8,7 @@ class ThirdPartyForm(forms.ModelForm):
 		exclude = ["citerce"]
 		widgets = {
 			'ctiide':forms.Select(attrs={'class':'form-control','required':''}),
-			'cciu':forms.Select(attrs={'class':'form-control','required':''}),
+			'ciudad':forms.Select(attrs={'class':'form-control','required':''}),
 			'cregiva':forms.Select(attrs={'class':'form-control','required':''}),
 			'cautorre':forms.Select(attrs={'class':'form-control','required':''}),
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
@@ -46,21 +46,21 @@ class ThirdPartyForm(forms.ModelForm):
 			'ctiide':'Tipo Identificaion',
 			'rasocial':'Razon Social',
 			'nomcomer':'Nombre Comercial',
-			'ape1':'Primer Apellido',
-			'ape2':'Segundo Apellido',
-			'nom1':'Primer Nombre',
-			'nom2':'Segundo Nombre',
+			'ape1':'Apellido 1',
+			'ape2':'Apellido 2',
+			'nom1':'Nombre 1',
+			'nom2':'Nombre 2',
 			'sigla':'Sigla',
 			'nomegre':'',
 			'replegal':'Representante Legal',
 			'dirterce':'Dirreccion',
 			'telterce':'Telefono',
 			'faxterce':'Fax',
-			'cciu':'Ciudad',
+			'ciudad':'Ciudad',
 			'email':'Correo Electronico',
 			'contacto':'COntacto',
 			'cregiva':'Regimen de IVA',
-			'cautorre':'',
+			'cautorre':'Autorretenedor',
 			'cesdo':'Estado',
 			'cvende':'Vendedor',
 			'topcxc':'',
@@ -73,3 +73,44 @@ class ThirdPartyForm(forms.ModelForm):
 			'ordenruta':'Orden Ruta',
 		}
 
+class AutorretenedorForm(forms.ModelForm):
+	class Meta:
+		model = Autorre
+		fields = "__all__"
+		exclude = ["cautorre"]
+		widgets = {
+			'nautorre' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+		}
+		labels = {
+			'cautorre':'Codigo Interno',
+			'nautorre':'Nombre',
+		}
+class RouteForm(forms.ModelForm):
+	class Meta:
+		model = Ruta
+		fields = "__all__"
+		exclude = ["cruta"]
+		widgets = {
+			'nruta' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+		}
+		labels = {
+			'cruta':'Codigo Interno',
+			'nruta':'Nombre',
+			'cesdo':'Estado',
+		}
+
+class ZoneForm(forms.ModelForm):
+	class Meta:
+		model = Zona
+		fields = "__all__"
+		exclude = ["czona"]
+		widgets = {
+			'nzona' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+		}
+		labels = {
+			'cruta':'Codigo Interno',
+			'nzona':'Nombre',
+			'cesdo':'Estado',
+		}

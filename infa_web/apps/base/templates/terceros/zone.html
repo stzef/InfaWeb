@@ -10,21 +10,20 @@
 
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Nueva Ubicacion</h3>
+						<h3 class="box-title">Nueva Ruta</h3>
 					</div>
+
 					<form action="" method="POST" role="form" class="form-horizontal">
 						{%csrf_token%}
-						
-
 						<div class="box-body">
 							<section class="row col-md-12">
-								<div class="form-group">
-									<label for="{{form.nubica.id_for_label}}" class="col-sm-2 control-label">{{form.nubica.label}}</label>
-									{%if form.nubica.errors%}
-									{{form.nubica.errors}}
+								<div class="col-md-8 form-group">
+									<label for="{{form.nzona.id_for_label}}" class="col-sm-2 control-label">{{form.nzona.label}}</label>
+									{%if form.nzona.errors%}
+									{{form.nzona.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.nubica.value|default_if_none:''}}" id="{{form.nubica.id_for_label}}" name="{{form.nubica.html_name}}" >
+										{{form.nzona}}
 									</div>
 								</div>
 								<div class="form-group">
@@ -41,9 +40,10 @@
 								</div>
 							</section>
 							<div class="btn-group">
-								<button class="btn btn-app btn-info" type="submit">
+								<button class="btn btn-app" type="submit">
 									<i class="fa fa-plus-square-o"></i>Guardar
 								</button>
+								<a data-new-window class="btn btn-app" href="{% url 'list-third-parties' %}"><i class="fa fa-list"></i>Listar</a>
 							</div>
 						</div>
 					</form>
@@ -61,9 +61,9 @@
 				event.preventDefault()
 				$.ajax({
 					{% if mode_view == "edit" %}
-						url: '{% url 'edit-location' current_pk %}',
+						url: '{% url 'edit-zone' current_pk %}',
 					{% elif mode_view == "create" %}
-						url: '{% url 'add-location' %}',
+						url: '{% url 'add-zone' %}',
 					{% else %}
 						url: '',
 					{% endif %}
@@ -74,8 +74,8 @@
 						var object = JSON.parse(response.object)[0]
 						var fields = object.fields
 						if(window.opener){
-							window.opener.$("select[name=cubica")
-								.append($("<option>",{value:response.pk,html:fields.nubica}).attr("selected",true))
+							window.opener.$("select[name=czona")
+								.append($("<option>",{value:response.pk,html:fields.nzona}).attr("selected",true))
 								.focus()
 							window.close()
 						}
@@ -83,4 +83,5 @@
 				});
 			})
 	</script>
-{% endblock %}
+{%endblock%}
+

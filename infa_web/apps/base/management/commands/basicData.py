@@ -37,19 +37,30 @@ class Command(BaseCommand):
 		print "Esdo. Registros Creados Correctamente."
 
 		Regiva.objects.all().delete()
-		Regiva.objects.create(cregiva=1,nregiva="REGIMEN COMUN")
-		Regiva.objects.create(cregiva=2,nregiva="REGIMEN SIMPLIFICADO")
+		Regiva.objects.create(nregiva="REGIMEN COMUN")
+		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
 		print "Regiva. Registros Creados Correctamente."
 
 		Tiide.objects.all().delete()
-		Tiide.objects.create(idtiide=1,ntiide="CEDULA DE CIUDADANIA")
-		Tiide.objects.create(idtiide=2,ntiide="NIT")
-		Tiide.objects.create(idtiide=3,ntiide="NUMERO UNICO DE IDENTIFICACION")
+		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(ntiide="NIT")
+		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
 
+		Modules.objects.all().delete()
+		Modules.objects.create(smodule="I",nmodule="Inventarios",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+		Modules.objects.create(smodule="F",nmodule="Facturacion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="P",nmodule="POS",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CAR",nmodule="Cartera",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CAJ",nmodule="Caja",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="F",nmodule="Financiero",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		print "Modules. Registros Creados Correctamente."
+
 		Autorre.objects.all().delete()
-		Autorre.objects.create(cautorre=1,nautorre="NO AUTORRETENEDOR")
-		Autorre.objects.create(cautorre=2,nautorre="SI AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
@@ -61,11 +72,11 @@ class Command(BaseCommand):
 		print "Zona. Registros Creados Correctamente."
 
 		Iva.objects.all().delete()
-		Iva.objects.create(civa=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
-		Iva.objects.create(civa=2,niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
-		Iva.objects.create(civa=3,niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
-		Iva.objects.create(civa=4,niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
-		Iva.objects.create(civa=5,niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
+		Iva.objects.create(niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
+		Iva.objects.create(niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
+		Iva.objects.create(niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
+		Iva.objects.create(niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
+		Iva.objects.create(niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()

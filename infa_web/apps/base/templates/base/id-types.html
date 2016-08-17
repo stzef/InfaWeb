@@ -10,33 +10,19 @@
 
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Nueva Ubicacion</h3>
+						<h3 class="box-title">Nuevo Tipo de Identificacion</h3>
 					</div>
 					<form action="" method="POST" role="form" class="form-horizontal">
 						{%csrf_token%}
-						
-
 						<div class="box-body">
 							<section class="row col-md-12">
 								<div class="form-group">
-									<label for="{{form.nubica.id_for_label}}" class="col-sm-2 control-label">{{form.nubica.label}}</label>
-									{%if form.nubica.errors%}
-									{{form.nubica.errors}}
+									<label for="{{form.ntiide.id_for_label}}" class="col-sm-2 control-label">{{form.ntiide.label}}</label>
+									{%if form.ntiide.errors%}
+									{{form.ntiide.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.nubica.value|default_if_none:''}}" id="{{form.nubica.id_for_label}}" name="{{form.nubica.html_name}}" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
-									{%if form.cesdo.errors%}
-									{{form.cesdo.errors}}
-									{%endif%}
-									<div class="col-sm-10">
-										<div class="input-group">
-											{{form.cesdo}}
-											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-										</div>
+										{{form.ntiide}}
 									</div>
 								</div>
 							</section>
@@ -61,9 +47,9 @@
 				event.preventDefault()
 				$.ajax({
 					{% if mode_view == "edit" %}
-						url: '{% url 'edit-location' current_pk %}',
+						url: '{% url 'edit-id-type' current_pk %}',
 					{% elif mode_view == "create" %}
-						url: '{% url 'add-location' %}',
+						url: '{% url 'add-id-type' %}',
 					{% else %}
 						url: '',
 					{% endif %}
@@ -74,8 +60,8 @@
 						var object = JSON.parse(response.object)[0]
 						var fields = object.fields
 						if(window.opener){
-							window.opener.$("select[name=cubica")
-								.append($("<option>",{value:response.pk,html:fields.nubica}).attr("selected",true))
+							window.opener.$("select[name=ctiide")
+								.append($("<option>",{value:response.pk,html:fields.ntiide}).attr("selected",true))
 								.focus()
 							window.close()
 						}

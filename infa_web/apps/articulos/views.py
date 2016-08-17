@@ -12,6 +12,7 @@ from django import forms
 from infa_web.apps.base.constantes import EMPRESA
 
 from infa_web.apps.articulos.models import *
+from infa_web.apps.base.views import AjaxableResponseMixin
 from infa_web.apps.articulos.forms import *
 
 from django.db.models import Max
@@ -79,28 +80,31 @@ class ArticleCreate(CreateView):
 	form_class = ArticleForm
 	success_url=reverse_lazy("add-article")
 	success_message = "Articulo creado."
-	
+		
 	def get_context_data(self, **kwargs):
-		ctx = super(ArticleCreate, self).get_context_data(**kwargs)
+		context = super(ArticleCreate, self).get_context_data(**kwargs)
 		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
-		ctx['title'] = "Crear Articulo"
+		context['title'] = "Crear Articulo"
+		context['mode_view'] = 'create'
 		print maxCarlos
 		if maxCarlos["carlos__max"]:
-			ctx['pk'] = maxCarlos["carlos__max"] + 1
+			context['current_pk'] = maxCarlos["carlos__max"] + 1
 		else:
-			ctx['pk'] = EMPRESA["MIN_CARLOS"]
-		return ctx
+			context['current_pk'] = EMPRESA["MIN_CARLOS"]
+		return context
 
 class ArticleUpdate(UpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	success_url=reverse_lazy("add-article")
 	form_class = ArticleForm
+
 	def get_context_data(self, **kwargs):
-		ctx = super(ArticleUpdate, self).get_context_data(**kwargs)
-		ctx['pk'] = self.kwargs["pk"]
-		ctx['title'] = "Editar Articulo"
-		return ctx
+		context = super(ArticleUpdate, self).get_context_data(**kwargs)
+		context['title'] = "Editar Articulo"
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		return context
 
 class ArticleList(ListView):
 	model = Arlo
@@ -108,13 +112,13 @@ class ArticleList(ListView):
 # Articles #
 
 # Groups #
-class GroupCreate(CreateView):
+class GroupCreate(AjaxableResponseMixin,CreateView):
 	model = Gpo
 	form_class = GpoForm
 	template_name = "articulos/group.html"
 	success_url=reverse_lazy("add-group")
 
-class GroupUpdate(UpdateView):
+class GroupUpdate(AjaxableResponseMixin,UpdateView):
 	model = Gpo
 	form_class = GpoForm
 	template_name = "articulos/group.html"
@@ -127,17 +131,17 @@ class GroupList(ListView):
 # Groups #
 
 # Types Articles #
-class TypesArticleCreate(CreateView):
+class TypesArticleCreate(AjaxableResponseMixin,CreateView):
 	model = Tiarlos
 	form_class = TiarlosForm
 	template_name = "articulos/tipe-article.html"
-	success_url=reverse_lazy("add-tipe-article")
+	success_url=reverse_lazy("add-type-article")
 
-class TypesArticleUpdate(UpdateView):
+class TypesArticleUpdate(AjaxableResponseMixin,UpdateView):
 	model = Tiarlos
 	form_class = TiarlosForm
 	template_name = "articulos/tipe-article.html"
-	success_url=reverse_lazy("add-tipe-article")
+	success_url=reverse_lazy("add-type-article")
 
 class TypesArticleList(ListView):
 	model = Tiarlos

@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from infa_web.apps.base.models import *
 from django.db import models
 from infa_web.apps.base.constantes import *
+from django.core.validators import MinValueValidator
+
 
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
@@ -13,7 +15,7 @@ class Autorre(models.Model):
 class Vende(models.Model):
 	cvende = models.AutoField(primary_key=True)
 	nvende = models.CharField(max_length=80)
-	porventa = models.DecimalField(max_digits=7, decimal_places=4)
+	porventa = models.DecimalField(max_digits=7, decimal_places=4,validators=[MinValueValidator(0)])
 	cesdo = models.ForeignKey(Esdo)
 
 	def __str__(self):
@@ -31,7 +33,6 @@ class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
 	cesdo = models.ForeignKey(Esdo)
-	#activo = models.CharField(max_length=1)
 
 	def __str__(self):
 		return self.nzona
@@ -52,7 +53,7 @@ class Tercero(models.Model):
 	dirterce = models.CharField(max_length=80)
 	telterce = models.CharField(max_length=20)
 	faxterce = models.CharField(max_length=20)
-	cciu = models.ForeignKey(Ciudad)
+	ciudad = models.ForeignKey(Ciudad)
 	email = models.CharField(max_length=40)
 	contacto = models.CharField(max_length=20)
 	cregiva = models.ForeignKey(Regiva)

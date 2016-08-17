@@ -9,25 +9,25 @@ urlGeneral = [
 urlStates = [
 	url(r'^states/$', StatesList.as_view(), {'title': 'Crear Estado'}, name = 'list-states'),
 	url(r'^states/add/$', StateCreate.as_view(), {'title': 'Crear Estado'}, name = 'add-state'),
-	url(r'^states/edit/(?P<pk>[0-9])/$', StateUpdate.as_view(), {'title': 'Editar Estado'}, name = 'edit-state'),
+	url(r'^states/edit/(?P<pk>[0-9]+)/$', StateUpdate.as_view(), {'title': 'Editar Estado'}, name = 'edit-state'),
 ]
 
 urlCities = [
 	url(r'^cities/$', CitiesList.as_view(), {'title': 'Crear Ciudad'}, name = 'list-cities'),
 	url(r'^cities/add/$', CityCreate.as_view(), {'title': 'Crear Ciudad'}, name = 'add-city'),
-	url(r'^cities/edit/(?P<pk>[0-9])/$', CityUpdate.as_view(), {'title': 'Editar Ciudad'}, name = 'edit-city'),
+	url(r'^cities/edit/(?P<pk>[0-9])+/$', CityUpdate.as_view(), {'title': 'Editar Ciudad'}, name = 'edit-city'),
 ]
 
 urlDepartaments = [
 	url(r'^departaments/$', DepartamentsList.as_view(), {'title': 'Crear Departamento'}, name = 'list-departaments'),
 	url(r'^departaments/add/$', DepartamentCreate.as_view(), {'title': 'Crear Departamento'}, name = 'add-departament'),
-	url(r'^departaments/edit/(?P<pk>[0-9])/$', DepartamentUpdate.as_view(), {'title': 'Editar Departamento'}, name = 'edit-departament'),
+	url(r'^departaments/edit/(?P<pk>[0-9])+/$', DepartamentUpdate.as_view(), {'title': 'Editar Departamento'}, name = 'edit-departament'),
 ]
 
 urlLocations = [
 	url(r'^locations/$', LocationsList.as_view(), {'title': 'Crear Ubicacion'}, name = 'list-locations'),
 	url(r'^locations/add/$', LocationCreate.as_view(), {'title': 'Crear Ubicacion'}, name = 'add-location'),
-	url(r'^locations/edit/(?P<pk>[0-9])/$', LocationUpdate.as_view(), {'title': 'Editar Ubicacion'}, name = 'edit-location'),
+	url(r'^locations/edit/(?P<pk>[0-9])+/$', LocationUpdate.as_view(), {'title': 'Editar Ubicacion'}, name = 'edit-location'),
 ]
 
 urlBrands = [
@@ -48,4 +48,16 @@ urlRegiva = [
 	url(r'^reg-iva/edit/(?P<pk>[0-9])+/$', RegIvaUpdate.as_view(), {'title': 'Editar Regimen de Iva'}, name = 'edit-reg-iva'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva
+urlIDTypes = [
+	url(r'^id-type/$', IDTypesList.as_view(),name = 'list-id-type'),
+	url(r'^id-type/add/$', IDTypeCreate.as_view(),name = 'add-id-type'),
+	url(r'^id-type/edit/(?P<pk>[0-9])+/$', IDTypeUpdate.as_view(),name = 'edit-id-type'),
+]
+
+urlParameters = [
+	url(r'^parameters/$', ParametersList.as_view(), name = 'list-parameter'),
+	url(r'^parameters/add/$', ParameterCreate, name = 'add-parameter'),
+	url(r'^parameters/edit/(?P<pk>[0-9])+/$', ParameterUpdate, name = 'edit-parameter'),
+]
+
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva + urlParameters + urlIDTypes

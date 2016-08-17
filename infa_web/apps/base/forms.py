@@ -1,6 +1,21 @@
 from django import forms
 from infa_web.apps.base.models import *
 
+class ParametersForm(forms.ModelForm):
+	class Meta:
+		model = Parameters
+		fields = "__all__"
+		widgets = {
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+		}
+		labels = {
+			"smodule":"Sigla",
+			"nmodule":"Nombre",
+			"enabled_enterprise":"Estado General",
+			"enabled":"Estado Empresa",
+			"cesdo":"Estado",
+		}
+
 class CiudadForm(forms.ModelForm):
 	class Meta:
 		model = Ciudad
@@ -77,4 +92,17 @@ class RegivaForm(forms.ModelForm):
 		labels = {
 			'cregiva':'Codigo Interno',
 			'nregiva':'Nombre',
+		}
+
+class IDTypeForm(forms.ModelForm):
+	class Meta:
+		model = Tiide
+		fields = "__all__"
+		exclude = ["idtiide"]
+		widgets = {
+			'ntiide' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+		}
+		labels = {
+			'idtiide':'Codigo Interno',
+			'ntiide':'Nombre',
 		}
