@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
-from infa_web.apps.articulos.models import *
 from django.views.generic import FormView, ListView
+from infa_web.apps.articulos.models import *
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import *
@@ -68,6 +68,11 @@ def inventory_edit(request):
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
 	value_extra = Arlo.objects.exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
 	response['val_tot'] = int(value.vttotal)
+	response['day'] = value.fii.day
+	response['month'] = value.fii.month
+	response['year'] = value.fii.year
+	response['hour'] = value.fii.hour
+	response['minute'] = value.fii.minute
 	for arlo in value.invinideta_set.all():
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos.pk
@@ -117,11 +122,13 @@ def inventory_save(request):
 	cii = request.POST.get('cii')
 	val_tot = request.POST.get('val_tot')
 	cesdo = Esdo.objects.get(cesdo = request.POST.get('cesdo'))
+	fii = datetime.datetime.strptime(request.POST.get('fii'), '%d/%m/%Y %H:%M')
 	try:
 		invini = Invinicab.objects.get(cii = cii)
 		invini.cesdo = cesdo
 		invini.fuaii = datetime.datetime.now()
 		invini.vttotal = val_tot
+		invini.fii = fii
 		invini.save()
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
@@ -140,7 +147,7 @@ def inventory_save(request):
 				invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (int(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
 				invini_deta.save()
 	except Invinicab.DoesNotExist:
-		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot)
+		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save()
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])

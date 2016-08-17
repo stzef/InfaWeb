@@ -40,13 +40,20 @@
 										<td>{{ invini.cesdo.nesdo }}</td>
 										<td>$ {{ invini.vttotal|intcomma  }}</td>
 										<td>
-											<a class="btn btn-primary btn-edit" href="#" id="{{ invini.cii }}">Editar</a>
+											<a class="btn btn-primary btn-edit" href="{% url 'inventory' %}?code={{ invini.cii }}" id="{{ invini.cii }}">Editar</a>
 										</td>
 									</tr>
 									{% endfor %}
 								</tbody>
 							</table>
-						</div>						
+						</div>
+					</div>
+					<div class="text-center">
+						<div class="btn-group">
+							<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
+								<i class="fa fa-plus-square-o"></i>Nuevo
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-12" id="table-inventory"></div>
@@ -60,11 +67,6 @@
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script>
-	$(document).on("click", ".btn-edit", function(){
-		window.opener.$('#table-inventory').empty();
-		window.opener.$("#id_codigo").val($(this).attr('id'));
-		window.opener.edit_inventory();
-		window.close();
-	});
+	$('.table').DataTable();
 </script>
 {% endblock content_script %}

@@ -4,6 +4,7 @@
 
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
 {% endblock content_head %}
 
 {% block content %}
@@ -35,7 +36,7 @@
 									<a class="btn btn-app btn-info btn-new" href="{% url 'inventory_latest' %}">
 										<i class="fa fa-plus-square-o"></i>Nuevo
 									</a>
-									<a class="btn btn-app" href="{% url 'inventory_list' %}" id="btn-list">
+									<a class="btn btn-app" href="{% url 'inventory_list' %}">
 										<i class="fa fa-list"></i>Listar
 									</a>
 								</div>
@@ -53,12 +54,30 @@
 {% block content_script %}
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 <script>
 	var cii = '';
+	var table = '';
+	$.urlParam = function(name){
+		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		return (results != null) ? results[1] || 0: false;
+	}
+	get_param();
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 	};
+	function get_param(){
+		if($.urlParam('code') != false){
+			$('#id_codigo').val($.urlParam('code'));
+			edit_inventory();
+		}else{
+			$(document).ready(function(){
+				$(".btn-new").trigger('click');
+			});
+		}
+	}
 	function create_table(response){
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
 		cii = '';
@@ -66,11 +85,20 @@
 		$('#table-inventory').append(
 			'<div class="box">'+
 				'<div class="box-header">'+
-					'<p><b>Estado: </b>'+
-						'<select name="estado" id="id_estado" class="form-control" style="width: 150px; display: inline;">'+
-							'<option value="">Seleccione un estado</option>'+
-						'</select>'+
-					'</p>'+	
+					'<div class="row">'+
+						'<div class="col-md-3">'+
+							'<p><b>Estado: </b>'+
+								'<select name="estado" id="id_estado" class="form-control">'+
+									'<option value="">Seleccione un estado</option>'+
+								'</select>'+
+							'</p>'+
+						'</div>'+
+						'<div class="col-md-3">'+
+							'<p><b>Fecha: </b>'+
+								'<input type="text" id="date" class="form-control date">'+
+							'</p>'+
+						'</div>'+
+					'</div>'+
 					'<div class="box-tools">'+
 						'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
 					'</div>'+
@@ -115,10 +143,14 @@
 				'</div>'+
 			'</div>'
 		);
+		console.log(new Date(response.year+'/'+response.month+'/'+response.day))
+		$('.date').datetimepicker({
+			 defaultDate: new Date(response.year,response.month,response.day,response.hour,response.minute),
+		});
 		data_table(response.data);
 		data_esdo(response.esdo);
 	}
-	function data_esdo(esdo){id_estado
+	function data_esdo(esdo){
 		$.each(esdo, function (key, item) {
 			$('#id_estado').append('<option value="'+item.cesdo+'" '+item.selected+'>'+item.nesdo+'</option>');
 		});
@@ -171,12 +203,8 @@
 			);
 		});
 		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
-		$('.table').DataTable();
+		//table = $('.table').DataTable();
 	}
-	$(document).on("click", "#btn-list", function(){
-		window.open('{% url 'inventory_list' %}', '', "height=400, width=1000");
-		return false;
-	});
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
 		$(':input.val').val(0).trigger('keyup');
@@ -244,6 +272,7 @@
 				data: {
 					'cii': $('#id_codigo').val(),
 					'val_tot': $('#val-tot').attr('val'),
+					'fii': $('#date').val(),
 					'cesdo': cesdo.val(),
 					'data_r': JSON.stringify(data_r)
 				},

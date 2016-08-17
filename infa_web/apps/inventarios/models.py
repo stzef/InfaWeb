@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator
 
 class Invinicab(models.Model):
 	cii = models.CharField(max_length=8, primary_key=True)
-	fii = models.DateTimeField(auto_now = True)
+	fii = models.DateTimeField()
 	fuaii = models.DateTimeField(null=True, blank=True)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2, default=0)
