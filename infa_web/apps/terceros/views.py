@@ -8,7 +8,6 @@ from django import forms
 from infa_web.apps.terceros.forms import *
 from infa_web.apps.base.views import AjaxableResponseMixin
 
-
 # thirdParty #
 class ThirdPartyCreate(AjaxableResponseMixin,CreateView):
 	model = Tercero
@@ -37,7 +36,7 @@ class AutorrtenedorCreate(AjaxableResponseMixin,CreateView):
 		context = super(AutorrtenedorCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Autorretenedor'
 		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('add-autorretenedor',kwargs={'pk': self.kwargs["pk"]},)
+		context['url'] = reverse_lazy('add-autorretenedor')
 
 		return context
 	

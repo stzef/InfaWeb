@@ -13,35 +13,24 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Articulos</h3>
-
-					
+					<h3 class="box-title">Zonas</h3>
 				</div>
 				<div class="box-body">
 					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>Codigo</th>
-								<th>Descripcion</th>
-								<th>Cantidad</th>
-								<th>Costo</th>
+								<th>Codigo Interno</th>
+								<th>Nombre</th>
 								<th>Estado</th>
-								<th>Referencia</th>
-								<th>Marca</th>
-								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for article in object_list %}
+							{% for zone in object_list %}
 								<tr>
-									<td>{{ article.carlos }}</td>
-									<td>{{ article.nlargo }}</td>
-									<td>{{ article.canti }}</td>
-									<td>{{ article.vcosto }}</td>
-									<td>{{ article.cesdo }}</td>
-									<td>{{ article.refe }}</td>
-									<td>{{ article.cmarca }}</td>
-									<td><a data-link-edit href="{% url 'edit-article' article.carlos %}" target="_blank">Editar</a></td>
+									<td>{{ zone.czona }}</td>
+									<td>{{ zone.nzona }}</td>
+									<td>{{ zone.cesdo }}</td>
+									<td><a data-link-edit href="{% url 'edit-zone' zone.pk %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>

@@ -1,5 +1,6 @@
 function AJAXGenericView(selectorForm,selectorInput,nField,url){
 	$(selectorForm).submit(function(event){
+		var currentForm = $(this)
 		event.preventDefault()
 		$.ajax({
 			url: url,
@@ -12,15 +13,18 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 				for (field in data.errors){
 					var ul = $('<ul class="errorlist"></ul>')
 					var selector = "[name=" + field + "]"
-					for (error of data.errors[field]){
-						ul.append($("<li>",{html:error}))
+					for (var error of data.errors[field]){
+						var message = alertBootstrap(error,"danger")
+						ul.append($("<li>").append(message))
 					}
 					$(selector).closest(".form-group").prepend(ul)
 				}
 			},
 			success: function(response){
+				var message = alertBootstrap(response.message,"success")
 				var object = JSON.parse(response.object)[0]
 				var fields = object.fields
+				currentForm.prepend(message)
 				if(window.opener){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))
@@ -31,6 +35,15 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 		});
 	})
 }
+
+function alertBootstrap(message,type){
+	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
+	stringHTML = stringHTML
+		.replace('::message::',message)
+		.replace('::type::',type)
+	return $(stringHTML)
+}
+
 $("#id_stomin").attr("data-less-than","#id_stomax");
 
 $("[data-less-than]").change(function(event){
@@ -41,6 +54,8 @@ $("[data-less-than]").change(function(event){
 		if($(this).val() > ref.val()) $(this).val("");
 	}
 });
+
+$("[data-link-edit]").click(function(event){if(window.opener) window.close()})
 
 $("[data-new-window]").click(function(event){
 	event.preventDefault();

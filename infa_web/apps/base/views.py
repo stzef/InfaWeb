@@ -105,7 +105,7 @@ class StateUpdate(AjaxableResponseMixin,UpdateView):
 
 class StatesList(ListView):
 	model = Esdo
-	template_name = "articulos/list-states.html"
+	template_name = "base/list-states.html"
 # States #
 
 # Cities #
@@ -119,7 +119,7 @@ class CityCreate(AjaxableResponseMixin,CreateView):
 		context = super(CityCreate, self).get_context_data(**kwargs)
 		context['title'] = 'Crear Ciudad'
 		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('edit-city')
+		context['url'] = reverse_lazy('add-city')
 
 		return context
 
@@ -134,13 +134,13 @@ class CityUpdate(AjaxableResponseMixin,UpdateView):
 		context['title'] = 'Editar Ciudad'
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
-		context['url'] = reverse_lazy('edit-city',kwargs={'pk': self.kwargs["pk"]},)
+		context['url'] = reverse_lazy('edit-city',kwargs={'pk': self.kwargs["pk"]})
 
 		return context
 
 class CitiesList(ListView):
 	model = Ciudad
-	template_name = "articulos/list-cities.html"
+	template_name = "base/list-cities.html"
 # Cities #
 
 # Departaments #
@@ -175,7 +175,7 @@ class DepartamentUpdate(AjaxableResponseMixin,UpdateView):
 
 class DepartamentsList(ListView):
 	model = Departamento
-	template_name = "articulos/list-departaments.html"
+	template_name = "base/list-departaments.html"
 # Departaments #
 
 # Locations #
@@ -210,43 +210,8 @@ class LocationUpdate(AjaxableResponseMixin,UpdateView):
 
 class LocationsList(ListView):
 	model = Ubica
-	template_name = "articulos/list-locations.html"
+	template_name = "base/list-locations.html"
 # Locations #
-
-# Brands #
-class BrandCreate(AjaxableResponseMixin,CreateView):
-	model = Marca
-	form_class = BrandForm
-	template_name = "base/brand.html"
-	success_url=reverse_lazy("add-brand")
-
-	def get_context_data(self, **kwargs):
-		context = super(BrandCreate, self).get_context_data(**kwargs)
-		context['title'] = 'Crear Marca'
-		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('add-brand')
-
-		return context
-
-class BrandUpdate(AjaxableResponseMixin,UpdateView):
-	model = Marca
-	form_class = BrandForm
-	template_name = "base/brand.html"
-	success_url=reverse_lazy("add-brand")
-
-	def get_context_data(self, **kwargs):
-		context = super(BrandUpdate, self).get_context_data(**kwargs)
-		context['title'] = 'Editar Marca'
-		context['mode_view'] = 'edit'
-		context['current_pk'] = self.kwargs["pk"]
-		context['url'] = reverse_lazy('edit-brand',kwargs={'pk': self.kwargs["pk"]},)
-
-		return context
-
-class BrandsList(ListView):
-	model = Marca
-	template_name = "base/list-brands.html"
-# Brands #
 
 # IVA #
 class IvaCreate(AjaxableResponseMixin,CreateView):
