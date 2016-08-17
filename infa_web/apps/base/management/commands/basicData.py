@@ -37,14 +37,14 @@ class Command(BaseCommand):
 		print "Esdo. Registros Creados Correctamente."
 
 		Regiva.objects.all().delete()
-		Regiva.objects.create(cregiva=1,nregiva="REGIMEN COMUN")
-		Regiva.objects.create(cregiva=2,nregiva="REGIMEN SIMPLIFICADO")
+		Regiva.objects.create(nregiva="REGIMEN COMUN")
+		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
 		print "Regiva. Registros Creados Correctamente."
 
 		Tiide.objects.all().delete()
-		Tiide.objects.create(idtiide=1,ntiide="CEDULA DE CIUDADANIA")
-		Tiide.objects.create(idtiide=2,ntiide="NIT")
-		Tiide.objects.create(idtiide=3,ntiide="NUMERO UNICO DE IDENTIFICACION")
+		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(ntiide="NIT")
+		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
 
 		Modules.objects.all().delete()
@@ -59,8 +59,8 @@ class Command(BaseCommand):
 		print "Modules. Registros Creados Correctamente."
 
 		Autorre.objects.all().delete()
-		Autorre.objects.create(cautorre=1,nautorre="NO AUTORRETENEDOR")
-		Autorre.objects.create(cautorre=2,nautorre="SI AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()

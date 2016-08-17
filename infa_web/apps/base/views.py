@@ -291,3 +291,34 @@ class RegIvasList(ListView):
 	model = Regiva
 	template_name = "base/list-reg-iva.html"
 # RegIva #
+
+# Tiide #
+class IDTypeCreate(AjaxableResponseMixin,CreateView):
+	model = Tiide
+	form_class = IDTypeForm
+	template_name = "base/id-types.html"
+	success_url=reverse_lazy("add-id-type")
+
+	def get_context_data(self, **kwargs):
+		context = super(IDTypeCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Tipo de Identificacion'
+		context['mode_view'] = 'create'
+		return context
+
+class IDTypeUpdate(AjaxableResponseMixin,UpdateView):
+	model = Tiide
+	form_class = IDTypeForm
+	template_name = "base/id-types.html"
+	success_url=reverse_lazy("add-id-type")
+
+	def get_context_data(self, **kwargs):
+		context = super(IDTypeUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Tipo de Identificacion'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		return context
+
+class IDTypesList(ListView):
+	model = Tiide
+	template_name = "base/list-id-types.html"
+# Tiide #

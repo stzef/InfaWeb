@@ -33,7 +33,6 @@ class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
 	cesdo = models.ForeignKey(Esdo)
-	#activo = models.CharField(max_length=1)
 
 	def __str__(self):
 		return self.nzona
@@ -54,7 +53,7 @@ class Tercero(models.Model):
 	dirterce = models.CharField(max_length=80)
 	telterce = models.CharField(max_length=20)
 	faxterce = models.CharField(max_length=20)
-	cciu = models.ForeignKey(Ciudad)
+	ciudad = models.ForeignKey(Ciudad)
 	email = models.CharField(max_length=40)
 	contacto = models.CharField(max_length=20)
 	cregiva = models.ForeignKey(Regiva)

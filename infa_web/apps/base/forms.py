@@ -93,3 +93,16 @@ class RegivaForm(forms.ModelForm):
 			'cregiva':'Codigo Interno',
 			'nregiva':'Nombre',
 		}
+
+class IDTypeForm(forms.ModelForm):
+	class Meta:
+		model = Tiide
+		fields = "__all__"
+		exclude = ["idtiide"]
+		widgets = {
+			'ntiide' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+		}
+		labels = {
+			'idtiide':'Codigo Interno',
+			'ntiide':'Nombre',
+		}
