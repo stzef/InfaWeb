@@ -51,7 +51,6 @@ class ThirdPartyForm(forms.ModelForm):
 			'nom1':'Nombre 1',
 			'nom2':'Nombre 2',
 			'sigla':'Sigla',
-			'nomegre':'',
 			'replegal':'Representante Legal',
 			'dirterce':'Dirreccion',
 			'telterce':'Telefono',
@@ -63,12 +62,10 @@ class ThirdPartyForm(forms.ModelForm):
 			'cautorre':'Autorretenedor',
 			'cesdo':'Estado',
 			'cvende':'Vendedor',
-			'topcxc':'',
-			'ndiacxc':'',
+			'topcxc':'Tope Cartera por Cobrar',
 			'czona':'Zona',
-			'clipre':'',
+			'clipre':'Lista de Precio', # default 1
 			'fnaci':'Fecha de Nacimiento',
-			'naju':'',
 			'cruta':'Ruta',
 			'ordenruta':'Orden Ruta',
 		}

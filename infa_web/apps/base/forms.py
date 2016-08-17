@@ -64,8 +64,7 @@ class StateForm(forms.ModelForm):
 		labels = {
 			'cesdo':'Codigo Interno',
 			'nesdo':'Nombre',
-			'estavali':'',
-			'colfon':''
+			'estavali':'Estado Valido',
 		}
 class IvaForm(forms.ModelForm):
 	class Meta:

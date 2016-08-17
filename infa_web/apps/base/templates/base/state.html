@@ -18,29 +18,16 @@
 							<section class="row col-md-12">
 								<div class="form-group">
 									<label for="{{form.nesdo.id_for_label}}" class="col-sm-2 control-label">{{form.nesdo.label}}</label>
-									{%if form.nesdo.errors%}
 									{{form.nesdo.errors}}
-									{%endif%}
 									<div class="col-sm-10">
 										<input class="form-control" type="text" value="{{form.nesdo.value|default_if_none:''}}" id="{{form.nesdo.id_for_label}}" name="{{form.nesdo.html_name}}" >
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="{{form.estavali.id_for_label}}" class="col-sm-2 control-label">{{form.estavali.label}}</label>
-									{%if form.estavali.errors%}
 									{{form.estavali.errors}}
-									{%endif%}
 									<div class="col-sm-10">
 										<input class="form-control" type="text" value="{{form.estavali.value|default_if_none:''}}" id="{{form.estavali.id_for_label}}" name="{{form.estavali.html_name}}" >
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="{{form.colfon.id_for_label}}" class="col-sm-2 control-label">{{form.colfon.label}}</label>
-									{%if form.colfon.errors%}
-									{{form.colfon.errors}}
-									{%endif%}
-									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.colfon.value|default_if_none:''}}" id="{{form.colfon.id_for_label}}" name="{{form.colfon.html_name}}" >
 									</div>
 								</div>
 							</section>
@@ -59,37 +46,6 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>
-			$("form").submit(function(event){
-				event.preventDefault()
-				$.ajax({
-					{% if mode_view == "edit" %}
-						url: '{% url 'edit-state' current_pk %}',
-					{% elif mode_view == "create" %}
-						url: '{% url 'add-state' %}',
-					{% else %}
-						url: '',
-					{% endif %}
-					type: 'POST',
-					data: $("form").serialize(),
-					contentType: "application/x-www-form-urlencoded",
-					success: function(response){
-						string_html = '<div class="alert alert-::prefix_class:: alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> ::text_alert::</div>'
-						var message = $(string_html.replace("::text_alert::", response.message).replace("::prefix_class::", 'success'));
-						console.log(message)
-						$(".messages_res_request").append(message).fadeIn(300).delay(3000).fadeOut(500)
-						message.css({display:'inline-block'})
-						var object = JSON.parse(response.object)[0]
-						var fields = object.fields
-						if(window.opener){
-							window.opener.$("select[name=cesdo")
-								.append($("<option>",{value:response.pk,html:fields.nesdo}).attr("selected",true))
-								.focus()
-							window.close()
-						}
-					}
-				});
-			})
-	</script>
+	<script>AJAXGenericView("form","select[name=cesdo]","nesdo","{{url}}");</script>
 {% endblock %}
 

@@ -86,6 +86,8 @@ class ArticleCreate(CreateView):
 		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		context['title'] = "Crear Articulo"
 		context['mode_view'] = 'create'
+		context['url'] = 'add-article'
+
 		print maxCarlos
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
@@ -104,6 +106,8 @@ class ArticleUpdate(UpdateView):
 		context['title'] = "Editar Articulo"
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 class ArticleList(ListView):

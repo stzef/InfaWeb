@@ -41,31 +41,5 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>
-			$("form").submit(function(event){
-				event.preventDefault()
-				$.ajax({
-					{% if mode_view == "edit" %}
-						url: '{% url 'edit-reg-iva' current_pk %}',
-					{% elif mode_view == "create" %}
-						url: '{% url 'add-reg-iva' %}',
-					{% else %}
-						url: '',
-					{% endif %}
-					type: 'POST',
-					data: $("form").serialize(),
-					contentType: "application/x-www-form-urlencoded",
-					success: function(response){
-						var object = JSON.parse(response.object)[0]
-						var fields = object.fields
-						if(window.opener){
-							window.opener.$("select[name=cregiva")
-								.append($("<option>",{value:response.pk,html:fields.nregiva}).attr("selected",true))
-								.focus()
-							window.close()
-						}
-					}
-				});
-			})
-	</script>
+	<script>AJAXGenericView("form","select[name=cesdo]","nesdo","{{url}}");</script>
 {%endblock%}

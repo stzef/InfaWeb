@@ -24,16 +24,15 @@ class Command(BaseCommand):
 		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
-		
-		
+
 		Esdo.objects.all().delete()
-		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T",colfon="255,255,255,255")
-		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T",colfon="255,255,255,255")
-		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F",colfon="255,255,0,0")
-		Esdo.objects.create(nesdo="CONGELADA",estavali="F",colfon="255,255,0,0")
-		Esdo.objects.create(nesdo="CERRADA",estavali="T",colfon="255,255,255,255")
-		Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F",colfon="255,255,0,0")
-		Esdo.objects.create(nesdo="ANULADA",estavali="F",colfon="255,255,0,0")
+		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
+		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T")
+		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F")
+		Esdo.objects.create(nesdo="CONGELADA",estavali="F")
+		Esdo.objects.create(nesdo="CERRADA",estavali="T")
+		Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F")
+		Esdo.objects.create(nesdo="ANULADA",estavali="F")
 		print "Esdo. Registros Creados Correctamente."
 
 		Regiva.objects.all().delete()
