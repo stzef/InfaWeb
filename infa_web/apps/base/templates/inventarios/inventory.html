@@ -59,6 +59,7 @@
 <script>
 	var cii = '';
 	var table = '';
+	var data_table_content = [];
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -104,24 +105,7 @@
 					'</div>'+
 				'</div>'+
 				'<div class="box-body">'+
-					'<table class="table table-striped" id="table">'+
-						'<thead>'+
-							'<tr>'+
-								'<th>Código</th>'+
-								'<th>Código Barras</th>'+
-								'<th>Nombre</th>'+
-								'<th>Grupo</th>'+
-								'<th>Cant. Calculada</th>'+
-								'<th>Cant. Contada</th>'+
-								'<th>Costo Unitario</th>'+
-								'<th>Costo Total</th>'+
-								'<th>Ajuste Entrada</th>'+
-								'<th>Ajuste Salida</th>'+
-							'</tr>'+
-						'<thead>'+
-						'<tbody id="content-data">'+
-						'</tbody>'+
-					'</table>'+
+					'<table class="table table-striped" id="table"></table>'+
 				'</div>'+
 				'<div class="box-footer text-center">'+
 					'<div class="box-footer text-center">'+
@@ -143,9 +127,31 @@
 				'</div>'+
 			'</div>'
 		);
-		console.log(new Date(response.year+'/'+response.month+'/'+response.day))
+		table = $('.table').DataTable({
+			columns: [
+				{ title: "Código", data: "codigo" },
+				{ title: "Código Barras", data: "codigo_barras" },
+				{ title: "Nombre", data: "nombre" },
+				{ title: "Grupo.", data: "grupo" },
+				{ title: "Cant. Calculada", data: "calcu" },
+				{ title: "Cant. Contada", data: "cont" },
+				{ title: "Costo Unitario", data: "unita" },
+				{ title: "Costo Total", data: "total" },
+				{ title: "Ajuste Entrada", data: "entrada" },
+				{ title: "Ajuste Salida", data: "salida" },
+			],
+			"createdRow": function ( row, data, index ) {
+				$('td', row).eq(0).attr('id', 'carlos-'+data.DT_RowId);
+				$('td', row).eq(2).attr('id', 'nlargo-'+data.DT_RowId);
+				$('td', row).eq(4).attr('id', 'cancalcu-'+data.DT_RowId).attr('class', 'text-right');
+				$('td', row).eq(7).attr('id', 'vtotal-'+data.DT_RowId).attr('class', 'text-center').attr('val', ( $(data.cont).val() * $(data.unita).val() ));
+				$('td', row).eq(8).attr('id', 'ajuent-'+data.DT_RowId);
+				$('td', row).eq(9).attr('id', 'ajusal-'+data.DT_RowId);
+			}
+		});
 		$('.date').datetimepicker({
-			 defaultDate: new Date(response.year,response.month,response.day,response.hour,response.minute),
+			 defaultDate: new Date(response.year+'/'+response.month+'/'+response.day+' '+response.hour+':'+response.minute),
+			 format: 'D/MM/YYYY HH:mm',
 		});
 		data_table(response.data);
 		data_esdo(response.esdo);
@@ -183,27 +189,22 @@
 		var val_tot = 0;
 		$.each(data, function (key, item) {
 			val_tot += (item.canti*item.vcosto);
-			$('#content-data').append(
-				'<tr class="cont-data" id="'+item.carlos+'">'+
-					'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
-					'<td>'+item.cbarras+'</td>'+
-					'<td id="nlargo-'+item.carlos+'">'+item.nlargo+'</td>'+
-					'<td>'+item.ngpo+'</td>'+
-					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
-					'<td>'+
-						'<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="'+item.canti+'" style="border: none;">'+
-					'</td>'+
-					'<td>'+
-						'<input type="text" id="vunita-'+item.carlos+'" class="text-right value val" value="'+item.vcosto+'" style="border: none;">'+
-					'</td>'+
-					'<td id="vtotal-'+item.carlos+'" class="text-right" val="'+(item.canti*item.vcosto)+'">'+(item.canti*item.vcosto).format(2)+'</td>'+
-					'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
-					'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
-				'</tr>'
-			);
+			table.row.add({
+				'DT_RowId': item.carlos,
+				'DT_RowClass': 'cont-data', 
+				'codigo': item.carlos,
+				'codigo_barras': item.cbarras,
+				'nombre': item.nlargo,
+				'grupo': item.ngpo,
+				'calcu': item.cancalcu,
+				'cont': '<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="'+item.canti+'" style="border: none;">',
+				'unita': '<input type="text" id="vunita-'+item.carlos+'" class="text-right value val" value="'+item.vcosto+'" style="border: none;">',
+				'total': (item.canti*item.vcosto).format(2),
+				'entrada': 0,
+				'salida': 0
+			}).draw()
 		});
 		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
-		//table = $('.table').DataTable();
 	}
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
@@ -212,7 +213,6 @@
 	$(document).on("click", "#btn-rename", function(e){
 		e.preventDefault();
 		$.post('{% url 'get_name_arlo' %}', function(response){
-			console.log(response)
 			$.each(response.data, function (key, item){
 				$('#nlargo-'+item.carlos).text(item.nlargo)
 			});
@@ -231,6 +231,7 @@
 		var cant = (this_value - cant_calcu);
 		var value_tot = this_value*$('#vunita-'+id).val();
 		var val_calcu = (parseInt($('#val-tot').attr('val'))-parseInt($('#vtotal-'+id).attr('val')))+value_tot;
+		console.log($('#vtotal-'+id).attr('val'))
 		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		if(cant < 0){
