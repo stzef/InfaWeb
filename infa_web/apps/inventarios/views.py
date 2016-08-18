@@ -34,6 +34,12 @@ def inventory_latest(request):
 	response['data'] = {}
 	response['esdo'] = {}
 	response['val_tot'] = 0
+	now = datetime.datetime.now()
+	response['day'] = now.day
+	response['month'] = now.month
+	response['year'] = now.year
+	response['hour'] = now.hour
+	response['minute'] = now.minute
 	try:
 		value = Invinicab.objects.all().latest('pk')
 		response['code'] = sum_invini(value.pk)
@@ -143,7 +149,6 @@ def inventory_save(request):
 				invini_deta.ajusal = cii_deta['ajusal']
 				invini_deta.save()	
 			except Invinideta.DoesNotExist:
-				print "O"
 				invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (int(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
 				invini_deta.save()
 	except Invinicab.DoesNotExist:
