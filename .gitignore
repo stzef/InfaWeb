@@ -4,6 +4,7 @@
 *.gif
 *.sh
 
+infa_web/params/*
 infa_web/apps/articulos/migrations/*
 infa_web/apps/base/migrations/*
 infa_web/apps/inventarios/migrations/*
