@@ -3,10 +3,15 @@ from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 
+from django.apps import apps
+
+import json
 
 from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
+
+from infa_web.settings import BASE_DIR
 
 from django.core import serializers
 
@@ -53,18 +58,34 @@ class ParametersList(FormView):
 	def get_context_data(self, **kwargs):
 		context = super(ParametersList, self).get_context_data(**kwargs)
 		context['title'] = 'Parametros'
+
+		with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
+			parameters = json.load(json_data)
+
+		for parameter in parameters:
+			if parameter["type"] == "Model":
+				modelString = parameter["model"]
+				m =  apps.get_model(app_label="base",model_name=modelString)
+
+				parameter["field"]["options"] = []
+				for objectm in m.objects.all():
+					value = getattr(objectm, parameter["field"]["value"])
+					text = getattr(objectm, parameter["field"]["text"])
+					parameter["field"]["options"].append({"value": value,"text": text})
+
+		print json.dumps(parameters, indent=4)
+		context['parameters'] = parameters
 		context['modules'] = {}
+
 		for module in Modules.objects.all():
 			if not module.pk in context['modules'].keys():
 				context['modules'][module.pk] = {}
 				context['modules'][module.pk]['parameters'] = []
 				context['modules'][module.pk]['module'] = module
-			
 			for parameter in Parameters.objects.all():
-				print parameter.module.pk
 				context['modules'][parameter.module.pk]['parameters'].append(parameter)
-		print context['modules']
-		print type(context['modules'])
+		"""
+		"""
 		return context
 
 def ParameterCreate(request):

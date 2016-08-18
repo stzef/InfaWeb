@@ -26,32 +26,35 @@
 					{% endif %}
 						<div class="row">
 							<div class="col-md-12">
-
 								<div class="box box-primary">
 									<div class="box-header with-border">
 										<h3 class="box-title">{{module.module.nmodule}}</h3>
 									</div>
 									<div class="box-body">
-										<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
-											<thead>
-												<tr>
-													<th>Nombre</th>
-													<th>Logico</th>
-													<th>Entero</th>
-													<th>Texto</th>
-												</tr>
-											</thead>
-											<tbody>
-												{% for parameter in module.parameters %}
-													<tr>
-														<td>{{ form.nparam }}</td>
-														<td>{{ form.val_boolean }}</td>
-														<td>{{ form.val_integer }}</td>
-														<td>{{ form.val_string }}</td>
-													</tr>
-												{% endfor %}
-											</tbody>
-										</table>
+										<form action="" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data" target="_blank">
+											{% for parameter in parameters %}
+												{% if module.module.smodule == parameter.smodule %}
+													<div class="form-group parameter">
+														<label for="{{parameter.field.id}}" class="{{parameter.css.label}}">{{parameter.label.text}}</label>
+														<div class="{{parameter.css.field_container}}">
+															{% if parameter.field.input %}
+																{% if parameter.field.type != "checkbox" %}
+																	<input class="{{parameter.css.field}}" id="{{parameter.field.id}}" type="{{parameter.field.type}}">
+																{% else %}
+																	<input class="{{parameter.css.field}}" {% if parameter.value %}checked{% endif %} id="{{parameter.field.id}}" type="{{parameter.field.type}}">
+																{% endif %}
+															{% else %}
+																<select class="{{parameter.css.field}}" name="" id="{{parameter.field.id}}">
+																	{% for option in parameter.field.options %}
+																		<option value="{{option.value}}" {% if option.value == parameter.value %}selected{% endif %}>{{option.text}}</option>
+																	{% endfor %}
+																</select>
+															{% endif %}
+														</div>
+													</div>
+												{% endif %}
+											{% endfor %}
+										</form>
 									</div>
 								</div>
 							</div>
@@ -64,4 +67,19 @@
 	</section>
 	</div>
 	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>
+	var parameters = [];
+	$(".parameter").toArray().forEach( function(element, index) {
+		
+		dataParameter = {
+			type:$("[data-type]",$(element)).data("type"),
+			value:$("[data-value]",$(element)).val(),
+		};
+		parameters.push(dataParameter)
+	});
+	console.log(parameters)
+
+	</script>
 {%endblock%}

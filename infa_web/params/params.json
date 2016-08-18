@@ -1,0 +1,85 @@
+[{
+	"cparam": "consecutive_code_items",
+	"smodule": "I",
+	"nparam": "Usar consecutivo para el codigo de los Articulos",
+	"value": true,
+	"type": "Boolean",
+	"field": {
+		"input": true,
+		"id":"consecutive_code_items",
+		"type": "checkbox",
+		"select": false,
+		"selected": false
+	},
+	"label":{
+		"text":"Usar consecutivo para el codigo de los Articulos"
+	},
+	"css":{
+		"field":"",
+		"field_container":"col-sm-8 checkbox",
+		"label":"col-sm-4 control-label"
+	}
+}, {
+	"cparam": "type_costing_and_stock",
+	"smodule": "I",
+	"nparam": "Tipo calculo Costos y Existencias",
+	"value": "P",
+	"type": "String",
+	"field": {
+		"input": false,
+		"id":"type_costing_and_stock",
+		"type": false,
+		"select": true,
+		"selected": false,
+		"options": [{
+			"value": "M",
+			"text": "Manual",
+			"selected": true
+		}, {
+			"value": "P",
+			"text": "Promedio",
+			"selected": false
+		}, {
+			"value": "PEPS",
+			"text": "PEPS",
+			"selected": false
+		}, {
+			"value": "UEPS",
+			"text": "UEPS",
+			"selected": false
+		}]
+	},
+	"label":{
+		"text":"Tipo calculo Costos y Existencias"
+	},
+	"css":{
+		"field":"form-control",
+		"field_container":"col-sm-8 checkbox",
+		"label":"col-sm-4 control-label"
+	}
+}, {
+	"cparam": "city_third_party",
+	"smodule": "I",
+	"nparam": "Ciudad de Tercero",
+	"value": 1,
+	"type": "Model",
+	"model": "Ciudad",
+	"field": {
+		"input": false,
+		"id":"city_third_party",
+		"type": false,
+		"select": true,
+		"selected": false,
+		"value": "cciu",
+		"text": "nciu",
+		"selected": 56
+	},
+	"label":{
+		"text":"Ciudad de Tercero"
+	},
+	"css":{
+		"field":"form-control",
+		"field_container":"col-sm-8 checkbox",
+		"label":"col-sm-4 control-label"
+	}
+}]
