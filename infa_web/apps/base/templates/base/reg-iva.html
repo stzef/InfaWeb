@@ -27,9 +27,13 @@
 								</div>
 							</section>
 							<div class="btn-group">
-								<button class="btn btn-app btn-info" type="submit">
+								<button class="btn btn-app btn-info" type="reset">
+									<i class="fa fa-plus-square-o"></i>Nuevo
+								</button>
+								<button class="btn btn-app" type="submit">
 									<i class="fa fa-plus-square-o"></i>Guardar
 								</button>
+								<a data-new-window class="btn btn-app" href="{% url 'list-reg-iva' %}"><i class="fa fa-list"></i>Listar</a>
 							</div>
 						</div>
 					</form>
@@ -41,5 +45,5 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>AJAXGenericView("form","select[name=cesdo]","nesdo","{{url}}");</script>
+	<script>AJAXGenericView("form","select[name=cregiva]","nregiva","{{url}}");</script>
 {%endblock%}

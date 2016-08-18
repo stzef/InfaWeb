@@ -29,9 +29,13 @@
 								</div>
 							</section>
 							<div class="btn-group">
-								<button class="btn btn-app btn-info" type="submit">
+								<button class="btn btn-app btn-info" type="reset">
+									<i class="fa fa-plus-square-o"></i>Nuevo
+								</button>
+								<button class="btn btn-app" type="submit">
 									<i class="fa fa-plus-square-o"></i>Guardar
 								</button>
+								<a data-new-window class="btn btn-app" href="{% url 'list-types-articles' %}"><i class="fa fa-list"></i>Listar</a>
 							</div>
 						</div>
 					</form>
@@ -43,32 +47,6 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>
-			$("form").submit(function(event){
-				event.preventDefault()
-				$.ajax({
-					{% if mode_view == "edit" %}
-						url: '{% url 'edit-type-article' current_pk %}',
-					{% elif mode_view == "create" %}
-						url: '{% url 'add-type-article' %}',
-					{% else %}
-						url: '',
-					{% endif %}
-					type: 'POST',
-					data: $("form").serialize(),
-					contentType: "application/x-www-form-urlencoded",
-					success: function(response){
-						var object = JSON.parse(response.object)[0]
-						var fields = object.fields
-						if(window.opener){
-							window.opener.$("select[name=ctiarlo")
-								.append($("<option>",{value:response.pk,html:fields.ntiarlos}).attr("selected",true))
-								.focus()
-							window.close()
-						}
-					}
-				});
-			})
-	</script>
-{%endblock%}
+	<script>AJAXGenericView("form","select[name=ctiarlo]","ntiarlos","{{url}}");</script>
+{% endblock %}
 

@@ -30,12 +30,6 @@ urlLocations = [
 	url(r'^locations/edit/(?P<pk>[0-9])+/$', LocationUpdate.as_view(), {'title': 'Editar Ubicacion'}, name = 'edit-location'),
 ]
 
-urlBrands = [
-	url(r'^brands/$', BrandsList.as_view(), {'title': 'Crear Marca'}, name = 'list-brands'),
-	url(r'^brands/add/$', BrandCreate.as_view(), {'title': 'Crear Marca'}, name = 'add-brand'),
-	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), {'title': 'Editar Marca'}, name = 'edit-brand'),
-]
-
 urlIva = [
 	url(r'^iva/$', IvaList.as_view(), {'title': 'Crear IVA'}, name = 'list-iva'),
 	url(r'^iva/add/$', IvaCreate.as_view(), {'title': 'Crear IVA'}, name = 'add-iva'),
@@ -60,4 +54,4 @@ urlParameters = [
 	url(r'^parameters/edit/(?P<pk>[0-9])+/$', ParameterUpdate, name = 'edit-parameter'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlBrands + urlIva + urlRegiva + urlParameters + urlIDTypes
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlIDTypes

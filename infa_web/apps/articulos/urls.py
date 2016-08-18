@@ -23,4 +23,10 @@ urlTypesArticles = [
 	url(r'^types-articles/edit/(?P<pk>[0-9])+/$', TypesArticleUpdate.as_view(), {'title': 'Editar Tipo de Articulo'}, name = 'edit-type-article'),
 ]
 
-urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles
+urlBrands = [
+	url(r'^brands/$', BrandsList.as_view(), {'title': 'Crear Marca'}, name = 'list-brands'),
+	url(r'^brands/add/$', BrandCreate.as_view(), {'title': 'Crear Marca'}, name = 'add-brand'),
+	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), {'title': 'Editar Marca'}, name = 'edit-brand'),
+]
+
+urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles + urlBrands

@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 import json
-
+ 
 from django import forms
 
 from infa_web.apps.base.constantes import EMPRESA
@@ -149,5 +149,40 @@ class TypesArticleUpdate(AjaxableResponseMixin,UpdateView):
 
 class TypesArticleList(ListView):
 	model = Tiarlos
-	template_name = "articulos/list-groups.html"
+	template_name = "articulos/list-types-articles.html"
 # Types Articles #
+
+# Brands #
+class BrandCreate(AjaxableResponseMixin,CreateView):
+	model = Marca
+	form_class = BrandForm
+	template_name = "base/brand.html"
+	success_url=reverse_lazy("add-brand")
+
+	def get_context_data(self, **kwargs):
+		context = super(BrandCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Marca'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-brand')
+
+		return context
+
+class BrandUpdate(AjaxableResponseMixin,UpdateView):
+	model = Marca
+	form_class = BrandForm
+	template_name = "base/brand.html"
+	success_url=reverse_lazy("add-brand")
+
+	def get_context_data(self, **kwargs):
+		context = super(BrandUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Marca'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-brand',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class BrandsList(ListView):
+	model = Marca
+	template_name = "articulos/list-brands.html"
+# Brands #

@@ -37,7 +37,7 @@
 									<td>{{ thirdParty.nom2 }}</td>
 									<td>{{ thirdParty.ape1 }}</td>
 									<td>{{ thirdParty.ape2 }}</td>
-									<td><a href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
+									<td><a data-link-edit href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>

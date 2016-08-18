@@ -63,11 +63,11 @@ class Command(BaseCommand):
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
-		Ruta.objects.create(cruta=DEFAULT_RUTA,nruta="SIN RUTA",cesdo=estadoActivo)
+		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		Zona.objects.all().delete()
-		Zona.objects.create(czona=DEFAULT_ZONA,nzona="SIN ZONA",cesdo=estadoActivo)
+		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
 		print "Zona. Registros Creados Correctamente."
 
 		Iva.objects.all().delete()
@@ -79,15 +79,15 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()
-		Marca.objects.create(cmarca=DEFAULT_MARCAR,nmarca="SIN MARCA",cesdo=estadoActivo)
+		Marca.objects.create(nmarca="SIN MARCA",cesdo=estadoActivo)
 		print "Marca. Registros Creados Correctamente."
 
 		Bode.objects.all().delete()
-		Bode.objects.create(cbode=DEFAULT_BODEGA,nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
+		Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
 		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
-		Ubica.objects.create(cubica=DEFAULT_UBICACION,nubica="SIN UBICACION",cesdo=estadoActivo)
+		Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()

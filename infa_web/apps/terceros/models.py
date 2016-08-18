@@ -4,7 +4,6 @@ from django.db import models
 from infa_web.apps.base.constantes import *
 from django.core.validators import MinValueValidator
 
-
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
 	nautorre = models.CharField(max_length=40)
@@ -36,6 +35,7 @@ class Zona(models.Model):
 
 	def __str__(self):
 		return self.nzona
+		
 class Tercero(models.Model):
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
