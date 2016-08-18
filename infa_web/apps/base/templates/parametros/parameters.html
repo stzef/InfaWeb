@@ -8,43 +8,43 @@
 		<div class="container">
 			<h2>Parametros</h2>
 			<ul class="nav nav-pills">
-				{% for k, module in modules.iteritems %}
+				{% for module in modules %}
 				{% if forloop.first %}  
-					<li class="active"><a data-toggle="pill" href="#{{module.module.nmodule}}">{{module.module.nmodule}}</a></li>
+					<li class="active"><a data-toggle="pill" href="#{{module.nmodule}}">{{module.nmodule}}</a></li>
 				{% else %}
-					<li><a data-toggle="pill" href="#{{module.module.nmodule}}">{{module.module.nmodule}}</a></li>
+					<li><a data-toggle="pill" href="#{{module.nmodule}}">{{module.nmodule}}</a></li>
 				{% endif %}
 				{% endfor %}
 			</ul>
 
 			<div class="tab-content">
-				{% for k, module in modules.iteritems %}
+				{% for module in modules %}
 					{% if forloop.first %}  
-						<div id="{{module.module.nmodule}}" class="tab-pane fade in active">
+						<div id="{{module.nmodule}}" class="tab-pane fade in active">
 					{% else %}
-						<div id="{{module.module.nmodule}}" class="tab-pane fade in ">
+						<div id="{{module.nmodule}}" class="tab-pane fade in ">
 					{% endif %}
 						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
 									<div class="box-header with-border">
-										<h3 class="box-title">{{module.module.nmodule}}</h3>
+										<h3 class="box-title">{{module.nmodule}}</h3>
 									</div>
 									<div class="box-body">
-										<form action="" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data" target="_blank">
+										<form role="form" class="form-horizontal">
 											{% for parameter in parameters %}
-												{% if module.module.smodule == parameter.smodule %}
+												{% if module.smodule == parameter.smodule %}
 													<div class="form-group parameter">
 														<label for="{{parameter.field.id}}" class="{{parameter.css.label}}">{{parameter.label.text}}</label>
 														<div class="{{parameter.css.field_container}}">
 															{% if parameter.field.input %}
 																{% if parameter.field.type != "checkbox" %}
-																	<input class="{{parameter.css.field}}" id="{{parameter.field.id}}" type="{{parameter.field.type}}">
+																	<input class="{{parameter.css.field}}" name="{{parameter.cparam}}" type="{{parameter.field.type}}">
 																{% else %}
-																	<input class="{{parameter.css.field}}" {% if parameter.value %}checked{% endif %} id="{{parameter.field.id}}" type="{{parameter.field.type}}">
+																	<input class="{{parameter.css.field}}" {% if parameter.value %}checked{% endif %} name="{{parameter.cparam}}" type="{{parameter.field.type}}">
 																{% endif %}
 															{% else %}
-																<select class="{{parameter.css.field}}" name="" id="{{parameter.field.id}}">
+																<select class="{{parameter.css.field}}" name="{{parameter.cparam}}">
 																	{% for option in parameter.field.options %}
 																		<option value="{{option.value}}" {% if option.value == parameter.value %}selected{% endif %}>{{option.text}}</option>
 																	{% endfor %}
@@ -54,7 +54,13 @@
 													</div>
 												{% endif %}
 											{% endfor %}
+											<div class="btn-group">
+												<button class="btn btn-app btn-info" type="submit">
+													<i class="fa fa-plus-square-o"></i>Guardar
+												</button>
+											</div>
 										</form>
+
 									</div>
 								</div>
 							</div>
@@ -71,15 +77,35 @@
 {% block content_script %}
 	<script>
 	var parameters = [];
-	$(".parameter").toArray().forEach( function(element, index) {
-		
-		dataParameter = {
-			type:$("[data-type]",$(element)).data("type"),
-			value:$("[data-value]",$(element)).val(),
-		};
-		parameters.push(dataParameter)
+	$("form").submit(function(event){
+		var elements = $(":input:not(button)",this)
+		var data = []
+		elements.toArray().forEach((e,i) => {
+			var parameter = {}
+			parameter.cparam = e.name
+			if(e.tagName == "INPUT"){
+				parameter.value = e.value
+				if(e.type == "checkbox"){
+					parameter.value = e.checked ? true :false
+				}
+			}else if (e.tagName == "SELECT"){
+				parameter.value = e.value
+			}
+			data.push(parameter)
+		})
+			console.log(data)
+		console.log(elements)
+		console.log($(this).serialize())
+		event.preventDefault();
+		$.ajax({
+			url: "{% url 'save-parameters' %}",
+			type: "POST",
+			data: JSON.stringify(data),
+			contentType : "application/json",
+			success: function(response){
+				console.log(response)
+			}
+		});
 	});
-	console.log(parameters)
-
 	</script>
 {%endblock%}

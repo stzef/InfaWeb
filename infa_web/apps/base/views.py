@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
+
 
 from django.apps import apps
 
@@ -10,6 +12,8 @@ import json
 from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
+from django.views.decorators.csrf import csrf_exempt
+
 
 from infa_web.settings import BASE_DIR
 
@@ -75,29 +79,13 @@ class ParametersList(FormView):
 
 		print json.dumps(parameters, indent=4)
 		context['parameters'] = parameters
-		context['modules'] = {}
-
-		for module in Modules.objects.all():
-			if not module.pk in context['modules'].keys():
-				context['modules'][module.pk] = {}
-				context['modules'][module.pk]['parameters'] = []
-				context['modules'][module.pk]['module'] = module
-			for parameter in Parameters.objects.all():
-				context['modules'][parameter.module.pk]['parameters'].append(parameter)
-		"""
-		"""
+		context['modules'] = Modules.objects.all()
 		return context
 
-def ParameterCreate(request):
+@csrf_exempt
+def ParametersSave(request):
 	data = json.loads(request.body)
 	return HttpResponse(json.dumps(data), "application/json")
-	
-	Parameters.objects.create()
-
-def ParameterUpdate(request,pk):
-	parameter = Parameters.objects.get(cparam=pk)
-	return HttpResponse(json.dumps(parameter), "application/json")
-
 # Parameters #
 
 # States #

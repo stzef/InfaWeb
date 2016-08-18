@@ -50,8 +50,7 @@ urlIDTypes = [
 
 urlParameters = [
 	url(r'^parameters/$', ParametersList.as_view(), name = 'list-parameter'),
-	url(r'^parameters/add/$', ParameterCreate, name = 'add-parameter'),
-	url(r'^parameters/edit/(?P<pk>[0-9])+/$', ParameterUpdate, name = 'edit-parameter'),
+	url(r'^parameters/save/$', ParametersSave, name = 'save-parameters'),
 ]
 
 urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlIDTypes
