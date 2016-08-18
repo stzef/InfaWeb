@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView,DeleteView
+from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 
@@ -45,9 +45,10 @@ class AjaxableResponseMixin(object):
 			return response
 
 # Parameters #
-class ParametersList(ListView):
+class ParametersList(FormView):
 	model = Parameters
 	template_name = "parametros/parameters.html"
+	form_class = ParametersForm
 
 	def get_context_data(self, **kwargs):
 		context = super(ParametersList, self).get_context_data(**kwargs)

@@ -35,8 +35,6 @@
 										<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 											<thead>
 												<tr>
-													<th>Codigo Interno</th>
-													<th>Modulo</th>
 													<th>Nombre</th>
 													<th>Logico</th>
 													<th>Entero</th>
@@ -44,14 +42,12 @@
 												</tr>
 											</thead>
 											<tbody>
-												{% for parameter in module.parameter %}
+												{% for parameter in module.parameters %}
 													<tr>
-														<td>{{ parameter.cparam }}</td>
-														<td>{{ parameter.module }}</td>
-														<td>{{ parameter.nparam }}</td>
-														<td>{{ parameter.val_boolean }}</td>
-														<td>{{ parameter.val_integer }}</td>
-														<td>{{ parameter.val_string }}</td>
+														<td>{{ form.nparam }}</td>
+														<td>{{ form.val_boolean }}</td>
+														<td>{{ form.val_integer }}</td>
+														<td>{{ form.val_string }}</td>
 													</tr>
 												{% endfor %}
 											</tbody>
