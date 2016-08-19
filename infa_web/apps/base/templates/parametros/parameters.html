@@ -39,7 +39,7 @@
 														<div class="{{parameter.css.field_container}}">
 															{% if parameter.field.input %}
 																{% if parameter.field.type != "checkbox" %}
-																	<input class="{{parameter.css.field}}" name="{{parameter.cparam}}" type="{{parameter.field.type}}">
+																	<input class="{{parameter.css.field}}" name="{{parameter.cparam}}" value="{{parameter.value}}" type="{{parameter.field.type}}">
 																{% else %}
 																	<input class="{{parameter.css.field}}" {% if parameter.value %}checked{% endif %} name="{{parameter.cparam}}" type="{{parameter.field.type}}">
 																{% endif %}

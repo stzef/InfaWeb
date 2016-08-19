@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django import forms
 
 from infa_web.apps.base.constantes import EMPRESA
+from infa_web.parameters import ManageParameters
 
 from infa_web.apps.articulos.models import *
 from infa_web.apps.base.views import AjaxableResponseMixin
@@ -89,11 +90,13 @@ class ArticleCreate(CreateView):
 		context['mode_view'] = 'create'
 		context['url'] = 'add-article'
 
-		print maxCarlos
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
 		else:
-			context['current_pk'] = EMPRESA["MIN_CARLOS"]
+			context['current_pk'] = minCodeArlos
 		return context
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -111,11 +114,13 @@ class ArticleCopy(UpdateView):
 		context['mode_view'] = 'copy'
 		context['url'] = 'add-article'
 
-		print maxCarlos
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
 		else:
-			context['current_pk'] = EMPRESA["MIN_CARLOS"]
+			context['current_pk'] = minCodeArlos
 		return context
 
 class ArticleUpdate(UpdateView):
