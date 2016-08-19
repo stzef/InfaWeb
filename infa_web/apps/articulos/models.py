@@ -43,10 +43,10 @@ class Unidades(models.Model):
 	peso = models.IntegerField(validators=[MinValueValidator(0)])
 
 	def __str__(self):
-		return self.nudades
+		return self.nunidad
 
 	def __unicode__(self):
-		return self.nudades
+		return self.nunidad
 
 class Arlo(models.Model):
 	carlos = models.IntegerField(primary_key=True)

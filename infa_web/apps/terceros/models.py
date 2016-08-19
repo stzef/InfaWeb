@@ -29,7 +29,7 @@ class Ruta(models.Model):
 		return self.nruta
 
 class Personas(models.Model):
-	cpersona = models.AutoField(primary_key=True)
+	cpersona = models.CharField(primary_key=True,max_length=5)
 	npersona = models.CharField(max_length=45)
 
 	def __str__(self):

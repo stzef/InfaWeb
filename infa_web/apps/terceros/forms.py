@@ -15,6 +15,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'cvende':forms.Select(attrs={'class':'form-control','required':''}),
 			'czona':forms.Select(attrs={'class':'form-control','required':''}),
 			'cruta':forms.Select(attrs={'class':'form-control','required':''}),
+			'cpersona':forms.Select(attrs={'class':'form-control','required':''}),
 
 			'idterce':forms.NumberInput(attrs={'class':'form-control','required':True}),
 			'dv':forms.TextInput(attrs={'class':'form-control','required':True}),
@@ -68,6 +69,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'fnaci':'Fecha de Nacimiento',
 			'cruta':'Ruta',
 			'ordenruta':'Orden Ruta',
+			'cpersona':'Tipo de Persona',
 		}
 
 class AutorretenedorForm(forms.ModelForm):

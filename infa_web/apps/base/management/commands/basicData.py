@@ -35,6 +35,11 @@ class Command(BaseCommand):
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
 
+		Personas.objects.all().delete()
+		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
+		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
+		print "Personas. Registros Creados Correctamente."
+
 		Vende.objects.all().delete()
 		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 		print "Vende. Registros Creados Correctamente."

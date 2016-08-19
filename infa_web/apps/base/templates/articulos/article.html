@@ -4,186 +4,242 @@
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3 class="box-title">{{title}}</h3>
-					</div>
-
-					<form action="" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data" target="_blank">
-						{%csrf_token%}
-						<div class="box-body">
-							<section class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="{{form.carlos.id_for_label}}" class="col-sm-4 control-label">{{form.carlos.label}}</label>
-										{%if form.carlos.errors%}
-										{{form.carlos.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cbarras.id_for_label}}" class="col-sm-4 control-label">{{form.cbarras.label}}</label>
-										{%if form.cbarras.errors%}
-										{{form.cbarras.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.cbarras}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label">{{form.cgpo.label}}</label>
-										{%if form.cgpo.errors%}
-										{{form.cgpo.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.cgpo}} 
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-group' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.ctiarlo.id_for_label}}" class="col-sm-4 control-label">{{form.ctiarlo.label}}</label>
-										{%if form.ctiarlo.errors%}
-										{{form.ctiarlo.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.ctiarlo}} 
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-type-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.ncorto.id_for_label}}" class="col-sm-4 control-label">{{form.ncorto.label}}</label>
-										{%if form.ncorto.errors%}
-										{{form.ncorto.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<input class="form-control" type="text" value="{{form.ncorto.value|default_if_none:''}}" id="{{form.ncorto.id_for_label}}" name="{{form.ncorto.html_name}}" >
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.nlargo.id_for_label}}" class="col-sm-4 control-label">{{form.nlargo.label}}</label>
-										{%if form.nlargo.errors%}
-										{{form.nlargo.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<input class="form-control" type="text" value="{{form.nlargo.value|default_if_none:''}}" id="{{form.nlargo.id_for_label}}" name="{{form.nlargo.html_name}}" >
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">{{form.canti.label}}</label>
-										{%if form.canti.errors%}
-										{{form.canti.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.canti}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">{{form.vcosto.label}}</label>
-										{%if form.vcosto.errors%}
-										{{form.vcosto.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											{{form.vcosto}}
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cunidad.id_for_label}}" class="col-sm-4 control-label">{{form.cunidad.label}}</label>
-										{%if form.cunidad.errors%}
-										{{form.cunidad.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.cunidad}}
-												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.refe.id_for_label}}" class="col-sm-4 control-label">{{form.refe.label}}</label>
-										{%if form.refe.errors%}
-										{{form.refe.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<input class="form-control" type="text" value="{{form.refe.value|default_if_none:''}}" id="{{form.refe.id_for_label}}" name="{{form.refe.html_name}}" >
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="{{form.cmarca.id_for_label}}" class="col-sm-4 control-label">{{form.cmarca.label}}</label>
-										{%if form.cmarca.errors%}
-										{{form.cmarca.errors}}
-										{%endif%}
-										<div class="col-sm-8">
-											<div class="input-group">
-												{{form.cmarca}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-brand' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="box box-primary">
-										<div class="box-header with-border">
-											<h3 class="box-title">Listas de Precios</h3>
-										</div>
-										<div class="box-body">
-											<table class="table table-bordered">
-												<thead>
-													<th>Lista</th>
-													<th>Porcentaje</th>
-													<th>Precio Venta</th>
-												</thead>
-												<tbody>
-													<tr>
-														<th>1</th>
-														<th>{{form.porult1}}</th>
-														<th>{{form.pvta1}}</th>
-													</tr>
-													<tr>
-														<th>2</th>
-														<th>{{form.porult2}}</th>
-														<th>{{form.pvta2}}</th>
-													</tr>
-													<tr>
-														<th>3</th>
-														<th>{{form.porult3}}</th>
-														<th>{{form.pvta3}}</th>
-													</tr>
-													<tr>
-														<th>4</th>
-														<th>{{form.porult4}}</th>
-														<th>{{form.pvta4}}</th>
-													</tr>
-													<tr>
-														<th>5</th>
-														<th>{{form.porult5}}</th>
-														<th>{{form.pvta5}}</th>
-													</tr>
-													<tr>
-														<th>6</th>
-														<th>{{form.porult6}}</th>
-														<th>{{form.pvta6}}</th>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-
-								</div>
-							</section>
+		<div class="container">
+			<h2>{{title}}</h2>
+			<ul class="nav nav-pills">
+				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
+				<li><a data-toggle="pill" href="#tabImagenes">Imagenes</a></li>
+				<li><a data-toggle="pill" href="#tabListaPrecios">Lista de Precios</a></li>
+				<li><a data-toggle="pill" href="#tabOtros">Otros</a></li>
+			</ul>
+			<form action="" method="POST" role="form" class="form-horizontal">
+				{%csrf_token%}
+				<div class="tab-content">
+					<div id="tabBasicos" class="tab-pane fade in active">
+						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
 									<div class="box-header with-border">
-										<h3 class="box-title">Otras Caracteristicas</h3>
+										<h3 class="box-title">Basicos</h3>
+									</div>
+									<div class="box-body">
+										<div class="form-group">
+											<label for="{{form.carlos.id_for_label}}" class="col-sm-4 control-label">{{form.carlos.label}}</label>
+											{%if form.carlos.errors%}
+											{{form.carlos.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cbarras.id_for_label}}" class="col-sm-4 control-label">{{form.cbarras.label}}</label>
+											{%if form.cbarras.errors%}
+											{{form.cbarras.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.cbarras}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label">{{form.cgpo.label}}</label>
+											{%if form.cgpo.errors%}
+											{{form.cgpo.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cgpo}} 
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-group' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.ctiarlo.id_for_label}}" class="col-sm-4 control-label">{{form.ctiarlo.label}}</label>
+											{%if form.ctiarlo.errors%}
+											{{form.ctiarlo.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.ctiarlo}} 
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-type-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.ncorto.id_for_label}}" class="col-sm-4 control-label">{{form.ncorto.label}}</label>
+											{%if form.ncorto.errors%}
+											{{form.ncorto.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<input class="form-control" type="text" value="{{form.ncorto.value|default_if_none:''}}" id="{{form.ncorto.id_for_label}}" name="{{form.ncorto.html_name}}" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.nlargo.id_for_label}}" class="col-sm-4 control-label">{{form.nlargo.label}}</label>
+											{%if form.nlargo.errors%}
+											{{form.nlargo.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<input class="form-control" type="text" value="{{form.nlargo.value|default_if_none:''}}" id="{{form.nlargo.id_for_label}}" name="{{form.nlargo.html_name}}" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">{{form.canti.label}}</label>
+											{%if form.canti.errors%}
+											{{form.canti.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.canti}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">{{form.vcosto.label}}</label>
+											{%if form.vcosto.errors%}
+											{{form.vcosto.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.vcosto}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cunidad.id_for_label}}" class="col-sm-4 control-label">{{form.cunidad.label}}</label>
+											{%if form.cunidad.errors%}
+											{{form.cunidad.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cunidad}}
+													<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.refe.id_for_label}}" class="col-sm-4 control-label">{{form.refe.label}}</label>
+											{%if form.refe.errors%}
+											{{form.refe.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<input class="form-control" type="text" value="{{form.refe.value|default_if_none:''}}" id="{{form.refe.id_for_label}}" name="{{form.refe.html_name}}" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cmarca.id_for_label}}" class="col-sm-4 control-label">{{form.cmarca.label}}</label>
+											{%if form.cmarca.errors%}
+											{{form.cmarca.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cmarca}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-brand' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="tabImagenes" class="tab-pane fade in">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Imagenes</h3>
+									</div>
+									<div class="box-body">
+										<div class="form-group">
+											<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
+											{%if form.foto1.errors%}
+											{{form.foto1.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.foto1}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
+											{%if form.foto2.errors%}
+											{{form.foto2.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.foto2}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
+											{%if form.foto3.errors%}
+											{{form.foto3.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.foto3}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="tabListaPrecios" class="tab-pane fade in">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Listado de Precios</h3>
+									</div>
+									<div class="box-body">
+										<table class="table table-bordered">
+											<thead>
+												<th>Lista</th>
+												<th>Porcentaje</th>
+												<th>Precio Venta</th>
+											</thead>
+											<tbody>
+												<tr>
+													<th>1</th>
+													<th>{{form.porult1}}</th>
+													<th>{{form.pvta1}}</th>
+												</tr>
+												<tr>
+													<th>2</th>
+													<th>{{form.porult2}}</th>
+													<th>{{form.pvta2}}</th>
+												</tr>
+												<tr>
+													<th>3</th>
+													<th>{{form.porult3}}</th>
+													<th>{{form.pvta3}}</th>
+												</tr>
+												<tr>
+													<th>4</th>
+													<th>{{form.porult4}}</th>
+													<th>{{form.pvta4}}</th>
+												</tr>
+												<tr>
+													<th>5</th>
+													<th>{{form.porult5}}</th>
+													<th>{{form.pvta5}}</th>
+												</tr>
+												<tr>
+													<th>6</th>
+													<th>{{form.porult6}}</th>
+													<th>{{form.pvta6}}</th>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="tabOtros" class="tab-pane fade in">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Otros</h3>
 									</div>
 									<div class="box-body">
 										<div class="form-group col-md-3">
@@ -218,148 +274,103 @@
 												</label>
 											</div>
 										</div>
+										<div class="form-group">
+											<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
+											{%if form.stomin.errors%}
+											{{form.stomin.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.stomin}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
+											{%if form.stomax.errors%}
+											{{form.stomax.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.stomax}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.mesesgara.id_for_label}}" class="col-sm-4 control-label">{{form.mesesgara.label}}</label>
+											{%if form.mesesgara.errors%}
+											{{form.mesesgara.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.mesesgara}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-4 control-label">{{form.ivas_civa.label}}</label>
+											{%if form.ivas_civa.errors%}
+											{{form.ivas_civa.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.ivas_civa}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cubica.id_for_label}}" class="col-sm-4 control-label">{{form.cubica.label}}</label>
+											{%if form.cubica.errors%}
+											{{form.cubica.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cubica}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
+											{%if form.cesdo.errors%}
+											{{form.cesdo.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cesdo}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="box box-primary">
-									<div class="box-header with-border">
-										<h3 class="box-title">Otros</h3>
-									</div>
-									<div class="box-body">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
-												{%if form.foto1.errors%}
-												{{form.foto1.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.foto1}}
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
-												{%if form.foto2.errors%}
-												{{form.foto2.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.foto2}}
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
-												{%if form.foto3.errors%}
-												{{form.foto3.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.foto3}}
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-4 control-label">{{form.ivas_civa.label}}</label>
-												{%if form.ivas_civa.errors%}
-												{{form.ivas_civa.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<div class="input-group">
-														{{form.ivas_civa}}
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.cubica.id_for_label}}" class="col-sm-4 control-label">{{form.cubica.label}}</label>
-												{%if form.cubica.errors%}
-												{{form.cubica.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<div class="input-group">
-														{{form.cubica}}
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
-												{%if form.cesdo.errors%}
-												{{form.cesdo.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<div class="input-group">
-														{{form.cesdo}}
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
-												{%if form.stomin.errors%}
-												{{form.stomin.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.stomin}}
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
-												{%if form.stomax.errors%}
-												{{form.stomax.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.stomax}}
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="{{form.mesesgara.id_for_label}}" class="col-sm-4 control-label">{{form.mesesgara.label}}</label>
-												{%if form.mesesgara.errors%}
-												{{form.mesesgara.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.mesesgara}}
-												</div>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-							</div>
-							<div class="btn-group">
-								<button class="btn btn-app btn-info" type="reset">
-									<i class="fa fa-plus-square-o"></i>Nuevo
-								</button>
-								<button class="btn btn-app btn-info" type="submit">
-									<i class="fa fa-plus-square-o"></i>Guardar
-								</button>
-								<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
-									<i class="fa fa-list"></i>Listar
-								</a>
-								{% if mode_view == "edit" %}
-									<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
-								{% else %}
-									<a class="btn btn-app" href="#" disabled>
-								{% endif %}
-									<i class="fa fa-copy"></i>Duplicar
-								</a>
-								{% if mode_view == "edit" %}
-									<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' current_pk %}">
-								{% else %}
-									<a class="btn btn-app" data-new-window href="" disabled>
-								{% endif %}
-									<i class="fa fa-object-group"></i>Desglose
-								</a>
 							</div>
 						</div>
-					</form>
-
+					</div>
 				</div>
-			</div>
-		</div>
 
-	</section>
+				<div class="btn-group">
+					<button class="btn btn-app btn-info" type="reset">
+						<i class="fa fa-plus-square-o"></i>Nuevo
+					</button>
+					<button class="btn btn-app btn-info" type="submit">
+						<i class="fa fa-plus-square-o"></i>Guardar
+					</button>
+					<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
+						<i class="fa fa-list"></i>Listar
+					</a>
+					{% if mode_view == "edit" %}
+						<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
+					{% else %}
+						<a class="btn btn-app" href="#" disabled>
+					{% endif %}
+						<i class="fa fa-copy"></i>Duplicar
+					</a>
+					{% if mode_view == "edit" %}
+						<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' current_pk %}">
+					{% else %}
+						<a class="btn btn-app" data-new-window href="" disabled>
+					{% endif %}
+						<i class="fa fa-object-group"></i>Desglose
+					</a>
+				</div>
+			</form>
+		</div>
 	</div>
 	{%include 'elements/footer.html'%}
 {%endblock%}

@@ -11,7 +11,7 @@ class ArticleForm(forms.ModelForm):
 		widgets = {
 			'cgpo':forms.Select(attrs={'class':'form-control','required':''}),
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'ciudad' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'cunidad' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'ivas_civa' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'citerce1' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'citerce2' : forms.Select(attrs={'class': 'form-control','required':''}),
@@ -58,7 +58,7 @@ class ArticleForm(forms.ModelForm):
 			'ifcostear':'Costear',
 			'ifpvfijo':'Precio Venta Fijo',
 			'cesdo':'Estado',
-			'ciudad':'Ciudad',
+			'cunidad':'Unidades',
 			'ctiarlo':'Tipo de Articulo',
 			'ivas_civa':'IVA',
 			'stomin':'Stock Minimo',
