@@ -37,6 +37,17 @@ class Marca(models.Model):
 	def __unicode__(self):
 		return self.nmarca
 
+class Unidades(models.Model):
+	cunidad = models.AutoField(primary_key=True)
+	nunidad = models.CharField(max_length=60,default=DEFAULT_UNIDAD)
+	peso = models.IntegerField(validators=[MinValueValidator(0)])
+
+	def __str__(self):
+		return self.nudades
+
+	def __unicode__(self):
+		return self.nudades
+
 class Arlo(models.Model):
 	carlos = models.IntegerField(primary_key=True)
 	cbarras = models.CharField(max_length=50)
@@ -49,7 +60,7 @@ class Arlo(models.Model):
 	ifpvfijo = models.BooleanField()
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	ctiarlo = models.ForeignKey(Tiarlos,default=CTIARLO_ARTICULO)
-	ciudad = models.ForeignKey(Ciudad)
+	cunidad = models.ForeignKey(Unidades)
 	ivas_civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 	stomin = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	stomax = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])

@@ -28,6 +28,13 @@ class Ruta(models.Model):
 	def __str__(self):
 		return self.nruta
 
+class Personas(models.Model):
+	cpersona = models.AutoField(primary_key=True)
+	npersona = models.CharField(max_length=45)
+
+	def __str__(self):
+		return self.npersona
+
 class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
@@ -65,6 +72,7 @@ class Tercero(models.Model):
 	fnaci = models.DateField()
 	cruta = models.ForeignKey(Ruta,default=DEFAULT_RUTA)
 	ordenruta = models.IntegerField()
+	cpersona = models.ForeignKey(Personas,default=DEFAULT_PERSONA)
 
 	def nameFull(self):
 		return self.nom1 + " " + self.nom2 + " " + self.ape1 + " " + self.ape2

@@ -10,6 +10,16 @@ from infa_web.apps.articulos.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
+		Esdo.objects.all().delete()
+		estadoActivo = Esdo.objects.create(pk='1',nesdo="ACTIVO",estavali="T")
+		Esdo.objects.create(pk='2',nesdo="EN TRANSICION",estavali="T")
+		Esdo.objects.create(pk='3',nesdo="DESCOTINUADA",estavali="F")
+		Esdo.objects.create(pk='4',nesdo="CONGELADA",estavali="F")
+		Esdo.objects.create(pk='5',nesdo="CERRADA",estavali="T")
+		Esdo.objects.create(pk='6',nesdo="INTEGRIDAD",estavali="F")
+		Esdo.objects.create(pk='7',nesdo="ANULADA",estavali="F")
+		print "Esdo. Registros Creados Correctamente."
+
 		if 'APPEMPRESARIAL_USER' in os.environ:
 			if not User.objects.filter(username=APPEMPRESARIAL_USER).exists():
 				print "Super Usuario Creado Con exito."
@@ -25,15 +35,21 @@ class Command(BaseCommand):
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
 
-		Esdo.objects.all().delete()
-		estadoActivo = Esdo.objects.create(pk='1',nesdo="ACTIVO",estavali="T")
-		Esdo.objects.create(pk='2',nesdo="EN TRANSICION",estavali="T")
-		Esdo.objects.create(pk='3',nesdo="DESCOTINUADA",estavali="F")
-		Esdo.objects.create(pk='4',nesdo="CONGELADA",estavali="F")
-		Esdo.objects.create(pk='5',nesdo="CERRADA",estavali="T")
-		Esdo.objects.create(pk='6',nesdo="INTEGRIDAD",estavali="F")
-		Esdo.objects.create(pk='7',nesdo="ANULADA",estavali="F")
-		print "Esdo. Registros Creados Correctamente."
+		Vende.objects.all().delete()
+		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		print "Vende. Registros Creados Correctamente."
+
+		Unidades.objects.all().delete()
+		Unidades.objects.create(nunidad="UNIDADES",peso=0)
+		Unidades.objects.create(nunidad="KILOGRAMOS",peso=0)
+		Unidades.objects.create(nunidad="METROS",peso=0)
+		Unidades.objects.create(nunidad="DOCENAS",peso=0)
+		Unidades.objects.create(nunidad="CAJAS",peso=0)
+		Unidades.objects.create(nunidad="DISPLAYS",peso=0)
+		Unidades.objects.create(nunidad="PAQUETE",peso=0)
+		Unidades.objects.create(nunidad="MILILITROS",peso=0)
+		print "Unidades. Registros Creados Correctamente."
+
 
 		Regiva.objects.all().delete()
 		Regiva.objects.create(nregiva="REGIMEN COMUN")

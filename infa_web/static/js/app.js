@@ -45,6 +45,11 @@ function alertBootstrap(message,type){
 	return $(stringHTML)
 }
 
+/*if($("form").length){
+	$(window).on('beforeunload', function(){
+		return "Desea Salir Realmente. Si sale los ingresados datos seperderan";
+	});
+}*/
 $("#id_stomin").attr("data-less-than","#id_stomax");
 
 $("[data-less-than]").change(function(event){
