@@ -34,7 +34,7 @@
 										<form role="form" class="form-horizontal">
 											{% for parameter in parameters %}
 												{% if module.smodule == parameter.smodule %}
-													<div class="form-group parameter">
+													<div class="form-group">
 														<label for="{{parameter.field.id}}" class="{{parameter.css.label}}">{{parameter.label.text}}</label>
 														<div class="{{parameter.css.field_container}}">
 															{% if parameter.field.input %}
@@ -47,9 +47,9 @@
 																<select class="{{parameter.css.field}}" name="{{parameter.cparam}}">
 																	{% for option in parameter.field.options %}
 																		{% if option.value == parameter.value|add:0 %}
-																			<option value="{{option.value}}-{{parameter.value}}" selected>{{option.text}}</option>
+																			<option value="{{option.value}}" selected>{{option.text}}</option>
 																		{% else %}
-																			<option value="{{option.value}}-{{parameter.value}}" >{{option.text}}</option>
+																			<option value="{{option.value}}" >{{option.text}}</option>
 																		{% endif %}
 																	{% endfor %}
 																</select>

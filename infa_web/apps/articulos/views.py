@@ -6,6 +6,7 @@ from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 import json
+from django.utils.decorators import method_decorator
  
 from django import forms
 
@@ -86,6 +87,28 @@ class ArticleCreate(CreateView):
 		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		context['title'] = "Crear Articulo"
 		context['mode_view'] = 'create'
+		context['url'] = 'add-article'
+
+		print maxCarlos
+		if maxCarlos["carlos__max"]:
+			context['current_pk'] = maxCarlos["carlos__max"] + 1
+		else:
+			context['current_pk'] = EMPRESA["MIN_CARLOS"]
+		return context
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ArticleCopy(UpdateView):
+	model = Arlo
+	template_name = "articulos/article.html"
+	form_class = ArticleForm
+	success_url=reverse_lazy("add-article")
+	success_message = "Articulo creado."
+		
+	def get_context_data(self, **kwargs):
+		context = super(ArticleCopy, self).get_context_data(**kwargs)
+		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		context['title'] = "Copiar Articulo"
+		context['mode_view'] = 'copy'
 		context['url'] = 'add-article'
 
 		print maxCarlos
