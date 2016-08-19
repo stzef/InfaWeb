@@ -46,7 +46,11 @@
 															{% else %}
 																<select class="{{parameter.css.field}}" name="{{parameter.cparam}}">
 																	{% for option in parameter.field.options %}
-																		<option value="{{option.value}}" {% if option.value == parameter.value %}selected{% endif %}>{{option.text}}</option>
+																		{% if option.value == parameter.value|add:0 %}
+																			<option value="{{option.value}}-{{parameter.value}}" selected>{{option.text}}</option>
+																		{% else %}
+																			<option value="{{option.value}}-{{parameter.value}}" >{{option.text}}</option>
+																		{% endif %}
 																	{% endfor %}
 																</select>
 															{% endif %}

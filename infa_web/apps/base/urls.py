@@ -49,7 +49,7 @@ urlIDTypes = [
 ]
 
 urlParameters = [
-	url(r'^parameters/$', ParametersList.as_view(), name = 'list-parameter'),
+	url(r'^parameters/$', ParametersList, name = 'list-parameter'),
 	url(r'^parameters/save/$', ParametersSave, name = 'save-parameters'),
 ]
 

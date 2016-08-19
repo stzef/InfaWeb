@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
@@ -54,38 +54,56 @@ class AjaxableResponseMixin(object):
 			return response
 
 # Parameters #
-class ParametersList(FormView):
-	model = Parameters
-	template_name = "parametros/parameters.html"
-	form_class = ParametersForm
+def ParametersList(FormView):
+	context = {}
 
-	def get_context_data(self, **kwargs):
-		context = super(ParametersList, self).get_context_data(**kwargs)
-		context['title'] = 'Parametros'
+	context['title'] = 'Parametros'
 
-		with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
-			parameters = json.load(json_data)
+	with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
+		parameters = json.load(json_data)
 
-		for parameter in parameters:
-			if parameter["type"] == "Model":
-				modelString = parameter["model"]
-				m =  apps.get_model(app_label="base",model_name=modelString)
+	for parameter in parameters:
+		if parameter["type"] == "Model":
+			modelString = parameter["model"]
+			m =  apps.get_model(app_label="base",model_name=modelString)
 
-				parameter["field"]["options"] = []
-				for objectm in m.objects.all():
-					value = getattr(objectm, parameter["field"]["value"])
-					text = getattr(objectm, parameter["field"]["text"])
-					parameter["field"]["options"].append({"value": value,"text": text})
+			parameter["field"]["options"] = []
+			for objectm in m.objects.all():
+				value = getattr(objectm, parameter["field"]["value"])
+				text = getattr(objectm, parameter["field"]["text"])
+				parameter["field"]["options"].append({"value": value,"text": text})
 
-		print json.dumps(parameters, indent=4)
-		context['parameters'] = parameters
-		context['modules'] = Modules.objects.all()
-		return context
+	print json.dumps(parameters, indent=4)
+	context['parameters'] = parameters
+	context['modules'] = Modules.objects.all()
+
+	return render_to_response("parametros/parameters.html",context)
 
 @csrf_exempt
 def ParametersSave(request):
 	data = json.loads(request.body)
-	return HttpResponse(json.dumps(data), "application/json")
+	response = {}
+
+	with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
+		parameters = json.load(json_data)
+	
+	for dparameter in data:
+		for parameter in parameters:
+			if(parameter["cparam"] == dparameter["cparam"]):
+				parameter["value"] = dparameter["value"]
+				break
+
+	with open(BASE_DIR + '/infa_web/params/params.json','r+') as json_data:
+
+		json_data.seek(0)
+		json_data.write(json.dumps(parameters, indent=4))
+		json_data.truncate()
+
+		#json_data.seek(0)
+		#json.dump(parameters, json_data, indent=4)
+		response["message"] = "Parametros Guardados con Exito."
+
+	return JsonResponse(response, status=200)
 # Parameters #
 
 # States #
