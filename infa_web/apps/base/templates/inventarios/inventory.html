@@ -60,6 +60,7 @@
 	var cii = '';
 	var table = '';
 	var data_table_content = [];
+	loading_animation()
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -255,16 +256,15 @@
 		var data_r = [];
 		cesdo = $('#id_estado');
 		if(cesdo.val() != ''){
-			$('.cont-data').each(function() {
-				var id = this.id;
+			$.each( table.rows().data(), function(i, row){
 				data_r.push({
-					'carlos': $('#carlos-'+id).text(),
-					'nlargo': $('#nlargo-'+id).text(),
-					'cancalcu': $('#cancalcu-'+id).text(),
-					'cant': $('#cant-'+id).val(),
-					'vunita': $('#vunita-'+id).val(),
-					'ajuent': $('#ajuent-'+id).text(),
-					'ajusal': $('#ajusal-'+id).text(),
+					'carlos': row.codigo,
+					'nlargo': row.nombre,
+					'cancalcu': row.calcu,
+					'cant': $(row.cont).val(),
+					'vunita': $(row.unita).val(),
+					'ajuent': row.entrada,
+					'ajusal': row.salida,
 				});
 			});
 			$.ajax({
