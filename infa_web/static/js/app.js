@@ -50,9 +50,11 @@ $("#id_stomin").attr("data-less-than","#id_stomax");
 $("[data-less-than]").change(function(event){
 	var that = $(this)
 	var ref = $($(this).data("less-than"));
-	if($(this).val() && ref.val()){
+	if(!isNaN(parseFloat($(this).val())) && !isNaN(parseFloat(ref.val()))){
 		ref.change(function(event){that.trigger("change")})
-		if($(this).val() > ref.val()) $(this).val("");
+		if(parseFloat($(this).val()) > parseFloat(ref.val())) $(this).val("");
+	}else{
+		console.log("No se puede")
 	}
 });
 

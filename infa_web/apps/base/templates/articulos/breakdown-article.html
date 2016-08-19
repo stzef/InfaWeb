@@ -40,7 +40,7 @@
 									<th>
 										<select class="form-control" id="{{form.cantiglo.id_for_label}}" name="{{form.carlosglo.html_name}}" value="{{partArticle.carlosglo}}">
 											{% for id,html_value in form.carlosglo.field.choices %}
-												{% if partArticle.carlosglo == html_value %}
+												{% if partArticle.carlosglo == html_value|add:0 %}
 													selected
 												{% endif %}
 												<option value="{{id}}">{{html_value}}</option>
