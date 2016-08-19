@@ -9,22 +9,22 @@ class ArticleForm(forms.ModelForm):
 		fields = "__all__"
 		exclude = ["citerce1","vcosto1","fcosto1","citerce2","vcosto2","fcosto2","citerce3","vcosto3","fcosto3"]
 		widgets = {
-			'cgpo':forms.Select(attrs={'class':'form-control','required':''}),
-			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'cunidad' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'ivas_civa' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'cgpo':forms.Select(attrs={'class':'form-control','required':True}),
+			'cesdo' : forms.Select(attrs={'class': 'form-control','required':True}),
+			'cunidad' : forms.Select(attrs={'class': 'form-control','required':True}),
+			'ivas_civa' : forms.Select(attrs={'class': 'form-control','required':True}),
 			'citerce1' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'citerce2' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'citerce3' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'cmarca' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'cubica' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'ctiarlo' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'cmarca' : forms.Select(attrs={'class': 'form-control','required':True}),
+			'cubica' : forms.Select(attrs={'class': 'form-control','required':True}),
+			'ctiarlo' : forms.Select(attrs={'class': 'form-control','required':True}),
 
-			'ncorto' : forms.TextInput(attrs={'required':True}),
-			'nlargo' : forms.TextInput(attrs={'required':True}),
-			'refe' : forms.TextInput(attrs={'required':True}),
+			'ncorto' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'nlargo' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'refe' : forms.TextInput(attrs={'class': 'form-control','required':True}),
 
-			'cbarras' : forms.NumberInput(attrs={'class': 'form-control','step':'1'}),
+			'cbarras' : forms.NumberInput(attrs={'class': 'form-control','step':'1','required':True}),
 			'mesesgara' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1'}),
 			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
 			'stomin' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01'}),
