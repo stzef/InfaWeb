@@ -7,6 +7,11 @@ from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
+from django.db.models import Max
+from infa_web.parameters import ManageParameters
+import random
+
+
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
@@ -30,39 +35,39 @@ class Command(BaseCommand):
 			print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
 
 		Tiarlos.objects.all().delete()
-		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
+		oDefaultTypeArticle = Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
 
 		Personas.objects.all().delete()
-		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
+		oDefaultPersona = Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
 		print "Personas. Registros Creados Correctamente."
 
 		Vende.objects.all().delete()
-		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		oDefaultVende = Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 		print "Vende. Registros Creados Correctamente."
 
 		Unidades.objects.all().delete()
-		Unidades.objects.create(pk=1,nunidad="UNIDADES",peso=0)
-		Unidades.objects.create(pk=2,nunidad="KILOGRAMOS",peso=0)
-		Unidades.objects.create(pk=3,nunidad="METROS",peso=0)
-		Unidades.objects.create(pk=4,nunidad="DOCENAS",peso=0)
-		Unidades.objects.create(pk=5,nunidad="CAJAS",peso=0)
-		Unidades.objects.create(pk=6,nunidad="DISPLAYS",peso=0)
-		Unidades.objects.create(pk=7,nunidad="PAQUETE",peso=0)
-		Unidades.objects.create(pk=8,nunidad="MILILITROS",peso=0)
+		oDefaultUnidades = Unidades.objects.create(nunidad="UNIDADES",peso=0)
+		Unidades.objects.create(nunidad="KILOGRAMOS",peso=0)
+		Unidades.objects.create(nunidad="METROS",peso=0)
+		Unidades.objects.create(nunidad="DOCENAS",peso=0)
+		Unidades.objects.create(nunidad="CAJAS",peso=0)
+		Unidades.objects.create(nunidad="DISPLAYS",peso=0)
+		Unidades.objects.create(nunidad="PAQUETE",peso=0)
+		Unidades.objects.create(nunidad="MILILITROS",peso=0)
 		print "Unidades. Registros Creados Correctamente."
 
 
 		Regiva.objects.all().delete()
-		Regiva.objects.create(nregiva="REGIMEN COMUN")
+		oDefaultRegIva = Regiva.objects.create(nregiva="REGIMEN COMUN")
 		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
 		print "Regiva. Registros Creados Correctamente."
 
 		Tiide.objects.all().delete()
-		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
+		oDefaultType = Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
 		Tiide.objects.create(ntiide="NIT")
 		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
@@ -79,20 +84,20 @@ class Command(BaseCommand):
 		print "Modules. Registros Creados Correctamente."
 
 		Autorre.objects.all().delete()
-		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
+		oDefaultAutorretenedor = Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
 		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
-		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
+		oDefaultRuta = Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		Zona.objects.all().delete()
-		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
+		oDefaultZona= Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
 		print "Zona. Registros Creados Correctamente."
 
 		Iva.objects.all().delete()
-		Iva.objects.create(pk=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
+		oDefaultIva = Iva.objects.create(pk=1,niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
 		Iva.objects.create(pk=2,niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
 		Iva.objects.create(pk=3,niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
 		Iva.objects.create(pk=4,niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
@@ -100,76 +105,76 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()
-		Marca.objects.create(nmarca="SIN MARCA",cesdo=estadoActivo)
+		oDefaultMarca = Marca.objects.create(cmarca=DEFAULT_MARCA,nmarca="SIN MARCA",cesdo=estadoActivo)
 		print "Marca. Registros Creados Correctamente."
 
 		Bode.objects.all().delete()
-		Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
+		oDefaultBodega = Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
 		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
-		Ubica.objects.create(pk=1000,nubica="SIN UBICACION",cesdo=estadoActivo)
+		oDefaultLocation = Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
-		Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
+		oDefaultGroup = Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
 		print "Gpo. Registros Creados Correctamente."
 		
 		Departamento.objects.all().delete()
-		departamento = Departamento.objects.create(cdepar=9,ndepar="Cundinamarca")
+		oDefaultDepartament = Departamento.objects.create(cdepar=9,ndepar="Cundinamarca")
 		print "Departamento. Registros Creados Correctamente."
 
 		Ciudad.objects.all().delete()
-		Ciudad.objects.create(pk=1,nciu='Alban',cdepar=departamento)
-		Ciudad.objects.create(pk=2,nciu='Bogotá',cdepar=departamento)
-		Ciudad.objects.create(pk=3,nciu='Bojaca',cdepar=departamento)
-		Ciudad.objects.create(pk=4,nciu='Bosa',cdepar=departamento)
-		Ciudad.objects.create(pk=5,nciu='Briceño',cdepar=departamento)
-		Ciudad.objects.create(pk=6,nciu='Cajicá',cdepar=departamento)
-		Ciudad.objects.create(pk=7,nciu='Chía',cdepar=departamento)
-		Ciudad.objects.create(pk=8,nciu='Chinauta',cdepar=departamento)
-		Ciudad.objects.create(pk=9,nciu='Choconta',cdepar=departamento)
-		Ciudad.objects.create(pk=10,nciu='Cota',cdepar=departamento)
-		Ciudad.objects.create(pk=11,nciu='El Muña',cdepar=departamento)
-		Ciudad.objects.create(pk=12,nciu='El Rosal',cdepar=departamento)
-		Ciudad.objects.create(pk=13,nciu='Engativá',cdepar=departamento)
-		Ciudad.objects.create(pk=14,nciu='Facatativa',cdepar=departamento)
-		Ciudad.objects.create(pk=15,nciu='Fontibón',cdepar=departamento)
-		Ciudad.objects.create(pk=16,nciu='Funza',cdepar=departamento)
-		Ciudad.objects.create(pk=17,nciu='Fusagasuga',cdepar=departamento)
-		Ciudad.objects.create(pk=18,nciu='Gachancipá',cdepar=departamento)
-		Ciudad.objects.create(pk=69,nciu='Girardot',cdepar=departamento)
-		Ciudad.objects.create(pk=19,nciu='Guaduas',cdepar=departamento)
-		Ciudad.objects.create(pk=20,nciu='Guayavetal',cdepar=departamento)
-		Ciudad.objects.create(pk=21,nciu='La Calera',cdepar=departamento)
-		Ciudad.objects.create(pk=22,nciu='La Caro',cdepar=departamento)
-		Ciudad.objects.create(pk=23,nciu='Madrid',cdepar=departamento)
-		Ciudad.objects.create(pk=24,nciu='Mosquera',cdepar=departamento)
-		Ciudad.objects.create(pk=25,nciu='Nemocón',cdepar=departamento)
-		Ciudad.objects.create(pk=26,nciu='Puente Piedra',cdepar=departamento)
-		Ciudad.objects.create(pk=27,nciu='Puente Quetame',cdepar=departamento)
-		Ciudad.objects.create(pk=28,nciu='Puerto Bogotá',cdepar=departamento)
-		Ciudad.objects.create(pk=29,nciu='Puerto Salgar',cdepar=departamento)
-		Ciudad.objects.create(pk=30,nciu='Quetame',cdepar=departamento)
-		Ciudad.objects.create(pk=31,nciu='Sasaima',cdepar=departamento)
-		Ciudad.objects.create(pk=32,nciu='Sesquile',cdepar=departamento)
-		Ciudad.objects.create(pk=33,nciu='Sibaté',cdepar=departamento)
-		Ciudad.objects.create(pk=34,nciu='Silvania',cdepar=departamento)
-		Ciudad.objects.create(pk=35,nciu='Simijaca',cdepar=departamento)
-		Ciudad.objects.create(pk=36,nciu='Soacha',cdepar=departamento)
-		Ciudad.objects.create(pk=37,nciu='Sopo',cdepar=departamento)
-		Ciudad.objects.create(pk=38,nciu='Suba',cdepar=departamento)
-		Ciudad.objects.create(pk=39,nciu='Subachoque',cdepar=departamento)
-		Ciudad.objects.create(pk=40,nciu='Susa',cdepar=departamento)
-		Ciudad.objects.create(pk=41,nciu='Tabio',cdepar=departamento)
-		Ciudad.objects.create(pk=42,nciu='Tenjo',cdepar=departamento)
-		Ciudad.objects.create(pk=43,nciu='Tocancipa',cdepar=departamento)
-		Ciudad.objects.create(pk=44,nciu='Ubaté',cdepar=departamento)
-		Ciudad.objects.create(pk=45,nciu='Usaquén',cdepar=departamento)
-		Ciudad.objects.create(pk=46,nciu='Usme',cdepar=departamento)
-		Ciudad.objects.create(pk=47,nciu='Villapinzón',cdepar=departamento)
-		Ciudad.objects.create(pk=48,nciu='Villeta',cdepar=departamento)
-		Ciudad.objects.create(pk=49,nciu='Zipaquirá',cdepar=departamento)
+		Ciudad.objects.create(pk=1,nciu='Alban',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=2,nciu='Bogotá',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=3,nciu='Bojaca',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=4,nciu='Bosa',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=5,nciu='Briceño',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=6,nciu='Cajicá',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=7,nciu='Chía',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=8,nciu='Chinauta',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=9,nciu='Choconta',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=10,nciu='Cota',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=11,nciu='El Muña',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=12,nciu='El Rosal',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=13,nciu='Engativá',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=14,nciu='Facatativa',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=15,nciu='Fontibón',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=16,nciu='Funza',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=17,nciu='Fusagasuga',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=18,nciu='Gachancipá',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=69,nciu='Girardot',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=19,nciu='Guaduas',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=20,nciu='Guayavetal',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=21,nciu='La Calera',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=22,nciu='La Caro',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=23,nciu='Madrid',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=24,nciu='Mosquera',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=25,nciu='Nemocón',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=26,nciu='Puente Piedra',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=27,nciu='Puente Quetame',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=28,nciu='Puerto Bogotá',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=29,nciu='Puerto Salgar',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=30,nciu='Quetame',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=31,nciu='Sasaima',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=32,nciu='Sesquile',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=33,nciu='Sibaté',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=34,nciu='Silvania',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=35,nciu='Simijaca',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=36,nciu='Soacha',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=37,nciu='Sopo',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=38,nciu='Suba',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=39,nciu='Subachoque',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=40,nciu='Susa',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=41,nciu='Tabio',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=42,nciu='Tenjo',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=43,nciu='Tocancipa',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=44,nciu='Ubaté',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=45,nciu='Usaquén',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=46,nciu='Usme',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=47,nciu='Villapinzón',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=48,nciu='Villeta',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(pk=49,nciu='Zipaquirá',cdepar=oDefaultDepartament)
 		print "Cuidad. Registros Creados Correctamente."
 
 		Timo.objects.all().delete()
@@ -218,3 +223,71 @@ class Command(BaseCommand):
 		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
 		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
 		print "Timo. Registros Creados Correctamente."
+		
+		Arlo.objects.all().delete()
+		numberOfArlos = 100
+		for index in xrange(1,numberOfArlos):
+			print "Arlo. Registros Creados Correctamente. Registro " + str(index) + "/" + str(numberOfArlos)
+
+			maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+
+			manageParameters = ManageParameters()
+			minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+
+			if maxCarlos["carlos__max"]:
+				carlos = maxCarlos["carlos__max"] + 1
+			else:
+				carlos = minCodeArlos
+
+			canti = random.randrange(1,10)
+			costo = random.random()*50000
+
+			stomin = random.randrange(1,5)
+			stomax = random.randrange(5,10)
+			Arlo.objects.create(
+				carlos=carlos,
+				cbarras="Codigo de Barras " + str(index),
+				cgpo=oDefaultGroup,
+				ncorto="Nombre Corto " + str(index),
+				nlargo="Nombre Largo Descripcion " + str(index),
+				canti=canti,
+				vcosto=costo,
+				ifcostear=True,
+				ifpvfijo=False,
+				cesdo=estadoActivo,
+				ctiarlo=oDefaultTypeArticle,
+				cunidad=oDefaultUnidades,
+				ivas_civa=oDefaultIva,
+				stomin=stomin,
+				stomax=stomax,
+				pvta1=5000,
+				pvta2=0,
+				pvta3=0,
+				pvta4=0,
+				pvta5=0,
+				pvta6=0,
+				#citerce1="",
+				#vcosto1="",
+				#fcosto1="",
+				#citerce2="",
+				#vcosto2="",
+				#fcosto2="",
+				#citerce3="",
+				#vcosto3="",
+				#fcosto3="",
+				ifedinom=False,
+				refe="Referencia " + str(index),
+				cmarca=oDefaultMarca,
+				ifdesglo=False,
+				mesesgara=10,
+				cubica=oDefaultLocation,
+				porult1=10,
+				porult2=0,
+				porult3=0,
+				porult4=0,
+				porult5=0,
+				porult6=0,
+				foto1=DEFAULT_IMAGE_ARTICLE,
+				foto2=DEFAULT_IMAGE_ARTICLE,
+				foto3=DEFAULT_IMAGE_ARTICLE,
+			)

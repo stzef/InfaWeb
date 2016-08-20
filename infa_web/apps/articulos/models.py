@@ -81,7 +81,7 @@ class Arlo(models.Model):
 	fcosto3 = models.DateField(blank=True,null=True)
 	ifedinom = models.BooleanField(max_length=1)
 	refe = models.CharField(max_length=20)
-	cmarca = models.ForeignKey(Marca,default=DEFAULT_MARCAR)
+	cmarca = models.ForeignKey(Marca,default=DEFAULT_MARCA)
 	ifdesglo = models.BooleanField()
 	mesesgara = models.IntegerField()
 	cubica = models.ForeignKey(Ubica,default=DEFAULT_UBICACION)

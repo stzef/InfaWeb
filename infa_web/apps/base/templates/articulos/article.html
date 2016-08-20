@@ -407,21 +407,21 @@
 			}
 		});
 		$("form").submit(function(){
-			console.log("w")
 			if($("input:invalid, select:invalid").length != 0){
-				event.preventDefault()
-				$(".tab-pane").removeClass("active")
-				var element = $("input:invalid, select:invalid").first()
+				event.preventDefault();
+				$(".tab-pane").removeClass("active");
+				var element = $("input:invalid, select:invalid").first();
+				var oHTML = element[0];
+				var container = element.closest(".form-group");
 
-				element.closest(".tab-pane").addClass("active")
-				element.focus()
-				var oHTML = element[0]
-				element.closest(".form-group").attr("title","<p>" + oHTML.validationMessage + "</p>")
-				element.closest(".form-group").tooltip({trigger:"focus",placement:"bottom",html:true})
-				element.closest(".form-group").tooltip('show')
+				element.closest(".tab-pane").addClass("active");
+				element.focus();
+				container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
+				container.tooltip({trigger:"focus",placement:"bottom",html:true});
+				container.tooltip("show");
 				window.setTimeout(function(){
-					element.closest(".form-group").tooltip('destroy')
-				},3000)
+					container.tooltip("destroy");
+				},3000);
 
 			} 
 
