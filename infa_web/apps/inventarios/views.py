@@ -9,6 +9,8 @@ from .forms import *
 import datetime
 import json
 
+articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
+
 class InventoryView(FormView):
 	template_name = 'inventarios/inventory.html'
 	form_class = InventoryForm
@@ -45,7 +47,7 @@ def inventory_latest(request):
 		response['code'] = sum_invini(value.pk)
 	except Invinicab.DoesNotExist:
 		response['code'] = 'II-00001'
-	for arlo in Arlo.objects.all():
+	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
 		response['data'][c]['cbarras'] = arlo.cbarras
@@ -60,7 +62,7 @@ def inventory_latest(request):
 		response['esdo'][c] = {}
 		response['esdo'][c]['cesdo'] = esdo.cesdo
 		response['esdo'][c]['nesdo'] = esdo.nesdo
-		response['esdo'][c]['selected'] = ''
+		response['esdo'][c]['selected'] = 'selected' if esdo.nesdo == 'ACTIVO' else ''
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -72,7 +74,7 @@ def inventory_edit(request):
 	response['data_extra'] = {}
 	response['esdo'] = {}
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
-	value_extra = Arlo.objects.exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
+	value_extra = Arlo.objects.filter(ctiarlo = articulo).exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
 	response['val_tot'] = int(value.vttotal)
 	response['day'] = value.fii.day
 	response['month'] = value.fii.month
@@ -166,7 +168,7 @@ def get_name_arlo(request):
 	response = {}
 	c = 0
 	response['data'] = {}
-	for arlo in Arlo.objects.all():
+	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
 		response['data'][c]['nlargo'] = arlo.nlargo
