@@ -2,7 +2,6 @@ from django import forms
 from infa_web.apps.articulos.models import *
 from django.core.exceptions import ValidationError
 
-
 class ArticleForm(forms.ModelForm):
 	class Meta:
 		model = Arlo
@@ -13,9 +12,9 @@ class ArticleForm(forms.ModelForm):
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':True}),
 			'cunidad' : forms.Select(attrs={'class': 'form-control','required':True}),
 			'ivas_civa' : forms.Select(attrs={'class': 'form-control','required':True}),
-			'citerce1' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'citerce2' : forms.Select(attrs={'class': 'form-control','required':''}),
-			'citerce3' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'citerce1' : forms.Select(attrs={'class': 'form-control'}),
+			'citerce2' : forms.Select(attrs={'class': 'form-control'}),
+			'citerce3' : forms.Select(attrs={'class': 'form-control'}),
 			'cmarca' : forms.Select(attrs={'class': 'form-control','required':True}),
 			'cubica' : forms.Select(attrs={'class': 'form-control','required':True}),
 			'ctiarlo' : forms.Select(attrs={'class': 'form-control','required':True}),

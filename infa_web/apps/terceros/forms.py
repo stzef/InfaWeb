@@ -36,7 +36,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'topcxc':forms.NumberInput(attrs={'class':'form-control','required':True,'step':'0.01'}),
 			'ndiacxc':forms.TextInput(attrs={'class':'form-control','required':True}),
 			'clipre':forms.TextInput(attrs={'class':'form-control','required':True}),
-			'fnaci':forms.DateInput(attrs={'class':'form-control','required':True}),
+			'fnaci':forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'naju':forms.TextInput(attrs={'class':'form-control','required':True}),
 			'ordenruta':forms.NumberInput(attrs={'class':'form-control','required':True}),
 		}

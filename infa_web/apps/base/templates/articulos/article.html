@@ -408,6 +408,22 @@
 		});
 		customValidationFormTabs("form")
 		
+		$("[name={{form.cbarras.name}}]").change(function(){
+			$.ajax({
+				url: '{% url 'api-exists' %}',
+				type: 'POST',
+				data: JSON.stringify({
+					'model': 1,
+					'field': this.name,
+					'value': this.value
+				}),
+				contentType: "application/json",
+				success: function(response){
+					console.log(response)
+				}
+			});
+		})
+		
 	</script>
 	
 {%endblock%}
