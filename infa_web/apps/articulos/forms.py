@@ -26,10 +26,10 @@ class ArticleForm(forms.ModelForm):
 
 			'cbarras' : forms.NumberInput(attrs={'class': 'form-control','step':'1','required':True}),
 			'mesesgara' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'stomin' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'stomax' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'canti' : forms.NumberInput(attrs={'type_input':'number','class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vcosto' : forms.NumberInput(attrs={'type_input':'number','class': 'form-control','required':True,'step':'0.01','min':0}),
 			'porult1':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'porult2':forms.NumberInput(attrs={'class': 'form-control','step':'0.01','min':0}),
 			'porult3':forms.NumberInput(attrs={'class': 'form-control','step':'0.01','min':0}),
@@ -94,7 +94,6 @@ class ArticleForm(forms.ModelForm):
 			'foto2':'Foto 2',
 			'foto3':'Foto 3'
 		}
-
 
 	def clean(self):
 		if self.cleaned_data["stomin"] > self.cleaned_data["stomax"]:

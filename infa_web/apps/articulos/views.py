@@ -99,6 +99,8 @@ class ArticleCreate(CreateView):
 
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
 
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
@@ -127,6 +129,8 @@ class ArticleCopy(UpdateView):
 
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
 
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
@@ -148,6 +152,11 @@ class ArticleUpdate(UpdateView):
 		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
 
 		current_article = Arlo.objects.get(pk=self.kwargs["pk"])
+
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
 
 		context['url_foto1'] = current_article.foto1
 		context['url_foto2'] = current_article.foto2

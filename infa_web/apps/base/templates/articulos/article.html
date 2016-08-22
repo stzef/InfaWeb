@@ -131,21 +131,32 @@
 
 										<div class="row">
 											<div class="col-md-6 form-group">
-												<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">{{form.canti.label}}</label>
+
+												<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">
+													{{form.canti.label}}
+													{% if typeInventory != "M" %} 
+														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+													{% endif %}
+												</label>
 												{%if form.canti.errors%}
 												{{form.canti.errors}}
 												{%endif%}
 												<div class="col-sm-8">
-													{{form.canti}}
+													<input type="{{form.canti.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.canti.name}}" id="{{form.canti.id_for_label}}" step="{{form.canti.field.widget.attrs.step}}" min="{{form.canti.field.widget.attrs.min}}" class="{{form.canti.field.widget.attrs.class}}" {% if form.canti.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
 												</div>
 											</div>
 											<div class="col-md-6 form-group">
-												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">{{form.vcosto.label}}</label>
+												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
+													{{form.vcosto.label}}
+													{% if typeInventory != "M" %} 
+														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+													{% endif %}
+												</label>
 												{%if form.vcosto.errors%}
 												{{form.vcosto.errors}}
 												{%endif%}
 												<div class="col-sm-8">
-													{{form.vcosto}}
+													<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
 												</div>
 											</div>
 										</div>
@@ -173,32 +184,62 @@
 											<tbody>
 												<tr>
 													<th>1</th>
-													<th>{{form.porult1}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult1}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta1}}</th>
 												</tr>
 												<tr>
 													<th>2</th>
-													<th>{{form.porult2}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult2}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta2}}</th>
 												</tr>
 												<tr>
 													<th>3</th>
-													<th>{{form.porult3}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult3}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta3}}</th>
 												</tr>
 												<tr>
 													<th>4</th>
-													<th>{{form.porult4}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult4}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta4}}</th>
 												</tr>
 												<tr>
 													<th>5</th>
-													<th>{{form.porult5}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult5}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta5}}</th>
 												</tr>
 												<tr>
 													<th>6</th>
-													<th>{{form.porult6}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult6}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta6}}</th>
 												</tr>
 											</tbody>

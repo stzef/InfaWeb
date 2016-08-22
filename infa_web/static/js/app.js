@@ -122,15 +122,6 @@ function alertBootstrap(message,type){
 	return $(stringHTML)
 }
 
-if($("form").length){
-	$(window).on('beforeunload', function(){
-		console.log("hola")
-		//return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
-
-		//Esta seguro de abandonar el sitio? SI o NO
-	});
-}
-
 $("#id_stomin").attr("data-less-than","#id_stomax");
 
 $("[data-less-than]").change(function(event){
@@ -181,3 +172,12 @@ var languageDataTable = {
 		sSortDescending: ": Activar para ordenar la columna de manera descendente"
 	}
 };
+
+if($("form").length){
+	$(window).on('beforeunload', function(){
+		console.log("hola")
+		//return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
+
+		//Esta seguro de abandonar el sitio? SI o NO
+	});
+}
