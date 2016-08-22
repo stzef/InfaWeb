@@ -112,17 +112,6 @@ def inventory_edit(request):
 	response['count_extra'] = value_extra.count()
 	return HttpResponse(json.dumps(response), "application/json")
 
-def inventory_find(request, cii):
-	response = {}
-	try:
-		value = Invinicab.objects.get(cii = cii)
-		response['cii'] = value.pk
-		response['type'] = 1
-	except Invinicab.DoesNotExist:
-		response['cii'] = cii
-		response['type'] = 0
-	return HttpResponse(json.dumps(response), "application/json")
-
 @csrf_exempt
 def inventory_save(request):
 	response = {}
