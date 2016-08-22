@@ -37,6 +37,28 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 	})
 }
 
+function customValidationFormTabs(selectorForm){
+	$(selectorForm).attr("novalidate","")
+	$(selectorForm).submit(function(){
+		if($("input:invalid, select:invalid").length != 0){
+			event.preventDefault();
+			$(".tab-pane").removeClass("active");
+			var element = $("input:invalid, select:invalid").first();
+			var oHTML = element[0];
+			var container = element.closest(".form-group");
+
+			element.closest(".tab-pane").addClass("active");
+			element.focus();
+			container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
+			container.tooltip({trigger:"focus",placement:"bottom",html:true});
+			container.tooltip("show");
+			window.setTimeout(function(){
+				container.tooltip("destroy");
+			},3000);
+		}
+	})
+}
+
 function alertBootstrap(message,type){
 	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
 	stringHTML = stringHTML
@@ -50,6 +72,7 @@ function alertBootstrap(message,type){
 		return "Desea Salir Realmente. Si sale los ingresados datos seperderan";
 	});
 }*/
+
 $("#id_stomin").attr("data-less-than","#id_stomax");
 
 $("[data-less-than]").change(function(event){

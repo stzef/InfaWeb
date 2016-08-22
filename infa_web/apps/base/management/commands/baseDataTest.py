@@ -105,7 +105,12 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()
+		marcas =[]
 		oDefaultMarca = Marca.objects.create(cmarca=DEFAULT_MARCA,nmarca="SIN MARCA",cesdo=estadoActivo)
+		for index in xrange(1,5):
+			tMarca = Marca.objects.create(nmarca="MARCA " + str(index),cesdo=estadoActivo)
+			marcas.append(tMarca)
+			print "Marca. Registros Creados Correctamente. Registro " + str(index) + "/" + str(5)
 		print "Marca. Registros Creados Correctamente."
 
 		Bode.objects.all().delete()
@@ -117,7 +122,12 @@ class Command(BaseCommand):
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
+		grupos =[]
 		oDefaultGroup = Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
+		for index in xrange(1,5):
+			tGrupo = Gpo.objects.create(cgpo=index,ngpo="GRUPO " + str(index),cesdo=estadoActivo)
+			grupos.append(tGrupo)
+			print "Gpo. Registros Creados Correctamente. Registro " + str(index) + "/" + str(5)
 		print "Gpo. Registros Creados Correctamente."
 		
 		Departamento.objects.all().delete()
@@ -242,12 +252,15 @@ class Command(BaseCommand):
 			canti = random.randrange(1,10)
 			costo = random.random()*50000
 
+			marca = random.choice(marcas)
+			grupo = random.choice(grupos)
+
 			stomin = random.randrange(1,5)
 			stomax = random.randrange(5,10)
 			Arlo.objects.create(
 				carlos=carlos,
 				cbarras="Codigo de Barras " + str(index),
-				cgpo=oDefaultGroup,
+				cgpo=grupo,
 				ncorto="Nombre Corto " + str(index),
 				nlargo="Nombre Largo Descripcion " + str(index),
 				canti=canti,
@@ -277,7 +290,7 @@ class Command(BaseCommand):
 				#fcosto3="",
 				ifedinom=False,
 				refe="Referencia " + str(index),
-				cmarca=oDefaultMarca,
+				cmarca=marca,
 				ifdesglo=False,
 				mesesgara=10,
 				cubica=oDefaultLocation,
