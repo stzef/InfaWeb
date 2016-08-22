@@ -59,7 +59,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'faxterce':'Fax',
 			'ciudad':'Ciudad',
 			'email':'Correo Electrónico',
-			'contacto':'COntacto',
+			'contacto':'Contacto',
 			'cregiva':'Régimen de IVA',
 			'cautorre':'Autorretenedor',
 			'cesdo':'Estado',

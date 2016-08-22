@@ -250,6 +250,7 @@ class Command(BaseCommand):
 				carlos = minCodeArlos
 
 			canti = random.randrange(1,10)
+			cbarras = random.randrange(1,10000)
 			costo = random.random()*50000
 
 			marca = random.choice(marcas)
@@ -259,7 +260,7 @@ class Command(BaseCommand):
 			stomax = random.randrange(5,10)
 			Arlo.objects.create(
 				carlos=carlos,
-				cbarras="Codigo de Barras " + str(index),
+				cbarras=cbarras,
 				cgpo=grupo,
 				ncorto="Nombre Corto " + str(index),
 				nlargo="Nombre Largo Descripcion " + str(index),

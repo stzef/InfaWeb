@@ -100,6 +100,8 @@ function customValidationFormTabs(selectorForm){
 			var oHTML = element[0];
 			var container = element.closest(".form-group");
 
+			console.log(element)
+
 			element.closest(".tab-pane").addClass("active");
 			element.focus();
 			container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
@@ -120,12 +122,14 @@ function alertBootstrap(message,type){
 	return $(stringHTML)
 }
 
-/*if($("form").length){
+if($("form").length){
 	$(window).on('beforeunload', function(){
-		return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
+		console.log("hola")
+		//return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
+
 		//Esta seguro de abandonar el sitio? SI o NO
 	});
-}*/
+}
 
 $("#id_stomin").attr("data-less-than","#id_stomax");
 
