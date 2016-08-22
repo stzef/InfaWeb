@@ -34,7 +34,7 @@
 							</div>
 							<div class="box-footer text-center">
 								<div class="btn-group">
-									<a class="btn btn-app btn-info btn-new" href="{% url 'inventory_latest' %}">
+									<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
 										<i class="fa fa-plus-square-o"></i>Nuevo
 									</a>
 									<a class="btn btn-app" href="{% url 'inventory_list' %}">
@@ -62,7 +62,6 @@
 	var cii = '';
 	var table = '';
 	var data_table_content = [];
-	loading_animation()
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -77,10 +76,14 @@
 			$('#id_codigo').val($.urlParam('code'));
 			edit_inventory();
 		}else{
-			$(document).ready(function(){
-				$(".btn-new").trigger('click');
-			});
+			get_new();
 		}
+	}
+	function get_new(){
+		loading_animation();
+		$.post('{% url 'inventory_latest' %}', function(response){
+			create_table(response);
+		});
 	}
 	function create_table(response){
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
@@ -176,27 +179,15 @@
 	}
 	function edit_inventory(){
 		cii = $('#id_codigo');
-		if(cii.val() != ''){
-			$.get('/inventory/find/'+cii.val()+'/', function(response){
-				if(response.type == 0){
-					if (confirm('No existe inventario con el codigo ingresado. Desea crear un nuevo con el codigo '+response.cii+'?')){
-						$(".btn-new").trigger('click');
-					}
-				}else{
-					$.post('{% url 'inventory_edit' %}', {pk: cii.val()}, function(response){
-						create_table(response);
-						if(response.count_extra > 0){
-							if (confirm('Hay '+response.count_extra+' nuevos articulos. Desea agregarlos al inventario en edición?')){
-								data_table(response.data_extra);
-							}
-						}
-					});
+		loading_animation();
+		$.post('{% url 'inventory_edit' %}', {pk: cii.val()}, function(response){
+			create_table(response);
+			if(response.count_extra > 0){
+				if (confirm('Hay '+response.count_extra+' nuevos articulos. Desea agregarlos al inventario en edición?')){
+					data_table(response.data_extra);
 				}
-			});
-		}else{
-			alert('Digite el código a buscar');
-			cii.focus();
-		}
+			}
+		});
 	}
 	function data_table(data){
 		var val_tot = 0;
@@ -219,6 +210,7 @@
 		});
 		$(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
 		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
+		$('.animation').empty();
 	}
 	$(document).on("click", ".positive",function () {
 		$(this).select();
@@ -234,12 +226,6 @@
 				$('td', item.carlos).eq(2).text(item.nlargo);
 				$('#nlargo-'+item.carlos).text(item.nlargo)
 			});
-		});
-	});
-	$(document).on("click", ".btn-new", function(e){
-		e.preventDefault();
-		$.post($(this).attr('href'), function(response){
-			create_table(response);
 		});
 	});
 	$(document).on("keyup", ".cant", function(e){
