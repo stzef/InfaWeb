@@ -45,14 +45,15 @@ class Command(BaseCommand):
 		print "Vende. Registros Creados Correctamente."
 
 		Unidades.objects.all().delete()
-		oDefaultUnidades = Unidades.objects.create(nunidad="UNIDADES",peso=0)
-		Unidades.objects.create(nunidad="KILOGRAMOS",peso=0)
-		Unidades.objects.create(nunidad="METROS",peso=0)
-		Unidades.objects.create(nunidad="DOCENAS",peso=0)
-		Unidades.objects.create(nunidad="CAJAS",peso=0)
-		Unidades.objects.create(nunidad="DISPLAYS",peso=0)
-		Unidades.objects.create(nunidad="PAQUETE",peso=0)
-		Unidades.objects.create(nunidad="MILILITROS",peso=0)
+		Unidades.objects.create(pk=1,nunidad="UNIDADES",peso=0)
+		Unidades.objects.create(pk=2,nunidad="KILOGRAMOS",peso=0)
+		Unidades.objects.create(pk=3,nunidad="METROS",peso=0)
+		Unidades.objects.create(pk=4,nunidad="DOCENAS",peso=0)
+		Unidades.objects.create(pk=5,nunidad="CAJAS",peso=0)
+		Unidades.objects.create(pk=6,nunidad="DISPLAYS",peso=0)
+		Unidades.objects.create(pk=7,nunidad="PAQUETE",peso=0)
+		Unidades.objects.create(pk=8,nunidad="MILILITROS",peso=0)
+
 		print "Unidades. Registros Creados Correctamente."
 
 
@@ -108,7 +109,11 @@ class Command(BaseCommand):
 		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
+<<<<<<< HEAD:infa_web/apps/base/management/commands/basicData.py
+		Ubica.objects.create(pk=1000,nubica="SIN UBICACION",cesdo=estadoActivo)
+=======
 		oDefaultLocation = Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
+>>>>>>> ba942838fab1433c34fdf40c50bc2bfdc877ab3d:infa_web/apps/base/management/commands/baseData.py
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()

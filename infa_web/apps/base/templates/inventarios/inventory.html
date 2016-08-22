@@ -29,6 +29,7 @@
 									<div class="col-sm-6">
 										{{ form.codigo }}
 									</div>
+									<div class="col-md-12 cont-info text-center"></div>
 								</div>
 							</div>
 							<div class="box-footer text-center">
@@ -56,6 +57,7 @@
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+<script src="{% static 'js/jquery.numeric.min.js' %}"></script>
 <script>
 	var cii = '';
 	var table = '';
@@ -84,25 +86,34 @@
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
 		cii = '';
 		$('#table-inventory').children().remove();
+		$('.cont-info').children().remove();
+		$('.cont-info').append(
+			'<div class="row">'+
+				'<br>'+
+				'<div class="col-md-3 col-md-offset-2">'+
+					'<label class="col-md-3 control-label">Estado: </label>'+
+					'<div class="col-md-8">'+
+						'<select name="estado" id="id_estado" class="form-control">'+
+							'<option value="">Seleccione un estado</option>'+
+						'</select>'+
+					'</div>'+
+					'</p>'+
+				'</div>'+
+				'<div class="col-md-3">'+
+					'<label class="col-md-3 control-label">Fecha: </label>'+
+					'<div class="col-md-8">'+
+						'<input type="text" id="date" class="form-control date">'+
+					'</div>'+
+				'</div>'+
+				'<div class="col-md-3">'+
+					'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
+				'</div>'+
+			'</div>'
+		);
 		$('#table-inventory').append(
 			'<div class="box">'+
 				'<div class="box-header">'+
-					'<div class="row">'+
-						'<div class="col-md-3">'+
-							'<p><b>Estado: </b>'+
-								'<select name="estado" id="id_estado" class="form-control">'+
-									'<option value="">Seleccione un estado</option>'+
-								'</select>'+
-							'</p>'+
-						'</div>'+
-						'<div class="col-md-3">'+
-							'<p><b>Fecha: </b>'+
-								'<input type="text" id="date" class="form-control date">'+
-							'</p>'+
-						'</div>'+
-					'</div>'+
 					'<div class="box-tools">'+
-						'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
 					'</div>'+
 				'</div>'+
 				'<div class="box-body">'+
@@ -129,17 +140,18 @@
 			'</div>'
 		);
 		table = $('.table').DataTable({
+			"order": [[ 2, "asc" ]],
 			columns: [
 				{ title: "Código", data: "codigo" },
-				{ title: "Código Barras", data: "codigo_barras" },
+				{ title: "C. Barras", data: "codigo_barras" },
 				{ title: "Nombre", data: "nombre" },
-				{ title: "Grupo.", data: "grupo" },
-				{ title: "Cant. Calculada", data: "calcu" },
-				{ title: "Cant. Contada", data: "cont" },
-				{ title: "Costo Unitario", data: "unita" },
+				{ title: "Grupo", data: "grupo" },
+				{ title: "Cant. Cal.", data: "calcu" },
+				{ title: "Cant. Cont.", data: "cont" },
+				{ title: "Costo Unit.", data: "unita" },
 				{ title: "Costo Total", data: "total" },
-				{ title: "Ajuste Entrada", data: "entrada" },
-				{ title: "Ajuste Salida", data: "salida" },
+				{ title: "Aj. Entrada", data: "entrada" },
+				{ title: "Aj. Salida", data: "salida" },
 			],
 			"createdRow": function ( row, data, index ) {
 				$('td', row).eq(0).attr('id', 'carlos-'+data.DT_RowId);
@@ -198,15 +210,19 @@
 				'nombre': item.nlargo,
 				'grupo': item.ngpo,
 				'calcu': item.cancalcu,
-				'cont': '<input type="text" id="cant-'+item.carlos+'" class="text-right cant val" value="'+item.canti+'" style="border: none;">',
-				'unita': '<input type="text" id="vunita-'+item.carlos+'" class="text-right value val" value="'+item.vcosto+'" style="border: none;">',
-				'total': (item.canti*item.vcosto).format(2),
+				'cont': '<input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'">',
+				'unita': '<input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'">',
+				'total': (item.cancalcu*item.vcosto).format(2),
 				'entrada': 0,
 				'salida': 0
 			}).draw()
 		});
+		$(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
 		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
 	}
+	$(document).on("click", ".positive",function () {
+		$(this).select();
+	});
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
 		$(':input.val').val(0).trigger('keyup');
@@ -215,6 +231,7 @@
 		e.preventDefault();
 		$.post('{% url 'get_name_arlo' %}', function(response){
 			$.each(response.data, function (key, item){
+				$('td', item.carlos).eq(2).text(item.nlargo);
 				$('#nlargo-'+item.carlos).text(item.nlargo)
 			});
 		});
@@ -231,8 +248,9 @@
 		var cant_calcu = parseInt($('#cancalcu-'+id).text());
 		var cant = (this_value - cant_calcu);
 		var value_tot = this_value*$('#vunita-'+id).val();
-		var val_calcu = (parseInt($('#val-tot').attr('val'))-parseInt($('#vtotal-'+id).attr('val')))+value_tot;
-		console.log($('#vtotal-'+id).attr('val'))
+		var cantidad = isNaN($('#vtotal-'+id).attr('val')) ? 0: $('#vtotal-'+id).attr('val');
+		var val_tot = isNaN($('#val-tot').attr('val')) ? 0: $('#val-tot').attr('val');
+		var val_calcu = (parseInt(val_tot)-parseInt(cantidad))+value_tot;
 		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		if(cant < 0){
@@ -256,7 +274,7 @@
 		var data_r = [];
 		cesdo = $('#id_estado');
 		if(cesdo.val() != ''){
-			$.each( table.rows().data(), function(i, row){
+			$.each(table.rows().data(), function(i, row){
 				data_r.push({
 					'carlos': row.codigo,
 					'nlargo': row.nombre,
