@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.articulos.models import *
 from django.core.exceptions import ValidationError
@@ -47,21 +48,21 @@ class ArticleForm(forms.ModelForm):
 			'foto3':forms.FileInput(attrs={'class': 'form-control'})
 		}
 		labels = {
-			'carlos':'Codigo Interno',
-			'cbarras':'Codigo de Barras',
+			'carlos':'Código Interno',
+			'cbarras':'Código de Barras',
 			'cgpo':'Grupo',
 			'ncorto':'Nombre Corto',
-			'nlargo':'Descripcion',
+			'nlargo':'Descripción',
 			'canti':'Cantidad',
 			'vcosto':'Costo',
 			'ifcostear':'Costear',
 			'ifpvfijo':'Precio Venta Fijo',
 			'cesdo':'Estado',
 			'cunidad':'Unidades',
-			'ctiarlo':'Tipo de Articulo',
+			'ctiarlo':'Tipo de Artículo',
 			'ivas_civa':'IVA',
-			'stomin':'Stock Minimo',
-			'stomax':'Stock Maximo',
+			'stomin':'Stock Mínimo',
+			'stomax':'Stock Máximo',
 			'pvta1':'Precio Venta 1',
 			'pvta2':'Precio Venta 2',
 			'pvta3':'Precio Venta 3',
@@ -80,9 +81,9 @@ class ArticleForm(forms.ModelForm):
 			'ifedinom':'Nombre Editable',
 			'refe':'Referencia',
 			'cmarca':'Marca',
-			'ifdesglo':'Desglozado',
-			'mesesgara':'Garantia(Meses)',
-			'cubica':'Ubicacion',
+			'ifdesglo':'Desglosado',
+			'mesesgara':'Garantía(Meses)',
+			'cubica':'Ubicación',
 			'porult1':'Porcentaje 1',
 			'porult2':'Porcentaje 2',
 			'porult3':'Porcentaje 3',
@@ -93,6 +94,8 @@ class ArticleForm(forms.ModelForm):
 			'foto2':'Foto 2',
 			'foto3':'Foto 3'
 		}
+
+
 	def clean(self):
 		if self.cleaned_data["stomin"] > self.cleaned_data["stomax"]:
 			self.add_error( "stomin", "El Strock Minimo debe ser menor al Stock Mayor" )
@@ -105,7 +108,7 @@ class GpoForm(forms.ModelForm):
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
 		}
 		labels = {
-			'cgpo' : 'Codigo Interno',
+			'cgpo' : 'Código Interno',
 			'ngpo' : 'Nombre',
 			'cesdo' : 'Estado'
 		}
@@ -138,7 +141,7 @@ class BrandForm(forms.ModelForm):
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
 		}
 		labels = {
-			'cmarca' : 'Codigo Interno',
+			'cmarca' : 'Código Interno',
 			'nmarca' : 'Nombre',
 			'cesdo' : 'Estado'
 		}
@@ -150,6 +153,7 @@ class TiarlosForm(forms.ModelForm):
 		exclude = ["ctiarlos"]
 		widgets = {}
 		labels = {
-			'ctiarlos' : 'Codigo Interno',
+			'ctiarlos' : 'Código Interno',
 			'ntiarlos' : 'Nombre',
 		}
+

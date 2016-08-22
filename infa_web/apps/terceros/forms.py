@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.terceros.models import *
 
@@ -41,11 +42,11 @@ class ThirdPartyForm(forms.ModelForm):
 			'ordenruta':forms.NumberInput(attrs={'class':'form-control','required':True}),
 		}
 		labels = {
-			'citerce':'Codigo Interno',
-			'idterce':'Identificacion',
+			'citerce':'Código Interno',
+			'idterce':'Identificación',
 			'dv':'DV',
-			'ctiide':'Tipo Identificaion',
-			'rasocial':'Razon Social',
+			'ctiide':'Tipo Identificación',
+			'rasocial':'Razón Social',
 			'nomcomer':'Nombre Comercial',
 			'ape1':'Apellido 1',
 			'ape2':'Apellido 2',
@@ -53,23 +54,23 @@ class ThirdPartyForm(forms.ModelForm):
 			'nom2':'Nombre 2',
 			'sigla':'Sigla',
 			'replegal':'Representante Legal',
-			'dirterce':'Dirreccion',
-			'telterce':'Telefono',
+			'dirterce':'Dirección',
+			'telterce':'Teléfono',
 			'faxterce':'Fax',
 			'ciudad':'Ciudad',
-			'email':'Correo Electronico',
+			'email':'Correo Electrónico',
 			'contacto':'COntacto',
-			'cregiva':'Regimen de IVA',
+			'cregiva':'Régimen de IVA',
 			'cautorre':'Autorretenedor',
 			'cesdo':'Estado',
 			'cvende':'Vendedor',
 			'topcxc':'Tope Cartera por Cobrar',
 			'czona':'Zona',
-			'clipre':'Lista de Precio', # default 1
+			'clipre':'Lista de Precio',
 			'fnaci':'Fecha de Nacimiento',
 			'cruta':'Ruta',
 			'ordenruta':'Orden Ruta',
-			'cpersona':'Tipo de Persona',
+			'cpersona':'Tipo de Tercero',
 		}
 
 class AutorretenedorForm(forms.ModelForm):
@@ -81,9 +82,10 @@ class AutorretenedorForm(forms.ModelForm):
 			'nautorre' : forms.TextInput(attrs={'class': 'form-control','required':True}),
 		}
 		labels = {
-			'cautorre':'Codigo Interno',
+			'cautorre':'Código Interno',
 			'nautorre':'Nombre',
 		}
+
 class RouteForm(forms.ModelForm):
 	class Meta:
 		model = Ruta
@@ -94,7 +96,7 @@ class RouteForm(forms.ModelForm):
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
 		}
 		labels = {
-			'cruta':'Codigo Interno',
+			'cruta':'Código Interno',
 			'nruta':'Nombre',
 			'cesdo':'Estado',
 		}
@@ -109,7 +111,7 @@ class ZoneForm(forms.ModelForm):
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
 		}
 		labels = {
-			'cruta':'Codigo Interno',
+			'cruta':'Código Interno',
 			'nzona':'Nombre',
 			'cesdo':'Estado',
 		}

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.base.models import *
 
@@ -25,7 +26,7 @@ class CiudadForm(forms.ModelForm):
 			'cdepar':forms.Select(attrs={'class':'form-control','required':''}),
 		}
 		labels = {
-			'cciu': 'Codigo Interno',
+			'cciu': 'Código Interno',
 			'nciu': 'Nombre',
 			'cdepar': 'Departamento'
 		}
@@ -39,7 +40,7 @@ class UbicaForm(forms.ModelForm):
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
 		}
 		labels = {
-			'cubica': 'Codigo Interno',
+			'cubica': 'Código Interno',
 			'nubica': 'Nombre',
 			'cesdo': 'Estado'
 		}
@@ -51,7 +52,7 @@ class DepartamentoForm(forms.ModelForm):
 		exclude = ["cdepar"]
 		widgets = {}
 		labels = {
-			'cdepar': 'Codigo Interno',
+			'cdepar': 'Código Interno',
 			'ndepar': 'Nombre'
 		}
 
@@ -62,10 +63,11 @@ class StateForm(forms.ModelForm):
 		exclude = []
 		widgets = {}
 		labels = {
-			'cesdo':'Codigo Interno',
+			'cesdo':'Código Interno',
 			'nesdo':'Nombre',
 			'estavali':'Estado Valido',
 		}
+
 class IvaForm(forms.ModelForm):
 	class Meta:
 		model = Iva
@@ -75,7 +77,7 @@ class IvaForm(forms.ModelForm):
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
 		}
 		labels = {
-			'civa':'Codigo Interno',
+			'civa':'Código Interno',
 			'niva':'Nombre',
 			'poriva':'Porcentaje',
 			'idtira':'Id Tirilla',
@@ -89,7 +91,7 @@ class RegivaForm(forms.ModelForm):
 		exclude = ["cregiva"]
 		widgets = {}
 		labels = {
-			'cregiva':'Codigo Interno',
+			'cregiva':'Código Interno',
 			'nregiva':'Nombre',
 		}
 
@@ -102,6 +104,7 @@ class IDTypeForm(forms.ModelForm):
 			'ntiide' : forms.TextInput(attrs={'class': 'form-control','required':True}),
 		}
 		labels = {
-			'idtiide':'Codigo Interno',
+			'idtiide':'Código Interno',
 			'ntiide':'Nombre',
 		}
+

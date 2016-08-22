@@ -25,6 +25,19 @@
 										<h3 class="box-title">Basicos</h3>
 									</div>
 									<div class="box-body">
+										<div class="form-group">
+											<label for="{{form.cpersona.id_for_label}}" class="col-sm-2 control-label">{{form.cpersona.label}}</label>
+											{%if form.cpersona.errors%}
+											{{form.cpersona.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cpersona}}
+													<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										
 										<div class="col-md-6 form-group">
 											<label for="{{form.ape1.id_for_label}}" class="col-sm-2 control-label">{{form.ape1.label}}</label>
 											{%if form.ape1.errors%}
@@ -44,6 +57,8 @@
 											</div>
 										</div>
 
+
+
 										<div class="col-md-6 form-group">
 											<label for="{{form.nom1.id_for_label}}" class="col-sm-2 control-label">{{form.nom1.label}}</label>
 											{%if form.nom1.errors%}
@@ -62,6 +77,24 @@
 												{{form.nom2}}
 											</div>
 										</div>
+										<div class="form-group">
+											<label for="{{form.rasocial.id_for_label}}" class="col-sm-2 control-label">{{form.rasocial.label}}</label>
+											{%if form.rasocial.errors%}
+											{{form.rasocial.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.rasocial}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.nomcomer.id_for_label}}" class="col-sm-2 control-label">{{form.nomcomer.label}}</label>
+											{%if form.nomcomer.errors%}
+											{{form.nomcomer.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.nomcomer}}
+											</div>
+										</div>
 										<div class="col-md-4 form-group">
 											<label for="{{form.idterce.id_for_label}}" class="col-sm-4 control-label">{{form.idterce.label}}</label>
 											{%if form.idterce.errors%}
@@ -69,6 +102,15 @@
 											{%endif%}
 											<div class="col-sm-8">
 												{{form.idterce}}
+											</div>
+										</div>
+										<div class="col-md-2 form-group">
+											<label for="{{form.dv.id_for_label}}" class="col-sm-6 control-label">{{form.dv.label}}</label>
+											{%if form.dv.errors%}
+											{{form.dv.errors}}
+											{%endif%}
+											<div class="col-sm-6">
+												{{form.dv}}
 											</div>
 										</div>
 										<div class="col-md-6 form-group">
@@ -81,15 +123,6 @@
 													{{form.ctiide}}
 													<span class="input-group-addon"><a data-new-window href="{% url 'add-id-type' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 												</div>
-											</div>
-										</div>
-										<div class="col-md-2 form-group">
-											<label for="{{form.dv.id_for_label}}" class="col-sm-6 control-label">{{form.dv.label}}</label>
-											{%if form.dv.errors%}
-											{{form.dv.errors}}
-											{%endif%}
-											<div class="col-sm-6">
-												{{form.dv}}
 											</div>
 										</div>
 										<div class="form-group">
@@ -167,39 +200,7 @@
 										<h3 class="box-title">Legales</h3>
 									</div>
 									<div class="box-body">
-										<div class="form-group">
-											<label for="{{form.cpersona.id_for_label}}" class="col-sm-2 control-label">{{form.cpersona.label}}</label>
-											{%if form.cpersona.errors%}
-											{{form.cpersona.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.cpersona}}
-													<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-												</div>
-											</div>
-										</div>
 										
-										<div class="form-group">
-											<label for="{{form.rasocial.id_for_label}}" class="col-sm-2 control-label">{{form.rasocial.label}}</label>
-											{%if form.rasocial.errors%}
-											{{form.rasocial.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												{{form.rasocial}}
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="{{form.nomcomer.id_for_label}}" class="col-sm-2 control-label">{{form.nomcomer.label}}</label>
-											{%if form.nomcomer.errors%}
-											{{form.nomcomer.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												{{form.nomcomer}}
-											</div>
-										</div>
-
-
 										<div class="form-group">
 											<label for="{{form.replegal.id_for_label}}" class="col-sm-2 control-label">{{form.replegal.label}}</label>
 											{%if form.replegal.errors%}
@@ -207,6 +208,39 @@
 											{%endif%}
 											<div class="col-sm-8">
 												{{form.replegal}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.sigla.id_for_label}}" class="col-sm-2 control-label">{{form.sigla.label}}</label>
+											{%if form.sigla.errors%}
+											{{form.sigla.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.sigla}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cregiva.id_for_label}}" class="col-sm-2 control-label">{{form.cregiva.label}}</label>
+											{%if form.cregiva.errors%}
+											{{form.cregiva.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cregiva}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-reg-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{form.cautorre.id_for_label}}" class="col-sm-2 control-label">{{form.cautorre.label}}</label>
+											{%if form.cautorre.errors%}
+											{{form.cautorre.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<div class="input-group">
+													{{form.cautorre}}
+													<span class="input-group-addon"><a data-new-window href="{% url 'add-autorretenedor' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -257,45 +291,12 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="{{form.sigla.id_for_label}}" class="col-sm-2 control-label">{{form.sigla.label}}</label>
-											{%if form.sigla.errors%}
-											{{form.sigla.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												{{form.sigla}}
-											</div>
-										</div>
-										<div class="form-group">
 											<label for="{{form.contacto.id_for_label}}" class="col-sm-2 control-label">{{form.contacto.label}}</label>
 											{%if form.contacto.errors%}
 											{{form.contacto.errors}}
 											{%endif%}
 											<div class="col-sm-8">
 												{{form.contacto}}
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="{{form.cregiva.id_for_label}}" class="col-sm-2 control-label">{{form.cregiva.label}}</label>
-											{%if form.cregiva.errors%}
-											{{form.cregiva.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.cregiva}}
-													<span class="input-group-addon"><a data-new-window href="{% url 'add-reg-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-												</div>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="{{form.cautorre.id_for_label}}" class="col-sm-2 control-label">{{form.cautorre.label}}</label>
-											{%if form.cautorre.errors%}
-											{{form.cautorre.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.cautorre}}
-													<span class="input-group-addon"><a data-new-window href="{% url 'add-autorretenedor' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-												</div>
 											</div>
 										</div>
 										<div class="form-group">
@@ -380,5 +381,6 @@
 		$('.date').datetimepicker({
 			format: 'YYYY-MM-D',
 		});
+		$("[name=idterce]").change(function(){$("[name=dv]").val(calcularDigitoVerificacion(this.value))})
 	</script>
 {%endblock%}

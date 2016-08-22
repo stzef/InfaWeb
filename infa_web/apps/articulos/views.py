@@ -93,6 +93,10 @@ class ArticleCreate(CreateView):
 		context['mode_view'] = 'create'
 		context['url'] = 'add-article'
 
+		context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
+
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 
@@ -117,6 +121,10 @@ class ArticleCopy(UpdateView):
 		context['mode_view'] = 'copy'
 		context['url'] = 'add-article'
 
+		context['url_foto1'] = current_article.foto1
+		context['url_foto2'] = current_article.foto2
+		context['url_foto3'] = current_article.foto3
+
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 
@@ -138,6 +146,12 @@ class ArticleUpdate(UpdateView):
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
+
+		current_article = Arlo.objects.get(pk=self.kwargs["pk"])
+
+		context['url_foto1'] = current_article.foto1
+		context['url_foto2'] = current_article.foto2
+		context['url_foto3'] = current_article.foto3
 
 		return context
 
