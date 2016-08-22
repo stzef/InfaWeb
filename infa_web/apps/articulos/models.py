@@ -96,7 +96,13 @@ class Arlo(models.Model):
 	foto3 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
 
 	def __str__(self):
-		return self.nlargo
+		return self.ncorto
+
+	def __unicode__(self):
+		return self.ncorto
+
+	class Meta:
+		ordering = ['-ncorto']
 
 class Arlosdesglo(models.Model):
 	carlosp = models.ForeignKey(Arlo, related_name='carlosp')

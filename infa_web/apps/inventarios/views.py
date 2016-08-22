@@ -42,6 +42,12 @@ def inventory_latest(request):
 	response['year'] = now.year
 	response['hour'] = now.hour
 	response['minute'] = now.minute
+
+	response['ac_day'] = 0
+	response['ac_month'] = 0
+	response['ac_year'] = 0
+	response['ac_hour'] = 0
+	response['ac_minute'] = 0
 	try:
 		value = Invinicab.objects.all().latest('pk')
 		response['code'] = sum_invini(value.pk)
@@ -81,6 +87,12 @@ def inventory_edit(request):
 	response['year'] = value.fii.year
 	response['hour'] = value.fii.hour
 	response['minute'] = value.fii.minute
+
+	response['ac_day'] = value.fuaii.day
+	response['ac_month'] = value.fuaii.month
+	response['ac_year'] = value.fuaii.year
+	response['ac_hour'] = value.fuaii.hour
+	response['ac_minute'] = value.fuaii.minute
 	for arlo in value.invinideta_set.all():
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos.pk

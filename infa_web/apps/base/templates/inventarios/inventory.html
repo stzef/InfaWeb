@@ -12,7 +12,7 @@
 	{% include 'elements/sidebar.html' %}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content-header">
-			<h1>Nota <small>inventario inicial</small></h1>
+			<h1>Nota Inventario Inicial</h1>
 		</section>
 		<section class="content">
 			<div class="row">
@@ -24,22 +24,28 @@
 						<form action="inventory_submit" class="form-horizontal" method="post" accept-charset="utf-8">
 							{% csrf_token %}
 							<div class="box-body">
-								<div class="form-group">
-									<label class="col-sm-3 control-label">{{ form.codigo.label }}</label>
-									<div class="col-sm-6">
-										{{ form.codigo }}
+								<div class="row text-center">
+									<div class="col-md-10">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="col-sm-3 control-label">{{ form.codigo.label }}</label>
+												<div class="col-sm-8">
+													{{ form.codigo }}
+												</div>
+											</div>
+											<div class="cont-info"></div>
+										</div>
 									</div>
-									<div class="col-md-12 cont-info text-center"></div>
-								</div>
-							</div>
-							<div class="box-footer text-center">
-								<div class="btn-group">
-									<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
-										<i class="fa fa-plus-square-o"></i>Nuevo
-									</a>
-									<a class="btn btn-app" href="{% url 'inventory_list' %}">
-										<i class="fa fa-list"></i>Listar
-									</a>
+									<div class="col-md-2">
+										<div class="btn-group">
+											<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
+												<i class="fa fa-plus-square-o"></i>Nuevo
+											</a>
+											<a class="btn btn-app" href="{% url 'inventory_list' %}">
+												<i class="fa fa-list"></i>Listar
+											</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -80,7 +86,7 @@
 		}
 	}
 	function get_new(){
-		loading_animation();
+		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_latest' %}', function(response){
 			create_table(response);
 		});
@@ -89,35 +95,39 @@
 		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
 		cii = '';
 		$('#table-inventory').children().remove();
-		$('.cont-info').children().remove();
+		$('').children().remove();
 		$('.cont-info').append(
-			'<div class="row">'+
-				'<br>'+
-				'<div class="col-md-3 col-md-offset-2">'+
-					'<label class="col-md-3 control-label">Estado: </label>'+
-					'<div class="col-md-8">'+
-						'<select name="estado" id="id_estado" class="form-control">'+
-							'<option value="">Seleccione un estado</option>'+
-						'</select>'+
-					'</div>'+
-					'</p>'+
+			'<div class="col-md-3">'+
+				'<label class="col-md-3 control-label">Estado: </label>'+
+				'<div class="col-md-8">'+
+					'<select name="estado" id="id_estado" class="form-control">'+
+						'<option value="">Seleccione un estado</option>'+
+					'</select>'+
 				'</div>'+
-				'<div class="col-md-3">'+
-					'<label class="col-md-3 control-label">Fecha: </label>'+
-					'<div class="col-md-8">'+
+				'</p>'+
+			'</div>'+
+			'<div class="col-md-4">'+
+				'<div class="col-md-12">'+
+					'<label class="col-md-6 control-label">Fecha Creacion: </label>'+
+					'<div class="col-md-6">'+
 						'<input type="text" id="date" class="form-control date">'+
 					'</div>'+
 				'</div>'+
-				'<div class="col-md-3">'+
-					'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
+				'<div class="col-md-12">'+
+					'<label class="col-md-7 control-label">Fecha Actualizacion: </label>'+
+					'<div class="col-md-5">'+
+						'<input type="text" class="form-control date-ac" readonly>'+
+					'</div>'+
 				'</div>'+
+			'</div>'+
+			'<div class="col-md-2">'+
+				'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
 			'</div>'
 		);
 		$('#table-inventory').append(
 			'<div class="box">'+
-				'<div class="box-header">'+
-					'<div class="box-tools">'+
-					'</div>'+
+				'<div class="box-header with-border">'+
+					'<h3 class="box-title">Articulos de Inventario</h3>'+
 				'</div>'+
 				'<div class="box-body">'+
 					'<table class="table table-striped" id="table"></table>'+
@@ -125,17 +135,17 @@
 				'<div class="box-footer text-center">'+
 					'<div class="box-footer text-center">'+
 						'<div class="btn-group">'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-reset" href="#">'+
-								'<i class="fa fa-undo"></i>Valores en cero'+
-							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-rename" href="#">'+
-								'<i class="fa fa-pencil-square-o"></i>Actualizar nombres'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="btn-save" href="#">'+
+								'<i class="fa fa-floppy-o"></i>Guardar'+
 							'</a>'+
 							'<a class="btn btn-app btn-info btn btn-primary" href="#">'+
 								'<i class="fa fa-print"></i>Imprimir'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-save" href="#">'+
-								'<i class="fa fa-floppy-o"></i>Guardar'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="btn-rename" href="#">'+
+								'<i class="fa fa-pencil-square-o"></i>Actualizar nombres'+
+							'</a>'+
+							'<a class="btn btn-app btn-info btn btn-primary" id="btn-reset" href="#">'+
+								'<i class="fa fa-undo"></i>Valores en cero'+
 							'</a>'+
 						'</div>'+
 					'</div>'+
@@ -143,6 +153,7 @@
 			'</div>'
 		);
 		table = $('.table').DataTable({
+			"language": languageDataTable,
 			"order": [[ 2, "asc" ]],
 			columns: [
 				{ title: "Código", data: "codigo" },
@@ -169,6 +180,12 @@
 			 defaultDate: new Date(response.year+'/'+response.month+'/'+response.day+' '+response.hour+':'+response.minute),
 			 format: 'D/MM/YYYY HH:mm',
 		});
+		if(response.ac_year != 0){
+			$('.date-ac').datetimepicker({
+				 defaultDate: new Date(response.ac_year+'/'+response.ac_month+'/'+response.ac_day+' '+response.ac_hour+':'+response.ac_minute),
+				 format: 'D/MM/YYYY HH:mm',
+			});
+		}
 		data_table(response.data);
 		data_esdo(response.esdo);
 	}
@@ -179,7 +196,7 @@
 	}
 	function edit_inventory(){
 		cii = $('#id_codigo');
-		loading_animation();
+		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_edit' %}', {pk: cii.val()}, function(response){
 			create_table(response);
 			if(response.count_extra > 0){
@@ -192,24 +209,22 @@
 	function data_table(data){
 		var val_tot = 0;
 		$.each(data, function (key, item) {
-			val_tot += (item.canti*item.vcosto);
 			table.row.add({
 				'DT_RowId': item.carlos,
 				'DT_RowClass': 'cont-data', 
 				'codigo': item.carlos,
 				'codigo_barras': item.cbarras,
-				'nombre': item.nlargo,
+				'nombre': '<span class="nom'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo.substring(0,10)+'...'+'</span>',
 				'grupo': item.ngpo,
 				'calcu': item.cancalcu,
 				'cont': '<input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'">',
 				'unita': '<input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'">',
-				'total': (item.cancalcu*item.vcosto).format(2),
+				'total': (item.canti * item.vcosto).format(2),
 				'entrada': 0,
 				'salida': 0
 			}).draw()
 		});
 		$(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
-		$('#val-tot').text('$ '+val_tot.format(2)).attr('val', val_tot);
 		$('.animation').empty();
 	}
 	$(document).on("click", ".positive",function () {
@@ -217,25 +232,31 @@
 	});
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
-		$(':input.val').val(0).trigger('keyup');
+		if (confirm('¿Desea poner los valores en ceros?')){
+			table.destroy();
+			$(':input.val').val(0).trigger('keyup');
+			table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
+		}
 	});
 	$(document).on("click", "#btn-rename", function(e){
 		e.preventDefault();
+		loading_animation("Actualizando Nombres");
 		$.post('{% url 'get_name_arlo' %}', function(response){
 			$.each(response.data, function (key, item){
-				$('td', item.carlos).eq(2).text(item.nlargo);
-				$('#nlargo-'+item.carlos).text(item.nlargo)
+				$('#nom-'+item.carlos).attr('title', item.nlargo).text(item.nlargo.substring(0,10));
 			});
+			alert("Nombres de Articulos Actualizados")
+			$('.animation').empty();
 		});
 	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
-		var this_value = parseInt($(this).val());
+		var this_value = isNaN(parseInt($(this).val())) ? 0: parseInt($(this).val());
 		var cant_calcu = parseInt($('#cancalcu-'+id).text());
 		var cant = (this_value - cant_calcu);
 		var value_tot = this_value*$('#vunita-'+id).val();
 		var cantidad = isNaN($('#vtotal-'+id).attr('val')) ? 0: $('#vtotal-'+id).attr('val');
-		var val_tot = isNaN($('#val-tot').attr('val')) ? 0: $('#val-tot').attr('val');
+		var val_tot = $('#val-tot').attr('val');
 		var val_calcu = (parseInt(val_tot)-parseInt(cantidad))+value_tot;
 		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
@@ -260,15 +281,19 @@
 		var data_r = [];
 		cesdo = $('#id_estado');
 		if(cesdo.val() != ''){
-			$.each(table.rows().data(), function(i, row){
+			loading_animation("Guardando Datos");
+			table.destroy();
+			$('.cont-data').each(function(){
+				var id = this.id;
+				console.log($('#nom-'+id).attr('title'))
 				data_r.push({
-					'carlos': row.codigo,
-					'nlargo': row.nombre,
-					'cancalcu': row.calcu,
-					'cant': $(row.cont).val(),
-					'vunita': $(row.unita).val(),
-					'ajuent': row.entrada,
-					'ajusal': row.salida,
+					'carlos': $('#carlos-'+id).text(),
+					'nlargo': $('#nom-'+id).attr('title'),
+					'cancalcu': $('#cancalcu-'+id).text(),
+					'cant': $('#cant-'+id).val(),
+					'vunita': $('#vunita-'+id).val(),
+					'ajuent': $('#ajuent-'+id).text(),
+					'ajusal': $('#ajusal-'+id).text(),
 				});
 			});
 			$.ajax({
@@ -283,7 +308,9 @@
 				},
 				dataType: "json",
 				success: function(response){
-					alert(response.msg)
+					$('.animation').empty();
+					table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
+					alert(response.msg);
 				}
 			});
 		}else{

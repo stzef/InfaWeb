@@ -24,11 +24,11 @@
 								<thead>
 									<tr>
 										<th>Código</th>
-										<th>Fecha creación</th>
+										<th>Fecha Creación</th>
 										<th>Fecha Actualización</th>
+										<th>Estado</th>
 										<th>Valor Total</th>
-										<th>Precio</th>
-										<th></th>
+										<th>Editar</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -36,7 +36,7 @@
 									<tr>
 										<td>{{ invini.cii }}</td>
 										<td>{{ invini.fii }}</td>
-										<td>{{ invini.fuaii }}</td>
+										<td>{% if invini.fuaii == None %}-{% else %}{{ invini.fuaii }}{% endif %}</td>
 										<td>{{ invini.cesdo.nesdo }}</td>
 										<td>$ {{ invini.vttotal|intcomma  }}</td>
 										<td>
@@ -67,6 +67,6 @@
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 <script>
-	$('.table').DataTable();
+	$('.table').DataTable({"language": languageDataTable,});
 </script>
 {% endblock content_script %}
