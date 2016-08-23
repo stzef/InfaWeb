@@ -90,12 +90,12 @@ DATABASES = {
 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	}
 }
-
+"""
 #local
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
+		'NAME': 'infaweb_db2',
 		'USER': 'root',
 		'PASSWORD': 'root',
 		'HOST': 'localhost',
@@ -114,7 +114,7 @@ DATABASES = {
 		'PORT': '5432'
 	}
 }
-
+"""
 SITE_ID = 1
 
 # Password validation

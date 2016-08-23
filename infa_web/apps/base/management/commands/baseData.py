@@ -29,12 +29,13 @@ class Command(BaseCommand):
 		else:
 			print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
 
+		"""
 		Tiarlos.objects.all().delete()
 		oDefaultTypeArticle = Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
-
+		"""
 		Personas.objects.all().delete()
 		oDefaultPersona = Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
