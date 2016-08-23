@@ -204,6 +204,7 @@ class TypesArticleUpdate(AjaxableResponseMixin,UpdateView):
 class TypesArticleList(ListView):
 	model = Tiarlos
 	template_name = "articulos/list-types-articles.html"
+
 # Types Articles #
 
 # Brands #

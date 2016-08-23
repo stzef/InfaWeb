@@ -34,4 +34,4 @@ urlAPI = [
 	url(r'^api/existis/$', API_exists, name = 'api-exists'),
 ]
 
-urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles + urlBrands + urlAPI
+urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles

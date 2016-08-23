@@ -144,7 +144,7 @@ class BrandForm(forms.ModelForm):
 			'nmarca' : 'Nombre',
 			'cesdo' : 'Estado'
 		}
-
+		
 class TiarlosForm(forms.ModelForm):
 	class Meta:
 		model = Tiarlos
@@ -155,4 +155,3 @@ class TiarlosForm(forms.ModelForm):
 			'ctiarlos' : 'Código Interno',
 			'ntiarlos' : 'Nombre',
 		}
-
