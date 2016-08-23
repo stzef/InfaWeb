@@ -29,12 +29,13 @@ class Command(BaseCommand):
 		else:
 			print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
 
+		"""
 		Tiarlos.objects.all().delete()
 		oDefaultTypeArticle = Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
 		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
 		print "Tiarlos. Registros Creados Correctamente."
-
+		"""
 		Personas.objects.all().delete()
 		oDefaultPersona = Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
@@ -85,7 +86,7 @@ class Command(BaseCommand):
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
-		oDefaultRuta Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
+		oDefaultRuta = Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		Zona.objects.all().delete()
@@ -109,11 +110,7 @@ class Command(BaseCommand):
 		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
-<<<<<<< HEAD:infa_web/apps/base/management/commands/basicData.py
 		Ubica.objects.create(pk=1000,nubica="SIN UBICACION",cesdo=estadoActivo)
-=======
-		oDefaultLocation = Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
->>>>>>> ba942838fab1433c34fdf40c50bc2bfdc877ab3d:infa_web/apps/base/management/commands/baseData.py
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
