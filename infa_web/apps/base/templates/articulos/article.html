@@ -4,7 +4,7 @@
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
-		<div class="container">
+		<div class="content">
 			<h2>{{title}}</h2>
 			<ul class="nav nav-pills">
 				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
@@ -15,7 +15,7 @@
 			<form action="" method="POST" role="form" class="form-horizontal">
 				{%csrf_token%}
 				<div class="tab-content">
-					<div id="tabBasicos" class="tab-pane fade in active">
+					<div id="tabBasicos" class="tab-pane  active">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
@@ -23,8 +23,10 @@
 										<h3 class="box-title">Basicos</h3>
 									</div>
 									<div class="box-body">
-										<div class="col-md-12 form-group">
-											<label for="{{form.carlos.id_for_label}}" class="col-sm-2 control-label">{{form.carlos.label}}</label>
+										<div class="row">
+											
+										<div class="col-md-6 form-group">
+											<label for="{{form.carlos.id_for_label}}" class="col-sm-4 control-label">{{form.carlos.label}}</label>
 											{%if form.carlos.errors%}
 											{{form.carlos.errors}}
 											{%endif%}
@@ -32,8 +34,8 @@
 												<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
 											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.cbarras.id_for_label}}" class="col-sm-2 control-label">{{form.cbarras.label}}</label>
+										<div class="col-md-6 form-group">
+											<label for="{{form.cbarras.id_for_label}}" class="col-sm-4 control-label">{{form.cbarras.label}}</label>
 											{%if form.cbarras.errors%}
 											{{form.cbarras.errors}}
 											{%endif%}
@@ -41,43 +43,41 @@
 												{{form.cbarras}}
 											</div>
 										</div>
+										</div>
 										<div class="row">
-											<div class="row">
-												
-												<div class="col-md-6 form-group">
-													<label for="{{form.ncorto.id_for_label}}" class="col-sm-2 control-label">{{form.ncorto.label}}</label>
-													{%if form.ncorto.errors%}
-													{{form.ncorto.errors}}
-													{%endif%}
-													<div class="col-sm-8">
-														{{form.ncorto}}
-													</div>
+											<div class="col-md-4 form-group">
+												<label for="{{form.ncorto.id_for_label}}" class="col-sm-4 control-label">{{form.ncorto.label}}</label>
+												{%if form.ncorto.errors%}
+												{{form.ncorto.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.ncorto}}
 												</div>
-												<div class="col-md-6 form-group">
-													<label for="{{form.nlargo.id_for_label}}" class="col-sm-2 control-label">{{form.nlargo.label}}</label>
-													{%if form.nlargo.errors%}
-													{{form.nlargo.errors}}
-													{%endif%}
-													<div class="col-sm-8">
-														{{form.nlargo}}
-													</div>
+											</div>
+											<div class="col-md-4 form-group">
+												<label for="{{form.nlargo.id_for_label}}" class="col-sm-4 control-label">{{form.nlargo.label}}</label>
+												{%if form.nlargo.errors%}
+												{{form.nlargo.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.nlargo}}
+												</div>
+											</div>
+											<div class="col-md-4 form-group">
+												<label for="{{form.refe.id_for_label}}" class="col-sm-4 control-label">{{form.refe.label}}</label>
+												{%if form.refe.errors%}
+												{{form.refe.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.refe}}
 												</div>
 											</div>
 										</div>
 
-										<div class="col-md-12 form-group">
-											<label for="{{form.refe.id_for_label}}" class="col-sm-2 control-label">{{form.refe.label}}</label>
-											{%if form.refe.errors%}
-											{{form.refe.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												{{form.refe}}
-											</div>
-										</div>
 
 										<div class="row">
 											<div class="col-md-6 form-group">
-												<label for="{{form.cgpo.id_for_label}}" class="col-sm-2 control-label">{{form.cgpo.label}}</label>
+												<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label">{{form.cgpo.label}}</label>
 												{%if form.cgpo.errors%}
 												{{form.cgpo.errors}}
 												{%endif%}
@@ -89,7 +89,7 @@
 												</div>
 											</div>
 											<div class="col-md-6 form-group">
-												<label for="{{form.cmarca.id_for_label}}" class="col-sm-2 control-label">{{form.cmarca.label}}</label>
+												<label for="{{form.cmarca.id_for_label}}" class="col-sm-4 control-label">{{form.cmarca.label}}</label>
 												{%if form.cmarca.errors%}
 												{{form.cmarca.errors}}
 												{%endif%}
@@ -104,7 +104,7 @@
 
 										<div class="row">
 											<div class="col-md-6 form-group">
-												<label for="{{form.ctiarlo.id_for_label}}" class="col-sm-2 control-label">{{form.ctiarlo.label}}</label>
+												<label for="{{form.ctiarlo.id_for_label}}" class="col-sm-4 control-label">{{form.ctiarlo.label}}</label>
 												{%if form.ctiarlo.errors%}
 												{{form.ctiarlo.errors}}
 												{%endif%}
@@ -116,7 +116,7 @@
 												</div>
 											</div>
 											<div class="col-md-6 form-group">
-												<label for="{{form.cunidad.id_for_label}}" class="col-sm-2 control-label">{{form.cunidad.label}}</label>
+												<label for="{{form.cunidad.id_for_label}}" class="col-sm-4 control-label">{{form.cunidad.label}}</label>
 												{%if form.cunidad.errors%}
 												{{form.cunidad.errors}}
 												{%endif%}
@@ -131,21 +131,32 @@
 
 										<div class="row">
 											<div class="col-md-6 form-group">
-												<label for="{{form.canti.id_for_label}}" class="col-sm-2 control-label">{{form.canti.label}}</label>
+
+												<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">
+													{{form.canti.label}}
+													{% if typeInventory != "M" %} 
+														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+													{% endif %}
+												</label>
 												{%if form.canti.errors%}
 												{{form.canti.errors}}
 												{%endif%}
 												<div class="col-sm-8">
-													{{form.canti}}
+													<input type="{{form.canti.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.canti.name}}" id="{{form.canti.id_for_label}}" step="{{form.canti.field.widget.attrs.step}}" min="{{form.canti.field.widget.attrs.min}}" class="{{form.canti.field.widget.attrs.class}}" {% if form.canti.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
 												</div>
 											</div>
 											<div class="col-md-6 form-group">
-												<label for="{{form.vcosto.id_for_label}}" class="col-sm-2 control-label">{{form.vcosto.label}}</label>
+												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
+													{{form.vcosto.label}}
+													{% if typeInventory != "M" %} 
+														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+													{% endif %}
+												</label>
 												{%if form.vcosto.errors%}
 												{{form.vcosto.errors}}
 												{%endif%}
 												<div class="col-sm-8">
-													{{form.vcosto}}
+													<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
 												</div>
 											</div>
 										</div>
@@ -156,7 +167,7 @@
 						</div>
 					</div>
 
-					<div id="tabListaPrecios" class="tab-pane fade in">
+					<div id="tabListaPrecios" class="tab-pane ">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
@@ -173,32 +184,62 @@
 											<tbody>
 												<tr>
 													<th>1</th>
-													<th>{{form.porult1}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult1}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta1}}</th>
 												</tr>
 												<tr>
 													<th>2</th>
-													<th>{{form.porult2}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult2}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta2}}</th>
 												</tr>
 												<tr>
 													<th>3</th>
-													<th>{{form.porult3}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult3}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta3}}</th>
 												</tr>
 												<tr>
 													<th>4</th>
-													<th>{{form.porult4}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult4}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta4}}</th>
 												</tr>
 												<tr>
 													<th>5</th>
-													<th>{{form.porult5}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult5}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta5}}</th>
 												</tr>
 												<tr>
 													<th>6</th>
-													<th>{{form.porult6}}</th>
+													<th width="30%">
+														<div class="input-group">
+															{{form.porult6}}
+															<span class="input-group-addon">%</a></span>
+														</div>
+													</th>
 													<th>{{form.pvta6}}</th>
 												</tr>
 											</tbody>
@@ -209,7 +250,7 @@
 						</div>
 					</div>
 
-					<div id="tabOtros" class="tab-pane fade in">
+					<div id="tabOtros" class="tab-pane ">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
@@ -253,7 +294,7 @@
 										</div>
 										<div class="row">
 											<div class="col-md-6 form-group">
-												<label for="{{form.stomin.id_for_label}}" class="col-sm-2 control-label">{{form.stomin.label}}</label>
+												<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
 												{%if form.stomin.errors%}
 												{{form.stomin.errors}}
 												{%endif%}
@@ -262,7 +303,7 @@
 												</div>
 											</div>
 											<div class="col-md-6 form-group">
-												<label for="{{form.stomax.id_for_label}}" class="col-sm-2 control-label">{{form.stomax.label}}</label>
+												<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
 												{%if form.stomax.errors%}
 												{{form.stomax.errors}}
 												{%endif%}
@@ -271,48 +312,53 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.mesesgara.id_for_label}}" class="col-sm-2 control-label">{{form.mesesgara.label}}</label>
-											{%if form.mesesgara.errors%}
-											{{form.mesesgara.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												{{form.mesesgara}}
+										<div class="row">
+											<div class="col-md-6 form-group">
+												<label for="{{form.mesesgara.id_for_label}}" class="col-sm-4 control-label">{{form.mesesgara.label}}</label>
+												{%if form.mesesgara.errors%}
+												{{form.mesesgara.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.mesesgara}}
+												</div>
 											</div>
-										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-2 control-label">{{form.ivas_civa.label}}</label>
-											{%if form.ivas_civa.errors%}
-											{{form.ivas_civa.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.ivas_civa}}
-													<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											<div class="col-md-6 form-group">
+												<label for="{{form.ivas_civa.id_for_label}}" class="col-sm-4 control-label">{{form.ivas_civa.label}}</label>
+												{%if form.ivas_civa.errors%}
+												{{form.ivas_civa.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.ivas_civa}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.cubica.id_for_label}}" class="col-sm-2 control-label">{{form.cubica.label}}</label>
-											{%if form.cubica.errors%}
-											{{form.cubica.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.cubica}}
-													<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+
+										<div class="row">
+											<div class="col-md-6 form-group">
+												<label for="{{form.cubica.id_for_label}}" class="col-sm-4 control-label">{{form.cubica.label}}</label>
+												{%if form.cubica.errors%}
+												{{form.cubica.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.cubica}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
-											{%if form.cesdo.errors%}
-											{{form.cesdo.errors}}
-											{%endif%}
-											<div class="col-sm-8">
-												<div class="input-group">
-													{{form.cesdo}}
-													<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											<div class="col-md-6 form-group">
+												<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
+												{%if form.cesdo.errors%}
+												{{form.cesdo.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													<div class="input-group">
+														{{form.cesdo}}
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -322,7 +368,7 @@
 						</div>
 					</div>
 
-					<div id="tabImagenes" class="tab-pane fade in">
+					<div id="tabImagenes" class="tab-pane ">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="box box-primary">
@@ -330,8 +376,9 @@
 										<h3 class="box-title">Imagenes</h3>
 									</div>
 									<div class="box-body">
-										<div class="col-md-12 form-group">
-											<label for="{{form.foto1.id_for_label}}" class="col-sm-2 control-label">{{form.foto1.label}}</label>
+										<div class="col-md-4 form-group">
+											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto1}}" alt="">
+											<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
 											{%if form.foto1.errors%}
 											{{form.foto1.errors}}
 											{%endif%}
@@ -339,8 +386,9 @@
 												{{form.foto1}}
 											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.foto2.id_for_label}}" class="col-sm-2 control-label">{{form.foto2.label}}</label>
+										<div class="col-md-4 form-group">
+											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto2}}" alt="">
+											<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
 											{%if form.foto2.errors%}
 											{{form.foto2.errors}}
 											{%endif%}
@@ -348,8 +396,9 @@
 												{{form.foto2}}
 											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<label for="{{form.foto3.id_for_label}}" class="col-sm-2 control-label">{{form.foto3.label}}</label>
+										<div class="col-md-4 form-group">
+											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto3}}" alt="">
+											<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
 											{%if form.foto3.errors%}
 											{{form.foto3.errors}}
 											{%endif%}
@@ -399,14 +448,30 @@
 		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
 		
 		$("[name*=porult]").change(function(){
+			var costo = parseFloat($("#id_vcosto").val());
 			var porcentaje = parseFloat($(this).val());
 			var valor = costo/((100-porcentaje)/100);
 			if(porcentaje > 0 && valor){
-				var costo = parseFloat($("#id_vcosto").val());
 				$(this).closest("tr").find("[name*=pvta]").val(valor);
 			}
 		});
 		customValidationFormTabs("form")
+		
+		$("[name={{form.cbarras.name}}]").change(function(){
+			$.ajax({
+				url: '{% url 'api-exists' %}',
+				type: 'POST',
+				data: JSON.stringify({
+					'model': 1,
+					'field': this.name,
+					'value': this.value
+				}),
+				contentType: "application/json",
+				success: function(response){
+					console.log(response)
+				}
+			});
+		})
 		
 	</script>
 	

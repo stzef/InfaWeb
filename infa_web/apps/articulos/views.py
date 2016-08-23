@@ -7,8 +7,11 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 import json
 from django.utils.decorators import method_decorator
- 
+from django.http import JsonResponse
+
 from django import forms
+
+from django.apps import apps
 
 from infa_web.apps.base.constantes import EMPRESA
 from infa_web.parameters import ManageParameters
@@ -90,8 +93,14 @@ class ArticleCreate(CreateView):
 		context['mode_view'] = 'create'
 		context['url'] = 'add-article'
 
+		context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
+
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
 
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
@@ -114,8 +123,14 @@ class ArticleCopy(UpdateView):
 		context['mode_view'] = 'copy'
 		context['url'] = 'add-article'
 
+		context['url_foto1'] = current_article.foto1
+		context['url_foto2'] = current_article.foto2
+		context['url_foto3'] = current_article.foto3
+
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
 
 		if maxCarlos["carlos__max"]:
 			context['current_pk'] = maxCarlos["carlos__max"] + 1
@@ -135,6 +150,17 @@ class ArticleUpdate(UpdateView):
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
+
+		current_article = Arlo.objects.get(pk=self.kwargs["pk"])
+
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
+
+		context['url_foto1'] = current_article.foto1
+		context['url_foto2'] = current_article.foto2
+		context['url_foto3'] = current_article.foto3
 
 		return context
 
@@ -214,3 +240,56 @@ class BrandsList(ListView):
 	model = Marca
 	template_name = "articulos/list-brands.html"
 # Brands #
+
+# API #
+@csrf_exempt
+def API_exists(request):
+	codeModels = {
+		1:{'name':'Tiarlos','app':'articulos'},
+		2:{'name':'Gpo','app':'articulos'},
+		3:{'name':'Marca','app':'articulos'},
+		4:{'name':'Unidades','app':'articulos'},
+		5:{'name':'Arlo','app':'articulos'},
+		6:{'name':'Arlosdesglo','app':'articulos'},
+		7:{'name':'Bode','app':'base'},
+		8:{'name':'Esdo','app':'base'},
+		9:{'name':'Modules','app':'base'},
+		10:{'name':'Parameters','app':'base'},
+		11:{'name':'Ubica','app':'base'},
+		12:{'name':'Departamento','app':'base'},
+		13:{'name':'Ciudad','app':'base'},
+		14:{'name':'Iva','app':'base'},
+		15:{'name':'Regiva','app':'base'},
+		16:{'name':'Tiide','app':'base'},
+		17:{'name':'Invinicab','app':'inventarios'},
+		18:{'name':'Invinideta','app':'inventarios'},
+		19:{'name':'Timo','app':'inventarios'},
+		20:{'name':'Mven','app':'inventarios'},
+		21:{'name':'Mvendeta','app':'inventarios'},
+		22:{'name':'Mvsa','app':'inventarios'},
+		23:{'name':'Mvsadeta','app':'inventarios'},
+		24:{'name':'Autorre','app':'terceros'},
+		25:{'name':'Vende','app':'terceros'},
+		26:{'name':'Ruta','app':'terceros'},
+		27:{'name':'Personas','app':'terceros'},
+		28:{'name':'Zona','app':'terceros'},
+		29:{'name':'Tercero','app':'terceros'},
+	}
+
+	#print codeModels[1]["app"]
+	#return JsonResponse({'exists':True})
+
+	data = json.loads(request.body)
+	model = apps.get_model(app_label=codeModels[data["model"]]["app"],model_name=codeModels[data["model"]]["name"])
+
+
+	filter_dict = {}
+	filter_dict[data["field"]] = data["value"]
+	print (filter_dict)
+	print type(filter_dict)
+	if model.objects.filter(**filter_dict).exists():
+		return JsonResponse({exists:True})
+	else:
+		return JsonResponse({exists:False})
+
+# API #

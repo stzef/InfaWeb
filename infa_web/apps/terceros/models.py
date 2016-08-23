@@ -3,6 +3,7 @@ from infa_web.apps.base.models import *
 from django.db import models
 from infa_web.apps.base.constantes import *
 from django.core.validators import MinValueValidator
+from django.utils import timezone
 
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
@@ -68,8 +69,8 @@ class Tercero(models.Model):
 	cvende = models.ForeignKey(Vende)
 	topcxc = models.DecimalField(max_digits=15, decimal_places=2)
 	czona = models.ForeignKey(Zona,default=DEFAULT_ZONA)
-	clipre = models.IntegerField()
-	fnaci = models.DateField()
+	clipre = models.IntegerField(default=DEFAULT_LISTA_PRECIOS)
+	fnaci = models.DateField(default=timezone.now)
 	cruta = models.ForeignKey(Ruta,default=DEFAULT_RUTA)
 	ordenruta = models.IntegerField()
 	cpersona = models.ForeignKey(Personas,default=DEFAULT_PERSONA)

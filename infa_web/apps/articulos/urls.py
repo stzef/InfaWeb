@@ -30,4 +30,8 @@ urlBrands = [
 	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), name = 'edit-brand'),
 ]
 
-urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles + urlBrands
+urlAPI = [
+	url(r'^api/existis/$', API_exists, name = 'api-exists'),
+]
+
+urlpatterns = urlArticles + urlGroups + urlTypesArticles + urlBreakdownArticles + urlBrands + urlAPI
