@@ -90,7 +90,7 @@ DATABASES = {
 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	}
 }
-"""
+#local
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -101,6 +101,19 @@ DATABASES = {
 		'PORT': '',
 	}
 }
+"""
+#heroku
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'd420hpve7g8ar',
+		'USER': 'syauzhjwysylod',
+		'PASSWORD': 'suL-48XUoHdzWe8m8ToN6mVce8',
+		'HOST': 'ec2-54-221-240-149.compute-1.amazonaws.com',
+		'PORT': '5432'
+	}
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

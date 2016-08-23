@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
 from infa_web.apps.articulos.models import *
@@ -172,6 +173,6 @@ def get_name_arlo(request):
 	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
-		response['data'][c]['nlargo'] = arlo.nlargo
+		response['data'][c]['nlargo'] = arlo.nlargo.encode("utf-8")
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")

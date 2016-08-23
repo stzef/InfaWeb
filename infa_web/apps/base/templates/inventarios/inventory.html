@@ -147,6 +147,9 @@
 							'<a class="btn btn-app btn-info btn btn-primary" id="btn-reset" href="#">'+
 								'<i class="fa fa-undo"></i>Valores en cero'+
 							'</a>'+
+							'<a class="btn btn-app btn-info btn btn-primary" href="{% url 'dashboard' %}">'+
+								'<i class="fa fa-sign-out"></i>Salir'+
+							'</a>'+
 						'</div>'+
 					'</div>'+
 				'</div>'+
@@ -214,7 +217,7 @@
 				'DT_RowClass': 'cont-data', 
 				'codigo': item.carlos,
 				'codigo_barras': item.cbarras,
-				'nombre': '<span class="nom'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo.substring(0,10)+'...'+'</span>',
+				'nombre': '<span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo.substring(0,10)+'...'+'</span>',
 				'grupo': item.ngpo,
 				'calcu': item.cancalcu,
 				'cont': '<input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'">',
@@ -243,7 +246,7 @@
 		loading_animation("Actualizando Nombres");
 		$.post('{% url 'get_name_arlo' %}', function(response){
 			$.each(response.data, function (key, item){
-				$('#nom-'+item.carlos).attr('title', item.nlargo).text(item.nlargo.substring(0,10));
+				$('#nom-'+item.carlos).attr('title', item.nlargo).text(item.nlargo.substring(0,10)+'...');
 			});
 			alert("Nombres de Articulos Actualizados")
 			$('.animation').empty();
@@ -285,7 +288,6 @@
 			table.destroy();
 			$('.cont-data').each(function(){
 				var id = this.id;
-				console.log($('#nom-'+id).attr('title'))
 				data_r.push({
 					'carlos': $('#carlos-'+id).text(),
 					'nlargo': $('#nom-'+id).attr('title'),
