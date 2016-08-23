@@ -59,7 +59,7 @@ class Arlo(models.Model):
 	ifcostear = models.BooleanField(default=True)
 	ifpvfijo = models.BooleanField()
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	ctiarlo = models.ForeignKey(Tiarlos,default=CTIARLO_ARTICULO)
+	ctiarlo = models.ForeignKey(Tiarlos)
 	cunidad = models.ForeignKey(Unidades, default=DEFAULT_UNIDAD)
 	ivas_civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 	stomin = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
