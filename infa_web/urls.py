@@ -7,4 +7,5 @@ urlpatterns = [
 	url('', include('infa_web.apps.inventarios.urls')),
 	url('', include('infa_web.apps.articulos.urls')),
 	url('', include('infa_web.apps.terceros.urls')),
+	url('', include('infa_web.apps.movimientos.urls')),
 ]

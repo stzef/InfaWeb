@@ -1,0 +1,136 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content-header">
+			<h1>Entradas de Inventario</h1>
+		</section>
+		<section class="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">{{title}}</h3>
+						</div>
+						<form action="inventory_submit" class="form-horizontal" method="post" accept-charset="utf-8">
+							
+							<div class="box-body">
+								<div class="row">
+									<div class="form-group col-md-4">
+										<label for="{{form.ctimo.id_for_label}}" class="col-sm-2 control-label">{{form.ctimo.label}}</label>
+										{%if form.ctimo.errors%}
+										{{form.ctimo.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											<div class="input-group">
+												{{form.ctimo}}
+												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
+										<div class="col-sm-10">
+											{{ form.fmven }}
+										</div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-2 control-label">{{ form.docrefe.label }}</label>
+										<div class="col-sm-10">
+											{{ form.docrefe }}
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-8">
+										<label for="{{form.citerce.id_for_label}}" class="col-sm-2 control-label">{{form.citerce.label}}</label>
+										{%if form.citerce.errors%}
+										{{form.citerce.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											<div class="input-group">
+												{{form.citerce}}
+												<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+										{%if form.cesdo.errors%}
+										{{form.cesdo.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											<div class="input-group">
+												{{form.cesdo}}
+												<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									
+									<div class="form-group col-md-8">
+										<label for="{{ form.descri.id_for_label }}" class="col-sm-2 control-label">{{ form.descri.label }}</label>
+										<div class="col-sm-10">
+											{{ form.descri }}
+										</div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="{{form.cbode0.id_for_label}}" class="col-sm-2 control-label">{{form.cbode0.label}}</label>
+										{%if form.cbode0.errors%}
+										{{form.cbode0.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											<div class="input-group">
+												{{form.cbode0}}
+												<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-2 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-10">
+										{{ form.vttotal }}
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="{{ form.cmven.id_for_label }}" class="col-sm-2 control-label">{{ form.cmven.label }}</label>
+									<div class="col-sm-10">
+										{{ form.cmven }}
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				{{ form_input_movement_detail.as_p }}
+			</div>
+		</section>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+
+{% block content_script %}
+<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+<script src="{% static 'js/jquery.numeric.min.js' %}"></script>
+
+{% endblock content_script %}

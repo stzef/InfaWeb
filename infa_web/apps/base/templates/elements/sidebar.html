@@ -25,6 +25,22 @@
 						<li><a href="{% url 'add-article' %}"><i class="fa fa-circle-o"></i>Articulos</a></li>
 						<li><a href="{% url 'inventory_list' %}"><i class="fa fa-circle-o"></i>Inventario Inicial</a></li>
 						<li>
+							<a href="#"><i class="fa fa-circle-o"></i> Movimientos
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="{% url 'add-input-movement' %}">
+										<i class="fa fa-circle-o"></i>
+										Entrada
+									</a>
+								</li>
+								
+							</ul>
+						</li>
+						<li>
 							<a href="#"><i class="fa fa-circle-o"></i> Configuracion
 								<span class="pull-right-container">
 									<i class="fa fa-angle-left pull-right"></i>
