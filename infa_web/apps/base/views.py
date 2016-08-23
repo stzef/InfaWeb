@@ -56,7 +56,6 @@ class AjaxableResponseMixin(object):
 # Parameters #
 def ParametersList(FormView):
 	context = {}
-
 	context['title'] = 'Parametros'
 
 	with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
@@ -65,13 +64,22 @@ def ParametersList(FormView):
 	for parameter in parameters:
 		if parameter["type"] == "Model":
 			modelString = parameter["model"]
-			m =  apps.get_model(app_label="base",model_name=modelString)
+			appString = parameter["app"]
+			model = apps.get_model(app_label=appString,model_name=modelString)
 
-			parameter["field"]["options"] = []
-			for objectm in m.objects.all():
-				value = getattr(objectm, parameter["field"]["value"])
-				text = getattr(objectm, parameter["field"]["text"])
-				parameter["field"]["options"].append({"value": value,"text": text})
+			#parameter["field"]["options"] = []
+			for object_db in model.objects.filter():
+				value = getattr(object_db, parameter["field"]["value"])
+				text = getattr(object_db, parameter["field"]["text"])
+
+				selected = False
+				if(str(value) == str(parameter["value"])):
+					selected = True
+
+				parameter["field"]["options"].append({"value": value,"text": text,"selected":selected})
+
+			if(len(parameter["field"]["options"]) == 0):
+				parameter["field"]["options"].append({"value": "@","text": "No se encontraron Valores" ,"selected":True})
 
 	print json.dumps(parameters, indent=4)
 	context['parameters'] = parameters
@@ -91,6 +99,12 @@ def ParametersSave(request):
 		for parameter in parameters:
 			if(parameter["cparam"] == dparameter["cparam"]):
 				parameter["value"] = dparameter["value"]
+				parameter["field"]["selected"] = dparameter["value"]
+				if parameter["field"]["select"]:
+					for option in parameter["field"]["options"]:
+						if option["value"] == dparameter["value"]:
+							option["selected"] = True
+
 				break
 
 	with open(BASE_DIR + '/infa_web/params/params.json','r+') as json_data:
