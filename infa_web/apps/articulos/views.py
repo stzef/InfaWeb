@@ -281,6 +281,9 @@ def API_exists(request):
 
 	data = json.loads(request.body)
 	model = apps.get_model(app_label=codeModels[data["model"]]["app"],model_name=codeModels[data["model"]]["name"])
+	print "app_label="+codeModels[data["model"]]["app"]
+	print "model_name="+codeModels[data["model"]]["name"]
+	#model = apps.get_model(app_label="articulos",model_name="Arlo")
 
 
 	filter_dict = {}
@@ -288,8 +291,8 @@ def API_exists(request):
 	print (filter_dict)
 	print type(filter_dict)
 	if model.objects.filter(**filter_dict).exists():
-		return JsonResponse({exists:True})
+		return JsonResponse({'exists':True})
 	else:
-		return JsonResponse({exists:False})
+		return JsonResponse({'exists':False})
 
 # API #

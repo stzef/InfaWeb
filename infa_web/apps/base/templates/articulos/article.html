@@ -458,17 +458,27 @@
 		customValidationFormTabs("form")
 		
 		$("[name={{form.cbarras.name}}]").change(function(){
+			var element = $(this)
 			$.ajax({
 				url: '{% url 'api-exists' %}',
 				type: 'POST',
 				data: JSON.stringify({
-					'model': 1,
+					'model': 5,
 					'field': this.name,
 					'value': this.value
 				}),
 				contentType: "application/json",
 				success: function(response){
-					console.log(response)
+					if (response.exists){
+						var container = element.closest(".form-group");
+
+						container.attr("title","<span class='html_tooltip'>Este Código de Barras Ya se encuentra Registrado.</span>");
+						container.tooltip({trigger:"focus",placement:"bottom",html:true});
+						container.tooltip("show");
+						window.setTimeout(function(){
+							container.tooltip("destroy");
+						},3000);
+					}
 				}
 			});
 		})
