@@ -85,7 +85,7 @@ class Command(BaseCommand):
 		print "Autorre. Registros Creados Correctamente."
 
 		Ruta.objects.all().delete()
-		oDefaultRuta Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
+		oDefaultRuta = Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		Zona.objects.all().delete()
@@ -109,11 +109,7 @@ class Command(BaseCommand):
 		print "Bode. Registros Creados Correctamente."
 
 		Ubica.objects.all().delete()
-<<<<<<< HEAD:infa_web/apps/base/management/commands/basicData.py
 		Ubica.objects.create(pk=1000,nubica="SIN UBICACION",cesdo=estadoActivo)
-=======
-		oDefaultLocation = Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
->>>>>>> ba942838fab1433c34fdf40c50bc2bfdc877ab3d:infa_web/apps/base/management/commands/baseData.py
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
