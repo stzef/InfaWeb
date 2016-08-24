@@ -159,7 +159,7 @@ def inventory_save(request):
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save()
 		for cii_deta in response_data:
-			carlos = Arlos.objects.get(carlos = cii_deta['carlos'])
+			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
 			invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (int(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
 			invini_deta.save()
 	response['msg'] = 'Exito al guardar'
