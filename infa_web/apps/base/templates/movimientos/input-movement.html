@@ -195,9 +195,9 @@ $('#add_item_mvendeta').click(function(){
 		.toArray()
 		.forEach(function(e,i){
 			if(e instanceof HTMLSelectElement){
-				tr.append($("<td>",{html:$(e).find("option[value=" + $(e).val() + "]").html()}))
+				tr.append($("<td>",{"data-name":e.name,html:$(e).find("option[value=" + $(e).val() + "]").html()}))
 			}else{
-				tr.append($("<td>",{html:e.value}))
+				tr.append($("<td>",{"data-name":e.name,html:e.value}))
 			}
 		})
 		var btnEdit = $("<td>").append($("<a>",{html:"Editar"})).click(edit_item_mvendeta)
@@ -208,6 +208,39 @@ $('#add_item_mvendeta').click(function(){
 		$('#item_mvendeta').find("input,select").val("")
 	}
 
+})
+
+function get_mvendeta(){
+	return 	$("#list_items_mvendeta").find("tr").toArray().map(
+		function(e){
+			var data = {}
+			console.log(e)
+			$(e).children("[data-name]").toArray().forEach(
+				function(e2){
+					data[$(e2).data("name")] = $(e2).html()
+				}
+			)
+			return data
+		}
+	)
+}
+$("form").submit(function(event){
+	event.preventDefault()
+	var data = {
+		cmven : $("[name=cmven]").val(),
+		fmven : $("[name=fmven]").val(),
+		docrefe : $("[name=docrefe]").val(),
+		citerce : $("[name=citerce]").val(),
+		ctimo : $("[name=ctimo]").val(),
+		cesdo : $("[name=cesdo]").val(),
+		vttotal : $("[name=vttotal]").val(),
+		descri : $("[name=descri]").val(),
+		detaanula : $("[name=detaanula]").val(),
+		cbode0 : $("[name=cbode0]").val(),
+		cbode1 : $("[name=cbode1]").val(),
+		deta : $("[name=deta]").val(),
+		mvendeta: get_mvendeta()
+	}
 })
 </script>
 {% endblock content_script %}
