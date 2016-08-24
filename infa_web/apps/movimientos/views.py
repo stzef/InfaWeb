@@ -31,6 +31,18 @@ class InputMovementCreate(CreateView):
 
 		return context
 
+class OutputMovementCreate(CreateView):
+	model = Mven
+	template_name = "movimientos/output-movement.html"
+	form_class = InputMovementForm
+
+	def get_context_data(self,**kwargs):
+		context = super(OutputMovementCreate, self).get_context_data(**kwargs)
+		context['title'] = "Crear Movimiento de Salida"
+		form_input_movement_detail = InputMovementDetailForm()
+		context['form_input_movement_detail'] = form_input_movement_detail
+		return context
+
 def InputMovementUpdate(request,pk):
 	context = {
 		"title":"Editar Movimiento de Entrada"
@@ -41,5 +53,3 @@ def InputMovementSave(request):
 	data = json.loads(request.body)
 	response = {}
 	return HttpResponse(json.dumps(response), "application/json")
-
-
