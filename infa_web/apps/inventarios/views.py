@@ -10,8 +10,6 @@ from .forms import *
 import datetime
 import json
 
-articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
-
 class InventoryView(FormView):
 	template_name = 'inventarios/inventory.html'
 	form_class = InventoryForm
@@ -49,6 +47,7 @@ def inventory_latest(request):
 	response['ac_year'] = 0
 	response['ac_hour'] = 0
 	response['ac_minute'] = 0
+	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
 	try:
 		value = Invinicab.objects.all().latest('pk')
 		response['code'] = sum_invini(value.pk)
@@ -81,6 +80,7 @@ def inventory_edit(request):
 	response['data_extra'] = {}
 	response['esdo'] = {}
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
+	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
 	value_extra = Arlo.objects.filter(ctiarlo = articulo).exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
 	response['val_tot'] = int(value.vttotal)
 	response['day'] = value.fii.day
@@ -170,6 +170,7 @@ def get_name_arlo(request):
 	response = {}
 	c = 0
 	response['data'] = {}
+	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
 	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
