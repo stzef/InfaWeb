@@ -182,24 +182,31 @@ $('.date').datetimepicker({
 	format: 'YYYY-MM-D',
 });
 
+function edit_item_mvendeta(){alert("edit_item_mvendeta")}
+function delete_item_mvendeta(){
+	$(this).closest("tr").remove()
+}
+
 $('#add_item_mvendeta').click(function(){
-	customValidationInput("#item_mvendeta")
-	var tr = $("<tr>")
-	$('#item_mvendeta')
-	.find("input,select")
-	.toArray()
-	.forEach(function(e,i){
-		if(e instanceof HTMLSelectElement){
-			tr.append($("<td>",{html:$(e).find("option[value=" + $(e).val() + "]").html()}))
-		}else{
-			tr.append($("<td>",{html:e.value}))
-		}
-	})
-	tr.append(
-		$("<td>").append($("<a>",{html:"Editar"})))
-	tr.append(
-		$("<td>").append($("<a>",{html:"Borrar"})))
-	$("#list_items_mvendeta").find("tbody").append(tr)
+	if(customValidationInput("#item_mvendeta").valid){
+		var tr = $("<tr>")
+		$('#item_mvendeta')
+		.find("input,select")
+		.toArray()
+		.forEach(function(e,i){
+			if(e instanceof HTMLSelectElement){
+				tr.append($("<td>",{html:$(e).find("option[value=" + $(e).val() + "]").html()}))
+			}else{
+				tr.append($("<td>",{html:e.value}))
+			}
+		})
+		var btnEdit = $("<td>").append($("<a>",{html:"Editar"})).click(edit_item_mvendeta)
+		var btnDelete = $("<td>").append($("<a>",{html:"Borrar"})).click(delete_item_mvendeta)
+		tr.append(btnEdit,btnDelete)
+		$("#list_items_mvendeta").find("tbody").append(tr)
+		
+		$('#item_mvendeta').find("input,select").val("")
+	}
 
 })
 </script>

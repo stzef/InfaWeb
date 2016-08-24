@@ -93,11 +93,12 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 function customValidationInput(selector){
 	$(selector).attr("novalidate","")
 
-	var inputs = $($(selector)[0].elements) || $(selector).find("input,select")
+	var inputs = $(selector).find("input:invalid,select:invalid")
+	console.info(inputs)
 	if(inputs.length != 0){
 		var element = inputs.first();
 		var oHTML = element[0];
-		var container = element.parent;
+		var container = element.parent();
 
 		console.log(element)
 
@@ -109,7 +110,9 @@ function customValidationInput(selector){
 		window.setTimeout(function(){
 			container.tooltip("destroy");
 		},3000);
+		return {valid: false}
 	}
+	return {valid: true}
 }
 
 function customValidationFormTabs(selectorForm){
