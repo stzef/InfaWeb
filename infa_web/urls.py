@@ -9,5 +9,5 @@ urlpatterns = [
 	url('', include('infa_web.apps.movimientos.urls')),
 	url('', include('infa_web.apps.articulos.urls')),
 	url('', include('infa_web.apps.inventarios.urls')),
-	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+	#url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 ]

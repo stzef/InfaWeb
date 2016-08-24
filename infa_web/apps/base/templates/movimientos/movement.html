@@ -12,10 +12,10 @@
 	{% include 'elements/sidebar.html' %}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content-header">
-			<h1>Entradas de Inventario</h1>
+			<h1>Movimientos de Inventario</h1>
 		</section>
 		<section class="content">
-			<form class="form-horizontal" id="form_mven">
+			<form class="form-horizontal" id="form_movement">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -25,6 +25,23 @@
 								
 							<div class="box-body">
 								<div class="row">
+									{% if form.cmven %}
+										<div class="form-group col-md-12">
+											<label for="{{form.cmven.id_for_label}}" class="col-sm-2 control-label">{{form.cmven.label}}</label>
+											<div class="col-sm-10">
+												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly value="{{current_pk}}">
+											</div>
+										</div>
+									{% else %}
+										<div class="form-group col-md-12">
+											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-2 control-label">{{form.cmvsa.label}}</label>
+											<div class="col-sm-10">
+												<input type="number" name="{{form.cmvsa.name}}" id="{{form.cmvsa.id_for_label}}" class="{{form.cmvsa.field.widget.attrs.class}}" readonly value="{{current_pk}}">
+											</div>
+										</div>
+
+									{% endif %}
+								
 									<div class="form-group col-md-4">
 										<label for="{{form.ctimo.id_for_label}}" class="col-sm-2 control-label">{{form.ctimo.label}}</label>
 										{%if form.ctimo.errors%}
@@ -38,10 +55,17 @@
 										</div>
 									</div>
 									<div class="form-group col-md-4">
-										<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
-										<div class="col-sm-10">
-											{{ form.fmven }}
-										</div>
+										{% if form.fmven %}
+											<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
+											<div class="col-sm-10">
+												{{ form.fmven }}
+											</div>
+										{% else %}
+											<label for="{{ form.fmvsa.id_for_label }}" class="col-sm-2 control-label">{{ form.fmvsa.label }}</label>
+											<div class="col-sm-10">
+												{{ form.fmvsa }}
+											</div>
+										{% endif %}
 									</div>
 									<div class="form-group col-md-4">
 										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-2 control-label">{{ form.docrefe.label }}</label>
@@ -127,7 +151,7 @@
 							<div class="box-body">
 								<section class="col-md-12" id="form_temp_mvendeta">
 								</section>
-								<section role="form" id="item_mvendeta">
+								<section role="form" id="item_mdeta">
 									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
@@ -138,12 +162,12 @@
 												<th>V total</th>
 											</tr>
 											<tr>
-												<th>{{ form_input_movement_detail.it }}</th>
-												<th>{{ form_input_movement_detail.carlos }}</th>
-												<th>{{ form_input_movement_detail.canti }}</th>
-												<th>{{ form_input_movement_detail.vunita }}</th>
-												<th>{{ form_input_movement_detail.vtotal }}</th>
-												<th><button type="button" id="add_item_mvendeta"><i class="fa fa-plus-square"></i></button></th>
+												<th>{{ form_movement_detail.it }}</th>
+												<th>{{ form_movement_detail.carlos }}</th>
+												<th>{{ form_movement_detail.canti }}</th>
+												<th>{{ form_movement_detail.vunita }}</th>
+												<th>{{ form_movement_detail.vtotal }}</th>
+												<th><button type="button" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -151,7 +175,7 @@
 										</tbody>
 									</table>
 								</section>
-								<section role="form" id="list_items_mvendeta">
+								<section role="form" id="list_items_mdeta">
 									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<tbody>
 										</tbody>
@@ -161,6 +185,15 @@
 
 						</div>
 					</div>
+				</div>
+				<div class="btn-group">
+					<button class="btn btn-app btn-info" type="reset">
+						<i class="fa fa-plus-square-o"></i>Nuevo
+					</button>
+					<button class="btn btn-app" type="submit">
+						<i class="fa fa-plus-square-o"></i>Guardar
+					</button>
+					<a data-new-window class="btn btn-app" href="{% url 'list-states' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
 			</form>
 		</section>
@@ -174,7 +207,7 @@
 
 <script>
 	
-$("#form_mven").submit(function(event) {
+$("#form_movement").submit(function(event) {
 	event.preventDefault();
 });
 
@@ -182,15 +215,15 @@ $('.date').datetimepicker({
 	format: 'YYYY-MM-D',
 });
 
-function edit_item_mvendeta(){alert("edit_item_mvendeta")}
-function delete_item_mvendeta(){
+function edit_item_mdeta(){alert("edit_item_mdeta")}
+function delete_item_mdeta(){
 	$(this).closest("tr").remove()
 }
 
-$('#add_item_mvendeta').click(function(){
-	if(customValidationInput("#item_mvendeta").valid){
+$('#add_item_mdeta').click(function(){
+	if(customValidationInput("#item_mdeta").valid){
 		var tr = $("<tr>")
-		$('#item_mvendeta')
+		$('#item_mdeta')
 		.find("input,select")
 		.toArray()
 		.forEach(function(e,i){
@@ -200,18 +233,18 @@ $('#add_item_mvendeta').click(function(){
 				tr.append($("<td>",{"data-name":e.name,html:e.value}))
 			}
 		})
-		var btnEdit = $("<td>").append($("<a>",{html:"Editar"})).click(edit_item_mvendeta)
-		var btnDelete = $("<td>").append($("<a>",{html:"Borrar"})).click(delete_item_mvendeta)
+		var btnEdit = $("<td>").append($("<a>",{html:"Editar"})).click(edit_item_mdeta)
+		var btnDelete = $("<td>").append($("<a>",{html:"Borrar"})).click(delete_item_mdeta)
 		tr.append(btnEdit,btnDelete)
-		$("#list_items_mvendeta").find("tbody").append(tr)
+		$("#list_items_mdeta").find("tbody").append(tr)
 		
-		$('#item_mvendeta').find("input,select").val("")
+		$('#item_mdeta').find("input,select").val("")
 	}
 
 })
 
-function get_mvendeta(){
-	return 	$("#list_items_mvendeta").find("tr").toArray().map(
+function get_mdeta(){
+	return 	$("#list_items_mdeta").find("tr").toArray().map(
 		function(e){
 			var data = {}
 			console.log(e)
@@ -227,20 +260,25 @@ function get_mvendeta(){
 $("form").submit(function(event){
 	event.preventDefault()
 	var data = {
-		cmven : $("[name=cmven]").val(),
-		fmven : $("[name=fmven]").val(),
 		docrefe : $("[name=docrefe]").val(),
 		citerce : $("[name=citerce]").val(),
 		ctimo : $("[name=ctimo]").val(),
 		cesdo : $("[name=cesdo]").val(),
 		vttotal : $("[name=vttotal]").val(),
 		descri : $("[name=descri]").val(),
-		detaanula : $("[name=detaanula]").val(),
+		//detaanula : $("[name=detaanula]").val(),
 		cbode0 : $("[name=cbode0]").val(),
-		cbode1 : $("[name=cbode1]").val(),
-		deta : $("[name=deta]").val(),
-		mvendeta: get_mvendeta()
+		//cbode1 : $("[name=cbode1]").val(),
+		mvendeta: get_mdeta()
 	}
+	if($("[name=cmven]").length != 0){
+		data.cmven = $("[name=cmven]").val()
+		data.fmven = $("[name=fmven]").val()
+	}else{
+		data.cmvsa = $("[name=cmvsa]").val()
+		data.fmvsa = $("[name=fmvsa]").val()
+	}
+	console.log(data)
 })
 </script>
 {% endblock content_script %}

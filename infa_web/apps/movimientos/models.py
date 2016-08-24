@@ -6,7 +6,6 @@ from django.db import models
 from infa_web.apps.base.constantes import *
 from django.core.validators import MinValueValidator
 
-
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
 	ntimo = models.CharField(max_length=40)
@@ -18,7 +17,7 @@ class Timo(models.Model):
 		return self.ntimo
 
 class Mven(models.Model):
-	cmven = models.AutoField(primary_key=True)
+	cmven = models.IntegerField(primary_key=True)
 	fmven = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
 	citerce = models.ForeignKey(Tercero)
@@ -37,13 +36,16 @@ class Mvendeta(models.Model):
 	cmven = models.ForeignKey(Mven)
 	it = models.CharField(max_length=4)
 	carlos = models.ForeignKey(Arlo)
+	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
-
+	def __str__(self):
+		return str(self.cmven)
+		
 class Mvsa(models.Model):
-	cmvsa = models.AutoField(primary_key=True)
+	cmvsa = models.IntegerField(primary_key=True)
 	fmvsa = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
 	citerce = models.ForeignKey(Tercero)
@@ -55,11 +57,17 @@ class Mvsa(models.Model):
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',default=DEFAULT_BODEGA)
 
+	def __str__(self):
+		return str(self.cmvsa)
+
 class Mvsadeta(models.Model):
 	cmvsa = models.ForeignKey(Mvsa)
 	it = models.CharField(max_length=4)
-	citerce = models.ForeignKey(Tercero)
+	carlos = models.ForeignKey(Arlo)
+	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
+	def __str__(self):
+		return str(self.cmvsa)
