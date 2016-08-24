@@ -3,6 +3,7 @@
 *.jpg
 *.gif
 *.sh
+.env
 
 infa_web/apps/articulos/migrations/*
 infa_web/apps/base/migrations/*
