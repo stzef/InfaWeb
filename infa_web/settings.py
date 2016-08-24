@@ -95,9 +95,7 @@ DATABASES = {
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		#'NAME': 'infaweb_db',
-		'NAME': 't',
-		#'NAME': 'infaweb_db2',
+		'NAME': 'infaweb_db',
 		'USER': 'root',
 		'PASSWORD': 'root',
 		'HOST': 'localhost',
