@@ -90,6 +90,28 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 	})
 }
 
+function customValidationInput(selector){
+	$(selector).attr("novalidate","")
+
+	var inputs = $($(selector)[0].elements) || $(selector).find("input,select")
+	if(inputs.length != 0){
+		var element = inputs.first();
+		var oHTML = element[0];
+		var container = element.parent;
+
+		console.log(element)
+
+		element.closest(".tab-pane").addClass("active");
+		element.focus();
+		container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
+		container.tooltip({trigger:"focus",placement:"bottom",html:true});
+		container.tooltip("show");
+		window.setTimeout(function(){
+			container.tooltip("destroy");
+		},3000);
+	}
+}
+
 function customValidationFormTabs(selectorForm){
 	$(selectorForm).attr("novalidate","")
 	$(selectorForm).submit(function(){
