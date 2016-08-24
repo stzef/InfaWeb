@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'infa_web.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-"""
+
+
 import dj_database_url
 
 if 'DATABASE_URL' in os.environ:
-	#heroku
 	DATABASES = {}
 	DATABASES['default'] = dj_database_url.config()
 else:
@@ -102,31 +102,6 @@ else:
 			'PORT': '',
 		}
 	}
-"""
-"""
-#local
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	}
-}
-"""
-#heroku
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'df5v4jvjh2q2ni',
-		'USER': 'dtptogrbsesizi',
-		'PASSWORD': 'd9gR5v91pHII6wlqVla81qM5pM',
-		'HOST': 'ec2-174-129-223-35.compute-1.amazonaws.com',
-		'PORT': '5432'
-	}
-}
 
 SITE_ID = 1
 
