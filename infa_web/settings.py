@@ -95,6 +95,7 @@ import dj_database_url
 
 if 'DATABASE_URL' in os.environ:
 	#heroku
+	DATABASES = {}
 	DATABASES['default'] = dj_database_url.config()
 else:
 	#local
@@ -108,7 +109,6 @@ else:
 			'PORT': '',
 		}
 	}
-
 SITE_ID = 1
 
 # Password validation
