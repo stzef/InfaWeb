@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.movimientos.models import *
+from infa_web.parameters import ManageParameters
 
 class InputMovementForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(InputMovementForm, self).__init__(*args, **kwargs)
+
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("default_movement_for_input_bills")
+		self.fields['ctimo'].initial = minCodeArlos
+		
 	class Meta:
 		model = Mven
 		fields = "__all__"
@@ -22,10 +30,10 @@ class InputMovementForm(forms.ModelForm):
 		labels = {
 			'cesdo':'Estado',
 			'citerce':'Tercero',
-			'ctimo':'Tipo Movimiento',
+			'ctimo':'Movimiento',
 			'cbode0':'Bodega',
 			'cbode1':'Bodega',
-			'docrefe':'Doc Refrencia',
+			'docrefe':'Doc Refe',
 			'descri':'Descripcion',
 			'detaanula':'',
 			'vttotal':'Valor Total',
@@ -35,7 +43,7 @@ class InputMovementForm(forms.ModelForm):
 
 class InputMovementDetailForm(forms.ModelForm):
 	class Meta:
-		model = Mven
+		model = Mvendeta
 		fields = "__all__"
 		widgets = {
 			'cmven':forms.Select(attrs={'class':'form-control','required':True}),
