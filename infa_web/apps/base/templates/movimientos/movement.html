@@ -214,84 +214,93 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+	$("[name=carlos]").change(function(event) {
+	})
 	
-$("#form_movement").submit(function(event) {
-	event.preventDefault();
-});
-
-$('.date').datetimepicker({
-	format: 'YYYY-MM-D',
-});
-
-function edit_item_mdeta(){alert("edit_item_mdeta")}
-function delete_item_mdeta(){
-	$(this).closest("tr").remove()
-}
-
-$('#add_item_mdeta').click(function(){
-	if(customValidationInput("#item_mdeta").valid){
-		var tr = $("<tr>")
-		$('#item_mdeta')
-		.find("input,select")
-		.toArray()
-		.forEach(function(e,i){
-			if(e instanceof HTMLSelectElement){
-				tr.append($("<td>",{"data-name":e.name,html:$(e).find("option[value=" + $(e).val() + "]").html()}))
-			}else{
-				tr.append($("<td>",{"data-name":e.name,html:e.value}))
-			}
-		})
-		var btnEdit = $("<td>").append($("<a>",{html:"Editar"})).click(edit_item_mdeta)
-		var btnDelete = $("<td>").append($("<a>",{html:"Borrar"})).click(delete_item_mdeta)
-		tr.append(btnEdit,btnDelete)
-		$("#list_items_mdeta").find("tbody").append(tr)
-		
-		$('#item_mdeta').find("input,select").val("")
-	}
-
-})
-
-function get_mdeta(){
-	return 	$("#list_items_mdeta").find("tr").toArray().map(
-		function(e){
-			var data = {}
-			console.log(e)
-			$(e).children("[data-name]").toArray().forEach(
-				function(e2){
-					data[$(e2).data("name")] = $(e2).html()
-				}
-			)
-			return data
+	$("[name=canti],[name=vunita]").change(function(event) {
+		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
+			$("[name=vtotal]").val(parseInt($("[name=canti]").val()) * parseInt($("[name=vunita]").val()))
+		}else{
+			$("[name=vtotal]").val("")
 		}
-	)
-}
-$('#id_carlos').change(function(){
-	$.get('/get-info-arlo/'+$(this).val(), function(response){
-		console.log(response)
+	})
+
+	$("#form_movement").submit(function(event) {
+		event.preventDefault();
 	});
-});
-$("form").submit(function(event){
-	event.preventDefault()
-	var data = {
-		docrefe : $("[name=docrefe]").val(),
-		citerce : $("[name=citerce]").val(),
-		ctimo : $("[name=ctimo]").val(),
-		cesdo : $("[name=cesdo]").val(),
-		vttotal : $("[name=vttotal]").val(),
-		descri : $("[name=descri]").val(),
-		//detaanula : $("[name=detaanula]").val(),
-		cbode0 : $("[name=cbode0]").val(),
-		//cbode1 : $("[name=cbode1]").val(),
-		mvendeta: get_mdeta()
+
+	$('.date').datetimepicker({format: 'YYYY-MM-D',});
+
+	function edit_item_mdeta(){alert("edit_item_mdeta")}
+	function delete_item_mdeta(){
+		$(this).closest("tr").remove()
 	}
-	if($("[name=cmven]").length != 0){
-		data.cmven = $("[name=cmven]").val()
-		data.fmven = $("[name=fmven]").val()
-	}else{
-		data.cmvsa = $("[name=cmvsa]").val()
-		data.fmvsa = $("[name=fmvsa]").val()
+
+	$('#add_item_mdeta').click(function(){
+		if(customValidationInput("#item_mdeta").valid){
+			var tr = $("<tr>")
+			$('#item_mdeta')
+			.find("input,select")
+			.toArray()
+			.forEach(function(e,i){
+				var oth = $(e).closest("th")
+				if(e instanceof HTMLSelectElement){
+					tr.append($("<td>",{width:oth.attr("width"),"data-name":e.name,html:$(e).find("option[value=" + $(e).val() + "]").html()}))
+				}else{
+					tr.append($("<td>",{width:oth.attr("width"),"data-name":e.name,html:e.value}))
+				}
+			})
+			var btnEdit = $("<td>").append($("<i class='fa fa-edit '>")).click(edit_item_mdeta)
+			var btnDelete = $("<td>").append($("<i class='fa fa-remove'>")).click(delete_item_mdeta)
+			tr.append(btnEdit,btnDelete)
+			$("#list_items_mdeta").find("tbody").append(tr)
+			
+			$('#item_mdeta').find("input,select").val("")
+		}
 	}
-	console.log(data)
-})
+	$('#id_carlos').change(function(){
+		$.get('/get-info-arlo/'+$(this).val(), function(response){
+			console.log(response)
+		});
+	});
+
+	function get_mdeta(){
+		return 	$("#list_items_mdeta").find("tr").toArray().map(
+			function(e){
+				var data = {}
+				console.log(e)
+				$(e).children("[data-name]").toArray().forEach(
+					function(e2){
+						data[$(e2).data("name")] = $(e2).html()
+					}
+				)
+				return data
+			}
+		)
+	}
+
+	$("form").submit(function(event){
+		event.preventDefault()
+		var data = {
+			docrefe : $("[name=docrefe]").val(),
+			citerce : $("[name=citerce]").val(),
+			ctimo : $("[name=ctimo]").val(),
+			cesdo : $("[name=cesdo]").val(),
+			vttotal : $("[name=vttotal]").val(),
+			descri : $("[name=descri]").val(),
+			//detaanula : $("[name=detaanula]").val(),
+			cbode0 : $("[name=cbode0]").val(),
+			//cbode1 : $("[name=cbode1]").val(),
+			mvendeta: get_mdeta()
+		}
+		if($("[name=cmven]").length != 0){
+			data.cmven = $("[name=cmven]").val()
+			data.fmven = $("[name=fmven]").val()
+		}else{
+			data.cmvsa = $("[name=cmvsa]").val()
+			data.fmvsa = $("[name=fmvsa]").val()
+		}
+		console.log(data)
+	})
 </script>
 {% endblock content_script %}

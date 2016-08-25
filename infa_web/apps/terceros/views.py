@@ -14,12 +14,26 @@ class ThirdPartyCreate(AjaxableResponseMixin,CreateView):
 	template_name = "terceros/third-party.html"
 	form_class = ThirdPartyForm
 	success_url=reverse_lazy("add-third-party")
+	def get_context_data(self, **kwargs):
+		context = super(ThirdPartyCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Tercero'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-third-party')
+		return context
 	
 class ThirdPartyUpdate(AjaxableResponseMixin,UpdateView):
 	model = Tercero
 	template_name = "terceros/third-party.html"
 	success_url=reverse_lazy("add-third-party")
 	form_class = ThirdPartyForm
+	def get_context_data(self, **kwargs):
+		context = super(ThirdPartyUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Tercero'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-third-party',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
 
 class ThirdPartyList(ListView):
 	model = Tercero
