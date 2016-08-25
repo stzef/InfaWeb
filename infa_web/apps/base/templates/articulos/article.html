@@ -45,7 +45,7 @@
 										</div>
 										</div>
 										<div class="row">
-											<div class="col-md-4 form-group">
+											<div class="col-md-6 form-group">
 												<label for="{{form.ncorto.id_for_label}}" class="col-sm-4 control-label">{{form.ncorto.label}}</label>
 												{%if form.ncorto.errors%}
 												{{form.ncorto.errors}}
@@ -54,22 +54,24 @@
 													{{form.ncorto}}
 												</div>
 											</div>
-											<div class="col-md-4 form-group">
-												<label for="{{form.nlargo.id_for_label}}" class="col-sm-4 control-label">{{form.nlargo.label}}</label>
-												{%if form.nlargo.errors%}
-												{{form.nlargo.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.nlargo}}
-												</div>
-											</div>
-											<div class="col-md-4 form-group">
+											<div class="col-md-6 form-group">
 												<label for="{{form.refe.id_for_label}}" class="col-sm-4 control-label">{{form.refe.label}}</label>
 												{%if form.refe.errors%}
 												{{form.refe.errors}}
 												{%endif%}
 												<div class="col-sm-8">
 													{{form.refe}}
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 form-group">
+												<label for="{{form.nlargo.id_for_label}}" class="col-sm-2 control-label">{{form.nlargo.label}}</label>
+												{%if form.nlargo.errors%}
+												{{form.nlargo.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.nlargo}}
 												</div>
 											</div>
 										</div>
@@ -377,7 +379,7 @@
 									</div>
 									<div class="box-body">
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto1}}" alt="">
+											<img class="ae-img-article img-responsive" src="/{{url_foto1}}" alt="">
 											<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
 											{%if form.foto1.errors%}
 											{{form.foto1.errors}}
@@ -387,7 +389,7 @@
 											</div>
 										</div>
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto2}}" alt="">
+											<img class="ae-img-article img-responsive" src="/{{url_foto2}}" alt="">
 											<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
 											{%if form.foto2.errors%}
 											{{form.foto2.errors}}
@@ -397,7 +399,7 @@
 											</div>
 										</div>
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive img-circle" src="/{{url_foto3}}" alt="">
+											<img class="ae-img-article img-responsive" src="/{{url_foto3}}" alt="">
 											<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
 											{%if form.foto3.errors%}
 											{{form.foto3.errors}}

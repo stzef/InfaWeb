@@ -61,6 +61,12 @@ def ParametersList(FormView):
 	context['title'] = 'Parametros'
 
 	manageParameters = ManageParameters()
+	context['modules'] = Modules.objects.all()
+
+
+	if(manageParameters.get_all() == None):
+		context['parameters'] = []
+		return render_to_response("parametros/parameters.html",context)
 
 	parameters = manageParameters.get_all()
 	for parameter in parameters:
@@ -85,7 +91,6 @@ def ParametersList(FormView):
 
 	print json.dumps(parameters, indent=4)
 	context['parameters'] = parameters
-	context['modules'] = Modules.objects.all()
 
 	return render_to_response("parametros/parameters.html",context)
 
