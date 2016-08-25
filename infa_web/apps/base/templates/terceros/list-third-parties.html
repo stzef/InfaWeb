@@ -31,8 +31,8 @@
 						</thead>
 						<tbody>
 							{% for thirdParty in object_list %}
-								<tr>
-									<td>{{ thirdParty.idterce }}</td>
+								<tr data-object-search="{{ thirdParty.pk }}">
+									<td >{{ thirdParty.idterce }}</td>
 									<td>{{ thirdParty.nom1 }}</td>
 									<td>{{ thirdParty.nom2 }}</td>
 									<td>{{ thirdParty.ape1 }}</td>
@@ -54,6 +54,7 @@
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
+		windowSearch("[name=citerce]")
 		$(document).ready(function() {
 			$('#example').DataTable({"language": languageDataTable});
 		});

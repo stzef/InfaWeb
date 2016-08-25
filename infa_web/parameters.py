@@ -3,7 +3,14 @@ import json
 class ManageParameters(object):
 	def __init__(self):
 		super(ManageParameters, self).__init__()
-		self.path_file = BASE_DIR + '/infa_web/dparams/params.json'
+		self.path_file = BASE_DIR + '/infa_web/params/params.json'
+
+	def ok(self):
+		try:
+			with open(self.path_file) as json_data:
+				return True
+		except IOError as e:
+			return False
 
 	def get_all(self):
 		try:

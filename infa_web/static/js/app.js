@@ -51,6 +51,19 @@ function  calcularDigitoVerificacion ( myNit )  {
 	return ( y > 1 ) ? 11 - y : y ;
 }
 
+function windowSearch(selectorInput){
+	if(window.opener){
+		$("[data-object-search]").click(function(){
+			var value = $("[data-object-search]").data("object-search")
+			window.opener.$(selectorInput)
+				.val(value)
+				.focus()
+				.trigger("change")
+			window.close()
+		})
+	}
+}
+
 function AJAXGenericView(selectorForm,selectorInput,nField,url){
 	$(selectorForm).submit(function(event){
 		var currentForm = $(this)
