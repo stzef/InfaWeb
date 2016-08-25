@@ -17,6 +17,9 @@ class Timo(models.Model):
 		return self.ntimo
 
 class Mven(models.Model):
+	class Meta:
+		unique_together = (('cmven', 'ctimo'))
+
 	cmven = models.IntegerField(primary_key=True)
 	fmven = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
@@ -33,8 +36,12 @@ class Mven(models.Model):
 		return str(self.cmven)
 
 class Mvendeta(models.Model):
+	class Meta:
+		unique_together = (('cmven', 'ctimo','it'))
+
 	cmven = models.ForeignKey(Mven)
 	it = models.CharField(max_length=4)
+	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
 	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
@@ -45,6 +52,9 @@ class Mvendeta(models.Model):
 		return str(self.cmven)
 		
 class Mvsa(models.Model):
+	class Meta:
+		unique_together = (('cmvsa', 'ctimo'))
+
 	cmvsa = models.IntegerField(primary_key=True)
 	fmvsa = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
@@ -61,8 +71,11 @@ class Mvsa(models.Model):
 		return str(self.cmvsa)
 
 class Mvsadeta(models.Model):
+	class Meta:
+		unique_together = (('cmvsa', 'ctimo','it'))
 	cmvsa = models.ForeignKey(Mvsa)
 	it = models.CharField(max_length=4)
+	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
 	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
