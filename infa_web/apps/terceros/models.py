@@ -79,5 +79,5 @@ class Tercero(models.Model):
 		return self.nom1 + " " + self.nom2 + " " + self.ape1 + " " + self.ape2
 
 	def __str__(self):
-		return self.nomcomer
+		return self.rasocial
 

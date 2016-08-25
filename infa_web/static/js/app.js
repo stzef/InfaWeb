@@ -54,7 +54,7 @@ function  calcularDigitoVerificacion ( myNit )  {
 function windowSearch(selectorInput){
 	if(window.opener){
 		$("[data-object-search]").click(function(){
-			var value = $("[data-object-search]").data("object-search")
+			var value = $(this).data("object-search")
 			window.opener.$(selectorInput)
 				.val(value)
 				.focus()

@@ -164,7 +164,9 @@
 												<th width="5%"></th>
 											</tr>
 											<tr>
-												<th width="5%">{{ form_movement_detail.it }}</th>
+												<th width="5%">
+													<input type="hidden" name="{{ form_movement_detail.it.name }}" id="{{ form_movement_detail.it.id_for_label}}" >
+												</th>
 												<th width="60%">
 													<div class="input-group">
 														{{form_movement_detail.carlos}}
@@ -256,6 +258,8 @@
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
 			$('#item_mdeta').find("input,select").val("")
+			var it = 1
+			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(function(e){$(e).html(it);it++})
 		}
 	})
 
