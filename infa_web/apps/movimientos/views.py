@@ -1,8 +1,9 @@
 from django.shortcuts import render,render_to_response
 from django.views.generic import FormView, CreateView
 from django.views.generic.list import ListView
+from infa_web.apps.articulos.models import *
 import json
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse_lazy 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.movimientos.forms import *
@@ -52,5 +53,11 @@ def InputMovementUpdate(request,pk):
 
 def InputMovementSave(request):
 	data = json.loads(request.body)
+	print data
 	response = {}
+	return HttpResponse(json.dumps(response), "application/json")
+
+def get_info_arlo(request, carlos):
+	response = {}
+	response['arlo'] = int(Arlo.objects.get(carlos = carlos).vcosto)
 	return HttpResponse(json.dumps(response), "application/json")

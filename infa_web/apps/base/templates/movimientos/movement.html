@@ -265,6 +265,11 @@ function get_mdeta(){
 		}
 	)
 }
+$('#id_carlos').change(function(){
+	$.get('/get-info-arlo/'+$(this).val(), function(response){
+		console.log(response)
+	});
+});
 $("form").submit(function(event){
 	event.preventDefault()
 	var data = {
