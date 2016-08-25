@@ -261,7 +261,12 @@
 			var it = 1
 			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(function(e){$(e).html(it);it++})
 		}
-	})
+	});
+	$('#id_carlos').change(function(){
+		$.get('/get-info-arlo/'+$(this).val(), function(response){
+			console.log(response)
+		});
+	});
 
 	function get_mdeta(){
 		return 	$("#list_items_mdeta").find("tr").toArray().map(

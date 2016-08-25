@@ -189,7 +189,7 @@
 				 format: 'D/MM/YYYY HH:mm',
 			});
 		}
-		data_table(response.data);
+		data_table(response.arlo);
 		data_esdo(response.esdo);
 	}
 	function data_esdo(esdo){
@@ -211,7 +211,7 @@
 	}
 	function data_table(data){
 		var val_tot = 0;
-		$.each(data, function (key, item) {
+		$.each(JSON.parse(data), function (key, item) {
 			table.row.add({
 				'DT_RowId': item.carlos,
 				'DT_RowClass': 'cont-data', 
