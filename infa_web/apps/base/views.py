@@ -9,6 +9,8 @@ from django.apps import apps
 
 import json
 
+from infa_web.parameters import ManageParameters
+
 from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
@@ -58,9 +60,9 @@ def ParametersList(FormView):
 	context = {}
 	context['title'] = 'Parametros'
 
-	with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
-		parameters = json.load(json_data)
+	manageParameters = ManageParameters()
 
+	parameters = manageParameters.get_all()
 	for parameter in parameters:
 		if parameter["type"] == "Model":
 			modelString = parameter["model"]
@@ -91,9 +93,9 @@ def ParametersList(FormView):
 def ParametersSave(request):
 	data = json.loads(request.body)
 	response = {}
-
-	with open(BASE_DIR + '/infa_web/params/params.json') as json_data:
-		parameters = json.load(json_data)
+	manageParameters = ManageParameters()
+	
+	parameters = manageParameters.get_all()
 	
 	for dparameter in data:
 		for parameter in parameters:
@@ -104,20 +106,14 @@ def ParametersSave(request):
 					for option in parameter["field"]["options"]:
 						if option["value"] == dparameter["value"]:
 							option["selected"] = True
-
 				break
 
-	with open(BASE_DIR + '/infa_web/params/params.json','r+') as json_data:
-
-		json_data.seek(0)
-		json_data.write(json.dumps(parameters, indent=4))
-		json_data.truncate()
-
-		#json_data.seek(0)
-		#json.dump(parameters, json_data, indent=4)
+	if manageParameters.save(parameters):
 		response["message"] = "Parametros Guardados con Exito."
-
-	return JsonResponse(response, status=200)
+		return JsonResponse(response, status=200)
+	else:
+		response["message"] = "Error al guardar los Parametros."
+		return JsonResponse(response, status=400)
 # Parameters #
 
 # States #

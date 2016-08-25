@@ -1,0 +1,169 @@
+[
+    {
+        "cparam": "consecutive_code_items", 
+        "type": "Boolean", 
+        "value": true, 
+        "label": {
+            "text": "Usar consecutivo para el codigo de los Articulos"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": true, 
+            "type": "checkbox", 
+            "id": "consecutive_code_items", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Usar consecutivo para el codigo de los Articulos"
+    }, 
+    {
+        "cparam": "min_code_arlos", 
+        "type": "Number", 
+        "value": "1000", 
+        "label": {
+            "text": "Codigo Minimo de Articulos"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "1000", 
+            "type": "number", 
+            "id": "min_code_arlos", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Codigo Minimo de Articulos"
+    }, 
+    {
+        "cparam": "type_costing_and_stock", 
+        "type": "String", 
+        "value": "P", 
+        "label": {
+            "text": "Tipo calculo Costos y Existencias"
+        }, 
+        "field": {
+            "selected": "P", 
+            "options": [
+                {
+                    "text": "Manual", 
+                    "selected": true, 
+                    "value": "M"
+                }, 
+                {
+                    "text": "Promedio", 
+                    "selected": true, 
+                    "value": "P"
+                }, 
+                {
+                    "text": "PEPS", 
+                    "selected": false, 
+                    "value": "PEPS"
+                }, 
+                {
+                    "text": "UEPS", 
+                    "selected": false, 
+                    "value": "UEPS"
+                }
+            ], 
+            "select": true, 
+            "id": "type_costing_and_stock"
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Tipo calculo Costos y Existencias"
+    }, 
+    {
+        "cparam": "city_third_party", 
+        "smodule": "I", 
+        "app": "base", 
+        "value": "18", 
+        "label": {
+            "text": "Ciudad de Tercero"
+        }, 
+        "field": {
+            "text": "nciu", 
+            "selected": "18", 
+            "value": "cciu", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "city_third_party", 
+            "select": true
+        }, 
+        "model": "Ciudad", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Ciudad de Tercero"
+    }, 
+    {
+        "cparam": "initial_note", 
+        "smodule": "I", 
+        "app": "inventarios", 
+        "value": "@", 
+        "label": {
+            "text": "Nota Inicial"
+        }, 
+        "field": {
+            "text": "cii", 
+            "selected": "@", 
+            "value": "cii", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "initial_note", 
+            "select": true
+        }, 
+        "model": "Invinicab", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Nota Inicial"
+    }, 
+    {
+        "cparam": "default_movement_for_input_bills", 
+        "smodule": "I", 
+        "app": "movimientos", 
+        "value": "1003", 
+        "label": {
+            "text": "Movimiento de Inventario por defecto para las factura de entrada"
+        }, 
+        "field": {
+            "text": "ntimo", 
+            "selected": "1003", 
+            "value": "ctimo", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "default_movement_for_input_bills", 
+            "select": true
+        }, 
+        "model": "Timo", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Movimiento de Inventario por defecto para las factura de entrada"
+    }
+]

@@ -1,10 +1,10 @@
-*.pyc
+**.pyc
 *.png
 *.jpg
 *.gif
 *.sh
+.env
 
-infa_web/params/*
 infa_web/apps/articulos/migrations/*
 infa_web/apps/base/migrations/*
 infa_web/apps/inventarios/migrations/*

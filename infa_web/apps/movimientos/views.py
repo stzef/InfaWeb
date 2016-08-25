@@ -19,28 +19,29 @@ class InputMovementList(ListView):
 
 class InputMovementCreate(CreateView):
 	model = Mven
-	template_name = "movimientos/input-movement.html"
+	template_name = "movimientos/movement.html"
 	form_class = InputMovementForm
 
 	def get_context_data(self,**kwargs):
 		context = super(InputMovementCreate, self).get_context_data(**kwargs)
 		context['title'] = "Crear Movimiento de Entrada"
-
-		form_input_movement_detail = InputMovementDetailForm()
-		context['form_input_movement_detail'] = form_input_movement_detail
+		form_movement_detail = InputMovementDetailForm()
+		context['form_movement_detail'] = form_movement_detail
+		context['current_pk'] = 100
 
 		return context
 
 class OutputMovementCreate(CreateView):
-	model = Mven
-	template_name = "movimientos/output-movement.html"
-	form_class = InputMovementForm
+	model = Mvsa 
+	template_name = "movimientos/movement.html"
+	form_class = OutputMovementForm
 
 	def get_context_data(self,**kwargs):
 		context = super(OutputMovementCreate, self).get_context_data(**kwargs)
 		context['title'] = "Crear Movimiento de Salida"
-		form_input_movement_detail = InputMovementDetailForm()
-		context['form_input_movement_detail'] = form_input_movement_detail
+		form_movement_detail = OutputMovementDetailForm()
+		context['form_movement_detail'] = form_movement_detail
+		context['current_pk'] = 100
 		return context
 
 def InputMovementUpdate(request,pk):

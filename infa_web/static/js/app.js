@@ -104,7 +104,7 @@ function customValidationInput(selector){
 
 		element.closest(".tab-pane").addClass("active");
 		element.focus();
-		container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
+		container.attr("title",oHTML.validationMessage);
 		container.tooltip({trigger:"focus",placement:"bottom",html:true});
 		container.tooltip("show");
 		window.setTimeout(function(){
