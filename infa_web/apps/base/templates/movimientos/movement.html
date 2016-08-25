@@ -257,7 +257,7 @@
 			
 			$('#item_mdeta').find("input,select").val("")
 		}
-	}
+	});
 	$('#id_carlos').change(function(){
 		$.get('/get-info-arlo/'+$(this).val(), function(response){
 			console.log(response)
