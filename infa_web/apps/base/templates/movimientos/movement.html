@@ -263,8 +263,21 @@
 		}
 	});
 	$('#id_carlos').change(function(){
-		$.get('/get-info-arlo/'+$(this).val(), function(response){
-			console.log(response)
+		$.ajax({
+			url: '{% url 'api-get-object' %}',
+			type: 'POST',
+			data: JSON.stringify({
+				'model': 5,
+				'field': this.name,
+				'value': this.value
+			}),
+			contentType: "application/json",
+			success: function(response){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				$("[name='vunita']").val(fields.vcosto)
+				console.log(object)
+			}
 		});
 	});
 

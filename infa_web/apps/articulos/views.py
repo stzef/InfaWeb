@@ -243,49 +243,45 @@ class BrandsList(ListView):
 # Brands #
 
 # API #
+codeModels = {
+	1:{'name':'Tiarlos','app':'articulos'},
+	2:{'name':'Gpo','app':'articulos'},
+	3:{'name':'Marca','app':'articulos'},
+	4:{'name':'Unidades','app':'articulos'},
+	5:{'name':'Arlo','app':'articulos'},
+	6:{'name':'Arlosdesglo','app':'articulos'},
+	7:{'name':'Bode','app':'base'},
+	8:{'name':'Esdo','app':'base'},
+	9:{'name':'Modules','app':'base'},
+	10:{'name':'Parameters','app':'base'},
+	11:{'name':'Ubica','app':'base'},
+	12:{'name':'Departamento','app':'base'},
+	13:{'name':'Ciudad','app':'base'},
+	14:{'name':'Iva','app':'base'},
+	15:{'name':'Regiva','app':'base'},
+	16:{'name':'Tiide','app':'base'},
+	17:{'name':'Invinicab','app':'inventarios'},
+	18:{'name':'Invinideta','app':'inventarios'},
+	19:{'name':'Timo','app':'inventarios'},
+	20:{'name':'Mven','app':'inventarios'},
+	21:{'name':'Mvendeta','app':'inventarios'},
+	22:{'name':'Mvsa','app':'inventarios'},
+	23:{'name':'Mvsadeta','app':'inventarios'},
+	24:{'name':'Autorre','app':'terceros'},
+	25:{'name':'Vende','app':'terceros'},
+	26:{'name':'Ruta','app':'terceros'},
+	27:{'name':'Personas','app':'terceros'},
+	28:{'name':'Zona','app':'terceros'},
+	29:{'name':'Tercero','app':'terceros'},
+}
+
+from django.core import serializers
 @csrf_exempt
 def API_exists(request):
-	codeModels = {
-		1:{'name':'Tiarlos','app':'articulos'},
-		2:{'name':'Gpo','app':'articulos'},
-		3:{'name':'Marca','app':'articulos'},
-		4:{'name':'Unidades','app':'articulos'},
-		5:{'name':'Arlo','app':'articulos'},
-		6:{'name':'Arlosdesglo','app':'articulos'},
-		7:{'name':'Bode','app':'base'},
-		8:{'name':'Esdo','app':'base'},
-		9:{'name':'Modules','app':'base'},
-		10:{'name':'Parameters','app':'base'},
-		11:{'name':'Ubica','app':'base'},
-		12:{'name':'Departamento','app':'base'},
-		13:{'name':'Ciudad','app':'base'},
-		14:{'name':'Iva','app':'base'},
-		15:{'name':'Regiva','app':'base'},
-		16:{'name':'Tiide','app':'base'},
-		17:{'name':'Invinicab','app':'inventarios'},
-		18:{'name':'Invinideta','app':'inventarios'},
-		19:{'name':'Timo','app':'inventarios'},
-		20:{'name':'Mven','app':'inventarios'},
-		21:{'name':'Mvendeta','app':'inventarios'},
-		22:{'name':'Mvsa','app':'inventarios'},
-		23:{'name':'Mvsadeta','app':'inventarios'},
-		24:{'name':'Autorre','app':'terceros'},
-		25:{'name':'Vende','app':'terceros'},
-		26:{'name':'Ruta','app':'terceros'},
-		27:{'name':'Personas','app':'terceros'},
-		28:{'name':'Zona','app':'terceros'},
-		29:{'name':'Tercero','app':'terceros'},
-	}
-
-	#print codeModels[1]["app"]
-	#return JsonResponse({'exists':True})
-
 	data = json.loads(request.body)
 	model = apps.get_model(app_label=codeModels[data["model"]]["app"],model_name=codeModels[data["model"]]["name"])
 	print "app_label="+codeModels[data["model"]]["app"]
 	print "model_name="+codeModels[data["model"]]["name"]
-	#model = apps.get_model(app_label="articulos",model_name="Arlo")
-
 
 	filter_dict = {}
 	filter_dict[data["field"]] = data["value"]
@@ -295,5 +291,20 @@ def API_exists(request):
 		return JsonResponse({'exists':True})
 	else:
 		return JsonResponse({'exists':False})
+
+@csrf_exempt
+def API_get_object(request):
+	data = json.loads(request.body)
+	model = apps.get_model(app_label=codeModels[data["model"]]["app"],model_name=codeModels[data["model"]]["name"])
+
+	filter_dict = {}
+	filter_dict[data["field"]] = data["value"]
+	print (filter_dict)
+	print type(filter_dict)
+	if model.objects.get(**filter_dict):
+		object_db = serializers.serialize("json", [model.objects.get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		return JsonResponse({'object':object_db})
+	else:
+		return JsonResponse({'object':None})
 
 # API #

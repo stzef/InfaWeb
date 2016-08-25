@@ -32,6 +32,7 @@ urlBrands = [
 
 urlAPI = [
 	url(r'^api/existis/$', API_exists, name = 'api-exists'),
+	url(r'^api/get-object/$', API_get_object, name = 'api-get-object'),
 ]
 
 urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles
