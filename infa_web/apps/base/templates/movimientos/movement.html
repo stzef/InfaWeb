@@ -131,13 +131,6 @@
 										{{ form.vttotal }}
 									</div>
 								</div>
-
-								<div class="form-group">
-									<label for="{{ form.cmven.id_for_label }}" class="col-sm-2 control-label">{{ form.cmven.label }}</label>
-									<div class="col-sm-10">
-										{{ form.cmven }}
-									</div>
-								</div>
 							</div>
 							
 						</div>
@@ -247,9 +240,17 @@
 			.forEach(function(e,i){
 				var oth = $(e).closest("th")
 				if(e instanceof HTMLSelectElement){
-					tr.append($("<td>",{width:oth.attr("width"),"data-name":e.name,html:$(e).find("option[value=" + $(e).val() + "]").html()}))
+					tr.append($("<td>",{
+						width:oth.attr("width"),
+						"data-name":e.name,
+						"data-value":e.value,
+						html:$(e).find("option[value=" + $(e).val() + "]").html()}))
 				}else{
-					tr.append($("<td>",{width:oth.attr("width"),"data-name":e.name,html:e.value}))
+					tr.append($("<td>",{
+						width:oth.attr("width"),
+						"data-name":e.name,
+						"data-value":e.value,
+						html:e.value}))
 				}
 			})
 			var btnEdit = $("<td>").append($("<i class='fa fa-edit '>")).click(edit_item_mdeta)
@@ -259,7 +260,16 @@
 			
 			$('#item_mdeta').find("input,select").val("")
 			var it = 1
-			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(function(e){$(e).html(it);it++})
+			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
+				function(e){
+					$(e).html(it);
+					$(e).attr("data-value",it);
+					it++
+				})
+			
+			vtotal_temp = 0
+			$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseInt($(e).html());})
+			$("[name=vttotal]").val(vtotal_temp)
 		}
 	});
 	$('#id_carlos').change(function(){
@@ -288,7 +298,7 @@
 				console.log(e)
 				$(e).children("[data-name]").toArray().forEach(
 					function(e2){
-						data[$(e2).data("name")] = $(e2).html()
+						data[$(e2).data("name")] = $(e2).data("value")
 					}
 				)
 				return data
@@ -317,6 +327,15 @@
 			data.cmvsa = $("[name=cmvsa]").val()
 			data.fmvsa = $("[name=fmvsa]").val()
 		}
+		$.ajax({
+			url: '{% url 'save-movement' %}',
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: "application/json",
+			success: function(response){
+				console.log(response)
+			}
+		});
 		console.log(data)
 	})
 </script>

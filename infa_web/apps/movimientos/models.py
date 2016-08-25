@@ -30,7 +30,8 @@ class Mven(models.Model):
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
 	cbode0 = models.ForeignKey(Bode, related_name='cbode0',default=DEFAULT_BODEGA)
-	cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA)
+	cbode1 = models.ForeignKey(Bode, related_name='cbode1',null=True,blank=True)
+	#cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA,null=True,blank=True)
 
 	def __str__(self):
 		return str(self.cmven)

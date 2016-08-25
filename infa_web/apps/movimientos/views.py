@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse_lazy 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.movimientos.forms import *
+from django.views.decorators.csrf import csrf_exempt
 
 class InputMovementList(ListView):
 	model = Mven
@@ -45,19 +46,63 @@ class OutputMovementCreate(CreateView):
 		context['current_pk'] = 100
 		return context
 
-def InputMovementUpdate(request,pk):
-	context = {
-		"title":"Editar Movimiento de Entrada"
-	}
-	return render_to_response("movimientos/input-movement.html",context)
-
-def InputMovementSave(request):
+@csrf_exempt
+def SaveMovement(request):
 	data = json.loads(request.body)
 	print data
-	response = {}
-	return HttpResponse(json.dumps(response), "application/json")
+	if data["cmven"]:
+		movement = Mven.objects.create(
+			cbode0= Bode.objects.get(pk=data["cbode0"]),
+			cesdo= Esdo.objects.get(pk=data["cesdo"]),
+			citerce= Tercero.objects.get(pk=data["citerce"]),
+			ctimo=Timo.objects.get(pk=data["ctimo"]),
+			descri=data["descri"],
+			docrefe=data["docrefe"],
+			vttotal=data["vttotal"],
+			fmven=data["fmven"],
+			cmven=data["cmven"],
+		)
+		print "------------------------"
+		print movement.ctimo
+		print "------------------------"
+		for deta_movement in data["mvendeta"]:
+			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+			Mvendeta.objects.create(
+				canti=deta_movement["canti"],
+				carlos=articulo,
+				it=deta_movement["it"],
+				vtotal=deta_movement["vtotal"],
+				vunita=deta_movement["vunita"],
+				cmven=movement,
+				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				#ctimo=Timo.objects.get(pk=movement.ctimo),
+				nlargo=articulo.nlargo,
+			)
 
-def get_info_arlo(request, carlos):
+	else:
+		movement = Mvsa.objects.create(
+			cbode0= Bode.objects.get(pk=data["cbode0"]),
+			cesdo= Esdo.objects.get(pk=data["cesdo"]),
+			citerce= Tercero.objects.get(pk=data["citerce"]),
+			ctimo=Timo.objects.get(pk=data["ctimo"]),
+			descri=data["descri"],
+			docrefe=data["docrefe"],
+			vttotal=data["vttotal"],
+			fmvsa=data["fmven"],
+			cmvsa=data["cmven"],
+		)
+		for deta_movement in data["mvendeta"]:
+			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+			Mvsadeta.objects.create(
+				canti=deta_movement["canti"],
+				carlos=articulo,
+				it=deta_movement["it"],
+				vtotal=deta_movement["vtotal"],
+				vunita=deta_movement["vunita"],
+				cmvsa=movement,
+				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				#ctimo=Timo.objects.get(pk=movement.ctimo),
+				nlargo=articulo.nlargo,
+			)
 	response = {}
-	response['arlo'] = int(Arlo.objects.get(carlos = carlos).vcosto)
 	return HttpResponse(json.dumps(response), "application/json")
