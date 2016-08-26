@@ -16,7 +16,7 @@ class Vende(models.Model):
 	cvende = models.AutoField(primary_key=True)
 	nvende = models.CharField(max_length=80)
 	porventa = models.DecimalField(max_digits=7, decimal_places=4,validators=[MinValueValidator(0)])
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nvende
@@ -24,7 +24,7 @@ class Vende(models.Model):
 class Ruta(models.Model):
 	cruta = models.AutoField(primary_key=True)
 	nruta = models.CharField(max_length=45)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nruta
@@ -39,7 +39,7 @@ class Personas(models.Model):
 class Zona(models.Model):
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
-	cesdo = models.ForeignKey(Esdo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nzona
@@ -48,7 +48,7 @@ class Tercero(models.Model):
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
 	dv = models.CharField(max_length=1)
-	ctiide = models.ForeignKey(Tiide)
+	ctiide = models.ForeignKey(Tiide,default=DEFAULT_TIIDE)
 	rasocial = models.CharField(max_length=200)
 	nomcomer = models.CharField(max_length=200)
 	ape1 = models.CharField(max_length=40)
@@ -64,7 +64,7 @@ class Tercero(models.Model):
 	email = models.CharField(max_length=40,blank=True, null=True)
 	contacto = models.CharField(max_length=20,blank=True, null=True)
 	cregiva = models.ForeignKey(Regiva,default=DEFAULT_REGIMEN_IVA)
-	cautorre = models.ForeignKey(Autorre,default=CESTADO_AUTORRETENEDOR)
+	cautorre = models.ForeignKey(Autorre,default=DEFAULT_AUTORRETENEDOR)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	cvende = models.ForeignKey(Vende,default=DEFAULT_VENDE)
 	topcxc = models.DecimalField(max_digits=15, decimal_places=2)

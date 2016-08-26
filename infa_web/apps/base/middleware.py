@@ -18,4 +18,7 @@ class updateDateAppen(object):
 		current_date_format = current_date.strftime('%Y/%m/%d %H:%M:%S')
 		manageParameters.set_param_object("date_appen",current_date_format)
 		os.environ["date_appen"] = current_date_format
+		print "----------------------------"
+		print datetime.strptime(current_date_format,'%Y/%m/%d %H:%M:%S')
+		print "----------------------------"
 

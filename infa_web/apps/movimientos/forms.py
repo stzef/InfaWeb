@@ -9,7 +9,9 @@ class InputMovementForm(forms.ModelForm):
 
 		manageParameters = ManageParameters()
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
+		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
 		self.fields['ctimo'].initial = default_movement
+
 		
 	class Meta:
 		model = Mven
@@ -45,8 +47,10 @@ class OutputMovementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(OutputMovementForm, self).__init__(*args, **kwargs)
 
+
 		manageParameters = ManageParameters()
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
+		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
 		self.fields['ctimo'].initial = default_movement
 		
 	class Meta:
