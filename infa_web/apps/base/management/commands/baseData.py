@@ -2,6 +2,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 import os
+from infa_web.parameters import ManageParameters
 
 from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
@@ -430,4 +431,39 @@ class Command(BaseCommand):
 		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
 		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
 		print "Timo. Registros Creados Correctamente."
+
+		manageParameters = ManageParameters()
+
+		Tercero.objects.all().delete()
+		Tercero.objects.create(
+			citerce = 0,
+			idterce = 0,
+			dv = 0,
+			rasocial = "MOSTRADOR",
+			nomcomer = "MOSTRADOR",
+			ape1 = "MOSTRADOR",
+			ape2 = "MOSTRADOR",
+			nom1 = "MOSTRADOR",
+			nom2 = "MOSTRADOR",
+			sigla = "M",
+			replegal = "MOSTRADOR",
+			dirterce = "Direccion",
+			telterce = 00000000,
+			faxterce = 000000,
+			email = "no_email@gmail.com",
+			contacto = "xxxxxxxxxxxx",
+			topcxc = 2,
+			clipre = DEFAULT_LISTA_PRECIOS,
+			fnaci = manageParameters.get_param_value("date_appen"),
+			ordenruta = 1,
+			ciudad = Ciudad.objects.get(pk=DEFAULT_CIUDAD),
+			cesdo = estadoActivo,
+			cvende = Vende.objects.get(pk=DEFAULT_VENDE),
+			czona = Zona.objects.get(pk=DEFAULT_ZONA),
+			cruta = Ruta.objects.get(pk=DEFAULT_RUTA),
+			cpersona = Personas.objects.get(pk=DEFAULT_PERSONA),
+			cautorre = Autorre.objects.get(pk=CESTADO_AUTORRETENEDOR),
+			cregiva = Regiva.objects.get(pk=DEFAULT_REGIMEN_IVA),
+			ctiide = Tiide.objects.get(pk=DEFAULT_TIIDE),
+		)
 

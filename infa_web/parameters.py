@@ -20,6 +20,22 @@ class ManageParameters(object):
 		except IOError as e:
 			return None
 			#print "I/O error({0}): {1}".format(e.errno, e.strerror)
+	def set_param_object(self,cparam,value):
+		try:
+			with open(self.path_file) as json_data:
+				parameters = json.load(json_data)
+			for parameter in parameters:
+				if(parameter["cparam"] == cparam):
+					parameter["value"] = value
+					parameter["field"]["selected"] = value
+					break
+
+			if(self.save(parameters)):
+				return True
+			else:
+				return False
+		except IOError as e:
+			return None
 	def get_param_object(self,cparam):
 		try:
 			with open(self.path_file) as json_data:

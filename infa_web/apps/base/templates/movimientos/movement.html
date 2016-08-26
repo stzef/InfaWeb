@@ -25,11 +25,11 @@
 								
 							<div class="box-body">
 								<div class="row">
-									{% if form.cmven %}
+									{% if is_input_movement %}
 										<div class="form-group col-md-12">
 											<label for="{{form.cmven.id_for_label}}" class="col-sm-2 control-label">{{form.cmven.label}}</label>
 											<div class="col-sm-10">
-												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly value="{{current_pk}}">
+												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly>
 											</div>
 										</div>
 									{% else %}
@@ -124,15 +124,7 @@
 										</div>
 									</div>
 								</div>
-
-								<div class="form-group">
-									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-2 control-label">{{ form.vttotal.label }}</label>
-									<div class="col-sm-10">
-										{{ form.vttotal }}
-									</div>
-								</div>
 							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -149,18 +141,18 @@
 									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
-												<th width="5%">It</th>
-												<th width="60%">Articulos</th>
+												<th width="3%">It</th>
+												<th width="30%">Articulos</th>
 												<th width="10%">Cantidad</th>
 												<th width="10%">V unitario</th>
 												<th width="10%">V total</th>
 												<th width="5%"></th>
 											</tr>
 											<tr>
-												<th width="5%">
+												<th width="3%">
 													<input type="hidden" name="{{ form_movement_detail.it.name }}" id="{{ form_movement_detail.it.id_for_label}}" >
 												</th>
-												<th width="60%">
+												<th width="30%">
 													<div class="input-group">
 														{{form_movement_detail.carlos}}
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
@@ -184,10 +176,17 @@
 										</tbody>
 									</table>
 								</section>
+								<div class="form-group col-sm-12">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-4">
+										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}}" readonly">
+									</div>
+								</div>
 							</div>
 
 						</div>
 					</div>
+					
 				</div>
 				<div class="btn-group">
 					<button class="btn btn-app btn-info" type="reset">
@@ -196,7 +195,11 @@
 					<button class="btn btn-app" type="submit">
 						<i class="fa fa-plus-square-o"></i>Guardar
 					</button>
-					<a data-new-window class="btn btn-app" href="{% url 'list-states' %}"><i class="fa fa-list"></i>Listar</a>
+					{% if is_input_movement %}
+						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
+					{% else %}
+						<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
+					{% endif %}
 				</div>
 			</form>
 		</section>
@@ -209,9 +212,9 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
-	$("[name=carlos]").change(function(event) {
-	})
-	
+
+	$("#item_mdeta :input").attr("required",false)
+
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
 			$("[name=vtotal]").val(parseInt($("[name=canti]").val()) * parseInt($("[name=vunita]").val()))
@@ -220,15 +223,15 @@
 		}
 	})
 
-	$("#form_movement").submit(function(event) {
-		event.preventDefault();
+	$('.date').datetimepicker({
+		format: 'YYYY-MM-D',
+		defaultDate:date_appen
 	});
-
-	$('.date').datetimepicker({format: 'YYYY-MM-D',});
 
 	function edit_item_mdeta(){alert("edit_item_mdeta")}
 	function delete_item_mdeta(){
 		$(this).closest("tr").remove()
+		calcular_total()
 	}
 
 	$('#add_item_mdeta').click(function(){
@@ -267,11 +270,14 @@
 					it++
 				})
 			
-			vtotal_temp = 0
-			$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseInt($(e).html());})
-			$("[name=vttotal]").val(vtotal_temp)
+			calcular_total()
 		}
 	});
+	function calcular_total(){
+		vtotal_temp = 0
+		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseInt($(e).html());})
+		$("[name=vttotal]").val(vtotal_temp)
+	}
 	$('#id_carlos').change(function(){
 		$.ajax({
 			url: '{% url 'api-get-object' %}',
@@ -285,7 +291,9 @@
 			success: function(response){
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
-				$("[name='vunita']").val(fields.vcosto)
+				$("[name='vunita']")
+					.val(fields.vcosto)
+					.trigger("change")
 				console.log(object)
 			}
 		});
@@ -308,6 +316,7 @@
 
 	$("form").submit(function(event){
 		event.preventDefault()
+		var currentForm = $(this)
 		var data = {
 			docrefe : $("[name=docrefe]").val(),
 			citerce : $("[name=citerce]").val(),
@@ -315,16 +324,21 @@
 			cesdo : $("[name=cesdo]").val(),
 			vttotal : $("[name=vttotal]").val(),
 			descri : $("[name=descri]").val(),
-			//detaanula : $("[name=detaanula]").val(),
 			cbode0 : $("[name=cbode0]").val(),
-			//cbode1 : $("[name=cbode1]").val(),
-			mvendeta: get_mdeta()
+		}
+		var array_mvdeta = get_mdeta()
+		if(array_mvdeta.length){
+			data.mvdeta = array_mvdeta
+		}else{
+			var message = alertBootstrap("No ha ingresado Ningun Articulo","warning")
+			currentForm.prepend(message)
+			return
 		}
 		if($("[name=cmven]").length != 0){
-			data.cmven = $("[name=cmven]").val()
+			data.is_input_movement = true
 			data.fmven = $("[name=fmven]").val()
 		}else{
-			data.cmvsa = $("[name=cmvsa]").val()
+			data.is_input_movement = false
 			data.fmvsa = $("[name=fmvsa]").val()
 		}
 		$.ajax({
@@ -333,10 +347,15 @@
 			data: JSON.stringify(data),
 			contentType: "application/json",
 			success: function(response){
-				console.log(response)
+				if(response.error){
+					var message = alertBootstrap(response.message,"danger")
+				}else{
+					$("[name*=cmv]").val(response.cmv)
+					var message = alertBootstrap(response.message,"success")
+				}
+				currentForm.prepend(message)
 			}
 		});
-		console.log(data)
 	})
 </script>
 {% endblock content_script %}

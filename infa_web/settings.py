@@ -41,6 +41,7 @@ DJANGO_APPS = [
 	'django.contrib.humanize',
 ]
 PROJECT_APPS = [
+	'infa_web.apps.base.templatetags.date_appen',
 	'infa_web.apps.base',
 	'infa_web.apps.terceros',
 	'infa_web.apps.articulos',
@@ -51,6 +52,7 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
+	'infa_web.apps.base.middleware.updateDateAppen',
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',

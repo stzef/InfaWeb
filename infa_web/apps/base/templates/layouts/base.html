@@ -1,4 +1,6 @@
 {% load static %}
+{% load date_appen %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +18,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
+		<input type="hidden" value="{% date_appen %}" name="date_appen" id="date_appen">
 		{% block content %}{% endblock content %}
 	</div>
 	<div class="animation"></div>

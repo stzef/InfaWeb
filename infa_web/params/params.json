@@ -37,11 +37,33 @@
         }, 
         "smodule": "I", 
         "css": {
-            "field": "", 
+            "field": "form-control", 
             "field_container": "col-sm-8", 
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "Codigo Minimo de Articulos"
+    }, 
+    {
+        "cparam": "date_appen", 
+        "type": "String", 
+        "value": "2016/08/26 10:17:14", 
+        "label": {
+            "text": "Fecha de Appen"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "2016/08/26 10:17:14", 
+            "type": "text", 
+            "id": "date_appen", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "date form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Fecha de Appen"
     }, 
     {
         "cparam": "type_costing_and_stock", 
@@ -87,7 +109,7 @@
     }, 
     {
         "cparam": "city_third_party", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "base", 
         "value": "18", 
         "label": {
@@ -97,14 +119,14 @@
             "text": "nciu", 
             "selected": "18", 
             "value": "cciu", 
-            "options": [], 
+            "id": "city_third_party", 
             "input": false, 
             "type": false, 
-            "id": "city_third_party", 
+            "options": [], 
             "select": true
         }, 
         "model": "Ciudad", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -114,7 +136,7 @@
     }, 
     {
         "cparam": "initial_note", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "inventarios", 
         "value": "@", 
         "label": {
@@ -124,14 +146,14 @@
             "text": "cii", 
             "selected": "@", 
             "value": "cii", 
-            "options": [], 
+            "id": "initial_note", 
             "input": false, 
             "type": false, 
-            "id": "initial_note", 
+            "options": [], 
             "select": true
         }, 
         "model": "Invinicab", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -141,24 +163,24 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "movimientos", 
-        "value": "1003", 
+        "value": "3101", 
         "label": {
             "text": "Movimiento de Inventario por defecto para las factura de entrada"
         }, 
         "field": {
             "text": "ntimo", 
-            "selected": "1003", 
+            "selected": "3101", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "select": true
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 

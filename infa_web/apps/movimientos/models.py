@@ -34,7 +34,7 @@ class Mven(models.Model):
 	#cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA,null=True,blank=True)
 
 	def __str__(self):
-		return str(self.cmven)
+		return str(self.cmven) + " - " + str(self.ctimo)
 
 class Mvendeta(models.Model):
 	class Meta:
@@ -50,7 +50,7 @@ class Mvendeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
-		return str(self.cmven)
+		return str(self.it) + " - " + str(self.cmven) + " - " + str(self.ctimo)
 		
 class Mvsa(models.Model):
 	class Meta:
@@ -66,10 +66,10 @@ class Mvsa(models.Model):
 	descri = models.CharField(max_length=250)
 	detaanula = models.CharField(max_length=250)
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
-	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',default=DEFAULT_BODEGA)
+	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
 
 	def __str__(self):
-		return str(self.cmvsa)
+		return str(self.cmvsa) + " - " + str(self.ctimo)
 
 class Mvsadeta(models.Model):
 	class Meta:
@@ -84,4 +84,4 @@ class Mvsadeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
-		return str(self.cmvsa)
+		return str(self.it) + " - " + str(self.cmvsa) + " - " + str(self.ctimo)

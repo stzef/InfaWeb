@@ -1,3 +1,4 @@
+var date_appen = new Date($("[name=date_appen").val())
 function  calcularDigitoVerificacion ( myNit )  {
 	var vpri,
 		x,
