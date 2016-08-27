@@ -227,8 +227,8 @@ class Command(BaseCommand):
 		manageParameters = ManageParameters()
 		
 		Tercero.objects.create(
-			citerce = 0,
-			idterce = 0,
+			citerce = 1,
+			idterce = 1,
 			dv = 0,
 			rasocial = "MOSTRADOR",
 			nomcomer = "MOSTRADOR",

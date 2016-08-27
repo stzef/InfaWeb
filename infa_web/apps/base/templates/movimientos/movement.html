@@ -42,19 +42,19 @@
 
 									{% endif %}
 								
-									<div class="form-group col-md-4">
-										<label for="{{form.ctimo.id_for_label}}" class="col-sm-2 control-label">{{form.ctimo.label}}</label>
+									<div class="form-group col-md-5">
+										<label for="{{form.ctimo.id_for_label}}" class="col-sm-3 control-label">{{form.ctimo.label}}</label>
 										{%if form.ctimo.errors%}
 										{{form.ctimo.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											<div class="input-group">
 												{{form.ctimo}}
 												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
 									</div>
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-3">
 										{% if form.fmven %}
 											<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
 											<div class="col-sm-10">
@@ -68,8 +68,8 @@
 										{% endif %}
 									</div>
 									<div class="form-group col-md-4">
-										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-2 control-label">{{ form.docrefe.label }}</label>
-										<div class="col-sm-10">
+										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-4 control-label">{{ form.docrefe.label }}</label>
+										<div class="col-sm-8">
 											{{ form.docrefe }}
 										</div>
 									</div>
@@ -81,13 +81,17 @@
 										{%if form.citerce.errors%}
 										{{form.citerce.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-4">
 											<div class="input-group">
-												{{form.citerce}}
+												<input type="number" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}"">
 												<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 											</div>
 										</div>
+										<div class="col-sm-6">
+											<input type="text" name="name__{{form.citerce.name}}" id="name__{{form.citerce.name}}" class="form-control" readonly>
+										</div>
+
 									</div>
 									<div class="form-group col-md-4">
 										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
@@ -135,14 +139,24 @@
 								<h3 class="box-title">Detalle</h3>
 							</div>
 							<div class="box-body">
+
+								<div class="form-group col-sm-12">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-4">
+										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}}" readonly">
+									</div>
+								</div>
+
 								<section class="col-md-12" id="form_temp_mvendeta">
 								</section>
+
 								<section role="form" id="item_mdeta">
 									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
 												<th width="3%">It</th>
-												<th width="30%">Articulos</th>
+												<th width="30%">Cod Articulo</th>
+												<th width="30%">Articulo</th>
 												<th width="10%">Cantidad</th>
 												<th width="10%">V unitario</th>
 												<th width="10%">V total</th>
@@ -154,10 +168,16 @@
 												</th>
 												<th width="30%">
 													<div class="input-group">
-														{{form_movement_detail.carlos}}
+				
+														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"">
+
+
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 													</div>
+												</th>
+												<th width="10%">
+													<input type="text" name="name__{{form_movement_detail.carlos.name}}" id="name__{{form_movement_detail.carlos.name}}" class="form-control" readonly>
 												</th>
 												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
@@ -170,18 +190,21 @@
 										</tbody>
 									</table>
 								</section>
+
 								<section role="form" id="list_items_mdeta">
 									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<tbody>
 										</tbody>
 									</table>
 								</section>
+
 								<div class="form-group col-sm-12">
 									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
 									<div class="col-sm-4">
 										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}}" readonly">
 									</div>
 								</div>
+
 							</div>
 
 						</div>
@@ -228,7 +251,19 @@
 		defaultDate:date_appen
 	});
 
-	function edit_item_mdeta(){alert("edit_item_mdeta")}
+	function edit_item_mdeta(){
+		var target = $(this)
+		parent = target.closest("tr")
+		parent.find("[data-name]").each(function(i,e){
+
+			var td = $(e)
+
+			var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
+			input.val(td.data("value"))
+		})
+		parent.remove()
+
+	}
 	function delete_item_mdeta(){
 		$(this).closest("tr").remove()
 		calcular_total()
@@ -262,6 +297,7 @@
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
 			$('#item_mdeta').find("input,select").val("")
+			$('#item_mdeta').find("[name=canti]").val(1)
 			var it = 1
 			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
 				function(e){
@@ -269,7 +305,6 @@
 					$(e).attr("data-value",it);
 					it++
 				})
-			
 			calcular_total()
 		}
 	});
@@ -289,12 +324,41 @@
 			}),
 			contentType: "application/json",
 			success: function(response){
-				var object = JSON.parse(response.object)[0]
-				fields = object.fields
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					var t_vcosto = fields.vcosto
+					var t_nlargo = fields.nlargo
+				}else{
+					var t_vcosto = 0
+					var t_nlargo = ""
+				}
 				$("[name='vunita']")
-					.val(fields.vcosto)
+					.val(t_vcosto)
 					.trigger("change")
-				console.log(object)
+				$("[name=name__carlos]").val(t_nlargo)
+			}
+		});
+	});
+	$('#id_citerce').change(function(){
+		$.ajax({
+			url: '{% url 'api-get-object' %}',
+			type: 'POST',
+			data: JSON.stringify({
+				'model': 29,
+				'field': this.name,
+				'value': this.value
+			}),
+			contentType: "application/json",
+			success: function(response){
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					t_rasocial = fields.rasocial
+				}else{
+					t_rasocial = ""
+				}
+					$("[name=name__citerce]").val(t_rasocial)
 			}
 		});
 	});
@@ -303,7 +367,6 @@
 		return 	$("#list_items_mdeta").find("tr").toArray().map(
 			function(e){
 				var data = {}
-				console.log(e)
 				$(e).children("[data-name]").toArray().forEach(
 					function(e2){
 						data[$(e2).data("name")] = $(e2).data("value")

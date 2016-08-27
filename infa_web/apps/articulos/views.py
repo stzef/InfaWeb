@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render,get_object_or_404,get_list_or_404
+from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.list import ListView
@@ -79,6 +79,43 @@ class BreakdownArticle(FormView):
 		context["partsArticle"] = Arlosdesglo.objects.filter(carlosp=self.kwargs["pk"])
 		return context
 
+"""
+def ArticleCreate(request):
+
+	context = {}
+	context['title'] = "Crear Articulo"
+	context['mode_view'] = 'create'
+	context['url'] = 'add-article'
+
+	context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
+	context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
+	context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
+
+	manageParameters = ManageParameters()
+	minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+	typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+	context['typeInventory'] = typeInventory
+
+	if request.method == "POST":
+		mutable_data = request.POST.copy()
+
+		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		if maxCarlos["carlos__max"]:
+			carlos = maxCarlos["carlos__max"] + 1
+		else:
+			carlos = minCodeArlos
+		mutable_data["carlos"] = carlos
+		form = ArticleForm(mutable_data)
+		if form.is_valid():
+			article = form.save(commit=False)
+			article.save()
+			return redirect('edit-article', pk=article.pk)
+	else:
+		form = ArticleForm()
+		context["form"] = form
+	return render(request, 'articulos/article.html', context)
+"""
+
 class ArticleCreate(CreateView):
 	model = Arlo
 	template_name = "articulos/article.html"
@@ -107,6 +144,16 @@ class ArticleCreate(CreateView):
 		else:
 			context['current_pk'] = minCodeArlos
 		return context
+
+	def form_valid(self, form):
+		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		if maxCarlos["carlos__max"]:
+			carlos = maxCarlos["carlos__max"] + 1
+		else:
+			carlos = minCodeArlos
+		form.instance.carlos = carlos
+		return super(ArticleCreate, self).form_valid(form)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ArticleCopy(UpdateView):
@@ -301,7 +348,7 @@ def API_get_object(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.get(**filter_dict):
+	if model.objects.filter(**filter_dict).exists():
 		object_db = serializers.serialize("json", [model.objects.get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		return JsonResponse({'object':object_db})
 	else:

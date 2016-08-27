@@ -3,6 +3,7 @@ from infa_web.apps.articulos.views import *
 
 urlArticles = [
 	url(r'^articles/$', ArticleList.as_view(), name = 'list-articles'),
+	#url(r'^articles/add/$', ArticleCreate, name = 'add-article'),
 	url(r'^articles/add/$', ArticleCreate.as_view(), name = 'add-article'),
 	url(r'^articles/edit/(?P<pk>\d+)/$', ArticleUpdate.as_view(), name = 'edit-article'),
 	url(r'^articles/copy/(?P<pk>\d+)/$', ArticleCopy.as_view(), name = 'copy-article'),

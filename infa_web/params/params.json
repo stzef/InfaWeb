@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/08/26 11:30:06", 
+        "value": "2016/08/27 09:38:44", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/08/26 11:30:06", 
+            "selected": "2016/08/27 09:38:44", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -109,7 +109,7 @@
     }, 
     {
         "cparam": "city_third_party", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "base", 
         "value": "18", 
         "label": {
@@ -119,14 +119,14 @@
             "text": "nciu", 
             "selected": "18", 
             "value": "cciu", 
-            "id": "city_third_party", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "city_third_party", 
             "select": true
         }, 
         "model": "Ciudad", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -136,7 +136,7 @@
     }, 
     {
         "cparam": "initial_note", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "inventarios", 
         "value": "@", 
         "label": {
@@ -146,14 +146,14 @@
             "text": "cii", 
             "selected": "@", 
             "value": "cii", 
-            "id": "initial_note", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "initial_note", 
             "select": true
         }, 
         "model": "Invinicab", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -163,7 +163,7 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "movimientos", 
         "value": "3101", 
         "label": {
@@ -173,14 +173,14 @@
             "text": "ntimo", 
             "selected": "3101", 
             "value": "ctimo", 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "select": true
         }, 
         "model": "Timo", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
