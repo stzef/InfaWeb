@@ -49,7 +49,7 @@ class OutputMovementForm(forms.ModelForm):
 
 
 		manageParameters = ManageParameters()
-		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
+		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
 		self.fields['ctimo'].initial = default_movement
 		

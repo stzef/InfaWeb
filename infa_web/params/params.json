@@ -165,19 +165,22 @@
         "cparam": "default_movement_for_input_bills", 
         "type": "Model", 
         "app": "movimientos", 
-        "value": "3101", 
+        "value": "1002", 
         "label": {
             "text": "Movimiento de Inventario por defecto para las factura de entrada"
         }, 
         "field": {
             "text": "ntimo", 
-            "selected": "3101", 
+            "selected": "1002", 
             "value": "ctimo", 
             "id": "default_movement_for_input_bills", 
             "input": false, 
             "type": false, 
             "options": [], 
             "select": true
+        }, 
+        "query": {
+            "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
         }, 
         "model": "Timo", 
         "smodule": "I", 
@@ -187,5 +190,35 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "Movimiento de Inventario por defecto para las factura de entrada"
+    }, 
+    {
+        "cparam": "default_movement_for_output_bills", 
+        "smodule": "I", 
+        "app": "movimientos", 
+        "value": "2001", 
+        "label": {
+            "text": "Movimiento de Inventario por defecto para las factura de salida"
+        }, 
+        "field": {
+            "text": "ntimo", 
+            "selected": "2001", 
+            "value": "ctimo", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "default_movement_for_output_bills", 
+            "select": true
+        }, 
+        "query": {
+            "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
+        }, 
+        "model": "Timo", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Movimiento de Inventario por defecto para las factura de salida"
     }
 ]
