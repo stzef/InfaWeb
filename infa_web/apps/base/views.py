@@ -75,8 +75,15 @@ def ParametersList(FormView):
 			appString = parameter["app"]
 			model = apps.get_model(app_label=appString,model_name=modelString)
 
-			#parameter["field"]["options"] = []
-			for object_db in model.objects.filter():
+			query = {}
+			if("query" in parameter.keys()):
+				query = parameter["query"]
+
+				for key,value in query.iteritems():
+					if(value[0:2] == "::" and value[-2:] == "::"):
+						query[key] = eval(value[2:-2])
+
+			for object_db in model.objects.filter(**query):
 				value = getattr(object_db, parameter["field"]["value"])
 				text = getattr(object_db, parameter["field"]["text"])
 
@@ -89,7 +96,7 @@ def ParametersList(FormView):
 			if(len(parameter["field"]["options"]) == 0):
 				parameter["field"]["options"].append({"value": "@","text": "No se encontraron Valores" ,"selected":True})
 
-	print json.dumps(parameters, indent=4)
+	#print json.dumps(parameters, indent=4)
 	context['parameters'] = parameters
 
 	return render_to_response("parametros/parameters.html",context)

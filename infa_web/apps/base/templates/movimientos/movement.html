@@ -27,15 +27,15 @@
 								<div class="row">
 									{% if is_input_movement %}
 										<div class="form-group col-md-12">
-											<label for="{{form.cmven.id_for_label}}" class="col-sm-2 control-label">{{form.cmven.label}}</label>
-											<div class="col-sm-10">
+											<label for="{{form.cmven.id_for_label}}" class="col-sm-9 control-label">{{form.cmven.label}}</label>
+											<div class="col-sm-3">
 												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly>
 											</div>
 										</div>
 									{% else %}
 										<div class="form-group col-md-12">
-											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-2 control-label">{{form.cmvsa.label}}</label>
-											<div class="col-sm-10">
+											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-9 control-label">{{form.cmvsa.label}}</label>
+											<div class="col-sm-3">
 												<input type="number" name="{{form.cmvsa.name}}" id="{{form.cmvsa.id_for_label}}" class="{{form.cmvsa.field.widget.attrs.class}}" readonly value="{{current_pk}}">
 											</div>
 										</div>
@@ -143,7 +143,7 @@
 								<div class="form-group col-sm-12">
 									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
 									<div class="col-sm-4">
-										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}}" readonly">
+										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
 									</div>
 								</div>
 
@@ -151,22 +151,22 @@
 								</section>
 
 								<section role="form" id="item_mdeta">
-									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
 												<th width="3%">It</th>
-												<th width="30%">Cod Articulo</th>
-												<th width="30%">Articulo</th>
+												<th width="20%">Cod Articulo</th>
+												<th width="20%">Articulo</th>
 												<th width="10%">Cantidad</th>
 												<th width="10%">V unitario</th>
 												<th width="10%">V total</th>
-												<th width="5%"></th>
+												<th width="10%"></th>
 											</tr>
 											<tr>
 												<th width="3%">
 													<input type="hidden" name="{{ form_movement_detail.it.name }}" id="{{ form_movement_detail.it.id_for_label}}" >
 												</th>
-												<th width="30%">
+												<th width="20%">
 													<div class="input-group">
 				
 														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"">
@@ -176,13 +176,13 @@
 														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 													</div>
 												</th>
-												<th width="10%">
+												<th width="20%">
 													<input type="text" name="name__{{form_movement_detail.carlos.name}}" id="name__{{form_movement_detail.carlos.name}}" class="form-control" readonly>
 												</th>
 												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
 												<th width="10%">{{ form_movement_detail.vtotal }}</th>
-												<th width="5%"><button type="button" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="button" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -192,7 +192,7 @@
 								</section>
 
 								<section role="form" id="list_items_mdeta">
-									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
 										<tbody>
 										</tbody>
 									</table>
@@ -201,7 +201,7 @@
 								<div class="form-group col-sm-12">
 									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
 									<div class="col-sm-4">
-										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}}" readonly">
+										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
 									</div>
 								</div>
 
@@ -291,8 +291,9 @@
 						html:e.value}))
 				}
 			})
-			var btnEdit = $("<td>").append($("<i class='fa fa-edit '>")).click(edit_item_mdeta)
-			var btnDelete = $("<td>").append($("<i class='fa fa-remove'>")).click(delete_item_mdeta)
+			td = $("<td width='10%'>")
+			var btnEdit = td.append($("<button><i class='fa fa-edit '></button>")).click(edit_item_mdeta)
+			var btnDelete = td.append($("<button><i class='fa fa-remove'></button>")).click(delete_item_mdeta)
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
