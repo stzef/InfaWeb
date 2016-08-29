@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^inventory/edit/$', inventory_edit, name = 'inventory_edit'),
 	url(r'^inventory/rename/$', get_name_arlo, name = 'get_name_arlo'),
 	url(r'^inventory/save/$', inventory_save, name = 'inventory_save'),
+	url(r'^inventory/report/stocks/$', InventoryReportStocks.as_view(), name = 'inventory_stocks_report'),
 ]

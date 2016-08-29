@@ -1,9 +1,16 @@
 # -*- encoding: utf-8 -*-
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
+from reportlab.lib.pagesizes import letter, inch
 from infa_web.apps.articulos.models import *
+from reportlab.lib.pagesizes import letter
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.core import serializers
+from reportlab.lib import colors
+from io import BytesIO
 from .models import *
 from .utils import *
 from .forms import *
@@ -177,3 +184,56 @@ def get_name_arlo(request):
 		response['data'][c]['nlargo'] = arlo.nlargo.encode("utf-8")
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")
+
+class InventoryReportStocks(FormView):
+	template_name = 'inventarios/inventory-report-stocks.html'
+	form_class = InventoryReportStocksForm
+
+	def get_context_data(self, **kwargs):
+		context = super(InventoryReportStocks, self).get_context_data(**kwargs)
+		context['title'] = 'Reporte existencias inventarios'
+		return context
+
+	def post(self, request, *args, **kwargs):
+		invini = request.POST.get('nota_inicial')
+		fecha_nota_inicial = request.POST.get('fecha_nota_inicial')
+		fecha_final = request.POST.get('fecha_final')
+		group_report = request.POST.get('group_report')
+		type_report = request.POST.get('type_report')
+		now = datetime.datetime.now()
+		content = []
+
+		buff = BytesIO()
+		styles = getSampleStyleSheet()
+		nombre_empresa = Paragraph("ALMACEN EL EJEMPLO", styles['h2'])
+		it_empresa = Paragraph("Iden. 0000000000000-0", styles['Normal'])
+		titulo = Paragraph("Listado de Existencias desde "+str(fecha_nota_inicial)+" hasta "+str(fecha_final), styles['Normal'])
+
+		data=[]
+		data.append({"h":['00', '01', '02', '03', '04']})
+		data.append({"h2":['00', '01', '02', '03', '04']})
+		data.append({"h3":['00', '01', '02', '03', '04']})
+		data.append({"h4":['00', '01', '02', '03', '04']})
+		t=Table(data)
+		t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+				('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+				('VALIGN',(0,0),(0,-1),'TOP'),
+				('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+				('ALIGN',(0,-1),(-1,-1),'CENTER'),
+				('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+				('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+				('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+				('BOX', (0,0), (-1,-1), 0.25, colors.black),
+				]))
+
+		content.append(nombre_empresa)
+		content.append(it_empresa)
+		content.append(titulo)
+		content.append(t)
+		doc = SimpleDocTemplate(buff, pagesize = letter, rightMargin = 15, leftMargin = 15, topMargin = 15, bottomMargin = 15)
+		doc.build(content)
+		response = HttpResponse(content_type = 'application/pdf')
+		response.write(buff.getvalue())
+		buff.close()
+		#response['Content-Disposition'] = 'attachment: filename=stocks-'+str(now.year)+'-'+str(now.month)+'-'+str(now.day)+'.pdf'
+		return response

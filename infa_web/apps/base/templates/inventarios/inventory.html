@@ -88,6 +88,8 @@
 	function get_new(){
 		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_latest' %}', function(response){
+			console.log(response)
+			console.log(typeof response)
 			create_table(response);
 		});
 	}
@@ -189,7 +191,7 @@
 				 format: 'D/MM/YYYY HH:mm',
 			});
 		}
-		data_table(response.arlo);
+		data_table(response.data);
 		data_esdo(response.esdo);
 	}
 	function data_esdo(esdo){
@@ -210,8 +212,9 @@
 		});
 	}
 	function data_table(data){
+		console.info(data)
 		var val_tot = 0;
-		$.each(JSON.parse(data), function (key, item) {
+		$.each(data, function (key, item) {
 			table.row.add({
 				'DT_RowId': item.carlos,
 				'DT_RowClass': 'cont-data', 
