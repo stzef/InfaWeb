@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/08/29 09:33:52", 
+        "value": "2016/08/29 11:03:35", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/08/29 09:33:52", 
+            "selected": "2016/08/29 11:03:35", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -136,7 +136,6 @@
     }, 
     {
         "cparam": "initial_note", 
-        "smodule": "I", 
         "app": "inventarios", 
         "value": "@", 
         "label": {
@@ -146,10 +145,10 @@
             "text": "cii", 
             "selected": "@", 
             "value": "cii", 
-            "options": [], 
+            "id": "initial_note", 
             "input": false, 
             "type": false, 
-            "id": "initial_note", 
+            "options": [], 
             "select": true
         }, 
         "model": "Invinicab", 
@@ -163,7 +162,7 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "movimientos", 
         "value": "1002", 
         "label": {
@@ -173,17 +172,17 @@
             "text": "ntimo", 
             "selected": "1002", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -193,7 +192,7 @@
     }, 
     {
         "cparam": "default_movement_for_output_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "movimientos", 
         "value": "2001", 
         "label": {
@@ -203,17 +202,17 @@
             "text": "ntimo", 
             "selected": "2001", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_output_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_output_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 

@@ -85,7 +85,7 @@ def ArticleCreate(request):
 	context = {}
 	context['title'] = "Crear Articulo"
 	context['mode_view'] = 'create'
-	context['url'] = 'add-article'
+	context['url'] = reverse_lazy('add-article')
 
 	context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
 	context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
@@ -116,7 +116,7 @@ def ArticleCreate(request):
 	return render(request, 'articulos/article.html', context)
 """
 
-class ArticleCreate(CreateView):
+class ArticleCreate(AjaxableResponseMixin,CreateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
@@ -125,26 +125,44 @@ class ArticleCreate(CreateView):
 		
 	def get_context_data(self, **kwargs):
 		context = super(ArticleCreate, self).get_context_data(**kwargs)
-		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		#maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		context['title'] = "Crear Articulo"
 		context['mode_view'] = 'create'
-		context['url'] = 'add-article'
+		context['url'] = reverse_lazy('add-article')
 
 		context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
 		context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
 		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
 
 		manageParameters = ManageParameters()
-		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		#minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
 
-		if maxCarlos["carlos__max"]:
-			context['current_pk'] = maxCarlos["carlos__max"] + 1
-		else:
-			context['current_pk'] = minCodeArlos
+		#if maxCarlos["carlos__max"]:
+		#	context['current_pk'] = maxCarlos["carlos__max"] + 1
+		#else:
+		#	context['current_pk'] = minCodeArlos
 		return context
 
+	def post(self, request, *args, **kwargs):
+		mutable_data = request.POST.copy()
+
+		manageParameters = ManageParameters()
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+
+		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		if maxCarlos["carlos__max"]:
+			carlos = maxCarlos["carlos__max"] + 1
+		else:
+			carlos = minCodeArlos
+
+		mutable_data["carlos"] = carlos
+
+		request.POST = mutable_data
+		
+		return super(ArticleCreate, self).post(request, *args, **kwargs)
+	"""
 	def form_valid(self, form):
 		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		if maxCarlos["carlos__max"]:
@@ -153,6 +171,7 @@ class ArticleCreate(CreateView):
 			carlos = minCodeArlos
 		form.instance.carlos = carlos
 		return super(ArticleCreate, self).form_valid(form)
+	"""
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -168,7 +187,7 @@ class ArticleCopy(UpdateView):
 		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		context['title'] = "Copiar Articulo"
 		context['mode_view'] = 'copy'
-		context['url'] = 'add-article'
+		context['url'] = reverse_lazy('add-article')
 
 		context['url_foto1'] = current_article.foto1
 		context['url_foto2'] = current_article.foto2
@@ -185,7 +204,7 @@ class ArticleCopy(UpdateView):
 			context['current_pk'] = minCodeArlos
 		return context
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(AjaxableResponseMixin,UpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	success_url=reverse_lazy("add-article")
@@ -208,7 +227,6 @@ class ArticleUpdate(UpdateView):
 		context['url_foto1'] = current_article.foto1
 		context['url_foto2'] = current_article.foto2
 		context['url_foto3'] = current_article.foto3
-
 		return context
 
 class ArticleList(ListView):
@@ -223,12 +241,33 @@ class GroupCreate(AjaxableResponseMixin,CreateView):
 	template_name = "articulos/group.html"
 	success_url=reverse_lazy("add-group")
 
+	def get_context_data(self, **kwargs):
+		context = super(GroupCreate, self).get_context_data(**kwargs)
+		context['title'] = "Crear Grupo"
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-group')
+
+		return context
+
 class GroupUpdate(AjaxableResponseMixin,UpdateView):
 	model = Gpo
 	form_class = GpoForm
 	template_name = "articulos/group.html"
 	success_url=reverse_lazy("add-group")
 	success_message = "was update successfully"
+
+	def get_context_data(self, **kwargs):
+		context = super(GroupUpdate, self).get_context_data(**kwargs)
+		context['title'] = "Editar Grupo"
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-group',kwargs={'pk': self.kwargs["pk"]},)
+		return context
+
+	def get(self, request, *args, **kwargs):
+		print args
+		return super(GroupUpdate, self).get(request, *args, **kwargs)
+
 
 class GroupList(ListView):
 	model = Gpo

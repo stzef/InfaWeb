@@ -1,5 +1,6 @@
 {%extends 'layouts/base.html'%}
 {% load humanize %}
+{% load static %}
 {%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
@@ -376,7 +377,7 @@
 									</div>
 									<div class="box-body">
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive" src="/{{url_foto1}}" alt="">
+											<img class="ae-img-article img-responsive" src="/static/{{url_foto1}}" alt="">
 											<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
 											{%if form.foto1.errors%}
 											{{form.foto1.errors}}
@@ -386,7 +387,7 @@
 											</div>
 										</div>
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive" src="/{{url_foto2}}" alt="">
+											<img class="ae-img-article img-responsive" src="/static/{{url_foto2}}" alt="">
 											<label for="{{form.foto2.id_for_label}}" class="col-sm-4 control-label">{{form.foto2.label}}</label>
 											{%if form.foto2.errors%}
 											{{form.foto2.errors}}
@@ -396,7 +397,7 @@
 											</div>
 										</div>
 										<div class="col-md-4 form-group">
-											<img class="ae-img-article img-responsive" src="/{{url_foto3}}" alt="">
+											<img class="ae-img-article img-responsive" src="/static/{{url_foto3}}" alt="">
 											<label for="{{form.foto3.id_for_label}}" class="col-sm-4 control-label">{{form.foto3.label}}</label>
 											{%if form.foto3.errors%}
 											{{form.foto3.errors}}
@@ -443,6 +444,7 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
+	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}");</script>
 	<script>
 		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
 		

@@ -30,7 +30,7 @@ CTIARLO_ARTICULO = 1
 CTIARLO_SERVICIO = 2
 CTIARLO_OTRO = 3
 
-DEFAULT_IMAGE_ARTICLE="static/img/articles/default.jpg"
+DEFAULT_IMAGE_ARTICLE="img/articles/default.jpg"
 
 if 'APPEMPRESARIAL_USER' in os.environ:
 	APPEMPRESARIAL_USER = os.environ["APPEMPRESARIAL_USER"]
