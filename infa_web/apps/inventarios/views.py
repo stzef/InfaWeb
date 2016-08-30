@@ -96,11 +96,18 @@ def inventory_edit(request):
 	response['hour'] = value.fii.hour
 	response['minute'] = value.fii.minute
 
-	response['ac_day'] = value.fuaii.day
-	response['ac_month'] = value.fuaii.month
-	response['ac_year'] = value.fuaii.year
-	response['ac_hour'] = value.fuaii.hour
-	response['ac_minute'] = value.fuaii.minute
+	if value.fuaii is not None:
+		response['ac_day'] = value.fuaii.day
+		response['ac_month'] = value.fuaii.month
+		response['ac_year'] = value.fuaii.year
+		response['ac_hour'] = value.fuaii.hour
+		response['ac_minute'] = value.fuaii.minute
+	else:
+		response['ac_day'] = 0
+		response['ac_month'] = 0
+		response['ac_year'] = 0
+		response['ac_hour'] = 0
+		response['ac_minute'] = 0
 	for arlo in value.invinideta_set.all():
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos.pk
@@ -209,22 +216,16 @@ class InventoryReportStocks(FormView):
 		it_empresa = Paragraph("Iden. 0000000000000-0", styles['Normal'])
 		titulo = Paragraph("Listado de Existencias desde "+str(fecha_nota_inicial)+" hasta "+str(fecha_final), styles['Normal'])
 
-		data= [['00', '01', '02', '03', '04'],
-		['10', '11', '12', '13', '14'],
-		['20', '21', '22', '23', '24'],
-		['30', '31', '32', '33', '34']]
-		t=Table(data)
-		t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
-			 ('FONT', (0, 0), (-1, 0), 'Helvetica-Bold'),
-				('TEXTCOLOR',(1,1),(-2,-2),colors.red),
-				('VALIGN',(0,0),(0,-1),'TOP'),
-				('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-				('ALIGN',(0,-1),(-1,-1),'CENTER'),
-				('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
-				('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-				('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-				('BOX', (0,0), (-1,-1), 0.25, colors.black),
-				]))
+		data= [['Código', 'Nombre', 'Existencia'],
+		['10', '11', '12'],
+		['20', '21', '22'],
+		['30', '31', '32']]
+		t=Table(data, 190)
+		t.setStyle(TableStyle([
+			('FONT', (0, 0), (-1, 0), 'Helvetica-Bold'),
+			('VALIGN',(0,0),(0,-1),'TOP'),
+			('LINEABOVE',(0,1),(-1,1),0.25,colors.black),
+		]))
 
 		content.append(nombre_empresa)
 		content.append(it_empresa)

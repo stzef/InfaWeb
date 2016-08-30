@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/08/30 07:38:34", 
+        "value": "2016/08/30 08:22:56", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/08/30 07:38:34", 
+            "selected": "2016/08/30 08:22:56", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -136,8 +136,9 @@
     }, 
     {
         "cparam": "initial_note", 
+        "smodule": "I", 
         "app": "inventarios", 
-        "value": "@", 
+        "value": "II-00001", 
         "label": {
             "text": "Nota Inicial"
         }, 
