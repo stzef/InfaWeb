@@ -23,9 +23,8 @@
 							<tr>
 								<th>Identificación</th>
 								<th>Primer Apellido</th>
-								<th>Segundo Apellido</th>
 								<th>Primer Nombre</th>
-								<th>Segundo Nombre</th>
+								<th>Razon Social</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
@@ -34,9 +33,8 @@
 								<tr data-object-search="{{ thirdParty.pk }}">
 									<td >{{ thirdParty.idterce }}</td>
 									<td>{{ thirdParty.nom1 }}</td>
-									<td>{{ thirdParty.nom2 }}</td>
 									<td>{{ thirdParty.ape1 }}</td>
-									<td>{{ thirdParty.ape2 }}</td>
+									<td>{{ thirdParty.rasocial }}</td>
 									<td><a data-link-edit href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}

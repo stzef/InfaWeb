@@ -264,11 +264,6 @@ class GroupUpdate(AjaxableResponseMixin,UpdateView):
 		context['url'] = reverse_lazy('edit-group',kwargs={'pk': self.kwargs["pk"]},)
 		return context
 
-	def get(self, request, *args, **kwargs):
-		print args
-		return super(GroupUpdate, self).get(request, *args, **kwargs)
-
-
 class GroupList(ListView):
 	model = Gpo
 	template_name = "articulos/list-groups.html"

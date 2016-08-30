@@ -292,8 +292,8 @@
 				}
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<button><i class='fa fa-edit '></button>")).click(edit_item_mdeta)
-			var btnDelete = td.append($("<button><i class='fa fa-remove'></button>")).click(delete_item_mdeta)
+			var btnEdit = td.append($("<button><i class='fa fa-edit '></button>").click(edit_item_mdeta))
+			var btnDelete = td.append($("<button><i class='fa fa-remove'></button>").click(delete_item_mdeta))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
