@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/08/29 11:03:35", 
+        "value": "2016/08/30 07:46:14", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/08/29 11:03:35", 
+            "selected": "2016/08/30 07:46:14", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -109,7 +109,7 @@
     }, 
     {
         "cparam": "city_third_party", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "base", 
         "value": "18", 
         "label": {
@@ -119,14 +119,14 @@
             "text": "nciu", 
             "selected": "18", 
             "value": "cciu", 
-            "options": [], 
+            "id": "city_third_party", 
             "input": false, 
             "type": false, 
-            "id": "city_third_party", 
+            "options": [], 
             "select": true
         }, 
         "model": "Ciudad", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -145,10 +145,10 @@
             "text": "cii", 
             "selected": "@", 
             "value": "cii", 
-            "id": "initial_note", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "initial_note", 
             "select": true
         }, 
         "model": "Invinicab", 
@@ -162,7 +162,7 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "movimientos", 
         "value": "1002", 
         "label": {
@@ -172,17 +172,17 @@
             "text": "ntimo", 
             "selected": "1002", 
             "value": "ctimo", 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
         }, 
         "model": "Timo", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -192,7 +192,7 @@
     }, 
     {
         "cparam": "default_movement_for_output_bills", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "movimientos", 
         "value": "2001", 
         "label": {
@@ -202,17 +202,17 @@
             "text": "ntimo", 
             "selected": "2001", 
             "value": "ctimo", 
-            "id": "default_movement_for_output_bills", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "default_movement_for_output_bills", 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
         }, 
         "model": "Timo", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
