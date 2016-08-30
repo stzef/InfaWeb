@@ -112,10 +112,7 @@ def SaveMovement(request):
 					#ctimo=Timo.objects.get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
-				print "-----------------------------------"
-				print deta_movement["vunita"]
-				print "-----------------------------------"
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"])
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
@@ -154,6 +151,7 @@ def SaveMovement(request):
 					ctimo=Timo.objects.get(pk=data["ctimo"]),
 					nlargo=articulo.nlargo,
 				)
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
