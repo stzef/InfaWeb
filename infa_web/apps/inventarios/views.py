@@ -209,13 +209,13 @@ class InventoryReportStocks(FormView):
 		it_empresa = Paragraph("Iden. 0000000000000-0", styles['Normal'])
 		titulo = Paragraph("Listado de Existencias desde "+str(fecha_nota_inicial)+" hasta "+str(fecha_final), styles['Normal'])
 
-		data=[]
-		data.append({"h":['00', '01', '02', '03', '04']})
-		data.append({"h2":['00', '01', '02', '03', '04']})
-		data.append({"h3":['00', '01', '02', '03', '04']})
-		data.append({"h4":['00', '01', '02', '03', '04']})
+		data= [['00', '01', '02', '03', '04'],
+		['10', '11', '12', '13', '14'],
+		['20', '21', '22', '23', '24'],
+		['30', '31', '32', '33', '34']]
 		t=Table(data)
 		t.setStyle(TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+			 ('FONT', (0, 0), (-1, 0), 'Helvetica-Bold'),
 				('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 				('VALIGN',(0,0),(0,-1),'TOP'),
 				('TEXTCOLOR',(0,0),(0,-1),colors.blue),
