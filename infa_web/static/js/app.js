@@ -1,4 +1,6 @@
 var date_appen = new Date($("[name=date_appen").val())
+var currencyFormat = CurrencyFormat()
+
 function  calcularDigitoVerificacion ( myNit )  {
 	var vpri,
 		x,
@@ -200,6 +202,7 @@ $("[data-new-window]").click(function(event){
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y );
 });
+
 var languageDataTable = {
 	sProcessing: "Procesando...",
 	sLengthMenu: "Mostrar _MENU_ registros",
@@ -233,3 +236,17 @@ if($("form").length){
 		//Esta seguro de abandonar el sitio? SI o NO
 	});
 }
+
+function CurrencyFormat(){
+	numberFormat = Intl.NumberFormat()
+	return numberFormat
+}
+CurrencyFormat.prototype.format = function(number){
+	return numberFormat.format(2000040.45)
+}
+
+$("[data-currency-format]").change(function(event){
+	var currencyFormat = CurrencyFormat()
+	$(this).val(currencyFormat.format($(this).val()))
+})
+
