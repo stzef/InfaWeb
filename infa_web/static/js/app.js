@@ -69,11 +69,24 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 	$(selectorForm).submit(function(event){
 		var currentForm = $(this)
 		event.preventDefault()
+
+		var formData = new FormData(this);
+		$('input[type=file]').each(function(i, file) {
+			$.each(file.files, function(n, file) {
+				formData.append('file-'+i, file);
+			})
+		})
+
 		$.ajax({
 			url: url,
 			type: 'POST',
-			data: $("form").serialize(),
-			contentType: "application/x-www-form-urlencoded",
+			//data: $("form").serialize(),
+			data:formData,
+			cache:false,
+			contentType: false,
+			processData: false,
+			//contentType: "application/x-www-form-urlencoded",
+			//contentType: 'multipart/form-data',
 			error: function(response){
 				$('<ul class="errorlist"></ul>')
 				var data = JSON.parse(response.responseText)

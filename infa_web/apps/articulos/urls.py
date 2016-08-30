@@ -16,19 +16,19 @@ urlBreakdownArticles = [
 urlGroups = [
 	url(r'^groups/$', GroupList.as_view(), name = 'list-group'),
 	url(r'^groups/add/$', GroupCreate.as_view(), name = 'add-group'),
-	url(r'^groups/edit/(?P<pk>[0-9])+/$', GroupUpdate.as_view(), name = 'edit-group'),
+	url(r'^groups/edit/(?P<pk>\d+)/$', GroupUpdate.as_view(), name = 'edit-group'),
 ]
 
 urlTypesArticles = [
 	url(r'^types-articles/$', TypesArticleList.as_view(), name = 'list-types-articles'),
 	url(r'^types-articles/add/$', TypesArticleCreate.as_view(), name = 'add-type-article'),
-	url(r'^types-articles/edit/(?P<pk>[0-9])+/$', TypesArticleUpdate.as_view(), name = 'edit-type-article'),
+	url(r'^types-articles/edit/(?P<pk>\d+)/$', TypesArticleUpdate.as_view(), name = 'edit-type-article'),
 ]
 
 urlBrands = [
 	url(r'^brands/$', BrandsList.as_view(), name = 'list-brands'),
 	url(r'^brands/add/$', BrandCreate.as_view(), name = 'add-brand'),
-	url(r'^brands/edit/(?P<pk>[0-9])+/$', BrandUpdate.as_view(), name = 'edit-brand'),
+	url(r'^brands/edit/(?P<pk>\d+)/$', BrandUpdate.as_view(), name = 'edit-brand'),
 ]
 
 urlAPI = [
