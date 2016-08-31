@@ -52,7 +52,8 @@
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/08/31 10:35:07", 
+
+            "selected": "2016/08/31 09:42:28",
             "type": "text", 
             "id": "date_appen", 
             "select": false

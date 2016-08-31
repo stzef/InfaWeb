@@ -25,7 +25,7 @@
 							{% csrf_token %}
 							<div class="box-body">
 								<div class="row text-center">
-									<div class="col-md-10">
+									<div class="col-md-12">
 										<div class="form-group">
 											<div class="col-md-3">
 												<label class="col-sm-3 control-label">{{ form.codigo.label }}</label>
@@ -36,16 +36,17 @@
 											<div class="cont-info"></div>
 										</div>
 									</div>
-									<div class="col-md-2">
-										<div class="btn-group">
-											<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
-												<i class="fa fa-plus-square-o"></i>Nuevo
-											</a>
-											<a class="btn btn-app" href="{% url 'inventory_list' %}">
-												<i class="fa fa-list"></i>Listar
-											</a>
-										</div>
-									</div>
+									
+								</div>
+							</div>
+							<div class="text-center">
+								<div class="btn-group">
+									<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
+										<i class="fa fa-plus-square-o"></i>Nuevo
+									</a>
+									<a class="btn btn-app" href="{% url 'inventory_list' %}">
+										<i class="fa fa-list"></i>Listar
+									</a>
 								</div>
 							</div>
 						</form>
@@ -88,8 +89,6 @@
 	function get_new(){
 		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_latest' %}', function(response){
-			console.log(response)
-			console.log(typeof response)
 			create_table(response);
 		});
 	}
@@ -108,22 +107,20 @@
 				'</div>'+
 				'</p>'+
 			'</div>'+
-			'<div class="col-md-4">'+
-				'<div class="col-md-12">'+
-					'<label class="col-md-6 control-label">Fecha Creacion: </label>'+
-					'<div class="col-md-6">'+
-						'<input type="text" id="date" class="form-control date">'+
-					'</div>'+
-				'</div>'+
-				'<div class="col-md-12">'+
-					'<label class="col-md-7 control-label">Fecha Actualizacion: </label>'+
-					'<div class="col-md-5">'+
-						'<input type="text" class="form-control date-ac" readonly>'+
-					'</div>'+
+			'<div class="col-md-3">'+
+				'<label class="col-md-6 control-label">Fecha Creacion: </label>'+
+				'<div class="col-md-6">'+
+					'<input type="text" id="date" class="form-control date">'+
 				'</div>'+
 			'</div>'+
-			'<div class="col-md-2">'+
-				'<p><b>Valor Total: </b><span id="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
+			'<div class="col-md-3">'+
+				'<label class="col-md-7 control-label">Fecha Actualizacion: </label>'+
+				'<div class="col-md-5">'+
+					'<input type="text" class="form-control date-ac" readonly>'+
+				'</div>'+
+			'</div>'+
+			'<div class="col-md-12">'+
+				'<p><b>Valor Total: </b><span id="val-tot" class="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
 			'</div>'
 		);
 		$('#table-inventory').append(
@@ -133,6 +130,9 @@
 				'</div>'+
 				'<div class="box-body">'+
 					'<table class="table table-striped" id="table"></table>'+
+					'<div class="col-md-12 text-right">'+
+						'<p><b>Valor Total: </b><span id="val-tot" class="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
+					'</div>'+
 				'</div>'+
 				'<div class="box-footer text-center">'+
 					'<div class="box-footer text-center">'+
@@ -212,7 +212,6 @@
 		});
 	}
 	function data_table(data){
-		console.info(data)
 		var val_tot = 0;
 		$.each(data, function (key, item) {
 			table.row.add({
@@ -257,29 +256,35 @@
 	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
-		var this_value = isNaN(parseInt($(this).val())) ? 0: parseInt($(this).val());
-		var cant_calcu = parseInt($('#cancalcu-'+id).text());
+		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
+		var cant_calcu = parseFloat($('#cancalcu-'+id).text());
 		var cant = (this_value - cant_calcu);
 		var value_tot = this_value*$('#vunita-'+id).val();
 		var cantidad = isNaN($('#vtotal-'+id).attr('val')) ? 0: $('#vtotal-'+id).attr('val');
 		var val_tot = $('#val-tot').attr('val');
-		var val_calcu = (parseInt(val_tot)-parseInt(cantidad))+value_tot;
-		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		var val_calcu = (parseFloat(val_tot)-parseFloat(cantidad))+value_tot;
+		$('.val-tot').each(function() {
+			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		});
+		//$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		if(cant < 0){
-			$('#ajusal-'+id).text(Math.abs(cant));
+			$('#ajusal-'+id).text(Math.abs(cant).toFixed(2));
 			$('#ajuent-'+id).text('0');
 		}else{
 			$('#ajusal-'+id).text('0');
-			$('#ajuent-'+id).text(cant);
+			$('#ajuent-'+id).text(cant.toFixed(2));
 		}
 	});
 	$(document).on("keyup", ".value", function(e){
 		var id =$(this).parent().parent().attr('id');
-		var this_value = parseInt($('#cant-'+id).val());
+		var this_value = parseFloat($('#cant-'+id).val());
 		var value_tot = this_value*$('#vunita-'+id).val()
-		var val_calcu = (parseInt($('#val-tot').attr('val'))-parseInt($('#vtotal-'+id).attr('val')))+value_tot;
-		$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		var val_calcu = (parseFloat($('#val-tot').attr('val'))-parseFloat($('#vtotal-'+id).attr('val')))+value_tot;
+		$('.val-tot').each(function() {
+			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
+		});
+		//$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 	});
 	$(document).on("click", "#btn-save", function(e){
