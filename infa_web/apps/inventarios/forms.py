@@ -19,6 +19,10 @@ class InventoryReportStocksForm(forms.Form):
 	def __init__(self, *args, **kwargs):
 			super(InventoryReportStocksForm, self).__init__(*args, **kwargs)
 			manageParameters = ManageParameters()
-			invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
-			self.fields['nota_inicial'].initial = invini.cii
-			self.fields['fecha_nota_inicial'].initial = invini.fii
+			try:
+				invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
+				self.fields['nota_inicial'].initial = invini.cii
+				self.fields['fecha_nota_inicial'].initial = invini.fii
+			except Invinicab.DoesNotExist:
+				self.fields['nota_inicial'].initial = ''
+				self.fields['fecha_nota_inicial'].initial = ''
