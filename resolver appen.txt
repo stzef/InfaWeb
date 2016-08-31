@@ -1,5 +1,0 @@
-http://127.0.0.1:8000/types-articles/add/
-IntegrityError at /types-articles/add/
-duplicate key value violates unique constraint "articulos_tiarlos_pkey"
-DETAIL:  Key (ctiarlos)=(3) already exists.
-

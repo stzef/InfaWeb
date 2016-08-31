@@ -20,6 +20,7 @@ class ManageParameters(object):
 		except IOError as e:
 			return None
 			#print "I/O error({0}): {1}".format(e.errno, e.strerror)
+
 	def set_param_object(self,cparam,value):
 		try:
 			with open(self.path_file) as json_data:
@@ -36,6 +37,7 @@ class ManageParameters(object):
 				return False
 		except IOError as e:
 			return None
+
 	def get_param_object(self,cparam):
 		try:
 			with open(self.path_file) as json_data:
