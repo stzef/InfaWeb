@@ -1,5 +1,4 @@
 var date_appen = new Date($("[name=date_appen").val())
-var currencyFormat = CurrencyFormat()
 
 function  calcularDigitoVerificacion ( myNit )  {
 	var vpri,
@@ -238,12 +237,16 @@ if($("form").length){
 }
 
 function CurrencyFormat(){
-	numberFormat = Intl.NumberFormat()
-	return numberFormat
+	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
+	this.numberFormat = Intl.NumberFormat()
+	//return numberFormat
 }
+
 CurrencyFormat.prototype.format = function(number){
-	return numberFormat.format(2000040.45)
+	return this.numberFormat.format(number)
 }
+
+var currencyFormat = new CurrencyFormat()
 
 $("[data-currency-format]").change(function(event){
 	var currencyFormat = CurrencyFormat()
