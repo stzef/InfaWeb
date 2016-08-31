@@ -1,5 +1,7 @@
 var date_appen = new Date($("[name=date_appen").val())
 
+$("input").focus(function(){$(this).select()})
+
 function  calcularDigitoVerificacion ( myNit )  {
 	var vpri,
 		x,
@@ -66,7 +68,7 @@ function windowSearch(selectorInput){
 	}
 }
 
-function AJAXGenericView(selectorForm,selectorInput,nField,url){
+function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 	$(selectorForm).submit(function(event){
 		var currentForm = $(this)
 		event.preventDefault()
@@ -89,6 +91,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 			//contentType: "application/x-www-form-urlencoded",
 			//contentType: 'multipart/form-data',
 			error: function(response){
+				callback(null,response)
 				$('<ul class="errorlist"></ul>')
 				var data = JSON.parse(response.responseText)
 				for (field in data.errors){
@@ -107,6 +110,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url){
 				var fields = object.fields
 				currentForm.prepend(message)
 				//currentForm.trigger("reset")
+				callback(response,null)
 				if(window.opener){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))

@@ -16,7 +16,7 @@ class InputMovementForm(forms.ModelForm):
 	class Meta:
 		model = Mven
 		fields = "__all__"
-		widgets = {
+		widgets = { 
 			'cesdo':forms.Select(attrs={'class':'form-control','required':True}),
 			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
 			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
@@ -94,8 +94,8 @@ class InputMovementDetailForm(forms.ModelForm):
 			#'citerce':forms.Select(attrs={'class':'form-control','required':True}),
 			'nlargo':forms.TextInput(attrs={'class':'form-control'}),
 			'canti':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
+			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01',}),
+			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01',}),
 		}
 		labels = {
 			'cmven':'Codigo M Entrada',
@@ -119,8 +119,8 @@ class OutputMovementDetailForm(forms.ModelForm):
 			#'citerce':forms.Select(attrs={'class':'form-control','required':True}),
 			'nlargo':forms.TextInput(attrs={'class':'form-control'}),
 			'canti':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
+			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
 		labels = {
 			'cmvsa':'Codigo M Entrada',

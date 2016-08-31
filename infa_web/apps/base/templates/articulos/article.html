@@ -444,8 +444,11 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}");</script>
 	<script>
+		function fn(response,error){
+			$("#id_carlos").val(response.pk)
+		}
+
 		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
 		
 		$("[name*=porult]").change(function(){
@@ -485,6 +488,8 @@
 		})
 		
 	</script>
+	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn);</script>
+	
 	
 {%endblock%}
 

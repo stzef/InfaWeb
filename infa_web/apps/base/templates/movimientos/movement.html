@@ -234,7 +234,7 @@
 
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
-			$("[name=vtotal]").val(parseInt($("[name=canti]").val()) * parseInt($("[name=vunita]").val()))
+			$("[name=vtotal]").val(parseFloat($("[name=canti]").val()) * parseFloat($("[name=vunita]").val()))
 		}else{
 			$("[name=vtotal]").val("")
 		}
@@ -280,8 +280,8 @@
 					html:value}))
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<button class='btn btn-info' ><i class='fa fa-edit '></button>").click(edit_item_mdeta))
-			var btnDelete = td.append($("<button class='btn btn-danger' ><i class='fa fa-remove'></button>").click(delete_item_mdeta))
+			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
+			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
@@ -299,7 +299,7 @@
 	});
 	function calcular_total(){
 		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseInt($(e).html());})
+		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).html());})
 		$("[name=vttotal]").val(vtotal_temp)
 	}
 	$('#id_carlos').change(function(){
@@ -398,6 +398,10 @@
 			type: 'POST',
 			data: JSON.stringify(data),
 			contentType: "application/json",
+			error: function(response){
+				var message = alertBootstrap("Ha ocurrido un error en el proceso.","danger")
+				currentForm.prepend(message)
+			},
 			success: function(response){
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
