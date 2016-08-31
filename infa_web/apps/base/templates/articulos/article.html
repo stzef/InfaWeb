@@ -159,7 +159,7 @@
 												{{form.vcosto.errors}}
 												{%endif%}
 												<div class="col-sm-8">
-													<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
+													<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.vcosto.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
 												</div>
 											</div>
 										</div>
@@ -444,8 +444,11 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}");</script>
 	<script>
+		function fn(response,error){
+			$("#id_carlos").val(response.pk)
+		}
+
 		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
 		
 		$("[name*=porult]").change(function(){
@@ -485,6 +488,8 @@
 		})
 		
 	</script>
+	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn);</script>
+	
 	
 {%endblock%}
 

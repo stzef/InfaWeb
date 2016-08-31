@@ -2,13 +2,16 @@ from django.shortcuts import render,render_to_response
 from django.views.generic import FormView, CreateView
 from django.views.generic.list import ListView
 from infa_web.apps.articulos.models import *
-import json
 from django.http import HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse_lazy 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.movimientos.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
+
+import json
+
+from infa_web.routines import calcular_costo_articulo
 
 class InputMovementList(ListView):
 	model = Mven
@@ -72,6 +75,8 @@ def SaveMovement(request):
 	response["error"] = False
 	response["message"] = "Movimiento Guardado con Exito"
 
+	print json.dumps(data, indent=4)
+
 	if data['is_input_movement']:
 
 		maxCmven = Mven.objects.aggregate(Max('cmven'))
@@ -107,6 +112,7 @@ def SaveMovement(request):
 					#ctimo=Timo.objects.get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
@@ -145,10 +151,10 @@ def SaveMovement(request):
 					ctimo=Timo.objects.get(pk=data["ctimo"]),
 					nlargo=articulo.nlargo,
 				)
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
 			response["cmv"] = None
-
 
 	return HttpResponse(json.dumps(response), "application/json")

@@ -96,7 +96,7 @@ def ParametersList(FormView):
 			if(len(parameter["field"]["options"]) == 0):
 				parameter["field"]["options"].append({"value": "@","text": "No se encontraron Valores" ,"selected":True})
 
-	#print json.dumps(parameters, indent=4)
+	print json.dumps(parameters, indent=4)
 	context['parameters'] = parameters
 
 	return render_to_response("parametros/parameters.html",context)
@@ -275,7 +275,7 @@ class IvaCreate(AjaxableResponseMixin,CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(IvaCreate, self).get_context_data(**kwargs)
-		context['title'] = 'Editar IVA'
+		context['title'] = 'Crear IVA'
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-iva')
 

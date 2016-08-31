@@ -99,10 +99,7 @@
 										{{form.cesdo.errors}}
 										{%endif%}
 										<div class="col-sm-10">
-											<div class="input-group">
-												{{form.cesdo}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
+											{{form.cesdo}}
 										</div>
 									</div>
 								</div>
@@ -121,10 +118,7 @@
 										{{form.cbode0.errors}}
 										{%endif%}
 										<div class="col-sm-10">
-											<div class="input-group">
-												{{form.cbode0}}
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-location' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-											</div>
+											{{form.cbode0}}
 										</div>
 									</div>
 								</div>
@@ -141,8 +135,8 @@
 							<div class="box-body">
 
 								<div class="form-group col-sm-12">
-									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
-									<div class="col-sm-4">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-2">
 										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
 									</div>
 								</div>
@@ -182,7 +176,7 @@
 												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
 												<th width="10%">{{ form_movement_detail.vtotal }}</th>
-												<th width="10%"><button type="button" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="button" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -199,8 +193,8 @@
 								</section>
 
 								<div class="form-group col-sm-12">
-									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-8 control-label">{{ form.vttotal.label }}</label>
-									<div class="col-sm-4">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-2">
 										<input type="number" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
 									</div>
 								</div>
@@ -240,7 +234,7 @@
 
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
-			$("[name=vtotal]").val(parseInt($("[name=canti]").val()) * parseInt($("[name=vunita]").val()))
+			$("[name=vtotal]").val(parseFloat($("[name=canti]").val()) * parseFloat($("[name=vunita]").val()))
 		}else{
 			$("[name=vtotal]").val("")
 		}
@@ -277,23 +271,17 @@
 			.toArray()
 			.forEach(function(e,i){
 				var oth = $(e).closest("th")
-				if(e instanceof HTMLSelectElement){
-					tr.append($("<td>",{
-						width:oth.attr("width"),
-						"data-name":e.name,
-						"data-value":e.value,
-						html:$(e).find("option[value=" + $(e).val() + "]").html()}))
-				}else{
-					tr.append($("<td>",{
-						width:oth.attr("width"),
-						"data-name":e.name,
-						"data-value":e.value,
-						html:e.value}))
-				}
+				//var value = (e.type == "number") ? currencyFormat.format(e.value) : e.value
+				var value = e.value
+				tr.append($("<td>",{
+					width:oth.attr("width"),
+					"data-name":e.name,
+					"data-value":value,
+					html:value}))
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<button><i class='fa fa-edit '></button>")).click(edit_item_mdeta)
-			var btnDelete = td.append($("<button><i class='fa fa-remove'></button>")).click(delete_item_mdeta)
+			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
+			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 			
@@ -311,7 +299,7 @@
 	});
 	function calcular_total(){
 		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseInt($(e).html());})
+		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).html());})
 		$("[name=vttotal]").val(vtotal_temp)
 	}
 	$('#id_carlos').change(function(){
@@ -410,6 +398,10 @@
 			type: 'POST',
 			data: JSON.stringify(data),
 			contentType: "application/json",
+			error: function(response){
+				var message = alertBootstrap("Ha ocurrido un error en el proceso.","danger")
+				currentForm.prepend(message)
+			},
 			success: function(response){
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")

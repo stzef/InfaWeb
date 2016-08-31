@@ -7,7 +7,7 @@
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<div class="content">
-			<h2>Terceros</h2>
+			<h2>{{title}}</h2>
 			<ul class="nav nav-pills">
 				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
 				<li><a data-toggle="pill" href="#tabLegales">Legales</a></li>
@@ -29,10 +29,7 @@
 									{{form.cpersona.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<div class="input-group">
-											{{form.cpersona}}
-											<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-										</div>
+										{{form.cpersona}}
 									</div>
 								</div>
 								
@@ -226,10 +223,7 @@
 									{{form.cregiva.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<div class="input-group">
-											{{form.cregiva}}
-											<span class="input-group-addon"><a data-new-window href="{% url 'add-reg-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-										</div>
+										{{form.cregiva}}
 									</div>
 								</div>
 								<div class="form-group">
@@ -238,10 +232,7 @@
 									{{form.cautorre.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<div class="input-group">
-											{{form.cautorre}}
-											<span class="input-group-addon"><a data-new-window href="{% url 'add-autorretenedor' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-										</div>
+										{{form.cautorre}}
 									</div>
 								</div>
 							</div>

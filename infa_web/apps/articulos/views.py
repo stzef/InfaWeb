@@ -79,43 +79,6 @@ class BreakdownArticle(FormView):
 		context["partsArticle"] = Arlosdesglo.objects.filter(carlosp=self.kwargs["pk"])
 		return context
 
-"""
-def ArticleCreate(request):
-
-	context = {}
-	context['title'] = "Crear Articulo"
-	context['mode_view'] = 'create'
-	context['url'] = reverse_lazy('add-article')
-
-	context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
-	context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
-	context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
-
-	manageParameters = ManageParameters()
-	minCodeArlos = manageParameters.get_param_value("min_code_arlos")
-	typeInventory = manageParameters.get_param_value("type_costing_and_stock")
-	context['typeInventory'] = typeInventory
-
-	if request.method == "POST":
-		mutable_data = request.POST.copy()
-
-		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
-		if maxCarlos["carlos__max"]:
-			carlos = maxCarlos["carlos__max"] + 1
-		else:
-			carlos = minCodeArlos
-		mutable_data["carlos"] = carlos
-		form = ArticleForm(mutable_data)
-		if form.is_valid():
-			article = form.save(commit=False)
-			article.save()
-			return redirect('edit-article', pk=article.pk)
-	else:
-		form = ArticleForm()
-		context["form"] = form
-	return render(request, 'articulos/article.html', context)
-"""
-
 class ArticleCreate(AjaxableResponseMixin,CreateView):
 	model = Arlo
 	template_name = "articulos/article.html"
@@ -125,7 +88,6 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		
 	def get_context_data(self, **kwargs):
 		context = super(ArticleCreate, self).get_context_data(**kwargs)
-		#maxCarlos = Arlo.objects.aggregate(Max('carlos'))
 		context['title'] = "Crear Articulo"
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-article')
@@ -135,14 +97,9 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
 
 		manageParameters = ManageParameters()
-		#minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
 
-		#if maxCarlos["carlos__max"]:
-		#	context['current_pk'] = maxCarlos["carlos__max"] + 1
-		#else:
-		#	context['current_pk'] = minCodeArlos
 		return context
 
 	def post(self, request, *args, **kwargs):
@@ -162,17 +119,6 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		request.POST = mutable_data
 		
 		return super(ArticleCreate, self).post(request, *args, **kwargs)
-	"""
-	def form_valid(self, form):
-		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
-		if maxCarlos["carlos__max"]:
-			carlos = maxCarlos["carlos__max"] + 1
-		else:
-			carlos = minCodeArlos
-		form.instance.carlos = carlos
-		return super(ArticleCreate, self).form_valid(form)
-	"""
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ArticleCopy(UpdateView):
@@ -263,11 +209,6 @@ class GroupUpdate(AjaxableResponseMixin,UpdateView):
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-group',kwargs={'pk': self.kwargs["pk"]},)
 		return context
-
-	def get(self, request, *args, **kwargs):
-		print args
-		return super(GroupUpdate, self).get(request, *args, **kwargs)
-
 
 class GroupList(ListView):
 	model = Gpo
