@@ -319,8 +319,10 @@
 					var t_vcosto = fields.vcosto
 					var t_nlargo = fields.nlargo
 				}else{
-					var t_vcosto = 0
+					var t_vcosto = ""
 					var t_nlargo = ""
+					$('#id_carlos').val("")
+					tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
 				}
 				$("[name='vunita']")
 					.val(t_vcosto)
@@ -345,7 +347,9 @@
 					fields = object.fields
 					t_rasocial = fields.rasocial
 				}else{
+					tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
 					t_rasocial = ""
+					$('#id_citerce').val("")
 				}
 					$("[name=name__citerce]").val(t_rasocial)
 			}

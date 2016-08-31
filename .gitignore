@@ -6,6 +6,11 @@
 .env
 *.json
 
+infa_web/static/img/*
+!infa_web/static/img/articles/default.jpg
+!infa_web/static/img/articles/default.png
+!infa_web/static/img/users/default.png
+!infa_web/static/img/users/default.jpg
 infa_web/apps/articulos/migrations/*
 infa_web/apps/base/migrations/*
 infa_web/apps/inventarios/migrations/*

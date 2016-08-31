@@ -171,6 +171,17 @@ function customValidationFormTabs(selectorForm){
 	})
 }
 
+function tooltipBootstrap(element,selectorParent,message,time){
+	time = time || 3000
+	var container = element.closest(selectorParent);
+
+	container.attr("title","<span class='html_tooltip'>" + message + "</span>");
+	container.tooltip({trigger:"focus",placement:"bottom",html:true});
+	container.tooltip("show");
+	window.setTimeout(function(){
+		container.tooltip("destroy");
+	},time);
+}
 function alertBootstrap(message,type){
 	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
 	stringHTML = stringHTML
