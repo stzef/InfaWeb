@@ -90,6 +90,8 @@
 		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_latest' %}', function(response){
 			create_table(response);
+		}).fail(function(xhr, status, error) {
+			alert("Ha ocurrido un error al cargar los articulos. Por favor recargue la pagina.");
 		});
 	}
 	function create_table(response){
@@ -209,6 +211,8 @@
 					data_table(response.data_extra);
 				}
 			}
+		}).fail(function(xhr, status, error) {
+			alert("Ha ocurrido un error al editar el inventario. Por favor recargue la pagina.");
 		});
 	}
 	function data_table(data){
@@ -252,6 +256,8 @@
 			});
 			alert("Nombres de Articulos Actualizados")
 			$('.animation').empty();
+		}).fail(function(xhr, status, error) {
+			alert("Ha ocurrido un error al renombrar los articulos. Por favor recargue la pagina.");
 		});
 	});
 	$(document).on("keyup", ".cant", function(e){
@@ -321,6 +327,9 @@
 					$('.animation').empty();
 					table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
 					alert(response.msg);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Ha ocurrido un error al enviar los datos. Por favor recargue la pagina.");
 				}
 			});
 		}else{
