@@ -4,7 +4,7 @@
 			<!-- Sidebar user panel -->
 			<div class="user-panel">
 				<div class="pull-left image">
-					<img src="/static/img/users/profile-user.png" class="img-circle" alt="User Image">
+					<img src="/static/img/users/default.png" class="img-circle" alt="User Image">
 				</div>
 				<div class="pull-left info">
 					<p>Usuario</p>
@@ -16,18 +16,18 @@
 				<li class="header">NAVEGACIÓN</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-share"></i> <span>Inventario</span>
+						<i class="fa fa-list-alt"></i> <span>Inventario</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="{% url 'add-article' %}"><i class="fa fa-circle-o"></i>Articulos</a></li>
-						<li><a href="{% url 'inventory_list' %}"><i class="fa fa-circle-o"></i>Inventario Inicial</a></li>
-						<li><a href="{% url 'add-input-movement' %}"><i class="fa fa-circle-o"></i>Entrada</a></li>
-						<li><a href="{% url 'add-output-movements' %}"><i class="fa fa-circle-o"></i>Salida</a></li>
+						<li><a href="{% url 'add-article' %}"><i class="fa "></i>Articulos</a></li>
+						<li><a href="{% url 'inventory_list' %}"><i class="fa fa-list-alt"></i>Inventario Inicial</a></li>
+						<li><a href="{% url 'add-input-movement' %}"><i class="fa fa-arrow-right"></i>Entrada</a></li>
+						<li><a href="{% url 'add-output-movements' %}"><i class="fa  fa-arrow-left"></i>Salida</a></li>
 						<li>
-							<a href="#"><i class="fa fa-circle-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+							<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 							<ul class="treeview-menu">
 								<li><a href="{% url 'inventory_stocks_report' %}"><i class="fa fa-circle-o"></i>Existencias</a></li>
 							</ul>
@@ -36,7 +36,7 @@
 				</li>
 				<li class="treeview">
 					<li>
-						<a href="#"><i class="fa fa-circle-o"></i> Configuracion
+						<a href="#"><i class="fa  fa-cog"></i> Configuracion
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
@@ -44,7 +44,7 @@
 						<ul class="treeview-menu">
 							<li>
 								<a href="{% url 'list-parameter' %}">
-									<i class="fa fa-circle-o"></i>
+									<i class="fa fa-cogs"></i>
 									Parametros
 								</a>
 							</li>
@@ -60,7 +60,7 @@
 						<ul class="treeview-menu">
 							<li>
 								<a href="{% url 'add-third-party' %}">
-									<i class="fa fa-circle-o"></i>
+									<i class="fa fa-users"></i>
 									Terceros
 								</a>
 							</li>
@@ -84,13 +84,13 @@
 							</li>
 							<li>
 								<a href="{% url 'add-zone' %}">
-									<i class="fa fa-circle-o"></i>
+									<i class="fa fa-map-o"></i>
 									Zonas
 								</a>
 							</li>
 							<li>
 								<a href="{% url 'add-route' %}">
-									<i class="fa fa-circle-o"></i>
+									<i class="fa  fa-map-signs"></i>
 									Rutas
 								</a>
 							</li>
@@ -147,10 +147,7 @@
 				</li>
 				<li class="treeview">
 					<a href="#">
-						<i class="fa fa-share"></i> <span>Salir</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
+						<i class="fa fa-sign-out"></i> <span>Salir</span>
 					</a>
 				</li>
 			</ul>

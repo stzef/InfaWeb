@@ -12,7 +12,6 @@ class InputMovementForm(forms.ModelForm):
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
 		self.fields['ctimo'].initial = default_movement
 
-		
 	class Meta:
 		model = Mven
 		fields = "__all__"
@@ -22,7 +21,7 @@ class InputMovementForm(forms.ModelForm):
 			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode0' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode1' : forms.Select(attrs={'class':'form-control','required':True}),
-			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10}),
+			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10,'required':True}),
 			'descri' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0}),
@@ -47,7 +46,6 @@ class OutputMovementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(OutputMovementForm, self).__init__(*args, **kwargs)
 
-
 		manageParameters = ManageParameters()
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
@@ -65,7 +63,7 @@ class OutputMovementForm(forms.ModelForm):
 			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10}),
 			'descri' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
+			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0}),
 			'cmvsa' : forms.NumberInput(attrs={'class': 'form-control'}),
 			'fmvsa':forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}

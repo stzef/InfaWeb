@@ -23,7 +23,8 @@ class Mven(models.Model):
 	cmven = models.IntegerField(primary_key=True)
 	fmven = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
-	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
+	citerce = models.ForeignKey(Tercero)
+	#citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -51,7 +52,7 @@ class Mvendeta(models.Model):
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
 		return str(self.it) + " - " + str(self.cmven) + " - " + str(self.ctimo)
-		
+
 class Mvsa(models.Model):
 	class Meta:
 		unique_together = (('cmvsa', 'ctimo'))
@@ -59,7 +60,8 @@ class Mvsa(models.Model):
 	cmvsa = models.IntegerField(primary_key=True)
 	fmvsa = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
-	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
+	#citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
+	citerce = models.ForeignKey(Tercero)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
