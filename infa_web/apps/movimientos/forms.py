@@ -17,7 +17,7 @@ class InputMovementForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = { 
 			'cesdo':forms.Select(attrs={'class':'form-control','required':True}),
-			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode0' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode1' : forms.Select(attrs={'class':'form-control','required':True}),
@@ -56,7 +56,7 @@ class OutputMovementForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = {
 			'cesdo':forms.Select(attrs={'class':'form-control','required':True}),
-			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode0' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode1' : forms.Select(attrs={'class':'form-control','required':True}),
