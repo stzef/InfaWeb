@@ -12,10 +12,11 @@
 !infa_web/static/img/users/default.png
 !infa_web/static/img/users/default.jpg
 !infa_web/static/img/loading.gif
-!infa_web/static/img/logo-app-h.png
-!infa_web/static/img/logo-app-h.jpg
-!infa_web/static/img/logo-app-v.png
-!infa_web/static/img/logo-app-v.jpg
+
+!infa_web/static/img/logo-appen-h-blanco.png
+!infa_web/static/img/logo-app-v-blanco.png
+!infa_web/static/img/logo-app-h-color.png
+!infa_web/static/img/logo-app-v-color.png
 
 infa_web/apps/articulos/migrations/*
 infa_web/apps/base/migrations/*

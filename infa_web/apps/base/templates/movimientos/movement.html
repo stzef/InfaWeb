@@ -128,6 +128,9 @@
 						</div>
 					</div>
 				</div>
+			</form>
+
+			<form class="form-horizontal" id="form_deta_movement">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -165,7 +168,7 @@
 												<th width="20%">
 													<div class="input-group">
 				
-														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"">
+														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"" required>
 
 
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
@@ -178,7 +181,7 @@
 												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
 												<th width="10%">{{ form_movement_detail.vtotal }}</th>
-												<th width="10%"><button type="button" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -205,22 +208,23 @@
 
 						</div>
 					</div>
-					
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-app btn-info" type="reset">
-						<i class="fa fa-plus-square-o"></i>Nuevo
-					</button>
-					<button class="btn btn-app" type="submit">
-						<i class="fa fa-plus-square-o"></i>Guardar
-					</button>
-					{% if is_input_movement %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% else %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% endif %}
 				</div>
 			</form>
+
+			<div class="btn-group">
+				<button class="btn btn-app btn-info" type="reset">
+					<i class="fa fa-plus-square-o"></i>Nuevo
+				</button>
+				<button class="btn btn-app" type="submit" id="btn-save">
+					<i class="fa fa-plus-square-o"></i>Guardar
+				</button>
+				{% if is_input_movement %}
+					<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
+				{% else %}
+					<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
+				{% endif %}
+			</div>
+
 		</section>
 	</div>
 	{% include 'elements/footer.html' %}
@@ -232,7 +236,7 @@
 
 <script>
 
-	$("#item_mdeta :input").attr("required",false)
+	//$("#item_mdeta :input").attr("required",false)
 
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
@@ -285,46 +289,11 @@
 		)
 	}
 
-	$('#add_item_mdeta').click(function(){
-		if(customValidationInput("#item_mdeta").valid){
-			var tr = $("<tr>")
-			$('#item_mdeta')
-			.find("input,select")
-			.toArray()
-			.forEach(function(e,i){
-				var oth = $(e).closest("th")
-				//var value = (e.type == "number") ? currencyFormat.format(e.value) : e.value
-				var value = e.value
-				tr.append($("<td>",{
-					width:oth.attr("width"),
-					"data-name":e.name,
-					"data-value":value,
-					html:value}))
-			})
-			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
-			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
-			tr.append(btnEdit,btnDelete)
-			$("#list_items_mdeta").find("tbody").append(tr)
-			
-			$('#item_mdeta').find("input,select").val("")
-			$('#item_mdeta').find("[name=canti]").val(1)
-			var it = 1
-			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
-				function(e){
-					$(e).html(it);
-					$(e).attr("data-value",it);
-					it++
-				})
-			calcular_total()
-		}
-	});
-
 	function setValueFieldTerce(id_citerce,name__citerce){
 		$('#id_citerce').val(id_citerce)
 		$("[name=name__citerce]").val(name__citerce)
-
 	}
+
 	function setValueFieldArlo(vunita,name__carlos){
 		$("[name='vunita']")
 			.val(vunita)
@@ -386,7 +355,7 @@
 
 	$('#id_citerce').change(function(){
 		var input_value = this.value
-		
+
 		if(!input_value){
 			setValueFieldTerce("","")
 			return
@@ -415,9 +384,45 @@
 		});
 	});
 
-	$("form").submit(function(event){
+	$("#form_deta_movement").submit(function(event){
 		event.preventDefault()
-		var currentForm = $(this)
+		if(customValidationInput("#item_mdeta").valid){
+			var tr = $("<tr>")
+			$('#item_mdeta')
+			.find("input,select")
+			.toArray()
+			.forEach(function(e,i){
+				var oth = $(e).closest("th")
+				//var value = (e.type == "number") ? currencyFormat.format(e.value) : e.value
+				var value = e.value
+				tr.append($("<td>",{
+					width:oth.attr("width"),
+					"data-name":e.name,
+					"data-value":value,
+					html:value}))
+			})
+			td = $("<td width='10%'>")
+			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
+			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
+			tr.append(btnEdit,btnDelete)
+			$("#list_items_mdeta").find("tbody").append(tr)
+			
+			$('#item_mdeta').find("input,select").val("")
+			$('#item_mdeta').find("[name=canti]").val(1)
+			var it = 1
+			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
+				function(e){
+					$(e).html(it);
+					$(e).attr("data-value",it);
+					it++
+				})
+			calcular_total()
+		}
+	})
+	$("#btn-save").click(function(event){
+		event.preventDefault()
+		if(!customValidationInput("#form_movement")) return
+		var currentForm = $("#form_movement")
 		var data = {
 			docrefe : $("[name=docrefe]").val(),
 			citerce : $("[name=citerce]").val(),
