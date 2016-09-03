@@ -60,7 +60,7 @@ class OutputMovementForm(forms.ModelForm):
 			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode0' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cbode1' : forms.Select(attrs={'class':'form-control','required':True}),
-			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10}),
+			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10,'required':True}),
 			'descri' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0}),
