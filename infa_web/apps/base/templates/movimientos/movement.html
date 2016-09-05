@@ -463,6 +463,7 @@
 					$("[name*=cmv]").val(response.cmv)
 					var message = alertBootstrap(response.message,"success")
 				}
+				$("#list_items_mdeta").find("tbody").children().remove()
 				currentForm.prepend(message)
 			}
 		});
