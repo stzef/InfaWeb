@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/03 10:43:45", 
+        "value": "2016/09/05 10:29:38", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/03 10:43:45", 
+            "selected": "2016/09/05 10:29:38", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -109,7 +109,7 @@
     }, 
     {
         "cparam": "city_third_party", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "base", 
         "value": "18", 
         "label": {
@@ -119,14 +119,14 @@
             "text": "nciu", 
             "selected": "18", 
             "value": "cciu", 
-            "id": "city_third_party", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "city_third_party", 
             "select": true
         }, 
         "model": "Ciudad", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -136,7 +136,7 @@
     }, 
     {
         "cparam": "initial_note", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "inventarios", 
         "value": "II-00002", 
         "label": {
@@ -146,6 +146,9 @@
             "text": "cii", 
             "selected": "II-00002", 
             "value": "cii", 
+            "id": "initial_note", 
+            "input": false, 
+            "type": false, 
             "options": [
                 {
                     "text": "Seleccione", 
@@ -153,13 +156,10 @@
                     "value": "@"
                 }
             ], 
-            "input": false, 
-            "type": false, 
-            "id": "initial_note", 
             "select": true
         }, 
         "model": "Invinicab", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -169,7 +169,7 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "movimientos", 
         "value": "1002", 
         "label": {
@@ -179,17 +179,17 @@
             "text": "ntimo", 
             "selected": "1002", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -199,7 +199,7 @@
     }, 
     {
         "cparam": "default_movement_for_output_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "movimientos", 
         "value": "2001", 
         "label": {
@@ -209,17 +209,17 @@
             "text": "ntimo", 
             "selected": "2001", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_output_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_output_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 

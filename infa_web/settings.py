@@ -104,6 +104,13 @@ else:
 			'PASSWORD': 'root',
 			'HOST': 'localhost',
 			'PORT': '',
+			'TEST': {
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			},
 		}
 	}
 
