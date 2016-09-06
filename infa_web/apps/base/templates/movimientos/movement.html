@@ -421,7 +421,7 @@
 	})
 	$("#btn-save").click(function(event){
 		event.preventDefault()
-		if(!customValidationInput("#form_movement")) return
+		if(!customValidationInput("#form_movement").valid) return
 		var currentForm = $("#form_movement")
 		var data = {
 			docrefe : $("[name=docrefe]").val(),

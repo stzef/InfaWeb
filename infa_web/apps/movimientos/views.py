@@ -72,10 +72,12 @@ def proccess_view_costing_and_stock(request):
 	form = ProccessCostingAndStock()
 	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form})
 @csrf_exempt
+
 def proccess_fn_costing_and_stock(request):
-	response = {
-		"status":costing_and_stock()
-	}
+	date_range = json.loads(request.body)
+	print date_range["start_date"]
+	print type(date_range["start_date"])
+	response = {"data":costing_and_stock(date_range,True)}
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt

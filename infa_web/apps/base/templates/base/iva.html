@@ -22,7 +22,7 @@
 									{{form.niva.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.niva.value|default_if_none:''}}" id="{{form.niva.id_for_label}}" name="{{form.niva.html_name}}" >
+										{{form.niva}}
 									</div>
 								</div>
 								<div class="form-group">
@@ -31,7 +31,7 @@
 									{{form.poriva.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.poriva.value|default_if_none:''}}" id="{{form.poriva.id_for_label}}" name="{{form.poriva.html_name}}" >
+										{{form.poriva}}
 									</div>
 								</div>
 								<div class="form-group">
@@ -40,7 +40,7 @@
 									{{form.idtira.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<input class="form-control" type="text" value="{{form.idtira.value|default_if_none:''}}" id="{{form.idtira.id_for_label}}" name="{{form.idtira.html_name}}" >
+										{{form.idtira}}
 									</div>
 								</div>
 								<div class="form-group">

@@ -26,6 +26,16 @@
 					</button>
 				</div>
 			</form>
+			<div>
+				<table id="costing_and_stock" class="table">
+					<thead>
+						<th>Articulo</th>
+						<th>Cantidad</th>
+						<th>Costo</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 		</section>
 	</div>
 	{% include 'elements/footer.html' %}
@@ -42,9 +52,24 @@
 	});
 	$("#form_costing_and_stock").submit(function(event) {
 		event.preventDefault()
-		$.post("{% url 'proccess_fn_costing_and_stock' %}",JSON.stringify({}),function(response){
-			console.log(response)
-		})
+		$.post(
+			"{% url 'proccess_fn_costing_and_stock' %}",
+			JSON.stringify({end_date:new Date($("#id_fecha_final").val()),start_date:new Date($("#id_fecha_nota_inicial").val())}),
+			function(response){
+				console.log(response)
+				response.data.forEach(function(object){
+					console.log(object.data)
+					$("#costing_and_stock tbody tr").remove()
+					$("#costing_and_stock tbody").append(
+						$("<tr>").append(
+							$("<td>",{html:object.arlo}),
+							$("<td>",{html:object.data.new_canti}),
+							$("<td>",{html:object.data.current_vcosto})
+						)
+					)
+				})
+			}
+		)
 	})
 </script>
 {% endblock content_script %}

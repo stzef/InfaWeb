@@ -105,6 +105,8 @@ class GpoForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = {
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'cgpo' : forms.NumberInput(attrs={'class': 'form-control','required': True}),
+			'ngpo' : forms.TextInput(attrs={'class': 'form-control','required': True}),
 		}
 		labels = {
 			'cgpo' : 'Código Interno',
@@ -138,6 +140,7 @@ class BrandForm(forms.ModelForm):
 		exclude = ["cmarca"]
 		widgets = {
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'nmarca' : forms.TextInput(attrs={'class': 'form-control','required': True}),
 		}
 		labels = {
 			'cmarca' : 'Código Interno',
@@ -150,7 +153,9 @@ class TiarlosForm(forms.ModelForm):
 		model = Tiarlos
 		fields = "__all__"
 		exclude = ["ctiarlos"]
-		widgets = {}
+		widgets = {
+			'ntiarlos' : forms.TextInput(attrs={'class': 'form-control','required': True}),
+		}
 		labels = {
 			'ctiarlos' : 'Código Interno',
 			'ntiarlos' : 'Nombre',

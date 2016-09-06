@@ -101,7 +101,6 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		Marca.objects.all().delete()
-		oDefaultMarca = Marca.objects.create(cmarca=DEFAULT_MARCA,nmarca="SIN MARCA",cesdo=estadoActivo)
 		Marca.objects.create(cmarca=1, nmarca='ABSOLUT', cesdo=Esdo.objects.get(pk=1))
 		Marca.objects.create(cmarca=2, nmarca='ADAMS', cesdo=Esdo.objects.get(pk=1))
 		Marca.objects.create(cmarca=3, nmarca='ADAN', cesdo=Esdo.objects.get(pk=1))
@@ -283,7 +282,6 @@ class Command(BaseCommand):
 		print "Ubica. Registros Creados Correctamente."
 
 		Gpo.objects.all().delete()
-		oDefaultGroup = Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
 		Gpo.objects.create(cgpo=1,ngpo='AGUARDIENTE',  cesdo=Esdo.objects.get(pk=1))
 		Gpo.objects.create(cgpo=2,ngpo='BRANDY',  cesdo=Esdo.objects.get(pk=1))
 		Gpo.objects.create(cgpo=3,ngpo='CACHAZA',  cesdo=Esdo.objects.get(pk=1))

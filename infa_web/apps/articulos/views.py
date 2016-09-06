@@ -3,24 +3,21 @@ from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.list import ListView
+from django.apps import apps
 from django.core.urlresolvers import reverse_lazy 
 from django.http import HttpResponse
-import json
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
-
+from django.db.models import Max
 from django import forms
-
-from django.apps import apps
 
 from infa_web.apps.base.constantes import EMPRESA
 from infa_web.parameters import ManageParameters
-
 from infa_web.apps.articulos.models import *
 from infa_web.apps.base.views import AjaxableResponseMixin
 from infa_web.apps.articulos.forms import *
 
-from django.db.models import Max
+import json
 
 # Articles #
 @csrf_exempt

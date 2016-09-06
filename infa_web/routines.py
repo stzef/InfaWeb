@@ -14,7 +14,7 @@ def calculo_costo(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_inp
 		costo = (float(costo_actual)+float(nuevo_costo))/(float(cantidad_actual)-float(nueva_cantidad))
 	return costo
 
-def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input):
+def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True):
 	response = {}
 	response["status"] = False
 	if(Arlo.objects.filter(carlos=carlos).exists()):
@@ -33,8 +33,10 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input):
 			articulo.vcosto = nuevo_costo_calculado
 		else:
 			articulo.canti -= nueva_cantidad
+		
+		if if_save:
+			articulo.save()
 
-		articulo.save()
 		response["new_vcosto"] = str(articulo.vcosto)
 		response["new_canti"] = str(articulo.canti)
 		response["status"] = True
@@ -42,15 +44,14 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input):
 	else:
 		return response
 
-def costing_and_stock():
-	separador = "------------------------------------------------"
-	#articulos = Arlo.objects.filter(esdo=01)
-	articulos = Arlo.objects.all()
+def costing_and_stock(date_range,if_save):
+	articulos = Arlo.objects.filter(cesdo=CESTADO_ACTIVO)
 
 	initial_note = manageParameters.get_param_value("initial_note")
 	invinicab = Invinicab.objects.get(cii=initial_note)
 
-	for articulo in articulos:
+	all_data = []
+	for index,articulo in enumerate(articulos):
 		if Invinideta.objects.filter(cii=invinicab,carlos=articulo).exists():
 			invinideta = Invinideta.objects.get(cii=invinicab,carlos=articulo)
 		else:
@@ -68,14 +69,13 @@ def costing_and_stock():
 			articulo.canti = 0
 			articulo.vtotal = 0
 
-		articulo.save()
+		if if_save:
+			articulo.save()
 
-		all_data = []
 
 		for mvdeta in mvsdeta:
 			data_operation = {
 				"arlo" : invinideta.carlos.carlos,
-				"data" : []
 			}
 			print mvdeta
 			if hasattr(mvdeta, "cmven"):
@@ -84,10 +84,11 @@ def costing_and_stock():
 			else:
 				print mvdeta.cmvsa.fmvsa
 				is_input = False
-			response = calcular_costo_articulo(invinideta.carlos.carlos,mvdeta.canti,mvdeta.vtotal,is_input)
-			data_operation["data"].append(response)
-		all_data.append(data_operation)
-		print(all_data)
+			response = calcular_costo_articulo(invinideta.carlos.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
+			data_operation["data"] = response
+			all_data.append(data_operation)
+		##print(all_data)
+		print("%s / %s" % (index,len(articulos)))
 	return all_data
 
 
