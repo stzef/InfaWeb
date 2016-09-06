@@ -33,7 +33,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'telterce':forms.NumberInput(attrs={'class':'form-control','required':True}),
 			'faxterce':forms.TextInput(attrs={'class':'form-control'}),
 			'email':forms.EmailInput(attrs={'class':'form-control'}),
-			'contacto':forms.TextInput(attrs={'class':'form-control','required':True}),
+			'contacto':forms.TextInput(attrs={'class':'form-control'}),
 			'topcxc':forms.NumberInput(attrs={'class':'form-control','required':True,'step':'0.01'}),
 			'ndiacxc':forms.TextInput(attrs={'class':'form-control','required':True}),
 			'clipre':forms.TextInput(attrs={'class':'form-control','required':True}),

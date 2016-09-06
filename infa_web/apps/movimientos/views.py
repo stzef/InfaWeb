@@ -11,7 +11,7 @@ from django.db.models import Max
 
 import json
 
-from infa_web.routines import calcular_costo_articulo
+from infa_web.routines import calcular_costo_articulo,calculo_cantidad_costo
 
 class InputMovementList(ListView):
 	model = Mven
@@ -112,7 +112,7 @@ def SaveMovement(request):
 					#ctimo=Timo.objects.get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
@@ -151,10 +151,11 @@ def SaveMovement(request):
 					ctimo=Timo.objects.get(pk=data["ctimo"]),
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vunita"],data['is_input_movement'])
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
 			response["cmv"] = None
 
+	calculo_cantidad_costo()
 	return HttpResponse(json.dumps(response), "application/json")

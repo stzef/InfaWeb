@@ -26,23 +26,23 @@
 							<div class="box-body">
 								<div class="row">
 									{% if is_input_movement %}
-										<div class="form-group col-md-12">
-											<label for="{{form.cmven.id_for_label}}" class="col-sm-9 control-label">{{form.cmven.label}}</label>
-											<div class="col-sm-3">
+										<div class="form-group col-md-4">
+											<label for="{{form.cmven.id_for_label}}" class="col-sm-4 control-label">{{form.cmven.label}}</label>
+											<div class="col-sm-8">
 												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly>
 											</div>
 										</div>
 									{% else %}
-										<div class="form-group col-md-12">
-											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-9 control-label">{{form.cmvsa.label}}</label>
-											<div class="col-sm-3">
+										<div class="form-group col-md-4">
+											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-4 control-label">{{form.cmvsa.label}}</label>
+											<div class="col-sm-8">
 												<input type="number" name="{{form.cmvsa.name}}" id="{{form.cmvsa.id_for_label}}" class="{{form.cmvsa.field.widget.attrs.class}}" readonly value="{{current_pk}}">
 											</div>
 										</div>
 
 									{% endif %}
 								
-									<div class="form-group col-md-5">
+									<div class="form-group col-md-4">
 										<label for="{{form.ctimo.id_for_label}}" class="col-sm-3 control-label">{{form.ctimo.label}}</label>
 										{%if form.ctimo.errors%}
 										{{form.ctimo.errors}}
@@ -54,7 +54,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group col-md-3">
+									<div class="form-group col-md-4">
 										{% if form.fmven %}
 											<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
 											<div class="col-sm-10">
@@ -67,12 +67,6 @@
 											</div>
 										{% endif %}
 									</div>
-									<div class="form-group col-md-4">
-										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-4 control-label">{{ form.docrefe.label }}</label>
-										<div class="col-sm-8">
-											{{ form.docrefe }}
-										</div>
-									</div>
 								</div>
 
 								<div class="row">
@@ -83,7 +77,7 @@
 										{%endif%}
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input type="number" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}" {% if form.citerce.field.required %}required{% endif %}>
+												<input type="number" value="{{form.citerce.field.widget.attrs.value}}" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}" {% if form.citerce.field.required %}required{% endif %}>
 												<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 											</div>
@@ -94,30 +88,38 @@
 
 									</div>
 									<div class="form-group col-md-4">
-										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
-										{%if form.cesdo.errors%}
-										{{form.cesdo.errors}}
-										{%endif%}
-										<div class="col-sm-10">
-											{{form.cesdo}}
+										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-4 control-label">{{ form.docrefe.label }}</label>
+										<div class="col-sm-8">
+											{{ form.docrefe }}
 										</div>
 									</div>
 								</div>
 
 								<div class="row">
 									
-									<div class="form-group col-md-8">
+									<div class="form-group col-md-7">
 										<label for="{{ form.descri.id_for_label }}" class="col-sm-2 control-label">{{ form.descri.label }}</label>
 										<div class="col-sm-10">
 											{{ form.descri }}
 										</div>
 									</div>
-									<div class="form-group col-md-4">
-										<label for="{{form.cbode0.id_for_label}}" class="col-sm-2 control-label">{{form.cbode0.label}}</label>
+
+									<div class="form-group col-md-3">
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-3 control-label">{{form.cesdo.label}}</label>
+										{%if form.cesdo.errors%}
+										{{form.cesdo.errors}}
+										{%endif%}
+										<div class="col-sm-9">
+											{{form.cesdo}}
+										</div>
+									</div>
+
+									<div class="form-group col-md-3">
+										<label for="{{form.cbode0.id_for_label}}" class="col-sm-3 control-label">{{form.cbode0.label}}</label>
 										{%if form.cbode0.errors%}
 										{{form.cbode0.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.cbode0}}
 										</div>
 									</div>
@@ -126,6 +128,9 @@
 						</div>
 					</div>
 				</div>
+			</form>
+
+			<form class="form-horizontal" id="form_deta_movement">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -163,7 +168,7 @@
 												<th width="20%">
 													<div class="input-group">
 				
-														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"">
+														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"" required>
 
 
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
@@ -176,7 +181,7 @@
 												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
 												<th width="10%">{{ form_movement_detail.vtotal }}</th>
-												<th width="10%"><button type="button" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -203,22 +208,23 @@
 
 						</div>
 					</div>
-					
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-app btn-info" type="reset">
-						<i class="fa fa-plus-square-o"></i>Nuevo
-					</button>
-					<button class="btn btn-app" type="submit">
-						<i class="fa fa-plus-square-o"></i>Guardar
-					</button>
-					{% if is_input_movement %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% else %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% endif %}
 				</div>
 			</form>
+
+			<div class="btn-group">
+				<button class="btn btn-app btn-info" type="reset">
+					<i class="fa fa-plus-square-o"></i>Nuevo
+				</button>
+				<button class="btn btn-app" type="submit" id="btn-save">
+					<i class="fa fa-plus-square-o"></i>Guardar
+				</button>
+				{% if is_input_movement %}
+					<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
+				{% else %}
+					<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
+				{% endif %}
+			</div>
+
 		</section>
 	</div>
 	{% include 'elements/footer.html' %}
@@ -230,7 +236,7 @@
 
 <script>
 
-	$("#item_mdeta :input").attr("required",false)
+	//$("#item_mdeta :input").attr("required",false)
 
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
@@ -256,14 +262,130 @@
 			input.val(td.data("value"))
 		})
 		parent.remove()
-
 	}
+
 	function delete_item_mdeta(){
 		$(this).closest("tr").remove()
 		calcular_total()
 	}
 
-	$('#add_item_mdeta').click(function(){
+	function calcular_total(){
+		vtotal_temp = 0
+		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).html());})
+		$("[name=vttotal]").val(vtotal_temp)
+	}
+
+	function get_mdeta(){
+		return 	$("#list_items_mdeta").find("tr").toArray().map(
+			function(e){
+				var data = {}
+				$(e).children("[data-name]").toArray().forEach(
+					function(e2){
+						data[$(e2).data("name")] = $(e2).data("value")
+					}
+				)
+				return data
+			}
+		)
+	}
+
+	function setValueFieldTerce(id_citerce,name__citerce){
+		$('#id_citerce').val(id_citerce)
+		$("[name=name__citerce]").val(name__citerce)
+	}
+
+	function setValueFieldArlo(vunita,name__carlos){
+		$("[name='vunita']")
+			.val(vunita)
+			.trigger("change")
+		$("[name=name__carlos]").val(name__carlos)
+	}
+
+	$('#id_carlos').change(function(){
+		var input_value = this.value
+		if(!input_value){
+			setValueFieldArlo("","")
+			return
+		}
+		$.ajax({
+			url: '{% url 'api-get-object' %}',
+			type: 'POST',
+			data: JSON.stringify({
+				'model': 5,
+				'field': this.name,
+				'value': input_value
+			}),
+			contentType: "application/json",
+			success: function(response){
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					var t_vcosto = fields.vcosto
+					var t_nlargo = fields.nlargo
+					setValueFieldArlo(t_vcosto,t_nlargo)
+				}else{
+					$.ajax({
+						url: '{% url 'api-get-object' %}',
+						type: 'POST',
+						data: JSON.stringify({
+							'model': 5,
+							'field': "cbarras",
+							'value': input_value
+						}),
+						contentType: "application/json",
+						success: function(response){
+							if(response.object){
+								var object = JSON.parse(response.object)[0]
+								fields = object.fields
+								var t_vcosto = fields.vcosto
+								var t_nlargo = fields.nlargo
+							}else{
+								var t_vcosto = ""
+								var t_nlargo = ""
+								$('#id_carlos').val("")
+								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+							}
+							setValueFieldArlo(t_vcosto,t_nlargo)
+						}
+					});
+				}
+			}
+		});
+	});
+
+	$('#id_citerce').change(function(){
+		var input_value = this.value
+
+		if(!input_value){
+			setValueFieldTerce("","")
+			return
+		}
+		$.ajax({
+			url: '{% url 'api-get-object' %}',
+			type: 'POST',
+			data: JSON.stringify({
+				'model': 29,
+				'field': this.name,
+				'value': this.value
+			}),
+			contentType: "application/json",
+			success: function(response){
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					t_rasocial = fields.rasocial
+				}else{
+					tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
+					t_rasocial = ""
+					$('#id_citerce').val("")
+				}
+					$("[name=name__citerce]").val(t_rasocial)
+			}
+		});
+	});
+
+	$("#form_deta_movement").submit(function(event){
+		event.preventDefault()
 		if(customValidationInput("#item_mdeta").valid){
 			var tr = $("<tr>")
 			$('#item_mdeta')
@@ -296,83 +418,11 @@
 				})
 			calcular_total()
 		}
-	});
-	function calcular_total(){
-		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).html());})
-		$("[name=vttotal]").val(vtotal_temp)
-	}
-	$('#id_carlos').change(function(){
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 5,
-				'field': this.name,
-				'value': this.value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-					var t_vcosto = fields.vcosto
-					var t_nlargo = fields.nlargo
-				}else{
-					var t_vcosto = ""
-					var t_nlargo = ""
-					$('#id_carlos').val("")
-					tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-				}
-				$("[name='vunita']")
-					.val(t_vcosto)
-					.trigger("change")
-				$("[name=name__carlos]").val(t_nlargo)
-			}
-		});
-	});
-	$('#id_citerce').change(function(){
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 29,
-				'field': this.name,
-				'value': this.value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-					t_rasocial = fields.rasocial
-				}else{
-					tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
-					t_rasocial = ""
-					$('#id_citerce').val("")
-				}
-					$("[name=name__citerce]").val(t_rasocial)
-			}
-		});
-	});
-
-	function get_mdeta(){
-		return 	$("#list_items_mdeta").find("tr").toArray().map(
-			function(e){
-				var data = {}
-				$(e).children("[data-name]").toArray().forEach(
-					function(e2){
-						data[$(e2).data("name")] = $(e2).data("value")
-					}
-				)
-				return data
-			}
-		)
-	}
-
-	$("form").submit(function(event){
+	})
+	$("#btn-save").click(function(event){
 		event.preventDefault()
-		var currentForm = $(this)
+		if(!customValidationInput("#form_movement")) return
+		var currentForm = $("#form_movement")
 		var data = {
 			docrefe : $("[name=docrefe]").val(),
 			citerce : $("[name=citerce]").val(),
@@ -413,9 +463,13 @@
 					$("[name*=cmv]").val(response.cmv)
 					var message = alertBootstrap(response.message,"success")
 				}
+				$("#list_items_mdeta").find("tbody").children().remove()
 				currentForm.prepend(message)
 			}
 		});
 	})
+
+	$('#id_citerce').change()
+
 </script>
 {% endblock content_script %}

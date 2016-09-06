@@ -41,7 +41,7 @@ class Mvendeta(models.Model):
 	class Meta:
 		unique_together = (('cmven', 'ctimo','it'))
 
-	cmven = models.ForeignKey(Mven)
+	cmven = models.ForeignKey(Mven,on_delete=models.CASCADE)
 	it = models.CharField(max_length=4)
 	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
@@ -76,7 +76,7 @@ class Mvsa(models.Model):
 class Mvsadeta(models.Model):
 	class Meta:
 		unique_together = (('cmvsa', 'ctimo','it'))
-	cmvsa = models.ForeignKey(Mvsa)
+	cmvsa = models.ForeignKey(Mvsa,on_delete=models.CASCADE)
 	it = models.CharField(max_length=4)
 	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
