@@ -211,6 +211,32 @@ class InventoryPDFStocks(PDFTemplateView):
 		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
 		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo') if data.get('group_report') == 'G' else Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca')
 		context['invinideta_set'] = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if data.get('marcas') != 'ALL' and data.get('marcas') != '' else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if data.get('grupos') != 'ALL' and data.get('grupos') != '' else invinideta_set
+		context['orientation'] = 'letter'
 		context['data'] = data
 		context['title'] = 'Existencias'
+		return context
+
+class InventoryReport(FormView):
+	template_name = 'inventarios/inventory-report.html'
+	form_class = InventoryReportForm
+
+	def get_form_kwargs(self):
+		kwargs = super(InventoryReport, self).get_form_kwargs()
+		kwargs['invini'] = self.request.GET.get('invini')
+		return kwargs
+
+	def get_context_data(self, **kwargs):
+		context = super(InventoryReport, self).get_context_data(**kwargs)
+		context['title'] = 'Impresion de la nota del inventario inicial'
+		return context
+
+class InventoryPDF(PDFTemplateView):
+	template_name = "inventarios/pdf_inventory.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(InventoryPDF, self).get_context_data(**kwargs)
+		data = self.request.GET
+		context['orientation'] = 'letter'
+		context['data'] = data
+		context['title'] = 'Nota inicial '+data.get('nota_inicial')
 		return context

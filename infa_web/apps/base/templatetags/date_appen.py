@@ -8,3 +8,7 @@ register = template.Library()
 def date_appen():
 	return os.environ["date_appen"]
 	#return datetime.datetime.now().strftime(format_string)
+
+@register.assignment_tag
+def define(val = None):
+	return val

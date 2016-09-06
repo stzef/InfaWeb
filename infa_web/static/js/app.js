@@ -1,7 +1,14 @@
 var date_appen = new Date($("[name=date_appen").val())
 
 $("input").focus(function(){$(this).select()})
-
+$(document).on("click", ".open-modal", function(e){
+	$('#Modal').load($(this).attr('href'),function(){
+		$('#Modal').modal({
+			show:true
+		});
+	});
+	return false;
+});
 function  calcularDigitoVerificacion ( myNit )  {
 	var vpri,
 		x,

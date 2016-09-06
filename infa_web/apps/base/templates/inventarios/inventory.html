@@ -68,6 +68,7 @@
 <script>
 	var cii = '';
 	var table = '';
+	var dis_print = '';
 	var data_table_content = [];
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -89,16 +90,15 @@
 	function get_new(){
 		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_latest' %}', function(response){
+			dis_print = 'disabled';
+			cii = $('#id_codigo').val(response.code).prop('readonly', true);
 			create_table(response);
 		}).fail(function(xhr, status, error) {
 			alert("Ha ocurrido un error al cargar los articulos. Por favor recargue la pagina.");
 		});
 	}
 	function create_table(response){
-		$('#id_codigo').val((cii!='')?cii.val():response.code).prop('readonly', true);
-		cii = '';
 		$('#table-inventory').children().remove();
-		$('').children().remove();
 		$('.cont-info').append(
 			'<div class="col-md-3">'+
 				'<label class="col-md-3 control-label">Estado: </label>'+
@@ -142,7 +142,7 @@
 							'<a class="btn btn-app btn-info btn btn-primary" id="btn-save" href="#">'+
 								'<i class="fa fa-floppy-o"></i>Guardar'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" href="#">'+
+							'<a class="btn btn-app btn-info btn btn-primary open-modal" data-toggle="modal" data-target="#Modal" id="btn-print" href="{% url 'inventory_report' %}?invini='+cii.val()+'" '+dis_print+'>'+
 								'<i class="fa fa-print"></i>Imprimir'+
 							'</a>'+
 							'<a class="btn btn-app btn-info btn btn-primary" id="btn-rename" href="#">'+
@@ -236,9 +236,6 @@
 		$(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
 		$('.animation').empty();
 	}
-	$(document).on("click", ".positive",function () {
-		$(this).select();
-	});
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
 		if (confirm('¿Desea poner los valores en ceros?')){
@@ -327,6 +324,7 @@
 					$('.animation').empty();
 					table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
 					alert(response.msg);
+					$('#btn-print').removeAttr('disabled')
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("Ha ocurrido un error al enviar los datos. Por favor recargue la pagina.");
