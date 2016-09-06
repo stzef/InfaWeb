@@ -11,7 +11,7 @@ from django.db.models import Max
 
 import json
 
-from infa_web.routines import calcular_costo_articulo
+from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
 class InputMovementList(ListView):
 	model = Mven
@@ -67,6 +67,16 @@ class OutputMovementCreate(CreateView):
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
 		return context
+
+def proccess_view_costing_and_stock(request):
+	form = ProccessCostingAndStock()
+	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form})
+@csrf_exempt
+def proccess_fn_costing_and_stock(request):
+	response = {
+		"status":costing_and_stock()
+	}
+	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
 def SaveMovement(request):

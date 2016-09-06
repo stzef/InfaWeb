@@ -78,6 +78,8 @@ class BreakdownArticle(FormView):
 		context['article'] = get_object_or_404(Arlo,carlos=self.kwargs["pk"])
 		context["partsArticle"] = Arlosdesglo.objects.filter(carlosp=self.kwargs["pk"])
 		return context
+		#class DepartamentsList(ListView):
+
 
 class ArticleCreate(AjaxableResponseMixin,CreateView):
 	model = Arlo

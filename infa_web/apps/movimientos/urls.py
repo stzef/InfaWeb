@@ -9,6 +9,9 @@ urlInputMovement = [
 	url(r'^input-movement/add/$', InputMovementCreate.as_view(), name = 'add-input-movement'),
 
 	url(r'^movement/save/$', SaveMovement, name='save-movement'),
+
+	url(r'^proccess/fn/costing_and_stock/$', proccess_fn_costing_and_stock, name='proccess_fn_costing_and_stock'),
+	url(r'^proccess/view/costing_and_stock/$', proccess_view_costing_and_stock, name='proccess_view_costing_and_stock'),
 ]
 
 urlpatterns = urlInputMovement
