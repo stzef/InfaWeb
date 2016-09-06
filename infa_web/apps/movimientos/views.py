@@ -11,7 +11,7 @@ from django.db.models import Max
 
 import json
 
-from infa_web.routines import calcular_costo_articulo,calculo_cantidad_costo
+from infa_web.routines import calcular_costo_articulo
 
 class InputMovementList(ListView):
 	model = Mven
@@ -157,5 +157,4 @@ def SaveMovement(request):
 			response["message"] = "Este movimiento ya existe"
 			response["cmv"] = None
 
-	calculo_cantidad_costo()
 	return HttpResponse(json.dumps(response), "application/json")
