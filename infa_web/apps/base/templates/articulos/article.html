@@ -447,6 +447,8 @@
 	<script>
 		function fn(response,error){
 			$("#id_carlos").val(response.pk)
+			$("form").off("submit")
+			customValidationFormTabs("form",fn_customValidationFormTabs)
 		}
 
 		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
@@ -459,7 +461,14 @@
 				$(this).closest("tr").find("[name*=pvta]").val(valor);
 			}
 		});
-		customValidationFormTabs("form")
+		customValidationFormTabs("form",fn_customValidationFormTabs)
+
+		function fn_customValidationFormTabs(valid){
+			if (valid){
+				$("form").off("submit")
+				AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn)
+			}
+		}
 		
 		$("[name={{form.cbarras.name}}]").change(function(){
 			var element = $(this)
@@ -488,7 +497,6 @@
 		})
 		
 	</script>
-	<script>AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn);</script>
 	
 	
 {%endblock%}

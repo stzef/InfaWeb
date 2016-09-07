@@ -24,6 +24,7 @@ class CiudadForm(forms.ModelForm):
 		exclude = ["cciu"]
 		widgets = {
 			'cdepar':forms.Select(attrs={'class':'form-control','required':''}),
+			'nciu':forms.TextInput(attrs={'class':'form-control','required':True}),
 		}
 		labels = {
 			'cciu': 'Código Interno',
@@ -38,6 +39,7 @@ class UbicaForm(forms.ModelForm):
 		exclude = ["cubica"]
 		widgets = {
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+			'nubica':forms.TextInput(attrs={'class':'form-control','required':True}),
 		}
 		labels = {
 			'cubica': 'Código Interno',
@@ -45,12 +47,15 @@ class UbicaForm(forms.ModelForm):
 			'cesdo': 'Estado'
 		}
 
+
 class DepartamentoForm(forms.ModelForm):
 	class Meta:
 		model = Departamento
 		fields = "__all__"
 		exclude = ["cdepar"]
-		widgets = {}
+		widgets = {
+			'ndepar':forms.TextInput(attrs={'class':'form-control','required':True}),
+		}
 		labels = {
 			'cdepar': 'Código Interno',
 			'ndepar': 'Nombre'
@@ -61,7 +66,10 @@ class StateForm(forms.ModelForm):
 		model = Esdo
 		fields = "__all__"
 		exclude = []
-		widgets = {}
+		widgets = {
+			"nesdo":forms.TextInput(attrs={'class':'form-control','required':True}),
+			"estavali":forms.TextInput(attrs={'class':'form-control','required':True}),
+		}
 		labels = {
 			'cesdo':'Código Interno',
 			'nesdo':'Nombre',
@@ -75,6 +83,9 @@ class IvaForm(forms.ModelForm):
 		exclude = ["civa"]
 		widgets = {
 			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+			'niva':forms.TextInput(attrs={'class':'form-control','required':True}),
+			'poriva':forms.NumberInput(attrs={'class':'form-control','required':True,'step':'0.01'}),
+			'idtira':forms.TextInput(attrs={'class':'form-control','required':True}),
 		}
 		labels = {
 			'civa':'Código Interno',
@@ -89,7 +100,9 @@ class RegivaForm(forms.ModelForm):
 		model = Regiva
 		fields = "__all__"
 		exclude = ["cregiva"]
-		widgets = {}
+		widgets = {
+			'nregiva':forms.TextInput(attrs={'class':'form-control','required':True}),
+		}
 		labels = {
 			'cregiva':'Código Interno',
 			'nregiva':'Nombre',

@@ -32,7 +32,6 @@ class Command(BaseCommand):
 		Timo.objects.all().delete()
 		Tercero.objects.all().delete()
 
-
 		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
 		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T")
 		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F")

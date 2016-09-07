@@ -352,7 +352,6 @@
 {% block content_script %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 	<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
-	<script>AJAXGenericView("form","select[name=citerce]","rasocial","{{url}}");</script>
 	<script>
 
 		$("[name={{form.idterce.name}}]").change(function(){
@@ -398,7 +397,20 @@
 				$("[name=cregiva]").val(2);
 			}
 		});
-		customValidationFormTabs("form")
+		customValidationFormTabs("form",fn_customValidationFormTabs)
+
+		function fn(response,error){
+			$("form").off("submit")
+			customValidationFormTabs("form",fn_customValidationFormTabs)
+		}
+
+		function fn_customValidationFormTabs(valid){
+			if (valid){
+				$("form").off("submit")
+				AJAXGenericView("form","select[name=citerce]","rasocial","{{url}}",fn)
+			}
+		}
+
 		$('.date').datetimepicker({
 			format: 'YYYY-MM-D',
 		});

@@ -98,7 +98,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 			//contentType: "application/x-www-form-urlencoded",
 			//contentType: 'multipart/form-data',
 			error: function(response){
-				callback(null,response)
+				if (callback) callback(null,response)
 				$('<ul class="errorlist"></ul>')
 				var data = JSON.parse(response.responseText)
 				for (field in data.errors){
@@ -108,6 +108,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 						var message = alertBootstrap(error,"danger")
 						ul.append($("<li>").append(message))
 					}
+					$(selector).closest(".form-group").find("ul.errorlist").remove()
 					$(selector).closest(".form-group").prepend(ul)
 				}
 			},
@@ -117,7 +118,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 				var fields = object.fields
 				currentForm.prepend(message)
 				//currentForm.trigger("reset")
-				callback(response,null)
+				if (callback) callback(response,null)
 				if(window.opener){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))
@@ -154,7 +155,7 @@ function customValidationInput(selector){
 	return {valid: true}
 }
 
-function customValidationFormTabs(selectorForm){
+function customValidationFormTabs(selectorForm,fn){
 	$(selectorForm).attr("novalidate","")
 	$(selectorForm).submit(function(){
 		if($("input:invalid, select:invalid").length != 0){
@@ -174,7 +175,12 @@ function customValidationFormTabs(selectorForm){
 			window.setTimeout(function(){
 				container.tooltip("destroy");
 			},3000);
+
+			fn(false)
+			return false
 		}
+		fn(true)
+		return false
 	})
 }
 
@@ -189,6 +195,18 @@ function tooltipBootstrap(element,selectorParent,message,time){
 		container.tooltip("destroy");
 	},time);
 }
+
+document.body.addEventListener("DOMNodeInserted", function (ev) {
+	//console.log("DOMNodeInserted")
+	ev.target
+	if($(ev.target).hasClass("alert","alert-dismissible")){
+		$(ev.target)[0].scrollIntoView()
+		window.setTimeout(function(){
+			$(ev.target).remove()
+		},3000)
+	}
+}, false);
+
 function alertBootstrap(message,type){
 	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
 	stringHTML = stringHTML
@@ -274,4 +292,3 @@ $("[data-currency-format]").change(function(event){
 	var currencyFormat = CurrencyFormat()
 	$(this).val(currencyFormat.format($(this).val()))
 })
-

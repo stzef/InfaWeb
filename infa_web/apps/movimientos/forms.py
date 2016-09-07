@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.movimientos.models import *
+from infa_web.apps.inventarios.models import *
 from infa_web.parameters import ManageParameters
 
 class InputMovementForm(forms.ModelForm):
@@ -130,3 +131,19 @@ class OutputMovementDetailForm(forms.ModelForm):
 			'vunita':'V Unitario',
 			'vtotal':'V Total',
 		}
+
+class ProccessCostingAndStock(forms.Form):
+	nota_inicial = forms.CharField(label = 'Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
+	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
+	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+
+	def __init__(self, *args, **kwargs):
+		super(ProccessCostingAndStock, self).__init__(*args, **kwargs)
+		manageParameters = ManageParameters()
+		try:
+			invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
+			self.fields['nota_inicial'].initial = invini.cii
+			self.fields['fecha_nota_inicial'].initial = invini.fii
+		except Invinicab.DoesNotExist:
+			self.fields['nota_inicial'].initial = ''
+			self.fields['fecha_nota_inicial'].initial = ''
