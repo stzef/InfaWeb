@@ -45,7 +45,11 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		return response
 
 def costing_and_stock(date_range,if_save):
-	articulos = Arlo.objects.order_by('carlos').filter(cesdo=CESTADO_ACTIVO)
+	articulos = Arlo.objects.order_by('carlos').filter(cesdo=CESTADO_ACTIVO)[:20]
+
+	"""
+	No validar costos en 0
+	"""
 
 	initial_note = manageParameters.get_param_value("initial_note")
 	
@@ -61,8 +65,8 @@ def costing_and_stock(date_range,if_save):
 		except Invinideta.DoesNotExist, e:
 			invinideta = None
 
-		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(carlos=articulo)
-		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(carlos=articulo)
+		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(carlos=articulo,cmven__fmven__range=(date_range["start_date"], date_range["end_date"]))
+		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(carlos=articulo,cmvsa__fmvsa__range=(date_range["start_date"], date_range["end_date"]))
 
 		mvsdeta = list(mvendeta) + list(mvsadeta)
 
@@ -81,6 +85,7 @@ def costing_and_stock(date_range,if_save):
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
+				"change" : False
 			}
 
 			response = {}
@@ -98,6 +103,7 @@ def costing_and_stock(date_range,if_save):
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
+				"change" : True
 			}
 			print mvdeta
 			if hasattr(mvdeta, "cmven"):
