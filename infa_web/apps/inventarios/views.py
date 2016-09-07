@@ -4,6 +4,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
 from reportlab.lib.pagesizes import letter, inch
+from infa_web.routines import costing_and_stock
 from infa_web.apps.articulos.models import *
 from reportlab.lib.pagesizes import letter
 from easy_pdf.views import PDFTemplateView
@@ -208,6 +209,7 @@ class InventoryPDFStocks(PDFTemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(InventoryPDFStocks, self).get_context_data(**kwargs)
 		data = self.request.GET
+		costing_and_stock('', False)
 		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
 		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo') if data.get('group_report') == 'G' else Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca')
 		context['invinideta_set'] = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if data.get('marcas') != 'ALL' and data.get('marcas') != '' else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if data.get('grupos') != 'ALL' and data.get('grupos') != '' else invinideta_set

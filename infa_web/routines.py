@@ -44,7 +44,7 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 	else:
 		return response
 
-def costing_and_stock(date_range,if_save):
+def costing_and_stock(date_range, if_save):
 	articulos = Arlo.objects.filter(cesdo=CESTADO_ACTIVO)
 
 	initial_note = manageParameters.get_param_value("initial_note")
@@ -88,7 +88,7 @@ def costing_and_stock(date_range,if_save):
 			data_operation["data"] = response
 			all_data.append(data_operation)
 		##print(all_data)
-		print("%s / %s" % (index,len(articulos)))
+		print("%s / %s" % (articulo.carlos,articulo.canti))
 	return all_data
 
 
