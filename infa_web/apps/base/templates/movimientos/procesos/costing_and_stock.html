@@ -29,7 +29,8 @@
 			<div>
 				<table id="costing_and_stock" class="table">
 					<thead>
-						<th>Articulo</th>
+						<th>Cod Interno</th>
+						<th>Nombre Articulo</th>
 						<th>Cantidad</th>
 						<th>Costo</th>
 					</thead>
@@ -57,12 +58,13 @@
 			JSON.stringify({end_date:new Date($("#id_fecha_final").val()),start_date:new Date($("#id_fecha_nota_inicial").val())}),
 			function(response){
 				console.log(response)
+				$("#costing_and_stock tbody tr").remove()
 				response.data.forEach(function(object){
 					console.log(object.data)
-					$("#costing_and_stock tbody tr").remove()
 					$("#costing_and_stock tbody").append(
 						$("<tr>").append(
-							$("<td>",{html:object.arlo}),
+							$("<td>",{html:object.carlos}),
+							$("<td>",{html:object.ncorto}),
 							$("<td>",{html:object.data.new_canti}),
 							$("<td>",{html:object.data.current_vcosto})
 						)
