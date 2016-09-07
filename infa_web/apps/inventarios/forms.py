@@ -35,9 +35,9 @@ class InventoryReportForm(forms.Form):
 	fecha_actualizacion = forms.CharField(label = 'Fecha Ultima Actualizacion', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	estado = forms.CharField(label = 'Estado', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	grupo = forms.ChoiceField(label = 'Grupo', widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
-	order = forms.ChoiceField(choices = [('N', 'Nombre'), ('C', 'Codigo')], initial = ('N'), label = "Ordenar por", widget = forms.RadioSelect())
-	type_report = forms.ChoiceField(choices = [('1', 'Cantidades y Vr Total'), ('2', 'Cantidades y Ajustes Vr Total'), ('3', 'Cantidades y Ajustes'), ('4', 'Grupos')], initial = 1, label = 'Tipo Reporte', widget = forms.RadioSelect())
-	val_cero = forms.ChoiceField(choices = [('VN', 'Mostrar valores en ceros')], label = "Visualizar", widget = forms.RadioSelect())
+	order = forms.ChoiceField(choices = [('nlargo', 'Nombre'), ('carlos', 'Codigo')], initial = ('nlargo'), label = "Ordenar por", widget = forms.RadioSelect())
+	type_report = forms.ChoiceField(choices = [('cant_vr', 'Cantidades y Vr Total'), ('cant_aj_vr', 'Cantidades y Ajustes Vr Total'), ('cant_aj', 'Cantidades y Ajustes'), ('gpr', 'Grupos')], initial = 'cant_vr', label = 'Tipo Reporte', widget = forms.RadioSelect())
+	val_cero = forms.ChoiceField(choices = [('true', 'Mostrar valores en ceros')], label = "Visualizar", widget = forms.RadioSelect())
 
 	def __init__(self, *args, **kwargs):
 		invini = Invinicab.objects.get(pk = kwargs.pop('invini', None))

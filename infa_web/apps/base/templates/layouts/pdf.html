@@ -43,17 +43,13 @@
 	</head>
 	<body>
 		<table id="header_content">
-			<tr>
-				<th align="left" colspan="3">ALMACEN EL EJEMPLO</th>
-			</tr>
-			<tr>
-				<td align="left" colspan="3">Iden. 0000000000-0</td>
-			</tr>
-			<tr>
-				<td align="left" colspan="3">Listado de Existencias desde {{ invini.fii|date:"Y-m-d h:i" }} hasta {{ data.fecha_final }}</td>
-			</tr>
-			{% block head %}{% endblock head %}
+			{% block head_table %}{% endblock head_table %}
 		</table>
 		{% block content %}{% endblock content %}
+		<table id="footerContent">
+			<tr>
+				<td>Se autoriza el uso de INFAWEB a: DON EJEMPLO Nit. 00000000000000</td>
+			</tr>
+		</table>
 	</body>
 </html>
