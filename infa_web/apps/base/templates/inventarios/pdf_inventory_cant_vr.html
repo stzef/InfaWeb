@@ -1,0 +1,62 @@
+{% extends 'layouts/pdf.html' %}
+
+{% load date_appen %}
+
+{% load humanize %}
+
+{% block head_table %}
+	{% include 'elements/head_table_inventory.html' %}
+	<tr style="border-top: .5px solid black; border-bottom: .5px black solid; padding: 2px 0px -2px 2px; font-size: 12px">
+		<td>Codigo</td>
+		<td>Nombre</td>
+		<td align="right">Cantidad</td>
+		<td align="right">Vr. Unitario</td>
+		<td align="center">Vr. Total</td>
+	</tr>
+{% endblock head_table %}
+
+{% block content %}
+	<table>
+		{% regroup invinideta_set by carlos.cgpo as data_group %}
+		{% for data in data_group %}
+			<tr style="border: 1px solid black; padding-top: 5px; padding-left: 10px;">
+				<td colspan="5" style="background-color: #CBCFD4">
+					<b>Grupo: {{ data.grouper }}</b>
+				</td>
+			</tr>
+			<tr style="padding: -4px 0px;"></tr>
+			{% for item in data.list %}
+				<tr>
+					<td width="15%" style="padding-left: 5px;">{{ item.carlos.pk }}</td>
+					<td>{{ item.nlargo }}</td>
+					<td align="right" style="padding-right: 40px;">{{ item.canti }} {{ item.carlos.cunidad.nunidad }}</td>
+					<td width="20%" align="right" style="padding-right: 25px;">{{ item.vunita|intcomma }}</td>
+					<td width="20%" align="right" style="padding-right: 5px;">{{ item.vunita|multiply:item.canti|intcomma }}</td>
+				</tr>
+				<tr>
+					<td colspan="5" style="padding: -8px 0px;">-----------------------------------------------------------------------------------------------</td>
+				</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="2"></td>
+				<td colspan="2" align="right" style="padding-right: 30px;">
+					Subtotal --->
+				</td>
+				<td colspan="1" align="right" style="padding-right: 5px;">
+					{{ data.list|subtotal_group_invini|intcomma }}
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<table style="margin-top: 20px;">
+		<tr style="padding: 5px 0px 0px;">
+			<td colspan="3"></td>
+			<td colspan="1" align="right" style="padding-right: 3px; border-top: 1px solid black; border-bottom: 1px solid black;">
+				Total --->
+			</td>
+			<td colspan="1" align="right" style="padding-right: 5px; border-top: 1px solid black; border-bottom: 1px solid black;">
+				{{ sum_tot|intcomma }}
+			</td>
+		</tr>
+	</table>
+{% endblock content %}

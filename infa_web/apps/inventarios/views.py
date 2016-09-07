@@ -231,12 +231,19 @@ class InventoryReport(FormView):
 		return context
 
 class InventoryPDF(PDFTemplateView):
-	template_name = "inventarios/pdf_inventory.html"
+
+	def get_template_names(self):
+		return "inventarios/pdf_inventory_"+self.request.GET.get('type_report')+".html"
 
 	def get_context_data(self, **kwargs):
 		context = super(InventoryPDF, self).get_context_data(**kwargs)
 		data = self.request.GET
 		context['orientation'] = 'letter'
+		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
+		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__'+data.get('order'))
+		invinideta_set = invinideta_set.exclude(canti = 0) if data.get('val_cero') != 'true' else invinideta_set
+		context['invinideta_set'] = invinideta_set.filter(carlos__cgpo = data.get('grupo')) if data.get('grupo') != 'ALL' and data.get('grupos') != '' else invinideta_set
 		context['data'] = data
 		context['title'] = 'Nota inicial '+data.get('nota_inicial')
+		context['sum_tot'] = "{:.2f}".format(sum((data.vunita * data.canti) for data in invinideta_set))
 		return context

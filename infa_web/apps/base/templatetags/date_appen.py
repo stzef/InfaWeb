@@ -12,3 +12,11 @@ def date_appen():
 @register.assignment_tag
 def define(val = None):
 	return val
+
+@register.filter
+def multiply(val_1, val_2):
+	return "{:.2f}".format(val_1 * val_2)
+
+@register.filter
+def subtotal_group_invini(group):
+	return "{:.2f}".format(sum((data.vunita * data.canti) for data in group))

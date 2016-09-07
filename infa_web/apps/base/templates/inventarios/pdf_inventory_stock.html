@@ -2,45 +2,44 @@
 
 {% load date_appen %}
 
-{% block head %}
-<tr style="border-top: .5px solid black; border-bottom: .5px black solid; padding: 2px 0px -2px 2px; font-size: 12px">
-	<td>Codigo</td>
-	<td>Nombre</td>
-	<td>Existencia</td>
-</tr>
-{% endblock head %}
+{% block head_table %}
+	{% include 'elements/head_table_stock.html' %}
+	<tr>
+		<td align="left" colspan="3">Listado de Existencias desde {{ invini.fii|date:"Y-m-d h:i" }} hasta {{ data.fecha_final }}</td>
+	</tr>
+	<tr style="border-top: .5px solid black; border-bottom: .5px black solid; padding: 2px 0px -2px 2px; font-size: 12px">
+		<td>Codigo</td>
+		<td>Nombre</td>
+		<td>Existencia</td>
+	</tr>
+{% endblock head_table %}
 
 {% block content %}
-<table>
-	{% if data.group_report == 'G' %}
-		{% regroup invinideta_set by carlos.cgpo as data_group %}
-		{% define "Grupo:" as type %}
-	{% else %}
-		{% regroup invinideta_set by carlos.cmarca as data_group %}
-		{% define "Marca:" as type %} 
-	{% endif %}
-	{% for data in data_group %}
-		<tr style="border: 1px solid black; padding-top: 5px; padding-left: 10px;">
-			<td colspan="3" style="background-color: #CBCFD4">
-				<b>{{ type }} {{ data.grouper }}</b>
-			</td>
-		</tr>
-		<tr style="padding: -4px 0px;"></tr>
-		{% for item in data.list %}
-			<tr>
-				<td width="20%" style="padding-left: 10px;">{{ item.carlos.pk }}</td>
-				<td>{{ item.nlargo }}</td>
-				<td align="right" style="padding-right: 40px;">{{ item.cancalcu }} {{ item.carlos.cunidad.nunidad }}</td>
+	<table>
+		{% if data.group_report == 'G' %}
+			{% regroup invinideta_set by carlos.cgpo as data_group %}
+			{% define "Grupo:" as type %}
+		{% else %}
+			{% regroup invinideta_set by carlos.cmarca as data_group %}
+			{% define "Marca:" as type %} 
+		{% endif %}
+		{% for data in data_group %}
+			<tr style="border: 1px solid black; padding-top: 5px; padding-left: 10px;">
+				<td colspan="3" style="background-color: #CBCFD4">
+					<b>{{ type }} {{ data.grouper }}</b>
+				</td>
 			</tr>
-			<tr>
-				<td colspan="3" style="padding: -8px 0px;">-----------------------------------------------------------------------------------------------</td>
-			</tr>
+			<tr style="padding: -4px 0px;"></tr>
+			{% for item in data.list %}
+				<tr>
+					<td width="20%" style="padding-left: 10px;">{{ item.carlos.pk }}</td>
+					<td>{{ item.nlargo }}</td>
+					<td align="right" style="padding-right: 40px;">{{ item.cancalcu }} {{ item.carlos.cunidad.nunidad }}</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="padding: -8px 0px;">-----------------------------------------------------------------------------------------------</td>
+				</tr>
+			{% endfor %}
 		{% endfor %}
-	{% endfor %}
-</table>
-<table id="footerContent">
-	<tr>
-		<td>Se autoriza el uso de INFAWEB a: DON EJEMPLO Nit. 00000000000000</td>
-	</tr>
-</table>
+	</table>
 {% endblock content %}
