@@ -16,6 +16,7 @@
 		</section>
 		<section class="content">
 			<form class="form-horizontal" id="form_movement">
+				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -234,6 +235,7 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+	var mode_view = $("#mode_view").val()
 	//$("#item_mdeta :input").attr("required",false)
 
 	$("[name=canti],[name=vunita]").change(function(event) {
@@ -446,7 +448,8 @@
 			data.fmvsa = $("[name=fmvsa]").val()
 		}
 		$.ajax({
-			url: '{% url 'save-movement' %}',
+			//url: '{% url 'save-movement' %}',
+			url: '{{url}}',
 			type: 'POST',
 			data: JSON.stringify(data),
 			contentType: "application/json",
@@ -458,10 +461,14 @@
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
-					$("[name*=cmv]").val(response.cmv)
+					if(mode_view != "edit"){
+						$("[name*=cmv]").val(response.cmv)
+					}
 					var message = alertBootstrap(response.message,"success")
 				}
-				$("#list_items_mdeta").find("tbody").children().remove()
+				if(mode_view != "edit"){
+					$("#list_items_mdeta").find("tbody").children().remove()
+				}
 				currentForm.prepend(message)
 			}
 		});
@@ -469,7 +476,11 @@
 
 	$('#id_citerce').change()
 
-	var js_list = {{mvdeta_json|safe}}
+	{% if mvdeta_json %}
+		var js_list = {{mvdeta_json|safe}}
+	{% else %}
+		var js_list = []
+	{% endif %}
 	js_list.forEach(function(object){
 		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
 		$('#item_mdeta').find("#id_canti").val(object.fields.canti)

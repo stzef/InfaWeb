@@ -56,7 +56,7 @@ class Tercero(models.Model):
 	nom1 = models.CharField(max_length=40,blank=True, null=True)
 	nom2 = models.CharField(max_length=40,blank=True, null=True)
 	sigla = models.CharField(max_length=100,blank=True, null=True)
-	replegal = models.CharField(max_length=100)
+	replegal = models.CharField(max_length=100,blank=True, null=True)
 	dirterce = models.CharField(max_length=80)
 	telterce = models.CharField(max_length=20)
 	faxterce = models.CharField(max_length=20,blank=True, null=True)
@@ -67,12 +67,12 @@ class Tercero(models.Model):
 	cautorre = models.ForeignKey(Autorre,default=DEFAULT_AUTORRETENEDOR)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	cvende = models.ForeignKey(Vende,default=DEFAULT_VENDE)
-	topcxc = models.DecimalField(max_digits=15, decimal_places=2)
+	topcxc = models.DecimalField(max_digits=15, decimal_places=2,blank=True, null=True,default=1000000)
 	czona = models.ForeignKey(Zona,default=DEFAULT_ZONA)
 	clipre = models.IntegerField(default=DEFAULT_LISTA_PRECIOS)
 	fnaci = models.DateField(default=timezone.now)
 	cruta = models.ForeignKey(Ruta,default=DEFAULT_RUTA)
-	ordenruta = models.IntegerField()
+	ordenruta = models.IntegerField(blank=True, null=True)
 	cpersona = models.ForeignKey(Personas,default=DEFAULT_PERSONA)
 
 	def nameFull(self):

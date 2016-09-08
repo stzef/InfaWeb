@@ -12,6 +12,7 @@ urlInputMovement = [
 	url(r'^input-movement/edit/(?P<pk>\d+)/$', InputMovementUpdate.as_view(), name = 'edit-input-movement'),
 
 	url(r'^movement/save/$', SaveMovement, name='save-movement'),
+	url(r'^movement/edit/(?P<pk>\d+)/$', UpdateMovement, name='edit-movement'),
 
 	url(r'^proccess/fn/costing_and_stock/$', proccess_fn_costing_and_stock, name='proccess_fn_costing_and_stock'),
 	url(r'^proccess/view/costing_and_stock/$', proccess_view_costing_and_stock, name='proccess_view_costing_and_stock'),
