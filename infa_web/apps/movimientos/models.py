@@ -35,7 +35,7 @@ class Mven(models.Model):
 	#cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA,null=True,blank=True)
 
 	def __str__(self):
-		return "M. Entrada - Cod: %s - TMovi: %s " % (self.cmven,self.ctimo)
+		return "M. Entrada - D.Ref: %s - Cod: %s - TMovi: %s " % (self.docrefe,self.cmven,self.ctimo)
 
 class Mvendeta(models.Model):
 	class Meta:
@@ -51,7 +51,7 @@ class Mvendeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
-		return "M. D. Entrada - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.it,self.cmven.cmven,self.ctimo,self.cmven.fmven)
+		return "M. D. Entrada - D.Ref: %s - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.cmven.docrefe,self.it,self.cmven.cmven,self.ctimo,self.cmven.fmven)
 
 class Mvsa(models.Model):
 	class Meta:
@@ -71,7 +71,7 @@ class Mvsa(models.Model):
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
 
 	def __str__(self):
-		return "M. Salida - Cod: %s - TMovi: %s " % (self.cmvsa,self.ctimo)
+		return "M. Salida - D.Ref: %s - Cod: %s - TMovi: %s " % (self.docrefe,self.cmvsa,self.ctimo)
 
 class Mvsadeta(models.Model):
 	class Meta:
@@ -86,4 +86,4 @@ class Mvsadeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
-		return "M. D. Salida - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.it,self.cmvsa.cmvsa,self.ctimo,self.cmvsa.fmvsa)
+		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.ctimo,self.cmvsa.fmvsa)

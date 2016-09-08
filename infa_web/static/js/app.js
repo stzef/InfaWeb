@@ -1,4 +1,5 @@
 var date_appen = new Date($("[name=date_appen").val())
+format_date_appen = "YYYY-MM-DD"
 
 $("input").focus(function(){$(this).select()})
 $(document).on("click", ".open-modal", function(e){

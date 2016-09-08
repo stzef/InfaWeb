@@ -86,7 +86,7 @@ class InputMovementUpdate(UpdateView):
 	def get_context_data(self,**kwargs):
 		context = super(InputMovementUpdate, self).get_context_data(**kwargs)
 
-		context['title'] = "Crear Movimiento de Entrada"
+		context['title'] = "Editar Movimiento de Entrada"
 		form_movement_detail = InputMovementDetailForm()
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = True
@@ -109,7 +109,7 @@ class OutputMovementUpdate(UpdateView):
 	def get_context_data(self,**kwargs):
 		context = super(OutputMovementUpdate, self).get_context_data(**kwargs)
 
-		context['title'] = "Crear Movimiento de Salida"
+		context['title'] = "Editar Movimiento de Salida"
 		form_movement_detail = OutputMovementDetailForm()
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = False

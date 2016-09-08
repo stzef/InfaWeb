@@ -25,7 +25,7 @@ class InputMovementForm(forms.ModelForm):
 			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10,'required':True}),
 			'descri' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0}),
+			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0,'data-if-currency':'true'}),
 			'cmven' : forms.NumberInput(attrs={'class': 'form-control'}),
 			'fmven':forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}
@@ -64,7 +64,7 @@ class OutputMovementForm(forms.ModelForm):
 			'docrefe' : forms.TextInput(attrs={'class':'form-control','max_length':10,'required':True}),
 			'descri' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control','max_length':250}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0}),
+			'vttotal' : forms.NumberInput(attrs={'class': 'form-control app-input-important','required':True,'step':'1','min':0,'data-if-currency':'true'}),
 			'cmvsa' : forms.NumberInput(attrs={'class': 'form-control'}),
 			'fmvsa':forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}
@@ -93,8 +93,8 @@ class InputMovementDetailForm(forms.ModelForm):
 			#'citerce':forms.Select(attrs={'class':'form-control','required':True}),
 			'nlargo':forms.TextInput(attrs={'class':'form-control'}),
 			'canti':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01',}),
-			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01',}),
+			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01','data-if-currency':'true'}),
+			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,'step':'0.01','data-if-currency':'true'}),
 		}
 		labels = {
 			'cmven':'Codigo M Entrada',
@@ -118,8 +118,8 @@ class OutputMovementDetailForm(forms.ModelForm):
 			#'citerce':forms.Select(attrs={'class':'form-control','required':True}),
 			'nlargo':forms.TextInput(attrs={'class':'form-control'}),
 			'canti':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0}),
-			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vunita':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			'vtotal':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
 		}
 		labels = {
 			'cmvsa':'Codigo M Entrada',
@@ -134,7 +134,7 @@ class OutputMovementDetailForm(forms.ModelForm):
 
 class ProccessCostingAndStock(forms.Form):
 	nota_inicial = forms.CharField(label = 'Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
-	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
+	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control date', 'readonly': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 
 	def __init__(self, *args, **kwargs):

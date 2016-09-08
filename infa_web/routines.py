@@ -46,10 +46,14 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 
 			articulo.canti += nueva_cantidad
 			articulo.vcosto = nuevo_costo_calculado
-			print "Costo -> " + str(nuevo_costo_calculado)
+			print "Costo -> " + str(nuevo_costo)
+			response["new_vcosto"] = str(nuevo_costo_calculado)
 		else:
+			response["new_vcosto"] = str(articulo.vcosto)
 			articulo.canti -= nueva_cantidad
+		response["new_canti"] = str(articulo.canti)
 		
+
 		if if_save:
 			articulo.save()
 		print "Cantidad -> " + str(nueva_cantidad)
@@ -62,8 +66,6 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		print "----------------------------------------------"
 
 
-		response["new_vcosto"] = str(articulo.vcosto)
-		response["new_canti"] = str(articulo.canti)
 		response["status"] = True
 		return response
 	else:
@@ -86,7 +88,7 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 		invinicab = None
 
 	all_data = []
-	for index,articulo in enumerate(articulos):
+	for articulo in articulos:
 		try:
 			invinideta = Invinideta.objects.get(cii=invinicab,carlos=articulo)
 		except Invinideta.DoesNotExist, e:
@@ -95,9 +97,12 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 		query_mvendeta = {"carlos":articulo}
 		query_mvsadeta = {"carlos":articulo}
 
-		#if date_range:
-			#query_mvendeta = {"cmven__fmven__gte":date_range["start_date"],"cmven__fmven__lte":date_range["end_date"]}
-			#query_mvsadeta = {"cmvsa__fmvsa__gte":date_range["start_date"],"cmvsa__fmvsa__lte":date_range["end_date"]}
+		if date_range:
+			query_mvendeta["cmven__fmven__gte"] = date_range["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			query_mvendeta["cmven__fmven__lte"] = date_range["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+
+			query_mvsadeta["cmvsa__fmvsa__gte"] = date_range["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			query_mvsadeta["cmvsa__fmvsa__lte"] = date_range["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 
 		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(**query_mvendeta)
 		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(**query_mvsadeta)
@@ -109,27 +114,18 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 				temp_mvdeta.fmv = temp_mvdeta.cmven.fmven
 			else:
 				temp_mvdeta.fmv = temp_mvdeta.cmvsa.fmvsa
-
-		mvsdeta.sort(key=lambda x: x.fmv)
-		#mvsdeta.sort(key = operator.itemgetter("ctimo","fmv"))
-		for temp_mvdeta in mvsdeta:
-			print "..................................................."
 			print temp_mvdeta
-			print temp_mvdeta.fmv
-			print "..................................................."
-
-		#return True
-
+		mvsdeta.sort(key=lambda x: x.fmv)
 
 		if invinideta:
 			articulo.canti = invinideta.canti
-			articulo.vtotal = invinideta.vunita
+			articulo.vcosto = invinideta.vunita
 		else:
 			articulo.canti = 0
-			articulo.vtotal = 0
+			articulo.vcosto = 0
 
-		#if if_save:
-		articulo.save()
+		if if_save:
+			articulo.save()
 
 		if not len(mvsdeta):
 			data_operation = {
@@ -147,22 +143,22 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 
 			data_operation["data"] = response
 
-			all_data.append(data_operation)
+			#all_data.append(data_operation)
 
-		for mvdeta in mvsdeta:
-			data_operation = {
-				"carlos" : articulo.carlos,
-				"ncorto" : articulo.ncorto,
-				"change" : True
-			}
-			if hasattr(mvdeta, "cmven"):
-				is_input = True
-			else:
-				is_input = False
-			response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
-			data_operation["data"] = response
+		else:
+
+			for mvdeta in mvsdeta:
+				data_operation = {
+					"carlos" : articulo.carlos,
+					"ncorto" : articulo.ncorto,
+					"change" : True
+				}
+				if hasattr(mvdeta, "cmven"):
+					is_input = True
+				else:
+					is_input = False
+				response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
+				data_operation["data"] = response
 
 		all_data.append(data_operation)
-
-		print("%s / %s" % (articulo.carlos,articulo.canti))
 	return all_data
