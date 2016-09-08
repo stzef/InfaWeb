@@ -51,6 +51,7 @@
 							</div>
 						</form>
 					</div>
+					<div id="alert-msg"></div>
 				</div>
 				<div class="col-md-12" id="table-inventory"></div>
 			</div>
@@ -94,7 +95,7 @@
 			cii = $('#id_codigo').val(response.code).prop('readonly', true);
 			create_table(response);
 		}).fail(function(xhr, status, error) {
-			alert("Ha ocurrido un error al cargar los articulos. Por favor recargue la pagina.");
+			$("#alert-msg").append(alertBootstrap("Ha ocurrido un error al cargar los articulos. Por favor recargue la pagina", 'error'))
 		});
 	}
 	function create_table(response){
@@ -212,7 +213,7 @@
 				}
 			}
 		}).fail(function(xhr, status, error) {
-			alert("Ha ocurrido un error al editar el inventario. Por favor recargue la pagina.");
+			$("#alert-msg").append(alertBootstrap("Ha ocurrido un error al editar el inventario. Por favor recargue la pagina", 'error'))
 		});
 	}
 	function data_table(data){
@@ -233,7 +234,7 @@
 				'salida': 0
 			}).draw()
 		});
-		$(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
+		$(".positive").numeric({ negative: false }, function() { this.value = ""; this.focus(); });
 		$('.animation').empty();
 	}
 	$(document).on("click", "#btn-reset", function(e){
@@ -251,10 +252,10 @@
 			$.each(response.data, function (key, item){
 				$('#nom-'+item.carlos).attr('title', item.nlargo).text(item.nlargo.substring(0,10)+'...');
 			});
-			alert("Nombres de Articulos Actualizados")
+			$("#alert-msg").append(alertBootstrap("Nombres de Articulos Actualizados", 'success'))
 			$('.animation').empty();
 		}).fail(function(xhr, status, error) {
-			alert("Ha ocurrido un error al renombrar los articulos. Por favor recargue la pagina.");
+			$("#alert-msg").append(alertBootstrap("Ha ocurrido un error al renombrar los articulos. Por favor recargue la pagina", 'error'))
 		});
 	});
 	$(document).on("keyup", ".cant", function(e){
@@ -269,7 +270,6 @@
 		$('.val-tot').each(function() {
 			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		});
-		//$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		if(cant < 0){
 			$('#ajusal-'+id).text(Math.abs(cant).toFixed(2));
@@ -287,7 +287,6 @@
 		$('.val-tot').each(function() {
 			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		});
-		//$('#val-tot').text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 	});
 	$(document).on("click", "#btn-save", function(e){
@@ -323,15 +322,15 @@
 				success: function(response){
 					$('.animation').empty();
 					table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
-					alert(response.msg);
+					$("#alert-msg").append(alertBootstrap(response.msg, 'success'))
 					$('#btn-print').removeAttr('disabled')
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Ha ocurrido un error al enviar los datos. Por favor recargue la pagina.");
+					$("#alert-msg").append(alertBootstrap("Ha ocurrido un error", 'error'))
 				}
 			});
 		}else{
-			alert('Seleccione un estado.')
+			$("#alert-msg").append(alertBootstrap("Seleccione un estado", 'error'))
 			cesdo.focus();
 		}
 	});

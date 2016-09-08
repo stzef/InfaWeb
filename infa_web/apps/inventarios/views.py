@@ -4,6 +4,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
 from reportlab.lib.pagesizes import letter, inch
+from infa_web.parameters import ManageParameters
 from infa_web.routines import costing_and_stock
 from infa_web.apps.articulos.models import *
 from reportlab.lib.pagesizes import letter
@@ -97,7 +98,6 @@ def inventory_edit(request):
 	response['year'] = value.fii.year
 	response['hour'] = value.fii.hour
 	response['minute'] = value.fii.minute
-
 	if value.fuaii is not None:
 		response['ac_day'] = value.fuaii.day
 		response['ac_month'] = value.fuaii.month
@@ -174,10 +174,18 @@ def inventory_save(request):
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save()
+		manageParameters = ManageParameters()
+		sv_cant = False
+		if manageParameters.get_param_value("initial_note") == '@':
+			manageParameters.set_param_object("initial_note", cii)
+			sv_cant = True
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
 			invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (float(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
 			invini_deta.save()
+			if sv_cant is True:
+				carlos.canti = cii_deta['cant']
+				carlos.save()
 	response['msg'] = 'Exito al guardar'
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -209,10 +217,12 @@ class InventoryPDFStocks(PDFTemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(InventoryPDFStocks, self).get_context_data(**kwargs)
 		data = self.request.GET
-		costing_and_stock({'start_date': datetime.datetime.strptime(data.get('fecha_nota_inicial'), '%Y-%m-%d'), 'end_date': datetime.datetime.strptime(data.get('fecha_final'), '%Y-%m-%d')}, True)
+		type_report = data.getlist('type_report')
+		costing_and_stock({'start_date': datetime.datetime.strptime(data.get('fecha_nota_inicial'), '%Y-%m-%d'), 'end_date': datetime.datetime.strptime(data.get('fecha_final'), '%Y-%m-%d')}, True) if '2' in type_report else ''
 		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
-		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo') if data.get('group_report') == 'G' else Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca')
-		context['invinideta_set'] = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if data.get('marcas') != 'ALL' and data.get('marcas') != '' else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if data.get('grupos') != 'ALL' and data.get('grupos') != '' else invinideta_set
+		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__carlos') if data.get('group_report') == 'G' else Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca', 'carlos__carlos')
+		invinideta_set = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if ((data.get('marcas') != 'ALL' and data.get('marcas') != '') and data.get('group_report') == 'M') else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if ((data.get('grupos') != 'ALL' and data.get('grupos') != '') and data.get('group_report') == 'G') else invinideta_set
+		context['invinideta_set'] = invinideta_set if '1' in type_report else invinideta_set.exclude(carlos__canti = 0.00)
 		context['orientation'] = 'letter'
 		context['data'] = data
 		context['title'] = 'Existencias'
