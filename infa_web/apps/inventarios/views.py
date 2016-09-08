@@ -185,6 +185,7 @@ def inventory_save(request):
 			invini_deta.save()
 			if sv_cant is True:
 				carlos.canti = cii_deta['cant']
+				carlos.canti = cii_deta['vunita']
 				carlos.save()
 	response['msg'] = 'Exito al guardar'
 	return HttpResponse(json.dumps(response), "application/json")
