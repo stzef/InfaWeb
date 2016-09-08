@@ -12,7 +12,7 @@ class InventoryReportStocksForm(forms.Form):
 	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 	group_report = forms.ChoiceField(choices = [('G', 'Grupos'), ('M', 'Marcas')], initial = ('G'), label = 'Agrupar por:', widget = forms.RadioSelect())
-	type_report = forms.MultipleChoiceField(choices = [('1', 'Guardar Existencias'), ('2', 'Mostrar Cantidades en Ceros'), ('3', 'Recalcular Entradas y Salidas')], label = 'Realizar:', widget = forms.CheckboxSelectMultiple())
+	type_report = forms.MultipleChoiceField(choices = [('1', 'Mostrar Cantidades en Ceros'), ('2', 'Recalcular Entradas y Salidas')], label = 'Realizar:', widget = forms.CheckboxSelectMultiple())
 	grupos = forms.ChoiceField(label = 'Grupos', widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
 	marcas = forms.ChoiceField(label = 'Marcas', widget = forms.Select(attrs = {'class': 'form-control'}))
 

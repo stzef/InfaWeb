@@ -34,12 +34,16 @@
 				<tr>
 					<td width="20%" style="padding-left: 10px;">{{ item.carlos.pk }}</td>
 					<td>{{ item.nlargo }}</td>
-					<td align="right" style="padding-right: 40px;">{{ item.cancalcu }} {{ item.carlos.cunidad.nunidad }}</td>
+					<td align="right" style="padding-right: 40px;">{{ item.carlos.canti }} {{ item.carlos.cunidad.nunidad }}</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="padding: -8px 0px;">-----------------------------------------------------------------------------------------------</td>
 				</tr>
 			{% endfor %}
+		{% empty %}
+			<tr>
+				<th colspan="3">No se encuentran articulos para mostrar</th>
+			</tr>
 		{% endfor %}
 	</table>
 {% endblock content %}
