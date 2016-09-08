@@ -167,7 +167,13 @@ function customValidationFormTabs(selectorForm,fn){
 
 			console.log(element)
 
-			element.closest(".tab-pane").addClass("active");
+			var tab = element.closest(".tab-pane").addClass("active");
+
+			console.info(tab)
+
+			$(".nav.nav-pills li").removeClass("active");
+			$("[href='#" + tab.attr("id") + "']").closest("li").addClass("active");
+
 			element.focus();
 			container.attr("title","<span class='html_tooltip'>" + oHTML.validationMessage + "</span>");
 			container.tooltip({trigger:"focus",placement:"bottom",html:true});

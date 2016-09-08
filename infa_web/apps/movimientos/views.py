@@ -9,6 +9,8 @@ from infa_web.apps.movimientos.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
 
+from django.core import serializers
+
 from dateutil import parser
 
 import json
@@ -54,7 +56,7 @@ class InputMovementCreate(CreateView):
 		context['is_output_movement'] = False
 
 		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('add-input-movement')
+		context['url'] = reverse_lazy('save-movement')
 
 		return context
 
@@ -73,10 +75,8 @@ class OutputMovementCreate(CreateView):
 		context['is_output_movement'] = True
 
 		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('add-output-movement')
+		context['url'] = reverse_lazy('save-movement')
 		return context
-
-from django.core import serializers
 
 class InputMovementUpdate(UpdateView):
 	model = Mven
@@ -97,7 +97,7 @@ class InputMovementUpdate(UpdateView):
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
-		context['url'] = reverse_lazy('edit-input-movement',kwargs={'pk': self.kwargs["pk"]},)
+		context['url'] = reverse_lazy('edit-movement',kwargs={'pk': self.kwargs["pk"]},)
 
 		return context
 
@@ -120,7 +120,7 @@ class OutputMovementUpdate(UpdateView):
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
-		context['url'] = reverse_lazy('edit-output-movement',kwargs={'pk': self.kwargs["pk"]},)
+		context['url'] = reverse_lazy('edit-movement',kwargs={'pk': self.kwargs["pk"]},)
 
 		return context
 
@@ -139,13 +139,63 @@ def proccess_fn_costing_and_stock(request):
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
+def UpdateMovement(request,pk):
+	data = json.loads(request.body)
+	cmven = pk
+	response = {}
+	response["error"] = False
+	response["message"] = "Movimiento Editado con Exito"
+
+
+	if data['is_input_movement']:
+
+		timo = ctimo=Timo.objects.get(pk=data["ctimo"])
+
+		input_movement = Mven.objects.get(ctimo=timo,cmven=cmven)
+
+		input_movement.cbode0 = Bode.objects.get(pk=data["cbode0"])
+		input_movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+		input_movement.citerce = Tercero.objects.get(pk=data["citerce"])
+		input_movement.ctimo = timo
+		input_movement.descri = data["descri"]
+		input_movement.docrefe = data["docrefe"]
+		input_movement.fmven = data["fmven"]
+		input_movement.vttotal = data["vttotal"]
+
+		input_movement.save()
+
+		Mvendeta.objects.filter(ctimo=timo,cmven=input_movement).delete()
+		for deta_movement in data["mvdeta"]:
+			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+
+			Mvendeta.objects.create(
+				canti=deta_movement["canti"],
+				carlos=articulo,
+				it=deta_movement["it"],
+				vtotal=deta_movement["vtotal"],
+				vunita=deta_movement["vunita"],
+				cmven=input_movement,
+				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				nlargo=articulo.nlargo,
+			)
+
+			costing_and_stock(False,True,{"carlos":articulo.carlos})
+			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+
+	else:
+		pass
+
+	return HttpResponse(json.dumps(response), "application/json")
+
+
+@csrf_exempt
 def SaveMovement(request):
 	data = json.loads(request.body)
 	response = {}
 	response["error"] = False
 	response["message"] = "Movimiento Guardado con Exito"
 
-	print json.dumps(data, indent=4)
+	#print json.dumps(data, indent=4)
 
 	if data['is_input_movement']:
 

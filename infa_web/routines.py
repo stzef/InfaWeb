@@ -14,7 +14,14 @@ def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 		costo = (float(costo_actual)+float(nuevo_costo))/(float(cantidad_actual)-float(nueva_cantidad))
 	return costo
 
+import decimal
+
+
 def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True):
+
+	nueva_cantidad = decimal.Decimal(nueva_cantidad)
+	nuevo_costo = decimal.Decimal(nuevo_costo)
+
 	response = {}
 	response["status"] = False
 	if(Arlo.objects.filter(carlos=carlos).exists()):
@@ -44,9 +51,13 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 	else:
 		return response
 
+def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
+	
+	query_arlo["cesdo"] = CESTADO_ACTIVO
 
-def costing_and_stock(date_range,if_save):
-	articulos = Arlo.objects.order_by('carlos').filter(cesdo=CESTADO_ACTIVO)
+	print query_arlo
+
+	articulos = Arlo.objects.order_by('carlos').filter(**query_arlo)
 
 	"""
 	No validar costos en 0
@@ -66,12 +77,36 @@ def costing_and_stock(date_range,if_save):
 		except Invinideta.DoesNotExist, e:
 			invinideta = None
 
-		#mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(carlos=articulo,cmven__fmven__range=(date_range["start_date"], date_range["end_date"]))
-		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(carlos=articulo)
-		#mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(carlos=articulo,cmvsa__fmvsa__range=(date_range["start_date"], date_range["end_date"]))
-		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(carlos=articulo)
+		query_mvendeta = {"carlos":articulo}
+		query_mvsadeta = {"carlos":articulo}
+
+		#if date_range:
+			#query_mvendeta = {"cmven__fmven__gte":date_range["start_date"],"cmven__fmven__lte":date_range["end_date"]}
+			#query_mvsadeta = {"cmvsa__fmvsa__gte":date_range["start_date"],"cmvsa__fmvsa__lte":date_range["end_date"]}
+
+		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(**query_mvendeta)
+		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(**query_mvsadeta)
 
 		mvsdeta = list(mvendeta) + list(mvsadeta)
+
+		for temp_mvdeta in mvsdeta:
+			if hasattr(temp_mvdeta, "cmven"):
+				temp_mvdeta.fmv = temp_mvdeta.cmven.fmven
+			else:
+				temp_mvdeta.fmv = temp_mvdeta.cmvsa.fmvsa
+
+		#mvsdeta.sort(key=lambda x: x.fmv, reverse=True)
+		mvsdeta.sort(key=lambda x: x.fmv)
+
+		print "---------------------"
+		print "---------------------"
+		print "---------------------"
+		print "---------------------"
+		print (mvsdeta)
+		print "---------------------"
+		print "---------------------"
+		print "---------------------"
+		print "---------------------"
 
 		if invinideta:
 			articulo.canti = invinideta.canti
@@ -84,7 +119,7 @@ def costing_and_stock(date_range,if_save):
 			articulo.save()
 
 		if not len(mvsdeta):
-			print "Sin mv"
+			#print "Sin mv"
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
@@ -103,21 +138,22 @@ def costing_and_stock(date_range,if_save):
 			all_data.append(data_operation)
 
 		for mvdeta in mvsdeta:
+			print mvdeta.fmv
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
 				"change" : True
 			}
-			print mvdeta
+			#print mvdeta
 			if hasattr(mvdeta, "cmven"):
-				print mvdeta.cmven.fmven
+#				print mvdeta.cmven.fmven
 				is_input = True
 			else:
-				print mvdeta.cmvsa.fmvsa
+				#print mvdeta.cmvsa.fmvsa
 				is_input = False
 			response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
 			data_operation["data"] = response
-			all_data.append(data_operation)
+		all_data.append(data_operation)
 		##print(all_data)
 		print("%s / %s" % (articulo.carlos,articulo.canti))
 	return all_data
