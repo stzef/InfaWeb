@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/08 07:36:03", 
+        "value": "2016/09/08 11:18:51", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
-            "input": true,
-            "selected": "2016/09/08 07:36:03",
+            "input": true, 
+            "selected": "2016/09/08 11:18:51", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -111,13 +111,13 @@
         "cparam": "city_third_party", 
         "type": "Model", 
         "app": "base", 
-        "value": "1", 
+        "value": "2", 
         "label": {
             "text": "Ciudad de Tercero"
         }, 
         "field": {
             "text": "nciu", 
-            "selected": "1", 
+            "selected": "2", 
             "value": "cciu", 
             "id": "city_third_party", 
             "input": false, 
