@@ -48,6 +48,29 @@
 
 <script>
 
+	function llenar_planilla(response){
+		console.log(response);
+		$("#costing_and_stock tbody tr").remove();
+		response.data.forEach(function(object){
+			console.log(object.data);
+			$("#costing_and_stock tbody").append(
+				$("<tr>",
+					{
+						"data-change":object.change,
+						"data-carlos":object.carlos,
+						"data-canti":object.data.new_canti,
+						"data-vcosto":object.data.current_vcosto
+					}
+				).append(
+					$("<td>",{html:object.carlos}),
+					$("<td>",{html:object.ncorto}),
+					$("<td>",{html:object.data.new_canti}),
+					$("<td>",{html:object.data.new_vcosto})
+				)
+			);
+		});
+	}
+
 	$(document).ready(function() {
 		if($('#id_nota_inicial').val() == ''){
 			alert('Debe agregar una nota de inventario en parametros.');
@@ -71,9 +94,7 @@
 					}
 				}
 			),
-			function(response){
-				console.log(response);
-			}
+			llenar_planilla
 		);
 	});
 	$("#form_costing_and_stock").submit(function(event) {
@@ -89,28 +110,7 @@
 					}
 				}
 			),
-			function(response){
-				console.log(response);
-				$("#costing_and_stock tbody tr").remove();
-				response.data.forEach(function(object){
-					console.log(object.data);
-					$("#costing_and_stock tbody").append(
-						$("<tr>",
-							{
-								"data-change":object.change,
-								"data-carlos":object.carlos,
-								"data-canti":object.data.new_canti,
-								"data-vcosto":object.data.current_vcosto
-							}
-						).append(
-							$("<td>",{html:object.carlos}),
-							$("<td>",{html:object.ncorto}),
-							$("<td>",{html:object.data.new_canti}),
-							$("<td>",{html:object.data.current_vcosto})
-						)
-					);
-				});
-			}
+			llenar_planilla
 		);
 	});
 </script>

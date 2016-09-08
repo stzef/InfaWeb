@@ -28,26 +28,37 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 			return response
 		articulo = Arlo.objects.get(carlos=carlos)
 
+		if is_input:
+			print "Entrada"
+		else:
+			print "Salida"
+
 		print articulo.carlos
-		print "Costo Actual" + str(articulo.vcosto)
-		print "Cantidad Actual" + str(articulo.canti)
+		print "Costo Actual -> " + str(articulo.vcosto)
+		print "Cantidad Actual -> " + str(articulo.canti)
 
 		response["current_vcosto"] = str(articulo.vcosto)
 		response["current_canti"] = str(articulo.canti)
 
+		print "----------------------------------------------"
 		if is_input:
 			nuevo_costo_calculado = costing(articulo.canti,(articulo.canti*articulo.vcosto),nueva_cantidad,nuevo_costo,is_input)
 
 			articulo.canti += nueva_cantidad
 			articulo.vcosto = nuevo_costo_calculado
+			print "Costo -> " + str(nuevo_costo_calculado)
 		else:
 			articulo.canti -= nueva_cantidad
 		
 		if if_save:
 			articulo.save()
+		print "Cantidad -> " + str(nueva_cantidad)
 
-		print "Nuevo Costo" + str(articulo.vcosto)
-		print "Nueva Cantidad" + str(articulo.canti)
+		print "----------------------------------------------"
+
+
+		print "Nuevo Costo -> " + str(articulo.vcosto)
+		print "Nueva Cantidad -> " + str(articulo.canti)
 		print "----------------------------------------------"
 
 
@@ -99,13 +110,15 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			else:
 				temp_mvdeta.fmv = temp_mvdeta.cmvsa.fmvsa
 
-		#mvsdeta.sort(key=lambda x: x.fmv)
+		mvsdeta.sort(key=lambda x: x.fmv)
 		#mvsdeta.sort(key = operator.itemgetter("ctimo","fmv"))
-		print "..................................................."
 		for temp_mvdeta in mvsdeta:
+			print "..................................................."
 			print temp_mvdeta
-		print "..................................................."
-		return "hola"
+			print temp_mvdeta.fmv
+			print "..................................................."
+
+		#return True
 
 
 		if invinideta:
@@ -115,8 +128,8 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			articulo.canti = 0
 			articulo.vtotal = 0
 
-		if if_save:
-			articulo.save()
+		#if if_save:
+		articulo.save()
 
 		if not len(mvsdeta):
 			data_operation = {
