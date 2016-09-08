@@ -146,10 +146,9 @@ def UpdateMovement(request,pk):
 	response["error"] = False
 	response["message"] = "Movimiento Editado con Exito"
 
+	timo = ctimo=Timo.objects.get(pk=data["ctimo"])
 
 	if data['is_input_movement']:
-
-		timo = ctimo=Timo.objects.get(pk=data["ctimo"])
 
 		input_movement = Mven.objects.get(ctimo=timo,cmven=cmven)
 
@@ -183,7 +182,38 @@ def UpdateMovement(request,pk):
 			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
 
 	else:
-		pass
+
+		output_movement = Mvsa.objects.get(ctimo=timo,cmvsa=cmven)
+
+		output_movement.cbode0 = Bode.objects.get(pk=data["cbode0"])
+		output_movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+		output_movement.citerce = Tercero.objects.get(pk=data["citerce"])
+		output_movement.ctimo = timo
+		output_movement.descri = data["descri"]
+		output_movement.docrefe = data["docrefe"]
+		output_movement.fmvsa = data["fmvsa"]
+		output_movement.vttotal = data["vttotal"]
+
+		output_movement.save()
+
+		Mvsadeta.objects.filter(ctimo=timo,cmvsa=output_movement).delete()
+		for deta_movement in data["mvdeta"]:
+			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+
+			Mvsadeta.objects.create(
+				canti=deta_movement["canti"],
+				carlos=articulo,
+				it=deta_movement["it"],
+				vtotal=deta_movement["vtotal"],
+				vunita=deta_movement["vunita"],
+				cmvsa=output_movement,
+				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				nlargo=articulo.nlargo,
+			)
+
+			costing_and_stock(False,True,{"carlos":articulo.carlos})
+			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+
 
 	return HttpResponse(json.dumps(response), "application/json")
 
