@@ -24,7 +24,7 @@ class InventoryReportStocksForm(forms.Form):
 		try:
 			invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii
-			self.fields['fecha_nota_inicial'].initial = invini.fii
+			self.fields['fecha_nota_inicial'].initial = str(invini.fii.year)+'-'+str(invini.fii.month)+'-'+str(invini.fii.day)
 		except Invinicab.DoesNotExist:
 			self.fields['nota_inicial'].initial = ''
 			self.fields['fecha_nota_inicial'].initial = ''

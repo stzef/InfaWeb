@@ -57,7 +57,7 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 
 	print query_arlo
 
-	articulos = Arlo.objects.order_by('carlos').filter(**query_arlo)[:20]
+	articulos = Arlo.objects.order_by('carlos').filter(**query_arlo)
 
 	"""
 	No validar costos en 0
@@ -155,8 +155,5 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			data_operation["data"] = response
 		all_data.append(data_operation)
 		##print(all_data)
-		print("%s / %s" % (index,len(articulos)))
+		print("%s / %s" % (articulo.carlos,articulo.canti))
 	return all_data
-
-
-

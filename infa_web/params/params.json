@@ -51,8 +51,8 @@
             "text": "Fecha de Appen"
         }, 
         "field": {
-            "input": true, 
-            "selected": "2016/09/08 07:36:03", 
+            "input": true,
+            "selected": "2016/09/08 07:36:03",
             "type": "text", 
             "id": "date_appen", 
             "select": false
