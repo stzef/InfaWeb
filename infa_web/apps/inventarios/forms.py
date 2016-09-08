@@ -36,7 +36,7 @@ class InventoryReportForm(forms.Form):
 	estado = forms.CharField(label = 'Estado', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	grupo = forms.ChoiceField(label = 'Grupo', widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
 	order = forms.ChoiceField(choices = [('nlargo', 'Nombre'), ('carlos', 'Codigo')], initial = ('nlargo'), label = "Ordenar por", widget = forms.RadioSelect())
-	type_report = forms.ChoiceField(choices = [('cant_vr', 'Cantidades y Vr Total'), ('cant_aj_vr', 'Cantidades y Ajustes Vr Total'), ('cant_aj', 'Cantidades y Ajustes'), ('gpr', 'Grupos')], initial = 'cant_vr', label = 'Tipo Reporte', widget = forms.RadioSelect())
+	type_report = forms.ChoiceField(choices = [('cant_vr', 'Cantidades y Vr Total')], initial = 'cant_vr', label = 'Tipo Reporte', widget = forms.RadioSelect())
 	val_cero = forms.ChoiceField(choices = [('true', 'Mostrar valores en ceros')], label = "Visualizar", widget = forms.RadioSelect())
 
 	def __init__(self, *args, **kwargs):
