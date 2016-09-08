@@ -111,13 +111,13 @@
         "cparam": "city_third_party", 
         "type": "Model", 
         "app": "base", 
-        "value": "1", 
+        "value": "2", 
         "label": {
             "text": "Ciudad de Tercero"
         }, 
         "field": {
             "text": "nciu", 
-            "selected": "1", 
+            "selected": "2", 
             "value": "cciu", 
             "id": "city_third_party", 
             "input": false, 

@@ -3,6 +3,7 @@ from infa_web.parameters import ManageParameters
 from infa_web.apps.articulos.models import Arlo
 from infa_web.apps.inventarios.models import *
 from infa_web.apps.movimientos.models import *
+import decimal
 import operator
 
 manageParameters = ManageParameters()
@@ -13,9 +14,6 @@ def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 	else:
 		costo = (float(costo_actual)+float(nuevo_costo))/(float(cantidad_actual)-float(nueva_cantidad))
 	return costo
-
-import decimal
-
 
 def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True):
 
@@ -29,6 +27,10 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		if(type_costing_and_stock == "M"):
 			return response
 		articulo = Arlo.objects.get(carlos=carlos)
+
+		print articulo.carlos
+		print "Costo Actual" + str(articulo.vcosto)
+		print "Cantidad Actual" + str(articulo.canti)
 
 		response["current_vcosto"] = str(articulo.vcosto)
 		response["current_canti"] = str(articulo.canti)
@@ -44,6 +46,11 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		if if_save:
 			articulo.save()
 
+		print "Nuevo Costo" + str(articulo.vcosto)
+		print "Nueva Cantidad" + str(articulo.canti)
+		print "----------------------------------------------"
+
+
 		response["new_vcosto"] = str(articulo.vcosto)
 		response["new_canti"] = str(articulo.canti)
 		response["status"] = True
@@ -52,10 +59,7 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		return response
 
 def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
-	
 	query_arlo["cesdo"] = CESTADO_ACTIVO
-
-	print query_arlo
 
 	articulos = Arlo.objects.order_by('carlos').filter(**query_arlo)
 
@@ -95,18 +99,14 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			else:
 				temp_mvdeta.fmv = temp_mvdeta.cmvsa.fmvsa
 
-		#mvsdeta.sort(key=lambda x: x.fmv, reverse=True)
-		mvsdeta.sort(key=lambda x: x.fmv)
+		#mvsdeta.sort(key=lambda x: x.fmv)
+		#mvsdeta.sort(key = operator.itemgetter("ctimo","fmv"))
+		print "..................................................."
+		for temp_mvdeta in mvsdeta:
+			print temp_mvdeta
+		print "..................................................."
+		return "hola"
 
-		print "---------------------"
-		print "---------------------"
-		print "---------------------"
-		print "---------------------"
-		print (mvsdeta)
-		print "---------------------"
-		print "---------------------"
-		print "---------------------"
-		print "---------------------"
 
 		if invinideta:
 			articulo.canti = invinideta.canti
@@ -119,7 +119,6 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			articulo.save()
 
 		if not len(mvsdeta):
-			#print "Sin mv"
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
@@ -138,22 +137,19 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			all_data.append(data_operation)
 
 		for mvdeta in mvsdeta:
-			print mvdeta.fmv
 			data_operation = {
 				"carlos" : articulo.carlos,
 				"ncorto" : articulo.ncorto,
 				"change" : True
 			}
-			#print mvdeta
 			if hasattr(mvdeta, "cmven"):
-#				print mvdeta.cmven.fmven
 				is_input = True
 			else:
-				#print mvdeta.cmvsa.fmvsa
 				is_input = False
 			response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
 			data_operation["data"] = response
+
 		all_data.append(data_operation)
-		##print(all_data)
+
 		print("%s / %s" % (articulo.carlos,articulo.canti))
 	return all_data

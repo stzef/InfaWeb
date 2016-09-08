@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from infa_web.parameters import ManageParameters
+
 from infa_web.apps.terceros.models import *
 
 class ThirdPartyForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(ThirdPartyForm, self).__init__(*args, **kwargs)
+		manageParameters = ManageParameters()
+		self.fields['ciudad'].initial = manageParameters.get_param_value("city_third_party")
+		
 	class Meta:
 		model = Tercero
 		fields = "__all__"

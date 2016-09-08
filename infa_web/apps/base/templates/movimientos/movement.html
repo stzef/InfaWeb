@@ -272,7 +272,7 @@
 	function calcular_total(){
 		vtotal_temp = 0
 		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).html());})
-		$("[name=vttotal]").val(vtotal_temp)
+		$("[name=vttotal]").val(currencyFormat.format(vtotal_temp))
 	}
 
 	function get_mdeta(){

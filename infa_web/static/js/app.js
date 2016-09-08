@@ -209,7 +209,7 @@ document.body.addEventListener("DOMNodeInserted", function (ev) {
 		$(ev.target)[0].scrollIntoView()
 		window.setTimeout(function(){
 			$(ev.target).remove()
-		},3000)
+		},6000)
 	}
 }, false);
 
@@ -241,11 +241,11 @@ $("[data-new-window]").click(function(event){
 	if(window.location.href == this.href) {
 		return;
 	}
-	var h = 450,
-		w = 700,
-		x = screen.width/2 - 700/2,
+	var h = 650,
+		w = 1000,
+		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
-	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y );
+	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
 });
 
 var languageDataTable = {
@@ -284,12 +284,14 @@ if($("form").length){
 
 function CurrencyFormat(){
 	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
-	this.numberFormat = Intl.NumberFormat()
-	//return numberFormat
+	this.numberFormat = Intl.NumberFormat("es-419")
 }
 
 CurrencyFormat.prototype.format = function(number){
-	return this.numberFormat.format(number)
+	return "$ " + this.numberFormat.format(number)
+}
+CurrencyFormat.prototype.clear = function(number){
+	return number.replace(",","").replace("$","").trim()
 }
 
 var currencyFormat = new CurrencyFormat()
