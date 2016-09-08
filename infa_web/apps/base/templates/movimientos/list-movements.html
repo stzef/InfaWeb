@@ -27,6 +27,7 @@
 								<th>Doc Refrencia</th>
 								<th>Descripcion</th>
 								<th>Valor Total</th>
+								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,7 +46,11 @@
 									<td>{{movement.docrefe}}</td>
 									<td>{{movement.descri}}</td>
 									<td>{{movement.vttotal}}</td>
-									<td><a data-link-edit href="" target="_blank">Editar</a></td>
+									{% if is_input_movement %}
+										<td><a data-link-edit href="{% url 'edit-input-movement' movement.cmven %}" target="_blank">Editar</a></td>
+									{% else %}
+										<td><a data-link-edit href="{% url 'edit-output-movement' movement.cmvsa %}" target="_blank">Editar</a></td>
+									{% endif %}
 								</tr>
 							{% endfor %}
 						</tbody>

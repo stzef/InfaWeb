@@ -5,8 +5,11 @@ urlInputMovement = [
 	url(r'^input-movement/$', InputMovementList.as_view(), name = 'list-input-movements'),
 	url(r'^output-movement/$', OutputMovementList.as_view(), name = 'list-output-movements'),
 
-	url(r'^output-movement/add/$', OutputMovementCreate.as_view(), name = 'add-output-movements'),
+	url(r'^output-movement/add/$', OutputMovementCreate.as_view(), name = 'add-output-movement'),
 	url(r'^input-movement/add/$', InputMovementCreate.as_view(), name = 'add-input-movement'),
+
+	url(r'^output-movement/edit/(?P<pk>\d+)/$', OutputMovementUpdate.as_view(), name = 'edit-output-movement'),
+	url(r'^input-movement/edit/(?P<pk>\d+)/$', InputMovementUpdate.as_view(), name = 'edit-input-movement'),
 
 	url(r'^movement/save/$', SaveMovement, name='save-movement'),
 

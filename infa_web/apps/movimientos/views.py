@@ -1,5 +1,5 @@
 from django.shortcuts import render,render_to_response
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from infa_web.apps.articulos.models import *
 from django.http import HttpResponse, JsonResponse
@@ -8,6 +8,8 @@ from infa_web.apps.movimientos.models import *
 from infa_web.apps.movimientos.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
+
+from dateutil import parser
 
 import json
 
@@ -51,6 +53,9 @@ class InputMovementCreate(CreateView):
 		context['is_input_movement'] = True
 		context['is_output_movement'] = False
 
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-input-movement')
+
 		return context
 
 class OutputMovementCreate(CreateView):
@@ -66,6 +71,57 @@ class OutputMovementCreate(CreateView):
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
+
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-output-movement')
+		return context
+
+from django.core import serializers
+
+class InputMovementUpdate(UpdateView):
+	model = Mven
+	template_name = "movimientos/movement.html"
+	form_class = InputMovementForm
+
+	def get_context_data(self,**kwargs):
+		context = super(InputMovementUpdate, self).get_context_data(**kwargs)
+
+		context['title'] = "Crear Movimiento de Entrada"
+		form_movement_detail = InputMovementDetailForm()
+		context['form_movement_detail'] = form_movement_detail
+		context['is_input_movement'] = True
+		context['is_output_movement'] = False
+
+		context['mvdeta'] = list(Mvendeta.objects.filter(cmven=self.kwargs["pk"]))
+		context['mvdeta_json'] = serializers.serialize("json", list(Mvendeta.objects.filter(cmven=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-input-movement',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class OutputMovementUpdate(UpdateView):
+	model = Mvsa 
+	template_name = "movimientos/movement.html"
+	form_class = OutputMovementForm
+
+	def get_context_data(self,**kwargs):
+		context = super(OutputMovementUpdate, self).get_context_data(**kwargs)
+
+		context['title'] = "Crear Movimiento de Salida"
+		form_movement_detail = OutputMovementDetailForm()
+		context['form_movement_detail'] = form_movement_detail
+		context['is_input_movement'] = False
+		context['is_output_movement'] = True
+		
+		context['mvdeta'] = list(Mvsadeta.objects.filter(cmvsa=self.kwargs["pk"]))
+		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objects.filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-output-movement',kwargs={'pk': self.kwargs["pk"]},)
+
 		return context
 
 def proccess_view_costing_and_stock(request):
@@ -74,10 +130,12 @@ def proccess_view_costing_and_stock(request):
 @csrf_exempt
 
 def proccess_fn_costing_and_stock(request):
-	date_range = json.loads(request.body)
-	print date_range["start_date"]
-	print type(date_range["start_date"])
-	response = {"data":costing_and_stock(date_range,True)}
+	data = json.loads(request.body)
+	data["date_range"]["start_date"] = parser.parse(data["date_range"]["start_date"])
+	data["date_range"]["end_date"] = parser.parse(data["date_range"]["end_date"])
+	response = {
+		"data":costing_and_stock(data["date_range"],data["if_save"])
+	}
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
