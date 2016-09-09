@@ -18,9 +18,9 @@
 			<form class="form-horizontal" id="form_costing_and_stock">
 				{{ form.as_p }}
 				<div class="btn-group">
-					<button class="btn btn-app btn-info" type="submit">
+					<!--<button class="btn btn-app btn-info" type="submit">
 						<i class="fa fa-plus-square-o"></i>Caulcular
-					</button>
+					</button>-->
 					<button class="btn btn-app" type="button" id="btn-save">
 						<i class="fa fa-plus-square-o"></i>Guardar
 					</button>
@@ -65,19 +65,18 @@
 					$("<td>",{html:object.carlos}),
 					$("<td>",{html:object.ncorto}),
 					$("<td>",{html:object.data.new_canti}),
-					$("<td>",{html:object.data.new_vcosto})
+					$("<td>",{html:currencyFormat.format(object.data.new_vcosto)})
 				)
 			);
 		});
+		$("form").prepend(alertBootstrap("El proceso se completo exitosamente","success"))
 	}
-
 	$(document).ready(function() {
 		if($('#id_nota_inicial').val() == ''){
 			alert('Debe agregar una nota de inventario en parametros.');
 			window.location.replace("{% url 'list-parameter' %}");
 		}
 	});
-
 	$(".date").datetimepicker({
 		format: format_date_appen,
 		defaultDate:date_appen
