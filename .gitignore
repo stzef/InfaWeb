@@ -18,4 +18,8 @@
 !infa_web/static/img/logo-app-v-blanco.png
 !infa_web/static/img/logo-app-v-color.png
 
-
+infa_web/apps/articulos/migrations/*
+infa_web/apps/base/migrations/*
+infa_web/apps/inventarios/migrations/*
+infa_web/apps/movimientos/migrations/*
+infa_web/apps/terceros/migrations/*
