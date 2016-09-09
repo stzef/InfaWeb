@@ -412,31 +412,32 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="btn-group">
-					<button class="btn btn-app btn-info" type="reset">
-						<i class="fa fa-plus-square-o"></i>Nuevo
-					</button>
-					<button class="btn btn-app btn-info" type="submit">
-						<i class="fa fa-save"></i>Guardar
-					</button>
-					<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
-						<i class="fa fa-list"></i>Listar
-					</a>
-					{% if mode_view == "edit" %}
-						<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
-					{% else %}
-						<a class="btn btn-app" href="#" disabled>
-					{% endif %}
-						<i class="fa fa-copy"></i>Duplicar
-					</a>
-					{% if mode_view == "edit" %}
-						<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' current_pk %}">
-					{% else %}
-						<a class="btn btn-app" data-new-window href="" disabled>
-					{% endif %}
-						<i class="fa fa-object-group"></i>Desglose
-					</a>
+				<div class="text-center">
+					<div class="btn-group">
+						<button class="btn btn-app btn-info" type="reset">
+							<i class="fa fa-plus-square-o"></i>Nuevo
+						</button>
+						<button class="btn btn-app btn-info" type="submit">
+							<i class="fa fa-save"></i>Guardar
+						</button>
+						<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
+							<i class="fa fa-list"></i>Listar
+						</a>
+						{% if mode_view == "edit" %}
+							<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
+						{% else %}
+							<a class="btn btn-app" href="#" disabled>
+						{% endif %}
+							<i class="fa fa-copy"></i>Duplicar
+						</a>
+						{% if mode_view == "edit" %}
+							<a class="btn btn-app" data-new-window href="{% url 'breakdown-article' current_pk %}">
+						{% else %}
+							<a class="btn btn-app" data-new-window href="" disabled>
+						{% endif %}
+							<i class="fa fa-object-group"></i>Desglose
+						</a>
+					</div>
 				</div>
 			</form>
 		</div>

@@ -213,18 +213,20 @@
 				</div>
 			</form>
 
-			<div class="btn-group">
-				<button class="btn btn-app btn-info" type="reset">
-					<i class="fa fa-plus-square-o"></i>Nuevo
-				</button>
-				<button class="btn btn-app" type="submit" id="btn-save">
-					<i class="fa fa-plus-square-o"></i>Guardar
-				</button>
-				{% if is_input_movement %}
-					<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
-				{% else %}
-					<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
-				{% endif %}
+			<div class="text-center">
+				<div class="btn-group">
+					<button class="btn btn-app btn-info" type="reset">
+						<i class="fa fa-plus-square-o"></i>Nuevo
+					</button>
+					<button class="btn btn-app" type="submit" id="btn-save">
+						<i class="fa fa-plus-square-o"></i>Guardar
+					</button>
+					{% if is_input_movement %}
+						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
+					{% else %}
+						<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
+					{% endif %}
+				</div>
 			</div>
 
 		</section>

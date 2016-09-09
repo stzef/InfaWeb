@@ -23,6 +23,13 @@ from django.core import serializers
 
 from django.http import JsonResponse
 
+def get_custom_message_response(instance,object):
+	message = "El proceso se realizo con Exito."
+	if isinstance(instance,Esdo): message = "El Estado <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nesdo,object.pk)
+	if isinstance(instance,Arlo): message = "El Articulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ncorto,object.pk)
+	if isinstance(instance,Tercero): message = "El Tercero <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.rasocial,object.pk)
+	return message
+
 class AjaxableResponseMixin(object):
 	"""
 	Mixin to add AJAX support to a form.
@@ -46,8 +53,9 @@ class AjaxableResponseMixin(object):
 		# call form.save() for example).
 		response = super(AjaxableResponseMixin, self).form_valid(form)
 		if self.request.is_ajax():
+			message = get_custom_message_response(form.instance,self.object)
 			data = {
-				'message':'El proceso se realizo Con Exito',
+				'message':message,
 				'pk': self.object.pk,
 				'object': serializers.serialize("json", [self.object],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 			}
