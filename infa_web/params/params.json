@@ -1,0 +1,230 @@
+[
+    {
+        "cparam": "consecutive_code_items", 
+        "type": "Boolean", 
+        "value": true, 
+        "label": { 
+            "text": "Usar consecutivo para el codigo de los Articulos"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": true, 
+            "type": "checkbox", 
+            "id": "consecutive_code_items", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Usar consecutivo para el codigo de los Articulos"
+    }, 
+    {
+        "cparam": "min_code_arlos", 
+        "type": "Number", 
+        "value": "1000", 
+        "label": {
+            "text": "Codigo Minimo de Articulos"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "1000", 
+            "type": "number", 
+            "id": "min_code_arlos", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Codigo Minimo de Articulos"
+    }, 
+    {
+        "cparam": "date_appen", 
+        "type": "String", 
+        "value": "2016/09/09 08:33:58", 
+        "label": {
+            "text": "Fecha de Appen"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "2016/09/09 08:33:58", 
+            "type": "text", 
+            "id": "date_appen", 
+            "select": false
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "date form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Fecha de Appen"
+    }, 
+    {
+        "cparam": "type_costing_and_stock", 
+        "type": "String", 
+        "value": "P", 
+        "label": {
+            "text": "Tipo calculo Costos y Existencias"
+        }, 
+        "field": {
+            "selected": "P", 
+            "options": [
+                {
+                    "text": "Manual", 
+                    "selected": true, 
+                    "value": "M"
+                }, 
+                {
+                    "text": "Promedio", 
+                    "selected": true, 
+                    "value": "P"
+                }, 
+                {
+                    "text": "PEPS", 
+                    "selected": false, 
+                    "value": "PEPS"
+                }, 
+                {
+                    "text": "UEPS", 
+                    "selected": false, 
+                    "value": "UEPS"
+                }
+            ], 
+            "select": true, 
+            "id": "type_costing_and_stock"
+        }, 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Tipo calculo Costos y Existencias"
+    }, 
+    {
+        "cparam": "city_third_party", 
+        "smodule": "I", 
+        "app": "base", 
+        "value": "2", 
+        "label": {
+            "text": "Ciudad de Tercero"
+        }, 
+        "field": {
+            "text": "nciu", 
+            "selected": "2", 
+            "value": "cciu", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "city_third_party", 
+            "select": true
+        }, 
+        "model": "Ciudad", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Ciudad de Tercero"
+    }, 
+    {
+        "cparam": "initial_note", 
+        "type": "Model", 
+        "app": "inventarios", 
+        "value": "II-00001", 
+        "label": {
+            "text": "Nota Inicial"
+        }, 
+        "field": {
+            "text": "cii", 
+            "selected": "II-00001", 
+            "value": "cii", 
+            "id": "initial_note", 
+            "input": false, 
+            "type": false, 
+            "options": [
+                {
+                    "text": "Seleccione", 
+                    "selected": true, 
+                    "value": "@"
+                }
+            ], 
+            "select": true
+        }, 
+        "model": "Invinicab", 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Nota Inicial"
+    }, 
+    {
+        "cparam": "default_movement_for_input_bills", 
+        "type": "Model", 
+        "app": "movimientos", 
+        "value": "1002", 
+        "label": {
+            "text": "Movimiento de Inventario por defecto para las factura de entrada"
+        }, 
+        "field": {
+            "text": "ntimo", 
+            "selected": "1002", 
+            "value": "ctimo", 
+            "id": "default_movement_for_input_bills", 
+            "input": false, 
+            "type": false, 
+            "options": [], 
+            "select": true
+        }, 
+        "query": {
+            "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
+        }, 
+        "model": "Timo", 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Movimiento de Inventario por defecto para las factura de entrada"
+    }, 
+    {
+        "cparam": "default_movement_for_output_bills", 
+        "type": "Model", 
+        "app": "movimientos", 
+        "value": "2001", 
+        "label": {
+            "text": "Movimiento de Inventario por defecto para las factura de salida"
+        }, 
+        "field": {
+            "text": "ntimo", 
+            "selected": "2001", 
+            "value": "ctimo", 
+            "id": "default_movement_for_output_bills", 
+            "input": false, 
+            "type": false, 
+            "options": [], 
+            "select": true
+        }, 
+        "query": {
+            "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
+        }, 
+        "model": "Timo", 
+        "smodule": "I", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Movimiento de Inventario por defecto para las factura de salida"
+    }
+]
