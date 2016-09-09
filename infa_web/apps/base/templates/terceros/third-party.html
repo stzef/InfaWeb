@@ -407,7 +407,8 @@
 		function fn_customValidationFormTabs(valid){
 			if (valid){
 				$("form").off("submit")
-				AJAXGenericView("form","select[name=citerce]","rasocial","{{url}}",fn)
+				AJAXGenericView("form","select[name=citerce]","rasocial","{{url}}",fn,"Creando el Tercero.")
+				$("form").submit()
 			}
 		}
 

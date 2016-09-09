@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse_lazy 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.movimientos.forms import *
+from infa_web.apps.base.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
 
@@ -124,11 +125,22 @@ class OutputMovementUpdate(UpdateView):
 
 		return context
 
+
+def proccess_view_annulment(request):
+	form = CommonForm()
+	return render(request,"movimientos/procesos/annulment.html",{"form":form})
+	
+@csrf_exempt
+def proccess_fn_annulment(request,pk):
+	data = json.loads(request.body)
+
+	return HtpResponse(json.dumps(data), "application/json")
+
 def proccess_view_costing_and_stock(request):
 	form = ProccessCostingAndStock()
 	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form})
-@csrf_exempt
 
+@csrf_exempt
 def proccess_fn_costing_and_stock(request):
 	data = json.loads(request.body)
 	data["date_range"]["start_date"] = parser.parse(data["date_range"]["start_date"])

@@ -16,6 +16,9 @@ urlInputMovement = [
 
 	url(r'^proccess/fn/costing_and_stock/$', proccess_fn_costing_and_stock, name='proccess_fn_costing_and_stock'),
 	url(r'^proccess/view/costing_and_stock/$', proccess_view_costing_and_stock, name='proccess_view_costing_and_stock'),
+	
+	url(r'^proccess/fn/annulment/(?P<pk>\d+)/$', proccess_fn_annulment, name='proccess_fn_annulment'),
+	url(r'^proccess/view/annulment/$', proccess_view_annulment, name='proccess_view_annulment'),
 ]
 
 urlpatterns = urlInputMovement

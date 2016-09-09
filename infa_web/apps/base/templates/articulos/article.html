@@ -467,8 +467,8 @@
 		function fn_customValidationFormTabs(valid){
 			if (valid){
 				$("form").off("submit")
-				AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn)
-				$("form").submit()
+				AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn,"Creando el Articulo.")
+				$("form").submit() 
 			}
 		}
 		

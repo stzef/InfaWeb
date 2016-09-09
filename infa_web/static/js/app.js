@@ -76,7 +76,11 @@ function windowSearch(selectorInput){
 	}
 }
 
-function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
+function defaultfn(){
+	
+}
+
+function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageWait){
 	$(selectorForm).submit(function(event){
 		var currentForm = $(this)
 		event.preventDefault()
@@ -87,6 +91,8 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 				formData.append('file-'+i, file);
 			})
 		})
+
+		loading_animation(messageWait)
 
 		$.ajax({
 			url: url,
@@ -99,7 +105,8 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 			//contentType: "application/x-www-form-urlencoded",
 			//contentType: 'multipart/form-data',
 			error: function(response){
-				if (callback) callback(null,response)
+				$(".animation").empty()
+				if (typeof callback == "function") callback(null,response)
 				$('<ul class="errorlist"></ul>')
 				var data = JSON.parse(response.responseText)
 				for (field in data.errors){
@@ -114,12 +121,13 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback){
 				}
 			},
 			success: function(response){
+				$(".animation").empty()
 				var message = alertBootstrap(response.message,"success")
 				var object = JSON.parse(response.object)[0]
 				var fields = object.fields
 				currentForm.prepend(message)
 				//currentForm.trigger("reset")
-				if (callback) callback(response,null)
+				if (typeof callback == "function") callback(response,null)
 				if(window.opener){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))

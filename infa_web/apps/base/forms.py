@@ -121,3 +121,5 @@ class IDTypeForm(forms.ModelForm):
 			'ntiide':'Nombre',
 		}
 
+class CommonForm(forms.Form):
+	cesdo = forms.ModelChoiceField(queryset=Esdo.objects.all())

@@ -104,12 +104,17 @@
 			data.push(parameter)
 		})
 		event.preventDefault();
+		loading_animation("Guardando Parametros.")
 		$.ajax({
 			url: "{% url 'save-parameters' %}",
 			type: "POST",
 			data: JSON.stringify(data),
 			contentType : "application/json",
+			error: function(response){
+				$(".animation").empty()
+			},
 			success: function(response){
+				$(".animation").empty()
 				console.log(response)
 				var message = alertBootstrap(response.message,"success")
 				currentForm.prepend(message)
