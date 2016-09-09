@@ -33,20 +33,20 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		else:
 			print "Salida"
 
-		print articulo.carlos
-		print "Costo Actual -> " + str(articulo.vcosto)
-		print "Cantidad Actual -> " + str(articulo.canti)
+		#print articulo.carlos
+		#print "Costo Actual -> " + str(articulo.vcosto)
+		#print "Cantidad Actual -> " + str(articulo.canti)
 
 		response["current_vcosto"] = str(articulo.vcosto)
 		response["current_canti"] = str(articulo.canti)
 
-		print "----------------------------------------------"
+		#print "----------------------------------------------"
 		if is_input:
 			nuevo_costo_calculado = costing(articulo.canti,(articulo.canti*articulo.vcosto),nueva_cantidad,nuevo_costo,is_input)
 
 			articulo.canti += nueva_cantidad
 			articulo.vcosto = nuevo_costo_calculado
-			print "Costo -> " + str(nuevo_costo)
+			#print "Costo -> " + str(nuevo_costo)
 			response["new_vcosto"] = str(nuevo_costo_calculado)
 		else:
 			response["new_vcosto"] = str(articulo.vcosto)
@@ -56,14 +56,14 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 
 		if if_save:
 			articulo.save()
-		print "Cantidad -> " + str(nueva_cantidad)
+		#print "Cantidad -> " + str(nueva_cantidad)
 
-		print "----------------------------------------------"
+		#print "----------------------------------------------"
 
 
-		print "Nuevo Costo -> " + str(articulo.vcosto)
-		print "Nueva Cantidad -> " + str(articulo.canti)
-		print "----------------------------------------------"
+		#print "Nuevo Costo -> " + str(articulo.vcosto)
+		#print "Nueva Cantidad -> " + str(articulo.canti)
+		#print "----------------------------------------------"
 
 
 		response["status"] = True
@@ -114,10 +114,14 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 				temp_mvdeta.fmv = temp_mvdeta.cmven.fmven
 			else:
 				temp_mvdeta.fmv = temp_mvdeta.cmvsa.fmvsa
-			print temp_mvdeta
+			#print temp_mvdeta
 		mvsdeta.sort(key=lambda x: x.fmv)
 
 		if invinideta:
+			print "-------------------------------------------------------------------"
+			print invinideta.canti
+			print invinideta.vunita
+			print "-------------------------------------------------------------------"
 			articulo.canti = invinideta.canti
 			articulo.vcosto = invinideta.vunita
 		else:

@@ -37,7 +37,7 @@ class ThirdPartyForm(forms.ModelForm):
 			'nomegre':forms.TextInput(attrs={'class':'form-control','required':True}),
 			'replegal':forms.TextInput(attrs={'class':'form-control'}),
 			'dirterce':forms.TextInput(attrs={'class':'form-control','required':True}),
-			'telterce':forms.NumberInput(attrs={'class':'form-control','required':True}),
+			'telterce':forms.TextInput(attrs={'class':'form-control','required':True}),
 			'faxterce':forms.TextInput(attrs={'class':'form-control'}),
 			'email':forms.EmailInput(attrs={'class':'form-control'}),
 			'contacto':forms.TextInput(attrs={'class':'form-control'}),

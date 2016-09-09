@@ -77,9 +77,13 @@
 			window.location.replace("{% url 'list-parameter' %}");
 		}
 	});
-	$(".date").datetimepicker({
+	$("#id_fecha_nota_inicial").datetimepicker({
 		format: format_date_appen,
 		defaultDate:date_appen
+	});
+	$("#id_fecha_final").datetimepicker({
+		format: format_date_appen,
+		defaultDate:new Date(new Date().setDate(new Date().getDate()+1))
 	});
 	$("#btn-save").click(function(event) {
 		$.post(
