@@ -30,8 +30,8 @@
 					<td width="15%" style="padding-left: 5px;">{{ item.carlos.pk }}</td>
 					<td>{{ item.nlargo }}</td>
 					<td align="right" style="padding-right: 40px;">{{ item.canti }} {{ item.carlos.cunidad.nunidad }}</td>
-					<td width="20%" align="right" style="padding-right: 25px;">{{ item.vunita|intcomma }}</td>
-					<td width="20%" align="right" style="padding-right: 5px;">{{ item.vunita|multiply:item.canti|intcomma }}</td>
+					<td width="20%" align="right" style="padding-right: 25px;">{{ item.carlos.vcosto|intcomma }}</td>
+					<td width="20%" align="right" style="padding-right: 5px;">{{ item.carlos.vcosto|multiply:item.canti|intcomma }}</td>
 				</tr>
 				<tr>
 					<td colspan="5" style="padding: -8px 0px;">-----------------------------------------------------------------------------------------------</td>
