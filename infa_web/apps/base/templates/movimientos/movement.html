@@ -433,6 +433,7 @@
 		}
 	})
 	$("#btn-save").click(function(event){
+		loading_animation("Guardando Movimiento.")
 		event.preventDefault()
 		if(!customValidationInput("#form_movement").valid) return
 		var currentForm = $("#form_movement")
@@ -469,6 +470,7 @@
 			error: function(response){
 				var message = alertBootstrap("Ha ocurrido un error en el proceso.","danger")
 				currentForm.prepend(message)
+				$(".animation").empty()
 			},
 			success: function(response){
 				if(response.error){
@@ -483,6 +485,7 @@
 					$("#list_items_mdeta").find("tbody").children().remove()
 				}
 				currentForm.prepend(message)
+				$(".animation").empty()
 			}
 		});
 	})
