@@ -233,9 +233,20 @@
 				'entrada': 0,
 				'salida': 0
 			}).draw()
+			calc_aj(item.canti, item.cancalcu, item.carlos)
 		});
 		$(".positive").numeric({ negative: false }, function() { this.value = ""; this.focus(); });
 		$('.animation').empty();
+	}
+	function calc_aj(this_value, cant_calcu, id){
+		var cant = (this_value - cant_calcu);
+		if(cant < 0){
+			$('#ajusal-'+id).text(Math.abs(cant).toFixed(2));
+			$('#ajuent-'+id).text('0');
+		}else{
+			$('#ajusal-'+id).text('0');
+			$('#ajuent-'+id).text(cant.toFixed(2));
+		}
 	}
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
@@ -262,7 +273,6 @@
 		var id = $(this).parent().parent().attr('id');
 		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
 		var cant_calcu = parseFloat($('#cancalcu-'+id).text());
-		var cant = (this_value - cant_calcu);
 		var value_tot = this_value*$('#vunita-'+id).val();
 		var cantidad = isNaN($('#vtotal-'+id).attr('val')) ? 0: $('#vtotal-'+id).attr('val');
 		var val_tot = $('#val-tot').attr('val');
@@ -271,13 +281,7 @@
 			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		});
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
-		if(cant < 0){
-			$('#ajusal-'+id).text(Math.abs(cant).toFixed(2));
-			$('#ajuent-'+id).text('0');
-		}else{
-			$('#ajusal-'+id).text('0');
-			$('#ajuent-'+id).text(cant.toFixed(2));
-		}
+		calc_aj(this_value, cant_calcu, id);
 	});
 	$(document).on("keyup", ".value", function(e){
 		var id =$(this).parent().parent().attr('id');
