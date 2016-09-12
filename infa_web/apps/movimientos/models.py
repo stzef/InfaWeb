@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
+from django.db import models
+from django.core.validators import MinValueValidator
+
+from infa_web.apps.base.constantes import *
+
 from infa_web.apps.articulos.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
-from django.db import models
-from infa_web.apps.base.constantes import *
-from django.core.validators import MinValueValidator
 
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
@@ -88,6 +90,7 @@ class Mvsadeta(models.Model):
 	def __str__(self):
 		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.ctimo,self.cmvsa.fmvsa)
 
+"""
 class Movi(models.Model):
 	cmovi = models.CharField(max_length=10, primary_key=True)
 	ctimo = models.ForeignKey(Timo)
@@ -112,17 +115,17 @@ class Movi(models.Model):
 	ndiacobro = models.IntegerField()
 	vcuota = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	citerce2 = models.ForeignKey(Tercero, related_name='citerce2')
-	"""
-	CDESCU1                          Char(2), 
-	baserf1 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	vtdescu1 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	CDESCU2                          Char(2), 
-	baserf2 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	vtdescu2 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	CDESCU3                          Char(2), 
-	baserf3 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	vtdescu3 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	"""
+
+	#CDESCU1                          Char(2), 
+	#baserf1 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	#vtdescu1 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	#CDESCU2                          Char(2), 
+	#baserf2 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	#vtdescu2 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	#CDESCU3                          Char(2), 
+	#baserf3 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	#vtdescu3 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	
 	civa = models.ForeignKey(Iva)
 	baseiva = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vtiva = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
@@ -148,3 +151,4 @@ class Movideta(models.Model):
 	vinte_cal = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	abo_inte = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcomi = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+"""

@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 from django.db import models
 from infa_web.apps.base.constantes import *
-from infa_web.apps.movimientos.models import *
-from infa_web.apps.articulos.models import *
+#from infa_web.apps.movimientos.models import *
+#from infa_web.apps.articulos.models import *
 from django.core.validators import MinValueValidator
 
 
@@ -91,7 +91,6 @@ class Tiide(models.Model):
 
 	def __str__(self):
 		return self.ntiide
-
 class Emdor(models.Model):
 	cemdor = models.AutoField(primary_key=True)
 	nemdor = models.CharField(max_length=80)
@@ -119,17 +118,6 @@ class Timoca(models.Model):
 	def __str__(self):
 		return self.ntimoca
 
-class Caja(models.Model):
-	ccaja = models.AutoField(primary_key=True)
-	ncaja = models.CharField(max_length=80)
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	caseri = models.CharField(max_length=4)
-	ctimocj = models.ForeignKey(Timoca)
-	cbode = models.ForeignKey(Bode)
-
-	def __str__(self):
-		return self.ncaja
-
 class Tifopa(models.Model):
 	ctifopa = models.AutoField(primary_key=True)
 	ntifopa = models.CharField(max_length=40)
@@ -138,27 +126,6 @@ class Tifopa(models.Model):
 	def __str__(self):
 		return self.ntifopa
 
-class Talo(models.Model):
-	ctalo = models.AutoField(primary_key=True)
-	prefijo = models.CharField(max_length=2)
-	conse_ini = models.IntegerField()
-	conse_fin = models.IntegerField()
-	lar_conse = models.IntegerField()
-	resodian = models.CharField(max_length=20)
-	nrepo = models.CharField(max_length=10)
-	filas = models.IntegerField()
-	descri = models.CharField(max_length=40)
-	ctifopa = models.ForeignKey(Tifopa)
-	ifmostrado = models.BooleanField()
-	ifpos = models.BooleanField()
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	prefi_real = models.CharField(max_length=4)
-	ncotalo = models.IntegerField()
-	ccaja = models.ForeignKey(Caja)
-	ctimomvsa = models.ForeignKey(Timo)
-
-	def __str__(self):
-		return self.prefijo
 
 class Cta(models.Model):
 	ccta = models.CharField(max_length=20, primary_key=True)
@@ -186,3 +153,39 @@ class Banfopa(models.Model):
 
 	def __str__(self):
 		return self.nbanfopa
+		
+"""
+class Caja(models.Model):
+	ccaja = models.AutoField(primary_key=True)
+	ncaja = models.CharField(max_length=80)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	caseri = models.CharField(max_length=4)
+	ctimocj = models.ForeignKey(Timoca)
+	cbode = models.ForeignKey(Bode)
+
+	def __str__(self):
+		return self.ncaja
+
+class Talo(models.Model):
+	ctalo = models.AutoField(primary_key=True)
+	prefijo = models.CharField(max_length=2)
+	conse_ini = models.IntegerField()
+	conse_fin = models.IntegerField()
+	lar_conse = models.IntegerField()
+	resodian = models.CharField(max_length=20)
+	nrepo = models.CharField(max_length=10)
+	filas = models.IntegerField()
+	descri = models.CharField(max_length=40)
+	ctifopa = models.ForeignKey(Tifopa)
+	ifmostrado = models.BooleanField()
+	ifpos = models.BooleanField()
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	prefi_real = models.CharField(max_length=4)
+	ncotalo = models.IntegerField()
+	ccaja = models.ForeignKey(Caja)
+	ctimomvsa = models.ForeignKey(Timo)
+
+	def __str__(self):
+		return self.prefijo
+
+"""

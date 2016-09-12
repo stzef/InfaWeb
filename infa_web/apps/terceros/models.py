@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 from django.db import models
-from infa_web.apps.base.constantes import *
-#from infa_web.apps.base.models import *
-from infa_web.apps.base.models import *
 from django.core.validators import MinValueValidator
 from django.utils import timezone
+
+from infa_web.apps.base.constantes import *
+from infa_web.apps.base.models import *
 
 class Autorre(models.Model):
 	cautorre = models.AutoField(primary_key=True)
