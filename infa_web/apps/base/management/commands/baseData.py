@@ -11,35 +11,7 @@ from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
-		Esdo.objects.all().delete()
-		Tiarlos.objects.all().delete()
-		Personas.objects.all().delete()
-		Vende.objects.all().delete()
-		Unidades.objects.all().delete()
-		Regiva.objects.all().delete()
-		Tiide.objects.all().delete()
-		Modules.objects.all().delete()
-		Autorre.objects.all().delete()
-		Ruta.objects.all().delete()
-		Zona.objects.all().delete()
-		Iva.objects.all().delete()
-		Marca.objects.all().delete()
-		Bode.objects.all().delete()
-		Ubica.objects.all().delete()
-		Gpo.objects.all().delete()
-		Departamento.objects.all().delete()
-		Ciudad.objects.all().delete()
-		Timo.objects.all().delete()
-		Tercero.objects.all().delete()
-
-		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
-		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T")
-		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F")
-		Esdo.objects.create(nesdo="CONGELADA",estavali="F")
-		Esdo.objects.create(nesdo="CERRADA",estavali="T")
-		Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F")
-		Esdo.objects.create(nesdo="ANULADA",estavali="F")
-		print "Esdo. Registros Creados Correctamente."
+		manageParameters = ManageParameters()
 
 		if 'APPEMPRESARIAL_USER' in os.environ:
 			if not User.objects.filter(username=APPEMPRESARIAL_USER).exists():
@@ -50,39 +22,101 @@ class Command(BaseCommand):
 		else:
 			print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
 
-		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
-		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
-		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
-		print "Tiarlos. Registros Creados Correctamente."
+		#Base
+		Esdo.objects.all().delete()
+		Timo.objects.all().delete()
+		Bode.objects.all().delete()
+		Modules.objects.all().delete()
+		Parameters.objects.all().delete()
+		Ubica.objects.all().delete()
+		Departamento.objects.all().delete()
+		Ciudad.objects.all().delete()
+		Iva.objects.all().delete()
+		Regiva.objects.all().delete()
+		Tiide.objects.all().delete()
+		Emdor.objects.all().delete()
+		Domici.objects.all().delete()
+		Timoca.objects.all().delete()
+		Tifopa.objects.all().delete()
+		Cta.objects.all().delete()
+		Banfopa.objects.all().delete()
+		Caja.objects.all().delete()
+		Talo.objects.all().delete()
+		# Articulos
+		Tiarlos.objects.all().delete()
+		Gpo.objects.all().delete()
+		Marca.objects.all().delete()
+		Unidades.objects.all().delete()
+		#Terceros
+		Autorre.objects.all().delete()
+		Vende.objects.all().delete()
+		Ruta.objects.all().delete()
+		Zona.objects.all().delete()
+		Tercero.objects.all().delete()
+		Personas.objects.all().delete()
 
-		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
-		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
-		print "Personas. Registros Creados Correctamente."
+		#Base - Esdo
+		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
+		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T")
+		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F")
+		Esdo.objects.create(nesdo="CONGELADA",estavali="F")
+		Esdo.objects.create(nesdo="CERRADA",estavali="T")
+		Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F")
+		Esdo.objects.create(nesdo="ANULADA",estavali="F")
+		print "Esdo. Registros Creados Correctamente."
 
-		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
-		print "Vende. Registros Creados Correctamente."
+		#Base - Timo
+		Timo.objects.create(ctimo=1000,ntimo="*** ENTRADA INVENTARIOS ***",prefijo="",filas=50,nrepo="")
+		Timo.objects.create(ctimo=1001,ntimo="COMPRA MERCANCIA",prefijo="EA",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1002,ntimo="DEVOLUCIONES COMPRAS",prefijo="EB",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1003,ntimo="AJUSTE ENTRADA",prefijo="EC",filas=45,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=1004,ntimo="OTRAS ENTRADAS",prefijo="EC",filas=10,nrepo="R00504TXT")
+		Timo.objects.create(ctimo=2000,ntimo="*** SALIDA INVENTARIOS ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=2001,ntimo="SALIDAS MERCANCIA",prefijo="SA",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2002,ntimo="DEVOLUCIONES SALIDAS",prefijo="SB",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2003,ntimo="BAJAS MERCANCIA",prefijo="SC",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2004,ntimo="SALIDAS FACTURACION",prefijo="SD",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2005,ntimo="GASTOS ALMACEN",prefijo="SE",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=2006,ntimo="AJUSTE SALIDA",prefijo="SF",filas=10,nrepo="R00604TXT")
+		Timo.objects.create(ctimo=3000,ntimo="*** INGRESOS CAJA ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=3001,ntimo="RECIBOS CAJA ABONOS FACTURAS",prefijo="IA",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3002,ntimo="RECIBO ABONOS EMPLEADOS",prefijo="IB",filas=1,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3003,ntimo="PRESTAMOS TERCEROS",prefijo="IC",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3008,ntimo="INGRESOS VARIOS",prefijo="IH",filas=10,nrepo="R01702WIN")
+		Timo.objects.create(ctimo=3100,ntimo="**** EGRESOS CAJA ****",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=3101,ntimo="PAGO PROVEEDORES",prefijo="GA",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3102,ntimo="PRESTAMOS EMPLEADOS",prefijo="GB",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3103,ntimo="LABORES MENSUALES",prefijo="GC",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3104,ntimo="SERVICIOS PUBLICOS",prefijo="GD",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3105,ntimo="GASTOS ARRIENDO",prefijo="GE",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3106,ntimo="GASTO VEHICULO",prefijo="GF",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3107,ntimo="COMISIONES",prefijo="GH",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3108,ntimo="DOTACION",prefijo="GI",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3109,ntimo="PAGO PRESTAMOS TERCEROS",prefijo="GJ",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=3110,ntimo="EGRESOS VARIOS",prefijo="GJ",filas=10,nrepo="R02102TXT")
+		Timo.objects.create(ctimo=4000,ntimo="*** CARGOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4001,ntimo="SALDO CXC",prefijo="CA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4002,ntimo="CARGOS CXC",prefijo="CB",filas=10,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4003,ntimo="OTROS CARGOS CXC",prefijo="CC",filas=10,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4100,ntimo="*** ABONOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4101,ntimo="ABONOS CXC",prefijo="OA",filas=5,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4102,ntimo="OTROS ABONOS CXC",prefijo="OB",filas=5,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4200,ntimo="*** CARGOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4201,ntimo="SALDO CXP",prefijo="RA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4202,ntimo="CARGOS CXP",prefijo="RB",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4203,ntimo="OTROS CARGOS CXP",prefijo="RC",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4300,ntimo="*** ABONOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4301,ntimo="ABONOS CXP",prefijo="PA",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4302,ntimo="OTROS ABONOS CXP",prefijo="PB",filas=1,nrepo="R01701WIN")
+		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
+		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
+		print "Timo. Registros Creados Correctamente."
 
-		Unidades.objects.create(nunidad="UNIDADES",peso=0)
-		Unidades.objects.create(nunidad="KILOGRAMOS",peso=0)
-		Unidades.objects.create(nunidad="METROS",peso=0)
-		Unidades.objects.create(nunidad="DOCENAS",peso=0)
-		Unidades.objects.create(nunidad="CAJAS",peso=0)
-		Unidades.objects.create(nunidad="DISPLAYS",peso=0)
-		Unidades.objects.create(nunidad="PAQUETE",peso=0)
-		Unidades.objects.create(nunidad="MILILITROS",peso=0)
+		#Base - Bode
+		Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
+		print "Bode. Registros Creados Correctamente."
 
-		print "Unidades. Registros Creados Correctamente."
-
-
-		Regiva.objects.create(nregiva="REGIMEN COMUN")
-		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
-		print "Regiva. Registros Creados Correctamente."
-
-		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
-		Tiide.objects.create(ntiide="NIT")
-		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
-		print "Tiide. Registros Creados Correctamente."
-
+		#Base - Modules
 		Modules.objects.create(smodule="I",nmodule="Inventarios",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
 		Modules.objects.create(smodule="F",nmodule="Facturacion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
 		Modules.objects.create(smodule="P",nmodule="POS",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
@@ -93,38 +127,15 @@ class Command(BaseCommand):
 		Modules.objects.create(smodule="F",nmodule="Financiero",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
 		print "Modules. Registros Creados Correctamente."
 
-		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
-		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
-		print "Autorre. Registros Creados Correctamente."
-
-		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
-		print "Ruta. Registros Creados Correctamente."
-
-		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
-		print "Zona. Registros Creados Correctamente."
-
-		Iva.objects.create(niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
-		Iva.objects.create(niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
-		Iva.objects.create(niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
-		Iva.objects.create(niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
-		Iva.objects.create(niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
-		print "Iva. Registros Creados Correctamente."
-
-		Marca.objects.create(nmarca="SIN MARCA",cesdo=estadoActivo)
-		print "Marca. Registros Creados Correctamente."
-
-		Bode.objects.create(nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
-		print "Bode. Registros Creados Correctamente."
-
+		#Base - Ubica
 		Ubica.objects.create(nubica="SIN UBICACION",cesdo=estadoActivo)
 		print "Ubica. Registros Creados Correctamente."
 
-		Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
-		print "Gpo. Registros Creados Correctamente."
-		
+		#Base - Departamento
 		oDefaultDepartament = Departamento.objects.create(cdepar=9,ndepar="Cundinamarca")
 		print "Departamento. Registros Creados Correctamente."
 
+		#Base - Ciudad
 		Ciudad.objects.create(nciu='Alban',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bogotá',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bojaca',cdepar=oDefaultDepartament)
@@ -177,54 +188,152 @@ class Command(BaseCommand):
 		Ciudad.objects.create(nciu='Zipaquirá',cdepar=oDefaultDepartament)
 		print "Cuidad. Registros Creados Correctamente."
 
-		Timo.objects.create(ctimo=1000,ntimo="*** ENTRADA INVENTARIOS ***",prefijo="",filas=50,nrepo="")
-		Timo.objects.create(ctimo=1001,ntimo="COMPRA MERCANCIA",prefijo="EA",filas=10,nrepo="R00504TXT")
-		Timo.objects.create(ctimo=1002,ntimo="DEVOLUCIONES COMPRAS",prefijo="EB",filas=10,nrepo="R00504TXT")
-		Timo.objects.create(ctimo=1003,ntimo="AJUSTE ENTRADA",prefijo="EC",filas=45,nrepo="R00504TXT")
-		Timo.objects.create(ctimo=1004,ntimo="OTRAS ENTRADAS",prefijo="EC",filas=10,nrepo="R00504TXT")
-		Timo.objects.create(ctimo=2000,ntimo="*** SALIDA INVENTARIOS ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=2001,ntimo="SALIDAS MERCANCIA",prefijo="SA",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=2002,ntimo="DEVOLUCIONES SALIDAS",prefijo="SB",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=2003,ntimo="BAJAS MERCANCIA",prefijo="SC",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=2004,ntimo="SALIDAS FACTURACION",prefijo="SD",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=2005,ntimo="GASTOS ALMACEN",prefijo="SE",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=2006,ntimo="AJUSTE SALIDA",prefijo="SF",filas=10,nrepo="R00604TXT")
-		Timo.objects.create(ctimo=3000,ntimo="*** INGRESOS CAJA ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=3001,ntimo="RECIBOS CAJA ABONOS FACTURAS",prefijo="IA",filas=10,nrepo="R01702WIN")
-		Timo.objects.create(ctimo=3002,ntimo="RECIBO ABONOS EMPLEADOS",prefijo="IB",filas=1,nrepo="R01702WIN")
-		Timo.objects.create(ctimo=3003,ntimo="PRESTAMOS TERCEROS",prefijo="IC",filas=10,nrepo="R01702WIN")
-		Timo.objects.create(ctimo=3008,ntimo="INGRESOS VARIOS",prefijo="IH",filas=10,nrepo="R01702WIN")
-		Timo.objects.create(ctimo=3100,ntimo="**** EGRESOS CAJA ****",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=3101,ntimo="PAGO PROVEEDORES",prefijo="GA",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3102,ntimo="PRESTAMOS EMPLEADOS",prefijo="GB",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3103,ntimo="LABORES MENSUALES",prefijo="GC",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3104,ntimo="SERVICIOS PUBLICOS",prefijo="GD",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3105,ntimo="GASTOS ARRIENDO",prefijo="GE",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3106,ntimo="GASTO VEHICULO",prefijo="GF",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3107,ntimo="COMISIONES",prefijo="GH",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3108,ntimo="DOTACION",prefijo="GI",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3109,ntimo="PAGO PRESTAMOS TERCEROS",prefijo="GJ",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=3110,ntimo="EGRESOS VARIOS",prefijo="GJ",filas=10,nrepo="R02102TXT")
-		Timo.objects.create(ctimo=4000,ntimo="*** CARGOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=4001,ntimo="SALDO CXC",prefijo="CA",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4002,ntimo="CARGOS CXC",prefijo="CB",filas=10,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4003,ntimo="OTROS CARGOS CXC",prefijo="CC",filas=10,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4100,ntimo="*** ABONOS CARTERA COBRAR ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=4101,ntimo="ABONOS CXC",prefijo="OA",filas=5,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4102,ntimo="OTROS ABONOS CXC",prefijo="OB",filas=5,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4200,ntimo="*** CARGOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=4201,ntimo="SALDO CXP",prefijo="RA",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4202,ntimo="CARGOS CXP",prefijo="RB",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4203,ntimo="OTROS CARGOS CXP",prefijo="RC",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4300,ntimo="*** ABONOS CARTERA PAGAR ***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=4301,ntimo="ABONOS CXP",prefijo="PA",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4302,ntimo="OTROS ABONOS CXP",prefijo="PB",filas=1,nrepo="R01701WIN")
-		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
-		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
-		print "Timo. Registros Creados Correctamente."
+		#Base - Iva
+		Iva.objects.create(niva="SIN IVA",poriva=0,idtira="A",cesdo=estadoActivo)
+		Iva.objects.create(niva="08%",poriva=8,idtira="B",cesdo=estadoActivo)
+		Iva.objects.create(niva="10%",poriva=10,idtira="C",cesdo=estadoActivo)
+		Iva.objects.create(niva="16%",poriva=16,idtira="D",cesdo=estadoActivo)
+		Iva.objects.create(niva="EXENTO",poriva=0,idtira="E",cesdo=estadoActivo)
+		print "Iva. Registros Creados Correctamente."
 
-		manageParameters = ManageParameters()
+		#Base - Regiva
+		Regiva.objects.create(nregiva="REGIMEN COMUN")
+		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
+		print "Regiva. Registros Creados Correctamente."
+
+		#Base - Tiide
+		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(ntiide="NIT")
+		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
+		print "Tiide. Registros Creados Correctamente."
+
+		#Base - Emdor
+		Emdor.objects.create(nemdor="SIN EMPACADOR",cesdo=estadoActivo)
+
+		#Base - Domici
+		Domici.objects.create(ndomici="SIN DOMICILIARIO",cesdo=estadoActivo)
+
+		#Base - Timoca
+		#Falta
+
+		#Base - Tifopa
+		Tifopa.objects.create(ctifopa=1,ntifopa="*** TIPOS DE CONTADO ***",ndiasfopa=0)
+		Tifopa.objects.create(ctifopa=1001,ntifopa="CONTADO",ndiasfopa=0)
+		Tifopa.objects.create(ctifopa=2,ntifopa="*** TIPOS DE CREDITO ***",ndiasfopa=0)
+		Tifopa.objects.create(ctifopa=2001,ntifopa="CREDITO",ndiasfopa=30)
+		Tifopa.objects.create(ctifopa=2002,ntifopa="CREDITO 8 DIAS",ndiasfopa=8)
+		Tifopa.objects.create(ctifopa=2003,ntifopa="APARTADOS",ndiasfopa=45)
+
+		#Base - Cta
+		#Falta
+
+		#Base - Banfopa
+		Banfopa.objects.create(cbanfopa=1000,nbanfopa=" SIN INFORMACION",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=1001,nbanfopa="BANCO COLOMBIA",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=1002,nbanfopa="DAVIVIENDA",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2000,nbanfopa=" SIN INFORMACION",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2001,nbanfopa="VISA",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2002,nbanfopa="MASTER",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2003,nbanfopa="AMERICAN EXPRESS",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2004,nbanfopa="DINERS",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2005,nbanfopa="MAESTRO",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2006,nbanfopa="ELECTRON",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2007,nbanfopa="ENERTOLIMA - CODENSA",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2008,nbanfopa="TARL. ÉXITO",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2009,nbanfopa="FALABELLA",porcomi=0,cesdo=estadoActivo)
+
+		#Base - Caja
+		"""Caja.objects.create(ccaja=00,ncaja="CAJA MOSTRADOR",cesdo=estadoActivo,caseri="",ctimocj=3001,cbode=Bode.objects.get(cbode=DEFAULT_BODEGA))"""
+		#Falta
+
+		#Base - Talo
+		#Falta
+		"""Talo.objects.create(
+			ctalo=01,
+			prefijo="PS",
+			conse_ini=1,
+			conse_fin=7000,
+			lar_conse=8,
+			nrepo="t016ac",
+			filas=9999,
+			descri="Talonario POS",
+			ctifopa=Tifopa.objects.get(ctifopa=DEFAULT_FORMA_PAGO),
+			ifmostrador=False,
+			ifpos=True,
+			ifacti=True,
+			prefi_real="PS-",
+			ccaja=00,
+			ncotalo=1,
+			ctimomvsa=Timo.objects.get(ctimo=2001),
+		)"""
+
+		"""ctalo=02,
+		prefijo="CP",
+		conse_ini=1,
+		conse_fin=5000,
+		lar_conse=8,
+		nrepo="r01010ac",
+		filas=10,
+		descri="TALONARIO COMPUTADOR",
+		ctifopa=2001,
+		ifmostrador=False,
+		ifpos=True,
+		ifacti=True,
+		prefi_real="CP-",
+		ccaja=00,
+		ncotalo=1,
+		ctimomvsa=2004,"""
+
+		# Articulos - Tiarlos
+		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
+		Tiarlos.objects.create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
+		Tiarlos.objects.create(ctiarlos=CTIARLO_OTRO,ntiarlos="OTROS")
+		print "Tiarlos. Registros Creados Correctamente."
+
+		# Articulos - Gpo
+		Gpo.objects.create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
+		print "Gpo. Registros Creados Correctamente."
+
+		# Articulos - Marca
+		Marca.objects.create(nmarca="SIN MARCA",cesdo=estadoActivo)
+		print "Marca. Registros Creados Correctamente."
+
+		# Articulos - Unidades
+		Unidades.objects.create(nunidad="UNIDADES",peso=0)
+		Unidades.objects.create(nunidad="KILOGRAMOS",peso=0)
+		Unidades.objects.create(nunidad="METROS",peso=0)
+		Unidades.objects.create(nunidad="DOCENAS",peso=0)
+		Unidades.objects.create(nunidad="CAJAS",peso=0)
+		Unidades.objects.create(nunidad="DISPLAYS",peso=0)
+		Unidades.objects.create(nunidad="PAQUETE",peso=0)
+		Unidades.objects.create(nunidad="MILILITROS",peso=0)
+		print "Unidades. Registros Creados Correctamente."
+
+		#Terceros
+		#Terceros- Autorre
+		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
+		print "Autorre. Registros Creados Correctamente."
+
+		#Terceros - Vende
+		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		print "Vende. Registros Creados Correctamente."
+
+		#Terceros - Ruta
+		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
+		print "Ruta. Registros Creados Correctamente."
+
+		#Terceros - Zona
+		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
+		print "Zona. Registros Creados Correctamente."
 		
+		#Terceros - Personas
+		Personas
+		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
+		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
+		print "Personas. Registros Creados Correctamente."
+
+		#Terceros - Tercero
 		Tercero.objects.create(
 			citerce = 1,
 			idterce = 1,
@@ -257,4 +366,3 @@ class Command(BaseCommand):
 			ctiide = Tiide.objects.get(pk=DEFAULT_TIIDE),
 		)
 		
-

@@ -119,6 +119,7 @@ class Arlosdesglo(models.Model):
 	def __unicode__(self):
 		return str(self.carlosp)+' - '+str(self.itglo)
 
+"""
 class Bode(models.Model):
 	cbode = models.AutoField(primary_key=True)
 	nbode = models.CharField(max_length=80)
@@ -127,4 +128,4 @@ class Bode(models.Model):
 
 	def __str__(self):
 		return self.nbode
-
+"""

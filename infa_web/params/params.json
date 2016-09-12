@@ -46,14 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-
-        "value": "2016/09/12 07:54:35", 
+        "value": "2016/09/12 15:41:38", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/12 07:54:35", 
+            "selected": "2016/09/12 15:41:38", 
             "type": "text", 
             "id": "date_appen", 
             "select": false

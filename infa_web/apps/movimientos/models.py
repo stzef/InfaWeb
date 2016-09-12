@@ -8,6 +8,7 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
 
+"""
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
 	ntimo = models.CharField(max_length=40)
@@ -17,6 +18,7 @@ class Timo(models.Model):
 
 	def __str__(self):
 		return self.ntimo
+"""
 
 class Mven(models.Model):
 	class Meta:
@@ -90,11 +92,11 @@ class Mvsadeta(models.Model):
 	def __str__(self):
 		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.ctimo,self.cmvsa.fmvsa)
 
-"""
+
 class Movi(models.Model):
 	cmovi = models.CharField(max_length=10, primary_key=True)
 	ctimo = models.ForeignKey(Timo)
-	citerce = models.ForeignKey(Tercero, related_name='citerce')
+	citerce = models.ForeignKey(Tercero)
 	fmovi = models.DateTimeField()
 	descrimovi = models.CharField(max_length=80)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -114,7 +116,7 @@ class Movi(models.Model):
 	ndiadeu = models.IntegerField()
 	ndiacobro = models.IntegerField()
 	vcuota = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	citerce2 = models.ForeignKey(Tercero, related_name='citerce2')
+	#citerce2 = models.ForeignKey(Tercero, related_name='citerce2')
 
 	#CDESCU1                          Char(2), 
 	#baserf1 = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
@@ -151,4 +153,3 @@ class Movideta(models.Model):
 	vinte_cal = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	abo_inte = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcomi = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-"""

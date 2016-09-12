@@ -17,6 +17,25 @@ class Esdo(models.Model):
 	def natural_key(self):
 		return (self.cesdo)
 
+class Timo(models.Model):
+	ctimo = models.IntegerField(primary_key=True)
+	ntimo = models.CharField(max_length=40)
+	prefijo = models.CharField(max_length=4)
+	filas = models.IntegerField()
+	nrepo = models.CharField(max_length=20)
+
+	def __str__(self):
+		return self.ntimo
+
+class Bode(models.Model):
+	cbode = models.AutoField(primary_key=True)
+	nbode = models.CharField(max_length=80)
+	esbode = models.CharField(max_length=2)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+
+	def __str__(self):
+		return self.nbode
+
 class Modules(models.Model):
 	smodule = models.CharField(max_length=5)
 	nmodule = models.CharField(max_length=20)
@@ -154,7 +173,7 @@ class Banfopa(models.Model):
 	def __str__(self):
 		return self.nbanfopa
 		
-"""
+
 class Caja(models.Model):
 	ccaja = models.AutoField(primary_key=True)
 	ncaja = models.CharField(max_length=80)
@@ -187,5 +206,3 @@ class Talo(models.Model):
 
 	def __str__(self):
 		return self.prefijo
-
-"""
