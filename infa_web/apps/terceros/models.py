@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-from infa_web.apps.base.models import *
 from django.db import models
 from infa_web.apps.base.constantes import *
+#from infa_web.apps.base.models import *
+from infa_web.apps.base.models import *
 from django.core.validators import MinValueValidator
 from django.utils import timezone
 
