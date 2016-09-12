@@ -3,19 +3,17 @@ from django.views.generic import FormView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from infa_web.apps.articulos.models import *
 from django.http import HttpResponse, JsonResponse
-from django.core.urlresolvers import reverse_lazy 
-from infa_web.apps.movimientos.models import *
-from infa_web.apps.movimientos.forms import *
-from infa_web.apps.base.forms import *
-from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Max
-
 from django.core import serializers
+from django.core.urlresolvers import reverse_lazy 
+from django.db.models import Max
+from django.views.decorators.csrf import csrf_exempt
 
 from dateutil import parser
-
 import json
 
+from infa_web.apps.base.forms import *
+from infa_web.apps.movimientos.forms import *
+from infa_web.apps.movimientos.models import *
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
 class InputMovementList(ListView):
@@ -125,28 +123,49 @@ class OutputMovementUpdate(UpdateView):
 
 		return context
 
-
 def proccess_view_annulment(request):
 	form = CommonForm()
 	return render(request,"movimientos/procesos/annulment.html",{"form":form})
-	
+
 @csrf_exempt
 def proccess_fn_annulment(request,pk):
 	data = json.loads(request.body)
 
-	return HtpResponse(json.dumps(data), "application/json")
+	if data["timo"] == "I":
+		movement = Mven.objects.get(cmven=data["cmv"])
+	else:
+		movement = Mvsa.objects.get(cmvsa=data["cmv"])
+
+	movement.detaanula = data["detaanula"]
+	movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+
+	movement.save()
+
+	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
 def proccess_view_costing_and_stock(request):
 	form = ProccessCostingAndStock()
-	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form})
+	form_common = CommonForm()
+	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form,"form_common":form_common})
 
 @csrf_exempt
 def proccess_fn_costing_and_stock(request):
 	data = json.loads(request.body)
+	query = {}
+	if data["type"] == "All":
+		query = {}
+	elif data["type"] == "Group":
+		query = {"cgpo":Gpo.objects.get(cgpo=data["group"])}
+	elif data["type"] == "Arlo":
+		query = {"carlos":data["carlos"]}
+	
+	#all
+	#forGroup
+	#forArticle
 	data["date_range"]["start_date"] = parser.parse(data["date_range"]["start_date"])
 	data["date_range"]["end_date"] = parser.parse(data["date_range"]["end_date"])
 	response = {
-		"data":costing_and_stock(data["date_range"],data["if_save"])
+		"data":costing_and_stock(data["date_range"],data["if_save"],query)
 	}
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -228,7 +247,6 @@ def UpdateMovement(request,pk):
 
 
 	return HttpResponse(json.dumps(response), "application/json")
-
 
 @csrf_exempt
 def SaveMovement(request):

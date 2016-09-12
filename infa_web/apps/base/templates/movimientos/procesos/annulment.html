@@ -15,7 +15,7 @@
 			<h1>Anulacion de Movimientos de Inventario</h1>
 		</section>
 		<section class="content">
-			<form class="form-horizontal" id="form_costing_and_stock">
+			<form class="form-horizontal">
 				<div class="form-group">
 					<label for="id_timo" class="col-sm-3 control-label">Tipo de Movimiento</label>
 					<div class="col-sm-8">
@@ -92,11 +92,19 @@
 	var data = {}
 	$("form").submit(function(e){
 		e.preventDefault()
-		var url = "proccess/fn/annulment/" + $("#id_cmv").val()
-		$.post(url,{timo:""},function(response){
-			console.log(response)
-		})
-
+		var url = "/proccess/fn/annulment/" + $("#id_cmv").val() + "/"
+		$.post(
+			url,
+			JSON.stringify({
+				timo:$("#id_timo").val(),
+				cmv:$("#id_cmv").val(),
+				cesdo:$("#id_cesdo").val(),
+				detaanula:$("#id_detaanula").val().trim()
+			}),
+			function(response){
+				console.log(response)
+			}
+		)
 	})
 
 	$("#id_timo").change(function(e){
@@ -110,7 +118,8 @@
 			data.model = 22
 			data.field = "cmvsa"
 		}
-		$("#id_cmv").change()
+		if($("#id_cmv").val() != "") $("#id_cmv").change()
+		console.log("hola")
 	})
 	$("#id_timo").change()
 	$("#id_cmv").change(function(){

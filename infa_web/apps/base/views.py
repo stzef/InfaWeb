@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render,render_to_response
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
@@ -25,6 +27,34 @@ from django.http import JsonResponse
 
 def get_custom_message_response(instance,object):
 	message = "El proceso se realizo con Exito."
+
+	if isinstance(instance,Gpo): message = "El Grupos <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ngpo,object.pk)
+	if isinstance(instance,Tiarlos): message = "El Tipo de articulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ntiarlo,object.pk)
+	if isinstance(instance,Marca): message = "La Marca <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nmarca,object.pk)
+	if isinstance(instance,Unidades): message = "La medidad de Unidad <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nunidad,object.pk)
+	if isinstance(instance,Bode): message = "La Bodega <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nbode,object.pk)
+	if isinstance(instance,Modules): message = "El Modulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nmodulo,object.pk)
+
+	if isinstance(instance,Parameters): message = "El Parametro <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Ubica): message = "La Ubicacion <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Departamento): message = "El Departamento <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Ciudad): message = "La Ciudad <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Iva): message = "El Valor de IVA <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Regiva): message = "El Regimen de IVA <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Tiide): message = "El Tipo de Identificación <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Invinicab): message = "El Inventario Cabeza <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Invinideta): message = "El Inventario Detalle <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Timo): message = "El Tipo de Movimiento <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Mven): message = "El Movimiento de Entrada <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Mvendeta): message = "El detalle de Entrada  <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Mvsa): message = "El Movimiento de Salida <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Mvsadeta): message = "El detalle de Salida <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Autorre): message = "El Autorretenedor <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Vende): message = "El Vendedor <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Ruta): message = "La Ruta <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Personas): message = "El Tipo de Persona <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+	if isinstance(instance,Zona): message = "La Zona <strong>%s</strong> se guardo Correctamente. Codigo: %s" % ("",object.pk)
+
 	if isinstance(instance,Esdo): message = "El Estado <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nesdo,object.pk)
 	if isinstance(instance,Arlo): message = "El Articulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ncorto,object.pk)
 	if isinstance(instance,Tercero): message = "El Tercero <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.rasocial,object.pk)

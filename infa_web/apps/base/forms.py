@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from infa_web.apps.base.models import *
+from infa_web.apps.articulos.models import *
 
 class ParametersForm(forms.ModelForm):
 	class Meta:
@@ -123,3 +124,13 @@ class IDTypeForm(forms.ModelForm):
 
 class CommonForm(forms.Form):
 	cesdo = forms.ModelChoiceField(queryset=Esdo.objects.all())
+	group = forms.ModelChoiceField(
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Gpo.objects.all()
+	)
+	carlos = forms.ModelChoiceField(
+		widget=forms.NumberInput(attrs={'class':'form-control'}),
+		queryset=Arlo.objects.all()
+	)
+	
+	widgets = {}

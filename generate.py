@@ -9,7 +9,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
 class Arlos(models.Model):
 	carlos = models.IntegerField(primary_key=True)
 	cbarras = models.CharField(max_length=50)

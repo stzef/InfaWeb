@@ -16,22 +16,62 @@
 		</section>
 		<section class="content">
 			<form class="form-horizontal" id="form_movement">
-				
 				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
-
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">{{title}}</h3>
 							</div>
+								
 							<div class="box-body">
-								<div class="col-md-2">
-									<img src="{% static 'img/empresa.png' %}" alt="">
-								</div>
-								<div class="col-md-6">
+								<div class="row">
+									{% if is_input_movement %}
+										<div class="form-group col-md-4">
+											<label for="{{form.cmven.id_for_label}}" class="col-sm-4 control-label">{{form.cmven.label}}</label>
+											<div class="col-sm-8">
+												<input type="number" name="{{form.cmven.name}}" id="{{form.cmven.id_for_label}}" class="{{form.cmven.field.widget.attrs.class}}" readonly value="{{current_pk}}">
+											</div>
+										</div>
+									{% else %}
+										<div class="form-group col-md-4">
+											<label for="{{form.cmvsa.id_for_label}}" class="col-sm-4 control-label">{{form.cmvsa.label}}</label>
+											<div class="col-sm-8">
+												<input type="number" name="{{form.cmvsa.name}}" id="{{form.cmvsa.id_for_label}}" class="{{form.cmvsa.field.widget.attrs.class}}" readonly value="{{current_pk}}">
+											</div>
+										</div>
 
-									<div class="form-group col-md-12">
+									{% endif %}
+								
+									<div class="form-group col-md-4">
+										<label for="{{form.ctimo.id_for_label}}" class="col-sm-3 control-label">{{form.ctimo.label}}</label>
+										{%if form.ctimo.errors%}
+										{{form.ctimo.errors}}
+										{%endif%}
+										<div class="col-sm-9">
+											<div class="input-group">
+												{{form.ctimo}}
+												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-4">
+										{% if form.fmven %}
+											<label for="{{ form.fmven.id_for_label }}" class="col-sm-2 control-label">{{ form.fmven.label }}</label>
+											<div class="col-sm-10">
+												{{ form.fmven }}
+											</div>
+										{% else %}
+											<label for="{{ form.fmvsa.id_for_label }}" class="col-sm-2 control-label">{{ form.fmvsa.label }}</label>
+											<div class="col-sm-10">
+												{{ form.fmvsa }}
+											</div>
+										{% endif %}
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-8">
 										<label for="{{form.citerce.id_for_label}}" class="col-sm-2 control-label">{{form.citerce.label}}</label>
 										{%if form.citerce.errors%}
 										{{form.citerce.errors}}
@@ -46,87 +86,42 @@
 										<div class="col-sm-6">
 											<input type="text" name="name__{{form.citerce.name}}" id="name__{{form.citerce.name}}" class="form-control" readonly>
 										</div>
-									</div>
 
-									<div class="form-group col-md-12">
-										<label for="{{form.vendedor.id_for_label}}" class="col-sm-2 control-label">{{form.vendedor.label}}[vendedor]</label>
-										{%if form.vendedor.errors%}
-										{{form.vendedor.errors}}
-										{%endif%}
-										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.vendedor.field.widget.attrs.value}}" name="{{form.vendedor.name}}" id="{{form.vendedor.id_for_label}}" class="{{form.vendedor.field.widget.attrs.class}}" {% if form.vendedor.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
+									</div>
+									<div class="form-group col-md-4">
+										<label for="{{ form.docrefe.id_for_label }}" class="col-sm-4 control-label">{{ form.docrefe.label }}</label>
+										<div class="col-sm-8">
+											{{ form.docrefe }}
 										</div>
 									</div>
-
-									<div class="form-group col-md-12">
-										<label for="{{form.domiciliario.id_for_label}}" class="col-sm-2 control-label">{{form.domiciliario.label}}[Domiciliario]</label>
-										{%if form.domiciliario.errors%}
-										{{form.domiciliario.errors}}
-										{%endif%}
-										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.domiciliario.field.widget.attrs.value}}" name="{{form.domiciliario.name}}" id="{{form.domiciliario.id_for_label}}" class="{{form.domiciliario.field.widget.attrs.class}}" {% if form.domiciliario.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
-										</div>
-									</div>
-
-									<div class="form-group col-md-12">
-										<label for="{{form.forma_pago.id_for_label}}" class="col-sm-2 control-label">{{form.forma_pago.label}}[forma_pago]</label>
-										{%if form.forma_pago.errors%}
-										{{form.forma_pago.errors}}
-										{%endif%}
-										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.forma_pago.field.widget.attrs.value}}" name="{{form.forma_pago.name}}" id="{{form.forma_pago.id_for_label}}" class="{{form.forma_pago.field.widget.attrs.class}}" {% if form.forma_pago.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
-										</div>
-									</div>
-
-
-									<div class="form-group col-md-12">
-										<label for="{{form.fvence.id_for_label}}" class="col-sm-2 control-label">{{form.fvence.label}}[fvence]</label>
-										{%if form.fvence.errors%}
-										{{form.fvence.errors}}
-										{%endif%}
-										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.fvence.field.widget.attrs.value}}" name="{{form.fvence.name}}" id="{{form.fvence.id_for_label}}" class="{{form.fvence.field.widget.attrs.class}}" {% if form.fvence.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
-										</div>
-									</div>
-
 								</div>
-								<div class="col-md-4">
 
-									<div class="form-group col-md-12">
-										<label for="{{form.empacador.id_for_label}}" class="col-sm-2 control-label">{{form.empacador.label}}[empacador]</label>
-										{%if form.empacador.errors%}
-										{{form.empacador.errors}}
-										{%endif%}
+								<div class="row">
+									
+									<div class="form-group col-md-7">
+										<label for="{{ form.descri.id_for_label }}" class="col-sm-2 control-label">{{ form.descri.label }}</label>
 										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.empacador.field.widget.attrs.value}}" name="{{form.empacador.name}}" id="{{form.empacador.id_for_label}}" class="{{form.empacador.field.widget.attrs.class}}" {% if form.empacador.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
+											{{ form.descri }}
 										</div>
 									</div>
 
-									<div class="form-group col-md-12">
-										<label for="{{form.caja.id_for_label}}" class="col-sm-2 control-label">{{form.caja.label}}[caja]</label>
-										{%if form.caja.errors%}
-										{{form.caja.errors}}
+									<div class="form-group col-md-3">
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-3 control-label">{{form.cesdo.label}}</label>
+										{%if form.cesdo.errors%}
+										{{form.cesdo.errors}}
 										{%endif%}
-										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.caja.field.widget.attrs.value}}" name="{{form.caja.name}}" id="{{form.caja.id_for_label}}" class="{{form.caja.field.widget.attrs.class}}" {% if form.caja.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
+										<div class="col-sm-9">
+											{{form.cesdo}}
+										</div>
+									</div>
+
+									<div class="form-group col-md-3">
+										<label for="{{form.cbode0.id_for_label}}" class="col-sm-3 control-label">{{form.cbode0.label}}</label>
+										{%if form.cbode0.errors%}
+										{{form.cbode0.errors}}
+										{%endif%}
+										<div class="col-sm-9">
+											{{form.cbode0}}
 										</div>
 									</div>
 								</div>
@@ -134,11 +129,9 @@
 						</div>
 					</div>
 				</div>
-
 			</form>
 
 			<form class="form-horizontal" id="form_deta_movement">
-
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box box-primary">
@@ -146,6 +139,14 @@
 								<h3 class="box-title">Detalle</h3>
 							</div>
 							<div class="box-body">
+
+								<div class="form-group col-sm-12">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-2">
+										<input type="text" readonly data-mask="{{form.vttotal.id_for_label}}__mask" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
+										<input type="hidden" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
+									</div>
+								</div>
 
 								<section class="col-md-12" id="form_temp_mvendeta">
 								</section>
@@ -158,9 +159,8 @@
 												<th width="20%">Cod Articulo</th>
 												<th width="20%">Articulo</th>
 												<th width="10%">Cantidad</th>
-												<th width="10%">Descuento</th>
-												<th width="10%">IVA</th>
 												<th width="10%">V unitario</th>
+												<th width="10%">V total</th>
 												<th width="10%"></th>
 											</tr>
 											<tr>
@@ -171,6 +171,9 @@
 													<div class="input-group">
 				
 														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"" required>
+
+
+														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 													</div>
 												</th>
@@ -178,9 +181,8 @@
 													<input type="text" name="name__{{form_movement_detail.carlos.name}}" id="name__{{form_movement_detail.carlos.name}}" class="form-control" readonly>
 												</th>
 												<th width="10%">{{ form_movement_detail.canti }}</th>
-												<th width="10%">{{ form_movement_detail.canti }}</th>
-												<th width="10%">{{ form_movement_detail.canti }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
+												<th width="10%">{{ form_movement_detail.vtotal }}</th>
 												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
@@ -196,117 +198,20 @@
 									</table>
 								</section>
 
+								<div class="form-group col-sm-12">
+									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
+									<div class="col-sm-2">
+										<input type="text" readonly data-mask="{{form.vttotal.id_for_label}}__mask" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
+										<input type="hidden" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
+									</div>
+								</div>
+
 							</div>
+
 						</div>
 					</div>
 				</div>
-
 			</form>
-
-			<div class="row">
-				<div class="col-md-4 nopadding">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<h3 class="box-title">Totales</h3>
-						</div>
-						<div class="box-body">
-						<div class="row col-md-6">
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Bruto</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Base IVA</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">IVA</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-						</div>
-						<div class="row col-md-6">
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Flete</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Descuento</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group">
-								<label for="" class="col-sm-2 control-label"></label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-						</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 nopadding">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<h3 class="box-title">Retencion Fuente</h3>
-						</div>
-						<div class="box-body">
-							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Base</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Porcentaje</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Vr Rte. Fte</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-5 nopadding">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<h3 class="box-title">Formas de Pago</h3>
-						</div>
-						<div class="box-body">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Forma Pago</th>
-										<th>Valor</th>
-										<th>Numero</th>
-										<th>Banco</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Efectvio</td>
-										<td><input type="number"></td>
-									</tr>
-									<tr>
-										<td>Tarjeta</td>
-										<td><input type="number"></td>
-										<td><input type="number"></td>
-										<td><select name="" id=""></select></td>
-									</tr>
-									<tr>
-										<td>Cheque</td>
-										<td><input type="number"></td>
-										<td><input type="number"></td>
-										<td><select name="" id=""></select></td>
-									</tr>
-									<tr>
-										<td>Otro</td>
-										<td><input type="number"></td>
-										<td><input type="number"></td>
-										<td><select name="" id=""></select></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-
 
 			<div class="text-center">
 				<div class="btn-group">
@@ -397,21 +302,6 @@
 		$("[name=name__citerce]").val(name__citerce)
 	}
 
-	function showPrecioVenta(fields){
-		var table = $("<table>")
-			for (field in fields){
-				regexp = /pvta[0-9]/
-				if(regexp.test(field)){
-					table.append(
-						$("<tr>").append(
-							$("<td>",{html:field.replace("pvta", 'Precio Venta ')}),
-							$("<td>",{html:currencyFormat.format(fields[field])})
-						)
-					)
-					console.log(field)
-				}
-			}
-	}
 	function setValueFieldArlo(vunita,name__carlos){
 		$("[name='vunita']")
 			.val(vunita)
@@ -438,11 +328,8 @@
 				if(response.object){
 					var object = JSON.parse(response.object)[0]
 					fields = object.fields
-								console.log(fields)
 					var t_vcosto = fields.vcosto
 					var t_nlargo = fields.nlargo
-
-					showPrecioVenta(fields)
 					setValueFieldArlo(t_vcosto,t_nlargo)
 				}else{
 					$.ajax({
@@ -466,7 +353,6 @@
 								$('#id_carlos').val("")
 								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
 							}
-							showPrecioVenta(fields)
 							setValueFieldArlo(t_vcosto,t_nlargo)
 						}
 					});
