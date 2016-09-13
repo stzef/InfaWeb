@@ -89,3 +89,26 @@ class Tercero(models.Model):
 
 	def __str__(self):
 		return self.rasocial
+
+class Coti(models.Model):
+	ccoti = models.CharField(primary_key=True, max_length=10)
+	fcoti = models.DateTimeField()
+	citerce = models.ForeignKey(Tercero)
+	descri = models.CharField(max_length=300)
+	osberini = models.CharField(max_length=250)
+	autoriza = models.CharField(max_length=100)
+	obserfin = models.CharField(max_length=250)
+	#HCOTI                            Char(8), 
+	ffin = models.DateTimeField()
+	#HFIN                             Char(8), 
+	fentre = models.DateTimeField()
+	#HENTRE                           Char(8), 
+	ctiservi = models.ForeignKey(Tiservi)
+	cvende = models.ForeignKey(Vende)
+	#CVENDETEC                        Char(4), 
+	ifareglad = models.BooleanField()
+	ctimo = models.ForeignKey(Timo)
+	docuref = models.CharField(max_length=10)
+	fhcoti = models.DateTimeField()
+	detaanula = models.CharField(max_length=300)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)

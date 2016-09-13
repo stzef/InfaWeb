@@ -145,7 +145,6 @@ class Tifopa(models.Model):
 	def __str__(self):
 		return self.ntifopa
 
-
 class Cta(models.Model):
 	ccta = models.CharField(max_length=20, primary_key=True)
 	ncta = models.CharField(max_length=80)
@@ -205,3 +204,10 @@ class Talo(models.Model):
 
 	def __str__(self):
 		return self.prefijo
+
+class Tiservi(models.Model):
+	ctiservi = models.AutoField(primary_key=True)
+	ntiservi = models.CharField(max_length=40)
+
+	def __str__(self):
+		return self.ntiservi
