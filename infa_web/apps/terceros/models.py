@@ -22,6 +22,14 @@ class Vende(models.Model):
 	def __str__(self):
 		return self.nvende
 
+class Cobra(models.Model):
+	ccobra = models.AutoField(primary_key=True)
+	ncobra = models.CharField(max_length=80)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+
+	def __str__(self):
+		return self.ncobra
+
 class Ruta(models.Model):
 	cruta = models.AutoField(primary_key=True)
 	nruta = models.CharField(max_length=45)
@@ -81,4 +89,3 @@ class Tercero(models.Model):
 
 	def __str__(self):
 		return self.rasocial
-

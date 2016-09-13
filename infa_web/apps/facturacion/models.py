@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from infa_web.apps.base.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 
@@ -69,3 +70,23 @@ class Facdeta(models.Model):
 	vcosto = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
 		return self.cfac
+
+class Rue(models.Model):
+	crue = models.CharField(primary_key=True,max_length=10)
+	cfac = models.ForeignKey(Fac)
+	deta = models.CharField(max_length=60)
+	cbar_rue = models.CharField(max_length=20)
+	seri_rue = models.CharField(max_length=20)
+	carlos = models.ForeignKey(Arlo)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	cod_rue = models.CharField(max_length=20)
+	capaci = models.CharField(max_length=20)
+	veloci = models.CharField(max_length=20)
+	#CRUE_ORI                         Char(10), 
+	citerce = models.ForeignKey(Tercero)
+	frue = models.DateTimeField()
+	#CUSU                             Char(20), 
+	vunita = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	pvta = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	cbode = models.ForeignKey(Bode)
+	cemdor  = models.ForeignKey(Emdor)
