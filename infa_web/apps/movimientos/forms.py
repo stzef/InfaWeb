@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django import forms
+from django import forms 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.inventarios.models import *
 from infa_web.parameters import ManageParameters
@@ -147,3 +147,110 @@ class ProccessCostingAndStock(forms.Form):
 		except Invinicab.DoesNotExist:
 			self.fields['nota_inicial'].initial = ''
 			self.fields['fecha_nota_inicial'].initial = ''
+
+class MoviForm(forms.ModelForm):
+	class Meta:
+		model = Movi
+		fields = "__all__"
+		widgets = { 
+			'fmovi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'fmovifin' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			#'ndiadeu' : forms.NumberInput(attrs={'class': 'form-control'}),
+			#'ndiacobro' : forms.NumberInput(attrs={'class': 'form-control'}),
+			'cmovi' : forms.TextInput(attrs={'class':'form-control'}),
+			'descrimovi' : forms.TextInput(attrs={'class':'form-control'}),
+			'doctar' : forms.TextInput(attrs={'class':'form-control'}),
+			'bantar' : forms.TextInput(attrs={'class':'form-control'}),
+			'docch' : forms.TextInput(attrs={'class':'form-control'}),
+			'banch' : forms.TextInput(attrs={'class':'form-control'}),
+			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
+			'vttotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vch' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'ventre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vcambio' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			#'vcuota' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'baseiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			#'vtsuma' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vtdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			
+			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
+			'ccaja' : forms.Select(attrs={'class':'form-control','required':True}),
+			#'civa' : forms.Select(attrs={'class':'form-control','required':True}),
+		}
+		labels = {
+			'fmovi' :'Fecha Creacion',
+			'fmovifin' :'',
+			#'ndiadeu' :'',
+			#'ndiacobro' :'',
+			'cmovi' :'Codigo Movimiento',
+			'descrimovi' :'Descripcion',
+			'doctar' :'Doc Tarjeta',
+			'bantar' :'Bando de la Tarjeta',
+			'docch' :'Doc. Cheque',
+			'banch' :'Banco Cheque',
+			'detaanula' :'Detalle anulacion',
+			'vttotal' :'Valor Total',
+			'vefe' :'Valor Efectivo',
+			'vtar' :'Valor Tarjeta',
+			'vch' :'Valor Cheque',
+			'ventre' :'Valor Entregado',
+			'vcambio' :'Valor Cambio',
+			#'vcuota' :'',
+			'baseiva' :'Base IVA',
+			'vtiva' :'Valor Toal IVA',
+			#'vtsuma' :'',
+			'vtdescu' :'Valor Descuento',
+			'ctimo' :'Timo Movimiento',
+			'citerce' :'Tercero',
+			'cesdo' :'Estado',
+			'ccaja' :'Caja',
+			#'civa' :'IVA',
+		}
+
+class MoviDetailForm(forms.ModelForm):
+	class Meta:
+		model = Movideta
+		fields = "__all__"
+		widgets = { 
+			'cmovi' : forms.Select(attrs={'class':'form-control','required':True}),
+			'itmovi' : forms.TextInput(attrs={'class':'form-control'}),
+			'docrefe' : forms.TextInput(attrs={'class':'form-control'}),
+			#'ccta' : forms.Select(attrs={'class':'form-control','required':True}),
+			'detalle' : forms.TextInput(attrs={'class':'form-control'}),
+			#'vdebi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'vcredi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'vinte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'prointe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'abo_capi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'abo_pinte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'ndiainte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'min':0,}),
+			#'vinte_cal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'abo_inte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+			#'vcomi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
+
+		}
+		labels = {
+			'cmovi' : 'Codigo Movimiento',
+			'itmovi' : 'Item',
+			'docrefe' : 'Doc Referencia',
+			#'ccta' : '',
+			'detalle' : 'Detalle',
+			
+			#'vdebi' : '',
+			#'vcredi' : '',
+			'valor' : 'Valor',
+
+			#'vinte' : '',
+			#'prointe' : '',
+			#'abo_capi' : '',
+			#'abo_pinte' : '',
+			#'ndiainte' : '',
+			#'vinte_cal' : '',
+			#'abo_inte' : '',
+			#'vcomi' : '',
+		}

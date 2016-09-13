@@ -243,8 +243,15 @@ class Command(BaseCommand):
 		Banfopa.objects.create(cbanfopa=2009,nbanfopa="FALABELLA",porcomi=0,cesdo=estadoActivo)
 
 		#Base - Caja
-		"""Caja.objects.create(ccaja=00,ncaja="CAJA MOSTRADOR",cesdo=estadoActivo,caseri="",ctimocj=3001,cbode=Bode.objects.get(cbode=DEFAULT_BODEGA))"""
 		#Falta
+		"""Caja.objects.create(
+			ccaja=DEFAULT_CAJA,
+			ncaja="CAJA MOSTRADOR",
+			cesdo=estadoActivo,
+			caseri="",
+			ctimocj=3001,
+			cbode=Bode.objects.get(cbode=DEFAULT_BODEGA)
+		)"""
 
 		#Base - Talo
 		#Falta
@@ -262,27 +269,10 @@ class Command(BaseCommand):
 			ifpos=True,
 			ifacti=True,
 			prefi_real="PS-",
-			ccaja=00,
+			ccaja=Caja.objects.get(ccaja=DEFAULT_CAJA),
 			ncotalo=1,
 			ctimomvsa=Timo.objects.get(ctimo=2001),
 		)"""
-
-		"""ctalo=02,
-		prefijo="CP",
-		conse_ini=1,
-		conse_fin=5000,
-		lar_conse=8,
-		nrepo="r01010ac",
-		filas=10,
-		descri="TALONARIO COMPUTADOR",
-		ctifopa=2001,
-		ifmostrador=False,
-		ifpos=True,
-		ifacti=True,
-		prefi_real="CP-",
-		ccaja=00,
-		ncotalo=1,
-		ctimomvsa=2004,"""
 
 		# Articulos - Tiarlos
 		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")

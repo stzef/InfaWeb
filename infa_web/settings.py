@@ -47,6 +47,7 @@ PROJECT_APPS = [
 	'infa_web.apps.articulos',
 	'infa_web.apps.inventarios',
 	'infa_web.apps.movimientos',
+	'infa_web.apps.facturacion',
 	'easy_pdf',
 ]
 
