@@ -85,10 +85,7 @@
 										{{form.femi.errors}}
 										{%endif%}
 										<div class="col-sm-10">
-											<div class="input-group">
-												<input type="number" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-											</div>
+											<input type="text" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
 										</div>
 									</div>
 
@@ -264,19 +261,19 @@
 								<tbody>
 									<tr>
 										<td>Efectvio</td>
-										<td><input type="number"></td>
+										<td>{{form.vefe}}</td>
 									</tr>
 									<tr>
 										<td>Tarjeta</td>
-										<td><input type="number"></td>
-										<td><input type="number"></td>
-										<td><select name="" id=""></select></td>
+										<td>{{form.vtar}}</td>
+										<td>{{form.doctar}}</td>
+										<td>{{form.bancotar}}</td>
 									</tr>
 									<tr>
 										<td>Cheque</td>
-										<td><input type="number"></td>
-										<td><input type="number"></td>
-										<td><select name="" id=""></select></td>
+										<td>{{form.vchq}}</td>
+										<td>{{form.docchq}}</td>
+										<td>{{form.bancochq}}</td>
 									</tr>
 									<tr>
 										<td>Otro</td>
