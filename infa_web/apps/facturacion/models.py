@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 from infa_web.apps.base.models import *
+from infa_web.apps.usuarios.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 
@@ -85,7 +86,7 @@ class Rue(models.Model):
 	#CRUE_ORI                         Char(10), 
 	citerce = models.ForeignKey(Tercero)
 	frue = models.DateTimeField()
-	#CUSU                             Char(20), 
+	cusu = models.ForeignKey(Usuario)
 	vunita = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	pvta = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	cbode = models.ForeignKey(Bode)

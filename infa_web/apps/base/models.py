@@ -172,7 +172,6 @@ class Banfopa(models.Model):
 
 	def __str__(self):
 		return self.nbanfopa
-		
 
 class Caja(models.Model):
 	ccaja = models.AutoField(primary_key=True)
