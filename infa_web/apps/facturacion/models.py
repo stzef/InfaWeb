@@ -8,7 +8,7 @@ from infa_web.apps.articulos.models import *
 class Fac(models.Model):
 	cfac = models.CharField(max_length=10)
 	femi = models.DateTimeField()
-	citerce = models.ForeignKey(Tercero)
+	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	fpago = models.DateTimeField()
 	ctifopa = models.ForeignKey(Tifopa)
@@ -32,10 +32,10 @@ class Fac(models.Model):
 	#cusu char(20)
 	ccaja = models.ForeignKey(Caja)
 	#ncuo integer, 
-	cvende  = models.ForeignKey(Vende)
-	cdomici  = models.ForeignKey(Domici)
+	cvende  = models.ForeignKey(Vende,default=DEFAULT_VENDE)
+	cdomici  = models.ForeignKey(Domici,default=DEFAULT_DOMICILIARIO)
 	tpordes = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)])
-	cemdor  = models.ForeignKey(Emdor)
+	cemdor  = models.ForeignKey(Emdor,default=DEFAULT_EMPACADOR)
 	#ccoti char(10)
 	vncre = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	doccre = models.CharField(max_length=10)

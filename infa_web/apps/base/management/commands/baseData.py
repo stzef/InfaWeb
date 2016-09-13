@@ -239,7 +239,7 @@ class Command(BaseCommand):
 		Banfopa.objects.create(cbanfopa=2005,nbanfopa="MAESTRO",porcomi=0,cesdo=estadoActivo)
 		Banfopa.objects.create(cbanfopa=2006,nbanfopa="ELECTRON",porcomi=0,cesdo=estadoActivo)
 		Banfopa.objects.create(cbanfopa=2007,nbanfopa="ENERTOLIMA - CODENSA",porcomi=0,cesdo=estadoActivo)
-		Banfopa.objects.create(cbanfopa=2008,nbanfopa="TARL. ÉXITO",porcomi=0,cesdo=estadoActivo)
+		Banfopa.objects.create(cbanfopa=2008,nbanfopa="TARL. EXITO",porcomi=0,cesdo=estadoActivo)
 		Banfopa.objects.create(cbanfopa=2009,nbanfopa="FALABELLA",porcomi=0,cesdo=estadoActivo)
 
 		#Base - Caja
