@@ -194,3 +194,10 @@ class Talo(models.Model):
 
 	def __str__(self):
 		return self.prefijo
+
+class Tiservi(models.Model):
+	ctiservi = models.AutoField(primary_key=True)
+	ntiservi = models.CharField(max_length=40)
+
+	def __str__(self):
+		return self.ntiservi
