@@ -8,18 +8,6 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
 
-"""
-class Timo(models.Model):
-	ctimo = models.IntegerField(primary_key=True)
-	ntimo = models.CharField(max_length=40)
-	prefijo = models.CharField(max_length=4)
-	filas = models.IntegerField()
-	nrepo = models.CharField(max_length=20)
-
-	def __str__(self):
-		return self.ntimo
-"""
-
 class Mven(models.Model):
 	class Meta:
 		unique_together = (('cmven', 'ctimo'))
@@ -27,8 +15,7 @@ class Mven(models.Model):
 	cmven = models.IntegerField(primary_key=True)
 	fmven = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
-	citerce = models.ForeignKey(Tercero)
-	#citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
+	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -36,7 +23,6 @@ class Mven(models.Model):
 	detaanula = models.CharField(max_length=250)
 	cbode0 = models.ForeignKey(Bode, related_name='cbode0',default=DEFAULT_BODEGA)
 	cbode1 = models.ForeignKey(Bode, related_name='cbode1',null=True,blank=True)
-	#cbode1 = models.ForeignKey(Bode, related_name='cbode1',default=DEFAULT_BODEGA,null=True,blank=True)
 
 	def __str__(self):
 		return "M. Entrada - D.Ref: %s - Cod: %s - TMovi: %s " % (self.docrefe,self.cmven,self.ctimo)
@@ -49,7 +35,6 @@ class Mvendeta(models.Model):
 	it = models.CharField(max_length=4)
 	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
-	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=1)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -64,8 +49,7 @@ class Mvsa(models.Model):
 	cmvsa = models.IntegerField(primary_key=True)
 	fmvsa = models.DateTimeField()
 	docrefe = models.CharField(max_length=10)
-	#citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
-	citerce = models.ForeignKey(Tercero)
+	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
 	ctimo = models.ForeignKey(Timo)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -84,7 +68,6 @@ class Mvsadeta(models.Model):
 	it = models.CharField(max_length=4)
 	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
-	#citerce = models.ForeignKey(Tercero)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=1)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -95,8 +78,8 @@ class Mvsadeta(models.Model):
 
 class Movi(models.Model):
 	cmovi = models.CharField(max_length=10, primary_key=True)
-	ctimo = models.ForeignKey(Timo)
-	citerce = models.ForeignKey(Tercero)
+	ctimo = models.ForeignKey(Timo,default=DEFAULT_TERCERO)
+	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
 	fmovi = models.DateTimeField()
 	descrimovi = models.CharField(max_length=80)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
@@ -111,7 +94,7 @@ class Movi(models.Model):
 	ventre = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcambio = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	ifcance = models.BooleanField()
-	ccaja = models.ForeignKey(Caja)
+	ccaja = models.ForeignKey(Caja,default=DEFAULT_CAJA)
 	fmovifin = models.DateTimeField()
 	ndiadeu = models.IntegerField()
 	ndiacobro = models.IntegerField()

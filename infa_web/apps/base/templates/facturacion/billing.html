@@ -26,10 +26,11 @@
 								<h3 class="box-title">{{title}}</h3>
 							</div>
 							<div class="box-body">
-								<div class="col-md-2">
+								<div class="col-md-2 nopadding">
 									<img src="{% static 'img/empresa.png' %}" alt="">
 								</div>
-								<div class="col-md-6">
+
+								<div class="col-md-5 nopadding">
 
 									<div class="form-group col-md-12">
 										<label for="{{form.citerce.id_for_label}}" class="col-sm-2 control-label">{{form.citerce.label}}</label>
@@ -77,8 +78,9 @@
 											{{form.ctifopa}}
 										</div>
 									</div>
+								</div>
 
-
+								<div class="col-md-5 nopadding">
 									<div class="form-group col-md-12">
 										<label for="{{form.femi.id_for_label}}" class="col-sm-2 control-label">{{form.femi.label}}</label>
 										{%if form.femi.errors%}
@@ -89,11 +91,8 @@
 										</div>
 									</div>
 
-								</div>
-								<div class="col-md-4">
-
 									<div class="form-group col-md-12">
-										<label for="{{form.cemdor.id_for_label}}" class="col-sm-2 control-label">{{form.cemdor.label}}[cemdor]</label>
+										<label for="{{form.cemdor.id_for_label}}" class="col-sm-2 control-label">{{form.cemdor.label}}</label>
 										{%if form.cemdor.errors%}
 										{{form.cemdor.errors}}
 										{%endif%}
@@ -147,7 +146,7 @@
 											</tr>
 											<tr>
 												<th width="3%">
-													<input type="hidden" name="{{ form_movement_detail.it.name }}" id="{{ form_movement_detail.it.id_for_label}}" >
+													<input type="hidden" name="{{ form_movement_detail.itfac.name }}" id="{{ form_movement_detail.itfac.id_for_label}}" >
 												</th>
 												<th width="20%">
 													<div class="input-group">
@@ -159,8 +158,8 @@
 													<input type="text" name="name__{{form_movement_detail.carlos.name}}" id="name__{{form_movement_detail.carlos.name}}" class="form-control" readonly>
 												</th>
 												<th width="10%">{{ form_movement_detail.canti }}</th>
-												<th width="10%">{{ form_movement_detail.canti }}</th>
-												<th width="10%">{{ form_movement_detail.canti }}</th>
+												<th width="10%">{{ form_movement_detail.pordes }}</th>
+												<th width="10%">{{ form_movement_detail.civa }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
 												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
@@ -184,39 +183,46 @@
 
 			</form>
 
-			<div class="row">
+
+
+
+			<form role="form" id="form_totales">
 				<div class="col-md-4 nopadding">
 					<div class="box box-primary">
 						<div class="box-header with-border">
 							<h3 class="box-title">Totales</h3>
 						</div>
 						<div class="box-body">
+
 						<div class="row col-md-6">
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Bruto</label>
+								<label for="" >Bruto</label>
 								<input type="number" value="" name="" id="" class="">
 							</div>
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Base IVA</label>
+								<label for="" >Base IVA</label>
 								<input type="number" value="" name="" id="" class="">
 							</div>
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">IVA</label>
+								<label for="" >IVA</label>
 								<input type="number" value="" name="" id="" class="">
 							</div>
 						</div>
 						<div class="row col-md-6">
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Flete</label>
+								<label for="" >Flete</label>
 								<input type="number" value="" name="" id="" class="">
 							</div>
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label">Descuento</label>
+								<label for="" >Descuento</label>
 								<input type="number" value="" name="" id="" class="">
 							</div>
 							<div class="form-group">
-								<label for="" class="col-sm-2 control-label"></label>
+								<label for="" ></label>
 								<input type="number" value="" name="" id="" class="">
+							</div>
+							<div class="form-group">
+								{{form.vttotal}}
 							</div>
 						</div>
 						</div>
@@ -229,16 +235,16 @@
 						</div>
 						<div class="box-body">
 							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Base</label>
-								<input type="number" value="" name="" id="" class="">
+							<label for="{{form.brtefte.id_for_label}}">{{form.brtefte.label}}</label>
+								{{form.brtefte}}
 							</div>
 							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Porcentaje</label>
-								<input type="number" value="" name="" id="" class="">
+							<label for="{{form.prtefte.id_for_label}}">{{form.prtefte.label}}</label>
+								{{form.prtefte}}
 							</div>
 							<div class="form-group col-md-12">
-								<label for="" class="col-sm-2 control-label">Vr Rte. Fte</label>
-								<input type="number" value="" name="" id="" class="">
+							<label for="{{form.vrtefte.id_for_label}}">{{form.vrtefte.label}}</label>
+								{{form.vrtefte}}
 							</div>
 						</div>
 					</div>
@@ -283,10 +289,21 @@
 									</tr>
 								</tbody>
 							</table>
+
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
+									{{form.ventre}}
+								</div>
+								<div class="form-group col-md-6">
+									<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
+									{{form.vcambio}}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</form>
 
 
 			<div class="text-center">
@@ -318,14 +335,6 @@
 	var mode_view = $("#mode_view").val()
 	//$("#item_mdeta :input").attr("required",false)
 
-	$("[name=canti],[name=vunita]").change(function(event) {
-		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
-			$("[name=vtotal]").val(parseFloat($("[name=canti]").val()) * parseFloat($("[name=vunita]").val()))
-		}else{
-			$("[name=vtotal]").val("")
-		}
-	})
-
 	$('.date').datetimepicker({
 		format: 'YYYY-MM-D',
 		defaultDate:date_appen
@@ -351,10 +360,7 @@
 
 	function calcular_total(){
 		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
-		//$("[name=vttotal]").val(currencyFormat.format(vtotal_temp))
-
-		console.warn(vtotal_temp)
+		$("#list_items_mdeta").find("[data-name=vunita]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
 		$("[name=vttotal]").val(vtotal_temp)
 		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vtotal_temp))
 	}
@@ -378,6 +384,14 @@
 		$("[name=name__citerce]").val(name__citerce)
 	}
 
+	function setValueFieldArlo(vunita,name__carlos,ivas_civa){
+		$("[name='vunita']")
+			.val(vunita)
+			.trigger("change")
+		$("[name=name__carlos]").val(name__carlos)
+		$("[name=civa]").val(ivas_civa)
+	}
+
 	function showPrecioVenta(fields){
 		var table = $("<table>")
 			for (field in fields){
@@ -393,17 +407,12 @@
 				}
 			}
 	}
-	function setValueFieldArlo(vunita,name__carlos){
-		$("[name='vunita']")
-			.val(vunita)
-			.trigger("change")
-		$("[name=name__carlos]").val(name__carlos)
-	}
+
 
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
-			setValueFieldArlo("","")
+			setValueFieldArlo("","","")
 			return
 		}
 		$.ajax({
@@ -421,10 +430,11 @@
 					fields = object.fields
 								console.log(fields)
 					var t_vcosto = fields.vcosto
+					var t_iva = fields.ivas_civa
 					var t_nlargo = fields.nlargo
 
 					showPrecioVenta(fields)
-					setValueFieldArlo(t_vcosto,t_nlargo)
+					setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 				}else{
 					$.ajax({
 						url: '{% url 'api-get-object' %}',
@@ -441,14 +451,16 @@
 								fields = object.fields
 								var t_vcosto = fields.vcosto
 								var t_nlargo = fields.nlargo
+								var t_iva = fields.ivas_civa
 							}else{
 								var t_vcosto = ""
 								var t_nlargo = ""
+								var t_iva = ""
 								$('#id_carlos').val("")
 								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
 							}
 							showPrecioVenta(fields)
-							setValueFieldArlo(t_vcosto,t_nlargo)
+							setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 						}
 					});
 				}
@@ -496,7 +508,6 @@
 			.toArray()
 			.forEach(function(e,i){
 				var oth = $(e).closest("th")
-				//var value = (e.type == "number") ? currencyFormat.format(e.value) : e.value
 
 				var value = e.value
 				var data_value = e.value
@@ -529,20 +540,14 @@
 			calcular_total()
 		}
 	})
+
 	$("#btn-save").click(function(event){
-		loading_animation("Guardando Movimiento.")
 		event.preventDefault()
 		if(!customValidationInput("#form_movement").valid) return
+		if(!customValidationInput("#form_totales").valid) return
 		var currentForm = $("#form_movement")
-		var data = {
-			docrefe : $("[name=docrefe]").val(),
-			citerce : $("[name=citerce]").val(),
-			ctimo : $("[name=ctimo]").val(),
-			cesdo : $("[name=cesdo]").val(),
-			vttotal : $("[name=vttotal]").val(),
-			descri : $("[name=descri]").val(),
-			cbode0 : $("[name=cbode0]").val(),
-		}
+		var querystring = $("form:not(#form_deta_movement)").serialize();
+		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
 		var array_mvdeta = get_mdeta()
 		if(array_mvdeta.length){
 			data.mvdeta = array_mvdeta
@@ -551,13 +556,8 @@
 			currentForm.prepend(message)
 			return
 		}
-		if($("[name=cmven]").length != 0){
-			data.is_input_movement = true
-			data.fmven = $("[name=fmven]").val()
-		}else{
-			data.is_input_movement = false
-			data.fmvsa = $("[name=fmvsa]").val()
-		}
+		console.warn(data)
+		loading_animation("Guardando Movimiento.")
 		$.ajax({
 			//url: '{% url 'save-movement' %}',
 			url: '{{url}}',

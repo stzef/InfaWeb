@@ -11,7 +11,7 @@ from django.db import models
 class Tiarlos(models.Model):
 	ctiarlos = models.AutoField(primary_key=True)
 	ntiarlos = models.CharField(max_length=40)
-	
+
 	def __str__(self):
 		return self.ntiarlos
 
@@ -118,14 +118,3 @@ class Arlosdesglo(models.Model):
 
 	def __unicode__(self):
 		return str(self.carlosp)+' - '+str(self.itglo)
-
-"""
-class Bode(models.Model):
-	cbode = models.AutoField(primary_key=True)
-	nbode = models.CharField(max_length=80)
-	esbode = models.CharField(max_length=2)
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-
-	def __str__(self):
-		return self.nbode
-"""

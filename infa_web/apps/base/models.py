@@ -110,6 +110,7 @@ class Tiide(models.Model):
 
 	def __str__(self):
 		return self.ntiide
+
 class Emdor(models.Model):
 	cemdor = models.AutoField(primary_key=True)
 	nemdor = models.CharField(max_length=80)
@@ -125,17 +126,6 @@ class Domici(models.Model):
 
 	def __str__(self):
 		return self.ndomici
-
-class Timoca(models.Model):
-	ctimoca = models.AutoField(primary_key=True)
-	ntimoca = models.CharField(max_length=80)
-	conse0 = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
-	nconse1 = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
-	conselon = models.IntegerField()
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-
-	def __str__(self):
-		return self.ntimoca
 
 class Tifopa(models.Model):
 	ctifopa = models.AutoField(primary_key=True)
@@ -177,7 +167,7 @@ class Caja(models.Model):
 	ncaja = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	caseri = models.CharField(max_length=4)
-	ctimocj = models.ForeignKey(Timoca)
+	ctimocj = models.ForeignKey(Timo)
 	cbode = models.ForeignKey(Bode)
 
 	def __str__(self):
