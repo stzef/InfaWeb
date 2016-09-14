@@ -96,11 +96,11 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 
 		query_mvendeta = {
 			"carlos":articulo,
-			"cesdo__in":list(Esdo.objects.all().exclude(**{"cesdo":CESDO_ANULADO}))
+			"cmven__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
 			}
 		query_mvsadeta = {
 			"carlos":articulo,
-			"cesdo__in":list(Esdo.objects.all().exclude(**{"cesdo":CESDO_ANULADO}))
+			"cmvsa__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
 			}
 
 		if date_range:

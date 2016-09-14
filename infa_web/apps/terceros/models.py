@@ -90,7 +90,7 @@ class Tercero(models.Model):
 	def __str__(self):
 		return self.rasocial
 
-class Coti(models.Model):
+"""class Coti(models.Model):
 	ccoti = models.CharField(primary_key=True, max_length=10)
 	fcoti = models.DateTimeField()
 	citerce = models.ForeignKey(Tercero)
@@ -112,3 +112,4 @@ class Coti(models.Model):
 	fhcoti = models.DateTimeField()
 	detaanula = models.CharField(max_length=300)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+"""
