@@ -13,6 +13,7 @@ from infa_web.apps.facturacion.forms import *
 @csrf_exempt
 def BillSave():
 	data = json.loads(request.body)
+	print data
 	response = {}
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
@@ -42,7 +43,6 @@ class BillCreate(CreateView):
 	model = Fac
 	template_name = "facturacion/billing.html"
 	form_class = FacForm
-
 
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
