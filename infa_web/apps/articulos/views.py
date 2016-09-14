@@ -288,7 +288,7 @@ codeModels = {
 	16:{'name':'Tiide','app':'base'},
 	17:{'name':'Invinicab','app':'inventarios'},
 	18:{'name':'Invinideta','app':'inventarios'},
-	19:{'name':'Timo','app':'inventarios'},
+	19:{'name':'Timo','app':'base'},
 	20:{'name':'Mven','app':'movimientos'},
 	21:{'name':'Mvendeta','app':'movimientos'},
 	22:{'name':'Mvsa','app':'movimientos'},
