@@ -36,7 +36,6 @@ class Command(BaseCommand):
 		Tiide.objects.all().delete()
 		Emdor.objects.all().delete()
 		Domici.objects.all().delete()
-		Timoca.objects.all().delete()
 		Tifopa.objects.all().delete()
 		Cta.objects.all().delete()
 		Banfopa.objects.all().delete()
@@ -213,9 +212,6 @@ class Command(BaseCommand):
 		#Base - Domici
 		Domici.objects.create(ndomici="SIN DOMICILIARIO",cesdo=estadoActivo)
 
-		#Base - Timoca
-		#Falta
-
 		#Base - Tifopa
 		Tifopa.objects.create(ctifopa=1,ntifopa="*** TIPOS DE CONTADO ***",ndiasfopa=0)
 		Tifopa.objects.create(ctifopa=1001,ntifopa="CONTADO",ndiasfopa=0)
@@ -244,35 +240,35 @@ class Command(BaseCommand):
 
 		#Base - Caja
 		#Falta
-		"""Caja.objects.create(
+		Caja.objects.create(
 			ccaja=DEFAULT_CAJA,
 			ncaja="CAJA MOSTRADOR",
 			cesdo=estadoActivo,
 			caseri="",
-			ctimocj=3001,
+			ctimocj=Timo.objects.get(ctimo=3001),
 			cbode=Bode.objects.get(cbode=DEFAULT_BODEGA)
-		)"""
+		)
 
 		#Base - Talo
-		#Falta
-		"""Talo.objects.create(
-			ctalo=01,
+		Talo.objects.create(
+			ctalo=DEFAULT_TALONARIO,
 			prefijo="PS",
 			conse_ini=1,
 			conse_fin=7000,
 			lar_conse=8,
+			resodian="resolucion",
 			nrepo="t016ac",
 			filas=9999,
 			descri="Talonario POS",
 			ctifopa=Tifopa.objects.get(ctifopa=DEFAULT_FORMA_PAGO),
-			ifmostrador=False,
+			ifmostrado=False,
 			ifpos=True,
-			ifacti=True,
+			cesdo=estadoActivo,
 			prefi_real="PS-",
 			ccaja=Caja.objects.get(ccaja=DEFAULT_CAJA),
 			ncotalo=1,
 			ctimomvsa=Timo.objects.get(ctimo=2001),
-		)"""
+		)
 
 		# Articulos - Tiarlos
 		Tiarlos.objects.create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")

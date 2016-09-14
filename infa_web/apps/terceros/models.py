@@ -52,7 +52,7 @@ class Zona(models.Model):
 
 	def __str__(self):
 		return self.nzona
-		
+
 class Tercero(models.Model):
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
