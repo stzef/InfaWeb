@@ -62,7 +62,7 @@ class Facdeta(models.Model):
 	vbase = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	viva = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	pordes = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)])
+	pordes = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)],default=0)
 	pvtafull = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcosto = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):

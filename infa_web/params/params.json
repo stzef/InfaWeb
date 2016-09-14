@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/14 08:31:14", 
+        "value": "2016/09/14 10:39:13", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/14 08:31:14", 
+            "selected": "2016/09/14 10:39:13", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -170,7 +170,7 @@
     {
         "cparam": "default_movement_for_input_bills", 
         "smodule": "I", 
-        "app": "movimientos", 
+        "app": "base", 
         "value": "1001", 
         "label": {
             "text": "Movimiento de Inventario por defecto para las factura de entrada"
@@ -200,7 +200,7 @@
     {
         "cparam": "default_movement_for_output_bills", 
         "smodule": "I", 
-        "app": "movimientos", 
+        "app": "base", 
         "value": "2001", 
         "label": {
             "text": "Movimiento de Inventario por defecto para las factura de salida"
@@ -318,7 +318,7 @@
     {
         "cparam": "default_output_movement_for_billing", 
         "smodule": "P", 
-        "app": "movimientos", 
+        "app": "base", 
         "value": "2004", 
         "label": {
             "text": "Movimiento de Facturacion por defecto."

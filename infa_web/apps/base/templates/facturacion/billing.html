@@ -90,6 +90,15 @@
 											<input type="text" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
 										</div>
 									</div>
+									<div class="form-group col-md-12">
+										<label for="{{form.fpago.id_for_label}}" class="col-sm-2 control-label">{{form.fpago.label}}</label>
+										{%if form.fpago.errors%}
+										{{form.fpago.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											<input type="text" value="{{form.fpago.field.widget.attrs.value}}" name="{{form.fpago.name}}" id="{{form.fpago.id_for_label}}" class="{{form.fpago.field.widget.attrs.class}}" {% if form.fpago.field.required %}required{% endif %}>
+										</div>
+									</div>
 
 									<div class="form-group col-md-12">
 										<label for="{{form.cemdor.id_for_label}}" class="col-sm-2 control-label">{{form.cemdor.label}}</label>
@@ -108,6 +117,15 @@
 										{%endif%}
 										<div class="col-sm-10">
 											{{form.ccaja}}
+										</div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+										{%if form.cesdo.errors%}
+										{{form.cesdo.errors}}
+										{%endif%}
+										<div class="col-sm-10">
+											{{form.cesdo}}
 										</div>
 									</div>
 								</div>
@@ -194,34 +212,31 @@
 						</div>
 						<div class="box-body">
 
-						<div class="row col-md-6">
+						<div class="row">
 							<div class="form-group">
-								<label for="" >Bruto</label>
-								<input type="number" value="" name="" id="" class="">
-							</div>
-							<div class="form-group">
-								<label for="" >Base IVA</label>
-								<input type="number" value="" name="" id="" class="">
+								<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+								{{form.vtiva}}
 							</div>
 							<div class="form-group">
 								<label for="" >IVA</label>
-								<input type="number" value="" name="" id="" class="">
+								<input type="number" value="" name="" id="" class="form-control">
 							</div>
 						</div>
-						<div class="row col-md-6">
+						<div class="row">
 							<div class="form-group">
-								<label for="" >Flete</label>
-								<input type="number" value="" name="" id="" class="">
+								<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+								{{form.vflete}}
 							</div>
 							<div class="form-group">
-								<label for="" >Descuento</label>
-								<input type="number" value="" name="" id="" class="">
+								<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+								{{form.vdescu}}
 							</div>
 							<div class="form-group">
-								<label for="" ></label>
-								<input type="number" value="" name="" id="" class="">
+								<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+								{{form.vtbase}}
 							</div>
 							<div class="form-group">
+								<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
 								{{form.vttotal}}
 							</div>
 						</div>
@@ -415,57 +430,37 @@
 			setValueFieldArlo("","","")
 			return
 		}
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 5,
-				'field': this.name,
-				'value': input_value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-								console.log(fields)
-					var t_vcosto = fields.vcosto
-					var t_iva = fields.ivas_civa
-					var t_nlargo = fields.nlargo
+		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
+			if(response.object){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				var t_vcosto = fields.vcosto
+				var t_iva = fields.ivas_civa
+				var t_nlargo = fields.nlargo
 
+				showPrecioVenta(fields)
+				setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
+			}else{
+
+				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
+					if(response.object){
+						var object = JSON.parse(response.object)[0]
+						fields = object.fields
+						var t_vcosto = fields.vcosto
+						var t_nlargo = fields.nlargo
+						var t_iva = fields.ivas_civa
+					}else{
+						var t_vcosto = ""
+						var t_nlargo = ""
+						var t_iva = ""
+						$('#id_carlos').val("")
+						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+					}
 					showPrecioVenta(fields)
 					setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
-				}else{
-					$.ajax({
-						url: '{% url 'api-get-object' %}',
-						type: 'POST',
-						data: JSON.stringify({
-							'model': 5,
-							'field': "cbarras",
-							'value': input_value
-						}),
-						contentType: "application/json",
-						success: function(response){
-							if(response.object){
-								var object = JSON.parse(response.object)[0]
-								fields = object.fields
-								var t_vcosto = fields.vcosto
-								var t_nlargo = fields.nlargo
-								var t_iva = fields.ivas_civa
-							}else{
-								var t_vcosto = ""
-								var t_nlargo = ""
-								var t_iva = ""
-								$('#id_carlos').val("")
-								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-							}
-							showPrecioVenta(fields)
-							setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
-						}
-					});
-				}
+				})
 			}
-		});
+		})
 	});
 
 	$('#id_citerce').change(function(){
@@ -475,28 +470,19 @@
 			setValueFieldTerce("","")
 			return
 		}
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 29,
-				'field': this.name,
-				'value': this.value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-					t_rasocial = fields.rasocial
-				}else{
-					tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
-					t_rasocial = ""
-					$('#id_citerce').val("")
-				}
-					$("[name=name__citerce]").val(t_rasocial)
+		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
+			if(response.object){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				t_rasocial = fields.rasocial
+			}else{
+				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
+				t_rasocial = ""
+				$('#id_citerce').val("")
 			}
-		});
+				$("[name=name__citerce]").val(t_rasocial)
+		})
+		
 	});
 
 	$("#form_deta_movement").submit(function(event){

@@ -1,4 +1,4 @@
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response 
 from django.views.generic import FormView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.http import HttpResponse, JsonResponse
@@ -6,18 +6,20 @@ from django.core import serializers
 from django.core.urlresolvers import reverse_lazy 
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.forms import *
 
 @csrf_exempt
-def BillSave():
+def BillSave(request):
 	data = json.loads(request.body)
 	response = {}
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
-	#print json.dumps(data, indent=4)
 
+	print (json.dumps(data,indent=4))
+	#print json.dumps(data, indent=4)
 
 	#Crear Fac
 	"""Fac.objects.create()"""
