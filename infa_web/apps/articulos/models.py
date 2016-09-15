@@ -80,7 +80,7 @@ class Arlo(models.Model):
 	vcosto3 = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True,blank=True,validators=[MinValueValidator(0)])
 	fcosto3 = models.DateField(blank=True,null=True)
 	ifedinom = models.BooleanField(max_length=1)
-	refe = models.CharField(max_length=20,blank=True,null=True)
+	refe = models.CharField(max_length=100,blank=True,null=True)
 	cmarca = models.ForeignKey(Marca,default=DEFAULT_MARCA)
 	ifdesglo = models.BooleanField()
 	mesesgara = models.IntegerField(blank=True,null=True,validators=[MinValueValidator(0)],default=0)

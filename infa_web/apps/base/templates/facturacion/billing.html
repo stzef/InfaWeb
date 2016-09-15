@@ -339,6 +339,7 @@
 <script>
 	var mode_view = $("#mode_view").val()
 	//$("#item_mdeta :input").attr("required",false)
+	var current_arlo = null
 
 	$('.date').datetimepicker({
 		format: 'YYYY-MM-D',
@@ -389,7 +390,20 @@
 		$("[name=name__citerce]").val(name__citerce)
 	}
 
-	function setValueFieldArlo(vunita,name__carlos,ivas_civa){
+	function setValueFieldArlo(){
+		$("[name=name__carlos]").prop("readonly",true)
+		if(current_arlo){
+			var vunita = current_arlo.vcosto
+			var name__carlos = current_arlo.nlargo
+			var ivas_civa = current_arlo.ivas_civa
+
+			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
+
+		}else{
+			var vunita = ""
+			var name__carlos = ""
+			var ivas_civa = ""
+		}
 		$("[name='vunita']")
 			.val(vunita)
 			.trigger("change")
@@ -413,7 +427,6 @@
 			}
 	}
 
-
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
@@ -424,30 +437,39 @@
 			if(response.object){
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
-				var t_vcosto = fields.vcosto
-				var t_iva = fields.ivas_civa
-				var t_nlargo = fields.nlargo
+				current_arlo = fields
+				
+				//var t_vcosto = fields.vcosto
+				//var t_iva = fields.ivas_civa
+				//var t_nlargo = fields.nlargo
 
 				showPrecioVenta(fields)
-				setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
+				//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
+				setValueFieldArlo()
 			}else{
-
+				current_arlo = null
 				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
 					if(response.object){
 						var object = JSON.parse(response.object)[0]
 						fields = object.fields
-						var t_vcosto = fields.vcosto
-						var t_nlargo = fields.nlargo
-						var t_iva = fields.ivas_civa
+						current_arlo = fields
+
+						//var t_vcosto = fields.vcosto
+						//var t_nlargo = fields.nlargo
+						//var t_iva = fields.ivas_civa
+
 					}else{
-						var t_vcosto = ""
-						var t_nlargo = ""
-						var t_iva = ""
+						//var t_vcosto = ""
+						//var t_nlargo = ""
+						//var t_iva = ""
 						$('#id_carlos').val("")
 						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+
+						current_arlo = null
 					}
 					showPrecioVenta(fields)
-					setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
+					//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
+					setValueFieldArlo()
 				})
 			}
 		})
@@ -472,7 +494,6 @@
 			}
 				$("[name=name__citerce]").val(t_rasocial)
 		})
-		
 	});
 
 	$("#form_deta_movement").submit(function(event){
@@ -519,12 +540,17 @@
 
 	$("#btn-save").click(function(event){
 		event.preventDefault()
+
 		if(!customValidationInput("#form_movement").valid) return
 		if(!customValidationInput("#form_totales").valid) return
+
 		var currentForm = $("#form_movement")
+
 		var querystring = $("form:not(#form_deta_movement)").serialize();
 		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+
 		var array_mvdeta = get_mdeta()
+
 		if(array_mvdeta.length){
 			data.mvdeta = array_mvdeta
 		}else{

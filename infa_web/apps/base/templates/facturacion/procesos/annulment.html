@@ -1,0 +1,130 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content-header">
+			<h1>Anulacion de Movimientos de Inventario</h1>
+		</section>
+		<section class="content">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="id_fact" class="col-sm-3 control-label">Codigo Factura</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input class="form-control" type="text" id="id_fact" name="cmv"  required>
+							<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_citerce" class="col-sm-3 control-label">Tercero</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" readonly="" name="citerce" id="id_citerce">
+					</div>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" readonly="" name="" id="">
+					</div>
+
+				</div>
+				<div class="form-group">
+					<label for="id_fmv" class="col-sm-3 control-label">Fecha</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" readonly="fmv" name="" id="id_fmv">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_vttotal" class="col-sm-3 control-label">Total</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" readonly="" name="vttotal" id="id_vttotal">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="id_detaanula" class="col-sm-3 control-label">¿Por que la Anula?</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" required name="detaanula" id="id_detaanula">
+							
+						</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_fact" class="col-sm-3 control-label">{{form.cesdo.label_tag}}</label>
+					<div class="col-sm-8">
+						{{form.cesdo}}
+					</div>
+				</div>
+				<div class="text-center">
+					<div class="btn-group">
+						<button class="btn btn-app" type="submit">
+							<i class="fa fa-plus-square-o"></i>Anular
+						</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+
+{% block content_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+<script>
+	var data = {}
+	$("form").submit(function(e){
+		e.preventDefault()
+		var url = "/bill/proccess/fn/annulment/" + $("#id_fact").val() + "/"
+		$.post(
+			url,
+			JSON.stringify({
+				fact:$("#id_fact").val(),
+				cesdo:$("#id_cesdo").val(),
+				detaanula:$("#id_detaanula").val().trim()
+			}),
+			function(response){
+				console.log(response)
+			}
+		)
+	})
+	$("#id_fact").change(function(){
+		$.ajax({
+			url: '{% url 'api-get-object' %}',
+			type: 'POST',
+			data: JSON.stringify({
+				model : 30
+				field : "fact"
+				value : this.value
+			}),
+			contentType: "application/json",
+			success: function(response){
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					console.info(fields)
+
+					var fmv = fields.fmvsa || fields.fmven
+
+					$("#id_citerce").val(fields.citerce)
+					$("#id_fmv").val(fmv)
+					$("#id_vttotal").val(currencyFormat.format(fields.vttotal))
+					$("#id_cesdo").val(fields.cesdo)
+				}else{
+					
+					$('#id_fact').val("")
+					tooltipBootstrap($('#id_fact'),".input-group","No se encontro ningun movimiento.")
+				}
+			}
+		});
+	})
+</script>
+{% endblock content_script %}
