@@ -10,6 +10,7 @@ import json
 
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.forms import *
+from infa_web.apps.base.forms import *
 
 @csrf_exempt
 def BillSave(request):
@@ -57,3 +58,12 @@ class BillCreate(CreateView):
 		context['url'] = reverse_lazy('save-bill')
 
 		return context
+
+def bill_proccess_view_annulment(request):
+	form = CommonForm()
+	return render(request,"facturacion/procesos/annulment.html",{"form":form})
+
+def bill_proccess_fn_annulment(request):
+	data = json.loads(request.body)
+
+	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
