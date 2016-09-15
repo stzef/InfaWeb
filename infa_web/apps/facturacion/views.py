@@ -19,6 +19,7 @@ manageParameters = ManageParameters()
 @csrf_exempt
 def BillSave(request):
 	data = json.loads(request.body)
+	print data
 	response = {}
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"

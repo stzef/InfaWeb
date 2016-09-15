@@ -166,7 +166,7 @@
 												</th>
 												<th width="20%">
 													<div class="input-group">
-														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}"" required>
+														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}" required>
 														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 													</div>
 												</th>
@@ -342,6 +342,15 @@
 	var current_tercero = null
 
 	/* Validaciones */
+	$("[name=vttotal]").change(function(){
+		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
+			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
+				$(this).val("")
+			}
+
+		}
+		
+	})
 	$("#form_deta_movement [name=pordes]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
 			$(this).val("")
