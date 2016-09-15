@@ -132,9 +132,6 @@
 						</div>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#medios_pago">
-					Totalizar
-				</button>
 			</form>
 
 			<form class="form-horizontal" id="form_deta_movement">
@@ -180,7 +177,7 @@
 												<th width="10%">{{ form_movement_detail.pordes }}</th>
 												<th width="10%">{{ form_movement_detail.civa }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
-												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -209,29 +206,34 @@
 								<h3 class="box-title">Totales</h3>
 							</div>
 							<div class="box-body">
-								<div class="form-group">
-									<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
-									{{form.vtiva}}
+								<div class="row col-md-6">
+									<div class="form-group">
+										<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+										{{form.vtiva}}
+									</div>
+									<div class="form-group">
+										<label for="" >IVA</label>
+										<input type="number" value="" name="" id="" class="form-control">
+									</div>
+									<div class="form-group">
+										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+										{{form.vflete}}
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="" >IVA</label>
-									<input type="number" value="" name="" id="" class="form-control">
-								</div>
-								<div class="form-group">
-									<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-									{{form.vflete}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-									{{form.vdescu}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-									{{form.vtbase}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
-									{{form.vttotal}}
+
+								<div class="row col-md-6">
+									<div class="form-group">
+										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+										{{form.vdescu}}
+									</div>
+									<div class="form-group">
+										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+										{{form.vtbase}}
+									</div>
+									<div class="form-group">
+										<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
+										{{form.vttotal}}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -261,7 +263,7 @@
 			</form>
 
 			<div class="modal fade" tabindex="-1" role="dialog" id="medios_pago">
-				<div class="modal-dialog" role="document">
+				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -287,10 +289,16 @@
 							<tbody>
 							</tbody>
 						</table>
+						<section role="form" id="list_medios_pago">
+							<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
+								<tbody>
+								</tbody>
+							</table>
+						</section>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
-						<button type="button" class="btn btn-success">Guardar</button>
+						<button type="button" class="btn btn-success" id="btn-save">Guardar</button>
 					</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
@@ -301,8 +309,8 @@
 					<button class="btn btn-app btn-info" type="reset">
 						<i class="fa fa-plus-square-o"></i>Nuevo
 					</button>
-					<button class="btn btn-app" type="submit" id="btn-save">
-						<i class="fa fa-plus-square-o"></i>Guardar
+					<button class="btn btn-app" type="button" data-toggle="modal" data-target="#medios_pago">
+						Totalizar
 					</button>
 					{% if is_input_movement %}
 						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
