@@ -56,12 +56,12 @@ class Command(BaseCommand):
 
 		#Base - Esdo
 		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
+		Esdo.objects.create(nesdo="ANULADA",estavali="F")
 		Esdo.objects.create(nesdo="EN TRANSICION",estavali="T")
 		Esdo.objects.create(nesdo="DESCOTINUADA",estavali="F")
 		Esdo.objects.create(nesdo="CONGELADA",estavali="F")
 		Esdo.objects.create(nesdo="CERRADA",estavali="T")
 		Esdo.objects.create(nesdo="INTEGRIDAD",estavali="F")
-		Esdo.objects.create(nesdo="ANULADA",estavali="F")
 		print "Esdo. Registros Creados Correctamente."
 
 		#Base - Timo

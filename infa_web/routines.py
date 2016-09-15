@@ -94,8 +94,14 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 		except Invinideta.DoesNotExist, e:
 			invinideta = None
 
-		query_mvendeta = {"carlos":articulo}
-		query_mvsadeta = {"carlos":articulo}
+		query_mvendeta = {
+			"carlos":articulo,
+			"cmven__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
+			}
+		query_mvsadeta = {
+			"carlos":articulo,
+			"cmvsa__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
+			}
 
 		if date_range:
 			query_mvendeta["cmven__fmven__gte"] = date_range["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)

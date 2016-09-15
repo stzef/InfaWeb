@@ -24,3 +24,5 @@ infa_web/apps/base/migrations/*
 infa_web/apps/inventarios/migrations/*
 infa_web/apps/movimientos/migrations/*
 infa_web/apps/terceros/migrations/*
+infa_web/apps/usuarios/migrations/*
+infa_web/apps/facturacion/migrations/*
