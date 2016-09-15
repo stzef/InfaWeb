@@ -7,10 +7,14 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 import json
+from infa_web.parameters import ManageParameters
+
 
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
+
+manageParameters = ManageParameters()
 
 @csrf_exempt
 def BillSave(request):
@@ -46,7 +50,6 @@ class BillCreate(CreateView):
 	template_name = "facturacion/billing.html"
 	form_class = FacForm
 
-
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
@@ -56,6 +59,13 @@ class BillCreate(CreateView):
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
+
+		context['data_validation'] = {}
+		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		return context
 

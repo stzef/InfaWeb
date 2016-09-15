@@ -10,7 +10,7 @@ class FacForm(forms.ModelForm):
 		widgets = {
 			'cfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
-			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
