@@ -55,8 +55,8 @@ class BillCreate(CreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
 		context['title'] = "Facturar"
-		form_movement_detail = FacdetaForm()
-		context['form_movement_detail'] = form_movement_detail
+		context['form_movement_detail'] = FacdetaForm()
+		context['form_medios_pagos'] = FacpagoForm
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')

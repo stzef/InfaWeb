@@ -25,12 +25,13 @@ class Command(BaseCommand):
 		#Base
 		Esdo.objects.all().delete()
 		Timo.objects.all().delete()
+		MediosPago.objects.all().delete()
 		Bode.objects.all().delete()
 		Modules.objects.all().delete()
 		Parameters.objects.all().delete()
 		Ubica.objects.all().delete()
-		Departamento.objects.all().delete()
 		Ciudad.objects.all().delete()
+		Departamento.objects.all().delete()
 		Iva.objects.all().delete()
 		Regiva.objects.all().delete()
 		Tiide.objects.all().delete()
@@ -110,6 +111,13 @@ class Command(BaseCommand):
 		Timo.objects.create(ctimo=4400,ntimo="***Servicios Tecnicos***",prefijo="",filas=0,nrepo="")
 		Timo.objects.create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
 		print "Timo. Registros Creados Correctamente."
+		
+		#Base - MediosPago
+		MediosPago.objects.create(nmpago="Efectivo",ifdoc=False)
+		MediosPago.objects.create(nmpago="Tarjeta",ifdoc=True)
+		MediosPago.objects.create(nmpago="Cheque",ifdoc=True)
+		MediosPago.objects.create(nmpago="Nota Credito",ifdoc=True)
+		print "MediosPago. Registros Creados Correctamente."
 
 		#Base - Bode
 		Bode.objects.create(cbode=DEFAULT_BODEGA,nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)
@@ -135,6 +143,7 @@ class Command(BaseCommand):
 		print "Departamento. Registros Creados Correctamente."
 
 		#Base - Ciudad
+		Ciudad.objects.create(nciu='Girardot',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Alban',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bogotá',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bojaca',cdepar=oDefaultDepartament)
@@ -153,7 +162,6 @@ class Command(BaseCommand):
 		Ciudad.objects.create(nciu='Funza',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Fusagasuga',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Gachancipá',cdepar=oDefaultDepartament)
-		Ciudad.objects.create(pk=DEFAULT_CIUDAD, nciu='Girardot',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Guaduas',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Guayavetal',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='La Calera',cdepar=oDefaultDepartament)
@@ -196,12 +204,12 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		#Base - Regiva
-		Regiva.objects.create(pk=DEFAULT_REGIMEN_IVA,nregiva="REGIMEN COMUN")
+		Regiva.objects.create(nregiva="REGIMEN COMUN")
 		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
 		print "Regiva. Registros Creados Correctamente."
 
 		#Base - Tiide
-		Tiide.objects.create(pk=DEFAULT_TIIDE,ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
 		Tiide.objects.create(ntiide="NIT")
 		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
@@ -297,25 +305,25 @@ class Command(BaseCommand):
 
 		#Terceros
 		#Terceros- Autorre
-		Autorre.objects.create(pk=DEFAULT_AUTORRETENEDOR,nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
 		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
 		print "Autorre. Registros Creados Correctamente."
 
 		#Terceros - Vende
-		Vende.objects.create(pk=DEFAULT_VENDE,nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 		print "Vende. Registros Creados Correctamente."
 
 		#Terceros - Ruta
-		Ruta.objects.create(pk=DEFAULT_RUTA,nruta="SIN RUTA",cesdo=estadoActivo)
+		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		#Terceros - Zona
-		Zona.objects.create(pk=DEFAULT_ZONA,nzona="SIN ZONA",cesdo=estadoActivo)
+		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
 		print "Zona. Registros Creados Correctamente."
 		
 		#Terceros - Personas
 		Personas
-		Personas.objects.create(pk=DEFAULT_PERSONA,cpersona="PN",npersona="PERSONA NATURAL")
+		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
 		print "Personas. Registros Creados Correctamente."
 

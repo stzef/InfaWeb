@@ -132,6 +132,9 @@
 						</div>
 					</div>
 				</div>
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#medios_pago">
+					Totalizar
+				</button>
 			</form>
 
 			<form class="form-horizontal" id="form_deta_movement">
@@ -200,7 +203,7 @@
 
 			<form role="form" id="form_totales">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-7">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Totales</h3>
@@ -233,7 +236,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-5">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Retencion Fuente</h3>
@@ -254,62 +257,44 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5">
-						<div class="box box-primary">
-							<div class="box-header with-border">
-								<h3 class="box-title">Formas de Pago</h3>
-							</div>
-							<div class="box-body">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Forma Pago</th>
-											<th>Valor</th>
-											<th>Numero</th>
-											<th>Banco</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Efectvio</td>
-											<td>{{form.vefe}}</td>
-										</tr>
-										<tr>
-											<td>Tarjeta</td>
-											<td>{{form.vtar}}</td>
-											<td>{{form.doctar}}</td>
-											<td>{{form.bancotar}}</td>
-										</tr>
-										<tr>
-											<td>Cheque</td>
-											<td>{{form.vchq}}</td>
-											<td>{{form.docchq}}</td>
-											<td>{{form.bancochq}}</td>
-										</tr>
-										<tr>
-											<td>Otro</td>
-											<td><input type="number"></td>
-											<td><input type="number"></td>
-											<td><select name="" id=""></select></td>
-										</tr>
-									</tbody>
-								</table>
-
-								<div class="row">
-									<div class="form-group col-md-6">
-										<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
-										{{form.ventre}}
-									</div>
-									<div class="form-group col-md-6">
-										<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
-										{{form.vcambio}}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</form>
+
+			<div class="modal fade" tabindex="-1" role="dialog" id="medios_pago">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Totalizar</h4>
+						</div>
+					<div class="modal-body">
+						<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="3%">It</th>
+									<th width="20%">Medio de Pago</th>
+									<th width="20%">Documento</th>
+									<th width="10%">Banco</th>
+								</tr>
+								<tr>
+									<th width="10%">{{ form_medios_pagos.itpago }}</th>
+									<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.docmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.banmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.vmpago }}</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
+						<button type="button" class="btn btn-success">Guardar</button>
+					</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 
 			<div class="text-center">
 				<div class="btn-group">

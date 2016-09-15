@@ -33,6 +33,20 @@ class CiudadForm(forms.ModelForm):
 			'cdepar': 'Departamento'
 		}
 
+class MediosPagoForm(forms.ModelForm):
+	class Meta:
+		model = MediosPago
+		fields = "__all__"
+		widgets = {
+			'cmpago' : forms.TextInput(attrs={'class':'form-control','required':True}),
+			'nmpago' : forms.TextInput(attrs={'class':'form-control','required':True}),
+		}
+		labels = {
+			'cmpago': 'Código Interno',
+			'nmpago': 'Nombre',
+			'ifdoc': 'Requiere Documento'
+		}
+
 class UbicaForm(forms.ModelForm):
 	class Meta:
 		model = Ubica
