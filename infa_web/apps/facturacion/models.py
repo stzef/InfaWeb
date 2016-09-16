@@ -70,7 +70,7 @@ class Facdeta(models.Model):
 
 class Facpago(models.Model):
 	cfac = models.ForeignKey(Fac)
-	itpago = models.CharField(max_length=4)
+	it = models.CharField(max_length=4)
 	cmpago = models.ForeignKey(MediosPago)
 	docmpago = models.CharField(max_length=10)
 	banmpago = models.ForeignKey(Banfopa)

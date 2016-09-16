@@ -17,7 +17,7 @@ class FacForm(forms.ModelForm):
 			'descri' : forms.TextInput(attrs={'class':'form-control'}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
 			'vtbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
 			'vflete' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vttotal' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
@@ -54,7 +54,7 @@ class FacForm(forms.ModelForm):
 			'descri' : 'Descripcion',
 			'detaanula' : 'Deta. Anulacion',
 			'vtbase' : 'V.Tot Base',
-			'vtiva' : 'V.Tot IVA',
+			'vtiva' : 'Base IVA',
 			'vflete' : 'V. Flete',
 			'vdescu' : 'V. Descto',
 			'vttotal' : 'V. Total',
@@ -93,7 +93,7 @@ class FacdetaForm(forms.ModelForm):
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
 			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'civa' : forms.Select(attrs={'class':'form-control','required':True}),
+			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
 			#niva char(40)
 			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
@@ -129,7 +129,7 @@ class FacpagoForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
-			'itpago' : forms.TextInput(attrs={'class':'form-control'}),
+			'it' : forms.TextInput(attrs={'class':'form-control'}),
 			'cmpago' : forms.Select(attrs={'class':'form-control','required':True}),
 			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
 			'banmpago' : forms.Select(attrs={'class':'form-control','required':True}),
@@ -137,7 +137,7 @@ class FacpagoForm(forms.ModelForm):
 		}
 		labels = {
 			'cfac' : 'Codigo Factura',
-			'itpago' : 'Item',
+			'it' : 'Item',
 			'cmpago' : 'Medio de Pago',
 			'docmpago' : 'Doc. Medio Pago',
 			'banmpago' : 'Ban. Medio Pago',
