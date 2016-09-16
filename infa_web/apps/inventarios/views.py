@@ -20,6 +20,11 @@ from .forms import *
 import datetime
 import json
 
+def sum_invini(value):
+	value_sum = str(int(value[3:])+1)
+	cant_space = 5-int(len(value_sum))
+	return 'II-'+(cant_space*'0')+value_sum
+
 class InventoryView(FormView):
 	template_name = 'inventarios/inventory.html'
 	form_class = InventoryForm

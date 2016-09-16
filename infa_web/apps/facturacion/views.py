@@ -9,33 +9,125 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 from infa_web.apps.facturacion.models import *
+from infa_web.apps.terceros.models import *
+from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
+
+def sum_fac(value):
+	value_sum = str(int(value[2:])+1)
+	cant_space = 8-int(len(value_sum))
+	return '--'+(cant_space*'0')+value_sum
 
 @csrf_exempt
 def BillSave(request):
 	data = json.loads(request.body)
-	print data
 	response = {}
+	fac_pk = ""
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
 
 	print (json.dumps(data,indent=4))
 	#print json.dumps(data, indent=4)
 
-	#Crear Fac
-	"""Fac.objects.create()"""
+	try:
+		value = Fac.objects.all().latest('pk')
+		fac_pk = sum_fac(value.pk)
+	except Fac.DoesNotExist:
+		fac_pk = '--00001000'
 
-	#Crear Facdeta
-	"""for facdeta in data["facdeta"]
-		Facdeta.objects.create()"""
+	citerce = Tercero.objects.get(pk = data['citerce'])
+	cesdo = Esdo.objects.get(pk = data['cesdo'])
+	ctifopa = Tifopa.objects.get(pk = data['ctifopa'])
+	bancotar = Banfopa.objects.get(pk = data['bancotar'])
+	bancochq = Banfopa.objects.get(pk = data['bancochq'])
+	ccaja = Caja.objects.get(pk = data['ccaja'])
+	cvende = Vende.objects.get(pk = data['cvende'])
+	cdomici = Domici.objects.get(pk = data['cdomici'])
+	cemdor = Emdor.objects.get(pk = data['cemdor'])
+	fac = Fac(
+			cfac = fac_pk, 
+			femi = data['femi'], 
+			citerce = citerce, 
+			cesdo = cesdo, 
+			fpago = fpago, 
+			ctifopa = ctifopa,
+			descri = '-',
+			vtbase = data['vtbase'],
+			vtiva = data['vtiva'],
+			vflete = data['vflete'],
+			vdescu = data['vdescu'],
+			vttotal = data['vttotal'],
+			vefe = data['vefe'],
+			vtar = data['vtar'],
+			doctar = data['doctar'],
+			bancotar = bancotar,
+			vchq = data['vchq'],
+			docchq = data['docchq'],
+			bancochq = bancochq,
+			ventre = data['ventre'],
+			vcambio = data['vcambio'],
+			ccaja = ccaja,
+			cvende = cvende,
+			cdomici = cdomici,
+			tpordes = 0,
+			cemdor = cemdor,
+			vncre = 0,
+			doccre = '-',
+			brtefte = data['brtefte'],
+			prtefte = data['prtefte'],
+			vrtefte = data['vrtefte']
+		)
+	fac.save()
 
-	#Crear Mvsa
-	"""Mvsa.objects.create()"""
+	mvsa = Mvsa(
+			fmvsa = data['femi'],
+			docrefe = fac.pk,
+			citerce = citerce,
+			ctimo = ccaja.ctimocj,
+			cesdo = cesdo,
+			vttotal = data['vttotal'],
+			descri = '-'
+		)
+	mvsa.save()
 
-	#Crear Mvsadeta
-	"""for mvsadeta in data["facdeta"]
-		Mvsadeta.objects.create()"""
+	for data_deta in data["facdeta"]:
+		carlos = Arlo.objects.get(pk = data_deta['carlos'])
+		civa = Iva.objects.get(pk = data_deta['civa'])
+		vt = data_deta['vunita'] * data_deta['canti']
+		viva = vt * civa.poriva
+
+		fac_deta = Facdeta(
+				cfac = fac,
+				itfac = data_deta['itfac'],
+				carlos = carlos,
+				nlargo = carlos.nlargo,
+				ncorto = carlos.ncorto,
+				canti = data_deta['canti'],
+				civa = civa,
+				niva = civa.niva,
+				poriva = civa.poriva,
+				pordes = data_deta['pordes'],
+				vunita = data_deta['vunita'],
+				viva = viva,
+				vbase = vt,
+				vtotal = (vt + viva),
+				pvtafull = carlos.pvta1, 
+				vcosto = carlos.vcosto1
+			)
+
+		mvsa_deta = Mvsadeta(
+				cmvsa = mvsa,
+				it = data_deta['itfac'],
+				carlos = carlos,
+				nlargo = carlos.nlargo,
+				canti = data_deta['canti'],
+				vunita = data_deta['vunita'],
+				vtotal = (vt + viva)
+			)
+
+		mvsa_deta.save()
+		fac_deta.save()
 
 	#Crear Movi
 	#Crear Movideta

@@ -54,7 +54,7 @@ class Mvsa(models.Model):
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	descri = models.CharField(max_length=250)
-	detaanula = models.CharField(max_length=250)
+	detaanula = models.CharField(max_length=250,blank=True,null=True)
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
 
@@ -63,17 +63,16 @@ class Mvsa(models.Model):
 
 class Mvsadeta(models.Model):
 	class Meta:
-		unique_together = (('cmvsa', 'ctimo','it'))
+		unique_together = (('cmvsa','it'))
 	cmvsa = models.ForeignKey(Mvsa,on_delete=models.CASCADE)
 	it = models.CharField(max_length=4)
-	ctimo = models.ForeignKey(Timo)
 	carlos = models.ForeignKey(Arlo)
 	nlargo = models.CharField(max_length=100)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=1)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	def __str__(self):
-		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - TMovi: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.ctimo,self.cmvsa.fmvsa)
+		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.cmvsa.fmvsa)
 
 
 class Movi(models.Model):

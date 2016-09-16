@@ -15,7 +15,7 @@ class Fac(models.Model):
 	fpago = models.DateTimeField()
 	ctifopa = models.ForeignKey(Tifopa,default=DEFAULT_FORMA_PAGO)
 	descri = models.CharField(max_length=200)
-	detaanula = models.CharField(max_length=200)
+	detaanula = models.CharField(max_length=200,blank=True,null=True)
 	vtbase = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vtiva = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vflete = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
@@ -42,7 +42,7 @@ class Fac(models.Model):
 	brtefte = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	prtefte = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)])
 	vrtefte = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	fhasdomi = models.DateTimeField()
+	fhasdomi = models.DateTimeField(blank=True,null=True)
 	#ccobra char(4)
 
 	def __str__(self):
