@@ -270,31 +270,41 @@
 							<h4 class="modal-title">Totalizar</h4>
 						</div>
 					<div class="modal-body">
-						<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-									<th width="3%">It</th>
-									<th width="20%">Medio de Pago</th>
-									<th width="20%">Documento</th>
-									<th width="10%">Banco</th>
-								</tr>
-								<tr>
-									<th width="10%">{{ form_medios_pagos.itpago }}</th>
-									<th width="10%">{{ form_medios_pagos.cmpago }}</th>
-									<th width="10%">{{ form_medios_pagos.docmpago }}</th>
-									<th width="10%">{{ form_medios_pagos.banmpago }}</th>
-									<th width="10%">{{ form_medios_pagos.vmpago }}</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-						<section role="form" id="list_medios_pago">
-							<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
-								<tbody>
-								</tbody>
-							</table>
-						</section>
+						<form class="form-horizontal" id="form_medios_pago">
+							<section id="item_medio_pago">
+								
+								<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th width="3%">It</th>
+											<th width="20%">Medio de Pago</th>
+											<th width="20%">Documento</th>
+											<th width="20%">Banco</th>
+											<th width="20%">Total</th>
+											<th width="10%"></th>
+										</tr>
+										<tr>
+											<th width="10%">
+												<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
+											</th>
+											<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+											<th width="10%">{{ form_medios_pagos.docmpago }}</th>
+											<th width="20%">{{ form_medios_pagos.banmpago }}</th>
+											<th width="20%">{{ form_medios_pagos.vmpago }}</th>
+											<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</section>
+							<section role="form" id="list_medios_pago">
+								<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
+									<tbody>
+									</tbody>
+								</table>
+							</section>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
@@ -330,6 +340,50 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+	$("#form_medios_pago").submit(function (event){
+		event.preventDefault()
+		if(customValidationInput("#item_medio_pago").valid){
+			var tr = $("<tr>")
+			$("#item_medio_pago")
+			.find("input,select")
+			.toArray()
+			.forEach(function(e,i){
+				var oth = $(e).closest("th")
+
+				var value = e.value
+				var data_value = e.value
+
+				if(eval($(e).data("if-currency"))){
+					var value = currencyFormat.format(e.value)
+				}
+				if(e instanceof HTMLSelectElement){
+					var value = $(e).find("option[value=" + e.value + "]").html()
+				}
+
+				tr.append($("<td>",{
+					width:oth.attr("width"),
+					"data-name":e.name,
+					"data-value":data_value,
+					html:value}))
+			})
+			td = $("<td width='10%'>")
+			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
+			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
+			tr.append(btnEdit,btnDelete)
+			$("#list_medios_pago").find("tbody").append(tr)
+			
+			$("#item_medio_pago").find("input,select").val("")
+			$("#item_medio_pago").find("[name=canti]").val(1)
+			var it = 1
+			$("#list_medios_pago").find("[data-name=it]").toArray().forEach(
+				function(e){
+					$(e).html(it);
+					$(e).attr("data-value",it);
+					it++
+				})
+			calcular_total()
+		}
+	})
 	var mode_view = $("#mode_view").val()
 	var current_arlo = null
 	var current_tercero = null
@@ -340,9 +394,7 @@
 			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
 				$(this).val("")
 			}
-
 		}
-		
 	})
 	$("#form_deta_movement [name=pordes]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
@@ -351,7 +403,6 @@
 		}
 		calcular_valor_unitario()
 	})
-
 	$("#form_deta_movement [name=vunita]").change(function(){
 		min_precio_venta = 900
 		if( parseFloat($(this).val()) < parseFloat(min_precio_venta) ){
@@ -370,6 +421,14 @@
 		}
 	})
 	/* Totalizar */
+
+	$("[name=brtefte], [name=prtefte]").change(function(event){
+		var brtefte = parseFloat($("[name=brtefte]").val())
+		var prtefte = parseFloat($("[name=prtefte]").val())
+
+		var vrtefte = brtefte - (brtefte*(prtefte/100))
+		$("[name=vrtefte]").val(vrtefte)
+	}) 
 
 
 	function totalizar(){
@@ -410,8 +469,8 @@
 		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vtotal_temp))
 	}
 
-	function get_mdeta(){
-		return 	$("#list_items_mdeta").find("tr").toArray().map(
+	function get_data_list(selector_list){
+		return 	$(selector_list).find("tr").toArray().map(
 			function(e){
 				var data = {}
 				$(e).children("[data-name]").toArray().forEach(
@@ -601,8 +660,16 @@
 		var querystring = $("form:not(#form_deta_movement)").serialize();
 		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
 
-		var array_mvdeta = get_mdeta()
+		var array_mvdeta = get_data_list("#list_items_mdeta")
+		var array_medios_pagos = get_data_list("#list_medios_pago")
 
+		if(array_medios_pagos.length){
+			data.medios_pagos = array_medios_pagos
+		}else{
+			var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
+			currentForm.prepend(message)
+			return
+		}
 		if(array_mvdeta.length){
 			data.mvdeta = array_mvdeta
 		}else{
