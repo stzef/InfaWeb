@@ -7,12 +7,16 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 import json
+from infa_web.parameters import ManageParameters
+
 
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
+
+manageParameters = ManageParameters()
 
 def sum_fac(value):
 	value_sum = str(int(value[2:])+1)
@@ -143,11 +147,18 @@ class BillCreate(CreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
 		context['title'] = "Facturar"
-		form_movement_detail = FacdetaForm()
-		context['form_movement_detail'] = form_movement_detail
+		context['form_movement_detail'] = FacdetaForm()
+		context['form_medios_pagos'] = FacpagoForm
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
+
+		context['data_validation'] = {}
+		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		return context
 

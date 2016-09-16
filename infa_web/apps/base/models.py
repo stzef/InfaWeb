@@ -17,6 +17,14 @@ class Esdo(models.Model):
 	def natural_key(self):
 		return (self.cesdo)
 
+class MediosPago(models.Model):
+	cmpago = models.AutoField(primary_key=True)
+	nmpago = models.CharField(max_length=40)
+	ifdoc = models.BooleanField()
+
+	def __str__(self):
+		return self.nmpago
+
 class Timo(models.Model):
 	ctimo = models.IntegerField(primary_key=True)
 	ntimo = models.CharField(max_length=40)

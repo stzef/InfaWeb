@@ -10,7 +10,7 @@ class FacForm(forms.ModelForm):
 		widgets = {
 			'cfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
-			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
@@ -121,4 +121,25 @@ class FacdetaForm(forms.ModelForm):
 			'pordes' : 'Porc Descto',
 			'pvtafull' : '',
 			'vcosto' : 'Costo',
+		}
+
+class FacpagoForm(forms.ModelForm):
+	class Meta:
+		model = Facpago
+		fields = "__all__"
+		widgets = {
+			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
+			'itpago' : forms.TextInput(attrs={'class':'form-control'}),
+			'cmpago' : forms.Select(attrs={'class':'form-control','required':True}),
+			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
+			'banmpago' : forms.Select(attrs={'class':'form-control','required':True}),
+			'vmpago' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+		}
+		labels = {
+			'cfac' : 'Codigo Factura',
+			'itpago' : 'Item',
+			'cmpago' : 'Medio de Pago',
+			'docmpago' : 'Doc. Medio Pago',
+			'banmpago' : 'Ban. Medio Pago',
+			'vmpago' : 'Valor Medio Pago',
 		}

@@ -36,14 +36,14 @@
 										{%if form.citerce.errors%}
 										{{form.citerce.errors}}
 										{%endif%}
-										<div class="col-sm-4">
+										<div class="col-sm-10">
 											<div class="input-group">
 												<input type="number" value="{{form.citerce.field.widget.attrs.value}}" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}" {% if form.citerce.field.required %}required{% endif %}>
 												<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 											</div>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<input type="text" name="name__{{form.citerce.name}}" id="name__{{form.citerce.name}}" class="form-control" readonly>
 										</div>
 									</div>
@@ -177,7 +177,7 @@
 												<th width="10%">{{ form_movement_detail.pordes }}</th>
 												<th width="10%">{{ form_movement_detail.civa }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
-												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
+												<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -200,40 +200,45 @@
 
 			<form role="form" id="form_totales">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-7">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Totales</h3>
 							</div>
 							<div class="box-body">
-								<div class="form-group">
-									<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
-									{{form.vtiva}}
+								<div class="row col-md-6">
+									<div class="form-group">
+										<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+										{{form.vtiva}}
+									</div>
+									<div class="form-group">
+										<label for="" >IVA</label>
+										<input type="number" value="" name="" id="" class="form-control">
+									</div>
+									<div class="form-group">
+										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+										{{form.vflete}}
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="" >IVA</label>
-									<input type="number" value="" name="" id="" class="form-control">
-								</div>
-								<div class="form-group">
-									<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-									{{form.vflete}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-									{{form.vdescu}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-									{{form.vtbase}}
-								</div>
-								<div class="form-group">
-									<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
-									{{form.vttotal}}
+
+								<div class="row col-md-6">
+									<div class="form-group">
+										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+										{{form.vdescu}}
+									</div>
+									<div class="form-group">
+										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+										{{form.vtbase}}
+									</div>
+									<div class="form-group">
+										<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
+										{{form.vttotal}}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-5">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Retencion Fuente</h3>
@@ -254,70 +259,58 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5">
-						<div class="box box-primary">
-							<div class="box-header with-border">
-								<h3 class="box-title">Formas de Pago</h3>
-							</div>
-							<div class="box-body">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Forma Pago</th>
-											<th>Valor</th>
-											<th>Numero</th>
-											<th>Banco</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Efectvio</td>
-											<td>{{form.vefe}}</td>
-										</tr>
-										<tr>
-											<td>Tarjeta</td>
-											<td>{{form.vtar}}</td>
-											<td>{{form.doctar}}</td>
-											<td>{{form.bancotar}}</td>
-										</tr>
-										<tr>
-											<td>Cheque</td>
-											<td>{{form.vchq}}</td>
-											<td>{{form.docchq}}</td>
-											<td>{{form.bancochq}}</td>
-										</tr>
-										<tr>
-											<td>Otro</td>
-											<td><input type="number"></td>
-											<td><input type="number"></td>
-											<td><select name="" id=""></select></td>
-										</tr>
-									</tbody>
-								</table>
-
-								<div class="row">
-									<div class="form-group col-md-6">
-										<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
-										{{form.ventre}}
-									</div>
-									<div class="form-group col-md-6">
-										<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
-										{{form.vcambio}}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</form>
+
+			<div class="modal fade" tabindex="-1" role="dialog" id="medios_pago">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Totalizar</h4>
+						</div>
+					<div class="modal-body">
+						<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="3%">It</th>
+									<th width="20%">Medio de Pago</th>
+									<th width="20%">Documento</th>
+									<th width="10%">Banco</th>
+								</tr>
+								<tr>
+									<th width="10%">{{ form_medios_pagos.itpago }}</th>
+									<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.docmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.banmpago }}</th>
+									<th width="10%">{{ form_medios_pagos.vmpago }}</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<section role="form" id="list_medios_pago">
+							<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
+								<tbody>
+								</tbody>
+							</table>
+						</section>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Volver</button>
+						<button type="button" class="btn btn-success" id="btn-save">Guardar</button>
+					</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 
 			<div class="text-center">
 				<div class="btn-group">
 					<button class="btn btn-app btn-info" type="reset">
 						<i class="fa fa-plus-square-o"></i>Nuevo
 					</button>
-					<button class="btn btn-app" type="submit" id="btn-save">
-						<i class="fa fa-plus-square-o"></i>Guardar
+					<button class="btn btn-app" type="button" data-toggle="modal" data-target="#medios_pago">
+						Totalizar
 					</button>
 					{% if is_input_movement %}
 						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
@@ -338,13 +331,51 @@
 
 <script>
 	var mode_view = $("#mode_view").val()
-	//$("#item_mdeta :input").attr("required",false)
 	var current_arlo = null
+	var current_tercero = null
 
-	$('.date').datetimepicker({
-		format: 'YYYY-MM-D',
-		defaultDate:date_appen
-	});
+	/* Validaciones */
+	$("[name=vttotal]").change(function(){
+		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
+			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
+				$(this).val("")
+			}
+
+		}
+		
+	})
+	$("#form_deta_movement [name=pordes]").change(function(){
+		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
+			$(this).val("")
+			alert("El Tope de Descuento es " + data_validation.top_discount_bills)
+		}
+		calcular_valor_unitario()
+	})
+
+	$("#form_deta_movement [name=vunita]").change(function(){
+		min_precio_venta = 900
+		if( parseFloat($(this).val()) < parseFloat(min_precio_venta) ){
+			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
+				$(this).val("")
+			}
+		}
+	})
+	/* Validaciones */
+
+	/* Totalizar */
+	$(window).keydown(function(event) {
+		if(event.altKey && event.keyCode == 84) {
+			event.preventDefault(); 
+			totalizar()
+		}
+	})
+	/* Totalizar */
+
+
+	function totalizar(){
+		//if($("[name=ctifopa]").val() == ""){}else{}
+		console.log("Totalizando")
+	}
 
 	function edit_item_mdeta(){
 		var target = $(this)
@@ -364,6 +395,14 @@
 		calcular_total()
 	}
 
+	function calcular_valor_unitario(){
+		name_list_price = "pvta" + current_tercero.clipre
+		var price_venta = parseFloat(current_arlo[name_list_price])
+		var descuento = parseFloat($("#form_deta_movement [name=pordes]").val())
+
+		var vunita = price_venta - (price_venta*(descuento/100))
+		$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
+	}
 	function calcular_total(){
 		vtotal_temp = 0
 		$("#list_items_mdeta").find("[data-name=vunita]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
@@ -385,7 +424,14 @@
 		)
 	}
 
-	function setValueFieldTerce(id_citerce,name__citerce){
+	function setValueFieldTerce(){
+		if(current_tercero){
+			id_citerce = current_tercero.idterce
+			name__citerce = current_tercero.rasocial
+		}else{
+			id_citerce = ""
+			name__citerce = ""
+		}
 		$('#id_citerce').val(id_citerce)
 		$("[name=name__citerce]").val(name__citerce)
 	}
@@ -393,22 +439,24 @@
 	function setValueFieldArlo(){
 		$("[name=name__carlos]").prop("readonly",true)
 		if(current_arlo){
-			var vunita = current_arlo.vcosto
+			//var vunita = current_arlo.vcosto
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
 
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
 
 		}else{
-			var vunita = ""
+			//var vunita = ""
 			var name__carlos = ""
 			var ivas_civa = ""
 		}
-		$("[name='vunita']")
-			.val(vunita)
-			.trigger("change")
+		//$("[name='vunita']")
+			//.val(vunita)
+			//.trigger("change")
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
+
+		calcular_valor_unitario()
 	}
 
 	function showPrecioVenta(fields){
@@ -477,22 +525,26 @@
 
 	$('#id_citerce').change(function(){
 		var input_value = this.value
+		current_tercero = null
 
 		if(!input_value){
-			setValueFieldTerce("","")
+			setValueFieldTerce()
 			return
 		}
 		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
 			if(response.object){
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
-				t_rasocial = fields.rasocial
+				current_tercero = fields
+				//t_rasocial = fields.rasocial
 			}else{
+				current_tercero = null
 				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
-				t_rasocial = ""
-				$('#id_citerce').val("")
+				//t_rasocial = ""
+				//$('#id_citerce').val("")
 			}
-				$("[name=name__citerce]").val(t_rasocial)
+				//$("[name=name__citerce]").val(t_rasocial)
+			setValueFieldTerce()
 		})
 	});
 
@@ -589,7 +641,8 @@
 		});
 	})
 
-	$('#id_citerce').change()
+
+	var data_validation = {{data_validation_json|safe}}
 
 	{% if mvdeta_json %}
 		var js_list = {{mvdeta_json|safe}}
@@ -606,6 +659,13 @@
 		$('#form_deta_movement').trigger("reset")
 		calcular_total()
 	})
+
+	$('.date').datetimepicker({
+		format: 'YYYY-MM-D',
+		defaultDate:date_appen
+	});
+	
+	$('#id_citerce').change()
 
 </script>
 {% endblock content_script %}
