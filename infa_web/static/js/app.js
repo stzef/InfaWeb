@@ -1,6 +1,34 @@
 var date_appen = new Date($("[name=date_appen").val())
 format_date_appen = "YYYY-MM-DD"
 
+$('[check-carlos]').change(function(){
+	var input_value = this.value
+	var fn = eval($(this).data("fn"))
+	if(!input_value){
+		if(fn) fn(null)
+		return
+	}
+	$.post('/api/get-object/',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
+		if(response.object){
+			var object = JSON.parse(response.object)[0]
+			fields = object.fields
+			if(fn) fn(fields)
+			return
+		}else{
+			$.post('/api/get-object/',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+				}else{
+					$('#id_carlos').val("")
+					tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+				}
+				if(fn) fn(fields)
+			})
+		}
+	})
+});
+
 $("input").focus(function(){$(this).select()})
 $(document).on("click", ".open-modal", function(e){
 	$('#Modal').load($(this).attr('href'),function(){

@@ -143,7 +143,7 @@ class Command(BaseCommand):
 		print "Departamento. Registros Creados Correctamente."
 
 		#Base - Ciudad
-		Ciudad.objects.create(pk=DEFAULT_CIUDAD,nciu='Girardot',cdepar=oDefaultDepartament)
+		Ciudad.objects.create(nciu='Girardot',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Alban',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bogotá',cdepar=oDefaultDepartament)
 		Ciudad.objects.create(nciu='Bojaca',cdepar=oDefaultDepartament)
@@ -204,12 +204,12 @@ class Command(BaseCommand):
 		print "Iva. Registros Creados Correctamente."
 
 		#Base - Regiva
-		Regiva.objects.create(pk=DEFAULT_REGIMEN_IVA,nregiva="REGIMEN COMUN")
+		Regiva.objects.create(nregiva="REGIMEN COMUN")
 		Regiva.objects.create(nregiva="REGIMEN SIMPLIFICADO")
 		print "Regiva. Registros Creados Correctamente."
 
 		#Base - Tiide
-		Tiide.objects.create(pk=DEFAULT_TIIDE,ntiide="CEDULA DE CIUDADANIA")
+		Tiide.objects.create(ntiide="CEDULA DE CIUDADANIA")
 		Tiide.objects.create(ntiide="NIT")
 		Tiide.objects.create(ntiide="NUMERO UNICO DE IDENTIFICACION")
 		print "Tiide. Registros Creados Correctamente."
@@ -305,24 +305,24 @@ class Command(BaseCommand):
 
 		#Terceros
 		#Terceros- Autorre
-		Autorre.objects.create(pk=DEFAULT_AUTORRETENEDOR,nautorre="NO AUTORRETENEDOR")
+		Autorre.objects.create(nautorre="NO AUTORRETENEDOR")
 		Autorre.objects.create(nautorre="SI AUTORRETENEDOR")
 		print "Autorre. Registros Creados Correctamente."
 
 		#Terceros - Vende
-		Vende.objects.create(pk=DEFAULT_VENDE,nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 		print "Vende. Registros Creados Correctamente."
 
 		#Terceros - Ruta
-		Ruta.objects.create(pk=DEFAULT_RUTA,nruta="SIN RUTA",cesdo=estadoActivo)
+		Ruta.objects.create(nruta="SIN RUTA",cesdo=estadoActivo)
 		print "Ruta. Registros Creados Correctamente."
 
 		#Terceros - Zona
-		Zona.objects.create(pk=DEFAULT_ZONA,nzona="SIN ZONA",cesdo=estadoActivo)
+		Zona.objects.create(nzona="SIN ZONA",cesdo=estadoActivo)
 		print "Zona. Registros Creados Correctamente."
 		
 		#Terceros - Personas
-		Personas.objects.create(pk=DEFAULT_PERSONA,cpersona="PN",npersona="PERSONA NATURAL")
+		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
 		print "Personas. Registros Creados Correctamente."
 
