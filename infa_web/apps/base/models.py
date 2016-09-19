@@ -5,7 +5,6 @@ from infa_web.apps.base.constantes import *
 #from infa_web.apps.articulos.models import *
 from django.core.validators import MinValueValidator
 
-
 class Esdo(models.Model):
 	cesdo = models.AutoField(primary_key=True)
 	nesdo = models.CharField(max_length=40)

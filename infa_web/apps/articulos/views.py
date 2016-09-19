@@ -1,13 +1,12 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import CreateView, UpdateView, DeleteView, FormView, TemplateView
 from django.views.generic.list import ListView
 from django.apps import apps
 from django.core.urlresolvers import reverse_lazy 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
-from django.http import JsonResponse
 from django.db.models import Max
 from django import forms
 
@@ -16,7 +15,8 @@ from infa_web.parameters import ManageParameters
 from infa_web.apps.articulos.models import *
 from infa_web.apps.base.views import AjaxableResponseMixin
 from infa_web.apps.articulos.forms import *
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
 import json
 
 # Articles #
@@ -174,8 +174,33 @@ class ArticleUpdate(AjaxableResponseMixin,UpdateView):
 		context['url_foto3'] = current_article.foto3
 		return context
 
-class ArticleList(ListView):
-	model = Arlo
+def article_list(request):
+	data_arlo = {}
+	orderBy = request.GET.get('orderBy')
+	arlos = Arlo.objects.all().order_by(orderBy)
+	arlos.filter(nlargo__icontains = request.GET.get('buscarPor')) if request.GET.get('buscarPor') else arlos
+	arlo = Paginator(arlos, 10)
+	page = request.GET.get('page')
+	try:
+		arlo = arlo.page(page)
+	except PageNotAnInteger:
+		arlo = arlo.page(1)
+	if len(arlo.object_list) <= 10:
+		data_arlo['response'] = 0
+	else:
+		data_arlo['response'] = 1
+	for queryset in arlo:
+		data_arlo[queryset.carlos] = {
+			'carlos': queryset.carlos,
+			'nlargo': queryset.nlargo,
+			'canti': str(queryset.canti).replace(",", "."),
+			'vcosto': str(queryset.vcosto).replace(",", "."),
+			'cesdo': queryset.cesdo.nesdo,
+			'cmarca': queryset.cmarca.nmarca
+		}
+	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
+
+class ArticleList(TemplateView):
 	template_name = "articulos/list-articles.html"
 # Articles #
 
