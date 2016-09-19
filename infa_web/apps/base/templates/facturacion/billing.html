@@ -158,7 +158,8 @@
 												<th width="10%">Descuento</th>
 												<th width="10%">IVA</th>
 												<th width="10%">V unitario</th>
-												<th width="10%"></th>
+												<th width="5%"></th>
+												<th width="5%"></th>
 											</tr>
 											<tr>
 												<th width="3%">
@@ -177,7 +178,16 @@
 												<th width="10%">{{ form_movement_detail.pordes }}</th>
 												<th width="10%">{{ form_movement_detail.civa }}</th>
 												<th width="10%">{{ form_movement_detail.vunita }}</th>
-												<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+												<th width="5%">
+													<button type="submit" class="btn btn-success">
+														<i class="fa fa-plus-square"></i>
+													</button>
+												</th>
+												<th width="5%">
+													<button class="btn btn-info" type="button" onclick="mostrar_modal_lista_precios()">
+														<i class="fa fa-list-alt"></i>
+													</button>
+												</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -356,10 +366,7 @@
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
-					<button class="btn btn-app" type="button" onclick="mostrar_modal_lista_precios()">
-						<i class="fa fa-list-alt"></i>
-						Lista de Precios
-					</button>
+
 					<a data-new-window class="btn btn-app" href=""><i class="fa fa-list"></i>Listar</a>
 				</div>
 			</div>
@@ -433,9 +440,7 @@
 		}
 	})
 
-	$("[name=ventre]").change(function(){
-		calcular_valor_cambio()
-	})
+	$("[name=ventre]").change(function(){calcular_valor_cambio()})
 
 	$("[name=vttotal]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
@@ -462,6 +467,14 @@
 			}
 		}
 	})
+
+	$("#item_medio_pago [name=cmpago]").change(function(){
+		if($(this).val() == data_validation.medios_pago.MEDIO_PAGO_EFECTIVO){
+			$("[name=docmpago],[name=banmpago]").prop("disabled",true).val("")
+		}else{
+			$("[name=docmpago],[name=banmpago]").prop("disabled",false).val("")
+		}
+	})
 	/* Validaciones */
 
 	/* Totalizar */
@@ -482,8 +495,9 @@
 	}) 
 
 	function calcular_valor_cambio(){
+			console.log("cambios")
 		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
-			if(parseFloat($("[name=ventre]").val()) > parseFloat($("[name=vttotal]").val())){
+			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
 				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
 			}else{
 				var v_cambio = ""
@@ -491,7 +505,6 @@
 			}
 			$("[name=vcambio]").val(v_cambio)
 		}
-
 	}
 
 	function show_modal_totalizar(){
@@ -571,20 +584,13 @@
 	function setValueFieldArlo(){
 		$("[name=name__carlos]").prop("readonly",true)
 		if(current_arlo){
-			//var vunita = current_arlo.vcosto
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
-
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
-
 		}else{
-			//var vunita = ""
 			var name__carlos = ""
 			var ivas_civa = ""
 		}
-		//$("[name='vunita']")
-			//.val(vunita)
-			//.trigger("change")
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
 
@@ -626,12 +632,6 @@
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
 				current_arlo = fields
-				
-				//var t_vcosto = fields.vcosto
-				//var t_iva = fields.ivas_civa
-				//var t_nlargo = fields.nlargo
-
-				//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 				setValueFieldArlo()
 			}else{
 				current_arlo = null
@@ -640,21 +640,11 @@
 						var object = JSON.parse(response.object)[0]
 						fields = object.fields
 						current_arlo = fields
-
-						//var t_vcosto = fields.vcosto
-						//var t_nlargo = fields.nlargo
-						//var t_iva = fields.ivas_civa
-
 					}else{
-						//var t_vcosto = ""
-						//var t_nlargo = ""
-						//var t_iva = ""
 						$('#id_carlos').val("")
 						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-
 						current_arlo = null
 					}
-					//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 					setValueFieldArlo()
 				})
 			}
@@ -674,14 +664,10 @@
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
 				current_tercero = fields
-				//t_rasocial = fields.rasocial
 			}else{
 				current_tercero = null
 				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
-				//t_rasocial = ""
-				//$('#id_citerce').val("")
 			}
-				//$("[name=name__citerce]").val(t_rasocial)
 			setValueFieldTerce()
 		})
 	});
@@ -759,7 +745,6 @@
 		console.warn(data)
 		loading_animation("Guardando Movimiento.")
 		$.ajax({
-			//url: '{% url 'save-movement' %}',
 			url: '{{url}}',
 			type: 'POST',
 			data: JSON.stringify(data),

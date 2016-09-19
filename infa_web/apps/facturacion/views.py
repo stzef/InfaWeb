@@ -184,6 +184,9 @@ class BillCreate(CreateView):
 		context['data_validation']['formas_pago'] = {}
 		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
 		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+		
+		context['data_validation']['medios_pago'] = {}
+		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
