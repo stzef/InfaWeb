@@ -182,6 +182,12 @@ class BillCreate(CreateView):
 		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
 		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
 		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		
+		context['data_validation']['formas_pago'] = {}
+		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
+		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		return context

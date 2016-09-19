@@ -9,6 +9,7 @@ from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 
 from dateutil import parser
+import datetime
 import json
 
 from infa_web.apps.base.forms import *
@@ -136,8 +137,13 @@ def proccess_fn_annulment(request,pk):
 	else:
 		movement = Mvsa.objects.get(cmvsa=data["cmv"])
 
-	movement.detaanula = data["detaanula"]
+	current_datetime = str(datetime.datetime.now())
+	user = "Usuario Estatico"
+
+	movement.detaanula = data["detaanula"] + " " + current_datetime + " " + user
 	movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+
+	print data["detaanula"] + " - " + current_datetime + " - " + user
 
 	movement.save()
 

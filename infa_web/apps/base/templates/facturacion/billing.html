@@ -273,73 +273,94 @@
 				</div>
 			</form>
 
-			<div class="modal fade" tabindex="-1" role="dialog" id="medios_pago">
+			<div class="modal fade" role="dialog" id="lista_precios">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Lista de Precios</h4>
+						</div>
+					<div class="modal-body">
+					</div>
+					<div class="modal-footer">
+						<div class="btn-group">
+							<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+						</div>
+					</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<div class="modal fade" role="dialog" id="medios_pago">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<h4 class="modal-title">Totalizar</h4>
 						</div>
-					<div class="modal-body">
-						<form class="form-horizontal" id="form_medios_pago">
-							<section id="item_medio_pago">
-								
-								<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
-									<thead>
-										<tr>
-											<th width="3%">It</th>
-											<th width="20%">Medio de Pago</th>
-											<th width="20%">Documento</th>
-											<th width="20%">Banco</th>
-											<th width="20%">Total</th>
-											<th width="10%"></th>
-										</tr>
-										<tr>
-											<th width="10%">
-												<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
-											</th>
-											<th width="10%">{{ form_medios_pagos.cmpago }}</th>
-											<th width="10%">{{ form_medios_pagos.docmpago }}</th>
-											<th width="20%">{{ form_medios_pagos.banmpago }}</th>
-											<th width="20%">{{ form_medios_pagos.vmpago }}</th>
-											<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</section>
-							<section role="form" id="list_medios_pago">
-								<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
-									<tbody>
-									</tbody>
-								</table>
-							</section>
-						</form>
-					</div>
-					<div class="modal-footer">
-					<div class="btn-group">
-						<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close">Volver</button>
-						<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save">Guardar</button>
-					</div>
-					</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
+						<div class="modal-body">
+							<form class="form-horizontal" id="form_medios_pago">
+								<section id="item_medio_pago">
+									
+									<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th width="3%">It</th>
+												<th width="20%">Medio de Pago</th>
+												<th width="20%">Documento</th>
+												<th width="20%">Banco</th>
+												<th width="20%">Total</th>
+												<th width="10%"></th>
+											</tr>
+											<tr>
+												<th width="10%">
+													<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
+												</th>
+												<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+												<th width="10%">{{ form_medios_pagos.docmpago }}</th>
+												<th width="20%">{{ form_medios_pagos.banmpago }}</th>
+												<th width="20%">{{ form_medios_pagos.vmpago }}</th>
+												<th width="10%"><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</section>
+								<section role="form" id="list_medios_pago">
+									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
+										<tbody>
+										</tbody>
+									</table>
+								</section>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<div class="btn-group">
+								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+								<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
+							</div>
+						<!--</div>-->
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</div>
 
 			<div class="text-center">
 				<div class="btn-group">
 					<button class="btn btn-app btn-info" type="reset">
-						<i class="fa fa-plus-square-o"></i>Nuevo
+						<i class="fa fa-plus-square-o"></i>
+						Nuevo
 					</button>
-					<button class="btn btn-app" type="button" data-toggle="modal" data-target="#medios_pago">
+					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
+						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
-					{% if is_input_movement %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% else %}
-						<a data-new-window class="btn btn-app" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% endif %}
+					<button class="btn btn-app" type="button" onclick="mostrar_modal_lista_precios()">
+						<i class="fa fa-list-alt"></i>
+						Lista de Precios
+					</button>
+					<a data-new-window class="btn btn-app" href=""><i class="fa fa-list"></i>Listar</a>
 				</div>
 			</div>
 
@@ -397,18 +418,34 @@
 			calcular_total()
 		}
 	})
+
 	var mode_view = $("#mode_view").val()
 	var current_arlo = null
 	var current_tercero = null
+	var pvta_menor = null
 
 	/* Validaciones */
+	$("[name=canti]").change(function(){
+		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
+			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
+				$(this).val("")
+			}
+		}
+	})
+
+	$("[name=ventre]").change(function(){
+		calcular_valor_cambio()
+	})
+
 	$("[name=vttotal]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
 			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
 				$(this).val("")
 			}
 		}
+		calcular_valor_cambio()
 	})
+
 	$("#form_deta_movement [name=pordes]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
 			$(this).val("")
@@ -416,9 +453,10 @@
 		}
 		calcular_valor_unitario()
 	})
+
 	$("#form_deta_movement [name=vunita]").change(function(){
-		min_precio_venta = 900
-		if( parseFloat($(this).val()) < parseFloat(min_precio_venta) ){
+		//min_precio_venta = 900
+		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
 			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
 				$(this).val("")
 			}
@@ -430,7 +468,7 @@
 	$(window).keydown(function(event) {
 		if(event.altKey && event.keyCode == 84) {
 			event.preventDefault(); 
-			totalizar()
+			show_modal_totalizar()
 		}
 	})
 	/* Totalizar */
@@ -443,10 +481,31 @@
 		$("[name=vrtefte]").val(vrtefte)
 	}) 
 
+	function calcular_valor_cambio(){
+		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
+			if(parseFloat($("[name=ventre]").val()) > parseFloat($("[name=vttotal]").val())){
+				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
+			}else{
+				var v_cambio = ""
+				$("form").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
+			}
+			$("[name=vcambio]").val(v_cambio)
+		}
 
-	function totalizar(){
-		//if($("[name=ctifopa]").val() == ""){}else{}
+	}
+
+	function show_modal_totalizar(){
+		var array_mvdeta = get_data_list("#list_items_mdeta")
+		if(!array_mvdeta.length) return $("form").append(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			$("#item_medio_pago [name=cmpago]").val(1)
+			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
+		}else{
+			$("#list_medios_pago table tbody tr").remove()
+		}
 		console.log("Totalizando")
+		$("#medios_pago").modal("show")
 	}
 
 	function edit_item_mdeta(){
@@ -475,6 +534,7 @@
 		var vunita = price_venta - (price_venta*(descuento/100))
 		$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
 	}
+
 	function calcular_total(){
 		vtotal_temp = 0
 		$("#list_items_mdeta").find("[data-name=vunita]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
@@ -531,20 +591,28 @@
 		calcular_valor_unitario()
 	}
 
-	function showPrecioVenta(fields){
-		var table = $("<table>")
-			for (field in fields){
+	function mostrar_modal_lista_precios(){
+		$("#lista_precios .modal-body").empty()
+		if(!current_arlo) return alert("Por favor seleccione un articulo.")
+		var table = $("<table class='table table table-striped'>")
+			for (field in current_arlo){
 				regexp = /pvta[0-9]/
+				pvta_menor = current_arlo.pvta1
 				if(regexp.test(field)){
+					if(current_arlo[field] < pvta_menor){
+						pvta_menor = current_arlo[field]
+					}
 					table.append(
 						$("<tr>").append(
 							$("<td>",{html:field.replace("pvta", 'Precio Venta ')}),
-							$("<td>",{html:currencyFormat.format(fields[field])})
+							$("<td>",{html:currencyFormat.format(current_arlo[field])})
 						)
 					)
 					console.log(field)
 				}
 			}
+			$("#lista_precios .modal-body").append(table)
+			$("#lista_precios").modal("show")
 	}
 
 	$('#id_carlos').change(function(){
@@ -563,7 +631,6 @@
 				//var t_iva = fields.ivas_civa
 				//var t_nlargo = fields.nlargo
 
-				showPrecioVenta(fields)
 				//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 				setValueFieldArlo()
 			}else{
@@ -587,7 +654,6 @@
 
 						current_arlo = null
 					}
-					showPrecioVenta(fields)
 					//setValueFieldArlo(t_vcosto,t_nlargo,t_iva)
 					setValueFieldArlo()
 				})
@@ -721,7 +787,6 @@
 		});
 	})
 
-
 	var data_validation = {{data_validation_json|safe}}
 
 	{% if mvdeta_json %}
@@ -729,6 +794,7 @@
 	{% else %}
 		var js_list = []
 	{% endif %}
+
 	js_list.forEach(function(object){
 		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
 		$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)

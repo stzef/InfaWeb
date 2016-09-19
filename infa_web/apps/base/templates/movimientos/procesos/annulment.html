@@ -60,9 +60,7 @@
 				<div class="form-group">
 					<label for="id_detaanula" class="col-sm-3 control-label">¿Por que la Anula?</label>
 					<div class="col-sm-8">
-						<textarea class="form-control" required name="detaanula" id="id_detaanula">
-							
-						</textarea>
+						<textarea class="form-control" required name="detaanula" id="id_detaanula"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -103,6 +101,8 @@
 			}),
 			function(response){
 				console.log(response)
+				$("form").trigger("reset")
+				$("form").prepend(alertBootstrap(response.message,"success"))
 			}
 		)
 	})
@@ -147,6 +147,12 @@
 					
 					$('#id_cmv').val("")
 					tooltipBootstrap($('#id_cmv'),".input-group","No se encontro ningun movimiento.")
+
+					$("#id_citerce").val("")
+					$("#id_fmv").val("")
+					$("#id_vttotal").val("")
+					$("#id_cesdo").val(1)
+
 				}
 			}
 		});
