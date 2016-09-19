@@ -59,8 +59,7 @@
 									</div>
 									<div class="box-body">
 									<div class="input-group">
-										<input type="number" check-carlos name="{{form_common.carlos.name}}" id="{{form_common.carlos.id_for_label}}" class="{{form_common.carlos.field.widget.attrs.class}}"" >
-										<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+										<input type="number" check-carlos name="{{form_common.carlos.name}}" id="{{form_common.carlos.id_for_label}}" class="{{form_common.carlos.field.widget.attrs.class}}" >
 										<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 									</div>
 									</div>
@@ -73,11 +72,8 @@
 				{{ form.as_p }}
 				<div class="text-center">
 					<div class="btn-group">
-						<!--<button class="btn btn-app btn-info" type="submit">
-							<i class="fa fa-plus-square-o"></i>Caulcular
-						</button>-->
-						<button class="btn btn-app" type="button" id="btn-save">
-							<i class="fa fa-save"></i>Guardar
+						<button class="btn btn-app" type="submit" id="btn-save">
+							<i class="fa fa-save"></i>Ejecutar
 						</button>
 						<button class="btn btn-app" type="button" data-toggle="modal" data-target="#detalle">
 							<i class="fa fa-list"></i>Ver Detalle
@@ -94,7 +90,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title">Totalizar</h4>
+							<h4 class="modal-title">Costos y Existencias</h4>
 						</div>
 					<div class="modal-body">
 						<div>
@@ -112,7 +108,6 @@
 					<div class="modal-footer">
 					<div class="btn-group">
 						<button type="button" class="btn-app btn" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
-						<button type="button" class="btn-app btn" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
 					</div>
 					</div>
 					</div><!-- /.modal-content -->
@@ -133,10 +128,9 @@
 		$("[name=type]").val($(this).data("type-search"))
 	})
 	function llenar_planilla(response){
-		console.log(response);
+		$(".animation").empty()
 		$("#costing_and_stock tbody tr").remove();
 		response.data.forEach(function(object){
-			console.log(object.data);
 			$("#costing_and_stock tbody").append(
 				$("<tr>",
 					{
@@ -170,27 +164,6 @@
 		var data = {
 			carlos : $("#id_carlos").val(),
 			group : $("#id_group").val(),
-			if_save:false,
-			type:type,
-			date_range: {
-				end_date:new Date($("#id_fecha_final").val()),
-				start_date:new Date($("#id_fecha_nota_inicial").val())
-			}
-		}
-		$.post(
-			"{% url 'proccess_fn_costing_and_stock' %}",
-			JSON.stringify(data),
-			llenar_planilla
-		);
-	});
-
-	$("#btn-save").click(function(event) {
-
-		var type = $('input[name=type]').val()
-
-		var data = {
-			carlos : $("#id_carlos").val(),
-			group : $("#id_group").val(),
 			if_save:true,
 			type:type,
 			date_range: {
@@ -198,7 +171,7 @@
 				start_date:new Date($("#id_fecha_nota_inicial").val())
 			}
 		}
-
+		loading_animation("Ejecutando el Proceso...")
 		$.post(
 			"{% url 'proccess_fn_costing_and_stock' %}",
 			JSON.stringify(data),

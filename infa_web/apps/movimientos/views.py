@@ -9,6 +9,7 @@ from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 
 from dateutil import parser
+import datetime
 import json
 
 from infa_web.apps.base.forms import *
@@ -136,8 +137,13 @@ def proccess_fn_annulment(request,pk):
 	else:
 		movement = Mvsa.objects.get(cmvsa=data["cmv"])
 
-	movement.detaanula = data["detaanula"]
+	current_datetime = str(datetime.datetime.now())
+	user = "Usuario Estatico"
+
+	movement.detaanula = data["detaanula"] + " " + current_datetime + " " + user
 	movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+
+	print data["detaanula"] + " - " + current_datetime + " - " + user
 
 	movement.save()
 
@@ -227,7 +233,7 @@ def UpdateMovement(request,pk):
 
 		output_movement.save()
 
-		Mvsadeta.objects.filter(ctimo=timo,cmvsa=output_movement).delete()
+		Mvsadeta.objects.filter(cmvsa=output_movement).delete()
 		for deta_movement in data["mvdeta"]:
 			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
 
@@ -238,7 +244,6 @@ def UpdateMovement(request,pk):
 				vtotal=deta_movement["vtotal"],
 				vunita=deta_movement["vunita"],
 				cmvsa=output_movement,
-				ctimo=Timo.objects.get(pk=data["ctimo"]),
 				nlargo=articulo.nlargo,
 			)
 
@@ -328,7 +333,6 @@ def SaveMovement(request):
 					vtotal=deta_movement["vtotal"],
 					vunita=deta_movement["vunita"],
 					cmvsa=movement,
-					ctimo=Timo.objects.get(pk=data["ctimo"]),
 					nlargo=articulo.nlargo,
 				)
 				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])

@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/17 08:12:05", 
+        "value": "2016/09/19 10:40:00", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/17 08:12:05", 
+            "selected": "2016/09/19 10:40:00", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -314,6 +314,28 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "Tope factura de Venta"
+    }, 
+    {
+        "cparam": "maximum_amount_items_billing", 
+        "type": "Number", 
+        "value": "500", 
+        "label": {
+            "text": "Maxima cantidad de articulos para facturaci\u00f3n."
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "500", 
+            "type": "number", 
+            "id": "maximum_amount_items_billing", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Maxima cantidad de articulos para facturaci\u00f3n."
     }, 
     {
         "cparam": "default_output_movement_for_billing", 

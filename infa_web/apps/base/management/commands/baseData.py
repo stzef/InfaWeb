@@ -322,7 +322,6 @@ class Command(BaseCommand):
 		print "Zona. Registros Creados Correctamente."
 		
 		#Terceros - Personas
-		Personas
 		Personas.objects.create(cpersona="PN",npersona="PERSONA NATURAL")
 		Personas.objects.create(cpersona="PJ",npersona="PERSONA JURIDICA")
 		print "Personas. Registros Creados Correctamente."
