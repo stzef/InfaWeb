@@ -4,7 +4,7 @@ from django.shortcuts import render,render_to_response
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 from django.apps import apps
@@ -53,6 +53,29 @@ def get_custom_message_response(instance,object):
 	if isinstance(instance,Arlo): message = "El Articulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ncorto,object.pk)
 	if isinstance(instance,Tercero): message = "El Tercero <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.rasocial,object.pk)
 	return message
+
+class JSONResponseMixin(object):
+	"""
+	A mixin that can be used to render a JSON response.
+	"""
+	def render_to_json_response(self, context, **response_kwargs):
+		"""
+		Returns a JSON response, transforming 'context' to make the payload.
+		"""
+		return JsonResponse(
+			self.get_data(context),
+			**response_kwargs
+		)
+
+	def get_data(self, context):
+		"""
+		Returns an object that will be serialized as JSON by json.dumps().
+		"""
+		# Note: This is *EXTREMELY* naive; in reality, you'll need
+		# to do much more complex handling to ensure that arbitrary
+		# objects -- such as Django model instances or querysets
+		# -- can be serialized as JSON.
+		return context
 
 class AjaxableResponseMixin(object):
 	"""

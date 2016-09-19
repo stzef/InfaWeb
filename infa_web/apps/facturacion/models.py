@@ -65,8 +65,9 @@ class Facdeta(models.Model):
 	pordes = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)],default=0)
 	pvtafull = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcosto = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	
 	def __str__(self):
-		return self.cfac
+		return str(self.cfac)+' - '+str(self.carlos)
 
 class Facpago(models.Model):
 	cfac = models.ForeignKey(Fac)
@@ -77,4 +78,4 @@ class Facpago(models.Model):
 	vmpago = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	
 	def __str__(self):
-		return self.cfac
+		return str(self.cfac)+' - '+self.docmpago

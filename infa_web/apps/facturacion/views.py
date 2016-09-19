@@ -29,6 +29,7 @@ def BillSave(request):
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
+	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
 
@@ -49,6 +50,8 @@ def BillSave(request):
 	except Fac.DoesNotExist:
 		fac_pk = ccaja.ctimocj.prefijo+'00001000'
 
+	vttotal = [vttotal + (x['canti'] * x['vunita']) for x in data["mvdeta"]]
+
 	fac = Fac(
 			cfac = fac_pk, 
 			femi = data['femi'], 
@@ -61,7 +64,7 @@ def BillSave(request):
 			vtiva = 0,
 			vflete = float(data['vflete']),
 			vdescu = float(data['vdescu']),
-			vttotal = float(data['vttotal']),
+			vttotal = float(vttotal),
 			ventre = float(data['ventre']),
 			vcambio = float(data['vcambio']),
 			ccaja = ccaja,
@@ -81,7 +84,7 @@ def BillSave(request):
 			citerce = citerce,
 			ctimo = ccaja.ctimocj,
 			cesdo = cesdo,
-			vttotal = float(data['vttotal']),
+			vttotal = float(vttotal),
 			descri = '-'
 		)
 	mvsa.save()
@@ -149,7 +152,7 @@ def BillSave(request):
 			citerce = citerce,
 			fmovi = data['femi'],
 			descrimovi = '-',
-			vttotal = data['vttotal'],
+			vttotal = float(vttotal),
 			cesdo = cesdo,
 		)
 	"""

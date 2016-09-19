@@ -18,32 +18,57 @@
 					
 				</div>
 				<div class="box-body">
-					<table id="lits_articles" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>Codigo</th>
-								<th>Descripcion</th>
-								<th>Cantidad</th>
-								<th>Costo Unitario</th>
-								<th>Estado</th>
-								<th>Marca</th>
-								<th>Editar</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for article in object_list %}
-								<tr data-object-search="{{ article.pk }}">
-									<td>{{ article.carlos }}</td>
-									<td>{{ article.nlargo }}</td>
-									<td>{{ article.canti }}</td>
-									<td>{{ article.vcosto }}</td>
-									<td>{{ article.cesdo }}</td>
-									<td>{{ article.cmarca }}</td>
-									<td><a data-link-edit href="{% url 'edit-article' article.carlos %}" target="_blank">Editar</a></td>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Ordenar por:</label><br>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio1" value="carlos"> Codigo
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio2" value="nlargo" checked> Descipcion
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio3" value="canti"> Cantidad
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio4" value="vcosto"> Precio
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio5" value="cesdo__nesdo"> Estado
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="orderBy" class="orderBy" id="inlineRadio6" value="cmarca__nmarca"> Marca
+							</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Buscar por:</label>
+							<input type="text" name="buscarPor" class="form-control buscarPor">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Codigo</th>
+									<th>Descripcion</th>
+									<th>Cantidad</th>
+									<th>Costo Unitario</th>
+									<th>Estado</th>
+									<th>Marca</th>
+									<th>Editar</th>
 								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+							</thead>
+							<tbody id="cont-data"></tbody>
+						</table>
+						<nav>
+							<ul class="pager">
+								<li class="previous disabled"><a href="#" id="previous"><span aria-hidden="true">&larr;</span> Anterior</a></li>
+								<li class="next"><a href="#" id="next">Siguiente <span aria-hidden="true">&rarr;</span></a></li>
+							</ul>
+						</nav>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -53,12 +78,59 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
+		var cont = 1
+		get_table()
 		windowSearch("[name=carlos]")
-		$(document).ready(function() {
-			$('#lits_articles').DataTable({"language": languageDataTable});
+		$("#next").click(function(){
+			if(!$(".next").hasClass('disabled')){
+				$(".previous").removeClass('disabled')
+				cont += 1
+				get_table()
+			}
+		})
+		$("#previous").click(function(){
+			if(!$(".previous").hasClass('disabled')){
+				if(cont == 2){
+					$(".previous").addClass('disabled')
+				}
+				cont -= 1
+				get_table()
+			}
+			console.log(cont)
+		})
+		$(".orderBy").change(function(){
+			get_table()
 		});
+		$(".buscarPor").keyup(function(){
+			if($(this).val().length >= 3){
+				get_table()
+			}
+		})
+		function get_table(){
+			var buscarPor = $('.buscarPor').val().length >= 3 ? '&buscarPor='+$('.buscarPor').val(): ''
+			$.get("{% url 'articles_list' %}?page="+cont+'&orderBy='+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+				console.log(data)
+				if(data.response == 0){
+					$(".next").addClass('disabled')
+				}else{
+					$(".next").removeClass('disabled')
+				}
+				$('#cont-data').empty()
+				$.each(data, function (key, item){
+					$('#cont-data').append(
+						'<tr data-object-search='+item.carlos+'>'+
+							'<td>'+item.carlos+'</td>'+
+							'<td>'+item.nlargo+'</td>'+
+							'<td>'+item.canti+'</td>'+
+							'<td>'+item.vcosto+'</td>'+
+							'<td>'+item.cesdo+'</td>'+
+							'<td>'+item.cmarca+'</td>'+
+							'<td><a data-link-edit href="/articles/edit/'+item.carlos+'" target="_blank">Editar</a></td>'+
+						'</tr>'
+					)
+				});
+			});
+		}
 	</script>
 {% endblock %}
