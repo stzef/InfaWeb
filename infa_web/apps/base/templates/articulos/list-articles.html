@@ -81,7 +81,6 @@
 	<script>
 		var cont = 1
 		get_table()
-		windowSearch("[name=carlos]")
 		$("#next").click(function(){
 			if(!$(".next").hasClass('disabled')){
 				$(".previous").removeClass('disabled')
@@ -130,6 +129,7 @@
 						'</tr>'
 					)
 				});
+				windowSearch("[name=carlos]")
 			});
 		}
 	</script>
