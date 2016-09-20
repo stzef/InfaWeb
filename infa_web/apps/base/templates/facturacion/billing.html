@@ -218,27 +218,24 @@
 							<div class="box-body">
 								<div class="row col-md-6">
 									<div class="form-group">
+										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+										{{form.vtbase}}
+									</div>
+									<div class="form-group">
 										<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
 										{{form.vtiva}}
 									</div>
-									<div class="form-group">
-										<label for="" >IVA</label>
-										<input type="number" value="" name="" id="" class="form-control">
-									</div>
-									<div class="form-group">
-										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-										{{form.vflete}}
-									</div>
+
 								</div>
 
 								<div class="row col-md-6">
 									<div class="form-group">
-										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-										{{form.vdescu}}
+										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+										{{form.vflete}}
 									</div>
 									<div class="form-group">
-										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-										{{form.vtbase}}
+										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+										{{form.vdescu}}
 									</div>
 									<div class="form-group">
 										<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
@@ -441,6 +438,8 @@
 	})
 
 	$("[name=ventre]").change(function(){calcular_valor_cambio()})
+	
+	$("[name=vflete], [name=vdescu]").change(function(){calcular_total()})
 
 	$("[name=vttotal]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
@@ -547,11 +546,44 @@
 		$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
 	}
 
+	/*function calcular_total(){
+		var vttotal_items = 0
+		$("#list_items_mdeta tbody tr")
+			.toArray()
+			.forEach(function(e){
+				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+				console.log(temp_vunita)
+				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+				console.log(temp_canti)
+				var vtotal_temp = temp_vunita * temp_canti
+				vttotal_items += vtotal_temp
+			}
+		)
+		$("[name=vttotal]").val(vttotal_items)
+		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_items))
+	}*/
 	function calcular_total(){
-		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vunita]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
-		$("[name=vttotal]").val(vtotal_temp)
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vtotal_temp))
+		var vttotal_items = 0
+		var vttotal_local = 0
+		$("#list_items_mdeta tbody tr")
+			.toArray()
+			.forEach(function(e){
+				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+				console.log(temp_vunita)
+				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+				console.log(temp_canti)
+				var vtotal_temp = temp_vunita * temp_canti
+				vttotal_items += vtotal_temp
+			}
+		)
+		var vflete = parseFloat($("[name=vflete]").val())
+		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
+
+		vttotal_local_sin_descuento = vflete + vttotal_items
+		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
+
+		$("[name=vttotal]").val(vttotal_local).trigger("change")
+		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
 	}
 
 	function get_data_list(selector_list){
@@ -602,44 +634,21 @@
 		var vtbase = 0
 		var vtiva = 0
 		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
-			console.log("------------------------------------")
 			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
-			console.log("cantidad " + cantidad)
-
 			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
-			console.log("precio " + precio)
-
 			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
-			console.log("porcentaje_descuento " + porcentaje_descuento)
 
 			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
-			console.log("codigo_iva " + codigo_iva)
-
 			var porcentaje_iva = valores_iva[codigo_iva]
-			console.log("porcentaje_iva " + porcentaje_iva)
 
 			var precio_total_sin_descuento = cantidad * precio
-			console.log("precio_total_sin_descuento " + precio_total_sin_descuento)
+			var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
 
-			if(porcentaje_descuento != 0){
-				var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
-			}else{
-				var precio_total = precio_total_sin_descuento
-			}
-				console.log("precio_total " + precio_total)
-
-			if(porcentaje_iva != 0){
-				var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
-				var viva = vbase * ( porcentaje_iva / 100 )
-			}else{
-				var vbase = precio_total
-				var viva = 0
-			}
-
+			var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
+			var viva = vbase * ( porcentaje_iva / 100 )
 
 			vtbase += vbase
 			vtiva += viva
-			console.log("------------------------------------")
 		})
 		return {vtbase: vtbase,vtiva: vtiva}
 	}
@@ -770,6 +779,11 @@
 					it++
 				})
 			calcular_total()
+			var totales = calcular_vtbase_vtiva()
+			$("[name=vtiva]").val(Math.round(totales.vtiva))
+			$("[name=vtbase]").val(Math.round(totales.vtbase))
+			console.log(totales)
+
 			$("#id_carlos").focus()
 		}
 	})
