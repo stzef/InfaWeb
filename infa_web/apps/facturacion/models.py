@@ -73,8 +73,8 @@ class Facpago(models.Model):
 	cfac = models.ForeignKey(Fac)
 	it = models.CharField(max_length=4)
 	cmpago = models.ForeignKey(MediosPago)
-	docmpago = models.CharField(max_length=10)
-	banmpago = models.ForeignKey(Banfopa)
+	docmpago = models.CharField(max_length=10,default=0)
+	banmpago = models.ForeignKey(Banfopa,default=DEFAULT_BANCO)
 	vmpago = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	
 	def __str__(self):

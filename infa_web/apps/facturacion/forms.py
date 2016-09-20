@@ -21,13 +21,13 @@ class FacForm(forms.ModelForm):
 			'vflete' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vttotal' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
-			'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'doctar' : forms.TextInput(attrs={'class':'form-control'}),
-			'bancotar' : forms.Select(attrs={'class':'form-control','required':True}),
-			'vchq' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'docchq' : forms.TextInput(attrs={'class':'form-control'}),
-			'bancochq' : forms.Select(attrs={'class':'form-control','required':True}),
+			#'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			#'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			#'doctar' : forms.TextInput(attrs={'class':'form-control'}),
+			#'bancotar' : forms.Select(attrs={'class':'form-control','required':True}),
+			#'vchq' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			#'docchq' : forms.TextInput(attrs={'class':'form-control'}),
+			#'bancochq' : forms.Select(attrs={'class':'form-control','required':True}),
 			'ventre' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
 			'vcambio' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
 			#cusu char(20)
@@ -38,7 +38,7 @@ class FacForm(forms.ModelForm):
 			'cemdor'  : forms.Select(attrs={'class':'form-control','required':True}),
 			#ccoti char(10)
 			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'doccre' : forms.TextInput(attrs={'class':'form-control'}),
+			#'doccre' : forms.TextInput(attrs={'class':'form-control'}),
 			'brtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vrtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
@@ -129,10 +129,10 @@ class FacpagoForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
-			'it' : forms.TextInput(attrs={'class':'form-control'}),
+			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
 			'cmpago' : forms.Select(attrs={'class':'form-control','required':True}),
 			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
-			'banmpago' : forms.Select(attrs={'class':'form-control','required':True}),
+			'banmpago' : forms.Select(attrs={'class':'form-control'}),
 			'vmpago' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
 		labels = {

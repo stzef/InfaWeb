@@ -184,7 +184,7 @@
 													</button>
 												</th>
 												<th width="5%">
-													<button class="btn btn-info" type="button" onclick="mostrar_modal_lista_precios()">
+													<button class="btn btn-info" type="button" onclick="mostrar_modal_lista_precios(false)">
 														<i class="fa fa-list-alt"></i>
 													</button>
 												</th>
@@ -463,7 +463,7 @@
 		//min_precio_venta = 900
 		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
 			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
-				$(this).val("")
+				$(this).val("").focus()
 			}
 		}
 	})
@@ -495,7 +495,6 @@
 	}) 
 
 	function calcular_valor_cambio(){
-			console.log("cambios")
 		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
 			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
 				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
@@ -517,7 +516,7 @@
 		}else{
 			$("#list_medios_pago table tbody tr").remove()
 		}
-		console.log("Totalizando")
+		//$("#form_medios_pago").submit()
 		$("#medios_pago").modal("show")
 	}
 
@@ -588,8 +587,10 @@
 			var ivas_civa = current_arlo.ivas_civa
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
 		}else{
+			console.log("hola")
 			var name__carlos = ""
 			var ivas_civa = ""
+			$("[name=vunita]").val("")
 		}
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
@@ -597,7 +598,53 @@
 		calcular_valor_unitario()
 	}
 
-	function mostrar_modal_lista_precios(){
+	function calcular_vtbase_vtiva(){
+		var vtbase = 0
+		var vtiva = 0
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			console.log("------------------------------------")
+			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
+			console.log("cantidad " + cantidad)
+
+			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
+			console.log("precio " + precio)
+
+			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
+			console.log("porcentaje_descuento " + porcentaje_descuento)
+
+			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
+			console.log("codigo_iva " + codigo_iva)
+
+			var porcentaje_iva = valores_iva[codigo_iva]
+			console.log("porcentaje_iva " + porcentaje_iva)
+
+			var precio_total_sin_descuento = cantidad * precio
+			console.log("precio_total_sin_descuento " + precio_total_sin_descuento)
+
+			if(porcentaje_descuento != 0){
+				var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
+			}else{
+				var precio_total = precio_total_sin_descuento
+			}
+				console.log("precio_total " + precio_total)
+
+			if(porcentaje_iva != 0){
+				var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
+				var viva = vbase * ( porcentaje_iva / 100 )
+			}else{
+				var vbase = precio_total
+				var viva = 0
+			}
+
+
+			vtbase += vbase
+			vtiva += viva
+			console.log("------------------------------------")
+		})
+		return {vtbase: vtbase,vtiva: vtiva}
+	}
+
+	function mostrar_modal_lista_precios(if_return_mpvta){
 		$("#lista_precios .modal-body").empty()
 		if(!current_arlo) return alert("Por favor seleccione un articulo.")
 		var table = $("<table class='table table table-striped'>")
@@ -614,17 +661,22 @@
 							$("<td>",{html:currencyFormat.format(current_arlo[field])})
 						)
 					)
-					console.log(field)
 				}
 			}
+			if(if_return_mpvta) return pvta_menor
 			$("#lista_precios .modal-body").append(table)
 			$("#lista_precios").modal("show")
 	}
 
+	/* 
+		El orden de las lineas Importa 
+		la funcion "setValueFieldArlo" va de ultima.
+	*/
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
-			setValueFieldArlo("","","")
+			current_arlo = null
+			setValueFieldArlo()
 			return
 		}
 		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
@@ -632,6 +684,8 @@
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
 				current_arlo = fields
+				pvta_menor = mostrar_modal_lista_precios(true)
+
 				setValueFieldArlo()
 			}else{
 				current_arlo = null
@@ -640,6 +694,7 @@
 						var object = JSON.parse(response.object)[0]
 						fields = object.fields
 						current_arlo = fields
+						pvta_menor = mostrar_modal_lista_precios(true)
 					}else{
 						$('#id_carlos').val("")
 						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
@@ -689,6 +744,10 @@
 					var value = currencyFormat.format(e.value)
 				}
 
+				if(e instanceof HTMLSelectElement){
+					var value = $(e).find("option[value=" + e.value + "]").html()
+				}
+
 				tr.append($("<td>",{
 					width:oth.attr("width"),
 					"data-name":e.name,
@@ -711,6 +770,7 @@
 					it++
 				})
 			calcular_total()
+			$("#id_carlos").focus()
 		}
 	})
 
@@ -742,7 +802,6 @@
 			currentForm.prepend(message)
 			return
 		}
-		console.warn(data)
 		loading_animation("Guardando Movimiento.")
 		$.ajax({
 			url: '{{url}}',
@@ -779,6 +838,14 @@
 	{% else %}
 		var js_list = []
 	{% endif %}
+
+	valores_iva = {
+		1:0,
+		2:8,
+		3:10,
+		4:16,
+		5:0,
+	}
 
 	js_list.forEach(function(object){
 		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
