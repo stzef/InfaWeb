@@ -207,4 +207,28 @@ def bill_proccess_view_annulment(request):
 def bill_proccess_fn_annulment(request):
 	data = json.loads(request.body)
 
+	current_datetime = str(datetime.datetime.now())
+	user = "Usuario Estatico"
+
+	factura = Fac.objects.get(pk=data["fact"])
+	mvsa = Mvsa.objects.get(docrefe = factura.cfac)
+	movi = Movi.objects.get()
+
+	detaanula = data["detaanula"] + " " + current_datetime + " " + user
+	estado = Esdo.objects.get(pk=data["cesdo"])
+
+
+	factura.detaanula = detaanula
+	factura.cesdo = estado
+
+	mvsa.detaanula = detaanula
+	mvsa.cesdo = estado
+
+	movi.detaanula = detaanula
+	movi.cesdo = estado
+
+	factura.save()
+	mvsa.save()
+	movi.save()
+
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
