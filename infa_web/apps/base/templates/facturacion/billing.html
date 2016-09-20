@@ -323,7 +323,14 @@
 												<th width="10%">
 													<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
 												</th>
-												<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+												<!--<th width="10%">{{ form_medios_pagos.cmpago }}</th>-->
+												<th width="10%">
+													<select required name="{{ form_medios_pagos.cmpago.name }}" id="{{ form_medios_pagos.cmpago.id_for_label}}" class="form-control">
+														{% for medio_pago in medios_pago %}
+															<option value="{{medio_pago.pk}}" data-ifdoc="{{medio_pago.ifdoc}}">{{medio_pago.nmpago}}</option>
+														{% endfor %}
+													</select>
+												</th>
 												<th width="10%">{{ form_medios_pagos.docmpago }}</th>
 												<th width="20%">{{ form_medios_pagos.banmpago }}</th>
 												<th width="20%">{{ form_medios_pagos.vmpago }}</th>
@@ -467,11 +474,25 @@
 		}
 	})
 
-	$("#item_medio_pago [name=cmpago]").change(function(){
-		if($(this).val() == data_validation.medios_pago.MEDIO_PAGO_EFECTIVO){
-			$("[name=docmpago],[name=banmpago]").prop("disabled",true).val("")
+	$("#item_medio_pago [name=cmpago]").change(function(e){
+		var option = $(this).find("option[value=" + $(this).val() + "]")
+		console.info(option)
+		var ifdoc = eval(option.data("ifdoc").toLowerCase())
+		console.info(ifdoc)
+		if(ifdoc){
+			$("[name=docmpago],[name=banmpago]")
+				.prop("disabled",false)
+				.prop("required",true)
+				.val("")
 		}else{
-			$("[name=docmpago],[name=banmpago]").prop("disabled",false).val("")
+			$("[name=docmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val("0")
+			$("[name=banmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val(data_validation.medios_pago.DEFAULT_BANCO)
 		}
 	})
 	/* Validaciones */
@@ -507,7 +528,7 @@
 
 	function show_modal_totalizar(){
 		var array_mvdeta = get_data_list("#list_items_mdeta")
-		if(!array_mvdeta.length) return $("form").append(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+		//Descomentar if(!array_mvdeta.length) return $("form").append(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			$("#item_medio_pago [name=cmpago]").val(1)

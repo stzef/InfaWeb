@@ -170,6 +170,10 @@ class BillCreate(CreateView):
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
+		medios_pago = MediosPago.objects.all()
+		context['medios_pago'] = medios_pago
+
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm()
 		context['form_medios_pagos'] = FacpagoForm
@@ -190,6 +194,7 @@ class BillCreate(CreateView):
 		
 		context['data_validation']['medios_pago'] = {}
 		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
+		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
