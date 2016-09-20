@@ -95,12 +95,12 @@ class FacdetaForm(forms.ModelForm):
 			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
 			#niva char(40)
-			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
 			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vtotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
 			'pvtafull' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
