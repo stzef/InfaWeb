@@ -386,6 +386,34 @@
 <script>
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
+
+
+
+
+		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
+
+		if(nuevo_valor_medios_pagos < 0){
+			alert("El Valor a Pagar no puede ser Menor a Cero")
+			return
+		}
+		
+		var total_meidos_pagos_existentes = 0
+		$("#list_medios_pago tbody tr").toArray().forEach(function(e,i,a){
+			var vtemp = parseFloat($(e).find("[data-name=vmpago]").data("value"))
+			total_meidos_pagos_existentes += vtemp
+		})
+		var t_temp = nuevo_valor_medios_pagos + total_meidos_pagos_existentes
+		if( t_temp > parseFloat($("[name=vttotal]").val()) ){
+			alert("El Valor a Pagar no puede ser mayor al Valor Total")
+			return
+		}
+
+
+
+
+
+
+
 		if(customValidationInput("#item_medio_pago").valid){
 			var tr = $("<tr>")
 			$("#item_medio_pago")
@@ -547,7 +575,7 @@
 			var td = $(e)
 
 			var input = $("#item_medio_pago").find("[name = " + td.data("name") + "]")
-			input.val(td.data("value"))
+			input.val(td.data("value")).change()
 		})
 		parent.remove()
 	}
@@ -559,7 +587,7 @@
 			var td = $(e)
 
 			var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
-			input.val(td.data("value"))
+			input.val(td.data("value")).change()
 		})
 		parent.remove()
 	}
@@ -570,12 +598,14 @@
 	}
 
 	function calcular_valor_unitario(){
-		name_list_price = "pvta" + current_tercero.clipre
-		var price_venta = parseFloat(current_arlo[name_list_price])
-		var descuento = parseFloat($("#form_deta_movement [name=pordes]").val())
+		if(current_tercero){
+			name_list_price = "pvta" + current_tercero.clipre
+			var price_venta = parseFloat(current_arlo[name_list_price])
+			var descuento = parseFloat($("#form_deta_movement [name=pordes]").val())
 
-		var vunita = price_venta - (price_venta*(descuento/100))
-		$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
+			var vunita = price_venta - (price_venta*(descuento/100))
+			$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
+		}
 	}
 
 	/*function calcular_total(){
@@ -655,6 +685,7 @@
 			var name__carlos = ""
 			var ivas_civa = ""
 			$("[name=vunita]").val("")
+			$("[name=carlos]").val("").focus()
 		}
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
@@ -718,6 +749,12 @@
 		if(!input_value){
 			current_arlo = null
 			setValueFieldArlo()
+			return
+		}
+		if(!current_tercero){
+			current_arlo = null
+			setValueFieldArlo()
+			alert("Seleccione un Tercero para Continuar.")
 			return
 		}
 
@@ -836,18 +873,6 @@
 	})
 
 	$("#btn-save").click(function(event){
-
-		/*
-		
-		var total_meidos_pagos = 0
-		$("#list_medios_pago tbody tr").toArray().forEach(function(e,i,a){
-			var vtemp = parseFloat($(e).find("[data-name=vmpago]").data("value"))
-			total_meidos_pagos += vtemp
-		})
-		if( total_meidos_pagos > parseFloat($("[name=vttotal]").val()) ){
-	
-		}
-		*/
 
 		event.preventDefault()
 
