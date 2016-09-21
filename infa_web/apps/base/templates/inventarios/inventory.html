@@ -70,8 +70,8 @@
 	var cii = '';
 	var table = '';
 	var dis_print = '';
-	var data_table_content = [];
 	var cont = 1
+	var url_data = "{% url 'articles_list' %}?"
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -176,32 +176,6 @@
 				'</div>'+
 			'</div>'
 		);
-		/*
-		table = $('.table').DataTable({
-			"language": languageDataTable,
-			"order": [[ 2, "asc" ]],
-			columns: [
-				{ title: "Código", data: "codigo" },
-				{ title: "C. Barras", data: "codigo_barras" },
-				{ title: "Nombre", data: "nombre" },
-				{ title: "Grupo", data: "grupo" },
-				{ title: "Cant. Cal.", data: "calcu" },
-				{ title: "Cant. Cont.", data: "cont" },
-				{ title: "Costo Unit.", data: "unita" },
-				{ title: "Costo Total", data: "total" },
-				{ title: "Aj. Entrada", data: "entrada" },
-				{ title: "Aj. Salida", data: "salida" },
-			],
-			"createdRow": function ( row, data, index ) {
-				$('td', row).eq(0).attr('id', 'carlos-'+data.DT_RowId);
-				$('td', row).eq(2).attr('id', 'nlargo-'+data.DT_RowId);
-				$('td', row).eq(4).attr('id', 'cancalcu-'+data.DT_RowId).attr('class', 'text-right');
-				$('td', row).eq(7).attr('id', 'vtotal-'+data.DT_RowId).attr('class', 'text-center').attr('val', ( $(data.cont).val() * $(data.unita).val() ));
-				$('td', row).eq(8).attr('id', 'ajuent-'+data.DT_RowId);
-				$('td', row).eq(9).attr('id', 'ajusal-'+data.DT_RowId);
-			}
-		});
-		*/
 		$('.date').datetimepicker({
 			 defaultDate: new Date(response.year+'/'+response.month+'/'+response.day+' '+response.hour+':'+response.minute),
 			 format: 'D/MM/YYYY HH:mm',
@@ -212,7 +186,7 @@
 				 format: 'D/MM/YYYY HH:mm',
 			});
 		}
-		data_table(response.data);
+		data_table();
 		data_esdo(response.esdo);
 	}
 	function data_esdo(esdo){
@@ -224,69 +198,67 @@
 		cii = $('#id_codigo');
 		loading_animation("Cargando Datos");
 		$.post('{% url 'inventory_edit' %}', {pk: cii.val()}, function(response){
+			url_data = "{% url 'articles_list_invini' %}?cii="+cii.val()+"&"
 			create_table(response);
 			if(response.count_extra > 0){
-				if (confirm('Hay '+response.count_extra+' nuevos articulos. Desea agregarlos al inventario en edición?')){
-					data_table(response.data_extra);
+				if (confirm('Hay '+response.count_extra+' nuevos articulos. Desea guardarlos en el inventario en edición?')){
+					$.ajax({
+						url: '{% url 'inventory_save_extra' %}?cii='+cii.val(),
+						type: 'post',
+						data: {
+							'data_r': JSON.stringify(response.arlo)
+						},
+						dataType: "json",
+						success: function(response){
+							data_table();
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							$("#alert-msg").append(alertBootstrap("Ha ocurrido un error", 'error'))
+						}
+					});
 				}
 			}
+			$('.animation').empty();
 		}).fail(function(xhr, status, error) {
 			$("#alert-msg").append(alertBootstrap("Ha ocurrido un error al editar el inventario. Por favor recargue la pagina", 'error'))
 		});
 	}
-	function data_table(data){
+	function data_table_request(data){
+		$.each(data.arlo, function (key, item){
+			item = put_local_storage(item, item.carlos)
+			$('#cont-data').append(
+				'<tr id="'+item.carlos+'" class="cont-data">'+
+					'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
+					'<td id="cbarras-'+item.carlos+'">'+item.cbarras+'</td>'+
+					'<td id="nlargo-'+item.carlos+'"><span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo+'...'+'</span></td>'+
+					'<td id="cgrupo-'+item.carlos+'">'+item.cgrupo+'</td>'+
+					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
+					'<td><input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'"></td>'+
+					'<td><input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'"></td>'+
+					'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti * item.vcosto).format(2)+'</td>'+
+					'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
+					'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
+				'</tr>'
+			);
+			window.localStorage.getItem(item.carlos) != null ? '': save_local_storage(item.carlos)
+			calc_aj(item.canti, item.cancalcu, item.carlos)
+		});
+	}
+	function data_table(){
 		var val_tot = 0;
 		var buscarPor = $('.buscarPor').val().length > 0 ? '&buscarPor='+$('.buscarPor').val(): ''
-		$.get("{% url 'articles_list' %}?page="+cont+"&orderBy="+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+		loading_animation("Cargando Datos");
+		$.get(url_data+"page="+cont+"&orderBy="+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
 			$('#cont-data').empty()
 			if(data.response == 0){
 				$(".next").addClass('disabled')
 			}else{
 				$(".next").removeClass('disabled')
 			}
-			console.log(data)
-			$.each(data.arlo, function (key, item){
-				item = put_local_storage(item, item.carlos)
-				console.log(item)
-				$('#cont-data').append(
-					'<tr id="'+item.carlos+'" class="cont-data">'+
-						'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
-						'<td id="cbarras-'+item.carlos+'">'+item.cbarras+'</td>'+
-						'<td id="nlargo-'+item.carlos+'"><span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo+'...'+'</span></td>'+
-						'<td id="cgrupo-'+item.carlos+'">'+item.cgrupo+'</td>'+
-						'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
-						'<td><input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'"></td>'+
-						'<td><input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'"></td>'+
-						'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti * item.vcosto).format(2)+'</td>'+
-						'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
-						'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
-					'</tr>'
-				);
-				window.localStorage.getItem(item.carlos) != null ? '': save_local_storage(item.carlos)
-				calc_aj(item.canti, item.cancalcu, item.carlos)
-			});
+			data_table_request(data)
+			$('.animation').empty();
 		});
 		$(".positive").numeric({ negative: false }, function() { this.value = ""; this.focus(); });
-		/*
-		$.each(data, function (key, item) {
-			table.row.add({
-				'DT_RowId': item.carlos,
-				'DT_RowClass': 'cont-data', 
-				'codigo': item.carlos,
-				'codigo_barras': item.cbarras,
-				'nombre': '<span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo.substring(0,10)+'...'+'</span>',
-				'grupo': item.ngpo,
-				'calcu': item.cancalcu,
-				'cont': '<input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'">',
-				'unita': '<input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'">',
-				'total': (item.canti * item.vcosto).format(2),
-				'entrada': 0,
-				'salida': 0
-			}).draw()
-			calc_aj(item.canti, item.cancalcu, item.carlos)
-		});
-		*/
-		$('.animation').empty();
 	}
 	function calc_aj(this_value, cant_calcu, id){
 		var cant = (this_value - cant_calcu);
@@ -303,16 +275,16 @@
 	}
 	function save_local_storage(id){
 		window.localStorage.setItem(id, JSON.stringify({
-					'carlos': id,
-					'nlargo': $('#nom-'+id).attr('title'),
-					'cancalcu': $('#cancalcu-'+id).text(),
-					'canti': $('#cant-'+id).val(),
-					'vcosto': $('#vunita-'+id).val(),
-					'ajuent': $('#ajuent-'+id).text(),
-					'ajusal': $('#ajusal-'+id).text(),
-					'cbarras': $('#cbarras-'+id).text(),
-					'cgrupo': $('#cgrupo-'+id).text()
-				}));
+			'carlos': id,
+			'nlargo': $('#nom-'+id).attr('title'),
+			'cancalcu': parseFloat($('#cancalcu-'+id).text()),
+			'canti': parseFloat($('#cant-'+id).val()),
+			'vcosto': parseFloat($('#vunita-'+id).val()),
+			'ajuent': parseFloat($('#ajuent-'+id).text()),
+			'ajusal': parseFloat($('#ajusal-'+id).text()),
+			'cbarras': $('#cbarras-'+id).text(),
+			'cgrupo': $('#cgrupo-'+id).text()
+		}));
 	}
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
@@ -354,19 +326,10 @@
 		cesdo = $('#id_estado');
 		if(cesdo.val() != ''){
 			loading_animation("Guardando Datos");
-			table.destroy();
-			$('.cont-data').each(function(){
-				var id = this.id;
-				data_r.push({
-					'carlos': $('#carlos-'+id).text(),
-					'nlargo': $('#nom-'+id).attr('title'),
-					'cancalcu': $('#cancalcu-'+id).text(),
-					'cant': $('#cant-'+id).val(),
-					'vunita': $('#vunita-'+id).val(),
-					'ajuent': $('#ajuent-'+id).text(),
-					'ajusal': $('#ajusal-'+id).text(),
-				});
-			});
+			for(var i=0;i<localStorage.length; i++) {
+				var key = localStorage.key(i);
+				data_r.push(JSON.parse(localStorage.getItem(key)))
+			}
 			$.ajax({
 				url: '{% url 'inventory_save' %}',
 				type: 'post',
@@ -379,10 +342,7 @@
 				},
 				dataType: "json",
 				success: function(response){
-					$('.animation').empty();
-					table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
-					$("#alert-msg").append(alertBootstrap(response.msg, 'success'))
-					$('#btn-print').removeAttr('disabled')
+					document.location.search = '?code='+response.code
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					$("#alert-msg").append(alertBootstrap("Ha ocurrido un error", 'error'))

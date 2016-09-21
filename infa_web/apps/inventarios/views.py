@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
@@ -92,7 +93,7 @@ def inventory_edit(request):
 	response = {}
 	c = 0
 	response['data'] = {}
-	response['data_extra'] = {}
+	response['arlo'] = {}
 	response['esdo'] = {}
 	value = Invinicab.objects.get(pk = request.POST.get('pk'))
 	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
@@ -115,40 +116,65 @@ def inventory_edit(request):
 		response['ac_year'] = 0
 		response['ac_hour'] = 0
 		response['ac_minute'] = 0
-	for arlo in value.invinideta_set.all():
-		response['data'][c] = {}
-		response['data'][c]['carlos'] = arlo.carlos.pk
-		response['data'][c]['cbarras'] = arlo.carlos.cbarras
-		response['data'][c]['nlargo'] = arlo.nlargo
-		response['data'][c]['ngpo'] = arlo.carlos.cgpo.ngpo
-		response['data'][c]['canti'] = str(arlo.canti).replace(",", ".")
-		response['data'][c]['cancalcu'] = str(arlo.cancalcu).replace(",", ".")
-		response['data'][c]['vcosto'] = str(arlo.vunita).replace(",", ".")
-		c += 1
-	c = 0
 	for arlo_extra in value_extra:
-		response['data_extra'][c] = {}
-		response['data_extra'][c]['carlos'] = arlo_extra.carlos
-		response['data_extra'][c]['cbarras'] = arlo_extra.cbarras
-		response['data_extra'][c]['nlargo'] = arlo_extra.nlargo
-		response['data_extra'][c]['ngpo'] = arlo_extra.cgpo.ngpo
-		response['data_extra'][c]['cancalcu'] = str(arlo_extra.canti).replace(",", ".")
-		response['data_extra'][c]['canti'] = 0
-		response['data_extra'][c]['vcosto'] = str(arlo_extra.vcosto).replace(",", ".")
+		response['arlo'][int(c)] = {
+			'carlos': arlo_extra.carlos,
+			'nlargo': arlo_extra.nlargo,
+			'cbarras': arlo_extra.cbarras,
+			'canti': 0,
+			'vcosto': str(arlo_extra.vcosto).replace(",", "."),
+			'cesdo': arlo_extra.cesdo.nesdo,
+			'cmarca': arlo_extra.cmarca.nmarca,
+			'cancalcu': str(arlo_extra.canti).replace(",", "."),
+			'cgrupo': arlo_extra.cgpo.ngpo
+		}
 		c += 1
 	c = 0
 	for esdo in Esdo.objects.all():
-		response['esdo'][c] = {}
-		response['esdo'][c]['cesdo'] = esdo.cesdo
-		response['esdo'][c]['nesdo'] = esdo.nesdo
-		response['esdo'][c]['selected'] = 'selected' if esdo.cesdo == value.cesdo.cesdo else ''
+		response['esdo'][c] = {
+			'cesdo': esdo.cesdo,
+			'nesdo': esdo.nesdo,
+			'selected': 'selected' if esdo.cesdo == value.cesdo.cesdo else ''
+		}
 		c += 1
 	response['count_extra'] = value_extra.count()
 	return HttpResponse(json.dumps(response), "application/json")
 
+def articles_list_invini(request):
+	data_arlo = {}
+	data_arlo['arlo'] = {}
+	orderBy = request.GET.get('orderBy')
+	cii = request.GET.get('cii')
+	invini = Invinideta.objects.filter(cii = cii)
+	if request.GET.get('buscarPor'):
+		invini = invini.filter(carlos__nlargo__icontains = request.GET.get('buscarPor'))
+	else:
+		invini
+	invini = Paginator(invini.order_by('carlos__'+orderBy), 10)
+	page = request.GET.get('page')
+	invini = invini.page(page)
+	if len(invini.object_list) < 10:
+		data_arlo['response'] = 0
+	else:
+		data_arlo['response'] = 1
+	for queryset in invini:
+		data_arlo['arlo'][queryset.carlos.pk] = {
+			'carlos': queryset.carlos.pk,
+			'nlargo': queryset.nlargo,
+			'cbarras': queryset.carlos.cbarras,
+			'canti': str(queryset.canti).replace(",", "."),
+			'vcosto': str(queryset.vunita).replace(",", "."),
+			'cesdo': queryset.carlos.cesdo.nesdo,
+			'cmarca': queryset.carlos.cmarca.nmarca,
+			'cancalcu': str(queryset.cancalcu).replace(",", "."),
+			'cgrupo': queryset.carlos.cgpo.ngpo
+		}
+	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
+
 @csrf_exempt
 def inventory_save(request):
 	response = {}
+	list_carlos = []
 	response_data = json.loads(request.POST.get('data_r'))
 	cii = request.POST.get('cii')
 	val_tot = request.POST.get('val_tot')
@@ -162,20 +188,16 @@ def inventory_save(request):
 		invini.fii = fii
 		invini.save()
 		for cii_deta in response_data:
-			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
-			try:
-				invini_deta = Invinideta.objects.get(cii = invini, carlos = carlos)
-				invini_deta.nlargo = cii_deta['nlargo']
-				invini_deta.canti = float(cii_deta['cant'])
-				invini_deta.vunita = float(cii_deta['vunita'])
-				invini_deta.vtotal = (float(cii_deta['cant']) * float(cii_deta['vunita']))
-				invini_deta.cancalcu = cii_deta['cancalcu']
-				invini_deta.ajuent = cii_deta['ajuent']
-				invini_deta.ajusal = cii_deta['ajusal']
-				invini_deta.save()	
-			except Invinideta.DoesNotExist:
-				invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = float(cii_deta['cant']), vunita = float(cii_deta['vunita']), vtotal = (float(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = float(cii_deta['cancalcu']), ajuent = float(cii_deta['ajuent']), ajusal = float(cii_deta['ajusal']))
-				invini_deta.save()
+			invini_deta = Invinideta.objects.get(cii = invini, carlos = cii_deta['carlos'])
+			invini_deta.nlargo = cii_deta['nlargo']
+			invini_deta.canti = float(cii_deta['canti'])
+			invini_deta.vunita = float(cii_deta['vcosto'])
+			invini_deta.vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto']))
+			invini_deta.cancalcu = cii_deta['cancalcu']
+			invini_deta.ajuent = cii_deta['ajuent']
+			invini_deta.ajusal = cii_deta['ajusal']
+			invini_deta.save()
+			invini_deta.save()
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save()
@@ -186,13 +208,62 @@ def inventory_save(request):
 			sv_cant = True
 		for cii_deta in response_data:
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
-			invini_deta = Invinideta(cii = invini, carlos = carlos, nlargo = cii_deta['nlargo'], canti = cii_deta['cant'], vunita = cii_deta['vunita'], vtotal = (float(cii_deta['cant']) * float(cii_deta['vunita'])), cancalcu = cii_deta['cancalcu'], ajuent = cii_deta['ajuent'], ajusal = cii_deta['ajusal'])
+			list_carlos.append(carlos.pk)
+			invini_deta = Invinideta(cii = invini, 
+									carlos = carlos, 
+									nlargo = cii_deta['nlargo'], 
+									canti = cii_deta['canti'], 
+									vunita = cii_deta['vcosto'], 
+									vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto'])), 
+									cancalcu = cii_deta['cancalcu'], 
+									ajuent = cii_deta['ajuent'], 
+									ajusal = cii_deta['ajusal']
+						)
 			invini_deta.save()
 			if sv_cant is True:
 				carlos.canti = cii_deta['cant']
-				carlos.vcosto = cii_deta['vunita']
+				carlos.vcosto = cii_deta['vcosto']
 				carlos.save()
-	response['msg'] = 'Exito al guardar'
+		for carlos_falt in Arlo.objects.exclude(pk__in = list_carlos):
+			invini_deta = Invinideta(cii = invini, 
+									carlos = carlos_falt, 
+									nlargo = carlos_falt.nlargo, 
+									canti = 0, 
+									vunita = carlos_falt.vcosto, 
+									vtotal = 0, 
+									cancalcu = carlos_falt.canti, 
+									ajuent = 0, 
+									ajusal = 0
+							)
+			invini_deta.save()
+			if sv_cant is True:
+				carlos_falt.canti = 0
+				carlos_falt.vcosto = 0
+				carlos_falt.save()
+	response['code'] = cii
+	return HttpResponse(json.dumps(response), "application/json")
+
+
+@csrf_exempt
+def inventory_save_extra(request):
+	response = {}
+	list_carlos = []
+	cii = Invinicab.objects.get(pk = request.GET.get('cii'))
+	response_data = json.loads(request.POST.get('data_r'))
+	for cii_deta in response_data:
+		carlos = Arlo.objects.get(carlos = response_data[cii_deta]['carlos'])
+		invini_deta = Invinideta(cii = cii, 
+								carlos = carlos, 
+								nlargo = response_data[cii_deta]['nlargo'], 
+								canti = 0, 
+								vunita = float(response_data[cii_deta]['vcosto']), 
+								vtotal = 0, 
+								cancalcu = float(response_data[cii_deta]['cancalcu']), 
+								ajuent = 0, 
+								ajusal = 0
+					)
+		invini_deta.save()
+	response['response'] = 'Exito al agregar nuevos articulos'
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt

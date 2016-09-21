@@ -360,3 +360,6 @@ $(document).on("change", ".orderBy", function(){
 $(document).on("change", ".buscarPor", function(){
 	data_table()
 })
+$(window).on('beforeunload', function (e) {
+	localStorage.clear();
+});
