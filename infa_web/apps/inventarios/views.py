@@ -16,7 +16,6 @@ from django.core import serializers
 from reportlab.lib import colors
 from io import BytesIO
 from .models import *
-from .utils import *
 from .forms import *
 import datetime
 import json
