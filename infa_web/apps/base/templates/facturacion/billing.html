@@ -49,31 +49,31 @@
 									</div>
 
 									<div class="form-group col-md-12">
-										<label for="{{form.cvende.id_for_label}}" class="col-sm-2 control-label">{{form.cvende.label}}</label>
+										<label for="{{form.cvende.id_for_label}}" class="col-sm-3 control-label">{{form.cvende.label}}</label>
 										{%if form.cvende.errors%}
 										{{form.cvende.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.cvende}}
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label for="{{form.cdomici.id_for_label}}" class="col-sm-2 control-label">{{form.cdomici.label}}</label>
+										<label for="{{form.cdomici.id_for_label}}" class="col-sm-3 control-label">{{form.cdomici.label}}</label>
 										{%if form.cdomici.errors%}
 										{{form.cdomici.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.cdomici}}
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label for="{{form.ctifopa.id_for_label}}" class="col-sm-2 control-label">{{form.ctifopa.label}}</label>
+										<label for="{{form.ctifopa.id_for_label}}" class="col-sm-3 control-label">{{form.ctifopa.label}}</label>
 										{%if form.ctifopa.errors%}
 										{{form.ctifopa.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.ctifopa}}
 										</div>
 									</div>
@@ -81,49 +81,49 @@
 
 								<div class="col-md-5 nopadding">
 									<div class="form-group col-md-12">
-										<label for="{{form.femi.id_for_label}}" class="col-sm-2 control-label">{{form.femi.label}}</label>
+										<label for="{{form.femi.id_for_label}}" class="col-sm-3 control-label">{{form.femi.label}}</label>
 										{%if form.femi.errors%}
 										{{form.femi.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											<input type="text" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
 										</div>
 									</div>
 									<div class="form-group col-md-12">
-										<label for="{{form.fpago.id_for_label}}" class="col-sm-2 control-label">{{form.fpago.label}}</label>
+										<label for="{{form.fpago.id_for_label}}" class="col-sm-3 control-label">{{form.fpago.label}}</label>
 										{%if form.fpago.errors%}
 										{{form.fpago.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											<input type="text" value="{{form.fpago.field.widget.attrs.value}}" name="{{form.fpago.name}}" id="{{form.fpago.id_for_label}}" class="{{form.fpago.field.widget.attrs.class}}" {% if form.fpago.field.required %}required{% endif %}>
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label for="{{form.cemdor.id_for_label}}" class="col-sm-2 control-label">{{form.cemdor.label}}</label>
+										<label for="{{form.cemdor.id_for_label}}" class="col-sm-3 control-label">{{form.cemdor.label}}</label>
 										{%if form.cemdor.errors%}
 										{{form.cemdor.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.cemdor}}
 										</div>
 									</div>
 
 									<div class="form-group col-md-12">
-										<label for="{{form.ccaja.id_for_label}}" class="col-sm-2 control-label">{{form.ccaja.label}}</label>
+										<label for="{{form.ccaja.id_for_label}}" class="col-sm-3 control-label">{{form.ccaja.label}}</label>
 										{%if form.ccaja.errors%}
 										{{form.ccaja.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.ccaja}}
 										</div>
 									</div>
 									<div class="form-group col-md-12">
-										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-3 control-label">{{form.cesdo.label}}</label>
 										{%if form.cesdo.errors%}
 										{{form.cesdo.errors}}
 										{%endif%}
-										<div class="col-sm-10">
+										<div class="col-sm-9">
 											{{form.cesdo}}
 										</div>
 									</div>
@@ -148,7 +148,7 @@
 								</section>
 
 								<section role="form" id="item_mdeta">
-									<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<table class="table table-striped no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
 												<th width="3%">It</th>
@@ -184,7 +184,7 @@
 													</button>
 												</th>
 												<th width="5%">
-													<button class="btn btn-info" type="button" onclick="mostrar_modal_lista_precios()">
+													<button class="btn btn-info" type="button" onclick="mostrar_modal_lista_precios(false)">
 														<i class="fa fa-list-alt"></i>
 													</button>
 												</th>
@@ -196,7 +196,7 @@
 								</section>
 
 								<section role="form" id="list_items_mdeta">
-									<table class="table table-striped dataTable no-footer text-center" cellspacing="0" width="100%">
+									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
 										<tbody>
 										</tbody>
 									</table>
@@ -218,27 +218,23 @@
 							<div class="box-body">
 								<div class="row col-md-6">
 									<div class="form-group">
+										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+										{{form.vtbase}}
+									</div>
+									<div class="form-group">
 										<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
 										{{form.vtiva}}
-									</div>
-									<div class="form-group">
-										<label for="" >IVA</label>
-										<input type="number" value="" name="" id="" class="form-control">
-									</div>
-									<div class="form-group">
-										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-										{{form.vflete}}
 									</div>
 								</div>
 
 								<div class="row col-md-6">
 									<div class="form-group">
-										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-										{{form.vdescu}}
+										<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+										{{form.vflete}}
 									</div>
 									<div class="form-group">
-										<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-										{{form.vtbase}}
+										<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+										{{form.vdescu}}
 									</div>
 									<div class="form-group">
 										<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
@@ -312,7 +308,7 @@
 							<form class="form-horizontal" id="form_medios_pago">
 								<section id="item_medio_pago">
 									
-									<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<table class="table table-striped no-footer" cellspacing="0" width="100%">
 										<thead>
 											<tr>
 												<th width="3%">It</th>
@@ -326,7 +322,14 @@
 												<th width="10%">
 													<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
 												</th>
-												<th width="10%">{{ form_medios_pagos.cmpago }}</th>
+												<!--<th width="10%">{{ form_medios_pagos.cmpago }}</th>-->
+												<th width="10%">
+													<select required name="{{ form_medios_pagos.cmpago.name }}" id="{{ form_medios_pagos.cmpago.id_for_label}}" class="form-control">
+														{% for medio_pago in medios_pago %}
+															<option value="{{medio_pago.pk}}" data-ifdoc="{{medio_pago.ifdoc}}">{{medio_pago.nmpago}}</option>
+														{% endfor %}
+													</select>
+												</th>
 												<th width="10%">{{ form_medios_pagos.docmpago }}</th>
 												<th width="20%">{{ form_medios_pagos.banmpago }}</th>
 												<th width="20%">{{ form_medios_pagos.vmpago }}</th>
@@ -408,7 +411,7 @@
 					html:value}))
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
+			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_meidos_pagos))
 			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
 			tr.append(btnEdit,btnDelete)
 			$("#list_medios_pago").find("tbody").append(tr)
@@ -441,6 +444,8 @@
 	})
 
 	$("[name=ventre]").change(function(){calcular_valor_cambio()})
+	
+	$("[name=vflete], [name=vdescu]").change(function(){calcular_total()})
 
 	$("[name=vttotal]").change(function(){
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
@@ -463,16 +468,30 @@
 		//min_precio_venta = 900
 		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
 			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
-				$(this).val("")
+				$(this).val("").focus()
 			}
 		}
 	})
 
-	$("#item_medio_pago [name=cmpago]").change(function(){
-		if($(this).val() == data_validation.medios_pago.MEDIO_PAGO_EFECTIVO){
-			$("[name=docmpago],[name=banmpago]").prop("disabled",true).val("")
+	$("#item_medio_pago [name=cmpago]").change(function(e){
+		var option = $(this).find("option[value=" + $(this).val() + "]")
+		console.info(option)
+		var ifdoc = eval(option.data("ifdoc").toLowerCase())
+		console.info(ifdoc)
+		if(ifdoc){
+			$("[name=docmpago],[name=banmpago]")
+				.prop("disabled",false)
+				.prop("required",true)
+				.val("")
 		}else{
-			$("[name=docmpago],[name=banmpago]").prop("disabled",false).val("")
+			$("[name=docmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val("0")
+			$("[name=banmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val(data_validation.medios_pago.DEFAULT_BANCO)
 		}
 	})
 	/* Validaciones */
@@ -495,13 +514,12 @@
 	}) 
 
 	function calcular_valor_cambio(){
-			console.log("cambios")
 		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
 			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
 				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
 			}else{
 				var v_cambio = ""
-				$("form").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
+				$("#form_totales").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
 			}
 			$("[name=vcambio]").val(v_cambio)
 		}
@@ -509,7 +527,7 @@
 
 	function show_modal_totalizar(){
 		var array_mvdeta = get_data_list("#list_items_mdeta")
-		if(!array_mvdeta.length) return $("form").append(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			$("#item_medio_pago [name=cmpago]").val(1)
@@ -517,10 +535,22 @@
 		}else{
 			$("#list_medios_pago table tbody tr").remove()
 		}
-		console.log("Totalizando")
+		//$("#form_medios_pago").submit()
 		$("#medios_pago").modal("show")
 	}
 
+	function edit_item_meidos_pagos(){
+		var target = $(this)
+		parent = target.closest("tr")
+		parent.find("[data-name]").each(function(i,e){
+
+			var td = $(e)
+
+			var input = $("#item_medio_pago").find("[name = " + td.data("name") + "]")
+			input.val(td.data("value"))
+		})
+		parent.remove()
+	}
 	function edit_item_mdeta(){
 		var target = $(this)
 		parent = target.closest("tr")
@@ -548,11 +578,44 @@
 		$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
 	}
 
+	/*function calcular_total(){
+		var vttotal_items = 0
+		$("#list_items_mdeta tbody tr")
+			.toArray()
+			.forEach(function(e){
+				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+				console.log(temp_vunita)
+				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+				console.log(temp_canti)
+				var vtotal_temp = temp_vunita * temp_canti
+				vttotal_items += vtotal_temp
+			}
+		)
+		$("[name=vttotal]").val(vttotal_items)
+		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_items))
+	}*/
 	function calcular_total(){
-		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vunita]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
-		$("[name=vttotal]").val(vtotal_temp)
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vtotal_temp))
+		var vttotal_items = 0
+		var vttotal_local = 0
+		$("#list_items_mdeta tbody tr")
+			.toArray()
+			.forEach(function(e){
+				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+				console.log(temp_vunita)
+				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+				console.log(temp_canti)
+				var vtotal_temp = temp_vunita * temp_canti
+				vttotal_items += vtotal_temp
+			}
+		)
+		var vflete = parseFloat($("[name=vflete]").val())
+		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
+
+		vttotal_local_sin_descuento = vflete + vttotal_items
+		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
+
+		$("[name=vttotal]").val(vttotal_local).trigger("change")
+		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
 	}
 
 	function get_data_list(selector_list){
@@ -588,8 +651,10 @@
 			var ivas_civa = current_arlo.ivas_civa
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
 		}else{
+			console.log("hola")
 			var name__carlos = ""
 			var ivas_civa = ""
+			$("[name=vunita]").val("")
 		}
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
@@ -597,7 +662,30 @@
 		calcular_valor_unitario()
 	}
 
-	function mostrar_modal_lista_precios(){
+	function calcular_vtbase_vtiva(){
+		var vtbase = 0
+		var vtiva = 0
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
+			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
+			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
+
+			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
+			var porcentaje_iva = valores_iva[codigo_iva]
+
+			var precio_total_sin_descuento = cantidad * precio
+			var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
+
+			var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
+			var viva = vbase * ( porcentaje_iva / 100 )
+
+			vtbase += vbase
+			vtiva += viva
+		})
+		return {vtbase: vtbase,vtiva: vtiva}
+	}
+
+	function mostrar_modal_lista_precios(if_return_mpvta){
 		$("#lista_precios .modal-body").empty()
 		if(!current_arlo) return alert("Por favor seleccione un articulo.")
 		var table = $("<table class='table table table-striped'>")
@@ -614,24 +702,45 @@
 							$("<td>",{html:currencyFormat.format(current_arlo[field])})
 						)
 					)
-					console.log(field)
 				}
 			}
+			if(if_return_mpvta) return pvta_menor
 			$("#lista_precios .modal-body").append(table)
 			$("#lista_precios").modal("show")
 	}
 
+	/* 
+		El orden de las lineas Importa 
+		la funcion "setValueFieldArlo" va de ultima.
+	*/
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
-			setValueFieldArlo("","","")
+			current_arlo = null
+			setValueFieldArlo()
 			return
 		}
+
+		var arlo_in_list = false
+
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var td = $(e).find("[data-name=carlos]")
+			console.warn(td)
+			if(td.data("value") == input_value){
+				console.info("entre")
+				$(e).find(".fa.fa-edit").click()
+				arlo_in_list = true
+			}
+		})
+		if(arlo_in_list) return
+
 		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
 			if(response.object){
 				var object = JSON.parse(response.object)[0]
 				fields = object.fields
 				current_arlo = fields
+				pvta_menor = mostrar_modal_lista_precios(true)
+
 				setValueFieldArlo()
 			}else{
 				current_arlo = null
@@ -640,6 +749,7 @@
 						var object = JSON.parse(response.object)[0]
 						fields = object.fields
 						current_arlo = fields
+						pvta_menor = mostrar_modal_lista_precios(true)
 					}else{
 						$('#id_carlos').val("")
 						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
@@ -689,6 +799,10 @@
 					var value = currencyFormat.format(e.value)
 				}
 
+				if(e instanceof HTMLSelectElement){
+					var value = $(e).find("option[value=" + e.value + "]").html()
+				}
+
 				tr.append($("<td>",{
 					width:oth.attr("width"),
 					"data-name":e.name,
@@ -703,6 +817,7 @@
 			
 			$('#item_mdeta').find("input,select").val("")
 			$('#item_mdeta').find("[name=canti]").val(1)
+			$('#item_mdeta').find("[name=pordes]").val(0)
 			var it = 1
 			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
 				function(e){
@@ -711,10 +826,29 @@
 					it++
 				})
 			calcular_total()
+			var totales = calcular_vtbase_vtiva()
+			$("[name=vtiva]").val(Math.round(totales.vtiva))
+			$("[name=vtbase]").val(Math.round(totales.vtbase))
+			console.log(totales)
+
+			$("#id_carlos").focus()
 		}
 	})
 
 	$("#btn-save").click(function(event){
+
+		/*
+		
+		var total_meidos_pagos = 0
+		$("#list_medios_pago tbody tr").toArray().forEach(function(e,i,a){
+			var vtemp = parseFloat($(e).find("[data-name=vmpago]").data("value"))
+			total_meidos_pagos += vtemp
+		})
+		if( total_meidos_pagos > parseFloat($("[name=vttotal]").val()) ){
+	
+		}
+		*/
+
 		event.preventDefault()
 
 		if(!customValidationInput("#form_movement").valid) return
@@ -742,7 +876,6 @@
 			currentForm.prepend(message)
 			return
 		}
-		console.warn(data)
 		loading_animation("Guardando Movimiento.")
 		$.ajax({
 			url: '{{url}}',
@@ -779,6 +912,14 @@
 	{% else %}
 		var js_list = []
 	{% endif %}
+
+	valores_iva = {
+		1:0,
+		2:8,
+		3:10,
+		4:16,
+		5:0,
+	}
 
 	js_list.forEach(function(object){
 		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)

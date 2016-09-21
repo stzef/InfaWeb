@@ -61,10 +61,10 @@ def BillSave(request):
 			ctifopa = ctifopa,
 			descri = '-',
 			vtbase = float(data['vtbase']),
-			vtiva = 0,
+			vtiva = float(data['vtiva']),
 			vflete = float(data['vflete']),
 			vdescu = float(data['vdescu']),
-			vttotal = float(vttotal),
+			vttotal = float(vttotal[0]),
 			ventre = float(data['ventre']),
 			vcambio = float(data['vcambio']),
 			ccaja = ccaja,
@@ -84,7 +84,7 @@ def BillSave(request):
 			citerce = citerce,
 			ctimo = ccaja.ctimocj,
 			cesdo = cesdo,
-			vttotal = float(vttotal),
+			vttotal = float(vttotal[0]),
 			descri = '-'
 		)
 	mvsa.save()
@@ -170,6 +170,10 @@ class BillCreate(CreateView):
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
+		medios_pago = MediosPago.objects.all()
+		context['medios_pago'] = medios_pago
+
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm()
 		context['form_medios_pagos'] = FacpagoForm
@@ -190,6 +194,7 @@ class BillCreate(CreateView):
 		
 		context['data_validation']['medios_pago'] = {}
 		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
+		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
@@ -201,5 +206,29 @@ def bill_proccess_view_annulment(request):
 
 def bill_proccess_fn_annulment(request):
 	data = json.loads(request.body)
+
+	current_datetime = str(datetime.datetime.now())
+	user = "Usuario Estatico"
+
+	factura = Fac.objects.get(pk=data["fact"])
+	mvsa = Mvsa.objects.get(docrefe = factura.cfac)
+	movi = Movi.objects.get()
+
+	detaanula = data["detaanula"] + " " + current_datetime + " " + user
+	estado = Esdo.objects.get(pk=data["cesdo"])
+
+
+	factura.detaanula = detaanula
+	factura.cesdo = estado
+
+	mvsa.detaanula = detaanula
+	mvsa.cesdo = estado
+
+	movi.detaanula = detaanula
+	movi.cesdo = estado
+
+	factura.save()
+	mvsa.save()
+	movi.save()
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
