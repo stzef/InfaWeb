@@ -1,0 +1,68 @@
+{%extends 'layouts/base.html'%}
+{% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+{% load humanize %}
+{%block content%} 
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">{{title}}</h3>
+				</div>
+				<div class="box-body">
+					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>C. Factura</th>
+								<th>F. Emision</th>
+								<th>Tercero</th>
+								<th>Estado</th>
+								<th>Descripcion</th>
+								<th>V. Total</th>
+								<th>Caja</th>
+								<th>Vende</th>
+								<th>fhasdomi</th>
+								<th>Editar</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for bill in object_list %}
+								<tr data-object-search="{{ bill.pk }}">
+									<td>{{bill.cfac}}</td>
+									<td>{{bill.femi}}</td>
+									<td>{{bill.citerce}}</td>
+									<td>{{bill.cesdo}}</td>
+									<td>{{bill.descri}}</td>
+									<td>{{bill.vttotal}}</td>
+									<td>{{bill.ccaja}}</td>
+									<td>{{bill.cvende}}</td>
+									<td>{{bill.fhasdomi}}</td>
+									<td><a data-link-edit href="" target="_blank">Editar</a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		windowSearch("[name=fact]")
+		$(document).ready(function() {
+			$('#example').DataTable({"language": languageDataTable});
+		});
+	</script>
+{% endblock %}

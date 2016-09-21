@@ -66,6 +66,28 @@
         "nparam": "Fecha de Appen"
     }, 
     {
+        "cparam": "company_logo", 
+        "type": "String", 
+        "value": "img/empresas/ejemplo/logo.png", 
+        "label": {
+            "text": "Logo de la Empresa."
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "img/empresas/ejemplo/logo.png", 
+            "type": "text", 
+            "id": "company_logo", 
+            "select": false
+        }, 
+        "smodule": "G", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Logo de la Empresa."
+    }, 
+    {
         "cparam": "type_costing_and_stock", 
         "type": "String", 
         "value": "P", 

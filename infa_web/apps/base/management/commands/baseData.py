@@ -132,6 +132,7 @@ class Command(BaseCommand):
 		Modules.objects.create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
 		Modules.objects.create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
 		Modules.objects.create(smodule="F",nmodule="Financiero",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+		Modules.objects.create(smodule="G",nmodule="General",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
 		print "Modules. Registros Creados Correctamente."
 
 		#Base - Ubica

@@ -26,7 +26,7 @@
 							</div>
 							<div class="box-body">
 								<div class="col-md-2 nopadding">
-									<img src="{% static 'img/empresa.png' %}" alt="">
+									<img class="img-responsive" src="{% static company_logo %}" alt="">
 								</div>
 
 								<div class="col-md-5 nopadding">
@@ -370,7 +370,7 @@
 						Totalizar
 					</button>
 
-					<a data-new-window class="btn btn-app" href=""><i class="fa fa-list"></i>Listar</a>
+					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
 			</div>
 
@@ -392,8 +392,8 @@
 
 		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
 
-		if(nuevo_valor_medios_pagos < 0){
-			alert("El Valor a Pagar no puede ser Menor a Cero")
+		if(nuevo_valor_medios_pagos <= 0){
+			alert("El Valor a pagar no puede ser menor o igual a Cero")
 			return
 		}
 		
@@ -556,15 +556,16 @@
 	function show_modal_totalizar(){
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+		$("#list_medios_pago table tbody tr").remove()
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			$("#item_medio_pago [name=cmpago]").val(1)
+			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
 			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
-		}else{
-			$("#list_medios_pago table tbody tr").remove()
+			$("#form_medios_pago").submit()
 		}
-		//$("#form_medios_pago").submit()
 		$("#medios_pago").modal("show")
+		$("#medios_pago [name=cmpago]").focus()
+
 	}
 
 	function edit_item_meidos_pagos(){
