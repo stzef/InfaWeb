@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/21 07:43:59", 
+        "value": "2016/09/21 09:49:04", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/21 07:43:59", 
+            "selected": "2016/09/21 09:49:04", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -64,6 +64,28 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "Fecha de Appen"
+    }, 
+    {
+        "cparam": "company_logo", 
+        "type": "String", 
+        "value": "img/empresas/ejemplo/logo.png", 
+        "label": {
+            "text": "Logo de la Empresa."
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "img/empresas/ejemplo/logo.png", 
+            "type": "text", 
+            "id": "company_logo", 
+            "select": false
+        }, 
+        "smodule": "G", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Logo de la Empresa."
     }, 
     {
         "cparam": "type_costing_and_stock", 
