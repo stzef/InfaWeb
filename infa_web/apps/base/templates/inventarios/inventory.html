@@ -71,6 +71,7 @@
 	var table = '';
 	var dis_print = '';
 	var data_table_content = [];
+	var cont = 1
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -132,7 +133,25 @@
 					'<h3 class="box-title">Articulos de Inventario</h3>'+
 				'</div>'+
 				'<div class="box-body">'+
-					'<table class="table table-striped" id="table"></table>'+
+					'{%include 'elements/filters.html'%}'+
+					'<table class="table table-striped" id="table">'+
+						'<thead>'+
+							'<tr>'+
+								'<th>Codigo</th>'+
+								'<th>C. Barras</th>'+
+								'<th>Nombre</th>'+
+								'<th>Grupo</th>'+
+								'<th>Cant.Cal.</th>'+
+								'<th>Cant. Cont.</th>'+
+								'<th>Costo Unit.</th>'+
+								'<th>Costo Total</th>'+
+								'<th>Aj. Entrada</th>'+
+								'<th>Aj. Salida</th>'+
+							'</tr>'+
+						'</thead>'+
+						'<tbody id="cont-data"></tbody>'+
+					'</table>'+
+					'{%include 'elements/paginate.html'%}'+
 					'<div class="col-md-12 text-right">'+
 						'<p><b>Valor Total: </b><span id="val-tot" class="val-tot" val="'+response.val_tot+'">'+(response.val_tot).format(2)+'</span></p>'+
 					'</div>'+
@@ -146,9 +165,6 @@
 							'<a class="btn btn-app btn-info btn btn-primary open-modal" data-toggle="modal" data-target="#Modal" id="btn-print" href="{% url 'inventory_report' %}?invini='+cii.val()+'" '+dis_print+'>'+
 								'<i class="fa fa-print"></i>Imprimir'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-rename" href="#">'+
-								'<i class="fa fa-pencil-square-o"></i>Actualizar nombres'+
-							'</a>'+
 							'<a class="btn btn-app btn-info btn btn-primary" id="btn-reset" href="#">'+
 								'<i class="fa fa-undo"></i>Valores en cero'+
 							'</a>'+
@@ -160,6 +176,7 @@
 				'</div>'+
 			'</div>'
 		);
+		/*
 		table = $('.table').DataTable({
 			"language": languageDataTable,
 			"order": [[ 2, "asc" ]],
@@ -184,6 +201,7 @@
 				$('td', row).eq(9).attr('id', 'ajusal-'+data.DT_RowId);
 			}
 		});
+		*/
 		$('.date').datetimepicker({
 			 defaultDate: new Date(response.year+'/'+response.month+'/'+response.day+' '+response.hour+':'+response.minute),
 			 format: 'D/MM/YYYY HH:mm',
@@ -218,6 +236,38 @@
 	}
 	function data_table(data){
 		var val_tot = 0;
+		var buscarPor = $('.buscarPor').val().length > 0 ? '&buscarPor='+$('.buscarPor').val(): ''
+		$.get("{% url 'articles_list' %}?page="+cont+"&orderBy="+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+			$('#cont-data').empty()
+			if(data.response == 0){
+				$(".next").addClass('disabled')
+			}else{
+				$(".next").removeClass('disabled')
+			}
+			console.log(data)
+			$.each(data.arlo, function (key, item){
+				item = put_local_storage(item, item.carlos)
+				console.log(item)
+				$('#cont-data').append(
+					'<tr id="'+item.carlos+'" class="cont-data">'+
+						'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
+						'<td id="cbarras-'+item.carlos+'">'+item.cbarras+'</td>'+
+						'<td id="nlargo-'+item.carlos+'"><span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo+'...'+'</span></td>'+
+						'<td id="cgrupo-'+item.carlos+'">'+item.cgrupo+'</td>'+
+						'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
+						'<td><input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'"></td>'+
+						'<td><input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'"></td>'+
+						'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti * item.vcosto).format(2)+'</td>'+
+						'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
+						'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
+					'</tr>'
+				);
+				window.localStorage.getItem(item.carlos) != null ? '': save_local_storage(item.carlos)
+				calc_aj(item.canti, item.cancalcu, item.carlos)
+			});
+		});
+		$(".positive").numeric({ negative: false }, function() { this.value = ""; this.focus(); });
+		/*
 		$.each(data, function (key, item) {
 			table.row.add({
 				'DT_RowId': item.carlos,
@@ -235,7 +285,7 @@
 			}).draw()
 			calc_aj(item.canti, item.cancalcu, item.carlos)
 		});
-		$(".positive").numeric({ negative: false }, function() { this.value = ""; this.focus(); });
+		*/
 		$('.animation').empty();
 	}
 	function calc_aj(this_value, cant_calcu, id){
@@ -248,6 +298,22 @@
 			$('#ajuent-'+id).text(cant.toFixed(2));
 		}
 	}
+	function put_local_storage(value, id){
+		return (window.localStorage.getItem(id) != null) ? JSON.parse(window.localStorage.getItem(id)): value
+	}
+	function save_local_storage(id){
+		window.localStorage.setItem(id, JSON.stringify({
+					'carlos': id,
+					'nlargo': $('#nom-'+id).attr('title'),
+					'cancalcu': $('#cancalcu-'+id).text(),
+					'canti': $('#cant-'+id).val(),
+					'vcosto': $('#vunita-'+id).val(),
+					'ajuent': $('#ajuent-'+id).text(),
+					'ajusal': $('#ajusal-'+id).text(),
+					'cbarras': $('#cbarras-'+id).text(),
+					'cgrupo': $('#cgrupo-'+id).text()
+				}));
+	}
 	$(document).on("click", "#btn-reset", function(e){
 		e.preventDefault();
 		if (confirm('¿Desea poner los valores en ceros?')){
@@ -255,19 +321,6 @@
 			$(':input.val').val(0).trigger('keyup');
 			table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
 		}
-	});
-	$(document).on("click", "#btn-rename", function(e){
-		e.preventDefault();
-		loading_animation("Actualizando Nombres");
-		$.post('{% url 'get_name_arlo' %}', function(response){
-			$.each(response.data, function (key, item){
-				$('#nom-'+item.carlos).attr('title', item.nlargo).text(item.nlargo.substring(0,10)+'...');
-			});
-			$("#alert-msg").append(alertBootstrap("Nombres de Articulos Actualizados", 'success'))
-			$('.animation').empty();
-		}).fail(function(xhr, status, error) {
-			$("#alert-msg").append(alertBootstrap("Ha ocurrido un error al renombrar los articulos. Por favor recargue la pagina", 'error'))
-		});
 	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
@@ -282,6 +335,7 @@
 		});
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
 		calc_aj(this_value, cant_calcu, id);
+		save_local_storage(id)
 	});
 	$(document).on("keyup", ".value", function(e){
 		var id =$(this).parent().parent().attr('id');
@@ -292,6 +346,7 @@
 			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
 		});
 		$('#vtotal-'+id).text(value_tot.format(2)).attr('val', value_tot);
+		save_local_storage(id)
 	});
 	$(document).on("click", "#btn-save", function(e){
 		e.preventDefault();

@@ -176,27 +176,31 @@ class ArticleUpdate(AjaxableResponseMixin,UpdateView):
 
 def article_list(request):
 	data_arlo = {}
+	data_arlo['arlo'] = {}
 	orderBy = request.GET.get('orderBy')
-	arlos = Arlo.objects.all().order_by(orderBy)
-	arlos.filter(nlargo__icontains = request.GET.get('buscarPor')) if request.GET.get('buscarPor') else arlos
-	arlo = Paginator(arlos, 10)
+	arlos = Arlo.objects.all()
+	if request.GET.get('buscarPor'):
+		arlos = arlos.filter(nlargo__icontains = request.GET.get('buscarPor'))
+	else:
+		arlos
+	arlo = Paginator(arlos.order_by(orderBy), 10)
 	page = request.GET.get('page')
-	try:
-		arlo = arlo.page(page)
-	except PageNotAnInteger:
-		arlo = arlo.page(1)
-	if len(arlo.object_list) <= 10:
+	arlo = arlo.page(page)
+	if len(arlo.object_list) < 10:
 		data_arlo['response'] = 0
 	else:
 		data_arlo['response'] = 1
 	for queryset in arlo:
-		data_arlo[queryset.carlos] = {
+		data_arlo['arlo'][queryset.carlos] = {
 			'carlos': queryset.carlos,
 			'nlargo': queryset.nlargo,
-			'canti': str(queryset.canti).replace(",", "."),
+			'cbarras': queryset.cbarras,
+			'canti': 0,
 			'vcosto': str(queryset.vcosto).replace(",", "."),
 			'cesdo': queryset.cesdo.nesdo,
-			'cmarca': queryset.cmarca.nmarca
+			'cmarca': queryset.cmarca.nmarca,
+			'cancalcu': str(queryset.canti).replace(",", "."),
+			'cgrupo': queryset.cgpo.ngpo
 		}
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 

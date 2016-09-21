@@ -337,3 +337,26 @@ $("[data-currency-format]").change(function(event){
 	var currencyFormat = CurrencyFormat()
 	$(this).val(currencyFormat.format($(this).val()))
 })
+
+$(document).on("click", "#next", function(){
+	if(!$(".next").hasClass('disabled')){
+		$(".previous").removeClass('disabled')
+		cont += 1
+		data_table()
+	}
+})
+$(document).on("click", "#previous", function(){
+	if(!$(".previous").hasClass('disabled')){
+		if(cont == 2){
+			$(".previous").addClass('disabled')
+		}
+		cont -= 1
+		data_table()
+	}
+})
+$(document).on("change", ".orderBy", function(){
+	data_table()
+});
+$(document).on("change", ".buscarPor", function(){
+	data_table()
+})

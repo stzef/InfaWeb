@@ -37,6 +37,9 @@ class Marca(models.Model):
 	def __unicode__(self):
 		return self.nmarca
 
+	class Meta:
+		ordering = ['nmarca']
+
 class Unidades(models.Model):
 	cunidad = models.AutoField(primary_key=True)
 	nunidad = models.CharField(max_length=60,default=DEFAULT_UNIDAD)
@@ -96,13 +99,13 @@ class Arlo(models.Model):
 	foto3 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
 
 	def __str__(self):
-		return self.ncorto
+		return self.nlargo
 
 	def __unicode__(self):
-		return self.ncorto
+		return self.nlargo
 
 	class Meta:
-		ordering = ['-ncorto']
+		ordering = ['-nlargo']
 
 class Arlosdesglo(models.Model):
 	carlosp = models.ForeignKey(Arlo, related_name='carlosp')
