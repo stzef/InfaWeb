@@ -133,6 +133,65 @@
 					'<h3 class="box-title">Articulos de Inventario</h3>'+
 				'</div>'+
 				'<div class="box-body">'+
+					'<table class="table no-footer">'+
+						'<thead>'+
+							'<tr>'+
+								'<th>Código</th>'+
+								'<th>C. Barras</th>'+
+								'<th>Nombre</th>'+
+								'<th>Cant. Cal.</th>'+
+								'<th>Cant. Cont.</th>'+
+								'<th>Costo Unit.</th>'+
+								'<th>Costo Total</th>'+
+								'<th></th>'+
+							'</tr>'+
+						'</thead>'+
+						'<tbody>'+
+							'<tr>'+
+								'<td width="15%">'+
+									'<div class="input-group">'+
+										'<input type="number" id="id_carlos" name="carlos" class="form-control" find-carlos/>'+
+										'<span class="input-group-addon"><a data-new-window="" href="/articles/" target="_blank"><i class="fa fa-search"></i></a></span>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_cbarras" class="form-control" readonly/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_nlargo" class="form-control" readonly/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_cantcalcu" class="form-control" readonly/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_canti" class="form-control"/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_vunita" class="form-control"/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<div class="input-group">'+
+										'<input type="text" id="id_vttotal" class="form-control" readonly/>'+
+									'</div>'+
+								'</td>'+
+								'<td>'+
+									'<a href="#" class="btn btn-success" id="add">'+
+										'<i class="fa fa-plus-square"></i>'+
+									'</a>'+
+								'</td>'+
+							'</tr>'+
+						'</tbody>'+
+					'</table><br>'+
 					'{%include 'elements/filters.html'%}'+
 					'<table class="table table-striped" id="table">'+
 						'<thead>'+
@@ -293,6 +352,11 @@
 			$(':input.val').val(0).trigger('keyup');
 			table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
 		}
+	});
+	$(document).on("focusout", "#id_carlos", function(e){
+		$.post('/api/get-object/',JSON.stringify({'model': 5, 'field': this.name, 'value': this.value}),function(response){
+			console.log(response)
+		})
 	});
 	$(document).on("keyup", ".cant", function(e){
 		var id = $(this).parent().parent().attr('id');
