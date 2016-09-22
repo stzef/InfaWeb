@@ -126,7 +126,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-sm-4 form-group">
+									<div class="col-sm-5 form-group">
 										<label for="{{form.dirterce.id_for_label}}" class="col-md-4 control-label">{{form.dirterce.label}}</label>
 										{%if form.dirterce.errors%}
 										{{form.dirterce.errors}}
@@ -144,7 +144,7 @@
 											{{form.telterce}}
 										</div>
 									</div>
-									<div class="col-sm-4 form-group">
+									<div class="col-sm-3 form-group">
 										<label for="{{form.faxterce.id_for_label}}" class="col-md-4 control-label">{{form.faxterce.label}}</label>
 										{%if form.faxterce.errors%}
 										{{form.faxterce.errors}}
@@ -337,7 +337,7 @@
 				</div>
 				<div class="text-center">
 					<div class="btn-group">
-						<button class="btn btn-app btn-info" type="reset">
+						<button class="btn btn-app btn-info" type="button" action="reset-form">
 							<i class="fa fa-plus-square-o"></i>Nuevo
 						</button>
 						<button class="btn btn-app" type="submit">
@@ -391,12 +391,16 @@
 				$("[name=ape1],[name=ape2],[name=nom1],[name=nom2]").on("change",setRasocial);
 
 				$("[name=cregiva]").val(1);
+
+				$("[name=ctiide]").val(1);
 			}else if($(this).val() == "PJ"){
 				$("[name=ape1],[name=ape2],[name=nom1],[name=nom2]").attr("disabled",true);
 				$("[name=ape1],[name=ape2],[name=nom1],[name=nom2]").off("change",setRasocial);
 				$("[name=ape1],[name=ape2],[name=nom1],[name=nom2]").val("");
 				$("[name=rasocial]").val("");
 				$("[name=cregiva]").val(2);
+
+				$("[name=ctiide]").val(2);
 			}
 		});
 		customValidationFormTabs("form",fn_customValidationFormTabs)

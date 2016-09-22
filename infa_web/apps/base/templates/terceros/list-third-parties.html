@@ -22,9 +22,9 @@
 						<thead>
 							<tr>
 								<th>Identificación</th>
-								<th>Primer Apellido</th>
-								<th>Primer Nombre</th>
 								<th>Razon Social</th>
+								<th>Direccion</th>
+								<th>Telefono</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
@@ -32,9 +32,9 @@
 							{% for thirdParty in object_list %}
 								<tr data-object-search="{{ thirdParty.pk }}">
 									<td >{{ thirdParty.idterce }}</td>
-									<td>{{ thirdParty.nom1 }}</td>
-									<td>{{ thirdParty.ape1 }}</td>
 									<td>{{ thirdParty.rasocial }}</td>
+									<td>{{ thirdParty.dirterce }}</td>
+									<td>{{ thirdParty.telterce }}</td>
 									<td><a data-link-edit href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
