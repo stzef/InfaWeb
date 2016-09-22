@@ -67,6 +67,25 @@ MIDDLEWARE_CLASSES = [
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'handlers': {
+		'file': {
+			'level': 'DEBUG',
+			'class': 'logging.FileHandler',
+			'filename': os.path.join(BASE_DIR, 'infa_web/logs/debug.log'),
+		},
+	},
+	'loggers': {
+		'django': {
+			'handlers': ['file'],
+			'level': 'DEBUG',
+			'propagate': True,
+		},
+	},
+}
+
 ROOT_URLCONF = 'infa_web.urls'
 
 TEMPLATES = [

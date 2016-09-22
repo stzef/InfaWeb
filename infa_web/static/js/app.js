@@ -29,6 +29,22 @@ $('[check-carlos]').change(function(){
 	})
 });
 
+$(document).on("ready", function(e){
+	if(window.opener){
+
+		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
+			.click(function(){
+				window.close()
+			})
+
+		if($(".btn-group").length == 1){
+			$(".btn-group").append(button)
+		}else{
+			$(".content-wrapper").append(button)
+		}
+	}
+})
+
 $("input").focus(function(){$(this).select()})
 $(document).on("click", ".open-modal", function(e){
 	$('#Modal').load($(this).attr('href'),function(){
@@ -104,9 +120,13 @@ function windowSearch(selectorInput){
 	}
 }
 
-function defaultfn(){
-	
-}
+function defaultfn(){}
+
+
+$("button[action=reset-form]").click(function (e){
+	$(this).closest("form").trigger("reset")
+	$(this).closest("form").find(":input").trigger("change")
+})
 
 function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageWait){
 	$(selectorForm).submit(function(event){

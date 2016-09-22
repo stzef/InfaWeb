@@ -16,6 +16,9 @@
 		font-weight bold
 		font-size 1.5rem
 		border none
+	
+input[type=number]
+	text-align right
 
 .logo-app
 	&-color
@@ -52,7 +55,7 @@ a[disabled]
 
 input,select
 	&:required
-		border 1px solid #3C8DBC
+		border 2px solid #3C8DBC
 		
 .loading-animation
 	width 100%
@@ -83,8 +86,14 @@ input,select
 
 .content-wrapper, .right-side
 	background-color white
+	
+
 /* Modificaicones al framework de estilos */
 
 .nopadding {
 	padding: 0 !important;
+}
+
+.form-group {
+	margin-bottom: 5px;
 }
