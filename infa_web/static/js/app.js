@@ -29,21 +29,6 @@ $('[check-carlos]').change(function(){
 	})
 });
 
-$(document).on("ready", function(e){
-	if(window.opener){
-
-		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
-			.click(function(){
-				window.close()
-			})
-
-		if($(".btn-group").length == 1){
-			$(".btn-group").append(button)
-		}else{
-			$(".content-wrapper").append(button)
-		}
-	}
-})
 
 $("input").focus(function(){$(this).select()})
 $(document).on("click", ".open-modal", function(e){
@@ -124,6 +109,7 @@ function defaultfn(){}
 
 
 $("button[action=reset-form]").click(function (e){
+	console.log("Action Reset Form")
 	$(this).closest("form").trigger("reset")
 	$(this).closest("form").find(":input").trigger("change")
 })
@@ -383,3 +369,20 @@ $(document).on("change", ".buscarPor", function(){
 $(window).on('beforeunload', function (e) {
 	localStorage.clear();
 });
+
+//$(document).ready(function(e){
+	if(window.opener){
+		console.warn("Hola")
+
+		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
+			.click(function(){
+				window.close()
+			})
+
+		if($(".btn-group").length == 1){
+			$(".btn-group").append(button)
+		}else{
+			$(".content-wrapper").append(button)
+		}
+	}
+//})
