@@ -70,6 +70,7 @@
 	var cii = '';
 	var table = '';
 	var dis_print = '';
+	var mod_edit = false
 	var cont = 1
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -83,6 +84,7 @@
 	function get_param(){
 		if($.urlParam('code') != false){
 			$('#id_codigo').val($.urlParam('code'));
+			mod_edit = true
 			edit_inventory();
 		}else{
 			get_new();
@@ -132,25 +134,7 @@
 					'<h3 class="box-title">Articulos de Inventario</h3>'+
 				'</div>'+
 				'<div class="box-body">'+
-					'<table class="table no-footer">'+
-						'<thead>'+
-							'<tr>'+
-								'<th>Código</th>'+
-								'<th>C. Barras</th>'+
-								'<th>Nombre</th>'+
-								'<th>Cant. Cal.</th>'+
-								'<th>Cant. Cont.</th>'+
-								'<th>Costo Unit.</th>'+
-								'<th>Costo Total</th>'+
-								'<th>Ajuent</th>'+
-								'<th>Ajusal</th>'+
-								'<th></th>'+
-							'</tr>'+
-						'</thead>'+
-						'<tbody id="const-add">'+
-							const_add()+
-						'</tbody>'+
-					'</table><br>'+
+					'<div class="tb-add"></div>'+
 					'{%include 'elements/filters.html'%}'+
 					'<table class="table table-striped" id="table">'+
 						'<thead>'+
@@ -194,6 +178,27 @@
 				'</div>'+
 			'</div>'
 		);
+		if(mod_edit == false){
+			$('.tb-add').html('<table class="table no-footer new-add">'+
+				'<thead>'+
+					'<tr>'+
+						'<th>Código</th>'+
+						'<th>C. Barras</th>'+
+						'<th>Nombre</th>'+
+						'<th>Cant. Cal.</th>'+
+						'<th>Cant. Cont.</th>'+
+						'<th>Costo Unit.</th>'+
+						'<th>Costo Total</th>'+
+						'<th>Ajuent</th>'+
+						'<th>Ajusal</th>'+
+						'<th></th>'+
+					'</tr>'+
+				'</thead>'+
+				'<tbody id="const-add">'+
+					const_add()+
+				'</tbody>'+
+			'</table><br>')
+		}
 		$('.date').datetimepicker({
 			 defaultDate: new Date(response.year+'/'+response.month+'/'+response.day+' '+response.hour+':'+response.minute),
 			 format: 'D/MM/YYYY HH:mm',
