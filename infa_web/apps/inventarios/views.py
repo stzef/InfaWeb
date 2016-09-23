@@ -68,6 +68,10 @@ def inventory_latest(request):
 		response['code'] = sum_invini(value.pk)
 	except Invinicab.DoesNotExist:
 		response['code'] = 'II-00001'
+	cesdo = Esdo.objects.get(nesdo = 'ACTIVO')
+	invini = Invinicab(cii = response['code'], cesdo = cesdo, vttotal = 0, fii = now)
+	invini.save()
+	"""
 	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
@@ -78,6 +82,7 @@ def inventory_latest(request):
 		response['data'][c]['cancalcu'] = float(arlo.canti)
 		response['data'][c]['vcosto'] = float(arlo.vcosto)
 		c += 1
+	"""
 	c = 0
 	for esdo in Esdo.objects.all():
 		response['esdo'][c] = {}
@@ -187,15 +192,28 @@ def inventory_save(request):
 		invini.fii = fii
 		invini.save()
 		for cii_deta in response_data:
-			invini_deta = Invinideta.objects.get(cii = invini, carlos = cii_deta['carlos'])
-			invini_deta.nlargo = cii_deta['nlargo']
-			invini_deta.canti = float(cii_deta['canti'])
-			invini_deta.vunita = float(cii_deta['vcosto'])
-			invini_deta.vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto']))
-			invini_deta.cancalcu = cii_deta['cancalcu']
-			invini_deta.ajuent = cii_deta['ajuent']
-			invini_deta.ajusal = cii_deta['ajusal']
-			invini_deta.save()
+			try:
+				invini_deta = Invinideta.objects.get(cii = invini, carlos = cii_deta['carlos'])
+				invini_deta.nlargo = cii_deta['nlargo']
+				invini_deta.canti = float(cii_deta['canti'])
+				invini_deta.vunita = float(cii_deta['vcosto'])
+				invini_deta.vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto']))
+				invini_deta.cancalcu = cii_deta['cancalcu']
+				invini_deta.ajuent = cii_deta['ajuent']
+				invini_deta.ajusal = cii_deta['ajusal']
+				invini_deta.save()
+			except Invinideta.DoesNotExist:
+				carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
+				invini_deta = Invinideta(cii = invini, 
+					carlos = carlos, 
+					nlargo = cii_deta['nlargo'], 
+					canti = cii_deta['canti'], 
+					vunita = cii_deta['vcosto'], 
+					vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto'])), 
+					cancalcu = cii_deta['cancalcu'], 
+					ajuent = cii_deta['ajuent'], 
+					ajusal = cii_deta['ajusal']
+				)
 			invini_deta.save()
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
@@ -209,15 +227,15 @@ def inventory_save(request):
 			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
 			list_carlos.append(carlos.pk)
 			invini_deta = Invinideta(cii = invini, 
-									carlos = carlos, 
-									nlargo = cii_deta['nlargo'], 
-									canti = cii_deta['canti'], 
-									vunita = cii_deta['vcosto'], 
-									vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto'])), 
-									cancalcu = cii_deta['cancalcu'], 
-									ajuent = cii_deta['ajuent'], 
-									ajusal = cii_deta['ajusal']
-						)
+				carlos = carlos, 
+				nlargo = cii_deta['nlargo'], 
+				canti = cii_deta['canti'], 
+				vunita = cii_deta['vcosto'], 
+				vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto'])), 
+				cancalcu = cii_deta['cancalcu'], 
+				ajuent = cii_deta['ajuent'], 
+				ajusal = cii_deta['ajusal']
+			)
 			invini_deta.save()
 			if sv_cant is True:
 				carlos.canti = cii_deta['cant']

@@ -268,6 +268,17 @@ document.body.addEventListener("DOMNodeInserted", function (ev) {
 			$(ev.target).remove()
 		},6000)
 	}
+	$("[data-new-window]").click(function(event){
+		event.preventDefault();
+		if(window.location.href == this.href) {
+			return;
+		}
+		var h = 650,
+			w = 1000,
+			x = screen.width/2 - w/2,
+			y = screen.height/2 - h/2;
+		window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+	});
 }, false);
 
 function alertBootstrap(message,type){
