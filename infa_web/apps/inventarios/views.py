@@ -154,7 +154,7 @@ def articles_list_invini(request):
 		invini = invini.filter(carlos__nlargo__icontains = request.GET.get('buscarPor'))
 	else:
 		invini
-	invini = Paginator(invini.order_by('carlos__'+orderBy), 10)
+	invini = Paginator(invini.order_by(orderBy), 10)
 	page = request.GET.get('page')
 	invini = invini.page(page)
 	if len(invini.object_list) < 10:
