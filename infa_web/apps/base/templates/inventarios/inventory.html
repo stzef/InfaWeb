@@ -339,6 +339,7 @@
 		}
 	});
 	$(document).on("focusout", "#id_carlos", function(e){
+		loading_animation()
 		$.post('/api/get-object/',JSON.stringify({'model': 5, 'field': this.name, 'value': this.value}),function(response){
 			var object = JSON.parse(response.object)[0]
 			var id_carlos = $('#id_carlos').val()
@@ -353,6 +354,7 @@
 			$('.ajuent').attr('id', 'ajuent-'+id_carlos)
 			$('.id_vttotal').attr('id', 'vtotal-'+id_carlos)
 			save_local_storage(id_carlos)
+			$(".animation").empty()
 		})
 	});
 	$(document).on("keyup", ".cant", function(e){
