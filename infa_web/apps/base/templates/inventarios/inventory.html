@@ -178,6 +178,9 @@
 				'</div>'+
 			'</div>'
 		);
+		$('#inlineRadio5').val('carlos__cesdo__nesdo');
+		$('#inlineRadio6').val('carlos__cmarca__nmarca');
+		$('#inlineRadio7').val('carlos__cgpo__ngpo');
 		if(mod_edit == false){
 			$('.tb-add').html('<table class="table no-footer new-add">'+
 				'<thead>'+
@@ -345,19 +348,23 @@
 	});
 	$(document).on("focusout", "#id_carlos", function(e){
 		$.post('/api/get-object/',JSON.stringify({'model': 5, 'field': this.name, 'value': this.value}),function(response){
-			var object = JSON.parse(response.object)[0]
-			var id_carlos = $('#id_carlos').val()
-			$('.add-cont').add('id', id_carlos)
-			$('.id_cbarras').attr('id', 'cbarras-'+id_carlos).text(object.fields['cbarras'])
-			$('.id_nlargo').attr('id', 'nom-'+id_carlos).attr('title', object.fields['nlargo']).text(object.fields['nlargo'])
-			$('.id_cantcalcu').text(object.fields['canti']).attr('id', 'cancalcu-'+id_carlos)
-			$('.id_vunita').val(object.fields['vcosto']).attr('id', 'vunita-'+id_carlos)
-			$('.id_canti').focus().attr('id', 'cant-'+id_carlos)
-			$('.add-cont').attr('id', id_carlos)
-			$('.ajusal').attr('id', 'ajusal-'+id_carlos)
-			$('.ajuent').attr('id', 'ajuent-'+id_carlos)
-			$('.id_vttotal').attr('id', 'vtotal-'+id_carlos)
-			save_local_storage(id_carlos)
+			if(response.object != null){
+				var object = JSON.parse(response.object)[0]
+				var id_carlos = $('#id_carlos').val()
+				$('.add-cont').add('id', id_carlos)
+				$('.id_cbarras').attr('id', 'cbarras-'+id_carlos).text(object.fields['cbarras'])
+				$('.id_nlargo').attr('id', 'nom-'+id_carlos).attr('title', object.fields['nlargo']).text(object.fields['nlargo'])
+				$('.id_cantcalcu').text(object.fields['canti']).attr('id', 'cancalcu-'+id_carlos)
+				$('.id_vunita').val(object.fields['vcosto']).attr('id', 'vunita-'+id_carlos)
+				$('.id_canti').focus().attr('id', 'cant-'+id_carlos)
+				$('.add-cont').attr('id', id_carlos)
+				$('.ajusal').attr('id', 'ajusal-'+id_carlos)
+				$('.ajuent').attr('id', 'ajuent-'+id_carlos)
+				$('.id_vttotal').attr('id', 'vtotal-'+id_carlos)
+				save_local_storage(id_carlos)
+			}else{
+				alert('Artículo no encontrado')
+			}
 		})
 	});
 	$(document).on("keyup", ".cant", function(e){
