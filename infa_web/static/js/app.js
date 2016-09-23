@@ -110,8 +110,10 @@ function defaultfn(){}
 
 $("button[action=reset-form]").click(function (e){
 	console.log("Action Reset Form")
-	$(this).closest("form").trigger("reset")
-	$(this).closest("form").find(":input").trigger("change")
+	$(this).closest("form")
+		.trigger("reset")
+		.find(":input")
+		.trigger("change")
 })
 
 function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageWait){

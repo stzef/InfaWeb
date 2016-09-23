@@ -478,6 +478,7 @@
 		
 		$("[name={{form.cbarras.name}}]").change(function(){
 			var element = $(this)
+			if(!element.val().length) return
 			$.ajax({
 				url: '{% url 'api-exists' %}',
 				type: 'POST',

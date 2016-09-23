@@ -88,8 +88,10 @@
 
 <script>
 	var data = {}
+	$("[name=detaanula]").change(function(){$(this).val($(this).val().trim())})
 	$("form").submit(function(e){
 		e.preventDefault()
+		if(!$("[name=detaanula]").val().trim().length) return $("form").prepend(alertBootstrap("Por favor Explique por que Cancela el Movimiento.","info"))
 		var url = "/proccess/fn/annulment/" + $("#id_cmv").val() + "/"
 		$.post(
 			url,

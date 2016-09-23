@@ -51,9 +51,7 @@
 				<div class="form-group">
 					<label for="id_detaanula" class="col-sm-3 control-label">¿Por que la Anula?</label>
 					<div class="col-sm-8">
-						<textarea class="form-control" required name="detaanula" id="id_detaanula">
-							
-						</textarea>
+						<textarea class="form-control" name="detaanula" id="id_detaanula" required></textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -81,8 +79,10 @@
 
 <script>
 	var data = {}
+	$("[name=detaanula]").change(function(){$(this).val($(this).val().trim())})
 	$("form").submit(function(e){
 		e.preventDefault()
+		if(!$("[name=detaanula]").val().trim().length) return $("form").prepend(alertBootstrap("Por favor Explique por que Cancela la Factura.","info"))
 		var url = "/bill/proccess/fn/annulment/" + $("#id_fact").val() + "/"
 		$.post(
 			url,
@@ -101,8 +101,8 @@
 			url: '{% url 'api-get-object' %}',
 			type: 'POST',
 			data: JSON.stringify({
-				model : 30
-				field : "fact"
+				model : 30,
+				field : "cfac",
 				value : this.value
 			}),
 			contentType: "application/json",
@@ -121,7 +121,7 @@
 				}else{
 					
 					$('#id_fact').val("")
-					tooltipBootstrap($('#id_fact'),".input-group","No se encontro ningun movimiento.")
+					tooltipBootstrap($('#id_fact'),".input-group","No se encontro ninguna Factura con este Codigo.")
 				}
 			}
 		});

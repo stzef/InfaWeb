@@ -53,7 +53,7 @@ a[disabled]
 .html_tooltip
 	font-size 16px
 
-input,select
+input,select,textarea
 	&:required
 		border 2px solid #3C8DBC
 		
@@ -96,4 +96,9 @@ input,select
 
 .form-group {
 	margin-bottom: 5px;
+}
+
+.form-control:focus {
+	border-color: #222D32;
+	box-shadow: none;
 }

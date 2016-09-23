@@ -931,6 +931,8 @@
 		});
 	})
 
+	$('#medios_pago').on('hidden.bs.modal', function () {$("#form_medios_pago").trigger("reset")})
+
 	var data_validation = {{data_validation_json|safe}}
 
 	{% if mvdeta_json %}

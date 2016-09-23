@@ -111,7 +111,31 @@ WSGI_APPLICATION = 'infa_web.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 
-
+"""
+DATABASES = {}
+if 'DATABASE_URL_DEV' in os.environ:
+	DATABASES['default'] = dj_database_url.parser(os.environ['DATABASE_URL_DEV'])
+elif 'DATABASE_URL' in os.environ:
+	DATABASES['default'] = dj_database_url.config()
+else:
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': 'infaweb_db',
+			'USER': 'root',
+			'PASSWORD': 'root',
+			'HOST': 'localhost',
+			'PORT': '',
+			'TEST': {
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			},
+		}
+	}
+"""
 if 'DATABASE_URL' in os.environ:
 	DATABASES = {}
 	DATABASES['default'] = dj_database_url.config()

@@ -28,7 +28,7 @@ from django.http import JsonResponse
 def get_custom_message_response(instance,object):
 	message = "El proceso se realizo con Exito."
 
-	if isinstance(instance,Gpo): message = "El Grupos <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ngpo,object.pk)
+	if isinstance(instance,Gpo): message = "El Grupo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ngpo,object.pk)
 	if isinstance(instance,Tiarlos): message = "El Tipo de articulo <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.ntiarlo,object.pk)
 	if isinstance(instance,Marca): message = "La Marca <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nmarca,object.pk)
 	if isinstance(instance,Unidades): message = "La medidad de Unidad <strong>%s</strong> se guardo Correctamente. Codigo: %s" % (object.nunidad,object.pk)
