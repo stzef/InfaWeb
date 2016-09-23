@@ -6,6 +6,7 @@
 *.sh
 .env
 *.json
+*.log
 infa_web/logs/debug.log
 
 !infa_web/params/params.json
