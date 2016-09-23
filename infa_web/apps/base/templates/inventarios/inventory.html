@@ -227,10 +227,10 @@
 					'<td class="id_nlargo"></td>'+
 					'<td class="id_cantcalcu text-right"></td>'+
 					'<td>'+
-						'<input type="number" class="form-control cant id_canti"/>'+
+						'<input type="number" class="form-control cant id_canti" value="0"/>'+
 					'</td>'+
 					'<td>'+
-						'<input type="number" class="form-control value text-right id_vunita"/>'+
+						'<input type="number" class="form-control value text-right id_vunita" value="0"/>'+
 					'</td>'+
 					'<td class="id_vttotal text-right"></td>'+
 					'<td class="ajuent text-right">0</td>'+
@@ -346,7 +346,7 @@
 			table = $('.table').DataTable({"order": [[ 2, "asc" ]],"language": languageDataTable});
 		}
 	});
-	$(document).on("focusout", "#id_carlos", function(e){
+	$(document).on("change", "#id_carlos", function(e){
 		loading_animation()
 		$.post('/api/get-object/',JSON.stringify({'model': 5, 'field': this.name, 'value': this.value}),function(response){
 			if(response.object != null){
@@ -366,6 +366,7 @@
 			}else{
 				alert('Artículo no encontrado')
 			}
+			$(".animation").empty()
 		})
 	});
 	$(document).on("keyup", ".cant", function(e){
@@ -397,18 +398,23 @@
 	$(document).on("click", "#add", function(e){
 		e.preventDefault()
 		var data_r = [];
-		data_r.push({
-			'carlos': $('#id_carlos').val(),
-			'nlargo': $('.id_nlargo').text(),
-			'cancalcu': parseFloat($('.id_cantcalcu').text()),
-			'canti': parseFloat($('.id_canti').val()),
-			'vcosto': parseFloat($('.id_vunita').val()),
-			'ajuent': parseFloat($('.ajuent').text()),
-			'ajusal': parseFloat($('.ajusal').text()),
-			'cbarras': $('.id_cbarras').text(),
-		})
-		send_to_save(data_r)
-		$('#const-add').empty().html(const_add())
+		if($('#id_carlos').val() != ""){
+			data_r.push({
+				'carlos': $('#id_carlos').val(),
+				'nlargo': $('.id_nlargo').text(),
+				'cancalcu': parseFloat($('.id_cantcalcu').text()),
+				'canti': parseFloat($('.id_canti').val()),
+				'vcosto': parseFloat($('.id_vunita').val()),
+				'ajuent': parseFloat($('.ajuent').text()),
+				'ajusal': parseFloat($('.ajusal').text()),
+				'cbarras': $('.id_cbarras').text(),
+			})
+			send_to_save(data_r)
+			$('#const-add').empty().html(const_add())
+		}else{
+			alert("Digite el codigo del articulo")
+			$('#id_carlos').focus()
+		}
 	});
 	$(document).on("click", "#btn-save", function(e){
 		e.preventDefault();
@@ -445,6 +451,9 @@
 				$("#alert-msg").append(alertBootstrap("Ha ocurrido un error", 'error'))
 			}
 		});
-}
+	}
+	window.onbeforeunload = function() {
+		return "Are you sure you want to navigate away?";
+	}
 </script>
 {% endblock content_script %}
