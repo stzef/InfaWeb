@@ -126,6 +126,14 @@
 	$("[name=type]").val($("[data-type-search].active").data("type-search"))
 	$("[data-type-search]").click(function(e){
 		$("[name=type]").val($(this).data("type-search"))
+
+		$("[name=group], [name=carlos]").prop("required",false)
+
+		if( $(this).data("type-search") == "Group"){
+			$("[name=group]").prop("required",true)
+		}else if( $(this).data("type-search") == "Arlo"){
+			$("[name=carlos]").prop("required",true)
+		}
 	})
 	function llenar_planilla(response){
 		$(".animation").empty()

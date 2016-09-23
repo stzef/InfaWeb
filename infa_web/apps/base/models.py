@@ -81,6 +81,8 @@ class Departamento(models.Model):
 
 	def __str__(self):
 		return self.ndepar
+	def __unicode__(self):
+		return self.ndepar
 
 	def natural_key(self):
 		return (self.cdepar)

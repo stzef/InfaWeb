@@ -2,6 +2,7 @@
 from django import forms
 from infa_web.apps.articulos.models import *
 from django.core.exceptions import ValidationError
+from django.db.models import Max
 
 class ArticleForm(forms.ModelForm):
 	class Meta:
@@ -100,6 +101,18 @@ class ArticleForm(forms.ModelForm):
 			self.add_error( "stomin", "El Strock Minimo debe ser menor al Stock Mayor" )
 
 class GpoForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		super(GpoForm, self).__init__(*args, **kwargs)
+
+		lastCgpo = Gpo.objects.aggregate(Max('cgpo'))
+		if lastCgpo["cgpo__max"]:
+			recommendedCgpo = lastCgpo["cgpo__max"] + 1
+		else:
+			recommendedCgpo = 0
+
+		self.fields['cgpo'].initial = recommendedCgpo
+
 	class Meta:
 		model = Gpo
 		fields = "__all__"

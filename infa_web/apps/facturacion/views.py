@@ -405,11 +405,15 @@ def bill_proccess_fn_annulment(request):
 
 	factura = Fac.objects.get(pk=data["fact"])
 	mvsa = Mvsa.objects.get(docrefe = factura.cfac)
-	movi = Movi.objects.get()
+	movimientos = Movi.objects.filter()
+
+	for movimiento in movimientos:
+		movimiento.detaanula = detaanula
+		movimiento.cesdo = estado
+		movimiento.save()
 
 	detaanula = data["detaanula"] + " " + current_datetime + " " + user
 	estado = Esdo.objects.get(pk=data["cesdo"])
-
 
 	factura.detaanula = detaanula
 	factura.cesdo = estado
@@ -417,11 +421,8 @@ def bill_proccess_fn_annulment(request):
 	mvsa.detaanula = detaanula
 	mvsa.cesdo = estado
 
-	movi.detaanula = detaanula
-	movi.cesdo = estado
 
 	factura.save()
 	mvsa.save()
-	movi.save()
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)

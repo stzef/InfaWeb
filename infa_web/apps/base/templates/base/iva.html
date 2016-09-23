@@ -49,20 +49,17 @@
 									{{form.cesdo.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										<div class="input-group">
-											{{form.cesdo}}
-											<span class="input-group-addon"><a data-new-window href="{% url 'add-state' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-										</div>
+										{{form.cesdo}}
 									</div>
 								</div>
 							</section>
 							<div class="text-center">
 								<div class="btn-group">
-									<button class="btn btn-app btn-info" type="reset">
+									<button class="btn btn-app btn-info" type="button" action="reset-form">
 										<i class="fa fa-plus-square-o"></i>Nuevo
 									</button>
 									<button class="btn btn-app" type="submit">
-										<i class="fa fa-plus-square-o"></i>Guardar
+										<i class="fa fa-save"></i>Guardar
 									</button>
 									<a data-new-window class="btn btn-app" href="{% url 'list-iva' %}"><i class="fa fa-list"></i>Listar</a>
 								</div>
