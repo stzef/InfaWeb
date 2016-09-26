@@ -369,6 +369,10 @@
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
+					<button class="btn btn-app" type="button" id="print_bill">
+						<i class="fa fa-print"></i>
+						Imprimir
+					</button>
 
 					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
@@ -384,6 +388,12 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+	function print_bill(cfac){
+		window.open("/bill/print?cfac=" + cfac)
+	}
+
+	$("#print_bill").click(function(){print_bill(1)})
+
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
 
@@ -456,6 +466,8 @@
 			calcular_total()
 		}
 	})
+
+
 
 	var mode_view = $("#mode_view").val()
 	var current_arlo = null
@@ -588,7 +600,11 @@
 			var td = $(e)
 
 			var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
-			input.val(td.data("value")).change()
+			input.val(td.data("value"))
+			/*No lanzar el evento trigger sobre 'input', pues este vuelve a ejecutar esta funcion*/
+			if(input.attr("name") != "carlos"){
+				input.change()
+			}
 		})
 		parent.remove()
 	}
@@ -677,10 +693,12 @@
 
 	function setValueFieldArlo(){
 		$("[name=name__carlos]").prop("readonly",true)
+		//$("[name=vunita]").prop("readonly",true)
 		if(current_arlo){
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
+			//if(current_arlo.ifedinom) $("[name=vunita]").prop("readonly",false)
 		}else{
 			console.log("hola")
 			var name__carlos = ""
@@ -914,6 +932,7 @@
 				$(".animation").empty()
 			},
 			success: function(response){
+				console.info()
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
@@ -926,6 +945,9 @@
 					$("#list_items_mdeta").find("tbody").children().remove()
 				}
 				currentForm.prepend(message)
+				if(confirm("Desea Imprimir La Factura")){
+					print_bill(response.cfac)
+				}
 				$(".animation").empty()
 			}
 		});

@@ -29,6 +29,7 @@ class ArticleForm(forms.ModelForm):
 			'mesesgara' : forms.NumberInput(attrs={'class': 'form-control','step':'1','min':0}),
 			'stomin' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'stomax' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			#'canti' : forms.NumberInput(attrs={'type_input':'number','class': 'form-control','required':True,'step':'0.01','min':0}),
 			'canti' : forms.NumberInput(attrs={'type_input':'number','class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vcosto' : forms.NumberInput(attrs={'type_input':'number','class': 'form-control','required':True,'step':'0.01','min':0}),
 			'porult1':forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),

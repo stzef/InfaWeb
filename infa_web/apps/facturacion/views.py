@@ -9,6 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from infa_web.parameters import ManageParameters
 
+from infa_web.apps.base.value_letters import number_to_letter
+
+from easy_pdf.views import PDFTemplateView
 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
@@ -169,7 +172,7 @@ def BillSave(request):
 
 	#Crear Movi
 	#Crear Movideta
-
+	response["cfac"] = fac.cfac
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
@@ -426,3 +429,41 @@ def bill_proccess_fn_annulment(request):
 	mvsa.save()
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
+
+class BillPrint(PDFTemplateView):
+	template_name = "facturacion/print_bill.html"
+ 
+	def get_context_data(self, **kwargs):
+		context = super(BillPrint, self).get_context_data(
+			pagesize="A4",
+			title="Hi there!",
+			**kwargs
+		)
+		data = self.request.GET
+		
+		cfac = data.get('cfac')
+		formato = data.get('formato')
+
+		factura = Fac.objects.get(cfac=cfac)
+		factura_deta = list(Facdeta.objects.filter(cfac=factura))
+
+		max_items_factura = 10 - len(factura_deta)
+
+		for index in range(0,max_items_factura):
+			factura_deta.append(False)
+
+
+		print factura_deta
+
+		factura.vttotal_letter = number_to_letter(factura.vttotal)
+		factura.text_bill = manageParameters.get_param_value('text_bill')
+
+		context['orientation'] = 'letter'
+		
+		context['factura'] = factura
+		context['factura_deta'] = factura_deta
+
+		context['data'] = data
+		context['title'] = 'Impresion de Facturas'
+		return context
+

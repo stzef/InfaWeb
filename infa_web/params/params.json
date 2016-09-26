@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/09/24 09:55:06", 
+        "value": "2016/09/26 14:51:26", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/09/23 11:07:52", 
+            "selected": "2016/09/26 14:51:26", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -64,6 +64,28 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "Fecha de Appen"
+    }, 
+    {
+        "cparam": "text_bill", 
+        "type": "String", 
+        "value": "La garant\u00eda no cubre da\u00f1os causados por Voltaje, Golpes, Virus o Malware. Para hacer efectiva la Garant\u00eda debe conservar el empaque.", 
+        "label": {
+            "text": "Texto para Facturas."
+        }, 
+        "field": {
+            "input": true, 
+            "selected": "La garant\u00eda no cubre da\u00f1os causados por Voltaje, Golpes, Virus o Malware. Para hacer efectiva la Garant\u00eda debe conservar el empaque.", 
+            "type": "text", 
+            "id": "text_bill", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Texto para Facturas."
     }, 
     {
         "cparam": "company_logo", 
