@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from infa_web.apps.usuarios.models import *
+
+admin.site.register(Usuario)

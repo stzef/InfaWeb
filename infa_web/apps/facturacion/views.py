@@ -431,18 +431,34 @@ def bill_proccess_fn_annulment(request):
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
 class BillPrint(PDFTemplateView):
-	template_name = "facturacion/print_bill.html"
- 
+	template_name = "facturacion/print_bill_format_half_letter.html"
+
 	def get_context_data(self, **kwargs):
-		context = super(BillPrint, self).get_context_data(
-			pagesize="A4",
-			title="Hi there!",
-			**kwargs
-		)
+		context = super(BillPrint, self).get_context_data(**kwargs)
 		data = self.request.GET
-		
-		cfac = data.get('cfac')
+
+		#Cambiar
+		usuario = Usuario.objects.filter()[0]
+		print usuario
+
+		talonario_MOS = usuario.ctalomos
+		talonario_POS = usuario.ctalopos
+		#Cambiar
+
 		formato = data.get('formato')
+		cfac = data.get('cfac')
+
+		if formato or formato == "half_letter":
+			self.template_name = "facturacion/print_bill_format_half_letter.html"
+			context['orientation'] = 'letter'
+
+		elif formato == "neckband":
+			self.template_name = "facturacion/print_bill_format_half_letter.html"
+			context['orientation'] = 'letter'
+
+		else:
+			self.template_name = "facturacion/print_bill_format_half_letter.html"
+			context['orientation'] = 'letter'
 
 		factura = Fac.objects.get(cfac=cfac)
 		factura_deta = list(Facdeta.objects.filter(cfac=factura))
@@ -452,16 +468,12 @@ class BillPrint(PDFTemplateView):
 		for index in range(0,max_items_factura):
 			factura_deta.append(False)
 
-
-		print factura_deta
-
 		factura.vttotal_letter = number_to_letter(factura.vttotal)
 		factura.text_bill = manageParameters.get_param_value('text_bill')
 
-		context['orientation'] = 'letter'
-		
 		context['factura'] = factura
 		context['factura_deta'] = factura_deta
+		context['usuario'] = usuario
 
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'

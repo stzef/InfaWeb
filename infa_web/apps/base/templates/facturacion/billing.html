@@ -132,6 +132,35 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="modal_descripcion" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Descripcion de la Factura</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="{{form.descri.id_for_label}}" class="col-sm-3 control-label">{{form.descri.label}}</label>
+									{%if form.descri.errors%}
+									{{form.descri.errors}}
+									{%endif%}
+									<div class="col-sm-9">
+										{{form.descri}}
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+
 			</form>
 
 			<form class="form-horizontal" id="form_deta_movement">
@@ -364,6 +393,9 @@
 					<button class="btn btn-app btn-info" type="reset">
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
+					</button>
+					<button type="button" class="btn btn-app" data-toggle="modal" data-target="#modal_descripcion">
+						<i class="fa fa-file-text-o"></i>Descripción
 					</button>
 					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
 						<i class="fa fa-dollar"></i>
