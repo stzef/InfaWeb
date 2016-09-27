@@ -465,13 +465,21 @@
 			si current_arlo es null envia "","","","" Respectivamente
 			por el contrario si no es null envia los valores del objeto del articulo.
 		*/
+		$("[name=pordes]").val(0)
+
 		$("[name=name__carlos]").prop("readonly",true)
-		//$("[name=vunita]").prop("readonly",true)
+		
+		$("[name=vunita]").prop("readonly",false)
+		$("[name=pordes]").prop("readonly",false)
+		
 		if(current_arlo){
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
-			//if(current_arlo.ifedinom) $("[name=vunita]").prop("readonly",false)
+			if(current_arlo.ifpvfijo) {
+				$("[name=vunita]").prop("readonly",true)
+				$("[name=pordes]").prop("readonly",true)
+			}
 		}else{
 			var name__carlos = ""
 			var ivas_civa = ""
@@ -1096,6 +1104,8 @@
 		var querystring = $("form:not(#form_deta_movement)").serialize();
 		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
 
+		data.descri = data.descri.replace(/\+/g," ")
+
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		var array_medios_pagos = get_data_list("#list_medios_pago")
 
@@ -1140,6 +1150,11 @@
 				if(confirm("Desea Imprimir La Factura")){
 					print_bill(response.cfac)
 				}
+
+				$("#medios_pago").modal("hide")
+				$("form").trigger("reset")
+				$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
+
 				$(".animation").empty()
 			}
 		});
@@ -1178,6 +1193,7 @@
 		format: 'YYYY-MM-D',
 		defaultDate:date_appen
 	});
+
 
 	/* Reinicia el formulario de medios de pagos al cerra la ventana modal del mismo*/
 	$('#medios_pago').on('hidden.bs.modal', function () {$("#form_medios_pago").trigger("reset")})
