@@ -72,7 +72,7 @@ def BillSave(request):
 			cesdo = cesdo, 
 			fpago = data['fpago'], 
 			ctifopa = ctifopa,
-			descri = '-',
+			descri = data['citerce'],
 			vtbase = float(data['vtbase']),
 			vtiva = float(data['vtiva']),
 			vflete = float(data['vflete']),
