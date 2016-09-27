@@ -50,7 +50,7 @@
 		data_table()
 		function data_table(){
 			var buscarPor = $('.buscarPor').val().length > 0 ? '&buscarPor='+$('.buscarPor').val(): ''
-			$.get("{% url 'articles_list' %}?page="+cont+"&orderBy="+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+			$.get("{% url 'articles_list' %}?page="+cont+"&orderBy="+$('input[name=orderTipo]:checked').val()+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
 				$('#cont-data').empty()
 				if(data.response == 0){
 					$(".next").addClass('disabled')

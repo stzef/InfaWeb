@@ -256,18 +256,21 @@ document.body.addEventListener("DOMNodeInserted", function (ev) {
 			$(ev.target).remove()
 		},6000)
 	}
-	$("[data-new-window]").click(function(event){
-		event.preventDefault();
-		if(window.location.href == this.href) {
-			return;
-		}
-		var h = 650,
-			w = 1000,
-			x = screen.width/2 - w/2,
-			y = screen.height/2 - h/2;
-		window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
-	});
+	$("[data-new-window]").off("click",open_new_window)
+	$("[data-new-window]").click(open_new_window);
 }, false);
+
+function open_new_window(event){
+	event.preventDefault();
+	if(window.location.href == this.href) {
+		return;
+	}
+	var h = 650,
+		w = 1000,
+		x = screen.width/2 - w/2,
+		y = screen.height/2 - h/2;
+	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+}
 
 function alertBootstrap(message,type){
 	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
@@ -377,6 +380,9 @@ $(document).on("change", ".orderBy", function(){
 	data_table()
 });
 $(document).on("change", ".buscarPor", function(){
+	data_table()
+})
+$(document).on("change", ".orderTipo", function(){
 	data_table()
 })
 $(window).on('beforeunload', function (e) {
