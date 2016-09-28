@@ -256,7 +256,8 @@ document.body.addEventListener("DOMNodeInserted", function (ev) {
 			$(ev.target).remove()
 		},6000)
 	}
-	$("[data-new-window]").off("click",open_new_window)
+	//$("[data-new-window]").off("click",open_new_window)
+	$("[data-new-window]").off("click")
 	$("[data-new-window]").click(open_new_window);
 }, false);
 

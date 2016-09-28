@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-
+ 
 {% load static %}
 
 {% block content_head %}
@@ -1025,23 +1025,14 @@
 		calcular_total()
 	}
 
-	/*function calcular_total(){
-		var vttotal_items = 0
-		$("#list_items_mdeta tbody tr")
-			.toArray()
-			.forEach(function(e){
-				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
-				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
-				var vtotal_temp = temp_vunita * temp_canti
-				vttotal_items += vtotal_temp
-			}
-		)
-		$("[name=vttotal]").val(vttotal_items)
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_items))
-	}*/
-
 	$("#form_deta_movement").submit(function(event){
 		event.preventDefault()
+
+		var number_items_billing = $("#list_items_mdeta tbody tr").length
+
+		if(number_items_billing >= data_validation.maximum_number_items_billing){
+			return alert("EL numero Maximo de items por factura para este usuario segunel talonario ya se ha superado")
+		}
 		if(customValidationInput("#item_mdeta").valid){
 			var tr = $("<tr>")
 			$('#item_mdeta')

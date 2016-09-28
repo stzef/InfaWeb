@@ -321,6 +321,13 @@ class BillCreate(CreateView):
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
+		# Datos de Prueba
+		usuario = Usuario.objects.filter()[0]
+
+		talonario_MOS = usuario.ctalomos
+		talonario_POS = usuario.ctalopos
+		# Datos de Prueba
+
 		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
 		medios_pago = MediosPago.objects.all()
 		context['medios_pago'] = medios_pago
@@ -341,6 +348,10 @@ class BillCreate(CreateView):
 		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
 		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		
+		# Datos de Prueba
+		context['data_validation']['maximum_number_items_billing'] = 2
+		# Datos de Prueba
 		
 		context['data_validation']['formas_pago'] = {}
 		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
@@ -437,13 +448,12 @@ class BillPrint(PDFTemplateView):
 		context = super(BillPrint, self).get_context_data(**kwargs)
 		data = self.request.GET
 
-		#Cambiar
+		# Datos de Prueba
 		usuario = Usuario.objects.filter()[0]
-		print usuario
 
 		talonario_MOS = usuario.ctalomos
 		talonario_POS = usuario.ctalopos
-		#Cambiar
+		# Datos de Prueba
 
 		formato = data.get('formato')
 		cfac = data.get('cfac')
