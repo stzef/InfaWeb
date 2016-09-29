@@ -383,6 +383,9 @@ $(document).on("change", ".orderBy", function(){
 $(document).on("change", ".buscarPor", function(){
 	data_table()
 })
+$(document).on("change", ".orderTipo", function(){
+	data_table()
+})
 $(window).on('beforeunload', function (e) {
 	localStorage.clear();
 });

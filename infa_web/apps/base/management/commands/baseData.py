@@ -113,10 +113,10 @@ class Command(BaseCommand):
 		print "Timo. Registros Creados Correctamente."
 		
 		#Base - MediosPago
-		MediosPago.objects.create(nmpago="Efectivo",ifdoc=False)
-		MediosPago.objects.create(nmpago="Tarjeta",ifdoc=True)
-		MediosPago.objects.create(nmpago="Cheque",ifdoc=True)
-		MediosPago.objects.create(nmpago="Nota Credito",ifdoc=True)
+		MediosPago.objects.create(pk=1000,nmpago="Efectivo",ifdoc=False)
+		MediosPago.objects.create(pk=1001,nmpago="Tarjeta",ifdoc=True)
+		MediosPago.objects.create(pk=1002,nmpago="Cheque",ifdoc=True)
+		MediosPago.objects.create(pk=1003,nmpago="Nota Credito",ifdoc=True)
 		print "MediosPago. Registros Creados Correctamente."
 
 		#Base - Bode

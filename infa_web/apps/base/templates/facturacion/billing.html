@@ -440,7 +440,6 @@
 	var current_arlo = null //Articulo(Objeto DB) que se selecciona en el #form_deta_movement
 	var current_tercero = null //Tercero(Objeto DB) que se selecciona en el #id_citerce
 	var pvta_menor = null
-
 	function print_bill(cfac){
 		/*
 			@param cfac String : codigo de factura a imprimir
@@ -819,7 +818,8 @@
 			en caso contrario habilita y agrega el atributo "required" a los campos
 		*/
 		var option = $(this).find("option[value=" + $(this).val() + "]")
-		var ifdoc = eval(option.data("ifdoc").toLowerCase())
+		var ifdoc = option.data('ifdoc')
+		//var ifdoc = eval(option.data("ifdoc").toLowerCase())
 		if(ifdoc){
 			$("[name=docmpago],[name=banmpago]")
 				.prop("disabled",false)
@@ -947,9 +947,8 @@
 
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
-
 		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
-
+		
 		if(nuevo_valor_medios_pagos <= 0){
 			alert("El Valor a pagar no puede ser menor o igual a Cero")
 			return
@@ -1040,6 +1039,7 @@
 	}
 
 	function delete_item_mdeta(){
+		
 		$(this).closest("tr").remove()
 		calcular_total()
 	}

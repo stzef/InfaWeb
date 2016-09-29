@@ -72,6 +72,7 @@
 	var dis_print = '';
 	var mod_edit = false
 	var cont = 1
+	var save = true
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		return (results != null) ? results[1] || 0: false;
@@ -142,7 +143,6 @@
 								'<th>Codigo</th>'+
 								'<th>C. Barras</th>'+
 								'<th>Nombre</th>'+
-								'<th>Grupo</th>'+
 								'<th>Cant.Cal.</th>'+
 								'<th>Cant. Cont.</th>'+
 								'<th>Costo Unit.</th>'+
@@ -178,6 +178,8 @@
 				'</div>'+
 			'</div>'
 		);
+		$('#inlineRadio1').val('carlos__pk');
+		$('#inlineRadio4').val('vtotal');
 		$('#inlineRadio5').val('carlos__cesdo__nesdo');
 		$('#inlineRadio6').val('carlos__cmarca__nmarca');
 		$('#inlineRadio7').val('carlos__cgpo__ngpo');
@@ -192,8 +194,8 @@
 						'<th>Cant. Cont.</th>'+
 						'<th>Costo Unit.</th>'+
 						'<th>Costo Total</th>'+
-						'<th>Ajuent</th>'+
-						'<th>Ajusal</th>'+
+						'<th>Aj. Entrada</th>'+
+						'<th>Aj. Salida</th>'+
 						'<th></th>'+
 					'</tr>'+
 				'</thead>'+
@@ -283,7 +285,6 @@
 					'<td id="carlos-'+item.carlos+'">'+item.carlos+'</td>'+
 					'<td id="cbarras-'+item.carlos+'">'+item.cbarras+'</td>'+
 					'<td id="nlargo-'+item.carlos+'" title="'+item.nlargo+'"><span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo+'...'+'</span></td>'+
-					'<td id="cgrupo-'+item.carlos+'">'+item.cgrupo+'</td>'+
 					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
 					'<td><input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'"></td>'+
 					'<td><input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'"></td>'+
@@ -300,7 +301,7 @@
 		var val_tot = 0;
 		var buscarPor = $('.buscarPor').val().length > 0 ? '&buscarPor='+$('.buscarPor').val(): ''
 		loading_animation("Cargando Datos");
-		$.get("{% url 'articles_list_invini' %}?cii="+cii.val()+"&page="+cont+"&orderBy="+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+		$.get("{% url 'articles_list_invini' %}?cii="+cii.val()+"&page="+cont+"&orderBy="+$('input[name=orderTipo]:checked').val()+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
 			$('#cont-data').empty()
 			if(data.response == 0){
 				$(".next").addClass('disabled')
@@ -335,7 +336,6 @@
 			'ajuent': parseFloat($('#ajuent-'+id).text()),
 			'ajusal': parseFloat($('#ajusal-'+id).text()),
 			'cbarras': $('#cbarras-'+id).text(),
-			'cgrupo': $('#cgrupo-'+id).text()
 		}));
 	}
 	$(document).on("click", "#btn-reset", function(e){
@@ -370,6 +370,7 @@
 		})
 	});
 	$(document).on("keyup", ".cant", function(e){
+		save = false
 		var id = $(this).parent().parent().attr('id');
 		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
 		var cant_calcu = parseFloat($('#cancalcu-'+id).text());
@@ -385,6 +386,7 @@
 		save_local_storage(id)
 	});
 	$(document).on("keyup", ".value", function(e){
+		save = false
 		var id =$(this).parent().parent().attr('id');
 		var this_value = parseFloat($('#cant-'+id).val());
 		var value_tot = this_value*$('#vunita-'+id).val()
@@ -446,14 +448,18 @@
 			success: function(response){
 				$('.animation').empty();
 				data_table()
+				save = true
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$("#alert-msg").append(alertBootstrap("Ha ocurrido un error", 'error'))
 			}
 		});
 	}
-	window.onbeforeunload = function() {
-		return "Are you sure you want to navigate away?";
+	window.onbeforeunload = refresh_page
+	function refresh_page(){
+		if(save == false){
+			return "Are you sure you want to navigate away?"
+		}
 	}
 </script>
 {% endblock content_script %}

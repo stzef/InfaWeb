@@ -44,7 +44,7 @@
 									<td>{{bill.ccaja}}</td>
 									<td>{{bill.cvende}}</td>
 									<td>{{bill.fhasdomi}}</td>
-									<td><a data-link-edit href="" target="_blank">Editar</a></td>
+									<td><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
 									<td><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
 								</tr>
 							{% endfor %}
