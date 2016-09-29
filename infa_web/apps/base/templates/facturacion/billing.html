@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-
+ 
 {% load static %}
 
 {% block content_head %}
@@ -132,6 +132,35 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="modal_descripcion" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Descripcion de la Factura</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="{{form.descri.id_for_label}}" class="col-sm-3 control-label">{{form.descri.label}}</label>
+									{%if form.descri.errors%}
+									{{form.descri.errors}}
+									{%endif%}
+									<div class="col-sm-9">
+										{{form.descri}}
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+
 			</form>
 
 			<form class="form-horizontal" id="form_deta_movement">
@@ -365,6 +394,9 @@
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
 					</button>
+					<button type="button" class="btn btn-app" data-toggle="modal" data-target="#modal_descripcion">
+						<i class="fa fa-file-text-o"></i>Descripción
+					</button>
 					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
 						<i class="fa fa-dollar"></i>
 						Totalizar
@@ -398,6 +430,147 @@
 			Abre una nueva ventana con la factura en pdf
 		*/
 		window.open("/bill/print?cfac=" + cfac)
+	}
+
+	function setValueFieldTerce(){
+		/*
+
+			#id_citerce : Identificacion del tercero
+			[name=name__citerce] : Nombre del tercero
+
+			En base a 'current_tercero' envia valores a los campos '#id_citerce','[name=name__citerce]'
+			si current_arlo es null envia "","" Respectivamente
+			por el contrario si no es null envia los valores del objeto del tercero.
+		*/
+		if(current_tercero){
+			id_citerce = current_tercero.idterce
+			name__citerce = current_tercero.rasocial
+		}else{
+			id_citerce = ""
+			name__citerce = ""
+		}
+		$('#id_citerce').val(id_citerce)
+		$("[name=name__citerce]").val(name__citerce)
+	}
+
+	function setValueFieldArlo(){
+		/*
+			[name=vunita] : Valor unitario del Articulo.
+			[name=carlos] : Codigo del Articulo.
+			[name=name__carlos] : Noombre del Articulo.
+			[name=civa] : Codigo de Iva relacionado al Articulo.
+
+			En base a 'current_arlo' envia valores a los campos '[name=vunita]','[name=carlos]','[name=name__carlos]','[name=civa]'
+			si current_arlo es null envia "","","","" Respectivamente
+			por el contrario si no es null envia los valores del objeto del articulo.
+		*/
+		$("[name=pordes]").val(0)
+
+		$("[name=name__carlos]").prop("readonly",true)
+		
+		$("[name=vunita]").prop("readonly",false)
+		$("[name=pordes]").prop("readonly",false)
+		
+		if(current_arlo){
+			var name__carlos = current_arlo.nlargo
+			var ivas_civa = current_arlo.ivas_civa
+			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
+			if(current_arlo.ifpvfijo) {
+				$("[name=vunita]").prop("readonly",true)
+				$("[name=pordes]").prop("readonly",true)
+			}
+		}else{
+			var name__carlos = ""
+			var ivas_civa = ""
+			$("[name=vunita]").val("")
+			$("[name=carlos]").val("").focus()
+		}
+		$("[name=name__carlos]").val(name__carlos)
+		$("[name=civa]").val(ivas_civa)
+
+		calcular_valor_unitario()
+	}
+
+	function mostrar_modal_lista_precios(if_return_mpvta){
+		/*
+			Retorna el precio de venta menor (pvta_menor) del articulo actual (current_arlo)
+			ó
+			Muestra una ventana Modal con la lista de precios del articulo actual (current_arlo)
+		*/
+		$("#lista_precios .modal-body").empty()
+		if(!current_arlo) return alert("Por favor seleccione un articulo.")
+		var table = $("<table class='table table table-striped'>")
+			for (field in current_arlo){
+				regexp = /pvta[0-9]/
+				pvta_menor = current_arlo.pvta1
+				if(regexp.test(field)){
+					if(current_arlo[field] < pvta_menor){
+						pvta_menor = current_arlo[field]
+					}
+					table.append(
+						$("<tr>").append(
+							$("<td>",{html:field.replace("pvta", 'Precio Venta ')}),
+							$("<td>",{html:currencyFormat.format(current_arlo[field])})
+						)
+					)
+				}
+			}
+			if(if_return_mpvta) return pvta_menor
+			$("#lista_precios .modal-body").append(table)
+			$("#lista_precios").modal("show")
+	}
+
+	function show_modal_totalizar(){
+		/*
+			[name=ctifopa] : Forma de Pago
+			[name=cmpago] : Medio de Pago
+			[name=vmpago] : Valor Total del Medio e Pago
+			[name=vttotal] : Valor Total de la Factura
+
+			Abre la ventana Modal de Medios de Pago
+
+			Validaciones 
+			Si [name=ctifopa] es igual a la forma de pago Contado
+			Crea por defecto un registro(HTML <tr>) de la tabla(HTML <table>) COn la forma de pago Contada
+				[name=cmpago] = Medio de pago Efectivo
+				[name=vmpago] = [name=vttotal]
+			Si no lo es simplemente abre la ventana modal en blanco
+		*/
+		var array_mvdeta = get_data_list("#list_items_mdeta")
+		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+		$("#list_medios_pago table tbody tr").remove()
+
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
+			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
+			$("#form_medios_pago").submit()
+		}
+		$("#medios_pago").modal("show")
+		$("#medios_pago [name=cmpago]").focus()
+	}
+
+	function get_data_list(selector_list){
+		/*
+			Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
+			{
+				tr1[data-name]: tr1[data-value],
+				trn[data-name]: trn[data-value],
+				...
+				...
+				...
+			}
+		*/
+		return $(selector_list).find("tr").toArray().map(
+			function(e){
+				var data = {}
+				$(e).children("[data-name]").toArray().forEach(
+					function(e2){
+						data[$(e2).data("name")] = $(e2).data("value")
+					}
+				)
+				return data
+			}
+		)
 	}
 
 	function calcular_valor_cambio(){
@@ -500,6 +673,33 @@
 			vtiva += viva
 		})
 		return {vtbase: vtbase,vtiva: vtiva}
+	}
+	
+	function calcular_total(){
+		/*
+			Calcula el valor Total de la Factura
+
+			Recorre todos los times de la factura calculando el valor individual y sumandolos para luego operarlos con el descuento y los valores del flete
+		*/
+		var vttotal_items = 0
+		var vttotal_local = 0
+		$("#list_items_mdeta tbody tr")
+			.toArray()
+			.forEach(function(e){
+				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+				var vtotal_temp = temp_vunita * temp_canti
+				vttotal_items += vtotal_temp
+			}
+		)
+		var vflete = parseFloat($("[name=vflete]").val())
+		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
+
+		vttotal_local_sin_descuento = vflete + vttotal_items
+		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
+
+		$("[name=vttotal]").val(vttotal_local).trigger("change")
+		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
 	}
 
 	/* Operaciones */
@@ -639,6 +839,91 @@
 		}
 	})
 
+	$('#id_carlos').change(function(){
+		/*
+			Eschuca el cambio en el cambio #id_carlos
+			Al cambiar el #id_carlos realiza una peticion a url'api-get-object' para buscar al articulos con ese 'carlos', si no se encuentra ningun articulo con ese 'carlos' se realiza otra peticion con 'cbarras'. Esta retorna el objeto de la DB en json y se asigna a current_arlo
+			Se ejecuta la funcion 'setValueFieldArlo' para enviar valores a los campos '[name=vunita],[name=name__carlos],[name=civa]' articulo del articulo
+			Si no se encuentra ningun articulo se muestra un mensaje
+		*/
+		var input_value = this.value
+		if(!input_value){
+			current_arlo = null
+			setValueFieldArlo()
+			return
+		}
+		if(!current_tercero){
+			current_arlo = null
+			setValueFieldArlo()
+			alert("Seleccione un Tercero para Continuar.")
+			return
+		}
+
+		var arlo_in_list = false
+
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var td = $(e).find("[data-name=carlos]")
+			if(td.data("value") == input_value){
+				$(e).find(".fa.fa-edit").click()
+				arlo_in_list = true
+			}
+		})
+		if(arlo_in_list) return
+
+		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
+			if(response.object){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				current_arlo = fields
+				pvta_menor = mostrar_modal_lista_precios(true)
+
+				setValueFieldArlo()
+			}else{
+				current_arlo = null
+				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
+					if(response.object){
+						var object = JSON.parse(response.object)[0]
+						fields = object.fields
+						current_arlo = fields
+						pvta_menor = mostrar_modal_lista_precios(true)
+					}else{
+						$('#id_carlos').val("")
+						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+						current_arlo = null
+					}
+					setValueFieldArlo()
+				})
+			}
+		})
+	});
+
+	$('#id_citerce').change(function(){
+		/*
+			Eschuca el cambio en el cambio #id_citerce
+			Al cambiar el #id_citerce realiza una peticion a url'api-get-object' para buscar al tercero con ese id. Esta retorna el objeto de la DB en json y se asigna a current_tercero
+			Se ejecuta la funcion 'setValueFieldTerce' para enviar valores al campo '[name=name__citerce]' del nombre del tercero
+			Si no se encuentra ningun tercero se muestra un mensaje
+		*/
+		var input_value = this.value
+		current_tercero = null
+
+		if(!input_value){
+			setValueFieldTerce()
+			return
+		}
+		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
+			if(response.object){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				current_tercero = fields
+			}else{
+				current_tercero = null
+				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
+			}
+			setValueFieldTerce()
+		})
+	});
+
 	/*Falta por Documentar */
 
 	$("#form_medios_pago").submit(function (event){
@@ -704,21 +989,6 @@
 		}
 	})
 
-	function show_modal_totalizar(){
-		var array_mvdeta = get_data_list("#list_items_mdeta")
-		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
-		$("#list_medios_pago table tbody tr").remove()
-
-		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
-			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
-			$("#form_medios_pago").submit()
-		}
-		$("#medios_pago").modal("show")
-		$("#medios_pago [name=cmpago]").focus()
-
-	}
-
 	function edit_item_meidos_pagos(){
 		var target = $(this)
 		parent = target.closest("tr")
@@ -731,6 +1001,7 @@
 		})
 		parent.remove()
 	}
+
 	function edit_item_mdeta(){
 		var target = $(this)
 		parent = target.closest("tr")
@@ -754,198 +1025,14 @@
 		calcular_total()
 	}
 
-	/*function calcular_total(){
-		var vttotal_items = 0
-		$("#list_items_mdeta tbody tr")
-			.toArray()
-			.forEach(function(e){
-				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
-				console.log(temp_vunita)
-				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
-				console.log(temp_canti)
-				var vtotal_temp = temp_vunita * temp_canti
-				vttotal_items += vtotal_temp
-			}
-		)
-		$("[name=vttotal]").val(vttotal_items)
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_items))
-	}*/
-	function calcular_total(){
-		var vttotal_items = 0
-		var vttotal_local = 0
-		$("#list_items_mdeta tbody tr")
-			.toArray()
-			.forEach(function(e){
-				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
-				console.log(temp_vunita)
-				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
-				console.log(temp_canti)
-				var vtotal_temp = temp_vunita * temp_canti
-				vttotal_items += vtotal_temp
-			}
-		)
-		var vflete = parseFloat($("[name=vflete]").val())
-		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
-
-		vttotal_local_sin_descuento = vflete + vttotal_items
-		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
-
-		$("[name=vttotal]").val(vttotal_local).trigger("change")
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
-	}
-
-	function get_data_list(selector_list){
-		return 	$(selector_list).find("tr").toArray().map(
-			function(e){
-				var data = {}
-				$(e).children("[data-name]").toArray().forEach(
-					function(e2){
-						data[$(e2).data("name")] = $(e2).data("value")
-					}
-				)
-				return data
-			}
-		)
-	}
-
-	function setValueFieldTerce(){
-		if(current_tercero){
-			id_citerce = current_tercero.idterce
-			name__citerce = current_tercero.rasocial
-		}else{
-			id_citerce = ""
-			name__citerce = ""
-		}
-		$('#id_citerce').val(id_citerce)
-		$("[name=name__citerce]").val(name__citerce)
-	}
-
-	function setValueFieldArlo(){
-		$("[name=name__carlos]").prop("readonly",true)
-		//$("[name=vunita]").prop("readonly",true)
-		if(current_arlo){
-			var name__carlos = current_arlo.nlargo
-			var ivas_civa = current_arlo.ivas_civa
-			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
-			//if(current_arlo.ifedinom) $("[name=vunita]").prop("readonly",false)
-		}else{
-			console.log("hola")
-			var name__carlos = ""
-			var ivas_civa = ""
-			$("[name=vunita]").val("")
-			$("[name=carlos]").val("").focus()
-		}
-		$("[name=name__carlos]").val(name__carlos)
-		$("[name=civa]").val(ivas_civa)
-
-		calcular_valor_unitario()
-	}
-
-	function mostrar_modal_lista_precios(if_return_mpvta){
-		$("#lista_precios .modal-body").empty()
-		if(!current_arlo) return alert("Por favor seleccione un articulo.")
-		var table = $("<table class='table table table-striped'>")
-			for (field in current_arlo){
-				regexp = /pvta[0-9]/
-				pvta_menor = current_arlo.pvta1
-				if(regexp.test(field)){
-					if(current_arlo[field] < pvta_menor){
-						pvta_menor = current_arlo[field]
-					}
-					table.append(
-						$("<tr>").append(
-							$("<td>",{html:field.replace("pvta", 'Precio Venta ')}),
-							$("<td>",{html:currencyFormat.format(current_arlo[field])})
-						)
-					)
-				}
-			}
-			if(if_return_mpvta) return pvta_menor
-			$("#lista_precios .modal-body").append(table)
-			$("#lista_precios").modal("show")
-	}
-
-	$('#id_carlos').change(function(){
-		/* 
-			El orden de las lineas Importa 
-			la funcion "setValueFieldArlo" va de ultima.
-		*/
-		var input_value = this.value
-		if(!input_value){
-			current_arlo = null
-			setValueFieldArlo()
-			return
-		}
-		if(!current_tercero){
-			current_arlo = null
-			setValueFieldArlo()
-			alert("Seleccione un Tercero para Continuar.")
-			return
-		}
-
-		var arlo_in_list = false
-
-		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
-			var td = $(e).find("[data-name=carlos]")
-			console.warn(td)
-			if(td.data("value") == input_value){
-				console.info("entre")
-				$(e).find(".fa.fa-edit").click()
-				arlo_in_list = true
-			}
-		})
-		if(arlo_in_list) return
-
-		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
-			if(response.object){
-				var object = JSON.parse(response.object)[0]
-				fields = object.fields
-				current_arlo = fields
-				pvta_menor = mostrar_modal_lista_precios(true)
-
-				setValueFieldArlo()
-			}else{
-				current_arlo = null
-				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
-					if(response.object){
-						var object = JSON.parse(response.object)[0]
-						fields = object.fields
-						current_arlo = fields
-						pvta_menor = mostrar_modal_lista_precios(true)
-					}else{
-						$('#id_carlos').val("")
-						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-						current_arlo = null
-					}
-					setValueFieldArlo()
-				})
-			}
-		})
-	});
-
-	$('#id_citerce').change(function(){
-		var input_value = this.value
-		current_tercero = null
-
-		if(!input_value){
-			setValueFieldTerce()
-			return
-		}
-		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
-			if(response.object){
-				var object = JSON.parse(response.object)[0]
-				fields = object.fields
-				current_tercero = fields
-			}else{
-				current_tercero = null
-				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
-			}
-			setValueFieldTerce()
-		})
-	});
-
 	$("#form_deta_movement").submit(function(event){
 		event.preventDefault()
+
+		var number_items_billing = $("#list_items_mdeta tbody tr").length
+
+		if(number_items_billing >= data_validation.maximum_number_items_billing){
+			return alert("EL numero Maximo de items por factura para este usuario segunel talonario ya se ha superado")
+		}
 		if(customValidationInput("#item_mdeta").valid){
 			var tr = $("<tr>")
 			$('#item_mdeta')
@@ -991,7 +1078,6 @@
 			var totales = calcular_vtbase_vtiva()
 			$("[name=vtiva]").val(Math.round(totales.vtiva))
 			$("[name=vtbase]").val(Math.round(totales.vtbase))
-			console.log(totales)
 
 			$("#id_carlos").focus()
 		}
@@ -1008,6 +1094,8 @@
 
 		var querystring = $("form:not(#form_deta_movement)").serialize();
 		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+
+		data.descri = data.descri.replace(/\+/g," ")
 
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		var array_medios_pagos = get_data_list("#list_medios_pago")
@@ -1038,7 +1126,6 @@
 				$(".animation").empty()
 			},
 			success: function(response){
-				console.info()
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
@@ -1054,11 +1141,17 @@
 				if(confirm("Desea Imprimir La Factura")){
 					print_bill(response.cfac)
 				}
+
+				$("#medios_pago").modal("hide")
+				$("form").trigger("reset")
+				$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
+
 				$(".animation").empty()
 			}
 		});
 	})
 
+	/*Para metros de validacion para la facturacion*/
 	var data_validation = {{data_validation_json|safe}}
 
 	{% if mvdeta_json %}
@@ -1091,6 +1184,7 @@
 		format: 'YYYY-MM-D',
 		defaultDate:date_appen
 	});
+
 
 	/* Reinicia el formulario de medios de pagos al cerra la ventana modal del mismo*/
 	$('#medios_pago').on('hidden.bs.modal', function () {$("#form_medios_pago").trigger("reset")})

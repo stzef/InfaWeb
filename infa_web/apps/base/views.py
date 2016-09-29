@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from django.shortcuts import render,render_to_response
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 
+from django.template import RequestContext
 
 from django.apps import apps
 
@@ -192,6 +192,13 @@ class StateCreate(AjaxableResponseMixin,CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(StateCreate, self).get_context_data(**kwargs)
+
+		context_request = RequestContext(self.request)
+		#context['context_request'] = context_request
+		self.context_instance = RequestContext(self.request)
+
+		#print context_request
+
 		context['title'] = 'Crear Estado'
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-state')

@@ -55,8 +55,6 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
-	'infa_web.apps.base.middleware.updateDateAppen',
-	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
@@ -65,22 +63,33 @@ MIDDLEWARE_CLASSES = [
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'infa_web.apps.base.middleware.updateDateAppen',
+	'infa_web.apps.base.middleware.verifyConfigurationFile',
 ]
 
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': False,
+	'formatters': {
+		'verbose': {
+			'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+		},
+		'simple': {
+			'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d - Archivo: %(filename)s, Funcion: %(funcName)s '
+		},
+	},
 	'handlers': {
 		'file': {
-			'level': 'DEBUG',
+			'level': 'ERROR',
 			'class': 'logging.FileHandler',
 			'filename': os.path.join(BASE_DIR, 'infa_web/logs/debug.log'),
+			'formatter': 'verbose',
 		},
 	},
 	'loggers': {
 		'django': {
 			'handlers': ['file'],
-			'level': 'DEBUG',
+			'level': 'ERROR',
 			'propagate': True,
 		},
 	},

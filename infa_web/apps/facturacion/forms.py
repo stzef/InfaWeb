@@ -14,7 +14,7 @@ class FacForm(forms.ModelForm):
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
-			'descri' : forms.TextInput(attrs={'class':'form-control'}),
+			'descri' : forms.Textarea(attrs={'class':'form-control'}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
 			'vtbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
 			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),

@@ -13,9 +13,13 @@ class verifyConfigurationFile(object):
 
 class updateDateAppen(object):
 	def process_request(self, request):
+
+		request.session['empresa_actual'] = ""
+
 		manageParameters = ManageParameters()
 		current_date = datetime.now()
 		current_date_format = current_date.strftime('%Y/%m/%d %H:%M:%S')
 		manageParameters.set_param_object("date_appen",current_date_format)
 		os.environ["date_appen"] = current_date_format
+
 

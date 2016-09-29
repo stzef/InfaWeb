@@ -14,6 +14,6 @@ class Usuario(models.Model):
 	foto = models.ImageField(upload_to="usuarios/")
 	ifprises = models.BooleanField()
 	ccaja = models.ForeignKey(Caja)
-	#CTALOMOS                         Char(10), 
-	#CTALOPOS                         Char(10), 
+	ctalomos = models.ForeignKey(Talo,related_name="ctalomos",null=True,blank=True)#CTALOMOS                         Char(10), 
+	ctalopos = models.ForeignKey(Talo,related_name="ctalopos",null=True,blank=True)#CTALOPOS                         Char(10), 
 	cvende = models.ForeignKey(Vende)
