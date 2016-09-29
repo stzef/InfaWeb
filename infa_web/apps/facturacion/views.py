@@ -9,6 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from infa_web.parameters import ManageParameters
 
+from infa_web.apps.base.value_letters import number_to_letter
+
+from easy_pdf.views import PDFTemplateView
 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
@@ -42,6 +45,10 @@ def BillSave(request):
 	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
+	medios_pagos_total = 0
+	vefe_t = 0
+	vtar_t = 0
+	vch_t = 0
 
 	print (json.dumps(data,indent=4))
 	#print json.dumps(data, indent=4)
@@ -60,57 +67,136 @@ def BillSave(request):
 	except Fac.DoesNotExist:
 		fac_pk = ccaja.ctimocj.prefijo+'00001000'
 
-	vttotal = [vttotal + (x['canti'] * x['vunita']) for x in data["mvdeta"]]
-
 	fac = Fac(
-			cfac = fac_pk, 
-			femi = data['femi'], 
-			citerce = citerce, 
-			cesdo = cesdo, 
-			fpago = data['fpago'], 
-			ctifopa = ctifopa,
-			descri = '-',
-			vtbase = float(data['vtbase']),
-			vtiva = float(data['vtiva']),
-			vflete = float(data['vflete']),
-			vdescu = float(data['vdescu']),
-			vttotal = float(vttotal[0]),
-			ventre = float(data['ventre']),
-			vcambio = float(data['vcambio']),
-			ccaja = ccaja,
-			cvende = cvende,
-			cdomici = cdomici,
-			tpordes = 0,
-			cemdor = cemdor,
-			brtefte = float(data['brtefte']),
-			prtefte = float(data['prtefte']),
-			vrtefte = float(data['vrtefte'])
-		)
+		cfac = fac_pk, 
+		femi = data['femi'], 
+		citerce = citerce, 
+		cesdo = cesdo, 
+		fpago = data['fpago'], 
+		ctifopa = ctifopa,
+		descri = '-',
+		vtbase = float(data['vtbase']),
+		vtiva = float(data['vtiva']),
+		vflete = float(data['vflete']),
+		vdescu = float(data['vdescu']),
+		vttotal = float(data['vttotal']),
+		ventre = float(data['ventre']),
+		vcambio = float(data['vcambio']),
+		ccaja = ccaja,
+		cvende = cvende,
+		cdomici = cdomici,
+		tpordes = 0,
+		cemdor = cemdor,
+		brtefte = float(data['brtefte']),
+		prtefte = float(data['prtefte']),
+		vrtefte = float(data['vrtefte'])
+	)
 	fac.save()
 
 	mvsa = Mvsa(
-			fmvsa = data['femi'],
-			docrefe = fac.cfac,
-			citerce = citerce,
-			ctimo = ccaja.ctimocj,
-			cesdo = cesdo,
-			vttotal = float(vttotal[0]),
-			descri = '-'
-		)
+		fmvsa = data['femi'],
+		docrefe = fac.cfac,
+		citerce = citerce,
+		ctimo = ccaja.ctimocj,
+		cesdo = cesdo,
+		vttotal = float(data['vttotal']),
+		descri = '-'
+	)
 	mvsa.save()
 
 	for data_facpago in data["medios_pagos"]:
 		mediopago = MediosPago.objects.get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.get(pk = data_facpago['banmpago'])
+		medios_pagos_total += float(data_facpago['vmpago'])
+		vefe_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Efectivo' else 0
+		vtar_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Tarjeta' else 0
+		vch_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Cheque' else 0
 		fac_pago = Facpago(
-				cfac = fac,
-				it = data_facpago['it'],
-				cmpago = mediopago,
-				docmpago = data_facpago['docmpago'],
-				banmpago = banmpago,
-				vmpago = float(data_facpago['vmpago'])
-			)
-	
+			cfac = fac,
+			it = data_facpago['it'],
+			cmpago = mediopago,
+			docmpago = data_facpago['docmpago'],
+			banmpago = banmpago,
+			vmpago = float(data_facpago['vmpago'])
+		)
+		fac_pago.save()
+
+
+	value = float(data['vttotal'])
+	ctimo = Timo.objects.get(pk = 3001)
+	val_cont = 1
+	while(val_cont != 0):
+
+		try:
+			mov = Movi.objects.all().latest('pk')
+			movi_pk = sum_function(mov.cmovi, ccaja.ctimocj.prefijo)
+		except Movi.DoesNotExist:
+			movi_pk = ccaja.ctimocj.prefijo+'00001000'
+
+		movi = Movi(
+			cmovi = movi_pk,
+			ctimo = ctimo,
+			citerce = citerce,
+			fmovi = data['femi'],
+			descrimovi = '-',
+			vttotal = medios_pagos_total,
+			cesdo = cesdo,
+			vefe = vefe_t,
+			vtar = vtar_t,
+			vch = vch_t,
+			ventre = float(data['ventre']),
+			vcambio = float(data['vcambio']),
+			ccaja = ccaja,
+			baseiva = float(data['vtbase']),
+			vtiva = float(data['vtiva']),
+			vtsuma = float(data['vttotal']),
+			vtdescu = float(data['vdescu'])
+		)
+		movi.save()
+
+		movideta = Movideta(
+			cmovi = movi,
+			itmovi = 1,
+			docrefe = fac.pk,
+			detalle = '-',
+			vmovi = value
+		)
+		movideta.save()
+
+		if not data["medios_pagos"]:
+			movipago = Movipago(cmovi = movi)
+			movipago.save()
+		else:
+			for data_facpago in data["medios_pagos"]:
+				mediopago = MediosPago.objects.get(pk = data_facpago['cmpago'])
+				banmpago = Banfopa.objects.get(pk = data_facpago['banmpago'])
+				movipago = Movipago(
+					cmovi = movi,
+					it = data_facpago['it'],
+					cmpago = mediopago,
+					docmpago = data_facpago['docmpago'],
+					banmpago = banmpago,
+					vmpago = float(data_facpago['vmpago'])
+				)
+				movipago.save()
+
+		if(value > medios_pagos_total):
+			ctimo = Timo.objects.get(pk = 4003)
+			vefe_t = 0
+			vtar_t = 0
+			vch_t = 0
+			data['ventre'] = 0
+			data['vcambio'] = 0
+			data['vtbase'] = 0
+			data['vtiva'] = 0
+			data['vttotal'] = 0
+			data['vdescu'] = 0
+			value -= medios_pagos_total
+			medios_pagos_total = value
+			data['medios_pagos'] = {}
+		else:
+			val_cont = 0
+
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.get(pk = data_deta['carlos'])
 		civa = Iva.objects.get(pk = data_deta['civa'])
@@ -118,58 +204,38 @@ def BillSave(request):
 		viva = vt * civa.poriva
 
 		fac_deta = Facdeta(
-				cfac = fac,
-				itfac = data_deta['itfac'],
-				carlos = carlos,
-				nlargo = carlos.nlargo,
-				ncorto = carlos.ncorto,
-				canti = data_deta['canti'],
-				civa = civa,
-				niva = civa.niva,
-				poriva = civa.poriva,
-				pordes = data_deta['pordes'],
-				vunita = float(data_deta['vunita']),
-				viva = viva,
-				vbase = vt,
-				vtotal = float((vt + viva)),
-				pvtafull = float(carlos.pvta1), 
-				vcosto = float(carlos.vcosto1)
-			)
+			cfac = fac,
+			itfac = data_deta['itfac'],
+			carlos = carlos,
+			nlargo = carlos.nlargo,
+			ncorto = carlos.ncorto,
+			canti = data_deta['canti'],
+			civa = civa,
+			niva = civa.niva,
+			poriva = civa.poriva,
+			pordes = data_deta['pordes'],
+			vunita = float(data_deta['vunita']),
+			viva = viva,
+			vbase = vt,
+			vtotal = float((vt + viva)),
+			pvtafull = float(carlos.pvta1), 
+			vcosto = float(carlos.vcosto1)
+		)
 
 		mvsa_deta = Mvsadeta(
-				cmvsa = mvsa,
-				it = data_deta['itfac'],
-				carlos = carlos,
-				nlargo = carlos.nlargo,
-				canti = data_deta['canti'],
-				vunita =float( data_deta['vunita']),
-				vtotal = float((vt + viva))
-			)
+			cmvsa = mvsa,
+			it = data_deta['itfac'],
+			carlos = carlos,
+			nlargo = carlos.nlargo,
+			canti = data_deta['canti'],
+			vunita =float( data_deta['vunita']),
+			vtotal = float((vt + viva))
+		)
 
 		mvsa_deta.save()
 		fac_deta.save()
 
-	try:
-		value = Movi.objects.all().latest('pk')
-		movi_pk = sum_function(value.cmovi, ccaja.ctimocj.prefijo)
-	except Movi.DoesNotExist:
-		movi_pk = ccaja.ctimocj.prefijo+'00001000'
-
-	"""
-	movi = Movi(
-			cmovi = movi_pk,
-			ctimo = ccaja.ctimocj,
-			citerce = citerce,
-			fmovi = data['femi'],
-			descrimovi = '-',
-			vttotal = float(vttotal),
-			cesdo = cesdo,
-		)
-	"""
-
-	#Crear Movi
-	#Crear Movideta
-
+	response["cfac"] = fac.cfac
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
@@ -426,3 +492,41 @@ def bill_proccess_fn_annulment(request):
 	mvsa.save()
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
+
+class BillPrint(PDFTemplateView):
+	template_name = "facturacion/print_bill.html"
+ 
+	def get_context_data(self, **kwargs):
+		context = super(BillPrint, self).get_context_data(
+			pagesize="A4",
+			title="Hi there!",
+			**kwargs
+		)
+		data = self.request.GET
+		
+		cfac = data.get('cfac')
+		formato = data.get('formato')
+
+		factura = Fac.objects.get(cfac=cfac)
+		factura_deta = list(Facdeta.objects.filter(cfac=factura))
+
+		max_items_factura = 10 - len(factura_deta)
+
+		for index in range(0,max_items_factura):
+			factura_deta.append(False)
+
+
+		print factura_deta
+
+		factura.vttotal_letter = number_to_letter(factura.vttotal)
+		factura.text_bill = manageParameters.get_param_value('text_bill')
+
+		context['orientation'] = 'letter'
+		
+		context['factura'] = factura
+		context['factura_deta'] = factura_deta
+
+		context['data'] = data
+		context['title'] = 'Impresion de Facturas'
+		return context
+

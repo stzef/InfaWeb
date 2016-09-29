@@ -369,6 +369,10 @@
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
+					<button class="btn btn-app" type="button" id="print_bill">
+						<i class="fa fa-print"></i>
+						Imprimir
+					</button>
 
 					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
@@ -384,14 +388,263 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+	var mode_view = $("#mode_view").val()
+	var current_arlo = null //Articulo(Objeto DB) que se selecciona en el #form_deta_movement
+	var current_tercero = null //Tercero(Objeto DB) que se selecciona en el #id_citerce
+	var pvta_menor = null
+	function print_bill(cfac){
+		/*
+			@param cfac String : codigo de factura a imprimir
+			Abre una nueva ventana con la factura en pdf
+		*/
+		window.open("/bill/print?cfac=" + cfac)
+	}
+
+	function calcular_valor_cambio(){
+		/*
+			ventre: Valor entregado
+			vttotal: Valor Total de la factura
+
+			Validaciones
+			Verifica que el ventre tenga valor
+			Verifica que el vttotal tenga valor
+
+			Calcula el valor de cambio de la factura
+			Operacion = ventre - vttotal
+		*/
+		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
+			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
+				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
+			}else{
+				var v_cambio = ""
+				$("#form_totales").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
+			}
+			$("[name=vcambio]").val(v_cambio)
+		}
+	}
+
+	function calcular_valor_unitario(){
+		/*
+			pordes: Porcentaje de descuento del articulo
+			vunita: Valor Unitario del articulo
+			precio_venta: precio de venta que aplica para el tercero seleccionado(clipre: lista de precios)
+
+			Validaciones
+			Valida que se haya seleccionado un articulo en #form_deta_movement
+
+			Calcula el valor unitario de un articulo
+			Operacion = precio_venta - ( precio_venta * ( pordes / 100 ) )
+		*/
+		if(current_tercero){
+			name_list_price = "pvta" + current_tercero.clipre
+			var price_venta = parseFloat(current_arlo[name_list_price])
+			var descuento = parseFloat($("#form_deta_movement [name=pordes]").val())
+
+			var vunita = price_venta - (price_venta*(descuento/100))
+			$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
+		}
+	}
+
+	function calcular_total_flete(){
+		/*
+			brtefte: Valor base del flete
+			prtefte: Porcentaje de descuento del flete
+			vrtefte: valor total del flete
+
+			Recalcula el valor total del flete de la factura
+			Operacion = brtefte - ( brtefte * ( prtefte / 100 ) )
+		*/
+		var brtefte = parseFloat($("[name=brtefte]").val())
+		var prtefte = parseFloat($("[name=prtefte]").val())
+
+		var vrtefte = brtefte - (brtefte*(prtefte/100))
+		$("[name=vrtefte]").val(vrtefte)
+	}
+
+	function calcular_vtbase_vtiva(){
+		/*
+			canti: cantidad a vender del articulo
+			vunita: Valor unitario del articulo
+			pordes: Porcentaje de descuento del articulo
+			civa: IVA para el articulo
+
+			vtbase: valor total de la base
+			vtiva: valor total del iva
+
+			Calcula el valor total de la base y el valor total del iva
+			Operaciones
+				vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
+				viva = vbase * ( porcentaje_iva / 100 )
+
+				vtbase += vbase
+				vtiva += viva
+		*/
+
+		var vtbase = 0
+		var vtiva = 0
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
+			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
+			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
+
+			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
+			var porcentaje_iva = valores_iva[codigo_iva]
+
+			var precio_total_sin_descuento = cantidad * precio
+			var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
+
+			var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
+			var viva = vbase * ( porcentaje_iva / 100 )
+
+			vtbase += vbase
+			vtiva += viva
+		})
+		return {vtbase: vtbase,vtiva: vtiva}
+	}
+
+	/* Operaciones */
+	$("[name=ventre]").change(function(){
+		/*
+			ventre: Valor entregado por el tercero apra pagar la factura
+
+			Operacion
+			Recalcula el valor del cambio.
+		*/
+		calcular_valor_cambio()
+	})
+
+	$("[name=vflete], [name=vdescu]").change(function(){
+		/*
+			vflete: Valor del flete
+			vdescu: Valor del descuento general para la factura
+
+			Operacion
+			Recalcula el valor total de la factura.
+		*/
+		calcular_total()
+	})
+
+	$("[name=brtefte], [name=prtefte]").change(function(event){
+		/*
+			Operacion
+			Recalcula el valor total del flete de la factura
+		*/
+		calcular_total_flete()
+	})
+	/* Operaciones */
+
+	/* Validaciones */
+	$("[name=canti]").change(function(){
+		/* 
+			Validacion
+			Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no 
+		*/
+		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
+			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
+				$(this).val("")
+			}
+		}
+	})
+
+	$("[name=vttotal]").change(function(){
+		/* 
+			vttotal: valor total de la factura
+
+			Validacion
+			Valida si el valor total de la factura es mayor a la valor total maximo parametrizado, pregunta si se desa continuar o no 
+			Recalcula el valor del cambio
+		*/
+		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
+			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
+				$(this).val("")
+			}
+		}
+		calcular_valor_cambio()
+	})
+
+	$("#form_deta_movement [name=pordes]").change(function(){
+		/* 
+			pordes: porcentaje de descuento para el articulo actual
+
+			Validacion
+			Valida si el porcentaje de descuento del articulo es mayor a la porcentaje maximo parametrizado, pregunta si se desa continuar o no 
+			Recalcula el valor unitario del articulo actual
+		*/
+		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
+			$(this).val("")
+			alert("El Tope de Descuento es " + data_validation.top_discount_bills)
+		}
+		calcular_valor_unitario()
+	})
+
+	$("#form_deta_movement [name=vunita]").change(function(){
+		/* 
+			vunita: valor unitario del articulo actual
+
+			Validacion
+			Valida si el valor unitario del producto es menor al precio de venta menor del articulo, pregunta si desea continuar o no 
+		*/
+		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
+			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
+				$(this).val("").focus()
+			}
+		}
+	})
+
+	$("#item_medio_pago [name=cmpago]").change(function(e){
+		/* 
+			cmpago: Medio de pago para el valor de la factura
+			docmpago: documento del medio de pago
+			banmpago : banco del medio de pago
+
+			Validacion
+			si el medio de pago no requiere documento(docmpago) y banco(banmpago) , desabilita y envia los valores por defecto para "docmpago", "banmpago"
+			en caso contrario habilita y agrega el atributo "required" a los campos
+		*/
+		var option = $(this).find("option[value=" + $(this).val() + "]")
+		var ifdoc = option.data('ifdoc')
+		//var ifdoc = eval(option.data("ifdoc").toLowerCase())
+		if(ifdoc){
+			$("[name=docmpago],[name=banmpago]")
+				.prop("disabled",false)
+				.prop("required",true)
+				.val("")
+		}else{
+			$("[name=docmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val("0")
+			$("[name=banmpago]")
+				.prop("disabled",true)
+				.prop("required",false)
+				.val(data_validation.medios_pago.DEFAULT_BANCO)
+		}
+	})
+	/* Validaciones */
+
+	$("#print_bill").click(function(){
+		/*
+			Ejecuta la funcion para imprimir la factura actual
+		*/
+		print_bill(1)
+	})
+
+	$(window).keydown(function(event) {
+		/*
+			Escucha la combinacion de teclado Alt + t para mostar la ventana modal de totalizar(medios de pagos)
+		*/
+		if(event.altKey && event.keyCode == 84) {
+			event.preventDefault(); 
+			show_modal_totalizar()
+		}
+	})
+
+	/*Falta por Documentar */
+
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
-
-
-
-
 		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
-
+		
 		if(nuevo_valor_medios_pagos <= 0){
 			alert("El Valor a pagar no puede ser menor o igual a Cero")
 			return
@@ -407,12 +660,6 @@
 			alert("El Valor a Pagar no puede ser mayor al Valor Total")
 			return
 		}
-
-
-
-
-
-
 
 		if(customValidationInput("#item_medio_pago").valid){
 			var tr = $("<tr>")
@@ -457,102 +704,6 @@
 		}
 	})
 
-	var mode_view = $("#mode_view").val()
-	var current_arlo = null
-	var current_tercero = null
-	var pvta_menor = null
-
-	/* Validaciones */
-	$("[name=canti]").change(function(){
-		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
-			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
-				$(this).val("")
-			}
-		}
-	})
-
-	$("[name=ventre]").change(function(){calcular_valor_cambio()})
-	
-	$("[name=vflete], [name=vdescu]").change(function(){calcular_total()})
-
-	$("[name=vttotal]").change(function(){
-		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
-			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
-				$(this).val("")
-			}
-		}
-		calcular_valor_cambio()
-	})
-
-	$("#form_deta_movement [name=pordes]").change(function(){
-		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
-			$(this).val("")
-			alert("El Tope de Descuento es " + data_validation.top_discount_bills)
-		}
-		calcular_valor_unitario()
-	})
-
-	$("#form_deta_movement [name=vunita]").change(function(){
-		//min_precio_venta = 900
-		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
-			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
-				$(this).val("").focus()
-			}
-		}
-	})
-
-	$("#item_medio_pago [name=cmpago]").change(function(e){
-		var option = $(this).find("option[value=" + $(this).val() + "]")
-		console.info(option)
-		var ifdoc = eval(option.data("ifdoc").toLowerCase())
-		console.info(ifdoc)
-		if(ifdoc){
-			$("[name=docmpago],[name=banmpago]")
-				.prop("disabled",false)
-				.prop("required",true)
-				.val("")
-		}else{
-			$("[name=docmpago]")
-				.prop("disabled",true)
-				.prop("required",false)
-				.val("0")
-			$("[name=banmpago]")
-				.prop("disabled",true)
-				.prop("required",false)
-				.val(data_validation.medios_pago.DEFAULT_BANCO)
-		}
-	})
-	/* Validaciones */
-
-	/* Totalizar */
-	$(window).keydown(function(event) {
-		if(event.altKey && event.keyCode == 84) {
-			event.preventDefault(); 
-			show_modal_totalizar()
-		}
-	})
-	/* Totalizar */
-
-	$("[name=brtefte], [name=prtefte]").change(function(event){
-		var brtefte = parseFloat($("[name=brtefte]").val())
-		var prtefte = parseFloat($("[name=prtefte]").val())
-
-		var vrtefte = brtefte - (brtefte*(prtefte/100))
-		$("[name=vrtefte]").val(vrtefte)
-	}) 
-
-	function calcular_valor_cambio(){
-		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
-			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
-				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
-			}else{
-				var v_cambio = ""
-				$("#form_totales").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
-			}
-			$("[name=vcambio]").val(v_cambio)
-		}
-	}
-
 	function show_modal_totalizar(){
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
@@ -588,25 +739,19 @@
 			var td = $(e)
 
 			var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
-			input.val(td.data("value")).change()
+			input.val(td.data("value"))
+			/*No lanzar el evento trigger sobre 'input', pues este vuelve a ejecutar esta funcion*/
+			if(input.attr("name") != "carlos"){
+				input.change()
+			}
 		})
 		parent.remove()
 	}
 
 	function delete_item_mdeta(){
+		
 		$(this).closest("tr").remove()
 		calcular_total()
-	}
-
-	function calcular_valor_unitario(){
-		if(current_tercero){
-			name_list_price = "pvta" + current_tercero.clipre
-			var price_venta = parseFloat(current_arlo[name_list_price])
-			var descuento = parseFloat($("#form_deta_movement [name=pordes]").val())
-
-			var vunita = price_venta - (price_venta*(descuento/100))
-			$("#form_deta_movement [name=vunita]").val(vunita).trigger("change")
-		}
 	}
 
 	/*function calcular_total(){
@@ -677,10 +822,12 @@
 
 	function setValueFieldArlo(){
 		$("[name=name__carlos]").prop("readonly",true)
+		//$("[name=vunita]").prop("readonly",true)
 		if(current_arlo){
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
 			if(current_arlo.ifedinom) $("[name=name__carlos]").prop("readonly",false)
+			//if(current_arlo.ifedinom) $("[name=vunita]").prop("readonly",false)
 		}else{
 			console.log("hola")
 			var name__carlos = ""
@@ -692,29 +839,6 @@
 		$("[name=civa]").val(ivas_civa)
 
 		calcular_valor_unitario()
-	}
-
-	function calcular_vtbase_vtiva(){
-		var vtbase = 0
-		var vtiva = 0
-		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
-			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
-			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
-			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
-
-			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
-			var porcentaje_iva = valores_iva[codigo_iva]
-
-			var precio_total_sin_descuento = cantidad * precio
-			var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
-
-			var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
-			var viva = vbase * ( porcentaje_iva / 100 )
-
-			vtbase += vbase
-			vtiva += viva
-		})
-		return {vtbase: vtbase,vtiva: vtiva}
 	}
 
 	function mostrar_modal_lista_precios(if_return_mpvta){
@@ -741,11 +865,11 @@
 			$("#lista_precios").modal("show")
 	}
 
-	/* 
-		El orden de las lineas Importa 
-		la funcion "setValueFieldArlo" va de ultima.
-	*/
 	$('#id_carlos').change(function(){
+		/* 
+			El orden de las lineas Importa 
+			la funcion "setValueFieldArlo" va de ultima.
+		*/
 		var input_value = this.value
 		if(!input_value){
 			current_arlo = null
@@ -914,6 +1038,7 @@
 				$(".animation").empty()
 			},
 			success: function(response){
+				console.info()
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
@@ -926,12 +1051,13 @@
 					$("#list_items_mdeta").find("tbody").children().remove()
 				}
 				currentForm.prepend(message)
+				if(confirm("Desea Imprimir La Factura")){
+					print_bill(response.cfac)
+				}
 				$(".animation").empty()
 			}
 		});
 	})
-
-	$('#medios_pago').on('hidden.bs.modal', function () {$("#form_medios_pago").trigger("reset")})
 
 	var data_validation = {{data_validation_json|safe}}
 
@@ -960,11 +1086,16 @@
 		calcular_total()
 	})
 
+	/* Da formato de fecha a los campos con la clase .date - Libreria*/
 	$('.date').datetimepicker({
 		format: 'YYYY-MM-D',
 		defaultDate:date_appen
 	});
-	
+
+	/* Reinicia el formulario de medios de pagos al cerra la ventana modal del mismo*/
+	$('#medios_pago').on('hidden.bs.modal', function () {$("#form_medios_pago").trigger("reset")})
+
+	/* Ejecuta el evento change del campo de seleccion del tercero*/
 	$('#id_citerce').change()
 
 </script>
