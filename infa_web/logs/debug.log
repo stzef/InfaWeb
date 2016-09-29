@@ -1,14 +1,520 @@
-ERROR 2016-09-28 07:25:46,772 base 4655 140459227571968 Internal Server Error: /articles/add/
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 09:08:49,869 base 9151 140651818952448 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
     response = middleware_method(request)
   File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 8, in process_request
-    manageParameters = ManageParametsers()
-NameError: global name 'ManageParametsers' is not defined
-ERROR 2016-09-28 07:25:47,100 base 4655 140459227571968 Internal Server Error: /favicon.ico
+    manageParameters = ManageParametders()
+NameError: global name 'ManageParametders' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 14:40:35,895 base 3547 140049184126720 Internal Server Error: /bill/print/ 
 Traceback (most recent call last):
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
-    response = middleware_method(request)
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 8, in process_request
-    manageParameters = ManageParametsers()
-NameError: global name 'ManageParametsers' is not defined
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 14:40:38,511 base 3547 140049184126720 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 14:52:36,363 base 3547 140049184126720 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 14:53:08,299 base 3547 140049184126720 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 14:53:09,506 base 3547 140049184126720 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 15:29:19,169 base 3547 140048783619840 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 15:31:03,433 base 3547 140048800405248 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 15:32:57,359 base 3547 140048817190656 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-09-28 16:10:10,945 base 8294 139937627723520 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 81, in get
+    return self.render_to_response(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 63, in render_to_response
+    return self.get_pdf_response(context, **response_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 59, in get_pdf_response
+    **self.get_pdf_kwargs()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 166, in render_to_pdf_response
+    pdf = render_to_pdf(template, context, encoding=encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 139, in render_to_pdf
+    return html_to_pdf(content, encoding, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/rendering.py", line 65, in html_to_pdf
+    link_callback=link_callback, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 89, in pisaDocument
+    encoding, context=context, xml_output=xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/document.py", line 57, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 691, in pisaParser
+    pisaLoop(document, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 630, in pisaLoop
+    pisaLoop(node, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 577, in pisaLoop
+    pisaLoop(nnode, context, path, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 464, in pisaLoop
+    attr = pisaGetAttributes(context, node.tagName, node.attributes)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/parser.py", line 117, in pisaGetAttributes
+    nv = c.getFile(nv)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/context.py", line 822, in getFile
+    return getFile(self._getFileDeprecated(name, relative))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 635, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/xhtml2pdf/util.py", line 516, in __init__
+    uri = uri.encode('utf-8')
+AttributeError: 'NoneType' object has no attribute 'encode'

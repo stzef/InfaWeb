@@ -1,4 +1,4 @@
-{% extends 'facturacion/print/half_letter.html' %}
+ {% extends 'facturacion/print/half_letter.html' %}
  
 {% load date_appen %}
 {% load humanize %}
@@ -13,26 +13,30 @@
 					<td style="font-weight: bold; padding-bottom: 10px" align="right" colspan="4">{{factura.cfac}}</td>
 				</tr>
 				<tr>
-					<td width="15%">Fecha:</td>
-					<td width="35%">{{factura.femi}}</td>
+					<td rowspan=3 width="20%">
+						<p class="logo-empresa"></p>
+					</td>
 
-					<td width="15%">Dirección:</td>
-					<td width="35%">{{factura.citerce.dirterce}}</td>
+					<td width="10%">Fecha:</td>
+					<td width="30%">{{factura.femi}}</td>
+
+					<td width="10%">Dirección:</td>
+					<td width="30%">{{factura.citerce.dirterce}}</td>
 				</tr>
 				<tr>
-					<td width="15%">Identif.:</td>
-					<td width="35%">{{factura.citerce.idterce}}</td>
+					<td width="10%">Identif.:</td>
+					<td width="30%">{{factura.citerce.idterce}}</td>
 
-					<td width="15%">Telefono:</td>
-					<td width="35%">{{factura.citerce.telterce}}</td>
+					<td width="10%">Telefono:</td>
+					<td width="30%">{{factura.citerce.telterce}}</td>
 				</tr>
 
 				<tr style="border-bottom: .5px black solid">
-					<td width="15%">Nombre:</td>
-					<td width="35%">{{factura.citerce.rasocial}}</td>
+					<td width="10%">Nombre:</td>
+					<td width="30%">{{factura.citerce.rasocial}}</td>
 
-					<td width="15%">Ciudad:</td>
-					<td width="35%">{{factura.citerce.ciudad}}</td>
+					<td width="10%">Ciudad:</td>
+					<td width="30%">{{factura.citerce.ciudad}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -56,9 +60,9 @@
 					{% if deta %}
 						<tr>
 							<td>{{ deta.carlos.nlargo }}</td>
-							<td>{{ deta.canti }}</td>
-							<td>{{ deta.vunita|intcomma }}</td>
-							<td>{{ deta.vtotal|intcomma }}</td>
+							<td class="number">{{ deta.canti }}</td>
+							<td class="number">{{ deta.vunita|intcomma }}</td>
+							<td class="number">{{ deta.vtotal|intcomma }}</td>
 						</tr>
 					{% else %}
 						<tr>
@@ -74,43 +78,43 @@
 	</section>
 
 	<section>
-		<table class="bill_table_totals">
+		<table width="100%" class="bill_table_totals">
 			<tbody>
 				<tr>
-					<td colspan="2">EN LETRAS :{{factura.vttotal_letter.vletras}}</td>
+					<td width="55%" colspan="2">EN LETRAS :{{factura.vttotal_letter.vletras}}</td>
 
-					<td class="border_top_bold" width="15%">SubTotal:</td>
-					<td class="border_top_bold" width="15%"></td>
-					<td class="border_top_bold" width="15%">{{factura.vttotal|intcomma}}</td>
+					<td class="border_top_bold" width="10%">SubTotal:</td>
+					<td class="border_top_bold" width="10%"></td>
+					<td class="border_top_bold number" width="15%">{{factura.vttotal|intcomma}}</td>
 				</tr>
 				<tr>
-					<td colspan="2">{{factura.text_bill|truncatechars:123}}</td>
+					<td width="55%" colspan="2">{{factura.text_bill|truncatechars:100}}</td>
 
-					<td width="15%">Rte </td>
-					<td width="15%">{{factura.prtefte}}%</td>
-					<td width="15%">{{factura.brtefte|intcomma}}</td>
+					<td width="10%">Rte </td>
+					<td class="number" width="10%">{{factura.prtefte}}%</td>
+					<td class="number" width="15%">{{factura.brtefte|intcomma}}</td>
 				</tr>
 				<tr>
-					<td style="border-top: .5px black solid" >Nombre</td>
-					<td style="border-top: .5px black solid" >C.C.</td>
+					<td width="55%" colspan="2"></td>
 
-					<td class="border_bottom_bold" width="15%">Total:</td>
-					<td class="border_bottom_bold" width="15%"></td>
-					<td class="border_bottom_bold" width="15%">{{factura.vttotal|intcomma}}</td>
+					<td class="border_bottom_bold" width="10%">Total:</td>
+					<td class="border_bottom_bold" width="10%"></td>
+					<td class="border_bottom_bold number" width="15%">{{factura.vttotal|intcomma}}</td>
 				</tr>
 				<tr>
-					<td colspan="2">{{factura.cfac}}  Atendido por : {{factura.cvende.nvende}}</td>
+					<td width="30%" style="border-top: .5px black solid" >Nombre</td>
+					<td width="25%" style="border-top: .5px black solid" >C.C.</td>
 
-					<td width="15%">Abono:</td>
-					<td width="15%"></td>
-					<td width="15%">{{factura.vttotal|intcomma}}</td>
+					<td width="10%">Abono:</td>
+					<td width="10%"></td>
+					<td class="number" width="15%">{{factura.vttotal|intcomma}}</td>
 				</tr>
 				<tr>
-					<td colspan="2"></td>
+					<td width="55%" colspan="2">{{factura.cfac}}  Atendido por : {{factura.cvende.nvende}}</td>
 
-					<td class="border_bottom_bold" width="15%">Saldo:</td>
-					<td class="border_bottom_bold" width="15%"></td>
-					<td class="border_bottom_bold" width="15%">{{factura.vttotal|intcomma}}</td>
+					<td class="border_bottom_bold" width="10%">Saldo:</td>
+					<td class="border_bottom_bold" width="10%"></td>
+					<td class="border_bottom_bold number" width="15%">{{factura.vttotal|intcomma}}</td>
 				</tr>
 			</tbody>
 			

@@ -460,15 +460,18 @@ class BillPrint(PDFTemplateView):
 
 		if formato or formato == "half_letter":
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		elif formato == "neckband":
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		else:
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		factura = Fac.objects.get(cfac=cfac)
 		factura_deta = list(Facdeta.objects.filter(cfac=factura))
