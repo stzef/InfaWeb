@@ -9,6 +9,7 @@ from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
+from infa_web.apps.usuarios.models import *
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 		manageParameters = ManageParameters()
@@ -54,6 +55,8 @@ class Command(BaseCommand):
 		Zona.objects.all().delete()
 		Tercero.objects.all().delete()
 		Personas.objects.all().delete()
+		#Usuario - Usuarios
+		Usuario.objects.all().delete()
 
 		#Base - Esdo
 		estadoActivo = Esdo.objects.create(nesdo="ACTIVO",estavali="T")
@@ -1306,7 +1309,7 @@ class Command(BaseCommand):
 
 		#Base - Caja
 		#Falta
-		Caja.objects.create(
+		caja = Caja.objects.create(
 			ccaja=DEFAULT_CAJA,
 			ncaja="CAJA MOSTRADOR",
 			cesdo=estadoActivo,
@@ -1316,7 +1319,7 @@ class Command(BaseCommand):
 		)
 
 		#Base - Talo
-		Talo.objects.create(
+		talonario = Talo.objects.create(
 			ctalo=DEFAULT_TALONARIO,
 			prefijo="PS",
 			conse_ini=1,
@@ -1368,7 +1371,7 @@ class Command(BaseCommand):
 		print "Autorre. Registros Creados Correctamente."
 
 		#Terceros - Vende
-		Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+		vendedor = Vende.objects.create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 		print "Vende. Registros Creados Correctamente."
 
 		#Terceros - Ruta
@@ -1417,3 +1420,16 @@ class Command(BaseCommand):
 			ctiide = Tiide.objects.get(pk=DEFAULT_TIIDE),
 		)
 		
+		#Usuario - Usuarios
+		Usuario.objects.create(
+			user=User.objects.get(username=APPEMPRESARIAL_USER),
+			finusu="2016-02-02",
+			fveusu="2016-02-02",
+			cesdo=estadoActivo,
+			foto="img/logo.png",
+			ifprises=True,
+			ccaja=caja,
+			ctalomos=talonario,
+			ctalopos=talonario,
+			cvende=vendedor,
+		)

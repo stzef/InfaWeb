@@ -178,6 +178,7 @@ def article_list(request):
 	data_arlo = {}
 	data_arlo['arlo'] = {}
 	orderBy = request.GET.get('orderBy')
+	#arlos = Arlo.objects.using(request.db).all()
 	arlos = Arlo.objects.all()
 	if request.GET.get('buscarPor'):
 		arlos = arlos.filter(nlargo__icontains = request.GET.get('buscarPor'))

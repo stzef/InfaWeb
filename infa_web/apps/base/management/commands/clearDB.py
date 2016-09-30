@@ -9,6 +9,8 @@ from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
+from infa_web.apps.usuarios.models import *
+
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 		#Base
@@ -72,3 +74,5 @@ class Command(BaseCommand):
 		print "Tercero. Registros Borrados con Exito."
 		Personas.objects.all().delete()
 		print "Personas. Registros Borrados con Exito."
+		Usuario.objects.all().delete()
+		print "Usuarios. Registros Borrados con Exito."
