@@ -116,7 +116,7 @@ def ParametersList(FormView):
 	context['title'] = 'Parametros'
 
 	manageParameters = ManageParameters()
-	context['modules'] = Modules.objects.all()
+	context['modules'] = Modules.objects.using(self.request.db).all()
 
 
 	if(manageParameters.get_all() == None):
@@ -138,7 +138,7 @@ def ParametersList(FormView):
 					if(value[0:2] == "::" and value[-2:] == "::"):
 						query[key] = eval(value[2:-2])
 
-			for object_db in model.objects.filter(**query):
+			for object_db in model.objects.using(self.request.db).filter(**query):
 				value = getattr(object_db, parameter["field"]["value"])
 				text = getattr(object_db, parameter["field"]["text"])
 

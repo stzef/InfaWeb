@@ -54,16 +54,16 @@ def BillSave(request):
 	print (json.dumps(data,indent=4))
 	#print json.dumps(data, indent=4)
 
-	citerce = Tercero.objects.get(pk = data['citerce'])
-	cesdo = Esdo.objects.get(pk = data['cesdo'])
-	ctifopa = Tifopa.objects.get(pk = data['ctifopa'])
-	ccaja = Caja.objects.get(pk = data['ccaja'])
-	cvende = Vende.objects.get(pk = data['cvende'])
-	cdomici = Domici.objects.get(pk = data['cdomici'])
-	cemdor = Emdor.objects.get(pk = data['cemdor'])
+	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
+	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
+	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
+	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	cvende = Vende.objects.using(request.db).get(pk = data['cvende'])
+	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
+	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 	
 	try:
-		value = Fac.objects.all().latest('pk')
+		value = Fac.objects.using(request.db).all().latest('pk')
 		fac_pk = sum_function(value.cfac, ccaja.ctimocj.prefijo)
 	except Fac.DoesNotExist:
 		fac_pk = ccaja.ctimocj.prefijo+'00001000'
@@ -106,8 +106,8 @@ def BillSave(request):
 	mvsa.save()
 
 	for data_facpago in data["medios_pagos"]:
-		mediopago = MediosPago.objects.get(pk = data_facpago['cmpago'])
-		banmpago = Banfopa.objects.get(pk = data_facpago['banmpago'])
+		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
+		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
 		vefe_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Efectivo' else 0
 		vtar_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Tarjeta' else 0
@@ -124,12 +124,12 @@ def BillSave(request):
 
 
 	value = float(data['vttotal'])
-	ctimo = Timo.objects.get(pk = 3001)
+	ctimo = Timo.objects.using(request.db).get(pk = 3001)
 	val_cont = 1
 	while(val_cont != 0):
 
 		try:
-			mov = Movi.objects.all().latest('pk')
+			mov = Movi.objects.using(request.db).all().latest('pk')
 			movi_pk = sum_function(mov.cmovi, ccaja.ctimocj.prefijo)
 		except Movi.DoesNotExist:
 			movi_pk = ccaja.ctimocj.prefijo+'00001000'
@@ -169,8 +169,8 @@ def BillSave(request):
 			movipago.save()
 		else:
 			for data_facpago in data["medios_pagos"]:
-				mediopago = MediosPago.objects.get(pk = data_facpago['cmpago'])
-				banmpago = Banfopa.objects.get(pk = data_facpago['banmpago'])
+				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
+				banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 				movipago = Movipago(
 					cmovi = movi,
 					it = data_facpago['it'],
@@ -182,7 +182,7 @@ def BillSave(request):
 				movipago.save()
 
 		if(value > medios_pagos_total):
-			ctimo = Timo.objects.get(pk = 4003)
+			ctimo = Timo.objects.using(request.db).get(pk = 4003)
 			vefe_t = 0
 			vtar_t = 0
 			vch_t = 0
@@ -199,8 +199,8 @@ def BillSave(request):
 			val_cont = 0
 
 	for data_deta in data["mvdeta"]:
-		carlos = Arlo.objects.get(pk = data_deta['carlos'])
-		civa = Iva.objects.get(pk = data_deta['civa'])
+		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
+		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
 		vt = data_deta['vunita'] * data_deta['canti']
 		viva = vt * civa.poriva
 
@@ -386,14 +386,14 @@ class BillCreate(CreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
 		# Datos de Prueba
-		#usuario = Usuario.objects.filter()[0]
+		usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		#talonario_MOS = usuario.ctalomos
 		#talonario_POS = usuario.ctalopos
 		# Datos de Prueba
 
-		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
-		medios_pago = MediosPago.objects.all()
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
+		medios_pago = MediosPago.objects.using(self.request.db).all()
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
@@ -437,8 +437,8 @@ class BillEdit(UpdateView):
 	def get_context_data(self,**kwargs):
 		context = super(BillEdit, self).get_context_data(**kwargs)
 
-		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
-		medios_pago = MediosPago.objects.all()
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
+		medios_pago = MediosPago.objects.using(self.request.db).all()
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
@@ -479,16 +479,16 @@ def bill_proccess_view_annulment(request):
 def bill_proccess_fn_annulment(request):
 	data = json.loads(request.body)
 
-	estado = Esdo.objects.get(pk=data["cesdo"])
+	estado = Esdo.objects.using(request.db).get(pk=data["cesdo"])
 	current_datetime = str(datetime.datetime.now())
 	user = "Usuario Estatico"
 	detaanula = data["detaanula"] + " " + current_datetime + " " + user
 
-	factura = Fac.objects.get(pk=data["fact"])
-	mvsa = Mvsa.objects.get(docrefe = factura.cfac)
+	factura = Fac.objects.using(request.db).get(pk=data["fact"])
+	mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
 	
-	movideta = Movideta.objects.get(docrefe = factura.cfac)
-	movimiento = Movi.objects.get(cmovi = movideta.cmovi.cmovi)
+	movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
+	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi.cmovi)
 
 	print "---------------------------------"
 	print factura
@@ -523,7 +523,7 @@ class BillPrint(PDFTemplateView):
 		data = self.request.GET
 
 		# Datos de Prueba
-		usuario = Usuario.objects.filter()[0]
+		usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		talonario_MOS = usuario.ctalomos
 		talonario_POS = usuario.ctalopos
@@ -547,8 +547,8 @@ class BillPrint(PDFTemplateView):
 			#context['orientation'] = 'portrait'
 			context['orientation'] = 'landscape'
 
-		factura = Fac.objects.get(cfac=cfac)
-		factura_deta = list(Facdeta.objects.filter(cfac=factura))
+		factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+		factura_deta = list(Facdeta.objects.using(self.request.db).filter(cfac=factura))
 
 		max_items_factura = 10 - len(factura_deta)
 
