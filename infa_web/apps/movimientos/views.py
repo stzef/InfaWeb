@@ -92,8 +92,8 @@ class InputMovementUpdate(UpdateView):
 		context['is_input_movement'] = True
 		context['is_output_movement'] = False
 
-		context['mvdeta'] = list(Mvendeta.objects.filter(cmven=self.kwargs["pk"]))
-		context['mvdeta_json'] = serializers.serialize("json", list(Mvendeta.objects.filter(cmven=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['mvdeta'] = list(Mvendeta.objects.using(self.request.db).filter(cmven=self.kwargs["pk"]))
+		context['mvdeta_json'] = serializers.serialize("json", list(Mvendeta.objects.using(self.request.db).filter(cmven=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
@@ -115,8 +115,8 @@ class OutputMovementUpdate(UpdateView):
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
 		
-		context['mvdeta'] = list(Mvsadeta.objects.filter(cmvsa=self.kwargs["pk"]))
-		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objects.filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['mvdeta'] = list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"]))
+		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
@@ -133,15 +133,15 @@ def proccess_fn_annulment(request,pk):
 	data = json.loads(request.body)
 
 	if data["timo"] == "I":
-		movement = Mven.objects.get(cmven=data["cmv"])
+		movement = Mven.objectsusing(request.db).get(cmven=data["cmv"])
 	else:
-		movement = Mvsa.objects.get(cmvsa=data["cmv"])
+		movement = Mvsa.objectsusing(request.db).get(cmvsa=data["cmv"])
 
 	current_datetime = str(datetime.datetime.now())
 	user = "Usuario Estatico"
 
 	movement.detaanula = data["detaanula"] + " " + current_datetime + " " + user
-	movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
+	movement.cesdo = Esdo.objectsusing(request.db).get(pk=data["cesdo"])
 
 	print data["detaanula"] + " - " + current_datetime + " - " + user
 
@@ -161,7 +161,7 @@ def proccess_fn_costing_and_stock(request):
 	if data["type"] == "All":
 		query = {}
 	elif data["type"] == "Group":
-		query = {"cgpo":Gpo.objects.get(cgpo=data["group"])}
+		query = {"cgpo":Gpo.objectsusing(request.db).get(cgpo=data["group"])}
 	elif data["type"] == "Arlo":
 		query = {"carlos":data["carlos"]}
 	
@@ -183,15 +183,15 @@ def UpdateMovement(request,pk):
 	response["error"] = False
 	response["message"] = "Movimiento Editado con Exito"
 
-	timo = ctimo=Timo.objects.get(pk=data["ctimo"])
+	timo = ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"])
 
 	if data['is_input_movement']:
 
-		input_movement = Mven.objects.get(ctimo=timo,cmven=cmven)
+		input_movement = Mven.objects.using(request.db).get(ctimo=timo,cmven=cmven)
 
-		input_movement.cbode0 = Bode.objects.get(pk=data["cbode0"])
-		input_movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
-		input_movement.citerce = Tercero.objects.get(pk=data["citerce"])
+		input_movement.cbode0 = Bode.objects.using(request.db).get(pk=data["cbode0"])
+		input_movement.cesdo = Esdo.objects.using(request.db).get(pk=data["cesdo"])
+		input_movement.citerce = Tercero.objects.using(request.db).get(pk=data["citerce"])
 		input_movement.ctimo = timo
 		input_movement.descri = data["descri"]
 		input_movement.docrefe = data["docrefe"]
@@ -200,9 +200,9 @@ def UpdateMovement(request,pk):
 
 		input_movement.save()
 
-		Mvendeta.objects.filter(ctimo=timo,cmven=input_movement).delete()
+		Mvendeta.objects.using(request.db).filter(ctimo=timo,cmven=input_movement).delete()
 		for deta_movement in data["mvdeta"]:
-			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
 			Mvendeta.objects.create(
 				canti=deta_movement["canti"],
@@ -211,7 +211,7 @@ def UpdateMovement(request,pk):
 				vtotal=deta_movement["vtotal"],
 				vunita=deta_movement["vunita"],
 				cmven=input_movement,
-				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),
 				nlargo=articulo.nlargo,
 			)
 
@@ -220,11 +220,11 @@ def UpdateMovement(request,pk):
 
 	else:
 
-		output_movement = Mvsa.objects.get(ctimo=timo,cmvsa=cmven)
+		output_movement = Mvsa.objects.using(request.db).get(ctimo=timo,cmvsa=cmven)
 
-		output_movement.cbode0 = Bode.objects.get(pk=data["cbode0"])
-		output_movement.cesdo = Esdo.objects.get(pk=data["cesdo"])
-		output_movement.citerce = Tercero.objects.get(pk=data["citerce"])
+		output_movement.cbode0 = Bode.objects.using(request.db).get(pk=data["cbode0"])
+		output_movement.cesdo = Esdo.objects.using(request.db).get(pk=data["cesdo"])
+		output_movement.citerce = Tercero.objects.using(request.db).get(pk=data["citerce"])
 		output_movement.ctimo = timo
 		output_movement.descri = data["descri"]
 		output_movement.docrefe = data["docrefe"]
@@ -233,9 +233,9 @@ def UpdateMovement(request,pk):
 
 		output_movement.save()
 
-		Mvsadeta.objects.filter(cmvsa=output_movement).delete()
+		Mvsadeta.objects.using(request.db).filter(cmvsa=output_movement).delete()
 		for deta_movement in data["mvdeta"]:
-			articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
 			Mvsadeta.objects.create(
 				canti=deta_movement["canti"],
@@ -272,12 +272,12 @@ def SaveMovement(request):
 			
 		response["cmv"] = cmven
 
-		if not  Mven.objects.filter(ctimo=Timo.objects.get(pk=data["ctimo"]),cmven=cmven).exists():
+		if not  Mven.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmven=cmven).exists():
 			movement = Mven.objects.create(
-				cbode0= Bode.objects.get(pk=data["cbode0"]),
-				cesdo= Esdo.objects.get(pk=data["cesdo"]),
-				citerce= Tercero.objects.get(pk=data["citerce"]),
-				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
+				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
+				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
+				ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),
 				descri=data["descri"],
 				docrefe=data["docrefe"],
 				vttotal=data["vttotal"],
@@ -285,7 +285,7 @@ def SaveMovement(request):
 				cmven=cmven,
 			)
 			for deta_movement in data["mvdeta"]:
-				articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 				Mvendeta.objects.create(
 					canti=deta_movement["canti"],
 					carlos=articulo,
@@ -293,8 +293,8 @@ def SaveMovement(request):
 					vtotal=deta_movement["vtotal"],
 					vunita=deta_movement["vunita"],
 					cmven=movement,
-					ctimo=Timo.objects.get(pk=data["ctimo"]),
-					#ctimo=Timo.objects.get(pk=movement.ctimo),
+					ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),
+					#ctimo=Timo.objects.using(request.db).get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
 				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
@@ -312,12 +312,12 @@ def SaveMovement(request):
 
 		response["cmv"] = cmvsa
 
-		if not Mvsa.objects.filter(ctimo=Timo.objects.get(pk=data["ctimo"]),cmvsa=cmvsa).exists():
+		if not Mvsa.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmvsa=cmvsa).exists():
 			movement = Mvsa.objects.create(
-				cbode0= Bode.objects.get(pk=data["cbode0"]),
-				cesdo= Esdo.objects.get(pk=data["cesdo"]),
-				citerce= Tercero.objects.get(pk=data["citerce"]),
-				ctimo=Timo.objects.get(pk=data["ctimo"]),
+				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
+				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
+				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
+				ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),
 				descri=data["descri"],
 				docrefe=data["docrefe"],
 				vttotal=data["vttotal"],
@@ -325,7 +325,7 @@ def SaveMovement(request):
 				cmvsa=cmvsa,
 			)
 			for deta_movement in data["mvdeta"]:
-				articulo = Arlo.objects.get(pk=deta_movement["carlos"])
+				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 				Mvsadeta.objects.create(
 					canti=deta_movement["canti"],
 					carlos=articulo,

@@ -5,6 +5,7 @@ from django.shortcuts import render,render_to_response
 
 class verifyConfigurationFile(object):
 	def process_request(self, request):
+		request.db = "default"
 		manageParameters = ManageParameters()
 		if not manageParameters.ok():
 			context = {"message":"Existe un problema con el Archivo de configuracion."}

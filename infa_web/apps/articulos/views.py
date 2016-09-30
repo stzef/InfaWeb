@@ -71,9 +71,9 @@ class BreakdownArticle(FormView):
 	def get_context_data(self,**kwargs):
 		context = super(BreakdownArticle, self).get_context_data(**kwargs)
 		print kwargs
-		#context['article'] = Arlo.objects.get()
+		#context['article'] = Arlo.objects.using(self.request.db).get()
 		context['article'] = get_object_or_404(Arlo,carlos=self.kwargs["pk"])
-		context["partsArticle"] = Arlosdesglo.objects.filter(carlosp=self.kwargs["pk"])
+		context["partsArticle"] = Arlosdesglo.objects.using(self.request.db).filter(carlosp=self.kwargs["pk"])
 		return context
 		#class DepartamentsList(ListView):
 
@@ -107,7 +107,7 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 
-		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		maxCarlos = Arlo.objects.using(self.request.db).aggregate(Max('carlos'))
 		if maxCarlos["carlos__max"]:
 			carlos = maxCarlos["carlos__max"] + 1
 		else:
@@ -129,7 +129,7 @@ class ArticleCopy(UpdateView):
 		
 	def get_context_data(self, **kwargs):
 		context = super(ArticleCopy, self).get_context_data(**kwargs)
-		maxCarlos = Arlo.objects.aggregate(Max('carlos'))
+		maxCarlos = Arlo.objects.using(self.request.db).aggregate(Max('carlos'))
 		context['title'] = "Copiar Articulo"
 		context['mode_view'] = 'copy'
 		context['url'] = reverse_lazy('add-article')
@@ -162,7 +162,7 @@ class ArticleUpdate(AjaxableResponseMixin,UpdateView):
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
 
-		current_article = Arlo.objects.get(pk=self.kwargs["pk"])
+		current_article = Arlo.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
@@ -179,7 +179,7 @@ def article_list(request):
 	data_arlo['arlo'] = {}
 	orderBy = request.GET.get('orderBy')
 	#arlos = Arlo.objects.using(request.db).all()
-	arlos = Arlo.objects.all()
+	arlos = Arlo.objects.using(self.request.db).all()
 	if request.GET.get('buscarPor'):
 		arlos = arlos.filter(nlargo__icontains = request.GET.get('buscarPor'))
 	else:
@@ -346,7 +346,7 @@ def API_exists(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.filter(**filter_dict).exists():
+	if model.objects.using(self.request.db).filter(**filter_dict).exists():
 		return JsonResponse({'exists':True})
 	else:
 		return JsonResponse({'exists':False})
@@ -360,8 +360,8 @@ def API_get_object(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.filter(**filter_dict).exists():
-		object_db = serializers.serialize("json", [model.objects.get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
+	if model.objects.using(self.request.db).filter(**filter_dict).exists():
+		object_db = serializers.serialize("json", [model.objects.using(self.request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		return JsonResponse({'object':object_db})
 	else:
 		return JsonResponse({'object':None})
