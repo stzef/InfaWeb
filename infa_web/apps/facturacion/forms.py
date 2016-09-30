@@ -99,7 +99,7 @@ class FacdetaForm(forms.ModelForm):
 			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vtotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
 			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
 			'pvtafull' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
@@ -130,9 +130,7 @@ class FacpagoForm(forms.ModelForm):
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
 			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
-			'cmpago' : forms.Select(attrs={'class':'form-control','required':True}),
 			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
-			'banmpago' : forms.Select(attrs={'class':'form-control'}),
 			'vmpago' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
 		labels = {
@@ -143,3 +141,8 @@ class FacpagoForm(forms.ModelForm):
 			'banmpago' : 'Ban. Medio Pago',
 			'vmpago' : 'Valor Medio Pago',
 		}
+
+	def __init__(self, *args, **kwargs):
+		super(FacpagoForm, self).__init__(*args, **kwargs)
+		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})

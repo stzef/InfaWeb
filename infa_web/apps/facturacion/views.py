@@ -385,10 +385,10 @@ class BillCreate(CreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
 		# Datos de Prueba
-		usuario = Usuario.objects.filter()[0]
+		#usuario = Usuario.objects.filter()[0]
 
-		talonario_MOS = usuario.ctalomos
-		talonario_POS = usuario.ctalopos
+		#talonario_MOS = usuario.ctalomos
+		#talonario_POS = usuario.ctalopos
 		# Datos de Prueba
 
 		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.all()]
