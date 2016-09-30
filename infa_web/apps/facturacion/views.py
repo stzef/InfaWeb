@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 import json
+import datetime
 from infa_web.parameters import ManageParameters
 
 from infa_web.apps.base.value_letters import number_to_letter
@@ -157,7 +158,7 @@ def BillSave(request):
 		movideta = Movideta(
 			cmovi = movi,
 			itmovi = 1,
-			docrefe = fac.pk,
+			docrefe = fac.cfac,
 			detalle = '-',
 			vmovi = value
 		)
@@ -474,23 +475,32 @@ def bill_proccess_view_annulment(request):
 	form = CommonForm()
 	return render(request,"facturacion/procesos/annulment.html",{"form":form})
 
+@csrf_exempt
 def bill_proccess_fn_annulment(request):
 	data = json.loads(request.body)
 
+	estado = Esdo.objects.get(pk=data["cesdo"])
 	current_datetime = str(datetime.datetime.now())
 	user = "Usuario Estatico"
+	detaanula = data["detaanula"] + " " + current_datetime + " " + user
 
 	factura = Fac.objects.get(pk=data["fact"])
 	mvsa = Mvsa.objects.get(docrefe = factura.cfac)
-	movimientos = Movi.objects.filter()
+	
+	movideta = Movideta.objects.get(docrefe = factura.cfac)
+	movimiento = Movi.objects.get(cmovi = movideta.cmovi.cmovi)
 
-	for movimiento in movimientos:
-		movimiento.detaanula = detaanula
-		movimiento.cesdo = estado
-		movimiento.save()
+	print "---------------------------------"
+	print factura
+	print "---------------------------------"
+	print mvsa
+	print "---------------------------------"
+	print movimiento
+	print "---------------------------------"
 
-	detaanula = data["detaanula"] + " " + current_datetime + " " + user
-	estado = Esdo.objects.get(pk=data["cesdo"])
+	movimiento.cesdo = estado
+	movimiento.detaanula = detaanula
+
 
 	factura.detaanula = detaanula
 	factura.cesdo = estado
@@ -501,6 +511,7 @@ def bill_proccess_fn_annulment(request):
 
 	factura.save()
 	mvsa.save()
+	movimiento.save()
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
@@ -523,15 +534,18 @@ class BillPrint(PDFTemplateView):
 
 		if formato or formato == "half_letter":
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		elif formato == "neckband":
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		else:
 			self.template_name = "facturacion/print_bill_format_half_letter.html"
-			context['orientation'] = 'letter'
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
 
 		factura = Fac.objects.get(cfac=cfac)
 		factura_deta = list(Facdeta.objects.filter(cfac=factura))

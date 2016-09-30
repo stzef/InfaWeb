@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+	<meta charset="UTF-8">
 	<head>
 		<title>{{ title }}</title>
 		<style type="text/css">
 			.border_top_bold{
 				border-top: 3px solid black;
-			}
+			} 
 			.border_bottom_bold{
 				border-bottom: 3px solid black;
 			}
-
+			.factura .logo-empresa{
+				background-image: url("/static/img/empresas/ejemplo/logo.jpg");
+			}
+			.bill_table_totals .number{
+				text-align: right;
+			}
+			table .number{
+				text-align: right;
+			}
 			.bill_table_totals tr{
 				padding: 3px;
 			}
@@ -17,7 +26,7 @@
 				/*border: 1px solid red;*/
 			}
 			@page {
-				size: letter {{ orientation}};
+				size: b5 {{ orientation}};
 				@frame header_frame {
 					top: 1cm;
 					right: 1cm;
@@ -55,12 +64,14 @@
 		</style>
 	</head>
 	<body>
-		{% block head_table %}{% endblock head_table %}
-		{% block content %}{% endblock content %}
-		<table id="footerContent">
-			<tr>
-				<td>Se autoriza el uso de APPEM a: DON EJEMPLO Nit. 00000000000000</td>
-			</tr>
-		</table>
+		<section class="factura">
+			{% block head_table %}{% endblock head_table %}
+			{% block content %}{% endblock content %}
+			<table id="footerContent">
+				<tr>
+					<td>Se autoriza el uso de APPEM a: DON EJEMPLO Nit. 00000000000000</td>
+				</tr>
+			</table>
+		</section>
 	</body>
 </html>

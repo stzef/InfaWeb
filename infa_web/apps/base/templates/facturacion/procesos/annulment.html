@@ -83,9 +83,8 @@
 	$("form").submit(function(e){
 		e.preventDefault()
 		if(!$("[name=detaanula]").val().trim().length) return $("form").prepend(alertBootstrap("Por favor Explique por que Cancela la Factura.","info"))
-		var url = "/bill/proccess/fn/annulment/" + $("#id_fact").val() + "/"
 		$.post(
-			url,
+			"{% url 'bill_proccess_fn_annulment' %}",
 			JSON.stringify({
 				fact:$("#id_fact").val(),
 				cesdo:$("#id_cesdo").val(),
@@ -102,7 +101,7 @@
 			type: 'POST',
 			data: JSON.stringify({
 				model : 30,
-				field : "cfac",
+				field : "pk",
 				value : this.value
 			}),
 			contentType: "application/json",
