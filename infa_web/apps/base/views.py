@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,render_to_response
-from django.views.generic import CreateView, UpdateView,DeleteView,FormView
+from django.views.generic import CreateView, UpdateView,DeleteView,FormView 
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, JsonResponse
@@ -111,12 +111,12 @@ class AjaxableResponseMixin(object):
 			return response
 
 # Parameters #
-def ParametersList(FormView):
+def ParametersList(request): 
 	context = {}
 	context['title'] = 'Parametros'
 
 	manageParameters = ManageParameters()
-	context['modules'] = Modules.objects.using(self.request.db).all()
+	context['modules'] = Modules.objects.using(request.db).all()
 
 
 	if(manageParameters.get_all() == None):
@@ -138,7 +138,7 @@ def ParametersList(FormView):
 					if(value[0:2] == "::" and value[-2:] == "::"):
 						query[key] = eval(value[2:-2])
 
-			for object_db in model.objects.using(self.request.db).filter(**query):
+			for object_db in model.objects.using(request.db).filter(**query):
 				value = getattr(object_db, parameter["field"]["value"])
 				text = getattr(object_db, parameter["field"]["text"])
 

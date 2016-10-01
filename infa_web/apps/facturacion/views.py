@@ -92,7 +92,7 @@ def BillSave(request):
 		prtefte = float(data['prtefte']),
 		vrtefte = float(data['vrtefte'])
 	)
-	fac.save()
+	fac.save(using=request.db)
 
 	mvsa = Mvsa(
 		fmvsa = data['femi'],
@@ -103,7 +103,7 @@ def BillSave(request):
 		vttotal = float(data['vttotal']),
 		descri = '-'
 	)
-	mvsa.save()
+	mvsa.save(using=request.db)
 
 	for data_facpago in data["medios_pagos"]:
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -120,7 +120,7 @@ def BillSave(request):
 			banmpago = banmpago,
 			vmpago = float(data_facpago['vmpago'])
 		)
-		fac_pago.save()
+		fac_pago.save(using=request.db)
 
 	value = float(data['vttotal'])
 	ctimo = Timo.objects.using(request.db).get(pk = 3001)
@@ -152,7 +152,7 @@ def BillSave(request):
 			vtsuma = float(data['vttotal']),
 			vtdescu = float(data['vdescu'])
 		)
-		movi.save()
+		movi.save(using=request.db)
 
 		movideta = Movideta(
 			cmovi = movi,
@@ -161,11 +161,11 @@ def BillSave(request):
 			detalle = '-',
 			vmovi = value
 		)
-		movideta.save()
+		movideta.save(using=request.db)
 
 		if not data["medios_pagos"]:
 			movipago = Movipago(cmovi = movi)
-			movipago.save()
+			movipago.save(using=request.db)
 		else:
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -178,7 +178,7 @@ def BillSave(request):
 					banmpago = banmpago,
 					vmpago = float(data_facpago['vmpago'])
 				)
-				movipago.save()
+				movipago.save(using=request.db)
 
 		if(value > medios_pagos_total):
 			ctimo = Timo.objects.using(request.db).get(pk = 4003)
@@ -232,8 +232,8 @@ def BillSave(request):
 			vtotal = float((vt + viva))
 		)
 
-		mvsa_deta.save()
-		fac_deta.save()
+		mvsa_deta.save(using=request.db)
+		fac_deta.save(using=request.db)
 
 	response["cfac"] = fac.cfac
 	return HttpResponse(json.dumps(response), "application/json")
@@ -352,6 +352,7 @@ def BillUpdate(request,pk):
 				pvtafull = float(carlos.pvta1),
 				vcosto = float(carlos.vcosto1)
 			)
+
 		fac_deta.save()
 
 	return HttpResponse(json.dumps(response), "application/json")
@@ -488,9 +489,9 @@ def bill_proccess_fn_annulment(request):
 	mvsa.cesdo = estado
 
 
-	factura.save()
-	mvsa.save()
-	movimiento.save()
+	factura.save(using=request.db)
+	mvsa.save(using=request.db)
+	movimiento.save(using=request.db)
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
