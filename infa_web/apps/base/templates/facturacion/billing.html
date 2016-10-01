@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
- 
+
 {% load static %}
 
 {% block content_head %}
@@ -77,6 +77,15 @@
 										{%endif%}
 										<div class="col-sm-9">
 											{{form.ctifopa}}
+										</div>
+									</div>
+                  <div class="form-group col-md-12">
+										<label for="{{form.cfac.id_for_label}}" class="col-sm-3 control-label">{{form.cfac.label}}</label>
+										{%if form.cfac.errors%}
+										{{form.cfac.errors}}
+										{%endif%}
+										<div class="col-sm-9">
+											{{form.cfac}}
 										</div>
 									</div>
 								</div>
@@ -161,7 +170,7 @@
 
 					</div>
 				</div>
-				
+
 
 			</form>
 
@@ -235,9 +244,24 @@
 								</section>
 
 								<section role="form" id="list_items_mdeta">
-									{{ object.facdeta_set.all }}
 									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
 										<tbody>
+											{% for list in object.facdeta_set.all %}
+												<tr>
+													<td data-name="itfac" data-value="{{ list.itfac }}">{{ list.itfac }}</td>
+													<td data-name="carlos" data-value="{{ list.carlos.pk }}">{{ list.carlos.pk }}</td>
+													<td data-name="name__carlos" data-value="{{ list.carlos.nlargo }}">{{ list.carlos.nlargo }}</td>
+													<td data-name="canti" data-value="{{ list.canti }}">{{ list.canti }}</td>
+													<td data-name="pordes" data-value="{{ list.pordes }}">{{ list.pordes }}</td>
+													<td data-name="civa" data-value="{{ list.civa.pk }}">{{ list.civa }}</td>
+													<td data-name="vunita" data-value="{{ list.vunita }}">{{ list.vunita }}</td>
+													<td data-name="vtotal" data-value="{{ list.vtotal }}">{{ list.vtotal }}</td>
+													<td>
+														<span class="btn btn-info" style="margin-right: 3px;" id="edit-item-fac"><i class="fa fa-edit"></i></span>
+														<span class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></span>
+													</td>
+												</tr>
+											{% endfor %}
 										</tbody>
 									</table>
 								</section>
@@ -375,13 +399,25 @@
 												<th><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
 									</table>
 								</section>
 								<section role="form" id="list_medios_pago">
-									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
+									<table class="table table-striped no-footer text-center" cellspacing="0">
 										<tbody>
+											{% for medios_pagos in object.facpago_set.all %}
+												<tr>
+													<td>{{ medios_pagos.it }}</td>
+													<td data-name="it" data-value="{{ medios_pagos.it }}">{{ medios_pagos.it }}</td>
+													<td data-name="cmpago" data-value="{{ medios_pagos.cmpago.pk }}">{{ medios_pagos.cmpago }}</td>
+													<td data-name="docmpago" data-value="{{ medios_pagos.docmpago }}">{{ medios_pagos.docmpago }}</td>
+													<td data-name="banmpago" data-value="{{ medios_pagos.banmpago.pk }}">{{ medios_pagos.banmpago.nbanfopa }}</td>
+													<td data-name="vmpago" data-value="{{ medios_pagos.vmpago }}">{{ medios_pagos.vmpago }}</td>
+													<td>
+														<span class="btn btn-info" style="margin-right: 3px;" id="edit-item-medios-pagos"><i class="fa fa-edit"></i></span>
+														<span class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></span>
+													</td>
+												</tr>
+											{% endfor %}
 										</tbody>
 									</table>
 								</section>
@@ -436,6 +472,7 @@
 	var pvta_menor = null
 	var it = 1
 	$('#id_itfac').val(it)
+	calcular_total()
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -493,10 +530,10 @@
 		$("[name=pordes]").val(0)
 
 		$("[name=name__carlos]").prop("readonly",true)
-		
+
 		$("[name=vunita]").prop("readonly",false)
 		$("[name=pordes]").prop("readonly",false)
-		
+
 		if(current_arlo){
 			var name__carlos = current_arlo.nlargo
 			var ivas_civa = current_arlo.ivas_civa
@@ -555,7 +592,7 @@
 
 			Abre la ventana Modal de Medios de Pago
 
-			Validaciones 
+			Validaciones
 			Si [name=ctifopa] es igual a la forma de pago Contado
 			Crea por defecto un registro(HTML <tr>) de la tabla(HTML <table>) COn la forma de pago Contada
 				[name=cmpago] = Medio de pago Efectivo
@@ -564,7 +601,7 @@
 		*/
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
-		$("#list_medios_pago table tbody tr").remove()
+		//$("#list_medios_pago table tbody tr").remove()
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
@@ -700,7 +737,7 @@
 		})
 		return {vtbase: vtbase,vtiva: vtiva}
 	}
-	
+
 	function calcular_total(){
 		/*
 			Calcula el valor Total de la Factura
@@ -761,9 +798,9 @@
 
 	/* Validaciones */
 	$("[name=canti]").change(function(){
-		/* 
+		/*
 			Validacion
-			Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no 
+			Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no
 		*/
 		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
 			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
@@ -773,11 +810,11 @@
 	})
 
 	$("[name=vttotal]").change(function(){
-		/* 
+		/*
 			vttotal: valor total de la factura
 
 			Validacion
-			Valida si el valor total de la factura es mayor a la valor total maximo parametrizado, pregunta si se desa continuar o no 
+			Valida si el valor total de la factura es mayor a la valor total maximo parametrizado, pregunta si se desa continuar o no
 			Recalcula el valor del cambio
 		*/
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
@@ -789,11 +826,11 @@
 	})
 
 	$("#form_deta_movement [name=pordes]").change(function(){
-		/* 
+		/*
 			pordes: porcentaje de descuento para el articulo actual
 
 			Validacion
-			Valida si el porcentaje de descuento del articulo es mayor a la porcentaje maximo parametrizado, pregunta si se desa continuar o no 
+			Valida si el porcentaje de descuento del articulo es mayor a la porcentaje maximo parametrizado, pregunta si se desa continuar o no
 			Recalcula el valor unitario del articulo actual
 		*/
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
@@ -804,11 +841,11 @@
 	})
 
 	$("#form_deta_movement [name=vunita]").change(function(){
-		/* 
+		/*
 			vunita: valor unitario del articulo actual
 
 			Validacion
-			Valida si el valor unitario del producto es menor al precio de venta menor del articulo, pregunta si desea continuar o no 
+			Valida si el valor unitario del producto es menor al precio de venta menor del articulo, pregunta si desea continuar o no
 		*/
 		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
 			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
@@ -818,7 +855,7 @@
 	})
 
 	$("#item_medio_pago [name=cmpago]").change(function(e){
-		/* 
+		/*
 			cmpago: Medio de pago para el valor de la factura
 			docmpago: documento del medio de pago
 			banmpago : banco del medio de pago
@@ -862,7 +899,7 @@
 			Escucha la combinacion de teclado Alt + t para mostar la ventana modal de totalizar(medios de pagos)
 		*/
 		if(event.altKey && event.keyCode == 84) {
-			event.preventDefault(); 
+			event.preventDefault();
 			show_modal_totalizar()
 		}
 	})
@@ -897,7 +934,7 @@
 			}
 		})
 		//if(arlo_in_list) return
-		loading_animation()
+		loading_animation("Cargando Datos")
 		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
 			$(".animation").empty()
 			if(response.object){
@@ -940,7 +977,7 @@
 			setValueFieldTerce()
 			return
 		}
-		loading_animation()
+		loading_animation("Cargando Datos")
 		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
 			$(".animation").empty()
 			if(response.object){
@@ -960,12 +997,12 @@
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
 		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
-		
+    console.log(nuevo_valor_medios_pagos <= 0)
 		if(nuevo_valor_medios_pagos <= 0){
 			alert("El Valor a pagar no puede ser menor o igual a Cero")
 			return
 		}
-		
+
 		var total_meidos_pagos_existentes = 0
 		$("#list_medios_pago tbody tr").toArray().forEach(function(e,i,a){
 			var vtemp = parseFloat($(e).find("[data-name=vmpago]").data("value"))
@@ -1003,11 +1040,11 @@
 					html:value}))
 			})
 			td = $("<td>")
-			var btnEdit = td.append($("<span class='btn btn-info' style='margin-right: 3px;'><i class='fa fa-edit'></span>").click(edit_item_meidos_pagos))
-			var btnDelete = td.append($("<span class='btn btn-danger'><i class='fa fa-remove'></span>").click(delete_item_mdeta))
+			var btnEdit = td.append($("<span class='btn btn-info' id='edit-item-medios-pagos' style='margin-right: 3px;'><i class='fa fa-edit'></span>"))
+			var btnDelete = td.append($("<span class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></span>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_medios_pago").find("tbody").append(tr)
-			
+
 			$("#item_medio_pago").find("input,select").val("")
 			$("#item_medio_pago").find("[name=canti]").val(1)
 			var it = 1
@@ -1021,7 +1058,8 @@
 		}
 	})
 
-	function edit_item_meidos_pagos(){
+	//function edit_item_meidos_pagos(){
+	$(document).on('click', '#edit-item-medios-pagos', function(){
 		var target = $(this)
 		parent = target.closest("tr")
 		parent.find("[data-name]").each(function(i,e){
@@ -1032,9 +1070,10 @@
 			input.val(td.data("value")).change()
 		})
 		parent.remove()
-	}
+	})
 
-	function edit_item_mdeta(){
+	//function edit_item_mdeta(){
+	$(document).on('click', '#edit-item-fac', function(){
 		var target = $(this)
 		parent = target.closest("tr")
 		parent.find("[data-name]").each(function(i,e){
@@ -1047,15 +1086,19 @@
 			if(input.attr("name") != "carlos"){
 				input.change()
 			}
+			if(input.attr("name") == "civa"){
+				$("#id_civa").children("option[text='" + td.data("value") + "']").attr("selected", true);
+			}
 		})
 		parent.remove()
-	}
+	});
 
-	function delete_item_mdeta(){
-		
+	$(document).on('click', '#delete-item-fac', function(){
+	//function delete_item_mdeta(){
+
 		$(this).closest("tr").remove()
 		calcular_total()
-	}
+	});
 
 	$("#form_deta_movement").submit(function(event){
 		event.preventDefault()
@@ -1092,20 +1135,21 @@
 					html:value}))
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<span class='btn btn-info' style='margin-right: 3px;'><i class='fa fa-edit'></span>").click(edit_item_mdeta))
-			var btnDelete = td.append($("<span class='btn btn-danger'><i class='fa fa-remove'></span>").click(delete_item_mdeta))
+			var btnEdit = td.append($("<span class='btn btn-info' id='edit-item-fac' style='margin-right: 3px;'><i class='fa fa-edit'></span>"))
+			var btnDelete = td.append($("<span class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></span>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
-			
+
 			$('#item_mdeta').find("input,select").val("")
 			$('#item_mdeta').find("[name=canti]").val(1)
 			$('#item_mdeta').find("[name=pordes]").val(0)
-			var it = 1
+			/*
 			$("#list_items_mdeta").find("[data-name=itfac]").toArray().forEach(
 				function(e){
 					$(e).html(it);
 					$(e).attr("data-value",it);
 				})
+			*/
 			it++
 			calcular_total()
 			var totales = calcular_vtbase_vtiva()
@@ -1116,7 +1160,7 @@
 			$("#id_carlos").focus()
 		}
 	})
-
+  console.log('{{url}}')
 	$("#btn-save").click(function(event){
 
 		event.preventDefault()

@@ -331,7 +331,7 @@ codeModels = {
 	29:{'name':'Tercero','app':'terceros'},
 	30:{'name':'Fac','app':'facturacion'},
 	31:{'name':'Facdeta','app':'facturacion'},
-	32:{'name': 'MediosPago','app':'base'}
+	32:{'name': 'MediosPago','app':'base'},
 }
 
 from django.core import serializers
@@ -360,8 +360,8 @@ def API_get_object(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.using(self.request.db).filter(**filter_dict).exists():
-		object_db = serializers.serialize("json", [model.objects.using(self.request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
+	if model.objects.using(request.db).filter(**filter_dict).exists():
+		object_db = serializers.serialize("json", [model.objects.using(request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		return JsonResponse({'object':object_db})
 	else:
 		return JsonResponse({'object':None})
