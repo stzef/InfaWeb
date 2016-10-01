@@ -70,7 +70,7 @@ def inventory_latest(request):
 		response['code'] = 'II-00001'
 	cesdo = Esdo.objects.get(nesdo = 'ACTIVO')
 	invini = Invinicab(cii = response['code'], cesdo = cesdo, vttotal = 0, fii = now)
-	invini.save()
+	invini.save(using=request.db)
 	"""
 	for arlo in Arlo.objects.filter(ctiarlo = articulo):
 		response['data'][c] = {}
@@ -190,7 +190,7 @@ def inventory_save(request):
 		invini.fuaii = datetime.datetime.now()
 		invini.vttotal = float(val_tot)
 		invini.fii = fii
-		invini.save()
+		invini.save(using=request.db)
 		for cii_deta in response_data:
 			try:
 				invini_deta = Invinideta.objects.get(cii = invini, carlos = cii_deta['carlos'])
@@ -201,7 +201,7 @@ def inventory_save(request):
 				invini_deta.cancalcu = cii_deta['cancalcu']
 				invini_deta.ajuent = cii_deta['ajuent']
 				invini_deta.ajusal = cii_deta['ajusal']
-				invini_deta.save()
+				invini_deta.save(using=request.db)
 			except Invinideta.DoesNotExist:
 				carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
 				invini_deta = Invinideta(cii = invini, 
@@ -214,10 +214,10 @@ def inventory_save(request):
 					ajuent = cii_deta['ajuent'], 
 					ajusal = cii_deta['ajusal']
 				)
-			invini_deta.save()
+			invini_deta.save(using=request.db)
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
-		invini.save()
+		invini.save(using=request.db)
 		manageParameters = ManageParameters()
 		sv_cant = False
 		if manageParameters.get_param_value("initial_note") == '@':
@@ -236,11 +236,11 @@ def inventory_save(request):
 				ajuent = cii_deta['ajuent'], 
 				ajusal = cii_deta['ajusal']
 			)
-			invini_deta.save()
+			invini_deta.save(using=request.db)
 			if sv_cant is True:
 				carlos.canti = cii_deta['cant']
 				carlos.vcosto = cii_deta['vcosto']
-				carlos.save()
+				carlos.save(using=request.db)
 		for carlos_falt in Arlo.objects.exclude(pk__in = list_carlos):
 			invini_deta = Invinideta(cii = invini, 
 									carlos = carlos_falt, 
@@ -252,11 +252,11 @@ def inventory_save(request):
 									ajuent = 0, 
 									ajusal = 0
 							)
-			invini_deta.save()
+			invini_deta.save(using=request.db)
 			if sv_cant is True:
 				carlos_falt.canti = 0
 				carlos_falt.vcosto = 0
-				carlos_falt.save()
+				carlos_falt.save(using=request.db)
 	response['code'] = cii
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -279,7 +279,7 @@ def inventory_save_extra(request):
 								ajuent = 0, 
 								ajusal = 0
 					)
-		invini_deta.save()
+		invini_deta.save(using=request.db)
 	response['response'] = 'Exito al agregar nuevos articulos'
 	return HttpResponse(json.dumps(response), "application/json")
 

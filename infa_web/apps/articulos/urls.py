@@ -10,10 +10,10 @@ urlArticles = [
 	url(r'^articles/copy/(?P<pk>\d+)/$', ArticleCopy.as_view(), name = 'copy-article'),
 ]
 
-urlBreakdownArticles = [
+"""urlBreakdownArticles = [
 	url(r'^articles/(?P<pk>\d+)/breakdown$', BreakdownArticle.as_view(), name = 'breakdown-article'),
 	url(r'^articles/(?P<pk>\d+)/breakdown/save$', SaveBreakdownArticle, name = 'breakdown-article-save'),
-]
+]"""
 urlGroups = [
 	url(r'^groups/$', GroupList.as_view(), name = 'list-group'),
 	url(r'^groups/add/$', GroupCreate.as_view(), name = 'add-group'),
@@ -37,4 +37,5 @@ urlAPI = [
 	url(r'^api/get-object/$', API_get_object, name = 'api-get-object'),
 ]
 
-urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles
+"""urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles"""
+urlpatterns = urlArticles + urlGroups + urlBrands + urlAPI + urlTypesArticles

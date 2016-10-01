@@ -20,6 +20,7 @@ from django.core import serializers
 import json
 
 # Articles #
+"""
 @csrf_exempt
 def SaveBreakdownArticle(request,pk):
 	data = json.loads(request.body)
@@ -76,7 +77,7 @@ class BreakdownArticle(FormView):
 		context["partsArticle"] = Arlosdesglo.objects.using(self.request.db).filter(carlosp=self.kwargs["pk"])
 		return context
 		#class DepartamentsList(ListView):
-
+"""
 
 class ArticleCreate(AjaxableResponseMixin,CreateView):
 	model = Arlo
@@ -107,7 +108,7 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		manageParameters = ManageParameters()
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 
-		maxCarlos = Arlo.objects.using(self.request.db).aggregate(Max('carlos'))
+		maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
 		if maxCarlos["carlos__max"]:
 			carlos = maxCarlos["carlos__max"] + 1
 		else:
@@ -179,7 +180,7 @@ def article_list(request):
 	data_arlo['arlo'] = {}
 	orderBy = request.GET.get('orderBy')
 	#arlos = Arlo.objects.using(request.db).all()
-	arlos = Arlo.objects.using(self.request.db).all()
+	arlos = Arlo.objects.using(request.db).all()
 	if request.GET.get('buscarPor'):
 		arlos = arlos.filter(nlargo__icontains = request.GET.get('buscarPor'))
 	else:
@@ -240,8 +241,26 @@ class GroupUpdate(AjaxableResponseMixin,UpdateView):
 		return context
 
 class GroupList(ListView):
-	model = Gpo
+	model = None
+	queryset = None
 	template_name = "articulos/list-groups.html"
+
+	def get_queryset(self):
+		if self.queryset is not None:
+			queryset = self.queryset
+			if isinstance(queryset, QuerySet):
+				queryset = queryset.all()
+		elif self.model is not None:
+			queryset = self.model._default_manager.using(self.request.db).all()
+		else:
+			queryset = Gpo.objects.using(self.request.db).all()
+
+		ordering = self.get_ordering()
+		if ordering:
+			if isinstance(ordering, six.string_types):
+				ordering = (ordering,)
+			queryset = queryset.order_by(*ordering)
+		return queryset
 # Groups #
 
 # Types Articles #
@@ -346,7 +365,7 @@ def API_exists(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.using(self.request.db).filter(**filter_dict).exists():
+	if model.objects.using(request.db).filter(**filter_dict).exists():
 		return JsonResponse({'exists':True})
 	else:
 		return JsonResponse({'exists':False})
@@ -360,8 +379,8 @@ def API_get_object(request):
 	filter_dict[data["field"]] = data["value"]
 	print (filter_dict)
 	print type(filter_dict)
-	if model.objects.using(self.request.db).filter(**filter_dict).exists():
-		object_db = serializers.serialize("json", [model.objects.using(self.request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
+	if model.objects.using(request.db).filter(**filter_dict).exists():
+		object_db = serializers.serialize("json", [model.objects.using(request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		return JsonResponse({'object':object_db})
 	else:
 		return JsonResponse({'object':None})

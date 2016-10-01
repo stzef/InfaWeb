@@ -145,7 +145,7 @@ def proccess_fn_annulment(request,pk):
 
 	print data["detaanula"] + " - " + current_datetime + " - " + user
 
-	movement.save()
+	movement.save(using=request.db)
 
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
@@ -198,7 +198,7 @@ def UpdateMovement(request,pk):
 		input_movement.fmven = data["fmven"]
 		input_movement.vttotal = data["vttotal"]
 
-		input_movement.save()
+		input_movement.save(using=request.db)
 
 		Mvendeta.objects.using(request.db).filter(ctimo=timo,cmven=input_movement).delete()
 		for deta_movement in data["mvdeta"]:
@@ -231,7 +231,7 @@ def UpdateMovement(request,pk):
 		output_movement.fmvsa = data["fmvsa"]
 		output_movement.vttotal = data["vttotal"]
 
-		output_movement.save()
+		output_movement.save(using=request.db)
 
 		Mvsadeta.objects.using(request.db).filter(cmvsa=output_movement).delete()
 		for deta_movement in data["mvdeta"]:
