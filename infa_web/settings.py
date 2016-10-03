@@ -154,17 +154,10 @@ else:
 		'default': {
 			'ENGINE': 'django.db.backends.postgresql_psycopg2',
 			'NAME': 'infaweb_db',
-			'USER': 'root',
-			'PASSWORD': 'root',
+			'USER': 'postgres',
+			'PASSWORD': '123456',
 			'HOST': 'localhost',
-			'PORT': '',
-			'TEST': {
-				'NAME': 'infaweb_db',
-				'USER': 'root',
-				'PASSWORD': 'root',
-				'HOST': 'localhost',
-				'PORT': '',
-			},
+			'PORT': '5432',
 		}
 	}
 

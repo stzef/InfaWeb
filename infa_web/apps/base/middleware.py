@@ -24,3 +24,21 @@ class updateDateAppen(object):
 		os.environ["date_appen"] = current_date_format
 
 
+
+# Relacion subdominio a base de datos
+db = {
+	'stzef' : 'db_0',
+	'upc' : 'db_1'
+}
+
+# Agrega al request el subdominio actual
+class subdomainMiddleware:
+	def process_request(self, request):
+		host = request.META.get('HTTP_HOST', '')
+		host = host.replace('www.', '').split('.')
+		if len(host) > 2:
+				request.subdomain = ''.join(host[:-2])
+				request.db = db[request.subdomain]
+		else:
+				request.subdomain = None
+
