@@ -154,18 +154,15 @@ def BillSave(request):
 		)
 		movi.save(using=request.db)
 
-		movideta = Movideta(
-			cmovi = movi,
-			itmovi = 1,
-			docrefe = fac.cfac,
-			detalle = '-',
-			vmovi = value
-		)
-		movideta.save(using=request.db)
-
 		if not data["medios_pagos"]:
-			movipago = Movipago(cmovi = movi)
-			movipago.save(using=request.db)
+			movideta = Movideta(
+				cmovi = movi,
+				itmovi = 1,
+				docrefe = fac.cfac,
+				detalle = '-',
+				vmovi = medios_pagos_total
+			)
+			movideta.save(using=request.db)
 		else:
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -179,6 +176,14 @@ def BillSave(request):
 					vmpago = float(data_facpago['vmpago'])
 				)
 				movipago.save(using=request.db)
+				movideta = Movideta(
+					cmovi = movi,
+					itmovi = data_facpago['it'],
+					docrefe = fac.cfac,
+					detalle = '-',
+					vmovi = float(data_facpago['vmpago'])
+				)
+				movideta.save(using=request.db)
 
 		if(value > medios_pagos_total):
 			ctimo = Timo.objects.using(request.db).get(pk = 4003)
@@ -250,9 +255,10 @@ def BillUpdate(request,pk):
 	vefe_t = 0
 	vtar_t = 0
 	vch_t = 0
+	val_tot_mp = 0
+	exclude_arlo = []
 
 	print (json.dumps(data,indent=4))
-	#print json.dumps(data, indent=4)
 
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
@@ -263,12 +269,9 @@ def BillUpdate(request,pk):
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
 	fac = Fac.objects.get(cfac = data['cfac'])
-	fac.femi = data['femi']
-	fac.citerce = citerce
 	fac.cesdo = cesdo
 	fac.fpago = data['fpago']
 	fac.ctifopa = ctifopa
-	fac.descri = '-'
 	fac.vtbase = float(data['vtbase'])
 	fac.vtiva = 0
 	fac.vflete = float(data['vflete'])
@@ -276,17 +279,21 @@ def BillUpdate(request,pk):
 	fac.vttotal = float(vttotal)
 	fac.ventre = float(data['ventre'])
 	fac.vcambio = float(data['vcambio'])
-	fac.ccaja = ccaja
 	fac.cvende = cvende
 	fac.cdomici = cdomici
-	fac.tpordes = 0
 	fac.cemdor = cemdor
 	fac.brtefte = float(data['brtefte'])
 	fac.prtefte = float(data['prtefte'])
 	fac.vrtefte = float(data['vrtefte'])
-	fac.save()
+	fac.save(using=request.db)
 
+	mvsa = Mvsa.objects.get(docrefe = fac.cfac)
+	mvsa.vttotal = float(data['vttotal'])
+	mvsa.save(using=request.db)
+
+	movi_find = Movi.objects.filter(movideta__docrefe = fac.cfac)
 	for data_facpago in data["medios_pagos"]:
+		movi = movi_find.filter(ctimo__pk = 3001)
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
@@ -309,13 +316,55 @@ def BillUpdate(request,pk):
 				banmpago = banmpago,
 				vmpago = float(data_facpago['vmpago'])
 			)
-		fac_pago.save()
+
+		try:
+			movideta = movi[0].movideta_set.get(itmovi = data_facpago['it'])
+			movideta.vmovi = float(data_facpago['vmpago'])
+		except Movideta.DoesNotExist:
+			movideta = Movideta(
+				cmovi = movi[0],
+				itmovi = data_facpago['it'],
+				docrefe = fac.cfac,
+				detalle = '-',
+				vmovi = float(data_facpago['vmpago'])
+			)
+		fac_pago.save(using=request.db)
+		movideta.save(using=request.db)
+
+	movi = movi[0]
+	movi.vttotal = (vefe_t + vtar_t + vch_t)
+	movi.cesdo = cesdo
+	movi.vefe = vefe_t
+	movi.vtar = vtar_t
+	movi.vch = vch_t
+	movi.ventre = float(data['ventre'])
+	movi.vcambio = float(data['vcambio'])
+	movi.baseiva = float(data['vtbase'])
+	movi.vtiva = float(data['vtiva'])
+	movi.vtsuma = float(data['vttotal'])
+	movi.vtdescu = float(data['vdescu'])
+	movi.save(using=request.db)
+
+	movi = movi_find.filter(ctimo__pk = 4003)
+	movideta = movi[0].movideta_set.get(itmovi = 1)
+	if(val_tot_mp < float(data['vttotal'])):
+		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
+		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
+	else:
+		movideta.vmovi = 0
+		movi_vttotal = 0
+	movideta.save(using=request.db)
+
+	movi = movi[0]
+	movi.vttotal = movi_vttotal
+	movi.save(using=request.db)
 
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
 		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
 		viva = vt * float(civa.poriva)
+		exclude_arlo.append(carlos.pk)
 
 		try:
 			fac_deta = Facdeta.objects.get(cfac = fac.pk,  carlos = carlos.pk)
@@ -352,9 +401,28 @@ def BillUpdate(request,pk):
 				pvtafull = float(carlos.pvta1),
 				vcosto = float(carlos.vcosto1)
 			)
-
-		fac_deta.save()
-
+		try:
+			mvsa_deta = Mvsadeta.objects.get(cmvsa = mvsa.pk, carlos = carlos.pk)
+			mvsa_deta.it = data_deta['itfac']
+			mvsa_deta.carlos = carlos
+			mvsa_deta.nlargo = carlos.nlargo
+			mvsa_deta.canti = data_deta['canti']
+			mvsa_deta.vunita =float(data_deta['vunita'])
+			mvsa_deta.vtotal = float((vt + viva))
+		except Mvsadeta.DoesNotExist:
+			mvsa_deta = Mvsadeta(
+				cmvsa = mvsa,
+				it = data_deta['itfac'],
+				carlos = carlos,
+				nlargo = carlos.nlargo,
+				canti = data_deta['canti'],
+				vunita =float(data_deta['vunita']),
+				vtotal = float((vt + viva))
+			)
+		fac_deta.save(using=request.db)
+		mvsa_deta.save(using=request.db)
+	Facdeta.objects.exclude(carlos__in = exclude_arlo).delete()
+	Mvsadeta.objects.filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BillCreate(CreateView):

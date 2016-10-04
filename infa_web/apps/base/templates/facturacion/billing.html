@@ -406,7 +406,6 @@
 										<tbody>
 											{% for medios_pagos in object.facpago_set.all %}
 												<tr>
-													<td>{{ medios_pagos.it }}</td>
 													<td data-name="it" data-value="{{ medios_pagos.it }}">{{ medios_pagos.it }}</td>
 													<td data-name="cmpago" data-value="{{ medios_pagos.cmpago.pk }}">{{ medios_pagos.cmpago }}</td>
 													<td data-name="docmpago" data-value="{{ medios_pagos.docmpago }}">{{ medios_pagos.docmpago }}</td>
@@ -414,7 +413,6 @@
 													<td data-name="vmpago" data-value="{{ medios_pagos.vmpago }}">{{ medios_pagos.vmpago }}</td>
 													<td>
 														<span class="btn btn-info" style="margin-right: 3px;" id="edit-item-medios-pagos"><i class="fa fa-edit"></i></span>
-														<span class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></span>
 													</td>
 												</tr>
 											{% endfor %}

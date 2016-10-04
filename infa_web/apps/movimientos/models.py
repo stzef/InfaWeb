@@ -96,12 +96,18 @@ class Movi(models.Model):
 	vtdescu = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	detaanula = models.CharField(max_length=80,blank=True, null=True)
 
+	def __str__(self):
+		return str(self.cmovi)
+
 class Movideta(models.Model):
 	cmovi = models.ForeignKey(Movi,on_delete=models.CASCADE)
 	itmovi = models.CharField(max_length=4)
 	docrefe = models.CharField(max_length=10)
 	detalle = models.CharField(max_length=60)
 	vmovi = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+
+	def __str__(self):
+		return str(self.cmovi)+' - '+self.docrefe+' - '+str(self.vmovi)
 
 class Movipago(models.Model):
 	cmovi = models.ForeignKey(Movi,on_delete=models.CASCADE)
