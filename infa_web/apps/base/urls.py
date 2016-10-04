@@ -3,7 +3,9 @@ from django.views.generic import TemplateView
 from infa_web.apps.base.views import *
 
 urlGeneral = [
-	url(r'^$', TemplateView.as_view(template_name = 'home/dashboard.html'), {'title': 'Inicio'}, name = 'dashboard'),
+	#url(r'^$', TemplateView.as_view(template_name = 'home/dashboard.html'), {'title': 'Inicio'}, name = 'dashboard'),
+	url(r'^$', dashboard, name = 'dashboard'),
+	url(r'^dashboard/$', dashboard, name = 'dashboard'),
 ]
 
 urlStates = [

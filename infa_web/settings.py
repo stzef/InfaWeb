@@ -150,6 +150,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-CO'
 
+LOGIN_URL = '/login'
+
 TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True

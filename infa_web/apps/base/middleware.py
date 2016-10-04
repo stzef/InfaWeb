@@ -1,9 +1,9 @@
 import os
 from datetime import datetime
 from infa_web.parameters import ManageParameters
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
-
+	
 class verifyConfigurationFile(object):
 	def process_request(self, request):
 		request.db = "default"
@@ -39,8 +39,10 @@ class subdomainMiddleware:
 					return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 
 				request.db = DOMAINS[request.subdomain]
+				redirect('/dashboard')
 
 		else:
 			request.db = 'default'
+			return render_to_response("home/index.html")
 
 

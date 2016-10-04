@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response, redirect
 from django.views.generic import CreateView, UpdateView,DeleteView,FormView 
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, JsonResponse
-
 from django.template import RequestContext
-
+from django.views.decorators.csrf import csrf_exempt
 from django.apps import apps
+from django.http import JsonResponse
+from django.core import serializers
+from django.contrib.auth.decorators import login_required
+
 
 import json
 
 from infa_web.parameters import ManageParameters
-
 from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
-from django.views.decorators.csrf import csrf_exempt
-
-
 from infa_web.settings import BASE_DIR
 
-from django.core import serializers
 
-from django.http import JsonResponse
+@login_required()
+def dashboard(request):
+	return render(request, 'home/dashboard.html', {'title': 'Dashboard'})
 
 def get_custom_message_response(instance,object):
 	message = "El proceso se realizo con Exito."
