@@ -12,7 +12,18 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.usuarios.models import *
 
 class Command(BaseCommand):
+	def add_arguments(self, parser):
+		parser.add_argument(
+			'--db',
+			action='store',
+			dest='db',
+			default="default",
+			help='DB for connection',
+		)
 	def handle(self, *args, **options):
+
+		name_db =  options["db"]
+		print "DB Actual '%s'" % name_db
 		#Base
 		Esdo.objects.all().delete()
 		print "Esdo. Registros Borrados con Exito."

@@ -486,9 +486,16 @@ def bill_proccess_fn_annulment(request):
 
 	factura = Fac.objects.using(request.db).get(pk=data["fact"])
 	mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
+
+	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
+	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+
+	ctimos = Timo.objects.using(request.db).get(
+		Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)
+	)
 	
 	movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
-	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi.cmovi)
+	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi.cmovi,ctimo__in = ctimos)
 
 	print "---------------------------------"
 	print factura
@@ -551,6 +558,33 @@ class BillPrint(PDFTemplateView):
 		factura_deta = list(Facdeta.objects.using(self.request.db).filter(cfac=factura))
 
 		max_items_factura = 10 - len(factura_deta)
+
+		deta_vttotal = Facpago.objects.using(self.request.db).filter(cfac=factura)
+
+		#print deta_vttotal # .vmpago
+
+		"""
+		cont_vttotal = 0
+		cred_vttotal = 0
+		for dv in deta_vttotal:
+			if(dv.cmpago.cmpago in [1000]):
+				cont_vttotal += dv.vmpago
+			else:
+				cred_vttotal += dv.vmpago
+		"""
+
+
+		v = 0
+		for dv in deta_vttotal:
+			v += dv.vmpago
+		factura.saldo = factura.vttotal - v
+		factura.abono = v
+
+		"""
+		factura.cont_vttotal = cont_vttotal
+		factura.cred_vttotal = cred_vttotal
+		factura.saldo = factura.vttotal - cred_vttotal
+		"""
 
 		for index in range(0,max_items_factura):
 			factura_deta.append(False)

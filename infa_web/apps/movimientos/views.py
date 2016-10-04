@@ -115,8 +115,8 @@ class OutputMovementUpdate(UpdateView):
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
 		
-		context['mvdeta'] = list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"]))
-		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['mvdeta'] = list(Mvsadeta.objects.using(self.request.db).filter(cmvsa=self.kwargs["pk"]))
+		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objects.using(self.request.db).filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
@@ -133,15 +133,15 @@ def proccess_fn_annulment(request,pk):
 	data = json.loads(request.body)
 
 	if data["timo"] == "I":
-		movement = Mven.objectsusing(request.db).get(cmven=data["cmv"])
+		movement = Mven.objects.using(request.db).get(cmven=data["cmv"])
 	else:
-		movement = Mvsa.objectsusing(request.db).get(cmvsa=data["cmv"])
+		movement = Mvsa.objects.using(request.db).get(cmvsa=data["cmv"])
 
 	current_datetime = str(datetime.datetime.now())
 	user = "Usuario Estatico"
 
 	movement.detaanula = data["detaanula"] + " " + current_datetime + " " + user
-	movement.cesdo = Esdo.objectsusing(request.db).get(pk=data["cesdo"])
+	movement.cesdo = Esdo.objects.using(request.db).get(pk=data["cesdo"])
 
 	print data["detaanula"] + " - " + current_datetime + " - " + user
 
@@ -161,7 +161,7 @@ def proccess_fn_costing_and_stock(request):
 	if data["type"] == "All":
 		query = {}
 	elif data["type"] == "Group":
-		query = {"cgpo":Gpo.objectsusing(request.db).get(cgpo=data["group"])}
+		query = {"cgpo":Gpo.objects.using(request.db).get(cgpo=data["group"])}
 	elif data["type"] == "Arlo":
 		query = {"carlos":data["carlos"]}
 	
