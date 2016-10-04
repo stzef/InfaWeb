@@ -12,6 +12,7 @@ class verifyConfigurationFile(object):
 			context = {"message":"Existe un problema con el Archivo de configuracion."}
 			return render_to_response("layouts/error.html",context)
 
+
 class updateDateAppen(object):
 	def process_request(self, request):
 

@@ -21,7 +21,6 @@ from infa_web.apps.base.forms import *
 from infa_web.settings import BASE_DIR
 
 
-@login_required()
 def dashboard(request):
 	return render(request, 'home/dashboard.html', {'title': 'Dashboard'})
 
