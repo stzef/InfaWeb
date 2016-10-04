@@ -374,6 +374,7 @@ class BillCreate(CreateView):
 
 		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
 		medios_pago = MediosPago.objects.using(self.request.db).all()
+
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
