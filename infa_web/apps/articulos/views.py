@@ -350,7 +350,7 @@ codeModels = {
 	29:{'name':'Tercero','app':'terceros'},
 	30:{'name':'Fac','app':'facturacion'},
 	31:{'name':'Facdeta','app':'facturacion'},
-	32:{'name': 'MediosPago','app':'base'}
+	32:{'name': 'MediosPago','app':'base'},
 }
 
 from django.core import serializers

@@ -8,7 +8,7 @@ class FacForm(forms.ModelForm):
 		model = Fac
 		fields = "__all__"
 		widgets = {
-			'cfac' : forms.TextInput(attrs={'class':'form-control'}),
+			'cfac' : forms.TextInput(attrs={'class':'form-control', 'readonly': True}),
 			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),

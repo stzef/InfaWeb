@@ -12,5 +12,6 @@ urlpatterns = [
 	url('', include('infa_web.apps.inventarios.urls')),
 	url('', include('infa_web.apps.facturacion.urls')),
 	url('', include('infa_web.apps.usuarios.urls')),
+	url('', include('infa_web.apps.m.urls')),
 	url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

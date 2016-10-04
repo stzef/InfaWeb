@@ -1,9 +1,9 @@
-from django.shortcuts import render,render_to_response 
+from django.shortcuts import render,render_to_response
 from django.views.generic import FormView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from django.core.urlresolvers import reverse_lazy 
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -61,7 +61,7 @@ def BillSave(request):
 	cvende = Vende.objects.using(request.db).get(pk = data['cvende'])
 	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
-	
+
 	try:
 		value = Fac.objects.using(request.db).all().latest('pk')
 		fac_pk = sum_function(value.cfac, ccaja.ctimocj.prefijo)
@@ -69,11 +69,11 @@ def BillSave(request):
 		fac_pk = ccaja.ctimocj.prefijo+'00001000'
 
 	fac = Fac(
-		cfac = fac_pk, 
-		femi = data['femi'], 
-		citerce = citerce, 
-		cesdo = cesdo, 
-		fpago = data['fpago'], 
+		cfac = fac_pk,
+		femi = data['femi'],
+		citerce = citerce,
+		cesdo = cesdo,
+		fpago = data['fpago'],
 		ctifopa = ctifopa,
 		descri = '-',
 		vtbase = float(data['vtbase']),
@@ -122,7 +122,6 @@ def BillSave(request):
 		)
 		fac_pago.save(using=request.db)
 
-
 	value = float(data['vttotal'])
 	ctimo = Timo.objects.using(request.db).get(pk = 3001)
 	val_cont = 1
@@ -155,18 +154,15 @@ def BillSave(request):
 		)
 		movi.save(using=request.db)
 
-		movideta = Movideta(
-			cmovi = movi,
-			itmovi = 1,
-			docrefe = fac.cfac,
-			detalle = '-',
-			vmovi = value
-		)
-		movideta.save(using=request.db)
-
 		if not data["medios_pagos"]:
-			movipago = Movipago(cmovi = movi)
-			movipago.save(using=request.db)
+			movideta = Movideta(
+				cmovi = movi,
+				itmovi = 1,
+				docrefe = fac.cfac,
+				detalle = '-',
+				vmovi = medios_pagos_total
+			)
+			movideta.save(using=request.db)
 		else:
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -180,6 +176,14 @@ def BillSave(request):
 					vmpago = float(data_facpago['vmpago'])
 				)
 				movipago.save(using=request.db)
+				movideta = Movideta(
+					cmovi = movi,
+					itmovi = data_facpago['it'],
+					docrefe = fac.cfac,
+					detalle = '-',
+					vmovi = float(data_facpago['vmpago'])
+				)
+				movideta.save(using=request.db)
 
 		if(value > medios_pagos_total):
 			ctimo = Timo.objects.using(request.db).get(pk = 4003)
@@ -201,8 +205,8 @@ def BillSave(request):
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
 		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
-		vt = data_deta['vunita'] * data_deta['canti']
-		viva = vt * civa.poriva
+		vt = float(data_deta['vunita']) * float(data_deta['canti'])
+		viva = vt * float(civa.poriva)
 
 		fac_deta = Facdeta(
 			cfac = fac,
@@ -219,7 +223,7 @@ def BillSave(request):
 			viva = viva,
 			vbase = vt,
 			vtotal = float((vt + viva)),
-			pvtafull = float(carlos.pvta1), 
+			pvtafull = float(carlos.pvta1),
 			vcosto = float(carlos.vcosto1)
 		)
 
@@ -229,7 +233,7 @@ def BillSave(request):
 			carlos = carlos,
 			nlargo = carlos.nlargo,
 			canti = data_deta['canti'],
-			vunita =float( data_deta['vunita']),
+			vunita =float(data_deta['vunita']),
 			vtotal = float((vt + viva))
 		)
 
@@ -247,67 +251,64 @@ def BillUpdate(request,pk):
 	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
+	medios_pagos_total = 0
+	vefe_t = 0
+	vtar_t = 0
+	vch_t = 0
+	val_tot_mp = 0
+	exclude_arlo = []
 
 	print (json.dumps(data,indent=4))
-	#print json.dumps(data, indent=4)
 
-	citerce = Tercero.objects.get(pk = data['citerce'])
-	cesdo = Esdo.objects.get(pk = data['cesdo'])
-	ctifopa = Tifopa.objects.get(pk = data['ctifopa'])
-	ccaja = Caja.objects.get(pk = data['ccaja'])
-	cvende = Vende.objects.get(pk = data['cvende'])
-	cdomici = Domici.objects.get(pk = data['cdomici'])
-	cemdor = Emdor.objects.get(pk = data['cemdor'])
-	
-	try:
-		value = Fac.objects.all().latest('pk')
-		fac_pk = sum_function(value.cfac, ccaja.ctimocj.prefijo)
-	except Fac.DoesNotExist:
-		fac_pk = ccaja.ctimocj.prefijo+'00001000'
+	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
+	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
+	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
+	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	cvende = Vende.objects.using(request.db).get(pk = data['cvende'])
+	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
+	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
-	vttotal = [vttotal + (x['canti'] * x['vunita']) for x in data["mvdeta"]]
-
-	fac = Fac(
-			cfac = fac_pk, 
-			femi = data['femi'], 
-			citerce = citerce, 
-			cesdo = cesdo, 
-			fpago = data['fpago'], 
-			ctifopa = ctifopa,
-			descri = '-',
-			vtbase = float(data['vtbase']),
-			vtiva = 0,
-			vflete = float(data['vflete']),
-			vdescu = float(data['vdescu']),
-			vttotal = float(vttotal),
-			ventre = float(data['ventre']),
-			vcambio = float(data['vcambio']),
-			ccaja = ccaja,
-			cvende = cvende,
-			cdomici = cdomici,
-			tpordes = 0,
-			cemdor = cemdor,
-			brtefte = float(data['brtefte']),
-			prtefte = float(data['prtefte']),
-			vrtefte = float(data['vrtefte'])
-		)
+	fac = Fac.objects.get(cfac = data['cfac'])
+	fac.cesdo = cesdo
+	fac.fpago = data['fpago']
+	fac.ctifopa = ctifopa
+	fac.vtbase = float(data['vtbase'])
+	fac.vtiva = 0
+	fac.vflete = float(data['vflete'])
+	fac.vdescu = float(data['vdescu'])
+	fac.vttotal = float(vttotal)
+	fac.ventre = float(data['ventre'])
+	fac.vcambio = float(data['vcambio'])
+	fac.cvende = cvende
+	fac.cdomici = cdomici
+	fac.cemdor = cemdor
+	fac.brtefte = float(data['brtefte'])
+	fac.prtefte = float(data['prtefte'])
+	fac.vrtefte = float(data['vrtefte'])
 	fac.save(using=request.db)
 
-	mvsa = Mvsa(
-			fmvsa = data['femi'],
-			docrefe = fac.cfac,
-			citerce = citerce,
-			ctimo = ccaja.ctimocj,
-			cesdo = cesdo,
-			vttotal = float(vttotal),
-			descri = '-'
-		)
+	mvsa = Mvsa.objects.get(docrefe = fac.cfac)
+	mvsa.vttotal = float(data['vttotal'])
 	mvsa.save(using=request.db)
 
+	movi_find = Movi.objects.filter(movideta__docrefe = fac.cfac)
 	for data_facpago in data["medios_pagos"]:
-		mediopago = MediosPago.objects.get(pk = data_facpago['cmpago'])
-		banmpago = Banfopa.objects.get(pk = data_facpago['banmpago'])
-		fac_pago = Facpago(
+		movi = movi_find.filter(ctimo__pk = 3001)
+		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
+		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
+		medios_pagos_total += float(data_facpago['vmpago'])
+		vefe_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Efectivo' else 0
+		vtar_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Tarjeta' else 0
+		vch_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Cheque' else 0
+
+		try:
+			fac_pago = Facpago.objects.get(cfac = fac.pk, it = data_facpago['it'])
+			fac_pago.cmpago = mediopago
+			fac_pago.docmpago = data_facpago['docmpago']
+			fac_pago.banmpago = banmpago
+			fac_pago.vmpago = float(data_facpago['vmpago'])
+		except Facpago.DoesNotExist:
+			fac_pago = Facpago(
 				cfac = fac,
 				it = data_facpago['it'],
 				cmpago = mediopago,
@@ -315,14 +316,74 @@ def BillUpdate(request,pk):
 				banmpago = banmpago,
 				vmpago = float(data_facpago['vmpago'])
 			)
-	
-	for data_deta in data["mvdeta"]:
-		carlos = Arlo.objects.get(pk = data_deta['carlos'])
-		civa = Iva.objects.get(pk = data_deta['civa'])
-		vt = data_deta['vunita'] * data_deta['canti']
-		viva = vt * civa.poriva
 
-		fac_deta = Facdeta(
+		try:
+			movideta = movi[0].movideta_set.get(itmovi = data_facpago['it'])
+			movideta.vmovi = float(data_facpago['vmpago'])
+		except Movideta.DoesNotExist:
+			movideta = Movideta(
+				cmovi = movi[0],
+				itmovi = data_facpago['it'],
+				docrefe = fac.cfac,
+				detalle = '-',
+				vmovi = float(data_facpago['vmpago'])
+			)
+		fac_pago.save(using=request.db)
+		movideta.save(using=request.db)
+
+	movi = movi[0]
+	movi.vttotal = (vefe_t + vtar_t + vch_t)
+	movi.cesdo = cesdo
+	movi.vefe = vefe_t
+	movi.vtar = vtar_t
+	movi.vch = vch_t
+	movi.ventre = float(data['ventre'])
+	movi.vcambio = float(data['vcambio'])
+	movi.baseiva = float(data['vtbase'])
+	movi.vtiva = float(data['vtiva'])
+	movi.vtsuma = float(data['vttotal'])
+	movi.vtdescu = float(data['vdescu'])
+	movi.save(using=request.db)
+
+	movi = movi_find.filter(ctimo__pk = 4003)
+	movideta = movi[0].movideta_set.get(itmovi = 1)
+	if(val_tot_mp < float(data['vttotal'])):
+		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
+		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
+	else:
+		movideta.vmovi = 0
+		movi_vttotal = 0
+	movideta.save(using=request.db)
+
+	movi = movi[0]
+	movi.vttotal = movi_vttotal
+	movi.save(using=request.db)
+
+	for data_deta in data["mvdeta"]:
+		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
+		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
+		vt = float(data_deta['vunita']) * float(data_deta['canti'])
+		viva = vt * float(civa.poriva)
+		exclude_arlo.append(carlos.pk)
+
+		try:
+			fac_deta = Facdeta.objects.get(cfac = fac.pk,  carlos = carlos.pk)
+			fac_deta.itfac = data_deta['itfac']
+			fac_deta.nlargo = carlos.nlargo
+			fac_deta.ncorto = carlos.ncorto
+			fac_deta.canti = data_deta['canti']
+			fac_deta.civa = civa
+			fac_deta.niva = civa.niva
+			fac_deta.poriva = civa.poriva
+			fac_deta.pordes = data_deta['pordes']
+			fac_deta.vunita = float(data_deta['vunita'])
+			fac_deta.viva = viva
+			fac_deta.vbase = vt
+			fac_deta.vtotal = float((vt + viva))
+			fac_deta.pvtafull = float(carlos.pvta1)
+			fac_deta.vcosto = float(carlos.vcosto1)
+		except Facdeta.DoesNotExist:
+			fac_deta = Facdeta(
 				cfac = fac,
 				itfac = data_deta['itfac'],
 				carlos = carlos,
@@ -337,44 +398,31 @@ def BillUpdate(request,pk):
 				viva = viva,
 				vbase = vt,
 				vtotal = float((vt + viva)),
-				pvtafull = float(carlos.pvta1), 
+				pvtafull = float(carlos.pvta1),
 				vcosto = float(carlos.vcosto1)
 			)
-
-		mvsa_deta = Mvsadeta(
+		try:
+			mvsa_deta = Mvsadeta.objects.get(cmvsa = mvsa.pk, carlos = carlos.pk)
+			mvsa_deta.it = data_deta['itfac']
+			mvsa_deta.carlos = carlos
+			mvsa_deta.nlargo = carlos.nlargo
+			mvsa_deta.canti = data_deta['canti']
+			mvsa_deta.vunita =float(data_deta['vunita'])
+			mvsa_deta.vtotal = float((vt + viva))
+		except Mvsadeta.DoesNotExist:
+			mvsa_deta = Mvsadeta(
 				cmvsa = mvsa,
 				it = data_deta['itfac'],
 				carlos = carlos,
 				nlargo = carlos.nlargo,
 				canti = data_deta['canti'],
-				vunita =float( data_deta['vunita']),
+				vunita =float(data_deta['vunita']),
 				vtotal = float((vt + viva))
 			)
-
-		mvsa_deta.save(using=request.db)
 		fac_deta.save(using=request.db)
-
-	try:
-		value = Movi.objects.all().latest('pk')
-		movi_pk = sum_function(value.cmovi, ccaja.ctimocj.prefijo)
-	except Movi.DoesNotExist:
-		movi_pk = ccaja.ctimocj.prefijo+'00001000'
-
-	"""
-	movi = Movi(
-			cmovi = movi_pk,
-			ctimo = ccaja.ctimocj,
-			citerce = citerce,
-			fmovi = data['femi'],
-			descrimovi = '-',
-			vttotal = float(vttotal),
-			cesdo = cesdo,
-		)
-	"""
-
-	#Crear Movi
-	#Crear Movideta
-
+		mvsa_deta.save(using=request.db)
+	Facdeta.objects.exclude(carlos__in = exclude_arlo).delete()
+	Mvsadeta.objects.filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BillCreate(CreateView):
@@ -386,7 +434,7 @@ class BillCreate(CreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 
 		# Datos de Prueba
-		usuario = Usuario.objects.using(self.request.db).filter()[0]
+		#usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		#talonario_MOS = usuario.ctalomos
 		#talonario_POS = usuario.ctalopos
@@ -394,6 +442,7 @@ class BillCreate(CreateView):
 
 		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
 		medios_pago = MediosPago.objects.using(self.request.db).all()
+
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
@@ -412,15 +461,15 @@ class BillCreate(CreateView):
 		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
 		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		
+
 		# Datos de Prueba
 		context['data_validation']['maximum_number_items_billing'] = 2
 		# Datos de Prueba
-		
+
 		context['data_validation']['formas_pago'] = {}
 		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
 		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
-		
+
 		context['data_validation']['medios_pago'] = {}
 		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
 		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
@@ -458,11 +507,11 @@ class BillEdit(UpdateView):
 		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
 		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		
+
 		context['data_validation']['formas_pago'] = {}
 		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
 		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
-		
+
 		context['data_validation']['medios_pago'] = {}
 		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
 		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
@@ -599,4 +648,3 @@ class BillPrint(PDFTemplateView):
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'
 		return context
-

@@ -1,8 +1,9 @@
 import os
 from datetime import datetime
 from infa_web.parameters import ManageParameters
-from django.shortcuts import render,render_to_response
-
+from django.shortcuts import render,render_to_response, redirect
+from django.http import HttpResponseNotFound
+	
 class verifyConfigurationFile(object):
 	def process_request(self, request):
 		request.db = "default"
@@ -22,5 +23,27 @@ class updateDateAppen(object):
 		current_date_format = current_date.strftime('%Y/%m/%d %H:%M:%S')
 		manageParameters.set_param_object("date_appen",current_date_format)
 		os.environ["date_appen"] = current_date_format
+
+
+from infa_web.config.domaindb import DOMAINS
+# Agrega al request el subdominio actual
+
+class subdomainMiddleware:
+	def process_request(self, request):
+		host = request.META.get('HTTP_HOST', '')
+		host = host.replace('www.', '').split('.')
+		if len(host) > 2:
+				request.subdomain = ''.join(host[:-2])
+
+				# validar si dominio existe
+				if not(request.subdomain in DOMAINS):
+					return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
+
+				request.db = DOMAINS[request.subdomain]
+				redirect('/dashboard')
+
+		else:
+			request.db = 'default'
+			return render_to_response("home/index.html")
 
 
