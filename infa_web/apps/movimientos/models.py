@@ -81,9 +81,12 @@ class Movi(models.Model):
 	descrimovi = models.CharField(max_length=80)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)])
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+
 	vefe = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vtar = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vch = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	vcred = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+
 	ventre = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcambio = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	ccaja = models.ForeignKey(Caja,default=DEFAULT_CAJA)
