@@ -21,6 +21,12 @@ class Fac(models.Model):
 	vflete = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)],default=0)
 	vdescu = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)],default=0)
 	vttotal = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)],default=0)
+
+	vefe = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	vtar = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	vch = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+	vcred = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
+
 	#vefe = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	#vtar = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	#doctar = models.CharField(max_length=10)

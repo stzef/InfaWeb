@@ -4,10 +4,10 @@ from infa_web.apps.base.models import *
 from infa_web.apps.articulos.models import *
 
 class ParametersForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ParametersForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 
 	class Meta:
@@ -25,11 +25,12 @@ class ParametersForm(forms.ModelForm):
 		}
 
 class CiudadForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(CiudadForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cdepar'].choices = [(item.pk, unicode(item)) for item in Departamento.objects.using(name_db).all()]
+
 	class Meta:
 		model = Ciudad
 		fields = "__all__"
@@ -59,11 +60,12 @@ class MediosPagoForm(forms.ModelForm):
 		}
 
 class UbicaForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(UbicaForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Ubica
 		fields = "__all__"
@@ -107,11 +109,12 @@ class StateForm(forms.ModelForm):
 		}
 
 class IvaForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self,using='', *args, **kwargs):
 		super(IvaForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Iva
 		fields = "__all__"
@@ -157,10 +160,10 @@ class IDTypeForm(forms.ModelForm):
 		}
 
 class CommonForm(forms.Form):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(CommonForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 		self.fields['group'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]

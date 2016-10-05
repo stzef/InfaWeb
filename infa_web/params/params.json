@@ -182,13 +182,13 @@
         "cparam": "initial_note", 
         "smodule": "I", 
         "app": "inventarios", 
-        "value": "@", 
+        "value": "II-00001", 
         "label": {
             "text": "Nota Inicial"
         }, 
         "field": {
             "text": "cii", 
-            "selected": "@", 
+            "selected": "II-00001", 
             "value": "cii", 
             "options": [
                 {

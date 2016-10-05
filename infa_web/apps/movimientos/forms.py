@@ -5,10 +5,9 @@ from infa_web.apps.inventarios.models import *
 from infa_web.parameters import ManageParameters
 
 class InputMovementForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(InputMovementForm, self).__init__(*args, **kwargs)
-
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
 		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
@@ -51,10 +50,10 @@ class InputMovementForm(forms.ModelForm):
 		}
 
 class OutputMovementForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(OutputMovementForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
 		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
@@ -97,10 +96,10 @@ class OutputMovementForm(forms.ModelForm):
 		}
 
 class InputMovementDetailForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(InputMovementDetailForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cmven'].choices = [(item.pk, unicode(item)) for item in Mven.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -129,10 +128,10 @@ class InputMovementDetailForm(forms.ModelForm):
 		}
 
 class OutputMovementDetailForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(OutputMovementDetailForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cmvsa'].choices = [(item.pk, unicode(item)) for item in Mvsa.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -165,10 +164,10 @@ class ProccessCostingAndStock(forms.Form):
 	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control date', 'readonly': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ProccessCostingAndStock, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 
 		manageParameters = ManageParameters()
 		try:
@@ -180,10 +179,10 @@ class ProccessCostingAndStock(forms.Form):
 			self.fields['fecha_nota_inicial'].initial = ''
 
 class MoviForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(MoviForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 
 		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
 		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
@@ -254,11 +253,12 @@ class MoviForm(forms.ModelForm):
 		}
 
 class MoviDetailForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ArticleForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cmovi'].choices = [(item.pk, unicode(item)) for item in Movi.objects.using(name_db).all()]
+
 	class Meta:
 		model = Movideta
 		fields = "__all__"

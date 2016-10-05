@@ -4,10 +4,10 @@ from django import forms
 from infa_web.apps.facturacion.models import *
 
 class FacForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 		self.fields['ccaja'].choices = [(item.pk, unicode(item)) for item in Caja.objects.using(name_db).all()]
@@ -96,10 +96,10 @@ class FacForm(forms.ModelForm):
 		}
 
 class FacdetaForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacdetaForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 		self.fields['civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]
@@ -145,13 +145,12 @@ class FacdetaForm(forms.ModelForm):
 		}
 
 class FacpagoForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacpagoForm, self).__init__(*args, **kwargs)
-		name_db = "db_1"
-	
+
+		name_db = using
 		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
 		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
-
 		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
 
 	class Meta:

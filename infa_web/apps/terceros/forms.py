@@ -5,11 +5,11 @@ from infa_web.parameters import ManageParameters
 from infa_web.apps.terceros.models import *
 
 class ThirdPartyForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ThirdPartyForm, self).__init__(*args, **kwargs)
 		manageParameters = ManageParameters()
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['ctiide'].choices = [(item.pk, unicode(item)) for item in Tiide.objects.using(name_db).all()]
 		self.fields['ciudad'].choices = [(item.pk, unicode(item)) for item in Ciudad.objects.using(name_db).all()]
 		self.fields['cregiva'].choices = [(item.pk, unicode(item)) for item in Regiva.objects.using(name_db).all()]
@@ -106,10 +106,10 @@ class AutorretenedorForm(forms.ModelForm):
 		}
 
 class RouteForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(RouteForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 
 	class Meta:
@@ -127,10 +127,10 @@ class RouteForm(forms.ModelForm):
 		}
 
 class ZoneForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ZoneForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 
 	class Meta:

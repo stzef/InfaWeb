@@ -16,11 +16,10 @@ class InventoryReportStocksForm(forms.Form):
 	grupos = forms.ChoiceField(label = 'Grupos', widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
 	marcas = forms.ChoiceField(label = 'Marcas', widget = forms.Select(attrs = {'class': 'form-control'}))
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(InventoryReportStocksForm, self).__init__(*args, **kwargs)
 		
-		name_db = "db_1"
-
+		name_db = using
 		self.fields['grupos'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.using(name_db).all()]
 		self.fields['marcas'].choices = [('', 'Seleccione una Marca'), ('ALL', 'Todos los Marcas')]+[(x.pk, x.nmarca) for x in Marca.objects.using(name_db).all()]
 		manageParameters = ManageParameters()
@@ -42,8 +41,8 @@ class InventoryReportForm(forms.Form):
 	type_report = forms.ChoiceField(choices = [('cant_vr', 'Cantidades y Vr Total')], initial = 'cant_vr', label = 'Tipo Reporte', widget = forms.RadioSelect())
 	val_cero = forms.ChoiceField(choices = [('true', 'Mostrar valores en ceros')], label = "Visualizar", widget = forms.RadioSelect())
 
-	def __init__(self, *args, **kwargs):
-		name_db = "db_1"
+	def __init__(self, using='', *args, **kwargs):
+		name_db = using
 
 		invini = Invinicab.objects.using(name_db).get(pk = kwargs.pop('invini', None))
 		super(InventoryReportForm, self).__init__(*args, **kwargs)

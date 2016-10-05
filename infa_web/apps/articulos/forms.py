@@ -5,10 +5,10 @@ from django.core.exceptions import ValidationError
 from django.db.models import Max
 
 class ArticleForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ArticleForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 		self.fields['cgpo'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
 		self.fields['cunidad'].choices = [(item.pk, unicode(item)) for item in Unidades.objects.using(name_db).all()]
@@ -118,9 +118,9 @@ class ArticleForm(forms.ModelForm):
 
 class GpoForm(forms.ModelForm):
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(GpoForm, self).__init__(*args, **kwargs)
-		name_db = "db_1"
+		name_db = using
 
 		lastCgpo = Gpo.objects.using(name_db).aggregate(Max('cgpo'))
 		if lastCgpo["cgpo__max"]:
@@ -166,10 +166,10 @@ class BreakdownArticleForm(forms.ModelForm):
 		}
 
 class BrandForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(BrandForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
+		name_db = using
 		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
 
 	class Meta:
