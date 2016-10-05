@@ -36,10 +36,14 @@ class BillList(CustomListView):
 		context['title'] = "Listar Facturas"
 		return context
 
-def sum_function(value, prefix):
+def code_generate(value, prefix):
 	value_sum = str(int(value[2:])+1)
 	cant_space = 8-int(len(value_sum))
 	return prefix+(cant_space*'0')+value_sum
+
+def value_tot(query_array, code_find):
+	print query_array
+	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
 @csrf_exempt
 def BillSave(request):
@@ -53,6 +57,7 @@ def BillSave(request):
 	vefe_t = 0
 	vtar_t = 0
 	vch_t = 0
+	vncred_t = 0
 
 	print (json.dumps(data,indent=4))
 	#print json.dumps(data, indent=4)
@@ -65,9 +70,14 @@ def BillSave(request):
 	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
+	vefe_t = value_tot(data["medios_pagos"], 1000)
+	vtar_t = value_tot(data["medios_pagos"], 1001)
+	vch_t = value_tot(data["medios_pagos"], 1002)
+	vncred_t = value_tot(data["medios_pagos"], 1003)
+
 	try:
 		value = Fac.objects.using(request.db).all().latest('pk')
-		fac_pk = sum_function(value.cfac, ccaja.ctimocj.prefijo)
+		fac_pk = code_generate(value.cfac, ccaja.ctimocj.prefijo)
 	except Fac.DoesNotExist:
 		fac_pk = ccaja.ctimocj.prefijo+'00001000'
 
@@ -93,7 +103,11 @@ def BillSave(request):
 		cemdor = cemdor,
 		brtefte = float(data['brtefte']),
 		prtefte = float(data['prtefte']),
-		vrtefte = float(data['vrtefte'])
+		vrtefte = float(data['vrtefte']),
+		vefe = vefe_t,
+		vtar = vtar_t,
+		vch = vch_t,
+		vcred = vncred_t
 	)
 	fac.save(using=request.db)
 
@@ -112,9 +126,7 @@ def BillSave(request):
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
-		vefe_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Efectivo' else 0
-		vtar_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Tarjeta' else 0
-		vch_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Cheque' else 0
+
 		fac_pago = Facpago(
 			cfac = fac,
 			it = data_facpago['it'],
@@ -132,7 +144,7 @@ def BillSave(request):
 
 		try:
 			mov = Movi.objects.using(request.db).all().latest('pk')
-			movi_pk = sum_function(mov.cmovi, ccaja.ctimocj.prefijo)
+			movi_pk = code_generate(mov.cmovi, ccaja.ctimocj.prefijo)
 		except Movi.DoesNotExist:
 			movi_pk = ccaja.ctimocj.prefijo+'00001000'
 
@@ -147,6 +159,7 @@ def BillSave(request):
 			vefe = vefe_t,
 			vtar = vtar_t,
 			vch = vch_t,
+			vcred = vncred_t,
 			ventre = float(data['ventre']),
 			vcambio = float(data['vcambio']),
 			ccaja = ccaja,
@@ -193,6 +206,7 @@ def BillSave(request):
 			vefe_t = 0
 			vtar_t = 0
 			vch_t = 0
+			vcred = 0
 			data['ventre'] = 0
 			data['vcambio'] = 0
 			data['vtbase'] = 0
@@ -258,6 +272,7 @@ def BillUpdate(request,pk):
 	vefe_t = 0
 	vtar_t = 0
 	vch_t = 0
+	vncred_t = 0
 	val_tot_mp = 0
 	exclude_arlo = []
 
@@ -271,12 +286,21 @@ def BillUpdate(request,pk):
 	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
+	vefe_t = value_tot(data["medios_pagos"], 1000)
+	vtar_t = value_tot(data["medios_pagos"], 1001)
+	vch_t = value_tot(data["medios_pagos"], 1002)
+	vncred_t = value_tot(data["medios_pagos"], 1003)
+
 	fac = Fac.objects.using(request.db).get(cfac = data['cfac'])
 	fac.cesdo = cesdo
 	fac.fpago = data['fpago']
 	fac.ctifopa = ctifopa
 	fac.vtbase = float(data['vtbase'])
 	fac.vtiva = 0
+	fac.vefe = vefe_t
+	fac.vtar = vtar_t
+	fac.vch = vch_t
+	fac.vcred = vncred_t
 	fac.vflete = float(data['vflete'])
 	fac.vdescu = float(data['vdescu'])
 	fac.vttotal = float(vttotal)
@@ -300,9 +324,6 @@ def BillUpdate(request,pk):
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
-		vefe_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Efectivo' else 0
-		vtar_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Tarjeta' else 0
-		vch_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Cheque' else 0
 
 		try:
 			fac_pago = Facpago.objects.using(request.db).get(cfac = fac.pk, it = data_facpago['it'])
@@ -340,6 +361,7 @@ def BillUpdate(request,pk):
 	movi.vefe = vefe_t
 	movi.vtar = vtar_t
 	movi.vch = vch_t
+	movi.vcred = vncred_t
 	movi.ventre = float(data['ventre'])
 	movi.vcambio = float(data['vcambio'])
 	movi.baseiva = float(data['vtbase'])
