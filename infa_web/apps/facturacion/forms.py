@@ -99,7 +99,13 @@ class FacdetaForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(FacdetaForm, self).__init__(*args, **kwargs)
 
+
 		name_db = using
+		print "cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+		print "cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+		print name_db
+		print "cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+		print "cvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 		self.fields['civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]

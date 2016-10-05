@@ -122,6 +122,10 @@ class GpoForm(forms.ModelForm):
 		super(GpoForm, self).__init__(*args, **kwargs)
 		name_db = using
 
+		print "sdfsagasdfgasdfsadfsadfdfhggfhjlfknñlkvbmnfiljry"
+		print name_db
+		print "sdfsagasdfgasdfsadfsadfdfhggfhjlfknñlkvbmnfiljry"
+
 		lastCgpo = Gpo.objects.using(name_db).aggregate(Max('cgpo'))
 		if lastCgpo["cgpo__max"]:
 			recommendedCgpo = lastCgpo["cgpo__max"] + 1
@@ -130,7 +134,7 @@ class GpoForm(forms.ModelForm):
 
 		self.fields['cgpo'].initial = recommendedCgpo
 
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Gpo

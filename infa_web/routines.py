@@ -6,8 +6,7 @@ from infa_web.apps.movimientos.models import *
 import decimal
 import operator
 
-manageParameters = ManageParameters("default")
-
+# Solo se usa en este archivo
 def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 	if is_input:
 		costo = (float(costo_actual)+float(nuevo_costo))/(float(cantidad_actual)+float(nueva_cantidad))
@@ -15,18 +14,22 @@ def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 		costo = (float(costo_actual)+float(nuevo_costo))/(float(cantidad_actual)-float(nueva_cantidad))
 	return costo
 
-def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True):
+# Se usa en este archivo y en movimientos/views.py
+def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True,db_name='default'):
+	print "calcular_costo_articulo"
+	print db_name
+	manageParameters = ManageParameters(db_name)
 
 	nueva_cantidad = decimal.Decimal(nueva_cantidad)
 	nuevo_costo = decimal.Decimal(nuevo_costo)
 
 	response = {}
 	response["status"] = False
-	if(Arlo.objects.filter(carlos=carlos).exists()):
+	if(Arlo.objects.using(db_name).filter(carlos=carlos).exists()):
 		type_costing_and_stock = manageParameters.get_param_value("type_costing_and_stock")
 		if(type_costing_and_stock == "M"):
 			return response
-		articulo = Arlo.objects.get(carlos=carlos)
+		articulo = Arlo.objects.using(db_name).get(carlos=carlos)
 
 		response["current_vcosto"] = str(articulo.vcosto)
 		response["current_canti"] = str(articulo.canti)
@@ -51,10 +54,15 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 	else:
 		return response
 
-def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
+# Se usa en este archivo, en inventarios/views.py y movimientos/views.py
+# Falta inventarios/views.py
+def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='default'):
+	print "costing_and_stock"
+	print db_name
+	manageParameters = ManageParameters(db_name)
 	query_arlo["cesdo"] = CESTADO_ACTIVO
 
-	articulos = Arlo.objects.order_by('carlos').filter(**query_arlo)
+	articulos = Arlo.objects.using(db_name).order_by('carlos').filter(**query_arlo)
 
 	"""
 	No validar costos en 0
@@ -63,24 +71,24 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 	initial_note = manageParameters.get_param_value("initial_note")
 	
 	try:
-		invinicab = Invinicab.objects.get(cii=initial_note)
+		invinicab = Invinicab.objects.using(db_name).get(cii=initial_note)
 	except Invinicab.DoesNotExist, e:
 		invinicab = None
 
 	all_data = []
 	for articulo in articulos:
 		try:
-			invinideta = Invinideta.objects.get(cii=invinicab,carlos=articulo)
+			invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
 		except Invinideta.DoesNotExist, e:
 			invinideta = None
 
 		query_mvendeta = {
 			"carlos":articulo,
-			"cmven__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
+			"cmven__cesdo__in":list(Esdo.objects.using(db_name).exclude(**{"cesdo":CESDO_ANULADO}))
 			}
 		query_mvsadeta = {
 			"carlos":articulo,
-			"cmvsa__cesdo__in":list(Esdo.objects.exclude(**{"cesdo":CESDO_ANULADO}))
+			"cmvsa__cesdo__in":list(Esdo.objects.using(db_name).exclude(**{"cesdo":CESDO_ANULADO}))
 			}
 
 		if date_range:
@@ -90,8 +98,8 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 			query_mvsadeta["cmvsa__fmvsa__gte"] = date_range["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 			query_mvsadeta["cmvsa__fmvsa__lte"] = date_range["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 
-		mvendeta = Mvendeta.objects.select_related().order_by('-cmven__fmven').filter(**query_mvendeta)
-		mvsadeta = Mvsadeta.objects.select_related().order_by('-cmvsa__fmvsa').filter(**query_mvsadeta)
+		mvendeta = Mvendeta.objects.using(db_name).select_related().order_by('-cmven__fmven').filter(**query_mvendeta)
+		mvsadeta = Mvsadeta.objects.using(db_name).select_related().order_by('-cmvsa__fmvsa').filter(**query_mvsadeta)
 
 		mvsdeta = list(mvendeta) + list(mvsadeta)
 
@@ -139,7 +147,7 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={}):
 					is_input = True
 				else:
 					is_input = False
-				response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save)
+				response = calcular_costo_articulo(articulo.carlos,mvdeta.canti,mvdeta.vtotal,is_input,if_save,db_name)
 				data_operation["data"] = response
 
 		all_data.append(data_operation)

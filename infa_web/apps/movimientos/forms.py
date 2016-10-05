@@ -100,6 +100,7 @@ class InputMovementDetailForm(forms.ModelForm):
 		super(InputMovementDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
+
 		self.fields['cmven'].choices = [(item.pk, unicode(item)) for item in Mven.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -132,6 +133,7 @@ class OutputMovementDetailForm(forms.ModelForm):
 		super(OutputMovementDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
+
 		self.fields['cmvsa'].choices = [(item.pk, unicode(item)) for item in Mvsa.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -168,6 +170,7 @@ class ProccessCostingAndStock(forms.Form):
 		super(ProccessCostingAndStock, self).__init__(*args, **kwargs)
 
 		name_db = using
+		#name_db = "db_1"
 
 		manageParameters = ManageParameters(name_db)
 		try:
