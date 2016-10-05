@@ -1,6 +1,7 @@
 from django.shortcuts import render,render_to_response
-from django.views.generic import FormView, CreateView, UpdateView
-from django.views.generic.list import ListView
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+
 from infa_web.apps.articulos.models import *
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -17,7 +18,7 @@ from infa_web.apps.movimientos.forms import *
 from infa_web.apps.movimientos.models import *
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
-class InputMovementList(ListView):
+class InputMovementList(CustomListView):
 	model = Mven
 	template_name = "movimientos/list-movements.html"
 	form_class = InputMovementForm
@@ -29,7 +30,7 @@ class InputMovementList(ListView):
 		context['is_output_movement'] = False
 		return context
 
-class OutputMovementList(ListView):
+class OutputMovementList(CustomListView):
 	model = Mvsa
 	template_name = "movimientos/list-movements.html"
 	form_class = OutputMovementForm
@@ -41,7 +42,7 @@ class OutputMovementList(ListView):
 		context['is_output_movement'] = True
 		return context
 
-class InputMovementCreate(CreateView):
+class InputMovementCreate(CustomCreateView):
 	model = Mven
 	template_name = "movimientos/movement.html"
 	form_class = InputMovementForm
@@ -60,7 +61,7 @@ class InputMovementCreate(CreateView):
 
 		return context
 
-class OutputMovementCreate(CreateView):
+class OutputMovementCreate(CustomCreateView):
 	model = Mvsa 
 	template_name = "movimientos/movement.html"
 	form_class = OutputMovementForm
@@ -78,7 +79,7 @@ class OutputMovementCreate(CreateView):
 		context['url'] = reverse_lazy('save-movement')
 		return context
 
-class InputMovementUpdate(UpdateView):
+class InputMovementUpdate(CustomUpdateView):
 	model = Mven
 	template_name = "movimientos/movement.html"
 	form_class = InputMovementForm
@@ -101,7 +102,7 @@ class InputMovementUpdate(UpdateView):
 
 		return context
 
-class OutputMovementUpdate(UpdateView):
+class OutputMovementUpdate(CustomUpdateView):
 	model = Mvsa 
 	template_name = "movimientos/movement.html"
 	form_class = OutputMovementForm

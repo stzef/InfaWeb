@@ -4,17 +4,24 @@ DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'infaweb_db',
-		'USER': 'postgres',
-		'PASSWORD': '123456',
+		'USER': 'root',
+		'PASSWORD': 'root',
 		'HOST': 'localhost',
-		'PORT': '5432',
+		'PORT': '',
+		'TEST': {
+			'NAME': 'infaweb_db',
+			'USER': 'root',
+			'PASSWORD': 'root',
+			'HOST': 'localhost',
+			'PORT': '',
+		},
 	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'stzef',
-		'USER': 'postgres',
-		'PASSWORD': '123456',
+		'NAME': 'appem_stzef',
+		'USER': 'root',
+		'PASSWORD': 'root',
 		'HOST': 'localhost',
-		'PORT': '5432',
+		'PORT': '',
 	}
 }

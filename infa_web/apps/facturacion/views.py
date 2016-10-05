@@ -1,11 +1,14 @@
 from django.shortcuts import render,render_to_response
-from django.views.generic import FormView, CreateView, UpdateView
-from django.views.generic.list import ListView
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
+
 import json
 import datetime
 from infa_web.parameters import ManageParameters
@@ -23,7 +26,7 @@ from infa_web.apps.base.forms import *
 
 manageParameters = ManageParameters()
 
-class BillList(ListView):
+class BillList(CustomListView):
 	model = Fac
 	template_name = "facturacion/list-billings.html"
 	form_class = FacForm
@@ -425,7 +428,7 @@ def BillUpdate(request,pk):
 	Mvsadeta.objects.filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
 	return HttpResponse(json.dumps(response), "application/json")
 
-class BillCreate(CreateView):
+class BillCreate(CustomCreateView):
 	model = Fac
 	template_name = "facturacion/billing.html"
 	form_class = FacForm
@@ -478,7 +481,7 @@ class BillCreate(CreateView):
 
 		return context
 
-class BillEdit(UpdateView):
+class BillEdit(CustomUpdateView):
 	model = Fac
 	template_name = "facturacion/billing.html"
 	form_class = FacForm
@@ -533,18 +536,17 @@ def bill_proccess_fn_annulment(request):
 	user = "Usuario Estatico"
 	detaanula = data["detaanula"] + " " + current_datetime + " " + user
 
-	factura = Fac.objects.using(request.db).get(pk=data["fact"])
+	factura = Fac.objects.using(request.db).get(cfac=data["cfac"])
 	mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
 
 	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
 	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
-	ctimos = Timo.objects.using(request.db).get(
-		Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)
-	)
+	ctimos = list(Timo.objects.using(request.db).filter(Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)))
 	
 	movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
-	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi.cmovi,ctimo__in = ctimos)
+	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi,ctimo__in = ctimos)
+	#movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi)
 
 	print "---------------------------------"
 	print factura

@@ -86,7 +86,7 @@
 		$.post(
 			"{% url 'bill_proccess_fn_annulment' %}",
 			JSON.stringify({
-				fact:$("#id_fact").val(),
+				cfac:$("#id_fact").val(),
 				cesdo:$("#id_cesdo").val(),
 				detaanula:$("#id_detaanula").val().trim()
 			}),
@@ -101,7 +101,7 @@
 			type: 'POST',
 			data: JSON.stringify({
 				model : 30,
-				field : "pk",
+				field : "cfac",
 				value : this.value
 			}),
 			contentType: "application/json",
@@ -111,10 +111,8 @@
 					fields = object.fields
 					console.info(fields)
 
-					var fmv = fields.fmvsa || fields.fmven
-
 					$("#id_citerce").val(fields.citerce)
-					$("#id_fmv").val(fmv)
+					$("#id_fmv").val(fields.femi)
 					$("#id_vttotal").val(currencyFormat.format(fields.vttotal))
 					$("#id_cesdo").val(fields.cesdo)
 				}else{

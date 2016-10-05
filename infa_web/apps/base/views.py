@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,render_to_response, redirect
-from django.views.generic import CreateView, UpdateView,DeleteView,FormView 
-from django.views.generic.list import ListView
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.template import RequestContext
@@ -79,7 +80,7 @@ class JSONResponseMixin(object):
 class AjaxableResponseMixin(object):
 	"""
 	Mixin to add AJAX support to a form.
-	Must be used with an object-based FormView (e.g. CreateView)
+	Must be used with an object-based FormView (e.g. CustomCreateView)
 	"""
 	def form_invalid(self, form):
 		response = super(AjaxableResponseMixin, self).form_invalid(form)
@@ -95,7 +96,7 @@ class AjaxableResponseMixin(object):
 
 	def form_valid(self, form):
 		# We make sure to call the parent's form_valid() method because
-		# it might do some processing (in the case of CreateView, it will
+		# it might do some processing (in the case of CustomCreateView, it will
 		# call form.save() for example).
 		response = super(AjaxableResponseMixin, self).form_valid(form)
 		if self.request.is_ajax():
@@ -183,7 +184,7 @@ def ParametersSave(request):
 # Parameters #
 
 # States #
-class StateCreate(AjaxableResponseMixin,CreateView):
+class StateCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Esdo
 	template_name = "base/state.html"
 	form_class = StateForm
@@ -203,7 +204,7 @@ class StateCreate(AjaxableResponseMixin,CreateView):
 		context['url'] = reverse_lazy('add-state')
 		return context
 
-class StateUpdate(AjaxableResponseMixin,UpdateView):
+class StateUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Esdo
 	template_name = "base/state.html"
 	form_class = StateForm
@@ -217,13 +218,13 @@ class StateUpdate(AjaxableResponseMixin,UpdateView):
 		context['current_pk'] = self.kwargs["pk"]
 		return context
 
-class StatesList(ListView):
+class StatesList(CustomListView):
 	model = Esdo
 	template_name = "base/list-states.html"
 # States #
 
 # Cities #
-class CityCreate(AjaxableResponseMixin,CreateView):
+class CityCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Ciudad
 	template_name = "base/city.html"
 	form_class = CiudadForm
@@ -237,7 +238,7 @@ class CityCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class CityUpdate(AjaxableResponseMixin,UpdateView):
+class CityUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Ciudad
 	template_name = "base/city.html"
 	form_class = CiudadForm
@@ -252,13 +253,13 @@ class CityUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class CitiesList(ListView):
+class CitiesList(CustomListView):
 	model = Ciudad
 	template_name = "base/list-cities.html"
 # Cities #
 
 # Departaments #
-class DepartamentCreate(AjaxableResponseMixin,CreateView):
+class DepartamentCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Departamento
 	template_name = "base/departament.html"
 	form_class = DepartamentoForm
@@ -272,7 +273,7 @@ class DepartamentCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class DepartamentUpdate(AjaxableResponseMixin,UpdateView):
+class DepartamentUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Departamento
 	template_name = "base/departament.html"
 	form_class = DepartamentoForm
@@ -287,13 +288,13 @@ class DepartamentUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class DepartamentsList(ListView):
+class DepartamentsList(CustomListView):
 	model = Departamento
 	template_name = "base/list-departaments.html"
 # Departaments #
 
 # Locations #
-class LocationCreate(AjaxableResponseMixin,CreateView):
+class LocationCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Ubica
 	template_name = "base/location.html"
 	form_class = UbicaForm
@@ -307,7 +308,7 @@ class LocationCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class LocationUpdate(AjaxableResponseMixin,UpdateView):
+class LocationUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Ubica
 	template_name = "base/location.html"
 	form_class = UbicaForm
@@ -322,13 +323,13 @@ class LocationUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class LocationsList(ListView):
+class LocationsList(CustomListView):
 	model = Ubica
 	template_name = "base/list-locations.html"
 # Locations #
 
 # IVA #
-class IvaCreate(AjaxableResponseMixin,CreateView):
+class IvaCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Iva
 	form_class = IvaForm
 	template_name = "base/iva.html"
@@ -342,7 +343,7 @@ class IvaCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class IvaUpdate(AjaxableResponseMixin,UpdateView):
+class IvaUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Iva
 	form_class = IvaForm
 	template_name = "base/iva.html"
@@ -357,13 +358,13 @@ class IvaUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class IvaList(ListView):
+class IvaList(CustomListView):
 	model = Iva
 	template_name = "base/list-iva.html"
 # IVA #
 
 # RegIva #
-class RegIvaCreate(AjaxableResponseMixin,CreateView):
+class RegIvaCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Regiva
 	form_class = RegivaForm
 	template_name = "base/reg-iva.html"
@@ -377,7 +378,7 @@ class RegIvaCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class RegIvaUpdate(AjaxableResponseMixin,UpdateView):
+class RegIvaUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Regiva
 	form_class = RegivaForm
 	template_name = "base/reg-iva.html"
@@ -392,13 +393,13 @@ class RegIvaUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class RegIvasList(ListView):
+class RegIvasList(CustomListView):
 	model = Regiva
 	template_name = "base/list-reg-iva.html"
 # RegIva #
 
 # Tiide #
-class IDTypeCreate(AjaxableResponseMixin,CreateView):
+class IDTypeCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Tiide
 	form_class = IDTypeForm
 	template_name = "base/id-types.html"
@@ -412,7 +413,7 @@ class IDTypeCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class IDTypeUpdate(AjaxableResponseMixin,UpdateView):
+class IDTypeUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Tiide
 	form_class = IDTypeForm
 	template_name = "base/id-types.html"
@@ -427,7 +428,7 @@ class IDTypeUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class IDTypesList(ListView):
+class IDTypesList(CustomListView):
 	model = Tiide
 	template_name = "base/list-id-types.html"
 # Tiide #

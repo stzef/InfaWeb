@@ -3,7 +3,12 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import FormView, ListView
+
+
+"""Falta Implementar FormView ?????????"""
+from django.views.generic import FormView
+from infa_web.custom.generic_views import CustomListView
+
 from reportlab.lib.pagesizes import letter, inch
 from infa_web.parameters import ManageParameters
 from infa_web.routines import costing_and_stock
@@ -34,7 +39,7 @@ class InventoryView(FormView):
 		context['title'] = 'Inventarios'
 		return context
 
-class InventoryListView(ListView):
+class InventoryListView(CustomListView):
 	template_name = 'inventarios/list-inventory.html'
 	model = Invinicab
 
