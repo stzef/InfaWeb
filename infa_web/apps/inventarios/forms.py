@@ -18,11 +18,14 @@ class InventoryReportStocksForm(forms.Form):
 
 	def __init__(self, *args, **kwargs):
 		super(InventoryReportStocksForm, self).__init__(*args, **kwargs)
-		self.fields['grupos'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.all()]
-		self.fields['marcas'].choices = [('', 'Seleccione una Marca'), ('ALL', 'Todos los Marcas')]+[(x.pk, x.nmarca) for x in Marca.objects.all()]
+		
+		name_db = "db_1"
+
+		self.fields['grupos'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.using(name_db).all()]
+		self.fields['marcas'].choices = [('', 'Seleccione una Marca'), ('ALL', 'Todos los Marcas')]+[(x.pk, x.nmarca) for x in Marca.objects.using(name_db).all()]
 		manageParameters = ManageParameters()
 		try:
-			invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
+			invini = Invinicab.objects.using(name_db).get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii
 			self.fields['fecha_nota_inicial'].initial = str(invini.fii.year)+'-'+str(invini.fii.month)+'-'+str(invini.fii.day)
 		except Invinicab.DoesNotExist:
@@ -40,9 +43,11 @@ class InventoryReportForm(forms.Form):
 	val_cero = forms.ChoiceField(choices = [('true', 'Mostrar valores en ceros')], label = "Visualizar", widget = forms.RadioSelect())
 
 	def __init__(self, *args, **kwargs):
-		invini = Invinicab.objects.get(pk = kwargs.pop('invini', None))
+		name_db = "db_1"
+
+		invini = Invinicab.objects.using(name_db).get(pk = kwargs.pop('invini', None))
 		super(InventoryReportForm, self).__init__(*args, **kwargs)
-		self.fields['grupo'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.all()]
+		self.fields['grupo'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.using(name_db).all()]
 		self.fields['nota_inicial'].initial = invini.cii
 		self.fields['fecha_nota_inicial'].initial = invini.fii
 		self.fields['fecha_actualizacion'].initial = invini.fuaii

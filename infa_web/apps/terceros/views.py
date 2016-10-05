@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView,DeleteView
-from django.views.generic.list import ListView
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+
 from django.core.urlresolvers import reverse_lazy
 
 from django import forms
@@ -9,7 +10,7 @@ from infa_web.apps.terceros.forms import *
 from infa_web.apps.base.views import AjaxableResponseMixin
 
 # thirdParty #
-class ThirdPartyCreate(AjaxableResponseMixin,CreateView):
+class ThirdPartyCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Tercero
 	template_name = "terceros/third-party.html"
 	form_class = ThirdPartyForm
@@ -21,7 +22,7 @@ class ThirdPartyCreate(AjaxableResponseMixin,CreateView):
 		context['url'] = reverse_lazy('add-third-party')
 		return context
 	
-class ThirdPartyUpdate(AjaxableResponseMixin,UpdateView):
+class ThirdPartyUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Tercero
 	template_name = "terceros/third-party.html"
 	success_url=reverse_lazy("add-third-party")
@@ -35,13 +36,13 @@ class ThirdPartyUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class ThirdPartyList(ListView):
+class ThirdPartyList(CustomListView):
 	model = Tercero
 	template_name = "terceros/list-third-parties.html"
 # thirdParty #
 
 # Autorretenedor #
-class AutorrtenedorCreate(AjaxableResponseMixin,CreateView):
+class AutorrtenedorCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Autorre
 	template_name = "terceros/autorretenedor.html"
 	form_class = AutorretenedorForm
@@ -54,7 +55,7 @@ class AutorrtenedorCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 	
-class AutorrtenedorUpdate(AjaxableResponseMixin,UpdateView):
+class AutorrtenedorUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Autorre
 	template_name = "terceros/autorretenedor.html"
 	success_url=reverse_lazy("add-autorretenedor")
@@ -68,13 +69,13 @@ class AutorrtenedorUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class AutorrtenedorList(ListView):
+class AutorrtenedorList(CustomListView):
 	model = Autorre
 	template_name = "terceros/list-autorretenedor.html"
 # Autorretenedor #
 
 # zones #
-class ZoneCreate(AjaxableResponseMixin,CreateView):
+class ZoneCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Zona
 	template_name = "terceros/zone.html"
 	form_class = ZoneForm
@@ -87,7 +88,7 @@ class ZoneCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 	
-class ZoneUpdate(AjaxableResponseMixin,UpdateView):
+class ZoneUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Zona
 	template_name = "terceros/zone.html"
 	success_url=reverse_lazy("add-zone")
@@ -101,13 +102,13 @@ class ZoneUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class ZonesList(ListView):
+class ZonesList(CustomListView):
 	model = Zona
 	template_name = "terceros/list-zones.html"
 # zones #
 
 # Routes #
-class RouteCreate(AjaxableResponseMixin,CreateView):
+class RouteCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Ruta
 	template_name = "terceros/route.html"
 	form_class = RouteForm
@@ -120,7 +121,7 @@ class RouteCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 	
-class RouteUpdate(AjaxableResponseMixin,UpdateView):
+class RouteUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Ruta
 	template_name = "terceros/route.html"
 	success_url=reverse_lazy("add-route")
@@ -134,7 +135,7 @@ class RouteUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class RoutesList(ListView):
+class RoutesList(CustomListView):
 	model = Ruta
 	template_name = "terceros/list-routes.html"
 # Routes #

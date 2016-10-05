@@ -4,16 +4,33 @@ from django import forms
 from infa_web.apps.facturacion.models import *
 
 class FacForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(FacForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['ccaja'].choices = [(item.pk, unicode(item)) for item in Caja.objects.using(name_db).all()]
+		self.fields['cvende'].choices = [(item.pk, unicode(item)) for item in Vende.objects.using(name_db).all()]
+		self.fields['cdomici'].choices = [(item.pk, unicode(item)) for item in Domici.objects.using(name_db).all()]
+		self.fields['cemdor'].choices = [(item.pk, unicode(item)) for item in Emdor.objects.using(name_db).all()]
+		self.fields['ctifopa'].choices = [(item.pk, unicode(item)) for item in Tifopa.objects.using(name_db).all()]
+		
 	class Meta:
 		model = Fac
 		fields = "__all__"
 		widgets = {
-			'cfac' : forms.TextInput(attrs={'class':'form-control', 'readonly': True}),
-			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'citerce' : forms.Select(attrs={'class':'form-control','required':True,'value':DEFAULT_TERCERO}),
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
-			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'ccaja' : forms.Select(attrs={'class':'form-control','required':True}),
+			'cvende'  : forms.Select(attrs={'class':'form-control','required':True}),
+			'cdomici'  : forms.Select(attrs={'class':'form-control','required':True}),
+			'cemdor'  : forms.Select(attrs={'class':'form-control','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
+
+			'cfac' : forms.TextInput(attrs={'class':'form-control', 'readonly': True}),
+			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'descri' : forms.Textarea(attrs={'class':'form-control'}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
 			'vtbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
@@ -31,11 +48,7 @@ class FacForm(forms.ModelForm):
 			'ventre' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
 			'vcambio' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
 			#cusu char(20)
-			'ccaja' : forms.Select(attrs={'class':'form-control','required':True}),
-			'cvende'  : forms.Select(attrs={'class':'form-control','required':True}),
-			'cdomici'  : forms.Select(attrs={'class':'form-control','required':True}),
 			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'cemdor'  : forms.Select(attrs={'class':'form-control','required':True}),
 			#ccoti char(10)
 			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'doccre' : forms.TextInput(attrs={'class':'form-control'}),
@@ -83,17 +96,25 @@ class FacForm(forms.ModelForm):
 		}
 
 class FacdetaForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(FacdetaForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
+		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+		self.fields['civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]
+
 	class Meta:
 		model = Facdeta
 		fields = "__all__"
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
-			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'carlos' : forms.Select(attrs={'class':'form-control','required':True}),
+			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
+			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
 			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
 			#niva char(40)
 			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
 			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
@@ -124,6 +145,15 @@ class FacdetaForm(forms.ModelForm):
 		}
 
 class FacpagoForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(FacpagoForm, self).__init__(*args, **kwargs)
+		name_db = "db_1"
+	
+		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+
+		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
+
 	class Meta:
 		model = Facpago
 		fields = "__all__"
@@ -142,7 +172,3 @@ class FacpagoForm(forms.ModelForm):
 			'vmpago' : 'Valor Medio Pago',
 		}
 
-	def __init__(self, *args, **kwargs):
-		super(FacpagoForm, self).__init__(*args, **kwargs)
-		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
-		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})

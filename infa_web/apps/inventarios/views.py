@@ -3,7 +3,12 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import FormView, ListView
+
+
+"""Falta Implementar FormView ?????????"""
+from django.views.generic import FormView
+from infa_web.custom.generic_views import CustomListView
+
 from reportlab.lib.pagesizes import letter, inch
 from infa_web.parameters import ManageParameters
 from infa_web.routines import costing_and_stock
@@ -34,7 +39,7 @@ class InventoryView(FormView):
 		context['title'] = 'Inventarios'
 		return context
 
-class InventoryListView(ListView):
+class InventoryListView(CustomListView):
 	template_name = 'inventarios/list-inventory.html'
 	model = Invinicab
 
@@ -62,17 +67,17 @@ def inventory_latest(request):
 	response['ac_year'] = 0
 	response['ac_hour'] = 0
 	response['ac_minute'] = 0
-	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
+	articulo = Tiarlos.objects.using(request.db).get(ntiarlos = 'ARTICULOS').pk
 	try:
-		value = Invinicab.objects.all().latest('pk')
+		value = Invinicab.objects.using(request.db).all().latest('pk')
 		response['code'] = sum_invini(value.pk)
 	except Invinicab.DoesNotExist:
 		response['code'] = 'II-00001'
-	cesdo = Esdo.objects.get(nesdo = 'ACTIVO')
+	cesdo = Esdo.objects.using(request.db).get(nesdo = 'ACTIVO')
 	invini = Invinicab(cii = response['code'], cesdo = cesdo, vttotal = 0, fii = now)
 	invini.save(using=request.db)
 	"""
-	for arlo in Arlo.objects.filter(ctiarlo = articulo):
+	for arlo in Arlo.objects.using(request.db).filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
 		response['data'][c]['cbarras'] = arlo.cbarras
@@ -84,7 +89,7 @@ def inventory_latest(request):
 		c += 1
 	"""
 	c = 0
-	for esdo in Esdo.objects.all():
+	for esdo in Esdo.objects.using(request.db).all():
 		response['esdo'][c] = {}
 		response['esdo'][c]['cesdo'] = esdo.cesdo
 		response['esdo'][c]['nesdo'] = esdo.nesdo
@@ -99,9 +104,9 @@ def inventory_edit(request):
 	response['data'] = {}
 	response['arlo'] = {}
 	response['esdo'] = {}
-	value = Invinicab.objects.get(pk = request.POST.get('pk'))
-	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
-	value_extra = Arlo.objects.filter(ctiarlo = articulo).exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
+	value = Invinicab.objects.using(request.db).get(pk = request.POST.get('pk'))
+	articulo = Tiarlos.objects.using(request.db).get(ntiarlos = 'ARTICULOS').pk
+	value_extra = Arlo.objects.using(request.db).filter(ctiarlo = articulo).exclude(carlos__in = list(val.carlos.pk for val in value.invinideta_set.all()))
 	response['val_tot'] = float(value.vttotal)
 	response['day'] = value.fii.day
 	response['month'] = value.fii.month
@@ -134,7 +139,7 @@ def inventory_edit(request):
 		}
 		c += 1
 	c = 0
-	for esdo in Esdo.objects.all():
+	for esdo in Esdo.objects.using(request.db).all():
 		response['esdo'][c] = {
 			'cesdo': esdo.cesdo,
 			'nesdo': esdo.nesdo,
@@ -149,7 +154,7 @@ def articles_list_invini(request):
 	data_arlo['arlo'] = {}
 	orderBy = request.GET.get('orderBy')
 	cii = request.GET.get('cii')
-	invini = Invinideta.objects.filter(cii = cii)
+	invini = Invinideta.objects.using(request.db).filter(cii = cii)
 	if request.GET.get('buscarPor'):
 		invini = invini.filter(carlos__nlargo__icontains = request.GET.get('buscarPor'))
 	else:
@@ -182,10 +187,10 @@ def inventory_save(request):
 	response_data = json.loads(request.POST.get('data_r'))
 	cii = request.POST.get('cii')
 	val_tot = request.POST.get('val_tot')
-	cesdo = Esdo.objects.get(cesdo = request.POST.get('cesdo'))
+	cesdo = Esdo.objects.using(request.db).get(cesdo = request.POST.get('cesdo'))
 	fii = datetime.datetime.strptime(request.POST.get('fii'), '%d/%m/%Y %H:%M')
 	try:
-		invini = Invinicab.objects.get(cii = cii)
+		invini = Invinicab.objects.using(request.db).get(cii = cii)
 		invini.cesdo = cesdo
 		invini.fuaii = datetime.datetime.now()
 		invini.vttotal = float(val_tot)
@@ -193,7 +198,7 @@ def inventory_save(request):
 		invini.save(using=request.db)
 		for cii_deta in response_data:
 			try:
-				invini_deta = Invinideta.objects.get(cii = invini, carlos = cii_deta['carlos'])
+				invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
 				invini_deta.nlargo = cii_deta['nlargo']
 				invini_deta.canti = float(cii_deta['canti'])
 				invini_deta.vunita = float(cii_deta['vcosto'])
@@ -203,7 +208,7 @@ def inventory_save(request):
 				invini_deta.ajusal = cii_deta['ajusal']
 				invini_deta.save(using=request.db)
 			except Invinideta.DoesNotExist:
-				carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
+				carlos = Arlo.objects.using(request.db).get(carlos = cii_deta['carlos'])
 				invini_deta = Invinideta(cii = invini, 
 					carlos = carlos, 
 					nlargo = cii_deta['nlargo'], 
@@ -224,7 +229,7 @@ def inventory_save(request):
 			manageParameters.set_param_object("initial_note", cii)
 			sv_cant = True
 		for cii_deta in response_data:
-			carlos = Arlo.objects.get(carlos = cii_deta['carlos'])
+			carlos = Arlo.objects.using(request.db).get(carlos = cii_deta['carlos'])
 			list_carlos.append(carlos.pk)
 			invini_deta = Invinideta(cii = invini, 
 				carlos = carlos, 
@@ -241,7 +246,7 @@ def inventory_save(request):
 				carlos.canti = cii_deta['cant']
 				carlos.vcosto = cii_deta['vcosto']
 				carlos.save(using=request.db)
-		for carlos_falt in Arlo.objects.exclude(pk__in = list_carlos):
+		for carlos_falt in Arlo.objects.using(request.db).exclude(pk__in = list_carlos):
 			invini_deta = Invinideta(cii = invini, 
 									carlos = carlos_falt, 
 									nlargo = carlos_falt.nlargo, 
@@ -265,10 +270,10 @@ def inventory_save(request):
 def inventory_save_extra(request):
 	response = {}
 	list_carlos = []
-	cii = Invinicab.objects.get(pk = request.GET.get('cii'))
+	cii = Invinicab.objects.using(request.db).get(pk = request.GET.get('cii'))
 	response_data = json.loads(request.POST.get('data_r'))
 	for cii_deta in response_data:
-		carlos = Arlo.objects.get(carlos = response_data[cii_deta]['carlos'])
+		carlos = Arlo.objects.using(request.db).get(carlos = response_data[cii_deta]['carlos'])
 		invini_deta = Invinideta(cii = cii, 
 								carlos = carlos, 
 								nlargo = response_data[cii_deta]['nlargo'], 
@@ -288,8 +293,8 @@ def get_name_arlo(request):
 	response = {}
 	c = 0
 	response['data'] = {}
-	articulo = Tiarlos.objects.get(ntiarlos = 'ARTICULOS').pk
-	for arlo in Arlo.objects.filter(ctiarlo = articulo):
+	articulo = Tiarlos.objects.using(request.db).get(ntiarlos = 'ARTICULOS').pk
+	for arlo in Arlo.objects.using(request.db).filter(ctiarlo = articulo):
 		response['data'][c] = {}
 		response['data'][c]['carlos'] = arlo.carlos
 		response['data'][c]['nlargo'] = arlo.nlargo.encode("utf-8")
@@ -313,8 +318,8 @@ class InventoryPDFStocks(PDFTemplateView):
 		data = self.request.GET
 		type_report = data.getlist('type_report')
 		costing_and_stock({'start_date': datetime.datetime.strptime(data.get('fecha_nota_inicial'), '%Y-%m-%d'), 'end_date': datetime.datetime.strptime(data.get('fecha_final'), '%Y-%m-%d')}, True) if '2' in type_report else ''
-		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
-		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__carlos') if data.get('group_report') == 'G' else Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca', 'carlos__carlos')
+		context['invini'] = Invinicab.objects.using(self.request.db).get(pk = data.get('nota_inicial'))
+		invinideta_set = Invinideta.objects.using(self.request.db).filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__carlos') if data.get('group_report') == 'G' else Invinideta.objects.using(self.request.db).filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca', 'carlos__carlos')
 		invinideta_set = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if ((data.get('marcas') != 'ALL' and data.get('marcas') != '') and data.get('group_report') == 'M') else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if ((data.get('grupos') != 'ALL' and data.get('grupos') != '') and data.get('group_report') == 'G') else invinideta_set
 		context['invinideta_set'] = invinideta_set if '1' in type_report else invinideta_set.exclude(carlos__canti = 0.00)
 		context['orientation'] = 'letter'
@@ -345,8 +350,8 @@ class InventoryPDF(PDFTemplateView):
 		context = super(InventoryPDF, self).get_context_data(**kwargs)
 		data = self.request.GET
 		context['orientation'] = 'letter'
-		context['invini'] = Invinicab.objects.get(pk = data.get('nota_inicial'))
-		invinideta_set = Invinideta.objects.filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__'+data.get('order'))
+		context['invini'] = Invinicab.objects.using(self.request.db).get(pk = data.get('nota_inicial'))
+		invinideta_set = Invinideta.objects.using(self.request.db).filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__'+data.get('order'))
 		invinideta_set = invinideta_set.exclude(canti = 0) if data.get('val_cero') != 'true' else invinideta_set
 		context['invinideta_set'] = invinideta_set.filter(carlos__cgpo = data.get('grupo')) if data.get('grupo') != 'ALL' and data.get('grupos') != '' else invinideta_set
 		context['data'] = data

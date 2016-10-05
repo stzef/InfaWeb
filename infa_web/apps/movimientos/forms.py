@@ -8,9 +8,16 @@ class InputMovementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(InputMovementForm, self).__init__(*args, **kwargs)
 
+		name_db = "db_1"
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
+		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
+		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+
 		manageParameters = ManageParameters()
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
-		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
+		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
 		self.fields['ctimo'].initial = default_movement
 
 	class Meta:
@@ -47,9 +54,16 @@ class OutputMovementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(OutputMovementForm, self).__init__(*args, **kwargs)
 
+		name_db = "db_1"
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
+		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
+		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+
 		manageParameters = ManageParameters()
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
-		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
+		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
 		self.fields['ctimo'].initial = default_movement
 		
 	class Meta:
@@ -83,6 +97,13 @@ class OutputMovementForm(forms.ModelForm):
 		}
 
 class InputMovementDetailForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(InputMovementDetailForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+		self.fields['cmven'].choices = [(item.pk, unicode(item)) for item in Mven.objects.using(name_db).all()]
+		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Mvendeta
 		fields = "__all__"
@@ -108,6 +129,13 @@ class InputMovementDetailForm(forms.ModelForm):
 		}
 
 class OutputMovementDetailForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(OutputMovementDetailForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+		self.fields['cmvsa'].choices = [(item.pk, unicode(item)) for item in Mvsa.objects.using(name_db).all()]
+		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Mvsadeta
 		fields = "__all__"
@@ -139,9 +167,12 @@ class ProccessCostingAndStock(forms.Form):
 
 	def __init__(self, *args, **kwargs):
 		super(ProccessCostingAndStock, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+
 		manageParameters = ManageParameters()
 		try:
-			invini = Invinicab.objects.get(pk = manageParameters.get_param_value("initial_note"))
+			invini = Invinicab.objects.using(name_db).get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii
 			self.fields['fecha_nota_inicial'].initial = invini.fii
 		except Invinicab.DoesNotExist:
@@ -149,10 +180,25 @@ class ProccessCostingAndStock(forms.Form):
 			self.fields['fecha_nota_inicial'].initial = ''
 
 class MoviForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(MoviForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+
+		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
+		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['ccaja'].choices = [(item.pk, unicode(item)) for item in Caja.objects.using(name_db).all()]
+
 	class Meta:
 		model = Movi
 		fields = "__all__"
 		widgets = { 
+			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
+			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
+			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
+			'ccaja' : forms.Select(attrs={'class':'form-control','required':True}),
+			#'civa' : forms.Select(attrs={'class':'form-control','required':True}),
 			'fmovi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'fmovifin' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			#'ndiadeu' : forms.NumberInput(attrs={'class': 'form-control'}),
@@ -176,11 +222,6 @@ class MoviForm(forms.ModelForm):
 			#'vtsuma' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
 			'vtdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
 			
-			'ctimo' : forms.Select(attrs={'class':'form-control','required':True}),
-			'citerce' : forms.Select(attrs={'class':'form-control','required':True}),
-			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
-			'ccaja' : forms.Select(attrs={'class':'form-control','required':True}),
-			#'civa' : forms.Select(attrs={'class':'form-control','required':True}),
 		}
 		labels = {
 			'fmovi' :'Fecha Creacion',
@@ -213,6 +254,11 @@ class MoviForm(forms.ModelForm):
 		}
 
 class MoviDetailForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(ArticleForm, self).__init__(*args, **kwargs)
+
+		name_db = "db_1"
+		self.fields['cmovi'].choices = [(item.pk, unicode(item)) for item in Movi.objects.using(name_db).all()]
 	class Meta:
 		model = Movideta
 		fields = "__all__"
