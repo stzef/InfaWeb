@@ -115,7 +115,7 @@ def ParametersList(request):
 	context = {}
 	context['title'] = 'Parametros'
 
-	manageParameters = ManageParameters()
+	manageParameters = ManageParameters(request.db)
 	context['modules'] = Modules.objects.using(request.db).all()
 
 
@@ -160,7 +160,7 @@ def ParametersList(request):
 def ParametersSave(request):
 	data = json.loads(request.body)
 	response = {}
-	manageParameters = ManageParameters()
+	manageParameters = ManageParameters(request.db)
 	
 	parameters = manageParameters.get_all()
 	

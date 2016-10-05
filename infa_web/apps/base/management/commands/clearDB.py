@@ -2,7 +2,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 import os
-from infa_web.parameters import ManageParameters
 from datetime import datetime
 
 from infa_web.apps.base.constantes import *

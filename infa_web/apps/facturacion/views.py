@@ -24,8 +24,6 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
 
-manageParameters = ManageParameters()
-
 class BillList(CustomListView):
 	model = Fac
 	template_name = "facturacion/list-billings.html"
@@ -457,6 +455,7 @@ class BillCreate(CustomCreateView):
 
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
 
 		# Datos de Prueba
 		#usuario = Usuario.objects.using(self.request.db).filter()[0]

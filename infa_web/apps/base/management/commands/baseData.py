@@ -27,7 +27,7 @@ class Command(BaseCommand):
 		confirmation = raw_input("Seguro? (Si/No) ")
 
 		if(confirmation == "Si"):
-			manageParameters = ManageParameters()
+			manageParameters = ManageParameters(name_db)
 
 			if 'APPEMPRESARIAL_USER' in os.environ:
 				if not User.objects.using(name_db).filter(username=APPEMPRESARIAL_USER).exists():

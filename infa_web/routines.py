@@ -6,7 +6,7 @@ from infa_web.apps.movimientos.models import *
 import decimal
 import operator
 
-manageParameters = ManageParameters()
+manageParameters = ManageParameters("default")
 
 def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 	if is_input:

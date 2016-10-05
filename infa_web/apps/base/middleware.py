@@ -7,7 +7,7 @@ from django.http import HttpResponseNotFound
 class verifyConfigurationFile(object):
 	def process_request(self, request):
 		request.db = "default"
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(request.db)
 		if not manageParameters.ok():
 			context = {"message":"Existe un problema con el Archivo de configuracion."}
 			return render_to_response("layouts/error.html",context)
@@ -18,7 +18,7 @@ class updateDateAppen(object):
 
 		request.session['empresa_actual'] = ""
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(request.db)
 		current_date = datetime.now()
 		current_date_format = current_date.strftime('%Y/%m/%d %H:%M:%S')
 		manageParameters.set_param_object("date_appen",current_date_format)
@@ -45,6 +45,6 @@ class subdomainMiddleware:
 
 		else:
 			request.db = 'default'
-			#return render_to_response("home/index.html")
+			return render_to_response("home/index.html")
 
 

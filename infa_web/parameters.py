@@ -1,8 +1,9 @@
 from infa_web.settings import BASE_DIR
 import json
 class ManageParameters(object):
-	def __init__(self):
+	def __init__(self,domain):
 		super(ManageParameters, self).__init__()
+		self.domain = domain
 		self.path_file = BASE_DIR + '/infa_web/params/params.json'
 
 	def ok(self):

@@ -22,7 +22,7 @@ class InventoryReportStocksForm(forms.Form):
 		name_db = using
 		self.fields['grupos'].choices = [('', 'Seleccione un Grupo'), ('ALL', 'Todos los Grupos')]+[(x.pk, x.ngpo) for x in Gpo.objects.using(name_db).all()]
 		self.fields['marcas'].choices = [('', 'Seleccione una Marca'), ('ALL', 'Todos los Marcas')]+[(x.pk, x.nmarca) for x in Marca.objects.using(name_db).all()]
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		try:
 			invini = Invinicab.objects.using(name_db).get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii

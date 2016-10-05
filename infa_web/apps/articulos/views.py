@@ -96,7 +96,7 @@ class ArticleCreate(AjaxableResponseMixin,CustomCreateView):
 		context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
 		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(self.request.db)
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
 
@@ -105,7 +105,7 @@ class ArticleCreate(AjaxableResponseMixin,CustomCreateView):
 	def post(self, request, *args, **kwargs):
 		mutable_data = request.POST.copy()
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(self.request.db)
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 
 		maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
@@ -139,7 +139,7 @@ class ArticleCopy(CustomUpdateView):
 		context['url_foto2'] = current_article.foto2
 		context['url_foto3'] = current_article.foto3
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(self.request.db)
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
@@ -165,7 +165,7 @@ class ArticleUpdate(AjaxableResponseMixin,CustomUpdateView):
 
 		current_article = Arlo.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(self.request.db)
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory

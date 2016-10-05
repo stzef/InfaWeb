@@ -14,7 +14,7 @@ class InputMovementForm(forms.ModelForm):
 		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
 		self.fields['ctimo'].initial = default_movement
@@ -60,7 +60,7 @@ class OutputMovementForm(forms.ModelForm):
 		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
 		self.fields['ctimo'].initial = default_movement
@@ -169,7 +169,7 @@ class ProccessCostingAndStock(forms.Form):
 
 		name_db = using
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		try:
 			invini = Invinicab.objects.using(name_db).get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii
