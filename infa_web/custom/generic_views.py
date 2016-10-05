@@ -53,7 +53,7 @@ class CustomCreateView(CreateView):
 		# Agregar using a los argumentos de formulario
 		kwargs = self.get_form_kwargs()
 
-		if usingAlias is not None:
+		if self.usingAlias is not None:
 			kwargs['using'] = self.usingAlias
 		else:
 			kwargs['using'] = self.request.db
@@ -166,7 +166,7 @@ class CustomUpdateView(UpdateView):
 		# Agregar using a los argumentos de formulario
 		kwargs = self.get_form_kwargs()
 
-		if usingAlias is not None:
+		if self.usingAlias is not None:
 			kwargs['using'] = self.usingAlias
 		else:
 			kwargs['using'] = self.request.db

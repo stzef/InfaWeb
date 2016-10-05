@@ -1,6 +1,7 @@
 from django.shortcuts import render,render_to_response
-from django.views.generic import FormView, CreateView, UpdateView
-from django.views.generic.list import ListView
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+
 from infa_web.apps.articulos.models import *
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -17,7 +18,7 @@ from infa_web.apps.movimientos.forms import *
 from infa_web.apps.movimientos.models import *
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
-class InputMovementList(ListView):
+class InputMovementList(CustomListView):
 	model = Mven
 	template_name = "movimientos/list-movements.html"
 	form_class = InputMovementForm
@@ -29,7 +30,7 @@ class InputMovementList(ListView):
 		context['is_output_movement'] = False
 		return context
 
-class OutputMovementList(ListView):
+class OutputMovementList(CustomListView):
 	model = Mvsa
 	template_name = "movimientos/list-movements.html"
 	form_class = OutputMovementForm
@@ -41,7 +42,7 @@ class OutputMovementList(ListView):
 		context['is_output_movement'] = True
 		return context
 
-class InputMovementCreate(CreateView):
+class InputMovementCreate(CustomCreateView):
 	model = Mven
 	template_name = "movimientos/movement.html"
 	form_class = InputMovementForm
@@ -60,7 +61,7 @@ class InputMovementCreate(CreateView):
 
 		return context
 
-class OutputMovementCreate(CreateView):
+class OutputMovementCreate(CustomCreateView):
 	model = Mvsa 
 	template_name = "movimientos/movement.html"
 	form_class = OutputMovementForm
@@ -78,7 +79,7 @@ class OutputMovementCreate(CreateView):
 		context['url'] = reverse_lazy('save-movement')
 		return context
 
-class InputMovementUpdate(UpdateView):
+class InputMovementUpdate(CustomUpdateView):
 	model = Mven
 	template_name = "movimientos/movement.html"
 	form_class = InputMovementForm
@@ -101,7 +102,7 @@ class InputMovementUpdate(UpdateView):
 
 		return context
 
-class OutputMovementUpdate(UpdateView):
+class OutputMovementUpdate(CustomUpdateView):
 	model = Mvsa 
 	template_name = "movimientos/movement.html"
 	form_class = OutputMovementForm
@@ -115,8 +116,8 @@ class OutputMovementUpdate(UpdateView):
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
 		
-		context['mvdeta'] = list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"]))
-		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objectsusing(self.request.db).filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['mvdeta'] = list(Mvsadeta.objects.using(self.request.db).filter(cmvsa=self.kwargs["pk"]))
+		context['mvdeta_json'] = context['mvdeta_json'] = serializers.serialize("json", list(Mvsadeta.objects.using(self.request.db).filter(cmvsa=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
@@ -133,15 +134,15 @@ def proccess_fn_annulment(request,pk):
 	data = json.loads(request.body)
 
 	if data["timo"] == "I":
-		movement = Mven.objectsusing(request.db).get(cmven=data["cmv"])
+		movement = Mven.objects.using(request.db).get(cmven=data["cmv"])
 	else:
-		movement = Mvsa.objectsusing(request.db).get(cmvsa=data["cmv"])
+		movement = Mvsa.objects.using(request.db).get(cmvsa=data["cmv"])
 
 	current_datetime = str(datetime.datetime.now())
 	user = "Usuario Estatico"
 
 	movement.detaanula = data["detaanula"] + " " + current_datetime + " " + user
-	movement.cesdo = Esdo.objectsusing(request.db).get(pk=data["cesdo"])
+	movement.cesdo = Esdo.objects.using(request.db).get(pk=data["cesdo"])
 
 	print data["detaanula"] + " - " + current_datetime + " - " + user
 
@@ -161,7 +162,7 @@ def proccess_fn_costing_and_stock(request):
 	if data["type"] == "All":
 		query = {}
 	elif data["type"] == "Group":
-		query = {"cgpo":Gpo.objectsusing(request.db).get(cgpo=data["group"])}
+		query = {"cgpo":Gpo.objects.using(request.db).get(cgpo=data["group"])}
 	elif data["type"] == "Arlo":
 		query = {"carlos":data["carlos"]}
 	
@@ -204,7 +205,7 @@ def UpdateMovement(request,pk):
 		for deta_movement in data["mvdeta"]:
 			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
-			Mvendeta.objects.create(
+			Mvendeta.objects.using(request.db).create(
 				canti=deta_movement["canti"],
 				carlos=articulo,
 				it=deta_movement["it"],
@@ -237,7 +238,7 @@ def UpdateMovement(request,pk):
 		for deta_movement in data["mvdeta"]:
 			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
-			Mvsadeta.objects.create(
+			Mvsadeta.objects.using(request.db).create(
 				canti=deta_movement["canti"],
 				carlos=articulo,
 				it=deta_movement["it"],
@@ -264,7 +265,7 @@ def SaveMovement(request):
 
 	if data['is_input_movement']:
 
-		maxCmven = Mven.objects.aggregate(Max('cmven'))
+		maxCmven = Mven.objects.using(request.db).aggregate(Max('cmven'))
 		if maxCmven["cmven__max"]:
 			cmven = maxCmven["cmven__max"] + 1
 		else:
@@ -273,7 +274,7 @@ def SaveMovement(request):
 		response["cmv"] = cmven
 
 		if not  Mven.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmven=cmven).exists():
-			movement = Mven.objects.create(
+			movement = Mven.objects.using(request.db).create(
 				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
 				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
 				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
@@ -286,7 +287,7 @@ def SaveMovement(request):
 			)
 			for deta_movement in data["mvdeta"]:
 				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
-				Mvendeta.objects.create(
+				Mvendeta.objects.using(request.db).create(
 					canti=deta_movement["canti"],
 					carlos=articulo,
 					it=deta_movement["it"],
@@ -304,7 +305,7 @@ def SaveMovement(request):
 			response["cmv"] = None
 
 	else:
-		maxCmvsa = Mvsa.objects.aggregate(Max('cmvsa'))
+		maxCmvsa = Mvsa.objects.using(request.db).aggregate(Max('cmvsa'))
 		if maxCmvsa["cmvsa__max"]:
 			cmvsa = maxCmvsa["cmvsa__max"] + 1
 		else:
@@ -313,7 +314,7 @@ def SaveMovement(request):
 		response["cmv"] = cmvsa
 
 		if not Mvsa.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmvsa=cmvsa).exists():
-			movement = Mvsa.objects.create(
+			movement = Mvsa.objects.using(request.db).create(
 				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
 				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
 				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
@@ -326,7 +327,7 @@ def SaveMovement(request):
 			)
 			for deta_movement in data["mvdeta"]:
 				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
-				Mvsadeta.objects.create(
+				Mvsadeta.objects.using(request.db).create(
 					canti=deta_movement["canti"],
 					carlos=articulo,
 					it=deta_movement["it"],

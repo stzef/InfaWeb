@@ -1,4 +1,4 @@
- {% extends 'facturacion/print/half_letter.html' %}
+  {% extends 'facturacion/print/half_letter.html' %}
  
 {% load date_appen %}
 {% load humanize %}
@@ -45,31 +45,31 @@
 
 {% block content %}
 	<section>
-		<p>{{factura.descri}}</p>
+		<span>{{factura.descri}}</span>
 		<table>
 			<thead>
 				<tr>
-					<th>Descripción</th>
-					<th>Cantidad</th>
-					<th>Vr. Unitario</th>
-					<th>Total</th>
+					<th width="30%">Descripción</th>
+					<th width="20%">Cantidad</th>
+					<th width="20%">Vr. Unitario</th>
+					<th width="20%">Total</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for deta in factura_deta %}
 					{% if deta %}
 						<tr>
-							<td>{{ deta.carlos.nlargo }}</td>
-							<td class="number">{{ deta.canti }}</td>
-							<td class="number">{{ deta.vunita|intcomma }}</td>
-							<td class="number">{{ deta.vtotal|intcomma }}</td>
+							<td width="30%">{{ deta.carlos.nlargo }}</td>
+							<td width="20%" class="number">{{ deta.canti }}</td>
+							<td width="20%" class="number">{{ deta.vunita|intcomma }}</td>
+							<td width="20%" class="number">{{ deta.vtotal|intcomma }}</td>
 						</tr>
 					{% else %}
 						<tr>
-							<td> - </td>
-							<td> - </td>
-							<td> - </td>
-							<td> - </td>
+							<td width="30%">&nbsp</td>
+							<td width="20%">&nbsp</td>
+							<td width="20%">&nbsp</td>
+							<td width="20%">&nbsp</td>
 						</tr>
 					{% endif %}
 				{% endfor %}
@@ -90,9 +90,9 @@
 				<tr>
 					<td width="55%" colspan="2">{{factura.text_bill|truncatechars:100}}</td>
 
-					<td width="10%">Rte </td>
-					<td class="number" width="10%">{{factura.prtefte}}%</td>
-					<td class="number" width="15%">{{factura.brtefte|intcomma}}</td>
+					<td width="10%">IVA </td>
+					<td class="number" width="10%"></td>
+					<td class="number" width="15%">{{factura.vtiva|intcomma}}</td>
 				</tr>
 				<tr>
 					<td width="55%" colspan="2"></td>
@@ -107,14 +107,14 @@
 
 					<td width="10%">Abono:</td>
 					<td width="10%"></td>
-					<td class="number" width="15%">{{factura.vttotal|intcomma}}</td>
+					<td class="number" width="15%">{{factura.abono|intcomma}}</td>
 				</tr>
 				<tr>
 					<td width="55%" colspan="2">{{factura.cfac}}  Atendido por : {{factura.cvende.nvende}}</td>
 
 					<td class="border_bottom_bold" width="10%">Saldo:</td>
 					<td class="border_bottom_bold" width="10%"></td>
-					<td class="border_bottom_bold number" width="15%">{{factura.vttotal|intcomma}}</td>
+					<td class="border_bottom_bold number" width="15%">{{factura.saldo|intcomma}}</td>
 				</tr>
 			</tbody>
 			

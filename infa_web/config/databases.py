@@ -7,7 +7,7 @@ DB = {
 		'USER': 'postgres',
 		'PASSWORD': '123456',
 		'HOST': 'localhost',
-		'PORT': '5432',
+		'PORT': '',
 	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -15,6 +15,6 @@ DB = {
 		'USER': 'postgres',
 		'PASSWORD': '123456',
 		'HOST': 'localhost',
-		'PORT': '5432',
+		'PORT': '',
 	}
 }

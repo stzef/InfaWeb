@@ -40,10 +40,12 @@ class subdomainMiddleware:
 					return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 
 				request.db = DOMAINS[request.subdomain]
+				print request.db
 				redirect('/dashboard')
 
 		else:
 			request.db = 'default'
+			print request.db
 			return render_to_response("home/index.html")
 
 

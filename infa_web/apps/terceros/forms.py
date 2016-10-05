@@ -5,11 +5,23 @@ from infa_web.parameters import ManageParameters
 from infa_web.apps.terceros.models import *
 
 class ThirdPartyForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ThirdPartyForm, self).__init__(*args, **kwargs)
 		manageParameters = ManageParameters()
-		self.fields['ciudad'].initial = manageParameters.get_param_value("city_third_party")
+
+		name_db = using
+		self.fields['ctiide'].choices = [(item.pk, unicode(item)) for item in Tiide.objects.using(name_db).all()]
+		self.fields['ciudad'].choices = [(item.pk, unicode(item)) for item in Ciudad.objects.using(name_db).all()]
+		self.fields['cregiva'].choices = [(item.pk, unicode(item)) for item in Regiva.objects.using(name_db).all()]
+		self.fields['cautorre'].choices = [(item.pk, unicode(item)) for item in Autorre.objects.using(name_db).all()]
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cvende'].choices = [(item.pk, unicode(item)) for item in Vende.objects.using(name_db).all()]
+		self.fields['czona'].choices = [(item.pk, unicode(item)) for item in Zona.objects.using(name_db).all()]
+		self.fields['cruta'].choices = [(item.pk, unicode(item)) for item in Ruta.objects.using(name_db).all()]
+		self.fields['cpersona'].choices = [(item.pk, unicode(item)) for item in Personas.objects.using(name_db).all()]
 		
+		self.fields['ciudad'].initial = manageParameters.get_param_value("city_third_party")
+
 	class Meta:
 		model = Tercero
 		fields = "__all__"
@@ -94,6 +106,12 @@ class AutorretenedorForm(forms.ModelForm):
 		}
 
 class RouteForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(RouteForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Ruta
 		fields = "__all__"
@@ -109,6 +127,12 @@ class RouteForm(forms.ModelForm):
 		}
 
 class ZoneForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(ZoneForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+
 	class Meta:
 		model = Zona
 		fields = "__all__"

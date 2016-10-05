@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, UpdateView, DeleteView, FormView, TemplateView
-from django.views.generic.list import ListView
 from django.apps import apps
 from django.core.urlresolvers import reverse_lazy 
 from django.http import HttpResponse, JsonResponse
@@ -18,6 +16,8 @@ from infa_web.apps.articulos.forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 import json
+
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
 
 # Articles #
 """
@@ -76,10 +76,10 @@ class BreakdownArticle(FormView):
 		context['article'] = get_object_or_404(Arlo,carlos=self.kwargs["pk"])
 		context["partsArticle"] = Arlosdesglo.objects.using(self.request.db).filter(carlosp=self.kwargs["pk"])
 		return context
-		#class DepartamentsList(ListView):
+		#class DepartamentsList(CustomListView):
 """
 
-class ArticleCreate(AjaxableResponseMixin,CreateView):
+class ArticleCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
@@ -121,7 +121,7 @@ class ArticleCreate(AjaxableResponseMixin,CreateView):
 		return super(ArticleCreate, self).post(request, *args, **kwargs)
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ArticleCopy(UpdateView):
+class ArticleCopy(CustomUpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	form_class = ArticleForm
@@ -150,7 +150,7 @@ class ArticleCopy(UpdateView):
 			context['current_pk'] = minCodeArlos
 		return context
 
-class ArticleUpdate(AjaxableResponseMixin,UpdateView):
+class ArticleUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Arlo
 	template_name = "articulos/article.html"
 	success_url=reverse_lazy("add-article")
@@ -206,12 +206,13 @@ def article_list(request):
 		}
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 
-class ArticleList(TemplateView):
+class ArticleList(CustomListView):
+	model = Arlo
 	template_name = "articulos/list-articles.html"
 # Articles #
 
 # Groups #
-class GroupCreate(AjaxableResponseMixin,CreateView):
+class GroupCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Gpo
 	form_class = GpoForm
 	template_name = "articulos/group.html"
@@ -225,7 +226,7 @@ class GroupCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class GroupUpdate(AjaxableResponseMixin,UpdateView):
+class GroupUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Gpo
 	form_class = GpoForm
 	template_name = "articulos/group.html"
@@ -240,7 +241,7 @@ class GroupUpdate(AjaxableResponseMixin,UpdateView):
 		context['url'] = reverse_lazy('edit-group',kwargs={'pk': self.kwargs["pk"]},)
 		return context
 
-class GroupList(ListView):
+class GroupList(CustomListView):
 	model = None
 	queryset = None
 	template_name = "articulos/list-groups.html"
@@ -264,26 +265,26 @@ class GroupList(ListView):
 # Groups #
 
 # Types Articles #
-class TypesArticleCreate(AjaxableResponseMixin,CreateView):
+class TypesArticleCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Tiarlos
 	form_class = TiarlosForm
 	template_name = "articulos/tipe-article.html"
 	success_url=reverse_lazy("add-type-article")
 
-class TypesArticleUpdate(AjaxableResponseMixin,UpdateView):
+class TypesArticleUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Tiarlos
 	form_class = TiarlosForm
 	template_name = "articulos/tipe-article.html"
 	success_url=reverse_lazy("add-type-article")
 
-class TypesArticleList(ListView):
+class TypesArticleList(CustomListView):
 	model = Tiarlos
 	template_name = "articulos/list-types-articles.html"
 
 # Types Articles #
 
 # Brands #
-class BrandCreate(AjaxableResponseMixin,CreateView):
+class BrandCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Marca
 	form_class = BrandForm
 	template_name = "base/brand.html"
@@ -297,7 +298,7 @@ class BrandCreate(AjaxableResponseMixin,CreateView):
 
 		return context
 
-class BrandUpdate(AjaxableResponseMixin,UpdateView):
+class BrandUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Marca
 	form_class = BrandForm
 	template_name = "base/brand.html"
@@ -312,7 +313,7 @@ class BrandUpdate(AjaxableResponseMixin,UpdateView):
 
 		return context
 
-class BrandsList(ListView):
+class BrandsList(CustomListView):
 	model = Marca
 	template_name = "articulos/list-brands.html"
 # Brands #

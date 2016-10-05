@@ -72,7 +72,6 @@ class Mvsadeta(models.Model):
 	def __str__(self):
 		return "M. D. Salida - D.Ref: %s - It: %s - Cod: %s - Fecha: %s " % (self.cmvsa.docrefe,self.it,self.cmvsa.cmvsa,self.cmvsa.fmvsa)
 
-
 class Movi(models.Model):
 	cmovi = models.CharField(max_length=10, primary_key=True)
 	ctimo = models.ForeignKey(Timo,default=DEFAULT_TERCERO)
