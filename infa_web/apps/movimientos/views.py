@@ -205,7 +205,7 @@ def UpdateMovement(request,pk):
 		for deta_movement in data["mvdeta"]:
 			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
-			Mvendeta.objects.create(
+			Mvendeta.objects.using(request.db).create(
 				canti=deta_movement["canti"],
 				carlos=articulo,
 				it=deta_movement["it"],
@@ -238,7 +238,7 @@ def UpdateMovement(request,pk):
 		for deta_movement in data["mvdeta"]:
 			articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
 
-			Mvsadeta.objects.create(
+			Mvsadeta.objects.using(request.db).create(
 				canti=deta_movement["canti"],
 				carlos=articulo,
 				it=deta_movement["it"],
@@ -265,7 +265,7 @@ def SaveMovement(request):
 
 	if data['is_input_movement']:
 
-		maxCmven = Mven.objects.aggregate(Max('cmven'))
+		maxCmven = Mven.objects.using(request.db).aggregate(Max('cmven'))
 		if maxCmven["cmven__max"]:
 			cmven = maxCmven["cmven__max"] + 1
 		else:
@@ -274,7 +274,7 @@ def SaveMovement(request):
 		response["cmv"] = cmven
 
 		if not  Mven.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmven=cmven).exists():
-			movement = Mven.objects.create(
+			movement = Mven.objects.using(request.db).create(
 				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
 				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
 				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
@@ -287,7 +287,7 @@ def SaveMovement(request):
 			)
 			for deta_movement in data["mvdeta"]:
 				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
-				Mvendeta.objects.create(
+				Mvendeta.objects.using(request.db).create(
 					canti=deta_movement["canti"],
 					carlos=articulo,
 					it=deta_movement["it"],
@@ -305,7 +305,7 @@ def SaveMovement(request):
 			response["cmv"] = None
 
 	else:
-		maxCmvsa = Mvsa.objects.aggregate(Max('cmvsa'))
+		maxCmvsa = Mvsa.objects.using(request.db).aggregate(Max('cmvsa'))
 		if maxCmvsa["cmvsa__max"]:
 			cmvsa = maxCmvsa["cmvsa__max"] + 1
 		else:
@@ -314,7 +314,7 @@ def SaveMovement(request):
 		response["cmv"] = cmvsa
 
 		if not Mvsa.objects.using(request.db).filter(ctimo=Timo.objects.using(request.db).get(pk=data["ctimo"]),cmvsa=cmvsa).exists():
-			movement = Mvsa.objects.create(
+			movement = Mvsa.objects.using(request.db).create(
 				cbode0= Bode.objects.using(request.db).get(pk=data["cbode0"]),
 				cesdo= Esdo.objects.using(request.db).get(pk=data["cesdo"]),
 				citerce= Tercero.objects.using(request.db).get(pk=data["citerce"]),
@@ -327,7 +327,7 @@ def SaveMovement(request):
 			)
 			for deta_movement in data["mvdeta"]:
 				articulo = Arlo.objects.using(request.db).get(pk=deta_movement["carlos"])
-				Mvsadeta.objects.create(
+				Mvsadeta.objects.using(request.db).create(
 					canti=deta_movement["canti"],
 					carlos=articulo,
 					it=deta_movement["it"],

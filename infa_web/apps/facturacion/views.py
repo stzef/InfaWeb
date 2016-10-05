@@ -271,7 +271,7 @@ def BillUpdate(request,pk):
 	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
-	fac = Fac.objects.get(cfac = data['cfac'])
+	fac = Fac.objects.using(request.db).get(cfac = data['cfac'])
 	fac.cesdo = cesdo
 	fac.fpago = data['fpago']
 	fac.ctifopa = ctifopa
@@ -290,11 +290,11 @@ def BillUpdate(request,pk):
 	fac.vrtefte = float(data['vrtefte'])
 	fac.save(using=request.db)
 
-	mvsa = Mvsa.objects.get(docrefe = fac.cfac)
+	mvsa = Mvsa.objects.using(request.db).get(docrefe = fac.cfac)
 	mvsa.vttotal = float(data['vttotal'])
 	mvsa.save(using=request.db)
 
-	movi_find = Movi.objects.filter(movideta__docrefe = fac.cfac)
+	movi_find = Movi.objects.using(request.db).filter(movideta__docrefe = fac.cfac)
 	for data_facpago in data["medios_pagos"]:
 		movi = movi_find.filter(ctimo__pk = 3001)
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -305,7 +305,7 @@ def BillUpdate(request,pk):
 		vch_t += float(data_facpago['vmpago']) if mediopago.nmpago == 'Cheque' else 0
 
 		try:
-			fac_pago = Facpago.objects.get(cfac = fac.pk, it = data_facpago['it'])
+			fac_pago = Facpago.objects.using(request.db).get(cfac = fac.pk, it = data_facpago['it'])
 			fac_pago.cmpago = mediopago
 			fac_pago.docmpago = data_facpago['docmpago']
 			fac_pago.banmpago = banmpago
@@ -370,7 +370,7 @@ def BillUpdate(request,pk):
 		exclude_arlo.append(carlos.pk)
 
 		try:
-			fac_deta = Facdeta.objects.get(cfac = fac.pk,  carlos = carlos.pk)
+			fac_deta = Facdeta.objects.using(request.db).get(cfac = fac.pk,  carlos = carlos.pk)
 			fac_deta.itfac = data_deta['itfac']
 			fac_deta.nlargo = carlos.nlargo
 			fac_deta.ncorto = carlos.ncorto
@@ -405,7 +405,7 @@ def BillUpdate(request,pk):
 				vcosto = float(carlos.vcosto1)
 			)
 		try:
-			mvsa_deta = Mvsadeta.objects.get(cmvsa = mvsa.pk, carlos = carlos.pk)
+			mvsa_deta = Mvsadeta.objects.using(request.db).get(cmvsa = mvsa.pk, carlos = carlos.pk)
 			mvsa_deta.it = data_deta['itfac']
 			mvsa_deta.carlos = carlos
 			mvsa_deta.nlargo = carlos.nlargo
@@ -424,8 +424,8 @@ def BillUpdate(request,pk):
 			)
 		fac_deta.save(using=request.db)
 		mvsa_deta.save(using=request.db)
-	Facdeta.objects.exclude(carlos__in = exclude_arlo).delete()
-	Mvsadeta.objects.filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
+	Facdeta.objects.using(request.db).exclude(carlos__in = exclude_arlo).delete()
+	Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BillCreate(CustomCreateView):

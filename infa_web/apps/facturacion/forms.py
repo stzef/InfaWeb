@@ -5,7 +5,7 @@ from infa_web.apps.facturacion.models import *
 
 class FacForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
-		super(ArticleForm, self).__init__(*args, **kwargs)
+		super(FacForm, self).__init__(*args, **kwargs)
 
 		name_db = "db_1"
 		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
