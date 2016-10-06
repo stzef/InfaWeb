@@ -22,3 +22,141 @@ Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 45, in process_request
     manageParameters = ManageParameters(request.db)
 AttributeError: 'WSGIRequest' object has no attribute 'db'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:46:32,059 base 9326 139629493577472 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 21, in __init__
+    "Missing file params"
+ImproperlyConfigured: Missing file params
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:48:48,260 base 9427 140580614842112 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing file params. subdomain: %s - db: %s. path %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing file params. subdomain: stzef - db: db_1. path /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:51:18,700 base 9668 140713614382848 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing file params. \n Subdomain: %s \n db: %s \n path %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing file params. 
+ Subdomain: stzef 
+ db: db_1 path /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:51:37,800 base 9690 139644185958144 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing file params. \nSubdomain: %s \ndb: %s \npath %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing file params. 
+Subdomain: stzef 
+db: db_1 
+path /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:52:00,525 base 9709 140229931800320 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing file params. \nSubdomain : %s \ndb : %s \npath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing file params. 
+Subdomain : stzef 
+db : db_1 
+path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:52:18,007 base 9751 139920889849600 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing File Parameters. \nSubdomain : %s \ndb : %s \npath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain : stzef 
+db : db_1 
+path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:52:29,539 base 9770 140221410457344 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing File Parameters. \nSubdomain : %s \Database : %s \npath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain : stzef \Database : db_1 
+path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:52:37,606 base 9791 140343526082304 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing File Parameters. \nSubdomain : %s \nDatabase : %s \npath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain : stzef 
+Database : db_1 
+path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 11:52:46,282 base 9814 140208442271488 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 22, in __init__
+    "Missing File Parameters. \nSubdomain : %s \nDatabase : %s \nPath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain : stzef 
+Database : db_1 
+Path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/db_1_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-06 14:41:00,291 base 4440 139931032741632 Internal Server Error: /inventory/stocks/report/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/contrib/auth/decorators.py", line 23, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 213, in get
+    return self.render_to_response(self.get_context_data())
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/inventarios/views.py", line 309, in get_context_data
+    context = super(InventoryReportStocks, self).get_context_data(**kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 122, in get_context_data
+    kwargs['form'] = self.get_form()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 74, in get_form
+    return form_class(**self.get_form_kwargs())
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/inventarios/forms.py", line 29, in __init__
+    manageParameters = ManageParameters(name_db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 21, in __init__
+    "Missing File Parameters. \nSubdomain : %s \nDatabase : %s \nPath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain :  
+Database :  
+Path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/_params.json 
