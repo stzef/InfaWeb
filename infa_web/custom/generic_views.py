@@ -61,7 +61,7 @@ class CustomCreateView(CreateView):
 		return form_class(**kwargs)
 
 class CustomFormView(FormView):
-		# String para indicar el alias de la db
+	# String para indicar el alias de la db
 	usingAlias = None
 
 	# retorna alias de db

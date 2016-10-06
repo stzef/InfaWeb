@@ -620,10 +620,6 @@ def bill_proccess_fn_annulment(request):
 		ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
 		ctimos = list(Timo.objects.using(request.db).filter(Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)))
-		response["factura"] = {
-			"esdo_last" : factura.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
-		}
 
 		try:
 			mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
@@ -632,18 +628,26 @@ def bill_proccess_fn_annulment(request):
 			return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
 		try:
-			movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
-			movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi,ctimo__in = ctimos)
+			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)[0]
+			print "--------------------------------------"
+			print movideta
+			print "--------------------------------------"
+			movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
 		except Movi.DoesNotExist:
 			response["message"] = "No existe un movimiento asociado a la factura."
 			return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
-		response.mvsa = {
+		response["factura"] = {
+			"esdo_last" : factura.cesdo.nesdo,
+			'esdo_mew' :estado.nesdo
+		}
+
+		response["mvsa"] = {
 			"esdo_last" : mvsa.cesdo.nesdo,
 			'esdo_mew' :estado.nesdo
 		}
-		response.movimiento = {
+		response["movimiento"] = {
 			"esdo_last" : movimiento.cesdo.nesdo,
 			'esdo_mew' :estado.nesdo
 		}
@@ -659,9 +663,9 @@ def bill_proccess_fn_annulment(request):
 		mvsa.save(using=request.db)
 		movimiento.save(using=request.db)
 
-		response.factura.cfac = factura.cfac
-		response.mvsa.cmvsa = mvsa.cmvsa
-		response.movimiento.cmovi = movimiento.cmovi
+		response["factura"]["cfac"] = factura.cfac
+		response["mvsa"]["cmvsa"] = mvsa.cmvsa
+		response["movimiento"]["cmovi"] = movimiento.cmovi
 
 		return HttpResponse(json.dumps(response), content_type="application/json",status=200)
 	except Fac.DoesNotExist:

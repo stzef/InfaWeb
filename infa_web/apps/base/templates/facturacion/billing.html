@@ -603,6 +603,7 @@
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
+			console.warn($("[name=vttotal]").val())
 			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
 			$("#form_medios_pago").submit()
 		}

@@ -5,9 +5,9 @@ from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.csrf import csrf_exempt
 
 
-"""Falta Implementar FormView ?????????"""
-from django.views.generic import FormView
-from infa_web.custom.generic_views import CustomListView
+"""Falta Implementar CustomFormView ?????????"""
+#from django.views.generic import CustomFormView
+from infa_web.custom.generic_views import CustomListView,CustomFormView
 
 from reportlab.lib.pagesizes import letter, inch
 from infa_web.parameters import ManageParameters
@@ -30,7 +30,7 @@ def sum_invini(value):
 	cant_space = 5-int(len(value_sum))
 	return 'II-'+(cant_space*'0')+value_sum
 
-class InventoryView(FormView):
+class InventoryView(CustomFormView):
 	template_name = 'inventarios/inventory.html'
 	form_class = InventoryForm
 
@@ -301,7 +301,7 @@ def get_name_arlo(request):
 		c += 1
 	return HttpResponse(json.dumps(response), "application/json")
 
-class InventoryReportStocks(FormView):
+class InventoryReportStocks(CustomFormView):
 	template_name = 'inventarios/inventory-report-stocks.html'
 	form_class = InventoryReportStocksForm
 
@@ -327,7 +327,7 @@ class InventoryPDFStocks(PDFTemplateView):
 		context['title'] = 'Existencias'
 		return context
 
-class InventoryReport(FormView):
+class InventoryReport(CustomFormView):
 	template_name = 'inventarios/inventory-report.html'
 	form_class = InventoryReportForm
 
