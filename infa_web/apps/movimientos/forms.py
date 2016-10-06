@@ -8,15 +8,15 @@ class InputMovementForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(InputMovementForm, self).__init__(*args, **kwargs)
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
-		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
-		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		self.fields['cbode0'].queryset = Bode.objects.using(name_db).all()
+		self.fields['cbode1'].queryset = Bode.objects.using(name_db).all()
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
-		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
+		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)
 		self.fields['ctimo'].initial = default_movement
 
 	class Meta:
@@ -54,15 +54,15 @@ class OutputMovementForm(forms.ModelForm):
 		super(OutputMovementForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
-		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
-		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		self.fields['cbode0'].queryset = Bode.objects.using(name_db).all()
+		self.fields['cbode1'].queryset = Bode.objects.using(name_db).all()
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
-		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
+		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)
 		self.fields['ctimo'].initial = default_movement
 		
 	class Meta:
@@ -101,8 +101,8 @@ class InputMovementDetailForm(forms.ModelForm):
 
 		name_db = using
 
-		self.fields['cmven'].choices = [(item.pk, unicode(item)) for item in Mven.objects.using(name_db).all()]
-		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+		self.fields['cmven'].queryset = Mven.objects.using(name_db).all()
+		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
 	class Meta:
 		model = Mvendeta
@@ -134,8 +134,8 @@ class OutputMovementDetailForm(forms.ModelForm):
 
 		name_db = using
 
-		self.fields['cmvsa'].choices = [(item.pk, unicode(item)) for item in Mvsa.objects.using(name_db).all()]
-		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+		self.fields['cmvsa'].queryset = Mvsa.objects.using(name_db).all()
+		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
 	class Meta:
 		model = Mvsadeta
@@ -187,10 +187,10 @@ class MoviForm(forms.ModelForm):
 
 		name_db = using
 
-		self.fields['ctimo'].choices = [(item.pk, unicode(item)) for item in Timo.objects.using(name_db).all()]
-		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['ccaja'].choices = [(item.pk, unicode(item)) for item in Caja.objects.using(name_db).all()]
+		self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
 
 	class Meta:
 		model = Movi
@@ -260,7 +260,7 @@ class MoviDetailForm(forms.ModelForm):
 		super(ArticleForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cmovi'].choices = [(item.pk, unicode(item)) for item in Movi.objects.using(name_db).all()]
+		self.fields['cmovi'].queryset = Movi.objects.using(name_db).all()
 
 	class Meta:
 		model = Movideta

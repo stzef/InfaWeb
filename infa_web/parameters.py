@@ -1,10 +1,18 @@
 from infa_web.settings import BASE_DIR
 import json
 import os.path
+
+from infa_web.custom.utils import get_subdomain_by_name_db
+
 class ManageParameters(object):
 	def __init__(self,domain):
 		super(ManageParameters, self).__init__()
 		self.domain = domain
+
+		print "--------------------"
+		print get_subdomain_by_name_db(domain) + " : " + domain
+		print "--------------------"
+
 		self.path_file = BASE_DIR + '/infa_web/params/' + self.domain + '_params.json'
 		if not os.path.isfile(self.path_file):
 			print "----------------------------file no exists------------------"

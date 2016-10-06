@@ -8,7 +8,7 @@ class ParametersForm(forms.ModelForm):
 		super(ParametersForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Parameters
@@ -29,7 +29,7 @@ class CiudadForm(forms.ModelForm):
 		super(CiudadForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cdepar'].choices = [(item.pk, unicode(item)) for item in Departamento.objects.using(name_db).all()]
+		self.fields['cdepar'].queryset = Departamento.objects.using(name_db).all()
 
 	class Meta:
 		model = Ciudad
@@ -67,7 +67,7 @@ class UbicaForm(forms.ModelForm):
 		super(UbicaForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Ubica
@@ -124,7 +124,7 @@ class IvaForm(forms.ModelForm):
 		super(IvaForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Iva
@@ -178,9 +178,9 @@ class CommonForm(forms.Form):
 		super(CommonForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['group'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
-		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
+		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
 	cesdo = forms.ModelChoiceField(queryset=Esdo.objects.all())
 	group = forms.ModelChoiceField(

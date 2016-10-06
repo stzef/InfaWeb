@@ -6,12 +6,7 @@ from django.http import HttpResponseNotFound
 	
 class verifyConfigurationFile(object):
 	def process_request(self, request):
-		request.db = "default"
 		manageParameters = ManageParameters(request.db)
-		print "......................................................."
-		print request.db
-		print manageParameters.ok()
-		print "......................................................."
 		if not manageParameters.ok():
 			context = {"message":"Existe un problema con el Archivo de configuracion."}
 			return render_to_response("layouts/error.html",context)

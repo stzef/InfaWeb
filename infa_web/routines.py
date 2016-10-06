@@ -16,8 +16,6 @@ def costing(cantidad_actual,costo_actual,nueva_cantidad,nuevo_costo,is_input):
 
 # Se usa en este archivo y en movimientos/views.py
 def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=True,db_name='default'):
-	print "calcular_costo_articulo"
-	print db_name
 	manageParameters = ManageParameters(db_name)
 
 	nueva_cantidad = decimal.Decimal(nueva_cantidad)
@@ -57,8 +55,6 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 # Se usa en este archivo, en inventarios/views.py y movimientos/views.py
 # Falta inventarios/views.py
 def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='default'):
-	print "costing_and_stock"
-	print db_name
 	manageParameters = ManageParameters(db_name)
 	query_arlo["cesdo"] = CESTADO_ACTIVO
 
