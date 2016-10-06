@@ -63,9 +63,9 @@ MIDDLEWARE_CLASSES = [
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'infa_web.apps.base.middleware.subdomainMiddleware',
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'infa_web.apps.base.middleware.updateDateAppen',
-	'infa_web.apps.base.middleware.subdomainMiddleware',
 ]
 
 LOGGING = {
