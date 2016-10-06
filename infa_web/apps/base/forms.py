@@ -46,6 +46,9 @@ class CiudadForm(forms.ModelForm):
 		}
 
 class MediosPagoForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(MediosPagoForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = MediosPago
 		fields = "__all__"
@@ -81,6 +84,10 @@ class UbicaForm(forms.ModelForm):
 		}
 
 class DepartamentoForm(forms.ModelForm):
+
+	def __init__(self, using='', *args, **kwargs):
+		super(DepartamentoForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Departamento
 		fields = "__all__"
@@ -94,6 +101,10 @@ class DepartamentoForm(forms.ModelForm):
 		}
 
 class StateForm(forms.ModelForm):
+
+	def __init__(self,using='', *args, **kwargs):
+		super(StateForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Esdo
 		fields = "__all__"
@@ -134,6 +145,9 @@ class IvaForm(forms.ModelForm):
 		}
 
 class RegivaForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(RegivaForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Regiva
 		fields = "__all__"

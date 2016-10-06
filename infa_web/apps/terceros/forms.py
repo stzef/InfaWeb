@@ -93,6 +93,9 @@ class ThirdPartyForm(forms.ModelForm):
 		}
 
 class AutorretenedorForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(AutorretenedorForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Autorre
 		fields = "__all__"

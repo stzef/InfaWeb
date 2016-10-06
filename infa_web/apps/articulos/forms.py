@@ -147,6 +147,9 @@ class GpoForm(forms.ModelForm):
 		}
 
 class BreakdownArticleForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(BreakdownArticleForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Arlosdesglo
 		fields = "__all__"
@@ -187,6 +190,9 @@ class BrandForm(forms.ModelForm):
 		}
 		
 class TiarlosForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(Tiarlos, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Tiarlos
 		fields = "__all__"
