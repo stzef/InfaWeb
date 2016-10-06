@@ -40,7 +40,7 @@
 						<input type="text" class="form-control" readonly="" name="citerce" id="id_citerce">
 					</div>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" readonly="" name="" id="">
+						<input type="text" class="form-control" readonly="" name="name_citerce" id="name_citerce">
 					</div>
 
 				</div>
@@ -140,7 +140,7 @@
 
 					var fmv = fields.fmvsa || fields.fmven
 
-					$("#id_citerce").val(fields.citerce)
+					$("#id_citerce").val(fields.citerce).trigger("change")
 					$("#id_fmv").val(fmv)
 					$("#id_vttotal").val(currencyFormat.format(fields.vttotal))
 					$("#id_cesdo").val(fields.cesdo)
@@ -149,7 +149,7 @@
 					$('#id_cmv').val("")
 					tooltipBootstrap($('#id_cmv'),".input-group","No se encontro ningun movimiento.")
 
-					$("#id_citerce").val("")
+					$("#id_citerce").val("").trigger("change")
 					$("#id_fmv").val("")
 					$("#id_vttotal").val("")
 					$("#id_cesdo").val(1)
@@ -158,5 +158,31 @@
 			}
 		});
 	})
+	$('#id_citerce').change(function(){
+		/*
+			Eschuca el cambio en el cambio #id_citerce
+			Al cambiar el #id_citerce realiza una peticion a url'api-get-object' para buscar al tercero con ese id. Esta retorna el objeto de la DB en json y se asigna a current_tercero
+			Se ejecuta la funcion 'setValueFieldTerce' para enviar valores al campo '[name=name__citerce]' del nombre del tercero
+			Si no se encuentra ningun tercero se muestra un mensaje
+		*/
+		var input_value = this.value
+
+		if(!input_value){
+			$("#name_citerce").val("")
+			return
+		}
+		loading_animation("Buscando Tercero")
+		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 29,'field': this.name,'value': this.value}),function(response){
+			$(".animation").empty()
+			if(response.object){
+				var object = JSON.parse(response.object)[0]
+				fields = object.fields
+				$("#name_citerce").val(fields.rasocial)
+			}else{
+				$("#name_citerce").val("")
+				tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
+			}
+		})
+	});
 </script>
 {% endblock content_script %}
