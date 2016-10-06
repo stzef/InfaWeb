@@ -174,7 +174,7 @@ class IDTypeForm(forms.ModelForm):
 		}
 
 class CommonForm(forms.Form):
-	def __init__(self, using='', *args, **kwargs):
+	def __init__(self,using='', *args, **kwargs):
 		super(CommonForm, self).__init__(*args, **kwargs)
 
 		name_db = using

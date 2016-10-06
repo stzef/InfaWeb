@@ -51,7 +51,7 @@ class InputMovementCreate(CustomCreateView):
 		context = super(InputMovementCreate, self).get_context_data(**kwargs)
 
 		context['title'] = "Crear Movimiento de Entrada"
-		form_movement_detail = InputMovementDetailForm()
+		form_movement_detail = InputMovementDetailForm(self.request.db)
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = True
 		context['is_output_movement'] = False
@@ -70,7 +70,7 @@ class OutputMovementCreate(CustomCreateView):
 		context = super(OutputMovementCreate, self).get_context_data(**kwargs)
 
 		context['title'] = "Crear Movimiento de Salida"
-		form_movement_detail = OutputMovementDetailForm()
+		form_movement_detail = OutputMovementDetailForm(self.request.db)
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
@@ -88,7 +88,7 @@ class InputMovementUpdate(CustomUpdateView):
 		context = super(InputMovementUpdate, self).get_context_data(**kwargs)
 
 		context['title'] = "Editar Movimiento de Entrada"
-		form_movement_detail = InputMovementDetailForm()
+		form_movement_detail = InputMovementDetailForm(self.request.db)
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = True
 		context['is_output_movement'] = False
@@ -111,7 +111,7 @@ class OutputMovementUpdate(CustomUpdateView):
 		context = super(OutputMovementUpdate, self).get_context_data(**kwargs)
 
 		context['title'] = "Editar Movimiento de Salida"
-		form_movement_detail = OutputMovementDetailForm()
+		form_movement_detail = OutputMovementDetailForm(self.request.db)
 		context['form_movement_detail'] = form_movement_detail
 		context['is_input_movement'] = False
 		context['is_output_movement'] = True
@@ -126,7 +126,7 @@ class OutputMovementUpdate(CustomUpdateView):
 		return context
 
 def proccess_view_annulment(request):
-	form = CommonForm()
+	form = CommonForm(request.db)
 	return render(request,"movimientos/procesos/annulment.html",{"form":form})
 
 @csrf_exempt
@@ -151,8 +151,8 @@ def proccess_fn_annulment(request,pk):
 	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
 def proccess_view_costing_and_stock(request):
-	form = ProccessCostingAndStock()
-	form_common = CommonForm()
+	form = ProccessCostingAndStock(request.db)
+	form_common = CommonForm(request.db)
 	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form,"form_common":form_common})
 
 @csrf_exempt
@@ -172,7 +172,7 @@ def proccess_fn_costing_and_stock(request):
 	data["date_range"]["start_date"] = parser.parse(data["date_range"]["start_date"])
 	data["date_range"]["end_date"] = parser.parse(data["date_range"]["end_date"])
 	response = {
-		"data":costing_and_stock(data["date_range"],data["if_save"],query)
+		"data":costing_and_stock(data["date_range"],data["if_save"],query,request.db)
 	}
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -216,8 +216,8 @@ def UpdateMovement(request,pk):
 				nlargo=articulo.nlargo,
 			)
 
-			costing_and_stock(False,True,{"carlos":articulo.carlos})
-			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+			costing_and_stock(False,True,{"carlos":articulo.carlos},request.db)
+			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 
 	else:
 
@@ -248,8 +248,8 @@ def UpdateMovement(request,pk):
 				nlargo=articulo.nlargo,
 			)
 
-			costing_and_stock(False,True,{"carlos":articulo.carlos})
-			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+			costing_and_stock(False,True,{"carlos":articulo.carlos},request.db)
+			#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 
 
 	return HttpResponse(json.dumps(response), "application/json")
@@ -298,7 +298,7 @@ def SaveMovement(request):
 					#ctimo=Timo.objects.using(request.db).get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
@@ -336,7 +336,7 @@ def SaveMovement(request):
 					cmvsa=movement,
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'])
+				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"

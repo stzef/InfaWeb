@@ -14,7 +14,7 @@ class InputMovementForm(forms.ModelForm):
 		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)]
 		self.fields['ctimo'].initial = default_movement
@@ -60,7 +60,7 @@ class OutputMovementForm(forms.ModelForm):
 		self.fields['cbode0'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 		self.fields['cbode1'].choices = [(item.pk, unicode(item)) for item in Bode.objects.using(name_db).all()]
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
 		self.fields['ctimo'].choices = [(timo.pk, unicode(timo)) for timo in Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)]
 		self.fields['ctimo'].initial = default_movement
@@ -100,6 +100,7 @@ class InputMovementDetailForm(forms.ModelForm):
 		super(InputMovementDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
+
 		self.fields['cmven'].choices = [(item.pk, unicode(item)) for item in Mven.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -132,6 +133,7 @@ class OutputMovementDetailForm(forms.ModelForm):
 		super(OutputMovementDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
+
 		self.fields['cmvsa'].choices = [(item.pk, unicode(item)) for item in Mvsa.objects.using(name_db).all()]
 		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
 
@@ -168,8 +170,9 @@ class ProccessCostingAndStock(forms.Form):
 		super(ProccessCostingAndStock, self).__init__(*args, **kwargs)
 
 		name_db = using
+		#name_db = "db_1"
 
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(name_db)
 		try:
 			invini = Invinicab.objects.using(name_db).get(pk = manageParameters.get_param_value("initial_note"))
 			self.fields['nota_inicial'].initial = invini.cii

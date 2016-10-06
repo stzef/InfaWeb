@@ -223,7 +223,7 @@ def inventory_save(request):
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save(using=request.db)
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(request.db)
 		sv_cant = False
 		if manageParameters.get_param_value("initial_note") == '@':
 			manageParameters.set_param_object("initial_note", cii)

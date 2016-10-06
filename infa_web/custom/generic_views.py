@@ -142,6 +142,10 @@ class CustomUpdateView(UpdateView):
 	def form_valid(self, form):
 		usingAlias = self.get_usignAlias_db()
 
+		print "--------------...................---------------------------"
+		print usingAlias
+		print "--------------...................---------------------------"
+
 		obj = form.save(commit=False)
 		self.object = obj.save(using=usingAlias)
 		return super(CustomUpdateView, self).form_valid(form)

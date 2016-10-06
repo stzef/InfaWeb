@@ -24,8 +24,6 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
 
-manageParameters = ManageParameters()
-
 class BillList(CustomListView):
 	model = Fac
 	template_name = "facturacion/list-billings.html"
@@ -457,6 +455,7 @@ class BillCreate(CustomCreateView):
 
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
 
 		# Datos de Prueba
 		#usuario = Usuario.objects.using(self.request.db).filter()[0]
@@ -471,7 +470,7 @@ class BillCreate(CustomCreateView):
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
-		context['form_movement_detail'] = FacdetaForm()
+		context['form_movement_detail'] = FacdetaForm(self.request.db)
 		context['form_medios_pagos'] = FacpagoForm
 
 		context['mode_view'] = 'create'
@@ -510,13 +509,13 @@ class BillEdit(CustomUpdateView):
 
 	def get_context_data(self,**kwargs):
 		context = super(BillEdit, self).get_context_data(**kwargs)
-
+		"""
 		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
 		medios_pago = MediosPago.objects.using(self.request.db).all()
 		context['medios_pago'] = medios_pago
 
 		context['title'] = "Facturar"
-		context['form_movement_detail'] = FacdetaForm()
+		context['form_movement_detail'] = FacdetaForm(self.request.db)
 		context['form_medios_pagos'] = FacpagoForm
 
 		context['mode_view'] = 'edit'
@@ -544,9 +543,57 @@ class BillEdit(CustomUpdateView):
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		return context
+		"""
+
+		manageParameters = ManageParameters(self.request.db)
+
+		# Datos de Prueba
+		#usuario = Usuario.objects.using(self.request.db).filter()[0]
+
+		#talonario_MOS = usuario.ctalomos
+		#talonario_POS = usuario.ctalopos
+		# Datos de Prueba
+
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
+		medios_pago = MediosPago.objects.using(self.request.db).all()
+
+		context['medios_pago'] = medios_pago
+
+		context['title'] = "Facturar"
+		context['form_movement_detail'] = FacdetaForm(self.request.db)
+		context['form_medios_pagos'] = FacpagoForm
+
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('save-bill')
+
+		context['data_validation'] = {}
+
+		context['company_logo'] = manageParameters.get_param_value('company_logo')
+
+		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+
+		# Datos de Prueba
+		context['data_validation']['maximum_number_items_billing'] = 2
+		# Datos de Prueba
+
+		context['data_validation']['formas_pago'] = {}
+		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
+		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+
+		context['data_validation']['medios_pago'] = {}
+		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
+		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
+
+		context['data_validation_json'] = json.dumps(context['data_validation'])
+
+		return context
 
 def bill_proccess_view_annulment(request):
-	form = CommonForm()
+	form = CommonForm(request.db)
 	return render(request,"facturacion/procesos/annulment.html",{"form":form})
 
 @csrf_exempt
@@ -600,6 +647,7 @@ class BillPrint(PDFTemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(BillPrint, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
 		data = self.request.GET
 
 		# Datos de Prueba
@@ -647,11 +695,9 @@ class BillPrint(PDFTemplateView):
 		"""
 
 
-		v = 0
-		for dv in deta_vttotal:
-			v += dv.vmpago
-		factura.saldo = factura.vttotal - v
-		factura.abono = v
+		factura.abono = factura.vefe + factura.vtar + factura.vch + factura.vcred
+		
+		factura.saldo = factura.vttotal - factura.abono
 
 		"""
 		factura.cont_vttotal = cont_vttotal

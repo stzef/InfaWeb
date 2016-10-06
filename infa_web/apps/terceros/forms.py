@@ -7,9 +7,10 @@ from infa_web.apps.terceros.models import *
 class ThirdPartyForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(ThirdPartyForm, self).__init__(*args, **kwargs)
-		manageParameters = ManageParameters()
-
 		name_db = using
+		
+		manageParameters = ManageParameters(name_db)
+
 		self.fields['ctiide'].choices = [(item.pk, unicode(item)) for item in Tiide.objects.using(name_db).all()]
 		self.fields['ciudad'].choices = [(item.pk, unicode(item)) for item in Ciudad.objects.using(name_db).all()]
 		self.fields['cregiva'].choices = [(item.pk, unicode(item)) for item in Regiva.objects.using(name_db).all()]
