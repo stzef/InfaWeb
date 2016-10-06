@@ -598,6 +598,8 @@ def bill_proccess_view_annulment(request):
 
 @csrf_exempt
 def bill_proccess_fn_annulment(request):
+	manageParameters = ManageParameters(request.db)
+	response = {"message":"Se realizo exitosamente el cambio"}
 	data = json.loads(request.body)
 
 	estado = Esdo.objects.using(request.db).get(pk=data["cesdo"])
@@ -605,42 +607,62 @@ def bill_proccess_fn_annulment(request):
 	user = "Usuario Estatico"
 	detaanula = data["detaanula"] + " " + current_datetime + " " + user
 
-	factura = Fac.objects.using(request.db).get(cfac=data["cfac"])
-	mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
+	try:
+		factura = Fac.objects.using(request.db).get(cfac=data["cfac"])
 
-	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
-	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+		ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
+		ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
-	ctimos = list(Timo.objects.using(request.db).filter(Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)))
-	
-	movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
-	movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi,ctimo__in = ctimos)
-	#movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi)
+		ctimos = list(Timo.objects.using(request.db).filter(Q(ctimo=ctimo_rc_billing) | Q(ctimo=ctimo_cxc_billing)))
+		response["factura"] = {
+			"esdo_last" : factura.cesdo.nesdo,
+			'esdo_mew' :estado.nesdo
+		}
 
-	print "---------------------------------"
-	print factura
-	print "---------------------------------"
-	print mvsa
-	print "---------------------------------"
-	print movimiento
-	print "---------------------------------"
+		try:
+			mvsa = Mvsa.objects.using(request.db).get(docrefe = factura.cfac)
+		except Mvsa.DoesNotExist:
+			response["message"] = "No existe un movimiento de salida asociado a la factura."
+			return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
-	movimiento.cesdo = estado
-	movimiento.detaanula = detaanula
+		try:
+			movideta = Movideta.objects.using(request.db).get(docrefe = factura.cfac)
+			movimiento = Movi.objects.using(request.db).get(cmovi = movideta.cmovi,ctimo__in = ctimos)
+
+		except Movi.DoesNotExist:
+			response["message"] = "No existe un movimiento asociado a la factura."
+			return HttpResponse(json.dumps(response), content_type="application/json",status=400)
+
+		response.mvsa = {
+			"esdo_last" : mvsa.cesdo.nesdo,
+			'esdo_mew' :estado.nesdo
+		}
+		response.movimiento = {
+			"esdo_last" : movimiento.cesdo.nesdo,
+			'esdo_mew' :estado.nesdo
+		}
+
+		movimiento.cesdo = estado
+		movimiento.detaanula = detaanula
+		factura.detaanula = detaanula
+		factura.cesdo = estado
+		mvsa.detaanula = detaanula
+		mvsa.cesdo = estado
+
+		factura.save(using=request.db)
+		mvsa.save(using=request.db)
+		movimiento.save(using=request.db)
+
+		response.factura.cfac = factura.cfac
+		response.mvsa.cmvsa = mvsa.cmvsa
+		response.movimiento.cmovi = movimiento.cmovi
+
+		return HttpResponse(json.dumps(response), content_type="application/json",status=200)
+	except Fac.DoesNotExist:
+		response["message"] = "La Factura no existe."
+		return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
 
-	factura.detaanula = detaanula
-	factura.cesdo = estado
-
-	mvsa.detaanula = detaanula
-	mvsa.cesdo = estado
-
-
-	factura.save(using=request.db)
-	mvsa.save(using=request.db)
-	movimiento.save(using=request.db)
-
-	return HttpResponse(json.dumps({"message":"Se realizo exitosamente el cambio"}), content_type="application/json",status=200)
 
 class BillPrint(PDFTemplateView):
 	template_name = "facturacion/print_bill_format_half_letter.html"
