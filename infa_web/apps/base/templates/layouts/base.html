@@ -18,7 +18,7 @@
 
 	{% block content_head %}{% endblock content_head %}
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="{% if not type %}hold-transition skin-blue sidebar-mini{% endif %}">
 	<div class="wrapper">
 		<input type="hidden" value="{% date_appen %}" name="date_appen" id="date_appen">
 		{% block content %}{% endblock content %}

@@ -45,6 +45,6 @@ class subdomainMiddleware:
 
 		else:
 			request.db = 'default'
-			#return render_to_response("home/index.html")
+			return render_to_response("home/index.html")
 
 

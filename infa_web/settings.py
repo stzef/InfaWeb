@@ -114,6 +114,14 @@ TEMPLATES = [
 	},
 ]
 
+
+LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+	'infa_web.apps.usuarios.auth_backend.UserBackend',
+	'django.contrib.auth.backends.ModelBackend'
+)
+
 WSGI_APPLICATION = 'infa_web.wsgi.application'
 
 
