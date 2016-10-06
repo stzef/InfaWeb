@@ -8,7 +8,7 @@ class ParametersForm(forms.ModelForm):
 		super(ParametersForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Parameters
@@ -29,7 +29,7 @@ class CiudadForm(forms.ModelForm):
 		super(CiudadForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cdepar'].choices = [(item.pk, unicode(item)) for item in Departamento.objects.using(name_db).all()]
+		self.fields['cdepar'].queryset = Departamento.objects.using(name_db).all()
 
 	class Meta:
 		model = Ciudad
@@ -46,6 +46,9 @@ class CiudadForm(forms.ModelForm):
 		}
 
 class MediosPagoForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(MediosPagoForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = MediosPago
 		fields = "__all__"
@@ -64,7 +67,7 @@ class UbicaForm(forms.ModelForm):
 		super(UbicaForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Ubica
@@ -81,6 +84,10 @@ class UbicaForm(forms.ModelForm):
 		}
 
 class DepartamentoForm(forms.ModelForm):
+
+	def __init__(self, using='', *args, **kwargs):
+		super(DepartamentoForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Departamento
 		fields = "__all__"
@@ -94,6 +101,10 @@ class DepartamentoForm(forms.ModelForm):
 		}
 
 class StateForm(forms.ModelForm):
+
+	def __init__(self,using='', *args, **kwargs):
+		super(StateForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Esdo
 		fields = "__all__"
@@ -113,7 +124,7 @@ class IvaForm(forms.ModelForm):
 		super(IvaForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Iva
@@ -134,6 +145,9 @@ class IvaForm(forms.ModelForm):
 		}
 
 class RegivaForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(RegivaForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Regiva
 		fields = "__all__"
@@ -164,9 +178,9 @@ class CommonForm(forms.Form):
 		super(CommonForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['group'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
-		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
+		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
 	cesdo = forms.ModelChoiceField(queryset=Esdo.objects.all())
 	group = forms.ModelChoiceField(

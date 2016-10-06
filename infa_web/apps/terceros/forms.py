@@ -11,15 +11,15 @@ class ThirdPartyForm(forms.ModelForm):
 		
 		manageParameters = ManageParameters(name_db)
 
-		self.fields['ctiide'].choices = [(item.pk, unicode(item)) for item in Tiide.objects.using(name_db).all()]
-		self.fields['ciudad'].choices = [(item.pk, unicode(item)) for item in Ciudad.objects.using(name_db).all()]
-		self.fields['cregiva'].choices = [(item.pk, unicode(item)) for item in Regiva.objects.using(name_db).all()]
-		self.fields['cautorre'].choices = [(item.pk, unicode(item)) for item in Autorre.objects.using(name_db).all()]
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['cvende'].choices = [(item.pk, unicode(item)) for item in Vende.objects.using(name_db).all()]
-		self.fields['czona'].choices = [(item.pk, unicode(item)) for item in Zona.objects.using(name_db).all()]
-		self.fields['cruta'].choices = [(item.pk, unicode(item)) for item in Ruta.objects.using(name_db).all()]
-		self.fields['cpersona'].choices = [(item.pk, unicode(item)) for item in Personas.objects.using(name_db).all()]
+		self.fields['ctiide'].queryset = Tiide.objects.using(name_db).all()
+		self.fields['ciudad'].queryset = Ciudad.objects.using(name_db).all()
+		self.fields['cregiva'].queryset = Regiva.objects.using(name_db).all()
+		self.fields['cautorre'].queryset = Autorre.objects.using(name_db).all()
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
+		self.fields['czona'].queryset = Zona.objects.using(name_db).all()
+		self.fields['cruta'].queryset = Ruta.objects.using(name_db).all()
+		self.fields['cpersona'].queryset = Personas.objects.using(name_db).all()
 		
 		self.fields['ciudad'].initial = manageParameters.get_param_value("city_third_party")
 
@@ -94,6 +94,9 @@ class ThirdPartyForm(forms.ModelForm):
 		}
 
 class AutorretenedorForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(AutorretenedorForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Autorre
 		fields = "__all__"
@@ -111,7 +114,7 @@ class RouteForm(forms.ModelForm):
 		super(RouteForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Ruta
@@ -132,7 +135,7 @@ class ZoneForm(forms.ModelForm):
 		super(ZoneForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Zona

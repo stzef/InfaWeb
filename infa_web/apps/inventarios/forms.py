@@ -5,9 +5,13 @@ from django import forms
 from .models import *
 
 class InventoryForm(forms.Form):
+	def __init__(self, using='', *args, **kwargs):
+		super(InventoryForm, self).__init__(*args, **kwargs)
+
 	codigo = forms.CharField(label = 'Codigo', widget = forms.TextInput(attrs = {'class': 'form-control', 'required': True, 'readonly': True}))
 
 class InventoryReportStocksForm(forms.Form):
+
 	nota_inicial = forms.CharField(label = 'Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	fecha_nota_inicial = forms.CharField(label = 'Fecha Nota Inicial', widget = forms.TextInput(attrs = {'class': 'form-control', 'readonly': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))

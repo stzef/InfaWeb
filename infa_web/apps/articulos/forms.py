@@ -9,16 +9,16 @@ class ArticleForm(forms.ModelForm):
 		super(ArticleForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['cgpo'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
-		self.fields['cunidad'].choices = [(item.pk, unicode(item)) for item in Unidades.objects.using(name_db).all()]
-		self.fields['ivas_civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]
-		#self.fields['citerce1'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		#self.fields['citerce2'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		#self.fields['citerce3'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['cmarca'].choices = [(item.pk, unicode(item)) for item in Marca.objects.using(name_db).all()]
-		self.fields['cubica'].choices = [(item.pk, unicode(item)) for item in Ubica.objects.using(name_db).all()]
-		self.fields['ctiarlo'].choices = [(item.pk, unicode(item)) for item in Tiarlos.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['cgpo'].queryset = Gpo.objects.using(name_db).all()
+		self.fields['cunidad'].queryset = Unidades.objects.using(name_db).all()
+		self.fields['ivas_civa'].queryset = Iva.objects.using(name_db).all()
+		#self.fields['citerce1'].queryset = Tercero.objects.using(name_db).all()
+		#self.fields['citerce2'].queryset = Tercero.objects.using(name_db).all()
+		#self.fields['citerce3'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['cmarca'].queryset = Marca.objects.using(name_db).all()
+		self.fields['cubica'].queryset = Ubica.objects.using(name_db).all()
+		self.fields['ctiarlo'].queryset = Tiarlos.objects.using(name_db).all()
 
 	class Meta:
 		model = Arlo
@@ -122,10 +122,6 @@ class GpoForm(forms.ModelForm):
 		super(GpoForm, self).__init__(*args, **kwargs)
 		name_db = using
 
-		print "sdfsagasdfgasdfsadfsadfdfhggfhjlfknñlkvbmnfiljry"
-		print name_db
-		print "sdfsagasdfgasdfsadfsadfdfhggfhjlfknñlkvbmnfiljry"
-
 		lastCgpo = Gpo.objects.using(name_db).aggregate(Max('cgpo'))
 		if lastCgpo["cgpo__max"]:
 			recommendedCgpo = lastCgpo["cgpo__max"] + 1
@@ -151,6 +147,9 @@ class GpoForm(forms.ModelForm):
 		}
 
 class BreakdownArticleForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(BreakdownArticleForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Arlosdesglo
 		fields = "__all__"
@@ -174,7 +173,7 @@ class BrandForm(forms.ModelForm):
 		super(BrandForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Marca
@@ -191,6 +190,9 @@ class BrandForm(forms.ModelForm):
 		}
 		
 class TiarlosForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(Tiarlos, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Tiarlos
 		fields = "__all__"

@@ -45,6 +45,8 @@ def value_tot(query_array, code_find):
 
 @csrf_exempt
 def BillSave(request):
+	manageParameters = ManageParameters(request.db)
+
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
@@ -136,7 +138,11 @@ def BillSave(request):
 		fac_pago.save(using=request.db)
 
 	value = float(data['vttotal'])
-	ctimo = Timo.objects.using(request.db).get(pk = 3001)
+	
+	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
+	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+
+	ctimo = Timo.objects.using(request.db).get(pk = ctimo_rc_billing)
 	val_cont = 1
 	while(val_cont != 0):
 
@@ -200,7 +206,7 @@ def BillSave(request):
 				movideta.save(using=request.db)
 
 		if(value > medios_pagos_total):
-			ctimo = Timo.objects.using(request.db).get(pk = 4003)
+			ctimo = Timo.objects.using(request.db).get(pk = ctimo_cxc_billing)
 			vefe_t = 0
 			vtar_t = 0
 			vch_t = 0
