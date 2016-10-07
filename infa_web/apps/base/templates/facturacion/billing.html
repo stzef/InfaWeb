@@ -1180,9 +1180,13 @@
 		if(array_medios_pagos.length){
 			data.medios_pagos = array_medios_pagos
 		}else{
-			var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
-			currentForm.prepend(message)
-			return
+			if($("[name=ctifopa]").val() != data_validation.formas_pago.FORMA_PAGO_CONTADO){
+				data.medios_pagos = []
+			}else{
+				var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
+				currentForm.prepend(message)
+				return
+			}
 		}
 		if(array_mvdeta.length){
 			data.mvdeta = array_mvdeta
