@@ -266,6 +266,7 @@ def BillSave(request):
 
 @csrf_exempt
 def BillUpdate(request,pk):
+	manageParameters = ManageParameters(request.db)
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
