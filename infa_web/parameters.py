@@ -1,14 +1,25 @@
 from infa_web.settings import BASE_DIR
 import json
 import os.path
-class ManageParameters(object):
-	def __init__(self,domain):
-		super(ManageParameters, self).__init__()
-		self.domain = domain
-		self.path_file = BASE_DIR + '/infa_web/params/' + self.domain + '_params.json'
-		if not os.path.isfile(self.path_file):
-			print "----------------------------file no exists------------------"
+from django.core.exceptions import ImproperlyConfigured 
 
+from infa_web.custom.utils import get_subdomain_by_name_db
+
+class ManageParameters(object):
+	def __init__(self,name_db):
+		super(ManageParameters, self).__init__()
+		self.name_db = name_db
+		subdomain = get_subdomain_by_name_db(name_db)
+
+		print "--------------------"
+		print subdomain + " : " + name_db
+		print "--------------------"
+
+		self.path_file = BASE_DIR + '/infa_web/params/' + self.name_db + '_params.json'
+		if not os.path.isfile(self.path_file):
+			raise ImproperlyConfigured(
+				"Missing File Parameters. \nSubdomain : %s \nDatabase : %s \nPath : %s " % (subdomain,name_db,self.path_file)
+			)
 
 	def ok(self):
 		try:

@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, FormView
 from django.core.exceptions import ImproperlyConfigured 
 from django.db.models.query import QuerySet
 from django.utils import six
@@ -60,6 +60,48 @@ class CustomCreateView(CreateView):
 
 		return form_class(**kwargs)
 
+class CustomFormView(FormView):
+	# String para indicar el alias de la db
+	usingAlias = None
+
+	# retorna alias de db
+	def get_usignAlias_db(self):
+		if self.usingAlias is not None:
+			return self.usingAlias
+		else:
+			if self.request.db is None:
+				raise ImproperlyConfigured(
+					"Missing request.db"
+				)
+			else:
+				return self.request.db
+
+	# Valida y retorna la clase del formulario
+	def get_form_class(self):
+
+		if self.form_class is None:
+			raise ImproperlyConfigured(
+				"Form class is not specifying."
+			)
+		else:
+			self.form_class
+
+	# retorna el formulario construido
+	def get_form(self, form_class=None):
+		if self.form_class is None:
+			form_class = self.get_form_class()
+		else:
+			form_class = self.form_class
+
+		# Agregar using a los argumentos de formulario
+		kwargs = self.get_form_kwargs()
+
+		if self.usingAlias is not None:
+			kwargs['using'] = self.usingAlias
+		else:
+			kwargs['using'] = self.request.db
+
+		return form_class(**kwargs)
 
 class CustomListView(ListView):
 
@@ -102,7 +144,6 @@ class CustomListView(ListView):
 				)
 			else:
 				return self.request.db
-
 
 class CustomUpdateView(UpdateView):
 
