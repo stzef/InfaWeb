@@ -129,6 +129,8 @@
 											{{form.ccaja}}
 										</div>
 									</div>
+									<input type="hidden" name="{{form.cesdo.html_name}}" id="{{form.cesdo.id_for_label}}" value="{{form.cesdo.value}}">
+									<!--
 									<div class="form-group col-md-12">
 										<label for="{{form.cesdo.id_for_label}}" class="col-sm-3 control-label">{{form.cesdo.label}}</label>
 										{%if form.cesdo.errors%}
@@ -138,6 +140,7 @@
 											{{form.cesdo}}
 										</div>
 									</div>
+									-->
 								</div>
 							</div>
 						</div>
@@ -1159,7 +1162,7 @@
 			$("#id_carlos").focus()
 		}
 	})
-  console.log('{{url}}')
+	console.log('{{url}}')
 	$("#btn-save").click(function(event){
 
 		event.preventDefault()
@@ -1176,6 +1179,20 @@
 
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		var array_medios_pagos = get_data_list("#list_medios_pago")
+
+		var tot_medios_pagos = 0
+		array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
+
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			if(tot_medios_pagos < parseFloat($("[name=vttotal]").val())){
+				if(confirm("La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
+					$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
+				}else{
+					alert("El valor de pago no puede ser menor al valor total")
+					return
+				}
+			}
+		}
 
 		if(array_medios_pagos.length){
 			data.medios_pagos = array_medios_pagos
