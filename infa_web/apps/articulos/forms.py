@@ -5,20 +5,20 @@ from django.core.exceptions import ValidationError
 from django.db.models import Max
 
 class ArticleForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(ArticleForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['cgpo'].choices = [(item.pk, unicode(item)) for item in Gpo.objects.using(name_db).all()]
-		self.fields['cunidad'].choices = [(item.pk, unicode(item)) for item in Unidades.objects.using(name_db).all()]
-		self.fields['ivas_civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]
-		#self.fields['citerce1'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		#self.fields['citerce2'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		#self.fields['citerce3'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['cmarca'].choices = [(item.pk, unicode(item)) for item in Marca.objects.using(name_db).all()]
-		self.fields['cubica'].choices = [(item.pk, unicode(item)) for item in Ubica.objects.using(name_db).all()]
-		self.fields['ctiarlo'].choices = [(item.pk, unicode(item)) for item in Tiarlos.objects.using(name_db).all()]
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['cgpo'].queryset = Gpo.objects.using(name_db).all()
+		self.fields['cunidad'].queryset = Unidades.objects.using(name_db).all()
+		self.fields['ivas_civa'].queryset = Iva.objects.using(name_db).all()
+		#self.fields['citerce1'].queryset = Tercero.objects.using(name_db).all()
+		#self.fields['citerce2'].queryset = Tercero.objects.using(name_db).all()
+		#self.fields['citerce3'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['cmarca'].queryset = Marca.objects.using(name_db).all()
+		self.fields['cubica'].queryset = Ubica.objects.using(name_db).all()
+		self.fields['ctiarlo'].queryset = Tiarlos.objects.using(name_db).all()
 
 	class Meta:
 		model = Arlo
@@ -118,9 +118,9 @@ class ArticleForm(forms.ModelForm):
 
 class GpoForm(forms.ModelForm):
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(GpoForm, self).__init__(*args, **kwargs)
-		name_db = "db_1"
+		name_db = using
 
 		lastCgpo = Gpo.objects.using(name_db).aggregate(Max('cgpo'))
 		if lastCgpo["cgpo__max"]:
@@ -130,7 +130,7 @@ class GpoForm(forms.ModelForm):
 
 		self.fields['cgpo'].initial = recommendedCgpo
 
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Gpo
@@ -147,6 +147,9 @@ class GpoForm(forms.ModelForm):
 		}
 
 class BreakdownArticleForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(BreakdownArticleForm, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Arlosdesglo
 		fields = "__all__"
@@ -166,11 +169,11 @@ class BreakdownArticleForm(forms.ModelForm):
 		}
 
 class BrandForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(BrandForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
 		model = Marca
@@ -187,6 +190,9 @@ class BrandForm(forms.ModelForm):
 		}
 		
 class TiarlosForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(Tiarlos, self).__init__(*args, **kwargs)
+
 	class Meta:
 		model = Tiarlos
 		fields = "__all__"

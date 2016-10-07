@@ -102,7 +102,6 @@
 				detaanula:$("#id_detaanula").val().trim()
 			}),
 			function(response){
-				console.log(response)
 				$("form").trigger("reset")
 				$("form").prepend(alertBootstrap(response.message,"success"))
 			}

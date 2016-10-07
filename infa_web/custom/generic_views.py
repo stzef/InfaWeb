@@ -22,13 +22,43 @@ class CustomCreateView(CreateView):
 			else:
 				return self.request.db
 
-	# Cambiar comportamiento de form_valid
+	# Guarda el objeto desde el formulario 
 	def form_valid(self, form):
 		usingAlias = self.get_usignAlias_db()
 
+		# Instanciar objeto
 		obj = form.save(commit=False)
+		# Guardar objeto en la base de datos
 		self.object = obj.save(using=usingAlias)
+
 		return super(CustomCreateView, self).form_valid(form)
+
+	# Valida y retorna la clase del formulario
+	def get_form_class(self):
+
+		if self.form_class is None:
+			raise ImproperlyConfigured(
+				"Form class is not specifying."
+			)
+		else:
+			self.form_class
+
+	# retorna el formulario construido
+	def get_form(self, form_class=None):
+		if self.form_class is None:
+			form_class = self.get_form_class()
+		else:
+			form_class = self.form_class
+
+		# Agregar using a los argumentos de formulario
+		kwargs = self.get_form_kwargs()
+
+		if self.usingAlias is not None:
+			kwargs['using'] = self.usingAlias
+		else:
+			kwargs['using'] = self.request.db
+
+		return form_class(**kwargs)
 
 
 class CustomListView(ListView):
@@ -91,7 +121,6 @@ class CustomUpdateView(UpdateView):
 			else:
 				return self.request.db
 
-
 	# retorna el queryset
 	def get_queryset(self):
 
@@ -109,9 +138,41 @@ class CustomUpdateView(UpdateView):
 
 		return self.queryset.all()
 
+	# Guarda el objeto desde el formulario 
 	def form_valid(self, form):
 		usingAlias = self.get_usignAlias_db()
+
+		print "--------------...................---------------------------"
+		print usingAlias
+		print "--------------...................---------------------------"
 
 		obj = form.save(commit=False)
 		self.object = obj.save(using=usingAlias)
 		return super(CustomUpdateView, self).form_valid(form)
+
+	# Valida y retorna la clase del formulario
+	def get_form_class(self):
+
+		if self.form_class is None:
+			raise ImproperlyConfigured(
+				"Form class is not specifying."
+			)
+		else:
+			self.form_class
+
+	# retorna el formulario construido
+	def get_form(self, form_class=None):
+		if self.form_class is None:
+			form_class = self.get_form_class()
+		else:
+			form_class = self.form_class
+
+		# Agregar using a los argumentos de formulario
+		kwargs = self.get_form_kwargs()
+
+		if self.usingAlias is not None:
+			kwargs['using'] = self.usingAlias
+		else:
+			kwargs['using'] = self.request.db
+
+		return form_class(**kwargs)

@@ -223,7 +223,7 @@ def inventory_save(request):
 	except Invinicab.DoesNotExist:
 		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
 		invini.save(using=request.db)
-		manageParameters = ManageParameters()
+		manageParameters = ManageParameters(request.db)
 		sv_cant = False
 		if manageParameters.get_param_value("initial_note") == '@':
 			manageParameters.set_param_object("initial_note", cii)
@@ -317,7 +317,7 @@ class InventoryPDFStocks(PDFTemplateView):
 		context = super(InventoryPDFStocks, self).get_context_data(**kwargs)
 		data = self.request.GET
 		type_report = data.getlist('type_report')
-		costing_and_stock({'start_date': datetime.datetime.strptime(data.get('fecha_nota_inicial'), '%Y-%m-%d'), 'end_date': datetime.datetime.strptime(data.get('fecha_final'), '%Y-%m-%d')}, True) if '2' in type_report else ''
+		costing_and_stock({'start_date': datetime.datetime.strptime(data.get('fecha_nota_inicial'), '%Y-%m-%d'), 'end_date': datetime.datetime.strptime(data.get('fecha_final'), '%Y-%m-%d')}, True,{},self.request.db) if '2' in type_report else ''
 		context['invini'] = Invinicab.objects.using(self.request.db).get(pk = data.get('nota_inicial'))
 		invinideta_set = Invinideta.objects.using(self.request.db).filter(cii = data.get('nota_inicial')).order_by('carlos__cgpo', 'carlos__carlos') if data.get('group_report') == 'G' else Invinideta.objects.using(self.request.db).filter(cii = data.get('nota_inicial')).order_by('carlos__cmarca', 'carlos__carlos')
 		invinideta_set = invinideta_set.filter(carlos__cmarca = data.get('marcas')) if ((data.get('marcas') != 'ALL' and data.get('marcas') != '') and data.get('group_report') == 'M') else invinideta_set.filter(carlos__cgpo = data.get('grupos')) if ((data.get('grupos') != 'ALL' and data.get('grupos') != '') and data.get('group_report') == 'G') else invinideta_set

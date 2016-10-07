@@ -4,17 +4,17 @@ from django import forms
 from infa_web.apps.facturacion.models import *
 
 class FacForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacForm, self).__init__(*args, **kwargs)
 
-		name_db = "db_1"
-		self.fields['citerce'].choices = [(item.pk, unicode(item)) for item in Tercero.objects.using(name_db).all()]
-		self.fields['cesdo'].choices = [(item.pk, unicode(item)) for item in Esdo.objects.using(name_db).all()]
-		self.fields['ccaja'].choices = [(item.pk, unicode(item)) for item in Caja.objects.using(name_db).all()]
-		self.fields['cvende'].choices = [(item.pk, unicode(item)) for item in Vende.objects.using(name_db).all()]
-		self.fields['cdomici'].choices = [(item.pk, unicode(item)) for item in Domici.objects.using(name_db).all()]
-		self.fields['cemdor'].choices = [(item.pk, unicode(item)) for item in Emdor.objects.using(name_db).all()]
-		self.fields['ctifopa'].choices = [(item.pk, unicode(item)) for item in Tifopa.objects.using(name_db).all()]
+		name_db = using
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
+		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
+		self.fields['cdomici'].queryset = Domici.objects.using(name_db).all()
+		self.fields['cemdor'].queryset = Emdor.objects.using(name_db).all()
+		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
 		
 	class Meta:
 		model = Fac
@@ -96,13 +96,12 @@ class FacForm(forms.ModelForm):
 		}
 
 class FacdetaForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacdetaForm, self).__init__(*args, **kwargs)
-
-		name_db = "db_1"
-		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
-		self.fields['carlos'].choices = [(item.pk, unicode(item)) for item in Arlo.objects.using(name_db).all()]
-		self.fields['civa'].choices = [(item.pk, unicode(item)) for item in Iva.objects.using(name_db).all()]
+		name_db = using
+		self.fields['cfac'].queryset = Fac.objects.using(name_db).all()
+		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
+		self.fields['civa'].queryset = Iva.objects.using(name_db).all()
 
 	class Meta:
 		model = Facdeta
@@ -145,14 +144,13 @@ class FacdetaForm(forms.ModelForm):
 		}
 
 class FacpagoForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, using='', *args, **kwargs):
 		super(FacpagoForm, self).__init__(*args, **kwargs)
-		name_db = "db_1"
-	
+
+		name_db = using
 		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
 		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
-
-		self.fields['cfac'].choices = [(item.pk, unicode(item)) for item in Fac.objects.using(name_db).all()]
+		self.fields['cfac'].queryset = Fac.objects.using(name_db).all()
 
 	class Meta:
 		model = Facpago

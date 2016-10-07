@@ -9,12 +9,20 @@ DB = {
 		'HOST': 'localhost',
 		'PORT': '',
 		'TEST': {
-			'NAME': 'infaweb_db',
+			'NAME': 'appem_test',
 			'USER': 'root',
 			'PASSWORD': 'root',
 			'HOST': 'localhost',
 			'PORT': '',
 		},
+	},
+	'appem_test': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'appem_test',
+		'USER': 'root',
+		'PASSWORD': 'root',
+		'HOST': 'localhost',
+		'PORT': '',
 	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
