@@ -448,10 +448,12 @@
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
-					<button class="btn btn-app" type="button" id="print_bill">
-						<i class="fa fa-print"></i>
-						Imprimir
-					</button>
+					{% if mode_view == "edit" %}
+						<button class="btn btn-app" type="button" id="print_bill">
+							<i class="fa fa-print"></i>
+							Imprimir
+						</button>
+					{% endif %}
 
 					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
@@ -893,7 +895,7 @@
 		/*
 			Ejecuta la funcion para imprimir la factura actual
 		*/
-		print_bill(1)
+		print_bill("{{form.cfac.value}}")
 	})
 
 	$(window).keydown(function(event) {

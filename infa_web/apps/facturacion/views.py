@@ -572,8 +572,9 @@ class BillEdit(CustomUpdateView):
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
 		context['form_medios_pagos'] = FacpagoForm
 
-		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('save-bill')
+		context['mode_view'] = 'edit'
+		#context['url'] = reverse_lazy('save-bill')
+		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
 
 		context['data_validation'] = {}
 

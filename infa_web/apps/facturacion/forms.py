@@ -109,7 +109,7 @@ class FacdetaForm(forms.ModelForm):
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
 			'carlos' : forms.Select(attrs={'class':'form-control','required':True}),
-			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
+			'civa' : forms.Select(attrs={'class':'form-control','required':True,"disabled":True}),
 			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
