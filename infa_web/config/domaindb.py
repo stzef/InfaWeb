@@ -4,5 +4,6 @@
 
 DOMAINS = {
 	'upc' : 'default',
-	'stzef' : 'db_1'
+	'stzef' : 'db_1',
+	'testempresa' : 'test_db',
 }
