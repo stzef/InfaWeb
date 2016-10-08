@@ -350,7 +350,7 @@ def BillUpdate(request,pk):
 			)
 
 		try:
-			movideta = movi[0].movideta_set.get(itmovi = data_facpago['it'])
+			movideta = movi[0].movideta_set.using(request.db).get(itmovi = data_facpago['it'])
 			movideta.vmovi = float(data_facpago['vmpago'])
 		except Movideta.DoesNotExist:
 			movideta = Movideta(
@@ -379,7 +379,12 @@ def BillUpdate(request,pk):
 	movi.save(using=request.db)
 
 	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
-	movideta = movi[0].movideta_set.get(itmovi = 1)
+	print "----------------------------------"
+	print movi
+	print "----------------------------------"
+	print movi_find
+	print "----------------------------------"
+	movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
 	if(val_tot_mp < float(data['vttotal'])):
 		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
 		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
@@ -481,7 +486,7 @@ class BillCreate(CustomCreateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
@@ -571,7 +576,7 @@ class BillEdit(CustomUpdateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
 		context['mode_view'] = 'edit'
 		#context['url'] = reverse_lazy('save-bill')
