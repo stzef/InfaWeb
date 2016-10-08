@@ -497,7 +497,7 @@ class BillCreate(CustomCreateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -588,7 +588,7 @@ class BillEdit(CustomUpdateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -688,10 +688,10 @@ class BillPrint(PDFTemplateView):
 		data = self.request.GET
 
 		# Datos de Prueba
-		usuario = Usuario.objects.using(self.request.db).filter()[0]
+		"""usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		talonario_MOS = usuario.ctalomos
-		talonario_POS = usuario.ctalopos
+		talonario_POS = usuario.ctalopos"""
 		# Datos de Prueba
 
 		formato = data.get('formato')
@@ -750,7 +750,7 @@ class BillPrint(PDFTemplateView):
 
 		context['factura'] = factura
 		context['factura_deta'] = factura_deta
-		context['usuario'] = usuario
+		"""context['usuario'] = usuario"""
 
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'
