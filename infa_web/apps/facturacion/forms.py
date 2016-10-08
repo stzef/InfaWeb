@@ -149,8 +149,10 @@ class FacpagoForm(forms.ModelForm):
 
 		name_db = using
 		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmpago'].queryset = MediosPago.objects.using(name_db).all()
 		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
 		self.fields['cfac'].queryset = Fac.objects.using(name_db).all()
+		self.fields['banmpago'].queryset = Banfopa.objects.using(name_db).all()
 
 	class Meta:
 		model = Facpago

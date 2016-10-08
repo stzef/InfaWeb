@@ -350,7 +350,7 @@ def BillUpdate(request,pk):
 			)
 
 		try:
-			movideta = movi[0].movideta_set.get(itmovi = data_facpago['it'])
+			movideta = movi[0].movideta_set.using(request.db).get(itmovi = data_facpago['it'])
 			movideta.vmovi = float(data_facpago['vmpago'])
 		except Movideta.DoesNotExist:
 			movideta = Movideta(
@@ -379,7 +379,12 @@ def BillUpdate(request,pk):
 	movi.save(using=request.db)
 
 	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
-	movideta = movi[0].movideta_set.get(itmovi = 1)
+	print "----------------------------------"
+	print movi
+	print "----------------------------------"
+	print movi_find
+	print "----------------------------------"
+	movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
 	if(val_tot_mp < float(data['vttotal'])):
 		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
 		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
@@ -481,7 +486,7 @@ class BillCreate(CustomCreateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
@@ -497,7 +502,7 @@ class BillCreate(CustomCreateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -571,7 +576,7 @@ class BillEdit(CustomUpdateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
 		context['mode_view'] = 'edit'
 		#context['url'] = reverse_lazy('save-bill')
@@ -588,7 +593,7 @@ class BillEdit(CustomUpdateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -688,10 +693,10 @@ class BillPrint(PDFTemplateView):
 		data = self.request.GET
 
 		# Datos de Prueba
-		usuario = Usuario.objects.using(self.request.db).filter()[0]
+		"""usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		talonario_MOS = usuario.ctalomos
-		talonario_POS = usuario.ctalopos
+		talonario_POS = usuario.ctalopos"""
 		# Datos de Prueba
 
 		formato = data.get('formato')
@@ -750,7 +755,7 @@ class BillPrint(PDFTemplateView):
 
 		context['factura'] = factura
 		context['factura_deta'] = factura_deta
-		context['usuario'] = usuario
+		"""context['usuario'] = usuario"""
 
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'
