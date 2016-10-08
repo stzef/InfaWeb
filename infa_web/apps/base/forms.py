@@ -49,6 +49,7 @@ class MediosPagoForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(MediosPagoForm, self).__init__(*args, **kwargs)
 
+
 	class Meta:
 		model = MediosPago
 		fields = "__all__"

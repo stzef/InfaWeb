@@ -109,7 +109,7 @@ class FacdetaForm(forms.ModelForm):
 		widgets = {
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
 			'carlos' : forms.Select(attrs={'class':'form-control','required':True}),
-			'civa' : forms.Select(attrs={'class':'form-control','required':True,"readonly":True}),
+			'civa' : forms.Select(attrs={'class':'form-control','required':True,"disabled":True}),
 			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
@@ -149,8 +149,10 @@ class FacpagoForm(forms.ModelForm):
 
 		name_db = using
 		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmpago'].queryset = MediosPago.objects.using(name_db).all()
 		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
 		self.fields['cfac'].queryset = Fac.objects.using(name_db).all()
+		self.fields['banmpago'].queryset = Banfopa.objects.using(name_db).all()
 
 	class Meta:
 		model = Facpago

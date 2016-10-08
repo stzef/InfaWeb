@@ -129,6 +129,8 @@
 											{{form.ccaja}}
 										</div>
 									</div>
+									<input type="hidden" name="{{form.cesdo.html_name}}" id="{{form.cesdo.id_for_label}}" value="{{form.cesdo.value}}">
+									<!--
 									<div class="form-group col-md-12">
 										<label for="{{form.cesdo.id_for_label}}" class="col-sm-3 control-label">{{form.cesdo.label}}</label>
 										{%if form.cesdo.errors%}
@@ -138,6 +140,7 @@
 											{{form.cesdo}}
 										</div>
 									</div>
+									-->
 								</div>
 							</div>
 						</div>
@@ -445,10 +448,12 @@
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
-					<button class="btn btn-app" type="button" id="print_bill">
-						<i class="fa fa-print"></i>
-						Imprimir
-					</button>
+					{% if mode_view == "edit" %}
+						<button class="btn btn-app" type="button" id="print_bill">
+							<i class="fa fa-print"></i>
+							Imprimir
+						</button>
+					{% endif %}
 
 					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 				</div>
@@ -890,7 +895,7 @@
 		/*
 			Ejecuta la funcion para imprimir la factura actual
 		*/
-		print_bill(1)
+		print_bill("{{form.cfac.value}}")
 	})
 
 	$(window).keydown(function(event) {
@@ -1159,7 +1164,7 @@
 			$("#id_carlos").focus()
 		}
 	})
-  console.log('{{url}}')
+	console.log('{{url}}')
 	$("#btn-save").click(function(event){
 
 		event.preventDefault()
@@ -1177,12 +1182,30 @@
 		var array_mvdeta = get_data_list("#list_items_mdeta")
 		var array_medios_pagos = get_data_list("#list_medios_pago")
 
+		var tot_medios_pagos = 0
+		array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
+
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			if(tot_medios_pagos < parseFloat($("[name=vttotal]").val())){
+				if(confirm("La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
+					$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
+				}else{
+					alert("El valor de pago no puede ser menor al valor total")
+					return
+				}
+			}
+		}
+
 		if(array_medios_pagos.length){
 			data.medios_pagos = array_medios_pagos
 		}else{
-			var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
-			currentForm.prepend(message)
-			return
+			if($("[name=ctifopa]").val() != data_validation.formas_pago.FORMA_PAGO_CONTADO){
+				data.medios_pagos = []
+			}else{
+				var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
+				currentForm.prepend(message)
+				return
+			}
 		}
 		if(array_mvdeta.length){
 			data.mvdeta = array_mvdeta

@@ -138,7 +138,7 @@ def BillSave(request):
 		fac_pago.save(using=request.db)
 
 	value = float(data['vttotal'])
-	
+
 	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
 	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
@@ -266,6 +266,7 @@ def BillSave(request):
 
 @csrf_exempt
 def BillUpdate(request,pk):
+	manageParameters = ManageParameters(request.db)
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
@@ -279,6 +280,9 @@ def BillUpdate(request,pk):
 	vncred_t = 0
 	val_tot_mp = 0
 	exclude_arlo = []
+
+	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
+	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
 	print (json.dumps(data,indent=4))
 
@@ -324,7 +328,7 @@ def BillUpdate(request,pk):
 
 	movi_find = Movi.objects.using(request.db).filter(movideta__docrefe = fac.cfac)
 	for data_facpago in data["medios_pagos"]:
-		movi = movi_find.filter(ctimo__pk = 3001)
+		movi = movi_find.filter(ctimo__pk = ctimo_rc_billing)
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
@@ -346,7 +350,7 @@ def BillUpdate(request,pk):
 			)
 
 		try:
-			movideta = movi[0].movideta_set.get(itmovi = data_facpago['it'])
+			movideta = movi[0].movideta_set.using(request.db).get(itmovi = data_facpago['it'])
 			movideta.vmovi = float(data_facpago['vmpago'])
 		except Movideta.DoesNotExist:
 			movideta = Movideta(
@@ -374,8 +378,13 @@ def BillUpdate(request,pk):
 	movi.vtdescu = float(data['vdescu'])
 	movi.save(using=request.db)
 
-	movi = movi_find.filter(ctimo__pk = 4003)
-	movideta = movi[0].movideta_set.get(itmovi = 1)
+	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
+	print "----------------------------------"
+	print movi
+	print "----------------------------------"
+	print movi_find
+	print "----------------------------------"
+	movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
 	if(val_tot_mp < float(data['vttotal'])):
 		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
 		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
@@ -477,7 +486,7 @@ class BillCreate(CustomCreateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
@@ -493,7 +502,7 @@ class BillCreate(CustomCreateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -567,10 +576,11 @@ class BillEdit(CustomUpdateView):
 
 		context['title'] = "Facturar"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
-		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('save-bill')
+		context['mode_view'] = 'edit'
+		#context['url'] = reverse_lazy('save-bill')
+		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
 
 		context['data_validation'] = {}
 
@@ -583,7 +593,7 @@ class BillEdit(CustomUpdateView):
 		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
 
 		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 2
+		context['data_validation']['maximum_number_items_billing'] = 10
 		# Datos de Prueba
 
 		context['data_validation']['formas_pago'] = {}
@@ -683,10 +693,10 @@ class BillPrint(PDFTemplateView):
 		data = self.request.GET
 
 		# Datos de Prueba
-		usuario = Usuario.objects.using(self.request.db).filter()[0]
+		"""usuario = Usuario.objects.using(self.request.db).filter()[0]
 
 		talonario_MOS = usuario.ctalomos
-		talonario_POS = usuario.ctalopos
+		talonario_POS = usuario.ctalopos"""
 		# Datos de Prueba
 
 		formato = data.get('formato')
@@ -745,7 +755,7 @@ class BillPrint(PDFTemplateView):
 
 		context['factura'] = factura
 		context['factura_deta'] = factura_deta
-		context['usuario'] = usuario
+		"""context['usuario'] = usuario"""
 
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'

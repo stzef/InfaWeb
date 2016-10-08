@@ -114,6 +114,9 @@ TEMPLATES = [
 	},
 ]
 
+
+LOGIN_REDIRECT_URL = '/'
+
 WSGI_APPLICATION = 'infa_web.wsgi.application'
 
 
@@ -172,11 +175,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_ROOT = 'static'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
 
 STATICFILES_DIRS = (
+	#os.path.join(BASE_DIR, 'static'),
 	os.path.join(BASE_DIR, 'infa_web/static'),
 )
