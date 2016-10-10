@@ -582,6 +582,7 @@
 				}
 			}
 			if(if_return_mpvta) return pvta_menor
+			$("#lista_precios .modal-body").append("<p>Cantidad Actual: " + current_arlo.canti + "</p>")
 			$("#lista_precios .modal-body").append(table)
 			$("#lista_precios").modal("show")
 	}
@@ -805,7 +806,14 @@
 		/*
 			Validacion
 			Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no
-		*/
+		*/	
+		if(!data_validation.invoice_without_stock){
+			if(parseFloat($(this).val()) > parseFloat(current_arlo.canti)){
+				if(!confirm("Va ha vender una cantidad a las Existencias. Existencia = " + current_arlo.canti + ", ¿Desea Continuar?")){
+					$(this).val("")
+				}
+			}
+		}
 		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
 			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
 				$(this).val("")
@@ -1226,6 +1234,7 @@
 				$(".animation").empty()
 			},
 			success: function(response){
+				console.log(response)
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
