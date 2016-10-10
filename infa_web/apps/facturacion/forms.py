@@ -2,6 +2,7 @@
 from django import forms
 
 from infa_web.apps.facturacion.models import *
+from infa_web.parameters import ManageParameters
 
 class FacForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
@@ -172,3 +173,22 @@ class FacpagoForm(forms.ModelForm):
 			'vmpago' : 'Valor Medio Pago',
 		}
 
+class ReportVentaForm(forms.Form):
+	fecha_inicial = forms.CharField(label = 'Fecha Inicial', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+	cvende = forms.ModelChoiceField(
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Vende.objects.all()
+	)
+	citerce = forms.ModelChoiceField(
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Tercero.objects.all()
+	)
+	def __init__(self, using='', *args, **kwargs):
+		super(ReportVentaForm, self).__init__(*args, **kwargs)
+		name_db = using
+
+		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+
+		manageParameters = ManageParameters(name_db)

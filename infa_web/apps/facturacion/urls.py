@@ -17,6 +17,9 @@ url = [
 
 	url(r'^bill/proccess/fn/annulment$', bill_proccess_fn_annulment, name = 'bill_proccess_fn_annulment'),
 	url(r'^bill/proccess/view/annulment$', bill_proccess_view_annulment, name = 'bill_proccess_view_annulment'),
+
+	url(r'^bill/reports/fn/ventas$', report_fn_bill.as_view(), name = 'report_fn_bill'),
+	url(r'^bill/reports/view/ventas$', report_view_bill, name = 'report_view_bill'),
 ]
 
 urlpatterns = url
