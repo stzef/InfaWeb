@@ -42,7 +42,7 @@ def code_generate(Model, ccaja, value_get, request_db):
 		value_sum = str(int(value[2:]) + 1)
 		cant_space = 8-int(len(value_sum))
 		model_pk = ccaja.ctimocj.prefijo + (cant_space * '0') + value_sum
-	except Fac.DoesNotExist:
+	except Model.DoesNotExist:
 		model_pk = ccaja.ctimocj.prefijo+'00001000'
 	return model_pk
 

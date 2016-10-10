@@ -95,3 +95,61 @@ ProgrammingError: relation "terceros_vende" does not exist
 LINE 1: ...nde"."porventa", "terceros_vende"."cesdo_id" FROM "terceros_...
                                                              ^
 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 08:02:00,747 base 5611 139699448444672 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 233, in BillSave
+    movi_pk = code_generate(Movi, ccaja, 'cmovi', request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 41, in code_generate
+    value = str(Model.objects.using(request_db).latest(value_get))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 544, in latest
+    return self._earliest_or_latest(field_name=field_name, direction="-")
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 538, in _earliest_or_latest
+    return obj.get()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 08:02:56,007 base 5611 139699448444672 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 233, in BillSave
+    movi_pk = code_generate(Movi, ccaja, 'cmovi', request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 41, in code_generate
+    value = str(Model.objects.using(request_db).latest(value_get))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 544, in latest
+    return self._earliest_or_latest(field_name=field_name, direction="-")
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 538, in _earliest_or_latest
+    return obj.get()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 08:06:00,707 base 6250 140456293820160 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 806, in get_context_data
+    factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Fac matching query does not exist.
