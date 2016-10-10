@@ -915,3 +915,78 @@ Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 21, in process_request
     print type(manageParameters.to_dict())
 TypeError: to_dict() takes exactly 2 arguments (1 given)
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 15:23:34,401 base 7830 140058135901952 Internal Server Error: /articles/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
+    response = response.render()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
+    self.content = self.rendered_content
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  database "stzef" does not exist
+

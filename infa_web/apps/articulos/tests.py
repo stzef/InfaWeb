@@ -9,12 +9,12 @@ from infa_web.apps.inventarios.models import *
 from infa_web.routines import *
 
 class ExampleCase(TestCase):
-	c = Client()
 
 	def setUp(self):
-		print "hola"
-		response = c.post('/article/add/', {'username': 'john', 'password': 'smith'})
-		print response.status_code
+		pass
 
 	def example(self):
-		print "hola"
+		c = Client()
+		response = c.post('http://stzef.appem.com:8000/articles/add/', {},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		#response = c.post('http://stzef.appem.com:8000/articles/add/', {},content_type="multipart/form-data",HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		print response
