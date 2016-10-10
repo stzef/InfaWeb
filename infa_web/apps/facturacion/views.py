@@ -956,8 +956,6 @@ def bill_proccess_fn_annulment(request):
 		response["message"] = "La Factura no existe."
 		return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
-
-
 class BillPrint(PDFTemplateView):
 	template_name = "facturacion/print_bill_format_half_letter.html"
 
@@ -1034,3 +1032,80 @@ class BillPrint(PDFTemplateView):
 		context['data'] = data
 		context['title'] = 'Impresion de Facturas'
 		return context
+
+def report_view_bill(request):
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"facturacion/reportes/views/ventas.html",{"form":form,"form_common":form_common})
+
+class report_fn_bill(PDFTemplateView):
+	template_name = "facturacion/reportes/fn/ventas.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(report_fn_bill, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+		data = self.request.GET
+
+		context['title'] = 'Reporte de Ventas Por Rango de Fechas'
+		cells = {
+			"cvende":{"show":True},
+			"citerce":{"show":True}
+		}
+		context['header'] = {
+			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+		}
+		cvende = data["cvende"]
+		citerce = data["citerce"]
+
+		print "-------------------------------"
+		print data["cvende"]
+		print "-------------------------------"
+		
+		query_facturas = {}
+		"""query_facturas = {
+			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+		}
+		"""
+		if(cvende):
+			query_facturas["cvende__cvende"] = cvende
+			context['title'] += " Por Vendedor"
+			context['header']["Vendedor"] = Vende.objects.using(self.request.db).get(cvende=cvende).nvende
+			cells["cvende"]["show"] = False
+		if(citerce):
+			query_facturas["citerce__citerce"] = citerce
+			context['title'] += " Por Cliente"
+			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
+			cells["citerce"]["show"] = False
+
+		totales = {}
+
+		"""facturas = Fac.objects.using(self.request.db).filter(**query_facturas)"""
+		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
+		
+		totales["subtotal"] = 0
+		totales["total"] = 0
+		totales["vtt_sin_iva"] = 0
+		totales["vtt_base_iva"] = 0
+		totales["vtt_iva"] = 0
+
+		for factura in facturas:
+			factura.data_report = {}
+			totales["subtotal"] += factura.vttotal
+			totales["total"] += factura.vttotal
+
+			factura.data_report["vt_sin_iva"] = factura.vttotal -factura.vtiva
+			factura.data_report["vt_base_iva"] = factura.vtbase
+			factura.data_report["vt_iva"] = factura.vtiva
+
+			totales["vtt_sin_iva"] += factura.data_report["vt_sin_iva"]
+			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
+			totales["vtt_iva"] += factura.data_report["vt_iva"]
+
+
+		context['data'] = data
+		context['facturas'] = facturas
+		context['cells'] = cells
+		context['totales'] = totales
+		return context
+
