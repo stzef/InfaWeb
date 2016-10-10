@@ -137,7 +137,6 @@ def BillSave(request):
 
 	response = {}
 	fac_pk = ""
-	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
 
@@ -359,7 +358,6 @@ def BillUpdate(request,pk):
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
-	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
 	medios_pagos_total = 0
@@ -400,7 +398,7 @@ def BillUpdate(request,pk):
 	fac.vcred = vncred_t
 	fac.vflete = float(data['vflete'])
 	fac.vdescu = float(data['vdescu'])
-	fac.vttotal = float(vttotal)
+	fac.vttotal = float(data['vttotal'])
 	fac.ventre = float(data['ventre'])
 	fac.vcambio = float(data['vcambio'])
 	fac.cvende = cvende
