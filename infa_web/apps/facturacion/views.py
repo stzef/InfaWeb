@@ -23,6 +23,8 @@ from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
+from infa_web.apps.base.utils import *
+from django.core.exceptions import ObjectDoesNotExist
 
 class BillList(CustomListView):
 	model = Fac
@@ -34,34 +36,127 @@ class BillList(CustomListView):
 		context['title'] = "Listar Facturas"
 		return context
 
-def code_generate(value, prefix):
-	value_sum = str(int(value[2:])+1)
-	cant_space = 8-int(len(value_sum))
-	return prefix+(cant_space*'0')+value_sum
+def code_generate(Model, ccaja, value_get, request_db):
+	try:
+		value = str(Model.objects.using(request_db).latest(value_get))
+		value_sum = str(int(value[2:]) + 1)
+		cant_space = 8-int(len(value_sum))
+		model_pk = ccaja.ctimocj.prefijo + (cant_space * '0') + value_sum
+	except Fac.DoesNotExist:
+		model_pk = ccaja.ctimocj.prefijo+'00001000'
+	return model_pk
 
 def value_tot(query_array, code_find):
 	print query_array
 	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
+def save_fac(fac_pk, request_db, fac_array):
+	fac = get_or_none(Fac, request_db, cfac = fac_pk)
+	if fac is not None:
+		fac.citerce = fac_array['citerce']
+		fac.cesdo = fac_array['cesdo']
+		fac.fpago = fac_array['fpago']
+		fac.ctifopa = fac_array['ctifopa']
+		fac.descri = fac_array['descri']
+		fac.vtbase = fac_array['vtbase']
+		fac.vtiva = fac_array['vtiva']
+		fac.vflete = fac_array['vflete']
+		fac.vdescu = fac_array['vdescu']
+		fac.vttotal = fac_array['vttotal']
+		fac.ventre = fac_array['ventre']
+		fac.vcambio = fac_array['vcambio']
+		fac.cvende = fac_array['cvende']
+		fac.cdomici = fac_array['cdomici']
+		fac.tpordes = fac_array['tpordes']
+		fac.cemdor = fac_array['cemdor']
+		fac.brtefte = fac_array['brtefte']
+		fac.prtefte = fac_array['prtefte']
+		fac.vrtefte = fac_array['vrtefte']
+		fac.vefe = fac_array['vefe']
+		fac.vtar = fac_array['vtar']
+		fac.vch = fac_array['vch']
+		fac.vcred = fac_array['vcred']
+	else:
+		fac = Fac(
+			cfac = fac_pk,
+			femi = fac_array['femi'],
+			citerce = fac_array['citerce'],
+			cesdo = fac_array['cesdo'],
+			fpago = fac_array['fpago'],
+			ctifopa = fac_array['ctifopa'],
+			descri = fac_array['descri'],
+			vtbase = fac_array['vtbase'],
+			vtiva = fac_array['vtiva'],
+			vflete = fac_array['vflete'],
+			vdescu = fac_array['vdescu'],
+			vttotal = fac_array['vttotal'],
+			ventre = fac_array['ventre'],
+			vcambio = fac_array['vcambio'],
+			ccaja = fac_array['ccaja'],
+			cvende = fac_array['cvende'],
+			cdomici = fac_array['cdomici'],
+			tpordes = fac_array['tpordes'],
+			cemdor = fac_array['cemdor'],
+			brtefte = fac_array['brtefte'],
+			prtefte = fac_array['prtefte'],
+			vrtefte = fac_array['vrtefte'],
+			vefe = fac_array['vefe'],
+			vtar = fac_array['vtar'],
+			vch = fac_array['vch'],
+			vcred = fac_array['vcred']
+		)
+	fac.save(using = request_db)
+	return fac
+
+def save_mvsa(docrefe, request_db, mvsa_array):
+	mvsa = get_or_none(Mvsa, request_db, docrefe = docrefe)
+	if mvsa is not None:
+		mvsa.citerce = mvsa_array['citerce']
+		mvsa.vttotal = mvsa_array['vttotal']
+		mvsa.descri = mvsa_array['descri']
+	else:
+		mvsa = Mvsa(
+			fmvsa = mvsa_array['fmvsa'],
+			docrefe = mvsa_array['docrefe'],
+			citerce = mvsa_array['citerce'],
+			ctimo = mvsa_array['ctimo'],
+			cesdo = mvsa_array['cesdo'],
+			vttotal = mvsa_array['vttotal'],
+			descri = mvsa_array['descri']
+		)
+	mvsa.save(using = request_db)
+	return mvsa
+
 @csrf_exempt
 def BillSave(request):
 	manageParameters = ManageParameters(request.db)
 
+	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
+	print (json.dumps(data,indent=4))
+
 	response = {}
 	fac_pk = ""
 	vttotal = 0
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
+
+	# variable para total de medios de pago
 	medios_pagos_total = 0
+
+	# variable para total de pago en efectivo
 	vefe_t = 0
+
+	# variable para total de pago en tarjeta de credito
 	vtar_t = 0
+
+	# variable para total de pago en cheque
 	vch_t = 0
+
+	# variable para total de credito
 	vncred_t = 0
 
-	print (json.dumps(data,indent=4))
-	#print json.dumps(data, indent=4)
-
+	# Busqueda a modelos de acuerdo a los parametros recibidos
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
@@ -70,87 +165,72 @@ def BillSave(request):
 	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
+	value_vttotal = float(data['vttotal'])
+	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
+	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+	ctimo = Timo.objects.using(request.db).get(pk = ctimo_rc_billing)
+	val_cont = 1
+
+	# sumatoria para cada forma de pago
 	vefe_t = value_tot(data["medios_pagos"], 1000)
 	vtar_t = value_tot(data["medios_pagos"], 1001)
 	vch_t = value_tot(data["medios_pagos"], 1002)
 	vncred_t = value_tot(data["medios_pagos"], 1003)
 
-	try:
-		value = Fac.objects.using(request.db).all().latest('pk')
-		fac_pk = code_generate(value.cfac, ccaja.ctimocj.prefijo)
-	except Fac.DoesNotExist:
-		fac_pk = ccaja.ctimocj.prefijo+'00001000'
+	medios_pagos_total = vefe_t + vtar_t + vch_t + vncred_t
 
-	fac = Fac(
-		cfac = fac_pk,
-		femi = data['femi'],
-		citerce = citerce,
-		cesdo = cesdo,
-		fpago = data['fpago'],
-		ctifopa = ctifopa,
-		descri = '-',
-		vtbase = float(data['vtbase']),
-		vtiva = float(data['vtiva']),
-		vflete = float(data['vflete']),
-		vdescu = float(data['vdescu']),
-		vttotal = float(data['vttotal']),
-		ventre = float(data['ventre']),
-		vcambio = float(data['vcambio']),
-		ccaja = ccaja,
-		cvende = cvende,
-		cdomici = cdomici,
-		tpordes = 0,
-		cemdor = cemdor,
-		brtefte = float(data['brtefte']),
-		prtefte = float(data['prtefte']),
-		vrtefte = float(data['vrtefte']),
-		vefe = vefe_t,
-		vtar = vtar_t,
-		vch = vch_t,
-		vcred = vncred_t
+	fac_pk = code_generate(Fac, ccaja, 'cfac', request.db)
+
+	# guarda los datos en factura
+	fac = save_fac(
+		fac_pk,
+		request.db,
+		{
+			'femi': data['femi'],
+			'citerce': citerce,
+			'cesdo': cesdo,
+			'fpago': data['fpago'],
+			'ctifopa': ctifopa,
+			'descri': '-',
+			'vtbase': float(data['vtbase']),
+			'vtiva': float(data['vtiva']),
+			'vflete': float(data['vflete']),
+			'vdescu': float(data['vdescu']),
+			'vttotal': float(data['vttotal']),
+			'ventre': float(data['ventre']),
+			'vcambio': float(data['vcambio']),
+			'ccaja': ccaja,
+			'cvende': cvende,
+			'cdomici': cdomici,
+			'tpordes': 0,
+			'cemdor': cemdor,
+			'brtefte': float(data['brtefte']),
+			'prtefte': float(data['prtefte']),
+			'vrtefte': float(data['vrtefte']),
+			'vefe': vefe_t,
+			'vtar': vtar_t,
+			'vch': vch_t,
+			'vcred': vncred_t
+		}
 	)
-	fac.save(using=request.db)
 
-	mvsa = Mvsa(
-		fmvsa = data['femi'],
-		docrefe = fac.cfac,
-		citerce = citerce,
-		ctimo = ccaja.ctimocj,
-		cesdo = cesdo,
-		vttotal = float(data['vttotal']),
-		descri = '-'
+	# crea un movimiento de salida para los articulos recibidos en la factura
+	mvsa = save_mvsa(
+		fac.cfac,
+		request.db,
+		{
+			'fmvsa': data['femi'],
+			'docrefe': fac.cfac,
+			'citerce': citerce,
+			'ctimo': ccaja.ctimocj,
+			'cesdo': cesdo,
+			'vttotal': float(data['vttotal']),
+			'descri': '-'
+		}
 	)
-	mvsa.save(using=request.db)
 
-	for data_facpago in data["medios_pagos"]:
-		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
-		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
-		medios_pagos_total += float(data_facpago['vmpago'])
-
-		fac_pago = Facpago(
-			cfac = fac,
-			it = data_facpago['it'],
-			cmpago = mediopago,
-			docmpago = data_facpago['docmpago'],
-			banmpago = banmpago,
-			vmpago = float(data_facpago['vmpago'])
-		)
-		fac_pago.save(using=request.db)
-
-	value = float(data['vttotal'])
-
-	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
-	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
-
-	ctimo = Timo.objects.using(request.db).get(pk = ctimo_rc_billing)
-	val_cont = 1
 	while(val_cont != 0):
-
-		try:
-			mov = Movi.objects.using(request.db).all().latest('pk')
-			movi_pk = code_generate(mov.cmovi, ccaja.ctimocj.prefijo)
-		except Movi.DoesNotExist:
-			movi_pk = ccaja.ctimocj.prefijo+'00001000'
+		movi_pk = code_generate(Movi, ccaja, 'cmovi', request.db)
 
 		movi = Movi(
 			cmovi = movi_pk,
@@ -187,6 +267,15 @@ def BillSave(request):
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 				banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
+				fac_pago = Facpago(
+					cfac = fac,
+					it = data_facpago['it'],
+					cmpago = mediopago,
+					docmpago = data_facpago['docmpago'],
+					banmpago = banmpago,
+					vmpago = float(data_facpago['vmpago'])
+				)
+				fac_pago.save(using=request.db)
 				movipago = Movipago(
 					cmovi = movi,
 					it = data_facpago['it'],
@@ -205,7 +294,7 @@ def BillSave(request):
 				)
 				movideta.save(using=request.db)
 
-		if(value > medios_pagos_total):
+		if(value_vttotal > medios_pagos_total):
 			ctimo = Timo.objects.using(request.db).get(pk = ctimo_cxc_billing)
 			vefe_t = 0
 			vtar_t = 0
@@ -217,8 +306,8 @@ def BillSave(request):
 			data['vtiva'] = 0
 			data['vttotal'] = 0
 			data['vdescu'] = 0
-			value -= medios_pagos_total
-			medios_pagos_total = value
+			value_vttotal -= medios_pagos_total
+			medios_pagos_total = value_vttotal
 			data['medios_pagos'] = {}
 		else:
 			val_cont = 0
@@ -378,24 +467,21 @@ def BillUpdate(request,pk):
 	movi.vtdescu = float(data['vdescu'])
 	movi.save(using=request.db)
 
-	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
-	print "----------------------------------"
-	print movi
-	print "----------------------------------"
-	print movi_find
-	print "----------------------------------"
-	movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
-	if(val_tot_mp < float(data['vttotal'])):
-		movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
-		movi_vttotal = (float(data['vttotal']) - val_tot_mp)
-	else:
-		movideta.vmovi = 0
-		movi_vttotal = 0
-	movideta.save(using=request.db)
 
-	movi = movi[0]
-	movi.vttotal = movi_vttotal
-	movi.save(using=request.db)
+	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
+	if movi:
+		movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
+		if(val_tot_mp < float(data['vttotal'])):
+			movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
+			movi_vttotal = (float(data['vttotal']) - val_tot_mp)
+		else:
+			movideta.vmovi = 0
+			movi_vttotal = 0
+		movideta.save(using=request.db)
+		movi = movi[0]
+		movi.vttotal = movi_vttotal
+		movi.save(using=request.db)
+
 
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])

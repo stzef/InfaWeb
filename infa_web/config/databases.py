@@ -11,9 +11,9 @@ DB = {
 	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'stzef',
-		'USER': 'postgres',
-		'PASSWORD': '123456',
+		'NAME': 'infaweb_db',
+		'USER': 'root',
+		'PASSWORD': 'root',
 		'HOST': 'localhost',
 		'PORT': '',
 	},
