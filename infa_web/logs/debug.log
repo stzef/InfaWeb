@@ -153,3 +153,207 @@ Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
     self.model._meta.object_name
 DoesNotExist: Fac matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:10:56,207 base 2264 5804 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 318, in BillSave
+    'vtdescu': float(data['vdescu'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 151, in save_movi
+    cmovi = movi_array['cmovi'],
+KeyError: 'cmovi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:42:06,579 base 3860 180 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 385, in BillSave
+    'vmpago': float(data_facpago['vmpago'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 199, in save_fac_pago
+    fac_pago = get_or_none(Facpago, request_db, fac = fac_pago_array['fac'], it = fac_pago_array['it'])
+KeyError: 'fac'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:42:51,838 base 5124 5512 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 385, in BillSave
+    'vmpago': float(data_facpago['vmpago'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 199, in save_fac_pago
+    fac_pago = get_or_none(Facpago, request_db, fac = fac_pago_array['fac'].pk, it = fac_pago_array['it'])
+KeyError: 'fac'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:43:21,013 base 2140 5612 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 385, in BillSave
+    'vmpago': float(data_facpago['vmpago'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 199, in save_fac_pago
+    fac_pago = get_or_none(Facpago, request_db, cfac = fac_pago_array['fac'].pk, it = fac_pago_array['it'])
+KeyError: 'fac'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:43:47,493 base 5120 4592 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 409, in BillSave
+    'vmovi': medios_pagos_total
+TypeError: save_movideta() takes exactly 2 arguments (3 given)
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:08:14,901 base 3504 4504 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 528, in BillSave
+    'vtotal': float((vt + viva))
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 276, in save_mvsa_deta
+    mvsa_deta = get_or_none(Mvsadeta, request_db, cmvsa = mvsa_deta_array['mvsa'].pk, carlos = mvsa_deta_array['carlos'].pk)
+KeyError: 'mvsa'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:19:20,457 base 3600 1872 Internal Server Error: /bill/save/82/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 592, in BillUpdate
+    'vrtefte': float(data['vrtefte']),
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 60, in save_fac
+    fac.descri = fac_array['descri']
+KeyError: 'descri'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:21:44,802 base 4752 2580 Internal Server Error: /bill/save/82/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 593, in BillUpdate
+    'vrtefte': float(data['vrtefte']),
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 70, in save_fac
+    fac.tpordes = fac_array['tpordes']
+KeyError: 'tpordes'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:45:03,131 base 5096 5808 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 468, in BillSave
+    'vmovi': medios_pagos_total
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 188, in save_movideta
+    cmovi = movi[0],
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 280, in __getitem__
+    return self._result_cache[k]
+IndexError: list index out of range
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:47:04,401 base 4800 6048 Internal Server Error: /bill/save/82/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 550, in BillUpdate
+    ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+NameError: global name 'manageParameters' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 11:30:44,329 base 4632 2640 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 413, in BillSave
+    'vtdescu': float(data['vdescu'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 130, in save_movi
+    movi = movi_find(movi_array['cfac'], request_db, movi_array['ctimo'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 171, in movi_find
+    return movi_find.filter(ctimo__pk = ctimo_billing)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 1854, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'Timo'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 11:31:55,003 base 1076 1696 Internal Server Error: /bill/save/84/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 619, in BillUpdate
+    'vmpago': float(data_facpago['vmpago'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 195, in save_fac_pago
+    fac_pago = get_or_none(Facpago, request_db, cfac = fac_pago_array['cfac'].pk, it = fac_pago_array['it'])
+AttributeError: 'int' object has no attribute 'pk'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 11:33:01,678 base 5128 5812 Internal Server Error: /bill/save/84/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 630, in BillUpdate
+    'vmovi': float(data_facpago['vmpago'])
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 181, in save_movideta
+    movideta = movi[0].movideta_set.using(request.db).get(itmovi = movideta_array['itmovi'])
+NameError: global name 'request' is not defined

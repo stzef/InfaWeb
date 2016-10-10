@@ -50,8 +50,8 @@ def value_tot(query_array, code_find):
 	print query_array
 	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
-def save_fac(fac_pk, request_db, fac_array):
-	fac = get_or_none(Fac, request_db, cfac = fac_pk)
+def save_fac(request_db, fac_array):
+	fac = get_or_none(Fac, request_db, cfac = fac_array['fac_pk'])
 	if fac is not None:
 		fac.citerce = fac_array['citerce']
 		fac.cesdo = fac_array['cesdo']
@@ -78,7 +78,7 @@ def save_fac(fac_pk, request_db, fac_array):
 		fac.vcred = fac_array['vcred']
 	else:
 		fac = Fac(
-			cfac = fac_pk,
+			cfac = fac_array['fac_pk'],
 			femi = fac_array['femi'],
 			citerce = fac_array['citerce'],
 			cesdo = fac_array['cesdo'],
@@ -108,12 +108,11 @@ def save_fac(fac_pk, request_db, fac_array):
 	fac.save(using = request_db)
 	return fac
 
-def save_mvsa(docrefe, request_db, mvsa_array):
-	mvsa = get_or_none(Mvsa, request_db, docrefe = docrefe)
+def save_mvsa(request_db, mvsa_array):
+	mvsa = get_or_none(Mvsa, request_db, docrefe = mvsa_array['docrefe'])
 	if mvsa is not None:
 		mvsa.citerce = mvsa_array['citerce']
 		mvsa.vttotal = mvsa_array['vttotal']
-		mvsa.descri = mvsa_array['descri']
 	else:
 		mvsa = Mvsa(
 			fmvsa = mvsa_array['fmvsa'],
@@ -127,10 +126,172 @@ def save_mvsa(docrefe, request_db, mvsa_array):
 	mvsa.save(using = request_db)
 	return mvsa
 
+def save_movi(request_db, movi_array):
+	movi = movi_find(movi_array['cfac'], request_db, movi_array['ctimo'].pk)
+	if movi:
+		movi = movi[0]
+		movi.citerce = movi_array['citerce']
+		movi.vttotal = movi_array['vttotal']
+		movi.vefe = movi_array['vefe']
+		movi.vtar = movi_array['vtar']
+		movi.vch = movi_array['vch']
+		movi.vcred = movi_array['vcred']
+		movi.ventre = movi_array['ventre']
+		movi.vcambio = movi_array['vcambio']
+		movi.baseiva = movi_array['baseiva']
+		movi.vtiva = movi_array['vtiva']
+		movi.vtsuma = movi_array['vtsuma']
+		movi.vtdescu = movi_array['vtdescu']
+	else:
+		movi = Movi(
+			cmovi = movi_array['cmovi'],
+			ctimo = movi_array['ctimo'],
+			citerce = movi_array['citerce'],
+			fmovi = movi_array['fmovi'],
+			descrimovi = movi_array['descrimovi'],
+			vttotal = movi_array['vttotal'],
+			cesdo = movi_array['cesdo'],
+			vefe = movi_array['vefe'],
+			vtar = movi_array['vtar'],
+			vch = movi_array['vch'],
+			vcred = movi_array['vcred'],
+			ventre = movi_array['ventre'],
+			vcambio = movi_array['vcambio'],
+			ccaja = movi_array['ccaja'],
+			baseiva = movi_array['baseiva'],
+			vtiva = movi_array['vtiva'],
+			vtsuma = movi_array['vtsuma'],
+			vtdescu = movi_array['vtdescu']
+		)
+	movi.save(using = request_db)
+	return movi
+
+def movi_find(fac, request_db, ctimo_billing):
+	movi_find = Movi.objects.using(request_db).filter(movideta__docrefe = fac)
+	return movi_find.filter(ctimo__pk = ctimo_billing)
+
+def ctimo_billing(ctimo_billing, request_db):
+	manageParameters = ManageParameters(request_db)
+	ctimo_billing = manageParameters.get_param_value(ctimo_billing)
+	return Timo.objects.using(request_db).get(pk = ctimo_billing)
+
+def save_movideta(request_db, movideta_array):
+	movi = movi_find(movideta_array['docrefe'], request_db, movideta_array['ctimo'])
+	if movi:
+		movideta = movi[0].movideta_set.using(request_db).get(itmovi = movideta_array['itmovi'])
+		movideta.vmovi = movideta_array['vmovi']
+	else:
+		movideta = Movideta(
+			cmovi = (movi[0] if movi else movideta_array['cmovi']),
+			itmovi = movideta_array['itmovi'],
+			docrefe = movideta_array['docrefe'],
+			detalle = movideta_array['detalle'],
+			vmovi = movideta_array['vmovi']
+		)
+	movideta.save(using = request_db)
+	return movideta
+
+def save_fac_pago(request_db, fac_pago_array):
+	fac_pago = get_or_none(Facpago, request_db, cfac = fac_pago_array['cfac'].pk, it = fac_pago_array['it'])
+	if fac_pago is not None:
+		fac_pago.cmpago = fac_pago_array['cmpago']
+		fac_pago.docmpago = fac_pago_array['docmpago']
+		fac_pago.banmpago = fac_pago_array['banmpago']
+		fac_pago.vmpago = fac_pago_array['vmpago']
+	else:
+		fac_pago = Facpago(
+			cfac = fac_pago_array['cfac'],
+			it = fac_pago_array['it'],
+			cmpago = fac_pago_array['cmpago'],
+			docmpago = fac_pago_array['docmpago'],
+			banmpago = fac_pago_array['banmpago'],
+			vmpago = fac_pago_array['vmpago']
+		)
+	fac_pago.save(using=request_db)
+	return fac_pago
+
+def save_movi_pago(request_db, movi_pago_array):
+	movi_pago = get_or_none(Movipago, request_db, cmovi = movi_pago_array['cmovi'].pk, it = movi_pago_array['it'])
+	if movi_pago is not None:
+		movi_pago.cmpago = movi_pago_array['cmpago']
+		movi_pago.docmpago = movi_pago_array['docmpago']
+		movi_pago.banmpago = movi_pago_array['banmpago']
+		movi_pago.vmpago = movi_pago_array['vmpago']
+	else:
+		movi_pago = Movipago(
+			cmovi = movi_pago_array['cmovi'],
+			it = movi_pago_array['it'],
+			cmpago = movi_pago_array['cmpago'],
+			docmpago = movi_pago_array['docmpago'],
+			banmpago = movi_pago_array['banmpago'],
+			vmpago = movi_pago_array['vmpago']
+		)
+	movi_pago.save(using=request_db)
+	return movi_pago
+
+def save_fac_deta(request_db, fac_deta_array):
+	fac_deta = get_or_none(Facdeta, request_db, cfac = fac_deta_array['cfac'].pk)
+	if fac_deta is not None:
+		fac_deta.itfac = fac_deta_array['itfac']
+		fac_deta.nlargo = fac_deta_array['nlargo']
+		fac_deta.ncorto = fac_deta_array['ncorto']
+		fac_deta.canti = fac_deta_array['canti']
+		fac_deta.civa = fac_deta_array['civa']
+		fac_deta.niva = fac_deta_array['niva']
+		fac_deta.poriva = fac_deta_array['poriva']
+		fac_deta.pordes = fac_deta_array['pordes']
+		fac_deta.vunita = fac_deta_array['vunita']
+		fac_deta.viva = fac_deta_array['viva']
+		fac_deta.vbase = fac_deta_array['vbase']
+		fac_deta.vtotal = fac_deta_array['vtotal']
+		fac_deta.pvtafull = fac_deta_array['pvtafull']
+		fac_deta.vcosto = fac_deta_array['vcosto']
+	else:
+		fac_deta = Facdeta(
+			cfac = fac_deta_array['cfac'],
+			itfac = fac_deta_array['itfac'],
+			carlos = fac_deta_array['carlos'],
+			nlargo = fac_deta_array['nlargo'],
+			ncorto = fac_deta_array['ncorto'],
+			canti = fac_deta_array['canti'],
+			civa = fac_deta_array['civa'],
+			niva = fac_deta_array['niva'],
+			poriva = fac_deta_array['poriva'],
+			pordes = fac_deta_array['pordes'],
+			vunita = fac_deta_array['vunita'],
+			viva = fac_deta_array['viva'],
+			vbase = fac_deta_array['vbase'],
+			vtotal = fac_deta_array['vtotal'],
+			pvtafull = fac_deta_array['pvtafull'],
+			vcosto = fac_deta_array['vcosto'],
+		)
+	fac_deta.save(using=request_db)
+	return fac_deta
+
+def save_mvsa_deta(request_db, mvsa_deta_array):
+	mvsa_deta = get_or_none(Mvsadeta, request_db, cmvsa = mvsa_deta_array['cmvsa'].pk, carlos = mvsa_deta_array['carlos'].pk)
+	if mvsa_deta is not None:
+		mvsa_deta.it = mvsa_deta_array['it']
+		mvsa_deta.carlos = mvsa_deta_array['carlos']
+		mvsa_deta.nlargo = mvsa_deta_array['nlargo']
+		mvsa_deta.canti = mvsa_deta_array['canti']
+		mvsa_deta.vunita = mvsa_deta_array['vunita']
+		mvsa_deta.vtotal = mvsa_deta_array['vtotal']
+	else:
+		mvsa_deta = Mvsadeta(
+			cmvsa = mvsa_deta_array['cmvsa'],
+			it = mvsa_deta_array['it'],
+			carlos = mvsa_deta_array['carlos'],
+			nlargo = mvsa_deta_array['nlargo'],
+			canti = mvsa_deta_array['canti'],
+			vunita = mvsa_deta_array['vunita'],
+			vtotal = mvsa_deta_array['vtotal'],
+		)
+	mvsa_deta.save(using=request_db)
+	return mvsa_deta
+
 @csrf_exempt
 def BillSave(request):
-	manageParameters = ManageParameters(request.db)
-
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
 	print (json.dumps(data,indent=4))
@@ -165,9 +326,7 @@ def BillSave(request):
 	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
 
 	value_vttotal = float(data['vttotal'])
-	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
-	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
-	ctimo = Timo.objects.using(request.db).get(pk = ctimo_rc_billing)
+	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
 	val_cont = 1
 
 	# sumatoria para cada forma de pago
@@ -182,15 +341,15 @@ def BillSave(request):
 
 	# guarda los datos en factura
 	fac = save_fac(
-		fac_pk,
 		request.db,
 		{
+			'fac_pk': fac_pk,
 			'femi': data['femi'],
 			'citerce': citerce,
 			'cesdo': cesdo,
 			'fpago': data['fpago'],
 			'ctifopa': ctifopa,
-			'descri': '-',
+			'descri': data['descri'],
 			'vtbase': float(data['vtbase']),
 			'vtiva': float(data['vtiva']),
 			'vflete': float(data['vflete']),
@@ -215,7 +374,6 @@ def BillSave(request):
 
 	# crea un movimiento de salida para los articulos recibidos en la factura
 	mvsa = save_mvsa(
-		fac.cfac,
 		request.db,
 		{
 			'fmvsa': data['femi'],
@@ -231,70 +389,86 @@ def BillSave(request):
 	while(val_cont != 0):
 		movi_pk = code_generate(Movi, ccaja, 'cmovi', request.db)
 
-		movi = Movi(
-			cmovi = movi_pk,
-			ctimo = ctimo,
-			citerce = citerce,
-			fmovi = data['femi'],
-			descrimovi = '-',
-			vttotal = medios_pagos_total,
-			cesdo = cesdo,
-			vefe = vefe_t,
-			vtar = vtar_t,
-			vch = vch_t,
-			vcred = vncred_t,
-			ventre = float(data['ventre']),
-			vcambio = float(data['vcambio']),
-			ccaja = ccaja,
-			baseiva = float(data['vtbase']),
-			vtiva = float(data['vtiva']),
-			vtsuma = float(data['vttotal']),
-			vtdescu = float(data['vdescu'])
+		movi = save_movi(
+			request.db,
+			{
+				'cfac': fac.cfac,
+				'cmovi': movi_pk,
+				'ctimo': ctimo,
+				'citerce': citerce,
+				'fmovi': data['femi'],
+				'descrimovi': '-',
+				'vttotal': medios_pagos_total,
+				'cesdo': cesdo,
+				'vefe': vefe_t,
+				'vtar': vtar_t,
+				'vch': vch_t,
+				'vcred': vncred_t,
+				'ventre': float(data['ventre']),
+				'vcambio': float(data['vcambio']),
+				'ccaja': ccaja,
+				'baseiva': float(data['vtbase']),
+				'vtiva': float(data['vtiva']),
+				'vtsuma': float(data['vttotal']),
+				'vtdescu': float(data['vdescu'])
+			}
 		)
-		movi.save(using=request.db)
 
 		if not data["medios_pagos"]:
-			movideta = Movideta(
-				cmovi = movi,
-				itmovi = 1,
-				docrefe = fac.cfac,
-				detalle = '-',
-				vmovi = medios_pagos_total
+			movideta = save_movideta(
+				request.db, 
+				{
+					'ctimo': ctimo.pk,
+					'cmovi': movi,
+					'itmovi': 1,
+					'docrefe': fac.cfac,
+					'detalle': '-',
+					'vmovi': medios_pagos_total
+				}
 			)
-			movideta.save(using=request.db)
 		else:
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 				banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
-				fac_pago = Facpago(
-					cfac = fac,
-					it = data_facpago['it'],
-					cmpago = mediopago,
-					docmpago = data_facpago['docmpago'],
-					banmpago = banmpago,
-					vmpago = float(data_facpago['vmpago'])
+
+				fac_pago = save_fac_pago(
+					request.db, 
+					{
+						'cfac': fac,
+						'it': data_facpago['it'],
+						'cmpago': mediopago,
+						'docmpago': data_facpago['docmpago'],
+						'banmpago': banmpago,
+						'vmpago': float(data_facpago['vmpago'])
+					}
 				)
-				fac_pago.save(using=request.db)
-				movipago = Movipago(
-					cmovi = movi,
-					it = data_facpago['it'],
-					cmpago = mediopago,
-					docmpago = data_facpago['docmpago'],
-					banmpago = banmpago,
-					vmpago = float(data_facpago['vmpago'])
+
+				movipago = save_movi_pago(
+					request.db,
+					{
+						'cmovi': movi,
+						'it': data_facpago['it'],
+						'cmpago': mediopago,
+						'docmpago': data_facpago['docmpago'],
+						'banmpago': banmpago,
+						'vmpago': float(data_facpago['vmpago'])
+					}
 				)
-				movipago.save(using=request.db)
-				movideta = Movideta(
-					cmovi = movi,
-					itmovi = data_facpago['it'],
-					docrefe = fac.cfac,
-					detalle = '-',
-					vmovi = float(data_facpago['vmpago'])
+
+				movideta = save_movideta(
+					request.db, 
+					{
+						'cmovi': movi,
+						'ctimo': ctimo.pk,
+						'itmovi': data_facpago['it'],
+						'docrefe': fac.cfac,
+						'detalle': '-',
+						'vmovi': medios_pagos_total
+					}
 				)
-				movideta.save(using=request.db)
 
 		if(value_vttotal > medios_pagos_total):
-			ctimo = Timo.objects.using(request.db).get(pk = ctimo_cxc_billing)
+			ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
 			vefe_t = 0
 			vtar_t = 0
 			vch_t = 0
@@ -317,44 +491,46 @@ def BillSave(request):
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
 		viva = vt * float(civa.poriva)
 
-		fac_deta = Facdeta(
-			cfac = fac,
-			itfac = data_deta['itfac'],
-			carlos = carlos,
-			nlargo = carlos.nlargo,
-			ncorto = carlos.ncorto,
-			canti = data_deta['canti'],
-			civa = civa,
-			niva = civa.niva,
-			poriva = civa.poriva,
-			pordes = data_deta['pordes'],
-			vunita = float(data_deta['vunita']),
-			viva = viva,
-			vbase = vt,
-			vtotal = float((vt + viva)),
-			pvtafull = float(carlos.pvta1),
-			vcosto = float(carlos.vcosto1)
+		fac_deta = save_fac_deta(
+			request.db,
+			{
+				'cfac': fac,
+				'itfac': data_deta['itfac'],
+				'carlos': carlos,
+				'nlargo': carlos.nlargo,
+				'ncorto': carlos.ncorto,
+				'canti': data_deta['canti'],
+				'civa': civa,
+				'niva': civa.niva,
+				'poriva': civa.poriva,
+				'pordes': data_deta['pordes'],
+				'vunita': float(data_deta['vunita']),
+				'viva': viva,
+				'vbase': vt,
+				'vtotal': float((vt + viva)),
+				'pvtafull': float(carlos.pvta1),
+				'vcosto': float(carlos.vcosto1)
+			}
 		)
 
-		mvsa_deta = Mvsadeta(
-			cmvsa = mvsa,
-			it = data_deta['itfac'],
-			carlos = carlos,
-			nlargo = carlos.nlargo,
-			canti = data_deta['canti'],
-			vunita =float(data_deta['vunita']),
-			vtotal = float((vt + viva))
+		mvsa_deta = save_mvsa_deta(
+			request.db,
+			{
+				'cmvsa': mvsa,
+				'it': data_deta['itfac'],
+				'carlos': carlos,
+				'nlargo': carlos.nlargo,
+				'canti': data_deta['canti'],
+				'vunita': float(data_deta['vunita']),
+				'vtotal': float((vt + viva))
+			}
 		)
-
-		mvsa_deta.save(using=request.db)
-		fac_deta.save(using=request.db)
 
 	response["cfac"] = fac.cfac
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
 def BillUpdate(request,pk):
-	manageParameters = ManageParameters(request.db)
 	data = json.loads(request.body)
 	response = {}
 	fac_pk = ""
@@ -368,8 +544,8 @@ def BillUpdate(request,pk):
 	val_tot_mp = 0
 	exclude_arlo = []
 
-	ctimo_rc_billing = manageParameters.get_param_value('ctimo_rc_billing')
-	ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
+	#ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
 	print (json.dumps(data,indent=4))
 
@@ -386,100 +562,133 @@ def BillUpdate(request,pk):
 	vch_t = value_tot(data["medios_pagos"], 1002)
 	vncred_t = value_tot(data["medios_pagos"], 1003)
 
-	fac = Fac.objects.using(request.db).get(cfac = data['cfac'])
-	fac.cesdo = cesdo
-	fac.fpago = data['fpago']
-	fac.ctifopa = ctifopa
-	fac.vtbase = float(data['vtbase'])
-	fac.vtiva = 0
-	fac.vefe = vefe_t
-	fac.vtar = vtar_t
-	fac.vch = vch_t
-	fac.vcred = vncred_t
-	fac.vflete = float(data['vflete'])
-	fac.vdescu = float(data['vdescu'])
-	fac.vttotal = float(data['vttotal'])
-	fac.ventre = float(data['ventre'])
-	fac.vcambio = float(data['vcambio'])
-	fac.cvende = cvende
-	fac.cdomici = cdomici
-	fac.cemdor = cemdor
-	fac.brtefte = float(data['brtefte'])
-	fac.prtefte = float(data['prtefte'])
-	fac.vrtefte = float(data['vrtefte'])
-	fac.save(using=request.db)
+	fac = save_fac(
+		request.db,
+		{
+			'fac_pk': data['cfac'],
+			'femi': data['femi'],
+			'citerce': citerce,
+			'cesdo': cesdo,
+			'fpago': data['fpago'],
+			'ctifopa': ctifopa,
+			'descri': data['descri'],
+			'vtbase': float(data['vtbase']),
+			'vtiva': float(data['vtiva']),
+			'vflete': float(data['vflete']),
+			'vdescu': float(data['vdescu']),
+			'vttotal': float(data['vttotal']),
+			'ventre': float(data['ventre']),
+			'vcambio': float(data['vcambio']),
+			'ccaja': ccaja,
+			'cvende': cvende,
+			'cdomici': cdomici,
+			'tpordes': 0,
+			'cemdor': cemdor,
+			'brtefte': float(data['brtefte']),
+			'prtefte': float(data['prtefte']),
+			'vrtefte': float(data['vrtefte']),
+			'vefe': vefe_t,
+			'vtar': vtar_t,
+			'vch': vch_t,
+			'vcred': vncred_t
+		}
+	)
 
-	mvsa = Mvsa.objects.using(request.db).get(docrefe = fac.cfac)
-	mvsa.vttotal = float(data['vttotal'])
-	mvsa.save(using=request.db)
+	mvsa = save_mvsa(
+		request.db,
+		{
+			'citerce': citerce,
+			'docrefe': fac.cfac,
+			'vttotal': float(data['vttotal']),
+		}
+	)
 
-	movi_find = Movi.objects.using(request.db).filter(movideta__docrefe = fac.cfac)
 	for data_facpago in data["medios_pagos"]:
-		movi = movi_find.filter(ctimo__pk = ctimo_rc_billing)
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
 		banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
 		medios_pagos_total += float(data_facpago['vmpago'])
 
-		try:
-			fac_pago = Facpago.objects.using(request.db).get(cfac = fac.pk, it = data_facpago['it'])
-			fac_pago.cmpago = mediopago
-			fac_pago.docmpago = data_facpago['docmpago']
-			fac_pago.banmpago = banmpago
-			fac_pago.vmpago = float(data_facpago['vmpago'])
-		except Facpago.DoesNotExist:
-			fac_pago = Facpago(
-				cfac = fac,
-				it = data_facpago['it'],
-				cmpago = mediopago,
-				docmpago = data_facpago['docmpago'],
-				banmpago = banmpago,
-				vmpago = float(data_facpago['vmpago'])
-			)
+		fac_pago = save_fac_pago(
+			request.db,
+			{
+				'cfac': fac,
+				'it': data_facpago['it'],
+				'cmpago': mediopago,
+				'docmpago': data_facpago['docmpago'],
+				'banmpago': banmpago,
+				'vmpago': float(data_facpago['vmpago'])
+			}
+		)
 
-		try:
-			movideta = movi[0].movideta_set.using(request.db).get(itmovi = data_facpago['it'])
-			movideta.vmovi = float(data_facpago['vmpago'])
-		except Movideta.DoesNotExist:
-			movideta = Movideta(
-				cmovi = movi[0],
-				itmovi = data_facpago['it'],
-				docrefe = fac.cfac,
-				detalle = '-',
-				vmovi = float(data_facpago['vmpago'])
-			)
-		fac_pago.save(using=request.db)
-		movideta.save(using=request.db)
+		movideta = save_movideta(
+			request.db,
+			{
+				'docrefe': fac.cfac,
+				'ctimo': ctimo.pk,
+				'itmovi': data_facpago['it'],
+				'detalle': '-',
+				'vmovi': float(data_facpago['vmpago'])
+			}
+		)
 
-	movi = movi[0]
-	movi.vttotal = (vefe_t + vtar_t + vch_t)
-	movi.cesdo = cesdo
-	movi.vefe = vefe_t
-	movi.vtar = vtar_t
-	movi.vch = vch_t
-	movi.vcred = vncred_t
-	movi.ventre = float(data['ventre'])
-	movi.vcambio = float(data['vcambio'])
-	movi.baseiva = float(data['vtbase'])
-	movi.vtiva = float(data['vtiva'])
-	movi.vtsuma = float(data['vttotal'])
-	movi.vtdescu = float(data['vdescu'])
-	movi.save(using=request.db)
+	movi = save_movi(
+		request.db,
+		{
+			'cfac': fac.cfac,
+			'ctimo': ctimo,
+			'vttotal': (vefe_t + vtar_t + vch_t),
+			'citerce': citerce,
+			'vefe': vefe_t,
+			'vtar': vtar_t,
+			'vch': vch_t,
+			'vcred': vncred_t,
+			'ventre': float(data['ventre']),
+			'vcambio': float(data['vcambio']),
+			'baseiva': float(data['vtbase']),
+			'vtiva': float(data['vtiva']),
+			'vtsuma': float(data['vttotal']),
+			'vtdescu': float(data['vdescu']),
+		}
+	)
 
-
-	movi = movi_find.filter(ctimo__pk = ctimo_cxc_billing)
+	ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
+	movi = movi_find(fac.cfac, request.db, ctimo.pk)
 	if movi:
-		movideta = movi[0].movideta_set.using(request.db).get(itmovi = 1)
 		if(val_tot_mp < float(data['vttotal'])):
-			movideta.vmovi = (float(data['vttotal']) - val_tot_mp)
 			movi_vttotal = (float(data['vttotal']) - val_tot_mp)
 		else:
-			movideta.vmovi = 0
 			movi_vttotal = 0
-		movideta.save(using=request.db)
-		movi = movi[0]
-		movi.vttotal = movi_vttotal
-		movi.save(using=request.db)
 
+		movi = save_movi(
+			request.db,
+			{
+				'cfac': fac.cfac,
+				'ctimo': ctimo,
+				'vttotal': movi_vttotal,
+				'citerce': citerce,
+				'vefe': 0,
+				'vtar': 0,
+				'vch': 0,
+				'vcred': 0,
+				'ventre': 0,
+				'vcambio': 0,
+				'baseiva': 0,
+				'vtiva': 0,
+				'vtsuma': 0,
+				'vtdescu': 0,
+			}
+		)
+
+		movideta = save_movideta(
+			request.db,
+			{
+				'docrefe': fac.cfac,
+				'ctimo': ctimo.pk,
+				'itmovi': 1,
+				'detalle': '-',
+				'vmovi': movi_vttotal
+			}
+		)
 
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
@@ -488,63 +697,44 @@ def BillUpdate(request,pk):
 		viva = vt * float(civa.poriva)
 		exclude_arlo.append(carlos.pk)
 
-		try:
-			fac_deta = Facdeta.objects.using(request.db).get(cfac = fac.pk,  carlos = carlos.pk)
-			fac_deta.itfac = data_deta['itfac']
-			fac_deta.nlargo = carlos.nlargo
-			fac_deta.ncorto = carlos.ncorto
-			fac_deta.canti = data_deta['canti']
-			fac_deta.civa = civa
-			fac_deta.niva = civa.niva
-			fac_deta.poriva = civa.poriva
-			fac_deta.pordes = data_deta['pordes']
-			fac_deta.vunita = float(data_deta['vunita'])
-			fac_deta.viva = viva
-			fac_deta.vbase = vt
-			fac_deta.vtotal = float((vt + viva))
-			fac_deta.pvtafull = float(carlos.pvta1)
-			fac_deta.vcosto = float(carlos.vcosto1)
-		except Facdeta.DoesNotExist:
-			fac_deta = Facdeta(
-				cfac = fac,
-				itfac = data_deta['itfac'],
-				carlos = carlos,
-				nlargo = carlos.nlargo,
-				ncorto = carlos.ncorto,
-				canti = data_deta['canti'],
-				civa = civa,
-				niva = civa.niva,
-				poriva = civa.poriva,
-				pordes = data_deta['pordes'],
-				vunita = float(data_deta['vunita']),
-				viva = viva,
-				vbase = vt,
-				vtotal = float((vt + viva)),
-				pvtafull = float(carlos.pvta1),
-				vcosto = float(carlos.vcosto1)
-			)
-		try:
-			mvsa_deta = Mvsadeta.objects.using(request.db).get(cmvsa = mvsa.pk, carlos = carlos.pk)
-			mvsa_deta.it = data_deta['itfac']
-			mvsa_deta.carlos = carlos
-			mvsa_deta.nlargo = carlos.nlargo
-			mvsa_deta.canti = data_deta['canti']
-			mvsa_deta.vunita =float(data_deta['vunita'])
-			mvsa_deta.vtotal = float((vt + viva))
-		except Mvsadeta.DoesNotExist:
-			mvsa_deta = Mvsadeta(
-				cmvsa = mvsa,
-				it = data_deta['itfac'],
-				carlos = carlos,
-				nlargo = carlos.nlargo,
-				canti = data_deta['canti'],
-				vunita =float(data_deta['vunita']),
-				vtotal = float((vt + viva))
-			)
-		fac_deta.save(using=request.db)
-		mvsa_deta.save(using=request.db)
+		fac_deta = save_fac_deta(
+			request.db,
+			{
+				'cfac': fac,
+				'itfac': data_deta['itfac'],
+				'carlos': carlos,
+				'nlargo': carlos.nlargo,
+				'ncorto': carlos.ncorto,
+				'canti': data_deta['canti'],
+				'civa': civa,
+				'niva': civa.niva,
+				'poriva': civa.poriva,
+				'pordes': data_deta['pordes'],
+				'vunita': float(data_deta['vunita']),
+				'viva': viva,
+				'vbase': vt,
+				'vtotal': float((vt + viva)),
+				'pvtafull': float(carlos.pvta1),
+				'vcosto': float(carlos.vcosto1)
+			}
+		)
+
+		mvsa_deta = save_mvsa_deta(
+			request.db,
+			{
+				'cmvsa': mvsa,
+				'it': data_deta['itfac'],
+				'carlos': carlos,
+				'nlargo': carlos.nlargo,
+				'canti': data_deta['canti'],
+				'vunita': float(data_deta['vunita']),
+				'vtotal': float((vt + viva))
+			}
+		)
+
 	Facdeta.objects.using(request.db).exclude(carlos__in = exclude_arlo).delete()
 	Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
+	response["cfac"] = fac.cfac
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BillCreate(CustomCreateView):
