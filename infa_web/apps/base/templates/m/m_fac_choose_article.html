@@ -1,0 +1,43 @@
+{% extends "m/base.html" %}
+{% block title %}
+	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
+{% endblock title %}
+{% block content %}
+	<h4>Seleccione Articulo</h4>
+	<ul data-role="listview" data-filter="true" data-inset="true">
+		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
+			<h2>Arroz Diana</h2>
+			<p>cod: 12093 &nbsp;&nbsp;<span>$ 193891</span></p></a>
+		</li>
+		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
+			<h2>Leche Alqueria</h2>
+			<p>cod: 3934 &nbsp;&nbsp;<span>$ 982212</span></p></a>
+		</li>
+		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
+			<h2>Salchichas Zenu</h2>
+			<p>cod: 1294 &nbsp;&nbsp;<span>$ 984120</span></p></a>
+		</li>
+	</ul>
+
+	<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-dismissible="false" style="max-width:400px;">
+	<div data-role="header">
+	<h1>Detalles</h1>
+	</div>
+	<div role="main" class="ui-content">
+		<form action="">
+			<label for="text-basic">Cantidad</label>
+			<input type="number" name="text-basic" id="text-basic" value="">
+
+			<label for="text-basic">Descuento</label>
+			<input type="number" name="text-basic" id="text-basic" value="">
+
+			<label for="text-basic">V. Unitario</label>
+			<input type="number" name="text-basic" id="text-basic" value="">
+		</form>
+
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a>
+		<a href="{% url 'm_order2' %}" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-transition="flow">Agregar</a>
+
+	</div>
+</div>
+{% endblock content %}

@@ -271,6 +271,38 @@
         }, 
         "nparam": "Movimiento de Inventario por defecto para las factura de salida"
     }, 
+
+
+
+
+    {
+        "cparam": "invoice_without_stock", 
+        "type": "Boolean", 
+        "value": false, 
+        "label": {
+            "text": "Facturar Articulos Sin Existencia."
+        }, 
+        "field": {
+            "input": true, 
+            "selected": false, 
+            "type": "checkbox", 
+            "id": "invoice_without_stock", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Facturar Articulos Sin Existencia."
+    }, 
+
+
+
+
+
+
     {
         "cparam": "invoice_below_minimum_sales_price", 
         "type": "Boolean", 

@@ -1,0 +1,21 @@
+{% extends "m/base.html" %}
+{% block title %}
+	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
+{% endblock title %}
+{% block content %}
+	<h4>Buscar cliente</h4>
+	<ul data-role="listview" data-autodividers="true" data-filter="true" data-inset="true">
+		<li><a href="{% url 'm_order' %}" data-transition="flow">
+			Aurelio Martinez <span> 129073</span>
+		</a></li>
+		<li><a href="{% url 'm_order' %}" data-transition="flow">
+			Felipe Cepeda <span> 359232</span>
+		</a></li>
+		<li><a href="{% url 'm_order' %}" data-transition="flow">
+			Laura Montaño <span> 986232</span>
+		</a></li>
+		<li><a href="{% url 'm_order' %}" data-transition="flow">
+			Mario Galindo <span> 761280</span>
+		</a></li>
+	</ul>
+{% endblock content %}

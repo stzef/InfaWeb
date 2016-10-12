@@ -661,12 +661,198 @@ Traceback (most recent call last):
     return handler(request, *args, **kwargs)
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 80, in get
     context = self.get_context_data(**kwargs)
+<<<<<<< HEAD
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 720, in get_context_data
+    factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Fac matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:20:37,846 base 7924 139718489835264 Internal Server Error: /m/search-client 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/base/middleware.py", line 18, in process_request
+    request.session['empresa_actual'] = ""
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/base.py", line 53, in __setitem__
+    self._session[key] = value
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/base.py", line 201, in _get_session
+    self._session_cache = self.load()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/db.py", line 33, in load
+    expire_date__gt=timezone.now()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 381, in get
+    num = len(clone)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: could not translate host name "ec2-54-243-52-209.compute-1.amazonaws.com" to address: Name or service not known
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 09:20:40,078 base 7924 139718489835264 Internal Server Error: /m/search-client 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/base/middleware.py", line 18, in process_request
+    request.session['empresa_actual'] = ""
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/base.py", line 53, in __setitem__
+    self._session[key] = value
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/base.py", line 201, in _get_session
+    self._session_cache = self.load()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/contrib/sessions/backends/db.py", line 33, in load
+    expire_date__gt=timezone.now()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 381, in get
+    num = len(clone)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: could not translate host name "ec2-54-243-52-209.compute-1.amazonaws.com" to address: Name or service not known
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:47:16,568 base 12374 139732325299968 Internal Server Error: /m/order2 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 16, in mFacOrder2
+    return render(request, 'm/m_fac_order2.html')
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 513, in render
+    six.reraise(*exc_info)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 499, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 600, in reverse
+    return force_text(iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs)))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 508, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+NoReverseMatch: Reverse for 'fac_pay' with arguments '()' and keyword arguments '{}' not found. 0 pattern(s) tried: []
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 10:47:26,936 base 12374 139732325299968 Internal Server Error: /m/order2 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 16, in mFacOrder2
+    return render(request, 'm/m_fac_order2.html')
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 513, in render
+    six.reraise(*exc_info)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 499, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 600, in reverse
+    return force_text(iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs)))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/urlresolvers.py", line 508, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+NoReverseMatch: Reverse for 'm_fac_pay' with arguments '()' and keyword arguments '{}' not found. 0 pattern(s) tried: []
+=======
   File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 865, in get_context_data
     "Fecha Inicial" : data["start_date"],
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/datastructures.py", line 85, in __getitem__
     raise MultiValueDictKeyError(repr(key))
 MultiValueDictKeyError: "'start_date'"
 >>>>>>> 4d19cfc6d16e42e08ea2888237b5188bdc629ba9
+<<<<<<< HEAD
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
  ERROR 2016-10-11 08:59:14,114 base 1032 3100 Internal Server Error: /login 
 Traceback (most recent call last):
@@ -6279,3 +6465,143 @@ Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\contrib\auth\__init__.py", line 174, in get_user
     user = backend.get_user(user_id)
 AttributeError: 'UserBackend' object has no attribute 'get_user'
+=======
+>>>>>>> 72784f9972ecdbc56e45aa014c4acd74268a743c
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 14:13:52,911 base 3360 140575765526272 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 992, in get_context_data
+    factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Fac matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 14:34:07,717 base 3360 140575773132544 Internal Server Error: /bill/reports/fn/ventas 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 1055, in get_context_data
+    "Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/datastructures.py", line 85, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'fecha_inicial'"
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 14:34:41,529 base 3360 140575773132544 Internal Server Error: /bill/reports/fn/ventas 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/easy_pdf/views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 1055, in get_context_data
+    "Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/datastructures.py", line 85, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'fecha_inicial'"
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 14:51:37,341 base 6011 139944482912000 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 21, in process_request
+    print type(manageParameters.to_dict())
+TypeError: to_dict() takes exactly 2 arguments (1 given)
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-10 15:23:34,401 base 7830 140058135901952 Internal Server Error: /articles/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
+    response = response.render()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
+    self.content = self.rendered_content
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/utils/html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/forms/models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  database "stzef" does not exist
+
+>>>>>>> 759516fb7e9daa48f99f9fa594790d03966bd9e1

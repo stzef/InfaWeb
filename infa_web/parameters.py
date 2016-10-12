@@ -58,6 +58,18 @@ class ManageParameters(object):
 		except IOError as e:
 			return None
 
+	def to_dict(self):
+		if not self.ok(): return None
+		params_dict = {}
+		try:
+			with open(self.path_file) as json_data:
+				parameters = json.load(json_data)
+			for parameter in parameters:
+				params_dict[parameter["cparam"]] = parameter["value"]
+			return params_dict
+		except IOError as e:
+			return None
+
 	def get_param_object(self,cparam):
 		if not self.ok(): return None
 		try:
