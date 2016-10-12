@@ -1108,4 +1108,3 @@ class report_fn_bill(PDFTemplateView):
 		context['cells'] = cells
 		context['totales'] = totales
 		return context
-

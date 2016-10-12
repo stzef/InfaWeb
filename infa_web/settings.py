@@ -147,6 +147,10 @@ AUTH_PASSWORD_VALIDATORS = [
 	},
 ]
 
+AUTHENTICATION_BACKENDS = (
+	'django.contrib.auth.backends.ModelBackend',
+	'infa_web.apps.usuarios.auth_backend.UserBackend',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
