@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 #url(r'^$', login_required(dashboard), name = 'dashboard'),
 
 urlGeneral = [
-	#url(r'^$', TemplateView.as_view(template_name = 'home/dashboard.html'), {'title': 'Inicio'}, name = 'dashboard'),
-	url(r'^$', dashboard, name = 'dashboard'),
+	url(r'^$', TemplateView.as_view(template_name = 'home/index.html'), {'title': 'Inicio'}, name = 'inicio'),
+	
+	#url(r'^$', dashboard, name = 'dashboard'),
 	url(r'^dashboard/$', dashboard, name = 'dashboard'),
 ]
 
