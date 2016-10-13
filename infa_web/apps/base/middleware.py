@@ -31,6 +31,7 @@ from infa_web.config.domaindb import DOMAINS
 class subdomainMiddleware:
 	def process_request(self, request):
 		host = request.META.get('HTTP_HOST', '')
+		print "B"
 		print host
 		host = host.replace('www.', '').split('.')
 		print host
