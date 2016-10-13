@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.test import Client
+from django.core.urlresolvers import reverse
+
 
 # Create your tests here.
 
@@ -8,13 +10,15 @@ from infa_web.apps.movimientos.models import *
 from infa_web.apps.inventarios.models import *
 from infa_web.routines import *
 
-class ExampleCase(TestCase):
+class ExampleTestCase(TestCase):
 
 	def setUp(self):
-		pass
+		print "setup"
+		c = Client()
+		#response = c.post('stzef.appem.com:8000/states/add/', {},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		#response = c.post(reverse('add-state'), {"nesdo":"a","cesdo":1})
+		response = c.get("ttp://stzef.appem.com:8000/articles/add/")
+		print response.content
 
 	def example(self):
-		c = Client()
-		response = c.post('http://stzef.appem.com:8000/articles/add/', {},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-		#response = c.post('http://stzef.appem.com:8000/articles/add/', {},content_type="multipart/form-data",HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-		print response
+		print "method"

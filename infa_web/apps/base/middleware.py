@@ -34,7 +34,6 @@ class subdomainMiddleware:
 		host = host.replace('www.', '').split('.')
 		if len(host) > 2:
 				request.subdomain = ''.join(host[:-2])
-
 				# validar si dominio existe
 				if not(request.subdomain in DOMAINS):
 					return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
