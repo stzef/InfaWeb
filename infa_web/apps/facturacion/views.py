@@ -1012,6 +1012,7 @@ class report_fn_bill(PDFTemplateView):
 		manageParameters = ManageParameters(self.request.db)
 		data = self.request.GET
 
+
 		context['title'] = 'Reporte de Ventas Por Rango de Fechas'
 		cells = {
 			"cvende":{"show":True},
@@ -1073,4 +1074,15 @@ class report_fn_bill(PDFTemplateView):
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
+
+		context['colspan_total'] = 4
+		if(cvende):
+			context['colspan_total'] = 3
+			if(citerce):
+				context['colspan_total'] = 2
+		if(citerce):
+			context['colspan_total'] = 3
+			if(cvende):
+				context['colspan_total'] = 2
+
 		return context

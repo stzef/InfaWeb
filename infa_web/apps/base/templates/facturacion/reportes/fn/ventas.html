@@ -4,19 +4,19 @@
 {% block head_table %}
 	<tr style="padding-bottom: -3px;">
 		<td>{{title}}</td>
-	</tr>
-	{% for n,v in header.iteritems %}
+	</tr> 
+	{% for titulo,valor in header.iteritems %}
 		<tr>
-			<td>{{n}} : {{v}}</td>
+			<td>{{titulo}} : {{valor}}</td>
 		</tr>
 	{% endfor %}
 {% endblock head_table %}
 
 
 {% block content %}
-<table>
+<table class="center">
 	<thead>
-		<tr>
+		<tr class="">
 			<th>Factura</th>
 			{% if cells.citerce.show %}
 				<th>Cliente</th>
@@ -25,10 +25,10 @@
 				<th>Vendedor</th>
 			{% endif %}
 			<th>Fecha</th>
-			<th>Vr. sin IVA</th>
-			<th>Vr. base IVA</th>
-			<th>Vr. IVA</th>
-			<th>Vr. Total</th>
+			<th>Vr.Sin IVA</th>
+			<th>Vr.Base IVA</th>
+			<th>Vr.IVA</th>
+			<th>Vr.Total</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -48,23 +48,19 @@
 				<td>{{factura.vttotal|intcomma}}</td>
 			</tr>
 		{% endfor %}
-		<tr>
-			<tr style="font-weight: bold">
-				<td colspan="3">SubTotal</td>
-				<td>{{totales.vtt_sin_iva|intcomma}}</td>
-				<td>{{totales.vtt_base_iva|intcomma}}</td>
-				<td>{{totales.vtt_iva|intcomma}}</td>
-				<td>{{totales.subtotal|intcomma}}</td>
-			</tr>
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">SubTotal</td>
+			<td>{{totales.vtt_sin_iva|intcomma}}</td>
+			<td>{{totales.vtt_base_iva|intcomma}}</td>
+			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.subtotal|intcomma}}</td>
 		</tr>
-		<tr>
-			<tr style="font-weight: bold">
-				<td colspan="3">Total</td>
-				<td>{{totales.vtt_sin_iva|intcomma}}</td>
-				<td>{{totales.vtt_base_iva|intcomma}}</td>
-				<td>{{totales.vtt_iva|intcomma}}</td>
-				<td>{{totales.total|intcomma}}</td>
-			</tr>
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">Total</td>
+			<td>{{totales.vtt_sin_iva|intcomma}}</td>
+			<td>{{totales.vtt_base_iva|intcomma}}</td>
+			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.total|intcomma}}</td>
 		</tr>
 	</tbody>
 </table>
