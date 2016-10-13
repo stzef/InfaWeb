@@ -33,7 +33,6 @@ class subdomainMiddleware:
 		host = request.META.get('HTTP_HOST', '')
 		host = host.replace('www.', '').split('.')
 		print len(host)
-		print host
 		if len(host) > 2:
 				request.subdomain = ''.join(host[:-2])
 				print request.subdomain
