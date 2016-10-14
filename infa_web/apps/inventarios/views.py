@@ -67,7 +67,6 @@ def inventory_latest(request):
 	response['ac_year'] = 0
 	response['ac_hour'] = 0
 	response['ac_minute'] = 0
-	articulo = Tiarlos.objects.using(request.db).get(ntiarlos = 'ARTICULOS').pk
 	try:
 		value = Invinicab.objects.using(request.db).all().latest('pk')
 		response['code'] = sum_invini(value.pk)
@@ -76,18 +75,7 @@ def inventory_latest(request):
 	cesdo = Esdo.objects.using(request.db).get(nesdo = 'ACTIVO')
 	invini = Invinicab(cii = response['code'], cesdo = cesdo, vttotal = 0, fii = now)
 	invini.save(using=request.db)
-	"""
-	for arlo in Arlo.objects.using(request.db).filter(ctiarlo = articulo):
-		response['data'][c] = {}
-		response['data'][c]['carlos'] = arlo.carlos
-		response['data'][c]['cbarras'] = arlo.cbarras
-		response['data'][c]['nlargo'] = arlo.nlargo
-		response['data'][c]['ngpo'] = arlo.cgpo.ngpo
-		response['data'][c]['canti'] = 0
-		response['data'][c]['cancalcu'] = float(arlo.canti)
-		response['data'][c]['vcosto'] = float(arlo.vcosto)
-		c += 1
-	"""
+
 	c = 0
 	for esdo in Esdo.objects.using(request.db).all():
 		response['esdo'][c] = {}
