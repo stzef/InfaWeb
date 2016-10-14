@@ -29,7 +29,7 @@ class FacForm(forms.ModelForm):
 			'cemdor'  : forms.Select(attrs={'class':'form-control','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
 
-			'cfac' : forms.TextInput(attrs={'class':'form-control', 'readonly': True}),
+			'cfac' : forms.TextInput(attrs={'class':'app-input-important form-control', 'readonly': True}),
 			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'descri' : forms.Textarea(attrs={'class':'form-control'}),
@@ -46,8 +46,8 @@ class FacForm(forms.ModelForm):
 			#'vchq' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'docchq' : forms.TextInput(attrs={'class':'form-control'}),
 			#'bancochq' : forms.Select(attrs={'class':'form-control','required':True}),
-			'ventre' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
-			'vcambio' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'ventre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vcambio' : forms.NumberInput(attrs={'class': 'form-control','required':True,'readonly':True,'step':'0.01','min':0}),
 			#cusu char(20)
 			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#ccoti char(10)
@@ -59,7 +59,7 @@ class FacForm(forms.ModelForm):
 			'fhasdomi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}
 		labels = {
-			'cfac' : 'Codigo Interno',
+			'cfac' : 'Codigo Factura',
 			'femi' : 'Fecha Emision',
 			'citerce' : 'Tercero',
 			'cesdo' : 'Estado',
@@ -184,11 +184,16 @@ class ReportVentaForm(forms.Form):
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Tercero.objects.all()
 	)
+	ctifopa = forms.ModelChoiceField(
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Tifopa.objects.all()
+	)
 	def __init__(self, using='', *args, **kwargs):
 		super(ReportVentaForm, self).__init__(*args, **kwargs)
 		name_db = using
 
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
 
 		manageParameters = ManageParameters(name_db)

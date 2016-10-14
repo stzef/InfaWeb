@@ -25,6 +25,16 @@
 								<h3 class="box-title">{{title}}</h3>
 							</div>
 							<div class="box-body">
+								<div class="form-group col-md-12 pull-rigth">
+									<label for="{{form.cfac.id_for_label}}" class="col-sm-3 control-label">{{form.cfac.label}}</label>
+									{%if form.cfac.errors%}
+									{{form.cfac.errors}}
+									{%endif%}
+									<div class="col-sm-3">
+										{{form.cfac}}
+									</div>
+								</div>
+
 								<div class="col-md-2 nopadding">
 									<img class="img-responsive" src="{% static company_logo %}" alt="">
 								</div>
@@ -79,15 +89,7 @@
 											{{form.ctifopa}}
 										</div>
 									</div>
-                  <div class="form-group col-md-12">
-										<label for="{{form.cfac.id_for_label}}" class="col-sm-3 control-label">{{form.cfac.label}}</label>
-										{%if form.cfac.errors%}
-										{{form.cfac.errors}}
-										{%endif%}
-										<div class="col-sm-9">
-											{{form.cfac}}
-										</div>
-									</div>
+
 								</div>
 
 								<div class="col-md-5 nopadding">
@@ -768,6 +770,8 @@
 
 		$("[name=vttotal]").val(vttotal_local).trigger("change")
 		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
+		
+		$("[name=ventre]").val(vttotal_local).trigger("change")
 	}
 
 	/* Operaciones */
@@ -809,7 +813,7 @@
 		*/	
 		if(!data_validation.invoice_without_stock){
 			if(parseFloat($(this).val()) > parseFloat(current_arlo.canti)){
-				if(!confirm("Va ha vender una cantidad a las Existencias. Existencia = " + current_arlo.canti + ", ¿Desea Continuar?")){
+				if(!confirm("La Cantidad " + current_arlo.canti + " no existe en el inventario actual, ¿Desea Continuar?")){
 					$(this).val("")
 				}
 			}
@@ -1119,6 +1123,9 @@
 
 		if(number_items_billing >= data_validation.maximum_number_items_billing){
 			return alert("EL numero Maximo de items por factura para este usuario segunel talonario ya se ha superado")
+		}
+		if( parseFloat($('#item_mdeta input[name=vtotal]').val()) <= 0){
+			return alert("El Valor Total debe Se Mayor a Cero")
 		}
 		if(customValidationInput("#item_mdeta").valid){
 			var tr = $("<tr>")
