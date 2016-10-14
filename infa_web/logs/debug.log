@@ -6622,6 +6622,7 @@ Traceback (most recent call last):
     if(cvende):
 UnboundLocalError: local variable 'cvende' referenced before assignment
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+<<<<<<< HEAD
  ERROR 2016-10-13 15:41:23,771 base 7423 140506842113856 Internal Server Error: /states/add/ 
 Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
@@ -6714,3 +6715,154 @@ Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 179, in ensure_defaults
     raise ConnectionDoesNotExist("The connection %s doesn't exist" % alias)
 ConnectionDoesNotExist: The connection test_db_local doesn't exist
+=======
+ ERROR 2016-10-13 09:41:12,805 base 2288 3440 Internal Server Error: /bill/billing/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-13 09:41:43,710 base 2288 4272 Internal Server Error: /bill/billing/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
+>>>>>>> 84be3885c3e2b7c1be712345d3f99e13de66b868
