@@ -1246,11 +1246,7 @@
 				}
 				currentForm.prepend(message)
 				if(confirm("Desea Imprimir La Factura")){
-					if(mode_view != "edit"){
-						print_bill($("#id_cfac").val())
-					}else{
-						print_bill(response.cfac)
-					}
+					print_bill(response.cfac)
 				}
 
 				$("form").trigger("reset")

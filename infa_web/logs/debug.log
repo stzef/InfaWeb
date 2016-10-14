@@ -6866,3 +6866,163 @@ Traceback (most recent call last):
 OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
 
 >>>>>>> 84be3885c3e2b7c1be712345d3f99e13de66b868
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 10:06:43,523 base 4932 6104 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\easy_pdf\views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 958, in get_context_data
+    factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Fac matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 10:18:39,398 base 5556 1168 Internal Server Error: /bill/print/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\easy_pdf\views.py", line 80, in get
+    context = self.get_context_data(**kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 957, in get_context_data
+    factura = Fac.objects.using(self.request.db).get(cfac=cfac)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Fac matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:09:34,476 base 912 3064 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 179, in find_arlo
+    invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
+NameError: global name 'cii_deta' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:14:05,707 base 3420 5028 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 191, in find_arlo
+    response['cbarras'] = articulo.cbarras
+AttributeError: 'int' object has no attribute 'cbarras'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:15:33,433 base 4180 4316 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 199, in find_arlo
+    return HttpResponse(json.dumps(response), "application/json")
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: Decimal('0.00') is not JSON serializable
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:19:25,971 base 5132 4012 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 179, in find_arlo
+    invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = carlos)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:21:30,246 base 5132 4292 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 180, in find_arlo
+    response['cbarras'] = invini_deta.cbarras
+AttributeError: 'Invinideta' object has no attribute 'cbarras'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:22:37,586 base 4484 2688 Internal Server Error: /inventory/arlo/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 186, in find_arlo
+    response['ajusal'] = str(nvini_deta.ajusal)
+NameError: global name 'nvini_deta' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:23:49,987 base 5384 3244 Internal Server Error: /inventory/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 223, in inventory_save
+    invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:30:05,289 base 5384 4916 Internal Server Error: /inventory/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 223, in inventory_save
+    invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-14 11:34:18,190 base 2740 5140 Internal Server Error: /inventory/save/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\inventarios\views.py", line 223, in inventory_save
+    invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
+    (self.model._meta.object_name, num)
+MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
