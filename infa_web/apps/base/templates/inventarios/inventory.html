@@ -234,7 +234,7 @@
 					'<td>'+
 						'<input type="number" class="form-control value text-right id_vunita" value="0"/>'+
 					'</td>'+
-					'<td class="id_vttotal text-right"></td>'+
+					'<td class="id_vttotal text-right">0</td>'+
 					'<td class="ajuent text-right">0</td>'+
 					'<td class="ajusal text-right">0</td>'+
 					'<td>'+
@@ -362,6 +362,7 @@
 				$('.ajusal').attr('id', 'ajusal-'+id_carlos)
 				$('.ajuent').attr('id', 'ajuent-'+id_carlos)
 				$('.id_vttotal').attr('id', 'vtotal-'+id_carlos)
+				$(':input.cant ').val(0).trigger('keyup');
 				save_local_storage(id_carlos)
 			}else{
 				alert('Artículo no encontrado')
