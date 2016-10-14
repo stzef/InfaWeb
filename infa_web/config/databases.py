@@ -1,6 +1,6 @@
  
 # Configuraciones de bases de datos
-DB = {
+"""DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'd1e6lv1qvghpv4',
@@ -32,13 +32,23 @@ DB = {
 		'PASSWORD': 'd9gR5v91pHII6wlqVla81qM5pM',
 		'HOST': 'ec2-174-129-223-35.compute-1.amazonaws.com',
 		'PORT': '5432',
-	},
-		'test_db_local': {
+	}
+}"""
+DB = {
+	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'test_infaweb_db',
-		'USER': 'postgres',
-		'PASSWORD': '123456',
+		'NAME': 'infaweb_db',
+		'USER': 'root',
+		'PASSWORD': 'root',
 		'HOST': 'localhost',
-		'PORT': '5432',
+		'PORT': '',
+	},
+	'db_1': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'infaweb_db',
+		'USER': 'root',
+		'PASSWORD': 'root',
+		'HOST': 'localhost',
+		'PORT': '',
 	}
 }

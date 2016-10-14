@@ -1001,7 +1001,7 @@ class BillPrint(PDFTemplateView):
 def report_view_bill(request):
 	form = ReportVentaForm(request.db)
 	form_common = CommonForm(request.db)
-	return render(request,"facturacion/reportes/views/ventas.html",{"form":form,"form_common":form_common})
+	return render(request,"facturacion/reportes/views/ventas.html",{"title":"Reporte de Ventas","form":form,"form_common":form_common})
 
 class report_fn_bill(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas.html"
@@ -1051,7 +1051,7 @@ class report_fn_bill(PDFTemplateView):
 		
 		totales["subtotal"] = 0
 		totales["total"] = 0
-		totales["vtt_sin_iva"] = 0
+		totales["vtt_otros"] = 0
 		totales["vtt_base_iva"] = 0
 		totales["vtt_iva"] = 0
 
@@ -1060,11 +1060,11 @@ class report_fn_bill(PDFTemplateView):
 			totales["subtotal"] += factura.vttotal
 			totales["total"] += factura.vttotal
 
-			factura.data_report["vt_sin_iva"] = factura.vttotal -factura.vtiva
+			factura.data_report["otros_valores"] = factura.vflete
 			factura.data_report["vt_base_iva"] = factura.vtbase
 			factura.data_report["vt_iva"] = factura.vtiva
 
-			totales["vtt_sin_iva"] += factura.data_report["vt_sin_iva"]
+			totales["vtt_otros"] += factura.data_report["otros_valores"]
 			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 			totales["vtt_iva"] += factura.data_report["vt_iva"]
 

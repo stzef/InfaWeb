@@ -25,7 +25,7 @@
 				<th>Vendedor</th>
 			{% endif %}
 			<th>Fecha</th>
-			<th>Vr.Sin IVA</th>
+			<th>Vr.Otros</th>
 			<th>Vr.Base IVA</th>
 			<th>Vr.IVA</th>
 			<th>Vr.Total</th>
@@ -42,7 +42,7 @@
 					<td>{{factura.cvende.nvende}}</td>
 				{% endif %}
 				<td>{{factura.femi|date:"d M Y"}}</td>
-				<td>{{factura.data_report.vt_sin_iva|intcomma}}</td>
+				<td>{{factura.data_report.otros_valores|intcomma}}</td>
 				<td>{{factura.data_report.vt_base_iva|intcomma}}</td>
 				<td>{{factura.data_report.vt_iva|intcomma}}</td>
 				<td>{{factura.vttotal|intcomma}}</td>
@@ -50,16 +50,16 @@
 		{% endfor %}
 		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
 			<td colspan="{{colspan_total}}">SubTotal</td>
-			<td>{{totales.vtt_sin_iva|intcomma}}</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
 			<td>{{totales.vtt_base_iva|intcomma}}</td>
-			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
 			<td>{{totales.subtotal|intcomma}}</td>
 		</tr>
 		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
 			<td colspan="{{colspan_total}}">Total</td>
-			<td>{{totales.vtt_sin_iva|intcomma}}</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
 			<td>{{totales.vtt_base_iva|intcomma}}</td>
-			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
 			<td>{{totales.total|intcomma}}</td>
 		</tr>
 	</tbody>

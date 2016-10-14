@@ -67,7 +67,6 @@ def inventory_latest(request):
 	response['ac_year'] = 0
 	response['ac_hour'] = 0
 	response['ac_minute'] = 0
-	articulo = Tiarlos.objects.using(request.db).get(ntiarlos = 'ARTICULOS').pk
 	try:
 		value = Invinicab.objects.using(request.db).all().latest('pk')
 		response['code'] = sum_invini(value.pk)

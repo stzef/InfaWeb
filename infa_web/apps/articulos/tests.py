@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
+import json
+
 
 
 # Create your tests here.
@@ -13,10 +15,11 @@ from infa_web.routines import *
 class ExampleTestCase(TestCase):
 
 	def setUp(self):
-		print "setup"
 		c = Client()
 		#csrf_client = Client(enforce_csrf_checks=True)
-		response = c.post(reverse('add-article'),{
+
+		# Creacion De Articulo
+		response_article_1 = c.post(reverse('add-article'),{
 			"cbarras":4634563421231,
 			"ncorto":"Articulo 1",
 			"refe":"",
@@ -47,7 +50,45 @@ class ExampleTestCase(TestCase):
 			"cubica":1,
 			"cesdo":1
 		},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-		print response.content
+		article_1 = json.loads(response_article_1.content)
+		article_1 = json.loads(article_1["object"])[0]
+
+		# Creacion de Inventario Inicial Cabeza
+		response_inventory = c.post(reverse('inventory_latest'),HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		inventory = json.loads(response_inventory.content)
+
+		# Creacon de Inventario Inicial Detalle
+		response_inventory_deta_1 = c.post(reverse('inventory_save'),{
+																		"cii":str(inventory["code"]),
+																		"val_tot":"15000",
+																		"fii":"14/10/2016 08:22",
+																		"cesdo":"1",
+																		"data_r":json.dumps([
+																			{
+																				"carlos":str(article_1["pk"]),
+																				"nlargo":str(article_1["fields"]["nlargo"]),
+																				"cancalcu":"0",
+																				"canti":"50",
+																				"vcosto":"300",
+																				"ajuent":"50",
+																				"ajusal":"0",
+																				"cbarras":"",
+																			}
+																		])
+																	},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+		# Creacion de Movimientos
+		# Creacion de Movimientos Entrada
+		response_mven_1 = c.post(reverse('save-movement'),)
+
+
+		print ".-.-.--.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-"
+		print ".-.-.--.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-"
+		print response_inventory_deta_1.content
+		print ".-.-.--.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-"
+		print ".-.-.--.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-"
+		#response_inventory_deta_2 = c.post(reverse('inventory_save'),{},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		#response_inventory_deta_3 = c.post(reverse('inventory_save'),{},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
 	def example(self):
-		print "method"
+		pass

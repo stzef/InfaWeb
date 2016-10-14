@@ -11,11 +11,12 @@
 	{% include 'elements/sidebar.html' %}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<div class="content">
-			<h2>Calculo de Costos y Existencias</h2>
+			<h2>{{title}}</h2>
 			<ul class="nav nav-pills">
 				<li data-type-search="All" class="active"><a data-toggle="pill" href="#form_all">Todos</a></li>
 				<li data-type-search="Vende" ><a data-toggle="pill" href="#form_vende">Por Vendedor</a></li>
 				<li data-type-search="Tercero" ><a data-toggle="pill" href="#form_citerce">Por Cliente</a></li>
+				<li data-type-search="MPago" ><a data-toggle="pill" href="#form_mpago">Por Formas De Pagos</a></li>
 			</ul>
 			<form action="{% url 'report_fn_bill' %}" target="blank" method="GET" class="form-horizontal">
 				
@@ -59,6 +60,22 @@
 									<div class="box-body">
 									<div>
 										{{form.citerce}}
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="form_mpago" class="tab-pane fade in">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Formas De Pago</h3>
+									</div>
+									<div class="box-body">
+									<div>
+										{{form.ctifopa}}
 									</div>
 									</div>
 								</div>
