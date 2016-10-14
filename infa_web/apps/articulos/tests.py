@@ -15,9 +15,38 @@ class ExampleTestCase(TestCase):
 	def setUp(self):
 		print "setup"
 		c = Client()
-		#response = c.post('stzef.appem.com:8000/states/add/', {},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-		#response = c.post(reverse('add-state'), {"nesdo":"a","cesdo":1})
-		response = c.get("ttp://stzef.appem.com:8000/articles/add/")
+		#csrf_client = Client(enforce_csrf_checks=True)
+		response = c.post(reverse('add-article'),{
+			"cbarras":4634563421231,
+			"ncorto":"Articulo 1",
+			"refe":"",
+			"nlargo":"Articulo 1",
+			"cgpo":1,
+			"cmarca":1,
+			"ctiarlo":1,
+			"cunidad":1,
+			"canti":0,
+			"vcosto":0,
+			"porult1":0,
+			"pvta1":0,
+			"porult2":0,
+			"pvta2":0,
+			"porult3":0,
+			"pvta3":0,
+			"porult4":0,
+			"pvta4":0,
+			"porult5":0,
+			"pvta5":0,
+			"porult6":0,
+			"pvta6":0,
+			"ifcostear":"on",
+			"stomin":1,
+			"stomax":100,
+			"mesesgara":0,
+			"ivas_civa":1,
+			"cubica":1,
+			"cesdo":1
+		},HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		print response.content
 
 	def example(self):

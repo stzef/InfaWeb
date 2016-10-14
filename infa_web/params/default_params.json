@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/10/06 11:34:56", 
+        "value": "2016/10/13 16:35:23", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/10/06 11:34:56", 
+            "selected": "2016/10/13 16:35:23", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -271,10 +271,6 @@
         }, 
         "nparam": "Movimiento de Inventario por defecto para las factura de salida"
     }, 
-
-
-
-
     {
         "cparam": "invoice_without_stock", 
         "type": "Boolean", 
@@ -297,12 +293,6 @@
         }, 
         "nparam": "Facturar Articulos Sin Existencia."
     }, 
-
-
-
-
-
-
     {
         "cparam": "invoice_below_minimum_sales_price", 
         "type": "Boolean", 

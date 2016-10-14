@@ -128,13 +128,23 @@ from infa_web.config.databases import DB
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
+		'NAME': 'test_db',
 		'USER': 'postgres',
 		'PASSWORD': '123456',
 		'HOST': 'localhost',
 		'PORT': '5432',
 	}
 }
+"""
+,'test_default': {
+	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	'NAME': 'test_test_db',
+	'USER': 'postgres',
+	'PASSWORD': '123456',
+	'HOST': 'localhost',
+	'PORT': '5432',
+}
+"""
 
 SITE_ID = 1
 

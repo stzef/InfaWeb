@@ -87,7 +87,7 @@ class AjaxableResponseMixin(object):
 		if self.request.is_ajax():
 			data = {
 				'error':True,
-				'message':'El proceso se realizo Con Exito',
+				'message':'Ocurrio un Error al realizar el Proceso.',
 				'errors':form.errors,
 			}
 			return JsonResponse(data, status=400)
