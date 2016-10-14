@@ -30,7 +30,7 @@ class FacForm(forms.ModelForm):
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
 
 			'cfac' : forms.TextInput(attrs={'class':'app-input-important form-control', 'readonly': True}),
-			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True,'readonly': True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 			'descri' : forms.Textarea(attrs={'class':'form-control'}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),

@@ -765,16 +765,16 @@ class BillCreate(CustomCreateView):
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
 
-		context['data_validation'] = {}
+		context['data_validation'] = manageParameters.to_dict()
 
 		context['company_logo'] = manageParameters.get_param_value('company_logo')
 
-		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
 
 		# Datos de Prueba
 		context['data_validation']['maximum_number_items_billing'] = 10
@@ -821,16 +821,16 @@ class BillEdit(CustomUpdateView):
 		#context['url'] = reverse_lazy('save-bill')
 		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
 
-		context['data_validation'] = {}
+		context['data_validation'] = manageParameters.to_dict()
 
 		context['company_logo'] = manageParameters.get_param_value('company_logo')
 
-		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
 
 		# Datos de Prueba
 		context['data_validation']['maximum_number_items_billing'] = 10

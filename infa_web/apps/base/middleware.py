@@ -18,7 +18,6 @@ class updateDateAppen(object):
 		request.session['empresa_actual'] = ""
 
 		manageParameters = ManageParameters(request.db)
-		print manageParameters.to_dict()
 		current_date = datetime.now()
 		current_date_format = current_date.strftime('%Y/%m/%d %H:%M:%S')
 		manageParameters.set_param_object("date_appen",current_date_format)
@@ -38,7 +37,6 @@ class subdomainMiddleware:
 			request.subdomain = "test_local"
 			request.db = DOMAINS[request.subdomain]
 			redirect('/dashboard')
-			print "server test"
 		else:
 			if len(host) > 2:
 					request.subdomain = ''.join(host[:-2])

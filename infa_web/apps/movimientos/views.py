@@ -256,6 +256,9 @@ def UpdateMovement(request,pk):
 
 @csrf_exempt
 def SaveMovement(request):
+	print ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
+	print request.body
+	print ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
 	data = json.loads(request.body)
 	response = {}
 	response["error"] = False

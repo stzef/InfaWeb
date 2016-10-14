@@ -99,7 +99,7 @@
 										{{form.femi.errors}}
 										{%endif%}
 										<div class="col-sm-9">
-											<input type="text" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
+											{{form.femi}}
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -108,7 +108,7 @@
 										{{form.fpago.errors}}
 										{%endif%}
 										<div class="col-sm-9">
-											<input type="text" value="{{form.fpago.field.widget.attrs.value}}" name="{{form.fpago.name}}" id="{{form.fpago.id_for_label}}" class="{{form.fpago.field.widget.attrs.class}}" {% if form.fpago.field.required %}required{% endif %}>
+											{{form.fpago}}
 										</div>
 									</div>
 
@@ -201,10 +201,16 @@
 										<thead>
 											<tr>
 												<th>It</th>
-												<th width="20%">Cod. Articulo</th>
+												<th width="15%">Cod. Articulo</th>
 												<th>Articulo</th>
-												<th>Cantidad</th>
-												<th width="10%">Descuento</th>
+												<th width="5%">Cantidad</th>
+												{% if data_validation.discount_percentages_allow_billing %}
+													<th width="10%">
+														Descuento
+													</th>
+												{% else %}
+													<th></th>
+												{% endif%}
 												<th>IVA</th>
 												<th>V. unitario</th>
 												<th>V. total</th>
@@ -227,10 +233,14 @@
 												</th>
 												<th>{{ form_movement_detail.canti }}</th>
 												<th>
-													<div class="input-group">
-														{{ form_movement_detail.pordes }}
-														<span class="input-group-addon">%</span>
-													</div>
+													{% if data_validation.discount_percentages_allow_billing %}
+														<div class="input-group">
+															{{ form_movement_detail.pordes }}
+															<span class="input-group-addon">%</span>
+														</div>
+													{% else %}
+														<input type="hidden" name="{{form_movement_detail.pordes.name}}" id="{{form_movement_detail.pordes.id_for_label}}" value="0" >
+													{% endif %}
 												</th>
 												<th>{{ form_movement_detail.civa }}</th>
 												<th>{{ form_movement_detail.vunita }}</th>
@@ -288,7 +298,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="btn-group">
-							<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+							<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
 						</div>
 					</div>
 					</div><!-- /.modal-content -->
@@ -305,79 +315,119 @@
 						<div class="modal-body">
 
 							<form role="form" id="form_totales">
-								<div class="row">
-									<div class="col-md-7">
-										<div class="box box-primary">
-											<div class="box-header with-border">
-												<h3 class="box-title">Totales</h3>
-											</div>
-											<div class="box-body">
-												<div class="row col-md-6">
-													<div class="form-group">
-														<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-														{{form.vtbase}}
-													</div>
-													<div class="form-group">
-														<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
-														{{form.vtiva}}
-													</div>
-												</div>
-
-												<div class="row col-md-6">
-													<div class="form-group">
-														<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-														{{form.vflete}}
-													</div>
-													<div class="form-group">
-														<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-														<div class="input-group">
-															{{form.vdescu}}
-															<span class="input-group-addon">%</span>
+								<div>
+									<ul class="nav nav-pills">
+										<li class="active"><a data-toggle="pill" href="#tab_pagos">Pagos</a></li>
+										<li ><a data-toggle="pill" href="#tab_impuestos">Impuestos</a></li>
+										<li ><a data-toggle="pill" href="#tab_retencion">Retencion</a></li>
+										<li ><a data-toggle="pill" href="#tab_totalizar_otros">Otros</a></li>
+									</ul>
+									<secition>
+										<div class="tab-content"> 
+											<div id="tab_pagos" class="tab-pane fade in active">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+																<div class="form-group col-md-4">
+																	<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
+																	{{form.vttotal}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
+																	{{form.ventre}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
+																	{{form.vcambio}}
+																</div>
+															</div>
 														</div>
 													</div>
-													<div class="form-group">
-														<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
-														{{form.vttotal}}
-													</div>
 												</div>
+											</div>
+											<div id="tab_impuestos" class="tab-pane fade in">
 												<div class="row">
-													<div class="form-group col-md-6">
-														<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
-														{{form.ventre}}
-													</div>
-													<div class="form-group col-md-6">
-														<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
-														{{form.vcambio}}
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+															</div>
+																<div class="form-group col-md-6">
+																	<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+																	{{form.vtbase}}
+																</div>
+																<div class="form-group col-md-6">
+																	<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+																	{{form.vtiva}}
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-
+											</div>
+											<div id="tab_retencion" class="tab-pane fade in">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.brtefte.id_for_label}}">{{form.brtefte.label}}</label>
+																	{{form.brtefte}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.prtefte.id_for_label}}">{{form.prtefte.label}}</label>
+																	<div class="input-group">
+																		{{form.prtefte}}
+																		<span class="input-group-addon">%</span>
+																	</div>
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.vrtefte.id_for_label}}">{{form.vrtefte.label}}</label>
+																	{{form.vrtefte}}
+																</div>
+															</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="tab_totalizar_otros" class="tab-pane fade in">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+																<div class="row col-md-6">
+																	<div class="form-group">
+																		<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+																		{{form.vflete}}
+																	</div>
+																	<div class="form-group">
+																		<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+																		<div class="input-group">
+																			{{form.vdescu}}
+																			<span class="input-group-addon">%</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-md-5">
-										<div class="box box-primary">
-											<div class="box-header with-border">
-												<h3 class="box-title">Retencion Fuente</h3>
-											</div>
-											<div class="box-body">
-												<div class="form-group">
-													<label for="{{form.brtefte.id_for_label}}">{{form.brtefte.label}}</label>
-													{{form.brtefte}}
-												</div>
-												<div class="form-group">
-													<label for="{{form.prtefte.id_for_label}}">{{form.prtefte.label}}</label>
-													<div class="input-group">
-														{{form.prtefte}}
-														<span class="input-group-addon">%</span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="{{form.vrtefte.id_for_label}}">{{form.vrtefte.label}}</label>
-													{{form.vrtefte}}
-												</div>
-											</div>
-										</div>
-									</div>
+									</secition>
 								</div>
 							</form>
 
@@ -429,7 +479,7 @@
 						</div>
 						<div class="modal-footer">
 							<div class="btn-group">
-								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
 								<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
 							</div>
 						</div>
@@ -1147,6 +1197,9 @@
 				}
 				if(e.name == 'vunita' || e.name == 'vtotal'){
 					value = parseFloat(e.value).format(2)
+				}
+				if(e.type == "hidden"){
+					value = ""
 				}
 				tr.append($("<td>",{
 					"data-name":e.name,
