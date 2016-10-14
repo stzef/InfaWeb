@@ -1,11 +1,31 @@
 {% extends "m/base.html" %}
+
 {% block title %}
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
 {% endblock title %}
+
+{% block header %}
+	{% include "m/m_header_fac.html" %}
+	<a href="{% url 'm_dashboard' %}" class="ui-btn-right tui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="flow">Pagar</a>
+{% endblock header %}
+
 {% block content %}
+
 	<h4>Incluye los articulos a facturar</h4>
-	<a href="{% url 'm_choose_article' %}" class="ui-btn" rel="external" data-transition="flow">Seleccionar Articulo</a>
+
+	<a href="{% url 'm_choose_article' %}" class="ui-btn" data-transition="flow">Seleccionar Articulo</a>
+
+	<!-- Footer -->
 	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
-		<h4 class="ui-title" role="heading" aria-level="1">TOTAL $ X.XXX.XXX</h4>
+		<div class="ui-grid-a">
+			<div class="ui-block-a" style="text-align: center;">
+				<h4>TOTAL $</h4>
+			</div>
+			<div class="ui-block-b">
+				<input type="number" value="0" min="0" style="text-align: right;" disabled>
+			</div>
+		</div>
 	</div>
+	<!-- Footer -->
+
 {% endblock content %}

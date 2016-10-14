@@ -8,16 +8,15 @@
 	<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
 	<script src="{% static 'js/jquery.mobile-1.4.5.min.js' %}"></script>
 	-->
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	{% block head %}
 	{% endblock head %}
 </head>
 <body>
 	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
-		<a href="{% url 'm_dashboard' %}" class="ui-btn-lef tui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="flow" role="button">Inicio</a>
 		{% block title %}
 		{% endblock title %}
 		{% block header %}
@@ -30,4 +29,27 @@
 </body>
 {% block scripts %}
 {% endblock scripts %}
+<script>
+
+		var cliente = false;
+
+		$( "#chooseMostrador" ).on( "click", function( event ) {
+			// Prevenir Comportamiento
+			event.preventDefault();
+
+			// assign value cliente
+			cliente = $(this).attr("data-client")
+
+			// Alter the url according to the anchor's href attribute, and
+			// store the data-foo attribute information with the url
+			$.mobile.navigate( $(this).attr( "href" ), {
+				foo: $(this).attr("data-foo")
+			});
+
+			// Hypothetical content alteration based on the url. E.g, make
+			// an Ajax request for JSON data and render a template into the page.
+			//alterContent( $(this).attr("href") );
+		});
+
+</script>
 </html>

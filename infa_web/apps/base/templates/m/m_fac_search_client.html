@@ -1,21 +1,89 @@
 {% extends "m/base.html" %}
+
 {% block title %}
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
 {% endblock title %}
+
+{% block header %}
+	{% include "m/m_header_fac.html" %}
+{% endblock header %}
+
 {% block content %}
-	<h4>Buscar cliente</h4>
-	<ul data-role="listview" data-autodividers="true" data-filter="true" data-inset="true">
-		<li><a href="{% url 'm_order' %}" data-transition="flow">
-			Aurelio Martinez <span> 129073</span>
-		</a></li>
-		<li><a href="{% url 'm_order' %}" data-transition="flow">
-			Felipe Cepeda <span> 359232</span>
-		</a></li>
-		<li><a href="{% url 'm_order' %}" data-transition="flow">
-			Laura Montaño <span> 986232</span>
-		</a></li>
-		<li><a href="{% url 'm_order' %}" data-transition="flow">
-			Mario Galindo <span> 761280</span>
-		</a></li>
+	<div class="ui-grid-a">
+		<div class="ui-block-a">
+			<h4>Buscar cliente</h4>
+		</div>
+		<div class="ui-block-b">
+			<a href="{% url 'm_third_party_add' %}" class="ui-btn" data-transition="slide">Crear nuevo</a>
+		</div>
+	</div>
+
+	<ul id="buscarClienteList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
+		{% for tercero in terceros %}
+			<li><a data-client="{{tercero.idterce}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
+				{{tercero.nom1}} {{tercero.ape1}}  <span> {{tercero.idterce}}</span>
+			</a></li>
+		{% endfor %}
 	</ul>
+	<script>
+
+		// Busqueda de Terceros
+		$("#buscarClienteList" ).on( "filterablebeforefilter", function ( e, data ) {
+
+			var $ul = $( this ),
+			// dato de entrada
+			$datoDeEntrada = $( data.input ),
+			valorDatoDeEntrada = $datoDeEntrada.val(),
+			// Template Lista 
+			html = "";
+			// restablecer valores
+			$ul.html( "" );
+
+			if (valorDatoDeEntrada && valorDatoDeEntrada.length > 2) {
+
+				// Gestos UI
+				$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" )
+				$ul.listview( "refresh" )
+
+				// request obtener Terceros
+				$.ajax({
+					url : "{% url 'm_ajax_third_party_list' %}",
+					dataType: "json",
+					data: {
+						q: $datoDeEntrada.val()
+					}
+				})
+				.then( function ( data, statusCode, xhr) {
+
+					// Parsear datos
+					var clientes = JSON.parse(data)
+
+					// recorrer datos y armar template
+					for (var i = 0; i < clientes.length; i++) {
+
+						html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].fields.idterce +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
+					};
+
+					// cargar template a la lista
+					$ul.html( html );
+					$ul.listview( "refresh" );
+					$ul.trigger( "updatelayout");
+
+				}, function ( data, statusCode, xhr){
+
+					// Manejar el Error
+
+				});
+			}
+		})
+
+		// Asignar dato a cliente global
+		$("#buscarClienteList").on("click", ".tercero", function (event) {
+
+			// Asignar valor a cliente
+			cliente = $(this).attr("data-client")
+
+		})
+
+	</script>
 {% endblock content %}
