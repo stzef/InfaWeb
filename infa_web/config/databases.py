@@ -1,4 +1,4 @@
-
+ 
 # Configuraciones de bases de datos
 DB = {
 	'default': {
@@ -31,6 +31,14 @@ DB = {
 		'USER': 'dtptogrbsesizi',
 		'PASSWORD': 'd9gR5v91pHII6wlqVla81qM5pM',
 		'HOST': 'ec2-174-129-223-35.compute-1.amazonaws.com',
+		'PORT': '5432',
+	},
+		'test_db_local': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'test_infaweb_db',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
+		'HOST': 'localhost',
 		'PORT': '5432',
 	}
 }

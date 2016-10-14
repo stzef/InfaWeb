@@ -6622,6 +6622,100 @@ Traceback (most recent call last):
     if(cvende):
 UnboundLocalError: local variable 'cvende' referenced before assignment
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+<<<<<<< HEAD
+ ERROR 2016-10-13 15:41:23,771 base 7423 140506842113856 Internal Server Error: /states/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 256, in post
+    return super(BaseCreateView, self).post(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 222, in post
+    return self.form_valid(form)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/views.py", line 101, in form_valid
+    response = super(AjaxableResponseMixin, self).form_valid(form)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/custom/generic_views.py", line 32, in form_valid
+    self.object = obj.save(using=usingAlias)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/base.py", line 708, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/base.py", line 733, in save_base
+    with transaction.atomic(using=using, savepoint=False):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/transaction.py", line 152, in __enter__
+    connection = get_connection(self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/transaction.py", line 21, in get_connection
+    return connections[using]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 209, in __getitem__
+    self.ensure_defaults(alias)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 179, in ensure_defaults
+    raise ConnectionDoesNotExist("The connection %s doesn't exist" % alias)
+ConnectionDoesNotExist: The connection db_1 doesn't exist
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-13 15:44:19,206 base 7564 140202794563392 Internal Server Error: /states/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 9, in process_request
+    manageParameters = ManageParameters(request.db)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 21, in __init__
+    "Missing File Parameters. \nSubdomain : %s \nDatabase : %s \nPath : %s " % (subdomain,name_db,self.path_file)
+ImproperlyConfigured: Missing File Parameters. 
+Subdomain : test_local 
+Database : test_db_local 
+Path : /home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/params/test_db_local_params.json 
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-13 16:16:00,592 base 8948 139727497414464 Internal Server Error: /articles/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/articulos/views.py", line 111, in post
+    maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 358, in aggregate
+    return query.get_aggregation(self.db, kwargs.keys())
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 463, in get_aggregation
+    compiler = outer_query.get_compiler(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 254, in get_compiler
+    connection = connections[using]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 209, in __getitem__
+    self.ensure_defaults(alias)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 179, in ensure_defaults
+    raise ConnectionDoesNotExist("The connection %s doesn't exist" % alias)
+ConnectionDoesNotExist: The connection test_db_local doesn't exist
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-13 16:16:53,042 base 9032 139884456929088 Internal Server Error: /articles/add/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/articulos/views.py", line 111, in post
+    maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 358, in aggregate
+    return query.get_aggregation(self.db, kwargs.keys())
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 463, in get_aggregation
+    compiler = outer_query.get_compiler(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 254, in get_compiler
+    connection = connections[using]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 209, in __getitem__
+    self.ensure_defaults(alias)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 179, in ensure_defaults
+    raise ConnectionDoesNotExist("The connection %s doesn't exist" % alias)
+ConnectionDoesNotExist: The connection test_db_local doesn't exist
+=======
  ERROR 2016-10-13 09:41:12,805 base 2288 3440 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
@@ -6771,3 +6865,4 @@ Traceback (most recent call last):
     conn = _connect(dsn, connection_factory=connection_factory, async=async)
 OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
 
+>>>>>>> 84be3885c3e2b7c1be712345d3f99e13de66b868
