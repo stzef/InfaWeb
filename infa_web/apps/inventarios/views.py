@@ -75,7 +75,6 @@ def inventory_latest(request):
 	cesdo = Esdo.objects.using(request.db).get(nesdo = 'ACTIVO')
 	invini = Invinicab(cii = response['code'], cesdo = cesdo, vttotal = 0, fii = now)
 	invini.save(using=request.db)
-
 	c = 0
 	for esdo in Esdo.objects.using(request.db).all():
 		response['esdo'][c] = {}
@@ -169,6 +168,36 @@ def articles_list_invini(request):
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 
 @csrf_exempt
+def find_arlo(request):
+	response = {}
+	c = 0
+	carlos = request.POST.get('carlos')
+	invini = request.POST.get('invini')
+	response['find'] = 1
+	try:
+		invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = carlos)
+		response['cbarras'] = invini_deta.carlos.cbarras
+		response['nlargo'] = invini_deta.nlargo
+		response['canti'] = str(invini_deta.cancalcu)
+		response['vcosto'] = str(invini_deta.vunita)
+		response['cancalcu'] = str(invini_deta.canti)
+		response['ajuent'] = str(invini_deta.ajuent)
+		response['ajusal'] = str(invini_deta.ajusal)
+	except Invinideta.DoesNotExist:
+		try:
+			articulo = Arlo.objects.using(request.db).get(carlos = carlos)
+			response['cbarras'] = articulo.cbarras
+			response['nlargo'] = articulo.nlargo
+			response['canti'] = 0
+			response['vcosto'] = str(articulo.vcosto)
+			response['cancalcu'] = str(articulo.canti)
+			response['ajuent'] = 0
+			response['ajusal'] = 0
+		except Arlo.DoesNotExist:
+			response['find'] = 0
+	return HttpResponse(json.dumps(response), "application/json")
+
+@csrf_exempt
 def inventory_save(request):
 	response = {}
 	list_carlos = []
@@ -177,46 +206,29 @@ def inventory_save(request):
 	val_tot = request.POST.get('val_tot')
 	cesdo = Esdo.objects.using(request.db).get(cesdo = request.POST.get('cesdo'))
 	fii = datetime.datetime.strptime(request.POST.get('fii'), '%d/%m/%Y %H:%M')
-	try:
-		invini = Invinicab.objects.using(request.db).get(cii = cii)
-		invini.cesdo = cesdo
-		invini.fuaii = datetime.datetime.now()
-		invini.vttotal = float(val_tot)
-		invini.fii = fii
-		invini.save(using=request.db)
-		for cii_deta in response_data:
-			try:
-				invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
-				invini_deta.nlargo = cii_deta['nlargo']
-				invini_deta.canti = float(cii_deta['canti'])
-				invini_deta.vunita = float(cii_deta['vcosto'])
-				invini_deta.vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto']))
-				invini_deta.cancalcu = cii_deta['cancalcu']
-				invini_deta.ajuent = cii_deta['ajuent']
-				invini_deta.ajusal = cii_deta['ajusal']
-				invini_deta.save(using=request.db)
-			except Invinideta.DoesNotExist:
-				carlos = Arlo.objects.using(request.db).get(carlos = cii_deta['carlos'])
-				invini_deta = Invinideta(cii = invini, 
-					carlos = carlos, 
-					nlargo = cii_deta['nlargo'], 
-					canti = cii_deta['canti'], 
-					vunita = cii_deta['vcosto'], 
-					vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto'])), 
-					cancalcu = cii_deta['cancalcu'], 
-					ajuent = cii_deta['ajuent'], 
-					ajusal = cii_deta['ajusal']
-				)
+	invini = Invinicab.objects.using(request.db).get(cii = cii)
+	invini.cesdo = cesdo
+	invini.fuaii = datetime.datetime.now()
+	invini.vttotal = float(val_tot)
+	invini.fii = fii
+	invini.save(using=request.db)
+	manageParameters = ManageParameters(request.db)
+	sv_cant = False
+	if manageParameters.get_param_value("initial_note") == '@':
+		manageParameters.set_param_object("initial_note", cii)
+		sv_cant = True
+	for cii_deta in response_data:
+		try:
+			invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = cii_deta['carlos'])
+			invini_deta.nlargo = cii_deta['nlargo']
+			invini_deta.canti = float(cii_deta['canti'])
+			invini_deta.vunita = float(cii_deta['vcosto'])
+			invini_deta.vtotal = (float(cii_deta['canti']) * float(cii_deta['vcosto']))
+			invini_deta.cancalcu = cii_deta['cancalcu']
+			invini_deta.ajuent = cii_deta['ajuent']
+			invini_deta.ajusal = cii_deta['ajusal']
 			invini_deta.save(using=request.db)
-	except Invinicab.DoesNotExist:
-		invini = Invinicab(cii = cii, cesdo = cesdo, vttotal = val_tot, fii = fii)
-		invini.save(using=request.db)
-		manageParameters = ManageParameters(request.db)
-		sv_cant = False
-		if manageParameters.get_param_value("initial_note") == '@':
-			manageParameters.set_param_object("initial_note", cii)
-			sv_cant = True
-		for cii_deta in response_data:
+		except Invinideta.DoesNotExist:
 			carlos = Arlo.objects.using(request.db).get(carlos = cii_deta['carlos'])
 			list_carlos.append(carlos.pk)
 			invini_deta = Invinideta(cii = invini, 
@@ -229,30 +241,13 @@ def inventory_save(request):
 				ajuent = cii_deta['ajuent'], 
 				ajusal = cii_deta['ajusal']
 			)
-			invini_deta.save(using=request.db)
 			if sv_cant is True:
-				carlos.canti = cii_deta['cant']
-				carlos.vcosto = cii_deta['vcosto']
+				carlos.canti = 0
+				carlos.vcosto = 0
 				carlos.save(using=request.db)
-		for carlos_falt in Arlo.objects.using(request.db).exclude(pk__in = list_carlos):
-			invini_deta = Invinideta(cii = invini, 
-									carlos = carlos_falt, 
-									nlargo = carlos_falt.nlargo, 
-									canti = 0, 
-									vunita = carlos_falt.vcosto, 
-									vtotal = 0, 
-									cancalcu = carlos_falt.canti, 
-									ajuent = 0, 
-									ajusal = 0
-							)
-			invini_deta.save(using=request.db)
-			if sv_cant is True:
-				carlos_falt.canti = 0
-				carlos_falt.vcosto = 0
-				carlos_falt.save(using=request.db)
+		invini_deta.save(using=request.db)
 	response['code'] = cii
 	return HttpResponse(json.dumps(response), "application/json")
-
 
 @csrf_exempt
 def inventory_save_extra(request):
@@ -263,15 +258,15 @@ def inventory_save_extra(request):
 	for cii_deta in response_data:
 		carlos = Arlo.objects.using(request.db).get(carlos = response_data[cii_deta]['carlos'])
 		invini_deta = Invinideta(cii = cii, 
-								carlos = carlos, 
-								nlargo = response_data[cii_deta]['nlargo'], 
-								canti = 0, 
-								vunita = float(response_data[cii_deta]['vcosto']), 
-								vtotal = 0, 
-								cancalcu = float(response_data[cii_deta]['cancalcu']), 
-								ajuent = 0, 
-								ajusal = 0
-					)
+			carlos = carlos, 
+			nlargo = response_data[cii_deta]['nlargo'], 
+			canti = 0, 
+			vunita = float(response_data[cii_deta]['vcosto']), 
+			vtotal = 0, 
+			cancalcu = float(response_data[cii_deta]['cancalcu']), 
+			ajuent = 0, 
+			ajusal = 0
+		)
 		invini_deta.save(using=request.db)
 	response['response'] = 'Exito al agregar nuevos articulos'
 	return HttpResponse(json.dumps(response), "application/json")

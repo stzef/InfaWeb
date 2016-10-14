@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^inventory/list/$', InventoryListView.as_view(), name = 'inventory_list'),
 	url(r'^inventory/last/$', inventory_latest, name = 'inventory_latest'),
 	url(r'^inventory/edit/$', inventory_edit, name = 'inventory_edit'),
+	url(r'^inventory/arlo/$', find_arlo, name = 'find_arlo'),
 	url(r'^inventory/edit/get-list/$', articles_list_invini, name = 'articles_list_invini'),
 	url(r'^inventory/rename/$', get_name_arlo, name = 'get_name_arlo'),
 	url(r'^inventory/save/$', inventory_save, name = 'inventory_save'),

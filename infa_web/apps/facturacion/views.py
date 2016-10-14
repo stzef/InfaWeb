@@ -230,9 +230,8 @@ def save_movi_pago(request_db, movi_pago_array):
 	return movi_pago
 
 def save_fac_deta(request_db, fac_deta_array):
-	fac_deta = get_or_none(Facdeta, request_db, cfac = fac_deta_array['cfac'].pk)
+	fac_deta = get_or_none(Facdeta, request_db, cfac = fac_deta_array['cfac'].pk, itfac = fac_deta_array['itfac'])
 	if fac_deta is not None:
-		fac_deta.itfac = fac_deta_array['itfac']
 		fac_deta.nlargo = fac_deta_array['nlargo']
 		fac_deta.ncorto = fac_deta_array['ncorto']
 		fac_deta.canti = fac_deta_array['canti']
