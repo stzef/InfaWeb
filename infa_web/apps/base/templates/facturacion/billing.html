@@ -553,8 +553,8 @@
 		}
 		$("[name=name__carlos]").val(name__carlos)
 		$("[name=civa]").val(ivas_civa)
-
 		calcular_valor_unitario()
+		$('#id_canti').trigger('keyup');
 	}
 
 	function mostrar_modal_lista_precios(if_return_mpvta){
@@ -1168,8 +1168,6 @@
 			$('#id_itfac').val(it)
 			$("[name=vtiva]").val(Math.round(totales.vtiva))
 			$("[name=vtbase]").val(Math.round(totales.vtbase))
-
-			$("#id_carlos").focus()
 		}
 	})
 	console.log('{{url}}')
