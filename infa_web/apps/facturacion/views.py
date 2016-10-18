@@ -47,7 +47,6 @@ def code_generate(Model, ccaja, value_get, request_db):
 	return model_pk
 
 def value_tot(query_array, code_find):
-	print query_array
 	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
 def save_fac(request_db, fac_array):
@@ -293,7 +292,6 @@ def save_mvsa_deta(request_db, mvsa_deta_array):
 def BillSave(request):
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
-	print (json.dumps(data,indent=4))
 
 	response = {}
 	fac_pk = ""
@@ -546,7 +544,6 @@ def BillUpdate(request,pk):
 	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
 	#ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
-	print (json.dumps(data,indent=4))
 
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
@@ -878,9 +875,7 @@ def bill_proccess_fn_annulment(request):
 
 		try:
 			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)[0]
-			print "--------------------------------------"
-			print movideta
-			print "--------------------------------------"
+
 			movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
 		except Movi.DoesNotExist:
@@ -961,7 +956,6 @@ class BillPrint(PDFTemplateView):
 
 		deta_vttotal = Facpago.objects.using(self.request.db).filter(cfac=factura)
 
-		#print deta_vttotal # .vmpago
 
 		"""
 		cont_vttotal = 0

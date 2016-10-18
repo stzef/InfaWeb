@@ -1,6 +1,35 @@
 var date_appen = new Date($("[name=date_appen").val())
 format_date_appen = "YYYY-MM-DD"
 
+jQuery.fn.extend({
+	inputCurrency : function(){
+		var input = this,
+			regexp = /^\$ (?!0\.00)[1-9]\d{0,2}(,\d{3})*(\.\d\d)?$/
+		input.css({"text-align":"right"})
+
+		//Selecciona todo lo que no sea un nuemro, una coma, un punto o un espacio
+		var regexp_clear = /([^0-9|\$|\,|\.|\s])/g
+
+		input.change(function(){
+			input = $(this)
+			input.val(input.val().replace(regexp_clear,""))
+			if (!regexp.test(input.val())){
+				var valueInput = input.val(),
+					clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()
+
+				input.val(currencyFormat.format(clearValue))
+			}
+		})
+
+		if(input.val() == "") {
+			input.val( "$ 0")
+		}else{
+			input.trigger("change")
+		}
+
+	}
+})
+
 $('[check-carlos]').change(function(){
 	var input_value = this.value
 	var fn = eval($(this).data("fn"))
@@ -121,11 +150,18 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 		var currentForm = $(this)
 		event.preventDefault()
 
+		console.log(this)
+
 		var formData = new FormData(this);
 		$('input[type=file]').each(function(i, file) {
 			$.each(file.files, function(n, file) {
 				formData.append('file-'+i, file);
 			})
+		})
+
+		$(this).find(".input-currency").toArray().forEach(function(ic){
+			nVal = currencyFormat.sToN($(ic).val())
+			formData.set(ic.name,nVal)
 		})
 
 		loading_animation(messageWait)
@@ -354,6 +390,10 @@ CurrencyFormat.prototype.format = function(number){
 CurrencyFormat.prototype.clear = function(number){
 	return number.replace(",","").replace("$","").trim()
 }
+CurrencyFormat.prototype.sToN = function(s){
+	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim())
+	return n
+}
 
 var currencyFormat = new CurrencyFormat()
 
@@ -407,3 +447,7 @@ $(window).on('beforeunload', function (e) {
 		}
 	}
 //})
+
+$(document).ready(function(e){
+	$(".input-currency").inputCurrency()
+})

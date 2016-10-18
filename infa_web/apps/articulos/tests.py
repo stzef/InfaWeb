@@ -6,6 +6,9 @@ import json
 from termcolor import colored
 from tabulate import tabulate
 
+from infa_web.routines import costing_and_stock
+
+
 # Create your tests here.
 
 from infa_web.apps.articulos.models import *
@@ -20,36 +23,92 @@ class ExampleTestCase(TestCase):
 	def setUp(self):
 		c = Client()
 
-		data_transactions_db_articles = {
-			"1001" : {
-				"inv" :{
+		data_mvens = [
+			[
+				{
+					"carlos" : 1000,
 					"canti" : 10,
-					"vcosto" : 500
+					"vunita" : 1000
 				},
-				"mven" :{
-					"canti" : 5,
-					"vunita" : 500
-				},
-				"mvsa" :{
+				{
+					"carlos" : 1001,
 					"canti" : 10,
-					"vunita" : 500
-				}
+					"vunita" : 1000
+				},
+			],
+		]
+
+		data_mvsas = [
+			[
+				{
+					"carlos" : 1000,
+					"canti" : 10,
+					"vunita" : 1000
+				},
+				{
+					"carlos" : 1001,
+					"canti" : 10,
+					"vunita" : 1000
+				},
+			],
+		]
+
+		data_invs = [
+			{
+				"cii" : "",
+				"deta" : [
+					{
+						"carlos" : 1000,
+						"canti" : 10,
+						"vcosto" : 500
+					},
+					{
+						"carlos" : 1001,
+						"canti" : 10,
+						"vcosto" : 500
+					}
+				]
+			}
+		]
+
+		data_facs = [
+			{
+				"medios_pagos":[
+					{
+					}
+				],
+				"deta":[
+					{
+						"carlos" : 1000,
+						"canti" : 5,
+						"vunita" : 500
+					},
+					{
+						"carlos" : 1000,
+						"canti" : 5,
+						"vunita" : 500
+					},
+				],
 			},
-			"1000" : {
-				"inv" :{
-					"canti" : 10,
-					"vcosto" : 500
-				},
-				"mven" :{
-					"canti" : 5,
-					"vunita" : 500
-				},
-				"mvsa" :{
-					"canti" : 10,
-					"vunita" : 500
-				}
+			{
+				"medios_pagos":[
+					{
+					}
+				],
+				"deta":[
+					{
+						"carlos" : 1000,
+						"canti" : 5,
+						"vunita" : 500
+					},
+					{
+						"carlos" : 1000,
+						"canti" : 5,
+						"vunita" : 500
+					},
+				]
 			},
-		}
+		]
 
 		data_articles = [
 			{
@@ -116,8 +175,6 @@ class ExampleTestCase(TestCase):
 			},
 		]
 
-
-
 		# Creacion De Articulo
 		print colored("\nCreacion de Articulos", 'white', attrs=['bold','reverse', 'blink'])
 		data_table_articles = []
@@ -140,124 +197,126 @@ class ExampleTestCase(TestCase):
 
 		# Creacon de Inventario Inicial Detalle
 		data_table_invinideta = []
-		for article in Arlo.objects.all():
+		for data_inv in data_invs:
+			for data_invdeta in data_inv["deta"]:
+				article = Arlo.objects.get(carlos = data_invdeta["carlos"])
 
-			datatdb_article = data_transactions_db_articles[str(article.carlos)]
+				canti = data_invdeta["canti"]
+				vcosto = data_invdeta["vcosto"]
 
-			canti = datatdb_article["inv"]["canti"]
-			vcosto = datatdb_article["inv"]["vcosto"]
+				cancalcu = article.canti
 
-			cancalcu = article.canti
+				ajuent = canti - article.canti
+				ajusal = 0
 
-			ajuent = canti - article.canti
-			ajusal = 0
-
-			body_request_inventory = {
-				"cii":str(inventory["code"]),
-				"val_tot":"15000",
-				"fii":"14/10/2016 08:22",
-				"cesdo":"1",
-				"data_r":json.dumps([
-					{
-						"carlos":str(article.carlos),
-						"nlargo":str(article.nlargo),
-						"cancalcu":str(cancalcu),
-						"canti":str(canti),
-						"vcosto":str(vcosto),
-						"ajuent":str(ajuent),
-						"ajusal":str(ajusal),
-						"cbarras":str(article.cbarras),
-					}
-				])
-			}
-			response_inventory_deta_1 = c.post(reverse('inventory_save'),body_request_inventory,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-			data_table_invinideta.append([article.carlos,canti,vcosto])
-		print tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
+				body_request_inventory = {
+					"cii":str(inventory["code"]),
+					"val_tot":"15000",
+					"fii":"14/10/2016 08:22",
+					"cesdo":"1",
+					"data_r":json.dumps([
+						{
+							"carlos":str(article.carlos),
+							"nlargo":str(article.nlargo),
+							"cancalcu":str(cancalcu),
+							"canti":str(canti),
+							"vcosto":str(vcosto),
+							"ajuent":str(ajuent),
+							"ajusal":str(ajusal),
+							"cbarras":str(article.cbarras),
+						}
+					])
+				}
+				response_inventory_deta_1 = c.post(reverse('inventory_save'),body_request_inventory,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+				data_table_invinideta.append([article.carlos,canti,vcosto])
+			print tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
 
 
 
 		# Creacion de Movimientos
 		# Creacion de Movimientos Entrada
 		print colored("\nCreacion de Movimientos Entrada", 'white', attrs=['bold','reverse', 'blink'])
-		body_request_mven_1 = {
-			"mode_view":"create",
-			"cmven":"",
-			"ctimo":"1001",
-			"fmven":"2016-10-13",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
-			"docrefe":"RA00001",
-			"descri":"-",
-			"cesdo":"1",
-			"cbode0":"1",
-			"vttotal":0,
-			"is_input_movement":True,
-			"mvdeta":[]
-		}
-		it_mven = 1
-		data_table_mven = []
-		for article in Arlo.objects.all():
-			datatdb_article = data_transactions_db_articles[str(article.carlos)]
-
-			canti = datatdb_article["mven"]["canti"]
-			vunita = datatdb_article["mven"]["vunita"]
-			dictt = {
-				"it":it_mven,
-				"carlos":str(article.carlos),
-				"name__carlos":str(article.nlargo),
-				"canti":canti,
-				"vunita":vunita,
-				"vtotal":vunita*canti,
+		for data_mven in data_mvens:
+			body_request_mven_1 = {
+				"mode_view":"create",
+				"cmven":"",
+				"ctimo":"1001",
+				"fmven":"2016-10-13",
+				"citerce":"1",
+				"name__citerce":"MOSTRADOR",
+				"docrefe":"RA00001",
+				"descri":"-",
+				"cesdo":"1",
+				"cbode0":"1",
+				"vttotal":0,
+				"is_input_movement":True,
+				"mvdeta":[]
 			}
-			body_request_mven_1["vttotal"] += dictt["vtotal"]
-			body_request_mven_1["mvdeta"].append(dictt)
-			it_mven += 1
-			data_table_mven.append([article.carlos,article.nlargo,canti,vunita])
-		response_mven_1 = c.post(reverse('save-movement'),json.dumps(body_request_mven_1),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
-		print tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			it_mven = 1
+			data_table_mven = []
+			for data_mvendeta in data_mven:
+				article = Arlo.objects.get(carlos=data_mvendeta["carlos"])
+
+				canti = data_mvendeta["canti"]
+				vunita = data_mvendeta["vunita"]
+				dictt = {
+					"it":it_mven,
+					"carlos":str(article.carlos),
+					"name__carlos":str(article.nlargo),
+					"canti":canti,
+					"vunita":vunita,
+					"vtotal":vunita*canti,
+				}
+				body_request_mven_1["vttotal"] += dictt["vtotal"]
+				body_request_mven_1["mvdeta"].append(dictt)
+				it_mven += 1
+				data_table_mven.append([article.carlos,article.nlargo,canti,vunita])
+			response_mven_1 = c.post(reverse('save-movement'),json.dumps(body_request_mven_1),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
+			print tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
 
 
 
 		# Creacion de Movimientos Salida
 		print colored("\nCreacion de Movimientos Salida", 'white', attrs=['bold','reverse', 'blink'])
-		body_request_mvsa_1 = {
-			"mode_view":"create",
-			"cmvsa":"",
-			"ctimo":"2001",
-			"fmvsa":"2016-10-13",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
-			"docrefe":"SA00001",
-			"descri":"-",
-			"cesdo":"1",
-			"cbode0":"1",
-			"vttotal":0,
-			"is_input_movement":False,
-			"mvdeta":[]
-		}
-		it_mvsa = 1
-		data_table_mvsa = []
-		for article in Arlo.objects.all():
-			datatdb_article = data_transactions_db_articles[str(article.carlos)]
-
-			canti = datatdb_article["mvsa"]["canti"]
-			vunita = datatdb_article["mvsa"]["vunita"]
-
-			dictt = {
-				"it":it_mvsa,
-				"carlos":str(article.carlos),
-				"name__carlos":str(article.nlargo),
-				"canti":canti,
-				"vunita":vunita,
-				"vtotal":vunita*canti,
+		for data_mvsa in data_mvsas:
+			body_request_mvsa_1 = {
+				"mode_view":"create",
+				"cmvsa":"",
+				"ctimo":"2001",
+				"fmvsa":"2016-10-13",
+				"citerce":"1",
+				"name__citerce":"MOSTRADOR",
+				"docrefe":"SA00001",
+				"descri":"-",
+				"cesdo":"1",
+				"cbode0":"1",
+				"vttotal":0,
+				"is_input_movement":False,
+				"mvdeta":[]
 			}
-			body_request_mvsa_1["vttotal"] += dictt["vtotal"]
-			body_request_mvsa_1["mvdeta"].append(dictt)
-			it_mvsa += 1
+			it_mvsa = 1
+			data_table_mvsa = []
+			for data_mvsadeta in data_mvsa:
+				article = Arlo.objects.get(carlos=data_mvsadeta["carlos"])
 
-			data_table_mvsa.append([article.carlos,article.nlargo,canti,vunita])
-		response_mvsa_1 = c.post(reverse('save-movement'),json.dumps(body_request_mvsa_1),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
-		print tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+				canti = data_mvsadeta["canti"]
+				vunita = data_mvsadeta["vunita"]
+
+				dictt = {
+					"it":it_mvsa,
+					"carlos":str(article.carlos),
+					"name__carlos":str(article.nlargo),
+					"canti":canti,
+					"vunita":vunita,
+					"vtotal":vunita*canti,
+				}
+				body_request_mvsa_1["vttotal"] += dictt["vtotal"]
+				body_request_mvsa_1["mvdeta"].append(dictt)
+				it_mvsa += 1
+
+				data_table_mvsa.append([article.carlos,article.nlargo,canti,vunita])
+			response_mvsa_1 = c.post(reverse('save-movement'),json.dumps(body_request_mvsa_1),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
+			print tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
 
 
 		# Creacion de Facturas - CONTADO
@@ -327,6 +386,10 @@ class ExampleTestCase(TestCase):
 
 
 	def costing_and_stock(self):
+
+		costing_and_stock(False,True,{},self.using)
+
+
 		print colored("\nCostos y Existencias Finales", 'white', attrs=['bold','reverse', 'blink'])
 		data_table_costing_and_stock = []
 		for article in Arlo.objects.all():
