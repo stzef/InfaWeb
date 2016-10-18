@@ -12,10 +12,11 @@ url = [
 	url(r'^m/order2$', mFacOrder2, name='m_order2'),
 	url(r'^m/choose-article$', mFacChooseArtice, name='m_choose_article'),
 	url(r'^m/pay$', mFacPay, name='m_pay'),
-	url(r'^m/third-party/add$', mThirdPartyAdd, name='m_third_party_add'),
+	url(r'^m/third-party/add$', mThirdPartyAdd.as_view(), name='m_third_party_add'),
 
 	# Ajax
-	url(r'^m/third-party/list$', mThirtyPartyList, name='m_ajax_third_party_list')
+	url(r'^m/third-party/list$', mThirtyPartyList, name='m_ajax_third_party_list'),
+	url(r'^m/articles/list$', mArticlesList, name='m_ajax_article_list')
 
 ]
 

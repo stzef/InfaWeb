@@ -22,24 +22,24 @@
 	</ul>
 
 	<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-dismissible="false" style="max-width:400px;">
-	<div data-role="header">
-	<h1>Detalles</h1>
+		<div data-role="header">
+		<h1>Detalles</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<form action="">
+				<label for="text-basic">Cantidad</label>
+				<input type="number" name="text-basic" id="text-basic" value="">
+
+				<label for="text-basic">Descuento</label>
+				<input type="number" name="text-basic" id="text-basic" value="">
+
+				<label for="text-basic">V. Unitario</label>
+				<input type="number" name="text-basic" id="text-basic" value="">
+			</form>
+
+			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a>
+			<a href="{% url 'm_order2' %}" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-transition="flow">Agregar</a>
+
+		</div>
 	</div>
-	<div role="main" class="ui-content">
-		<form action="">
-			<label for="text-basic">Cantidad</label>
-			<input type="number" name="text-basic" id="text-basic" value="">
-
-			<label for="text-basic">Descuento</label>
-			<input type="number" name="text-basic" id="text-basic" value="">
-
-			<label for="text-basic">V. Unitario</label>
-			<input type="number" name="text-basic" id="text-basic" value="">
-		</form>
-
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a>
-		<a href="{% url 'm_order2' %}" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-transition="flow">Agregar</a>
-
-	</div>
-</div>
 {% endblock content %}

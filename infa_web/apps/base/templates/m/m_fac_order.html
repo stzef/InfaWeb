@@ -1,31 +1,144 @@
-{% extends "m/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+</head>
+<body>
+	<!-- Page -->
+	<div data-role="page" id="pageOrder">
 
-{% block title %}
-	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
-{% endblock title %}
+		<!-- Header -->
+		<div data-role="header">
+			{% include "m/m_header_fac_order.html" %}
+		</div>
+		<!-- Header -->
 
-{% block header %}
-	{% include "m/m_header_fac.html" %}
-	<a href="{% url 'm_dashboard' %}" class="ui-btn-right tui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="flow">Pagar</a>
-{% endblock header %}
+		<!-- Content -->
+		<div data-role="content">
 
-{% block content %}
+			<h4>Incluye los articulos a facturar</h4>
+			<a href="#pageChooseArticle" class="ui-btn" data-transition="flow">Seleccionar Articulo</a>
+		</div>
+		<!-- Content -->
 
-	<h4>Incluye los articulos a facturar</h4>
-
-	<a href="{% url 'm_choose_article' %}" class="ui-btn" data-transition="flow">Seleccionar Articulo</a>
-
-	<!-- Footer -->
-	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
-		<div class="ui-grid-a">
-			<div class="ui-block-a" style="text-align: center;">
-				<h4>TOTAL $</h4>
-			</div>
-			<div class="ui-block-b">
-				<input type="number" value="0" min="0" style="text-align: right;" disabled>
+		<!-- Footer -->
+		<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+			<div class="ui-grid-a">
+				<div class="ui-block-a" style="text-align: center;">
+					<h4>TOTAL $</h4>
+				</div>
+				<div class="ui-block-b">
+					<input type="number" value="0" min="0" style="text-align: right;" disabled>
+				</div>
 			</div>
 		</div>
+		<!-- Footer -->
 	</div>
-	<!-- Footer -->
+<!-- Page -->
 
-{% endblock content %}
+<!-- Page -->
+	<div data-role="page" id="pageChooseArticle">
+			<!-- Header -->
+			<div data-role="header">
+				{% include "m/m_header_fac_order.html" %}
+			</div>
+			<!-- Header -->
+
+			<!-- Content -->
+			<div data-role="content">
+				<h4>Seleccione Articulo</h4>
+				<ul id="buscarArticuloList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Articulo" data-filter-theme="a">
+
+				</ul>
+
+				<!-- Dialog agregar cantidad-->
+				<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-dismissible="false" style="max-width:400px;">
+					<div data-role="header">
+					<h1>Detalles</h1>
+					</div>
+					<div role="main" class="ui-content">
+						<form action="">
+							<label for="text-basic">Cantidad</label>
+							<input type="number" name="text-basic" id="text-basic" value="">
+
+							<label for="text-basic">Descuento</label>
+							<input type="number" name="text-basic" id="text-basic" value="">
+
+							<label for="text-basic">V. Unitario</label>
+							<input type="number" name="text-basic" id="text-basic" value="">
+						</form>
+
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-transition="flow">Agregar</a>
+
+					</div>
+				</div>
+				<!-- Dialog -->
+
+			</div>
+			<!-- Content -->
+
+	</div>
+<!-- Page -->
+<script>
+
+	// Busqueda de articulos
+		$("#buscarArticuloList" ).on( "filterablebeforefilter", function ( e, data ) {
+
+			var $listaDeArticulos = $( this ),
+			// dato de entrada
+			$datoDeEntrada = $( data.input ),
+			valorDatoDeEntrada = $datoDeEntrada.val(),
+			// Template Lista 
+			html = "";
+			// restablecer valores
+			$listaDeArticulos.html( "" );
+
+			if (valorDatoDeEntrada && valorDatoDeEntrada.length > 2) {
+
+				// Gestos UI
+				$listaDeArticulos.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" )
+				$listaDeArticulos.listview( "refresh" )
+
+				// request obtener Terceros
+				$.ajax({
+					url : "{% url 'm_ajax_article_list' %}",
+					dataType: "json",
+					data: {
+						q: $datoDeEntrada.val()
+					}
+				})
+				.then( function ( data, statusCode, xhr) {
+
+					// Parsear datos
+					var articulos = JSON.parse(data)
+
+					// recorrer datos y armar template
+					for (var i = 0; i < articulos.length; i++) {
+						html+= "<li><a href='#popupDialog' data-rel='popup' data-position-to='window' data-transition='pop'><h2>"+ articulos[i].fields.ncorto +"</h2><p>"+ articulos[i].fields.carlos +"&nbsp;&nbsp;<span>$"+ articulos[i].fields.pvta1 +"</span></p></a></li>"
+					}
+
+					// cargar template a la lista
+					$listaDeArticulos.html( html );
+					$listaDeArticulos.listview( "refresh" );
+					$listaDeArticulos.trigger( "updatelayout");
+					$('#buscarArticuloList li').removeClass('ui-screen-hidden');
+
+
+				}, function ( data, statusCode, xhr){
+					// Manejar el Error
+
+				});
+			}
+		})
+
+
+</script>
+
+
+</body>
+</html>

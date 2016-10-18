@@ -6,6 +6,11 @@ from django.db.models import Q
 
 
 from infa_web.apps.terceros.models import Tercero
+from infa_web.apps.terceros.forms import ThirdPartyForm
+from infa_web.apps.articulos.models import Arlo
+from infa_web.custom.generic_views import CustomCreateView
+
+
 
 def mDashboard(request):
 	return render(request, 'm/m_dashboard.html')
@@ -25,7 +30,8 @@ def mFacSearchClient(request):
 	# Consultar Terceros
 	# Priorizar Consulta
 	mostrador = 1
-	terceros = Tercero.objects.using(request.db).exclude(idterce=mostrador)[:10]
+
+	terceros = Tercero.objects.using(request.db).exclude(idterce=mostrador).order_by('-pk')[:1]
 
 	# Agregar a contexto
 	context = {
@@ -46,15 +52,22 @@ def mFacChooseArtice(request):
 def mFacPay(request):
 	return render(request, 'm/m_fac_pay.html')
 
-def mThirdPartyAdd(request):
-	return render(request, 'm/m_third_party_add.html')
+#def mThirdPartyAdd(request):
+#	return render(request, 'm/m_third_party_add.html')
+
+class mThirdPartyAdd(CustomCreateView):
+
+	model = Tercero
+	template_name = "m/m_third_party_add.html"
+	form_class = ThirdPartyForm
+	success_url = "/m/search-client"
 
 
 ## Request Ajax basadas en JSON
 @csrf_exempt
 def mThirtyPartyList(request):
 
-	#filtro razonsocial | identificacion
+	# filtro razonsocial | identificacion
 	query = request.GET.get('q', None)
 
 	# obtener terceros
@@ -72,3 +85,20 @@ def mThirtyPartyList(request):
 
 	return JsonResponse(data, safe=False)
 	# responder
+
+def mArticlesList(request):
+
+	# filtro codigo | nombre del articulo
+	query = request.GET.get('q', None)
+
+	#filtrar articulos
+	if query is not None:
+		articulos = Arlo.objects.using(request.db).filter(
+			Q(carlos=query) | Q(ncorto__contains=query)
+		)
+
+		data = serializers.serialize("json", articulos, fields=('ncorto', 'carlos', 'pvta1'))
+		return JsonResponse(data, safe=False)
+
+	else:
+		return JsonResponse({}, safe=False)

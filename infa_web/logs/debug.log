@@ -1031,3 +1031,27 @@ Traceback (most recent call last):
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1115, in try_transform
     (name, lhs.output_field.__class__.__name__))
 FieldError: Unsupported lookup 'contains' for CharField or join on the field not permitted.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-18 08:08:47,828 base 5498 140443857282816 Internal Server Error: /m/third-party/add 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 256, in post
+    return super(BaseCreateView, self).post(request, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 222, in post
+    return self.form_valid(form)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/custom/generic_views.py", line 34, in form_valid
+    return super(CustomCreateView, self).form_valid(form)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 202, in form_valid
+    return super(ModelFormMixin, self).form_valid(form)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 108, in form_valid
+    return HttpResponseRedirect(self.get_success_url())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/generic/edit.py", line 193, in get_success_url
+    "No URL to redirect to.  Either provide a url or define"
+ImproperlyConfigured: No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model.
