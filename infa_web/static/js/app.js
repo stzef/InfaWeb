@@ -348,6 +348,7 @@ function CurrencyFormat(){
 }
 
 CurrencyFormat.prototype.format = function(number){
+	if(this.numberFormat.format(number) == "NaN") return "$ 0"
 	return "$ " + this.numberFormat.format(number)
 }
 CurrencyFormat.prototype.clear = function(number){

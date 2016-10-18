@@ -256,9 +256,6 @@ def UpdateMovement(request,pk):
 
 @csrf_exempt
 def SaveMovement(request):
-	print ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
-	print request.body
-	print ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
 	data = json.loads(request.body)
 	response = {}
 	response["error"] = False
@@ -301,7 +298,8 @@ def SaveMovement(request):
 					#ctimo=Timo.objects.using(request.db).get(pk=movement.ctimo),
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
+				costing_and_stock(False,True,{"carlos":articulo.carlos},request.db)
+				#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"
@@ -339,7 +337,8 @@ def SaveMovement(request):
 					cmvsa=movement,
 					nlargo=articulo.nlargo,
 				)
-				calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
+				costing_and_stock(False,True,{"carlos":articulo.carlos},request.db)
+				#calcular_costo_articulo(deta_movement["carlos"],deta_movement["canti"],deta_movement["vtotal"],data['is_input_movement'],request.db)
 		else:
 			response["error"] = True
 			response["message"] = "Este movimiento ya existe"

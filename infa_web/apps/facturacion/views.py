@@ -998,6 +998,95 @@ class BillPrint(PDFTemplateView):
 		context['title'] = 'Impresion de Facturas'
 		return context
 
+def report_view_bill_payment_methods(request):
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"facturacion/reportes/views/ventas_formas_pago.html",{"title":"Reporte de Ventas Por Formas de Pago","form":form,"form_common":form_common})
+
+class report_fn_bill_payment_methods(PDFTemplateView):
+	template_name = "facturacion/reportes/fn/ventas_formas_pago.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(report_fn_bill_payment_methods, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+		data = self.request.GET
+
+		cvende = data["cvende"]
+		citerce = data["citerce"]
+
+		ctifopa = data["ctifopa"]
+		tifopa = Tifopa.objects.get(ctifopa=ctifopa)
+
+		context['title'] = 'Reporte de Ventas Por Medios de Pagos y Rango de Fechas'
+		cells = {
+			"cvende":{"show":True},
+			"citerce":{"show":True}
+		}
+		context['header'] = {
+			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+			"Forma de Pago" : tifopa.ntifopa
+		}
+
+
+		query_facturas = {"ctifopa__ctifopa":ctifopa}
+		"""
+		query_facturas = {
+			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+		}
+		"""
+		if(cvende):
+			query_facturas["cvende__cvende"] = cvende
+			context['title'] += " Por Vendedor"
+			context['header']["Vendedor"] = Vende.objects.using(self.request.db).get(cvende=cvende).nvende
+			cells["cvende"]["show"] = False
+		if(citerce):
+			query_facturas["citerce__citerce"] = citerce
+			context['title'] += " Por Cliente"
+			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
+			cells["citerce"]["show"] = False
+
+		totales = {}
+
+		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
+		
+		totales["subtotal"] = 0
+		totales["total"] = 0
+
+		totales["fpago"] = {
+			"efectivo":0,
+			"tarjeta":0,
+			"cheque":0,
+			"nota_credito":0,
+		}
+
+		for factura in facturas:
+			factura.data_report = {}
+			totales["subtotal"] += factura.vttotal
+			totales["total"] += factura.vttotal
+
+			totales["fpago"]["efectivo"] += factura.vefe
+			totales["fpago"]["tarjeta"] += factura.vtar
+			totales["fpago"]["cheque"] += factura.vch
+			totales["fpago"]["nota_credito"] += factura.vcred
+
+		context['data'] = data
+		context['facturas'] = facturas
+		context['cells'] = cells
+		context['totales'] = totales
+
+		context['colspan_total'] = 4
+		if(cvende):
+			context['colspan_total'] = 3
+			if(citerce):
+				context['colspan_total'] = 2
+		if(citerce):
+			context['colspan_total'] = 3
+			if(cvende):
+				context['colspan_total'] = 2
+
+		return context
+
 def report_view_bill(request):
 	form = ReportVentaForm(request.db)
 	form_common = CommonForm(request.db)
@@ -1023,12 +1112,9 @@ class report_fn_bill(PDFTemplateView):
 		cvende = data["cvende"]
 		citerce = data["citerce"]
 
-		print "-------------------------------"
-		print data["cvende"]
-		print "-------------------------------"
-		
 		query_facturas = {}
-		"""query_facturas = {
+		"""
+		query_facturas = {
 			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
@@ -1046,7 +1132,6 @@ class report_fn_bill(PDFTemplateView):
 
 		totales = {}
 
-		"""facturas = Fac.objects.using(self.request.db).filter(**query_facturas)"""
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
 		
 		totales["subtotal"] = 0
@@ -1067,7 +1152,6 @@ class report_fn_bill(PDFTemplateView):
 			totales["vtt_otros"] += factura.data_report["otros_valores"]
 			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 			totales["vtt_iva"] += factura.data_report["vt_iva"]
-
 
 		context['data'] = data
 		context['facturas'] = facturas

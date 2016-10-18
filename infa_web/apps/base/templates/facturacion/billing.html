@@ -521,6 +521,9 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+
+	var selector_element_focus_on_totalizar = "[name=ventre]"
+
 	var mode_view = $("#mode_view").val()
 	var current_arlo = null //Articulo(Objeto DB) que se selecciona en el #form_deta_movement
 	var current_tercero = null //Tercero(Objeto DB) que se selecciona en el #id_citerce
@@ -666,7 +669,8 @@
 			$("#form_medios_pago").submit()
 		}
 		$("#medios_pago").modal("show")
-		$("#medios_pago [name=cmpago]").focus()
+		//$("#medios_pago [name=cmpago]").focus()
+		$(selector_element_focus_on_totalizar).focus()
 	}
 
 	function get_data_list(selector_list){
@@ -1228,6 +1232,8 @@
 			$('#id_itfac').val(it)
 			$("[name=vtiva]").val(Math.round(totales.vtiva))
 			$("[name=vtbase]").val(Math.round(totales.vtbase))
+
+			$("[name=carlos]").focus()
 		}
 	})
 	console.log('{{url}}')
@@ -1280,6 +1286,7 @@
 			currentForm.prepend(message)
 			return
 		}
+		console.info(data)
 		loading_animation("Guardando Movimiento.")
 		$.ajax({
 			url: '{{url}}',
