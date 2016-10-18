@@ -27,6 +27,15 @@ jQuery.fn.extend({
 			input.trigger("change")
 		}
 
+	},
+	custom_format_val : function(){
+		var val = ""
+		if (this.hasClass("input-currency")){
+			val = currencyFormat.sToN(this.val()).toString()
+		}else{
+			val = this.val()
+		}
+		return val
 	}
 })
 
