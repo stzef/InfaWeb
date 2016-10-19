@@ -100,7 +100,7 @@
 										{{form.femi.errors}}
 										{%endif%}
 										<div class="col-sm-9">
-											<input type="text" value="{{form.femi.field.widget.attrs.value}}" name="{{form.femi.name}}" id="{{form.femi.id_for_label}}" class="{{form.femi.field.widget.attrs.class}}" {% if form.femi.field.required %}required{% endif %}>
+											{{form.femi}}
 										</div>
 									</div>
 									<div class="form-group col-md-12">
@@ -109,7 +109,7 @@
 										{{form.fpago.errors}}
 										{%endif%}
 										<div class="col-sm-9">
-											<input type="text" value="{{form.fpago.field.widget.attrs.value}}" name="{{form.fpago.name}}" id="{{form.fpago.id_for_label}}" class="{{form.fpago.field.widget.attrs.class}}" {% if form.fpago.field.required %}required{% endif %}>
+											{{form.fpago}}
 										</div>
 									</div>
 
@@ -189,7 +189,7 @@
 								<h3 class="box-title">Detalle</h3>
 
 								<span class="pull-right-container">
-									<input type="text" name="" class="pull-right app-input-caja-registradora" readonly data-mask=id_vttotal__mask>
+									<input type="text" name="" class="input-currency pull-right app-input-caja-registradora" readonly data-mask=id_vttotal__mask>
 								</span>
 
 							</div>
@@ -202,10 +202,16 @@
 										<thead>
 											<tr>
 												<th>It</th>
-												<th width="20%">Cod. Articulo</th>
+												<th width="15%">Cod. Articulo</th>
 												<th>Articulo</th>
-												<th>Cantidad</th>
-												<th width="10%">Descuento</th>
+												<th width="5%">Cantidad</th>
+												{% if data_validation.discount_percentages_allow_billing %}
+													<th width="10%">
+														Descuento
+													</th>
+												{% else %}
+													<th></th>
+												{% endif%}
 												<th>IVA</th>
 												<th>V. unitario</th>
 												<th>V. total</th>
@@ -228,10 +234,14 @@
 												</th>
 												<th>{{ form_movement_detail.canti }}</th>
 												<th>
-													<div class="input-group">
-														{{ form_movement_detail.pordes }}
-														<span class="input-group-addon">%</span>
-													</div>
+													{% if data_validation.discount_percentages_allow_billing %}
+														<div class="input-group">
+															{{ form_movement_detail.pordes }}
+															<span class="input-group-addon">%</span>
+														</div>
+													{% else %}
+														<input type="hidden" name="{{form_movement_detail.pordes.name}}" id="{{form_movement_detail.pordes.id_for_label}}" value="0" >
+													{% endif %}
 												</th>
 												<th>{{ form_movement_detail.civa }}</th>
 												<th>{{ form_movement_detail.vunita }}</th>
@@ -289,7 +299,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="btn-group">
-							<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+							<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
 						</div>
 					</div>
 					</div><!-- /.modal-content -->
@@ -306,79 +316,119 @@
 						<div class="modal-body">
 
 							<form role="form" id="form_totales">
-								<div class="row">
-									<div class="col-md-7">
-										<div class="box box-primary">
-											<div class="box-header with-border">
-												<h3 class="box-title">Totales</h3>
-											</div>
-											<div class="box-body">
-												<div class="row col-md-6">
-													<div class="form-group">
-														<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
-														{{form.vtbase}}
-													</div>
-													<div class="form-group">
-														<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
-														{{form.vtiva}}
-													</div>
-												</div>
-
-												<div class="row col-md-6">
-													<div class="form-group">
-														<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
-														{{form.vflete}}
-													</div>
-													<div class="form-group">
-														<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-														<div class="input-group">
-															{{form.vdescu}}
-															<span class="input-group-addon">%</span>
+								<div>
+									<ul class="nav nav-pills">
+										<li class="active"><a data-toggle="pill" href="#tab_pagos">Pagos</a></li>
+										<li ><a data-toggle="pill" href="#tab_impuestos">Impuestos</a></li>
+										<li ><a data-toggle="pill" href="#tab_retencion">Retencion</a></li>
+										<li ><a data-toggle="pill" href="#tab_totalizar_otros">Otros</a></li>
+									</ul>
+									<secition>
+										<div class="tab-content"> 
+											<div id="tab_pagos" class="tab-pane fade in active">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+																<div class="form-group col-md-4">
+																	<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
+																	{{form.vttotal}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
+																	{{form.ventre}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
+																	{{form.vcambio}}
+																</div>
+															</div>
 														</div>
 													</div>
-													<div class="form-group">
-														<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
-														{{form.vttotal}}
-													</div>
 												</div>
+											</div>
+											<div id="tab_impuestos" class="tab-pane fade in">
 												<div class="row">
-													<div class="form-group col-md-6">
-														<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
-														{{form.ventre}}
-													</div>
-													<div class="form-group col-md-6">
-														<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
-														{{form.vcambio}}
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+															</div>
+																<div class="form-group col-md-6">
+																	<label for="{{form.vtbase.id_for_label}}" class="">{{form.vtbase.label}}</label>
+																	{{form.vtbase}}
+																</div>
+																<div class="form-group col-md-6">
+																	<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+																	{{form.vtiva}}
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-
+											</div>
+											<div id="tab_retencion" class="tab-pane fade in">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.brtefte.id_for_label}}">{{form.brtefte.label}}</label>
+																	{{form.brtefte}}
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.prtefte.id_for_label}}">{{form.prtefte.label}}</label>
+																	<div class="input-group">
+																		{{form.prtefte}}
+																		<span class="input-group-addon">%</span>
+																	</div>
+																</div>
+																<div class="form-group col-md-4">
+																	<label for="{{form.vrtefte.id_for_label}}">{{form.vrtefte.label}}</label>
+																	{{form.vrtefte}}
+																</div>
+															</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="tab_totalizar_otros" class="tab-pane fade in">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+															<div>
+																<div class="row col-md-6">
+																	<div class="form-group">
+																		<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
+																		{{form.vflete}}
+																	</div>
+																	<div class="form-group">
+																		<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
+																		<div class="input-group">
+																			{{form.vdescu}}
+																			<span class="input-group-addon">%</span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-md-5">
-										<div class="box box-primary">
-											<div class="box-header with-border">
-												<h3 class="box-title">Retencion Fuente</h3>
-											</div>
-											<div class="box-body">
-												<div class="form-group">
-													<label for="{{form.brtefte.id_for_label}}">{{form.brtefte.label}}</label>
-													{{form.brtefte}}
-												</div>
-												<div class="form-group">
-													<label for="{{form.prtefte.id_for_label}}">{{form.prtefte.label}}</label>
-													<div class="input-group">
-														{{form.prtefte}}
-														<span class="input-group-addon">%</span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label for="{{form.vrtefte.id_for_label}}">{{form.vrtefte.label}}</label>
-													{{form.vrtefte}}
-												</div>
-											</div>
-										</div>
-									</div>
+									</secition>
 								</div>
 							</form>
 
@@ -430,7 +480,7 @@
 						</div>
 						<div class="modal-footer">
 							<div class="btn-group">
-								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
 								<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
 							</div>
 						</div>
@@ -472,6 +522,9 @@
 <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 <script>
+
+	var selector_element_focus_on_totalizar = "[name=ventre]"
+
 	var mode_view = $("#mode_view").val()
 	var current_arlo = null //Articulo(Objeto DB) que se selecciona en el #form_deta_movement
 	var current_tercero = null //Tercero(Objeto DB) que se selecciona en el #id_citerce
@@ -479,20 +532,24 @@
 	var it = 1
 	$('#id_itfac').val(it)
 	calcular_total()
+
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 		return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 	};
+
 	$(document).on("keyup", "#id_canti", function(e){
 		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
-		var value_tot = this_value * $('#id_vunita').val();
-		$('#id_vtotal').val(value_tot)
+		var value_tot = this_value * $('#id_vunita').custom_format_val();
+		$('#id_vtotal').val(value_tot).trigger("change")
 	});
+
 	$(document).on("keyup", "#id_vunita", function(e){
-		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
+		var this_value = isNaN(parseFloat($(this).custom_format_val())) ? 0: parseFloat($(this).custom_format_val());
 		var value_tot = this_value * $('#id_canti').val()
-		$('#id_vtotal').val(value_tot)
+		$('#id_vtotal').val(value_tot).trigger("change")
 	});
+
 	function print_bill(cfac){
 		/*
 			@param cfac String : codigo de factura a imprimir
@@ -551,7 +608,7 @@
 		}else{
 			var name__carlos = ""
 			var ivas_civa = ""
-			$("[name=vunita]").val("")
+			$("[name=vunita]").val("0").trigger("change")
 			$("[name=carlos]").val("").focus()
 		}
 		$("[name=name__carlos]").val(name__carlos)
@@ -612,15 +669,15 @@
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
-			console.warn($("[name=vttotal]").val())
-			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").val())
+			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").custom_format_val()).trigger("change") /*Revisar*/
 			$("#form_medios_pago").submit()
 		}
 		$("#medios_pago").modal("show")
-		$("#medios_pago [name=cmpago]").focus()
+		//$("#medios_pago [name=cmpago]").focus()
+		$(selector_element_focus_on_totalizar).focus()
 	}
 
-	function get_data_list(selector_list){
+	function get_data_list(selector_list){/*Revisar*/
 		/*
 			Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
 			{
@@ -636,7 +693,11 @@
 				var data = {}
 				$(e).children("[data-name]").toArray().forEach(
 					function(e2){
-						data[$(e2).data("name")] = $(e2).data("value")
+						if($(e2).hasClass("value-currency")){
+							data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
+						}else{
+							data[$(e2).data("name")] = $(e2).data("value")
+						}
 					}
 				)
 				return data
@@ -656,14 +717,14 @@
 			Calcula el valor de cambio de la factura
 			Operacion = ventre - vttotal
 		*/
-		if(parseFloat($("[name=ventre]").val()) && parseFloat($("[name=vttotal]").val())){
-			if(parseFloat($("[name=ventre]").val()) >= parseFloat($("[name=vttotal]").val())){
-				var v_cambio = parseFloat($("[name=ventre]").val()) - parseFloat($("[name=vttotal]").val())
+		if(parseFloat($("[name=ventre]").custom_format_val()) && parseFloat($("[name=vttotal]").custom_format_val())){
+			if(parseFloat($("[name=ventre]").custom_format_val()) >= parseFloat($("[name=vttotal]").custom_format_val())){
+				var v_cambio = parseFloat($("[name=ventre]").custom_format_val()) - parseFloat($("[name=vttotal]").custom_format_val())
 			}else{
 				var v_cambio = ""
 				$("#form_totales").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
 			}
-			$("[name=vcambio]").val(v_cambio)
+			$("[name=vcambio]").val(v_cambio).trigger("change")
 		}
 	}
 
@@ -698,14 +759,14 @@
 			Recalcula el valor total del flete de la factura
 			Operacion = brtefte - ( brtefte * ( prtefte / 100 ) )
 		*/
-		var brtefte = parseFloat($("[name=brtefte]").val())
-		var prtefte = parseFloat($("[name=prtefte]").val())
+		var brtefte = parseFloat($("[name=brtefte]").custom_format_val())
+		var prtefte = parseFloat($("[name=prtefte]").custom_format_val())
 
 		var vrtefte = brtefte - (brtefte*(prtefte/100))
-		$("[name=vrtefte]").val(vrtefte)
+		$("[name=vrtefte]").val(vrtefte).trigger("change")
 	}
 
-	function calcular_vtbase_vtiva(){
+	function calcular_vtbase_vtiva(){/*Revisar*/
 		/*
 			canti: cantidad a vender del articulo
 			vunita: Valor unitario del articulo
@@ -728,7 +789,7 @@
 		var vtiva = 0
 		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
 			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
-			var precio = parseFloat($(e).find("[data-name=vunita]").data("value"))
+			var precio = parseFloat(currencyFormat.sToN($(e).find("[data-name=vunita]").data("value")))
 			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
 
 			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
@@ -746,7 +807,7 @@
 		return {vtbase: vtbase,vtiva: vtiva}
 	}
 
-	function calcular_total(){
+	function calcular_total(){/*Revisar*/
 		/*
 			Calcula el valor Total de la Factura
 
@@ -757,20 +818,21 @@
 		$("#list_items_mdeta tbody tr")
 			.toArray()
 			.forEach(function(e){
-				var temp_vunita = parseFloat($(e).find("[data-name=vunita]").data("value"))
+
+				var temp_vunita = parseFloat(currencyFormat.sToN($(e).find("[data-name=vunita]").data("value")))
 				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
 				var vtotal_temp = temp_vunita * temp_canti
 				vttotal_items += vtotal_temp
 			}
 		)
-		var vflete = parseFloat($("[name=vflete]").val())
+		var vflete = parseFloat($("[name=vflete]").custom_format_val())
 		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
 
 		vttotal_local_sin_descuento = vflete + vttotal_items
 		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
 
 		$("[name=vttotal]").val(vttotal_local).trigger("change")
-		$("[data-mask=id_vttotal__mask]").val(currencyFormat.format(vttotal_local))
+		$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("cahnge")
 		
 		$("[name=ventre]").val(vttotal_local).trigger("change")
 	}
@@ -834,7 +896,7 @@
 			Valida si el valor total de la factura es mayor a la valor total maximo parametrizado, pregunta si se desa continuar o no
 			Recalcula el valor del cambio
 		*/
-		if( parseFloat($(this).val()) > parseFloat(data_validation.top_sales_invoice) ){
+		if( parseFloat($(this).custom_format_val()) > parseFloat(data_validation.top_sales_invoice) ){
 			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
 				$(this).val("")
 			}
@@ -864,7 +926,7 @@
 			Validacion
 			Valida si el valor unitario del producto es menor al precio de venta menor del articulo, pregunta si desea continuar o no
 		*/
-		if( parseFloat($(this).val()) < parseFloat(pvta_menor) ){
+		if( parseFloat($(this).custom_format_val()) < parseFloat(pvta_menor) ){
 			if(!confirm("El precio Unitario es menor al precio de Venta, ¿Desea Continuar?")){
 				$(this).val("").focus()
 			}
@@ -1013,8 +1075,7 @@
 
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
-		var nuevo_valor_medios_pagos = parseFloat($("#form_medios_pago").find("[name=vmpago]").val())
-    console.log(nuevo_valor_medios_pagos <= 0)
+		var nuevo_valor_medios_pagos = parseFloat(currencyFormat.sToN($("#form_medios_pago").find("[name=vmpago]").val()))
 		if(nuevo_valor_medios_pagos <= 0){
 			alert("El Valor a pagar no puede ser menor o igual a Cero")
 			return
@@ -1026,7 +1087,7 @@
 			total_meidos_pagos_existentes += vtemp
 		})
 		var t_temp = nuevo_valor_medios_pagos + total_meidos_pagos_existentes
-		if( t_temp > parseFloat($("[name=vttotal]").val()) ){
+		if( t_temp > parseFloat(currencyFormat.sToN($("[name=vttotal]").val()) )){
 			alert("El Valor a Pagar no puede ser mayor al Valor Total")
 			return
 		}
@@ -1042,18 +1103,23 @@
 				var value = e.value
 				var data_value = e.value
 
-				if(eval($(e).data("if-currency"))){
-					var value = currencyFormat.format(e.value)
+				var css_class = ""
+
+				if($(e).hasClass("input-currency")){
+					//var value = currencyFormat.format(e.value)
+					css_class = "value-currency"
 				}
+
 				if(e instanceof HTMLSelectElement){
 					var value = $(e).find("option[value=" + e.value + "]").html()
 				}
-				if(e.name == 'vmpago'){
+				/*if(e.name == 'vmpago'){
 					value = parseFloat(e.value).format(2)
-				}
+				}*/
 				tr.append($("<td>",{
 					"data-name":e.name,
 					"data-value":data_value,
+					"class":css_class,
 					html:value}))
 			})
 			td = $("<td>")
@@ -1111,7 +1177,7 @@
 	});
 
 	$(document).on('click', '#delete-item-fac', function(){
-	//function delete_item_mdeta(){
+		//function delete_item_mdeta(){
 
 		$(this).closest("tr").remove()
 		calcular_total()
@@ -1125,7 +1191,7 @@
 		if(number_items_billing >= data_validation.maximum_number_items_billing){
 			return alert("EL numero Maximo de items por factura para este usuario segunel talonario ya se ha superado")
 		}
-		if( parseFloat($('#item_mdeta input[name=vtotal]').val()) <= 0){
+		if( parseFloat($('#item_mdeta input[name=vtotal]').custom_format_val()) <= 0){
 			return alert("El Valor Total debe Se Mayor a Cero")
 		}
 		if(customValidationInput("#item_mdeta").valid){
@@ -1138,20 +1204,28 @@
 
 				var value = e.value
 				var data_value = e.value
+				var css_class = ""
 
-				if(eval($(e).data("if-currency"))){
-					var value = currencyFormat.format(e.value)
+
+				//if(eval($(e).data("if-currency"))){
+				if($(e).hasClass("input-currency")) {
+					//var value = currencyFormat.format(e.value)
+					css_class = "value-currency"
 				}
 
 				if(e instanceof HTMLSelectElement){
 					var value = $(e).find("option[value=" + e.value + "]").html()
 				}
-				if(e.name == 'vunita' || e.name == 'vtotal'){
+				/*if(e.name == 'vunita' || e.name == 'vtotal'){
 					value = parseFloat(e.value).format(2)
+				}*/
+				if(e.type == "hidden"){
+					value = ""
 				}
 				tr.append($("<td>",{
 					"data-name":e.name,
 					"data-value":data_value,
+					"class":css_class,
 					html:value}))
 			})
 			td = $("<td width='10%'>")
@@ -1174,11 +1248,13 @@
 			calcular_total()
 			var totales = calcular_vtbase_vtiva()
 			$('#id_itfac').val(it)
-			$("[name=vtiva]").val(Math.round(totales.vtiva))
-			$("[name=vtbase]").val(Math.round(totales.vtbase))
+			$("[name=vtiva]").val(Math.round(totales.vtiva)).trigger("change")
+			$("[name=vtbase]").val(Math.round(totales.vtbase)).trigger("change")
+
+			$("[name=carlos]").focus()
 		}
 	})
-	console.log('{{url}}')
+
 	$("#btn-save").click(function(event){
 
 		event.preventDefault()
@@ -1188,8 +1264,18 @@
 
 		var currentForm = $("#form_movement")
 
-		var querystring = $("form:not(#form_deta_movement)").serialize();
-		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+		/*var querystring = $("form:not(#form_deta_movement)").serialize();
+		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')*/
+		var data = {}
+		$("form:not(#form_deta_movement) :input").toArray().forEach(function(e,i){
+			if(e.name != ""){
+				if($(e).hasClass("input-currency")){
+					data[e.name] = currencyFormat.sToN(e.value)
+				}else{
+					data[e.name] = e.value
+				}
+			}
+		})
 
 		data.descri = data.descri.replace(/\+/g," ")
 
@@ -1200,7 +1286,7 @@
 		array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
 
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			if(tot_medios_pagos < parseFloat($("[name=vttotal]").val())){
+			if(tot_medios_pagos < parseFloat($("[name=vttotal]").custom_format_val())){
 				if(confirm("La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
 					$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
 				}else{
@@ -1240,7 +1326,6 @@
 				$(".animation").empty()
 			},
 			success: function(response){
-				console.log(response)
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
@@ -1287,8 +1372,8 @@
 		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
 		$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
 		$('#item_mdeta').find("#id_canti").val(object.fields.canti)
-		$('#item_mdeta').find("#id_vunita").val(object.fields.vunita)
-		$('#item_mdeta').find("#id_vtotal").val(object.fields.vtotal)
+		$('#item_mdeta').find("#id_vunita").val(object.fields.vunita).trigger("change")
+		$('#item_mdeta').find("#id_vtotal").val(object.fields.vtotal).trigger("change")
 		$('#form_deta_movement').submit()
 		$('#form_deta_movement').trigger("reset")
 		calcular_total()

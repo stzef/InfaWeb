@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/10/06 11:34:56", 
+        "value": "2016/10/14 14:42:03", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/10/06 11:34:56", 
+            "selected": "2016/10/14 14:42:03", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -271,20 +271,16 @@
         }, 
         "nparam": "Movimiento de Inventario por defecto para las factura de salida"
     }, 
-
-
-
-
     {
         "cparam": "invoice_without_stock", 
         "type": "Boolean", 
-        "value": false, 
+        "value": true, 
         "label": {
             "text": "Facturar Articulos Sin Existencia."
         }, 
         "field": {
             "input": true, 
-            "selected": false, 
+            "selected": true, 
             "type": "checkbox", 
             "id": "invoice_without_stock", 
             "select": false
@@ -297,12 +293,6 @@
         }, 
         "nparam": "Facturar Articulos Sin Existencia."
     }, 
-
-
-
-
-
-
     {
         "cparam": "invoice_below_minimum_sales_price", 
         "type": "Boolean", 
@@ -502,6 +492,7 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo cxc facturacion"
+<<<<<<< HEAD
     },
     {
         "cparam": "ctimo_ab_billing", 
@@ -532,5 +523,29 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo ab facturacion"
+=======
+    }, 
+    {
+        "cparam": "discount_percentages_allow_billing", 
+        "type": "Boolean", 
+        "value": false, 
+        "label": {
+            "text": "Permitir Porcentajes de Descuento en Facturacion"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": true, 
+            "type": "checkbox", 
+            "id": "discount_percentages_allow_billing", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Permitir Porcentajes de Descuento en Facturacion"
+>>>>>>> 741fbd4327bf04c4460b4a4d50217e42424d4c23
     }
 ]

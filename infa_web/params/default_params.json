@@ -274,13 +274,13 @@
     {
         "cparam": "invoice_without_stock", 
         "type": "Boolean", 
-        "value": false, 
+        "value": true, 
         "label": {
             "text": "Facturar Articulos Sin Existencia."
         }, 
         "field": {
             "input": true, 
-            "selected": false, 
+            "selected": true, 
             "type": "checkbox", 
             "id": "invoice_without_stock", 
             "select": false
@@ -522,5 +522,27 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo ab facturacion"
+    },
+    {
+        "cparam": "discount_percentages_allow_billing", 
+        "type": "Boolean", 
+        "value": true, 
+        "label": {
+            "text": "Permitir Porcentajes de Descuento en Facturacion"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": true, 
+            "type": "checkbox", 
+            "id": "discount_percentages_allow_billing", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Permitir Porcentajes de Descuento en Facturacion"
     }
 ]

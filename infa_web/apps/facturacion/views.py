@@ -47,7 +47,6 @@ def code_generate(Model, prefijo, value_get, request_db):
 	return model_pk
 
 def value_tot(query_array, code_find):
-	print query_array
 	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
 def save_fac(request_db, fac_array):
@@ -293,7 +292,6 @@ def save_mvsa_deta(request_db, mvsa_deta_array):
 def BillSave(request):
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
-	print (json.dumps(data,indent=4))
 
 	response = {}
 	fac_pk = ""
@@ -548,7 +546,6 @@ def BillUpdate(request,pk):
 	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
 	#ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 
-	print (json.dumps(data,indent=4))
 
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
@@ -766,16 +763,16 @@ class BillCreate(CustomCreateView):
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
 
-		context['data_validation'] = {}
+		context['data_validation'] = manageParameters.to_dict()
 
 		context['company_logo'] = manageParameters.get_param_value('company_logo')
 
-		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
 
 		# Datos de Prueba
 		context['data_validation']['maximum_number_items_billing'] = 10
@@ -822,16 +819,16 @@ class BillEdit(CustomUpdateView):
 		#context['url'] = reverse_lazy('save-bill')
 		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
 
-		context['data_validation'] = {}
+		context['data_validation'] = manageParameters.to_dict()
 
 		context['company_logo'] = manageParameters.get_param_value('company_logo')
 
-		context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
 
 		# Datos de Prueba
 		context['data_validation']['maximum_number_items_billing'] = 10
@@ -880,9 +877,7 @@ def bill_proccess_fn_annulment(request):
 
 		try:
 			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)[0]
-			print "--------------------------------------"
-			print movideta
-			print "--------------------------------------"
+
 			movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
 		except Movi.DoesNotExist:
@@ -963,7 +958,6 @@ class BillPrint(PDFTemplateView):
 
 		deta_vttotal = Facpago.objects.using(self.request.db).filter(cfac=factura)
 
-		#print deta_vttotal # .vmpago
 
 		"""
 		cont_vttotal = 0
@@ -1000,6 +994,95 @@ class BillPrint(PDFTemplateView):
 		context['title'] = 'Impresion de Facturas'
 		return context
 
+def report_view_bill_payment_methods(request):
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"facturacion/reportes/views/ventas_formas_pago.html",{"title":"Reporte de Ventas Por Formas de Pago","form":form,"form_common":form_common})
+
+class report_fn_bill_payment_methods(PDFTemplateView):
+	template_name = "facturacion/reportes/fn/ventas_formas_pago.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(report_fn_bill_payment_methods, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+		data = self.request.GET
+
+		cvende = data["cvende"]
+		citerce = data["citerce"]
+
+		ctifopa = data["ctifopa"]
+		tifopa = Tifopa.objects.get(ctifopa=ctifopa)
+
+		context['title'] = 'Reporte de Ventas Por Medios de Pagos y Rango de Fechas'
+		cells = {
+			"cvende":{"show":True},
+			"citerce":{"show":True}
+		}
+		context['header'] = {
+			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+			"Forma de Pago" : tifopa.ntifopa
+		}
+
+
+		query_facturas = {"ctifopa__ctifopa":ctifopa}
+		"""
+		query_facturas = {
+			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+		}
+		"""
+		if(cvende):
+			query_facturas["cvende__cvende"] = cvende
+			context['title'] += " Por Vendedor"
+			context['header']["Vendedor"] = Vende.objects.using(self.request.db).get(cvende=cvende).nvende
+			cells["cvende"]["show"] = False
+		if(citerce):
+			query_facturas["citerce__citerce"] = citerce
+			context['title'] += " Por Cliente"
+			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
+			cells["citerce"]["show"] = False
+
+		totales = {}
+
+		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
+		
+		totales["subtotal"] = 0
+		totales["total"] = 0
+
+		totales["fpago"] = {
+			"efectivo":0,
+			"tarjeta":0,
+			"cheque":0,
+			"nota_credito":0,
+		}
+
+		for factura in facturas:
+			factura.data_report = {}
+			totales["subtotal"] += factura.vttotal
+			totales["total"] += factura.vttotal
+
+			totales["fpago"]["efectivo"] += factura.vefe
+			totales["fpago"]["tarjeta"] += factura.vtar
+			totales["fpago"]["cheque"] += factura.vch
+			totales["fpago"]["nota_credito"] += factura.vcred
+
+		context['data'] = data
+		context['facturas'] = facturas
+		context['cells'] = cells
+		context['totales'] = totales
+
+		context['colspan_total'] = 4
+		if(cvende):
+			context['colspan_total'] = 3
+			if(citerce):
+				context['colspan_total'] = 2
+		if(citerce):
+			context['colspan_total'] = 3
+			if(cvende):
+				context['colspan_total'] = 2
+
+		return context
+
 def report_view_bill(request):
 	form = ReportVentaForm(request.db)
 	form_common = CommonForm(request.db)
@@ -1025,12 +1108,9 @@ class report_fn_bill(PDFTemplateView):
 		cvende = data["cvende"]
 		citerce = data["citerce"]
 
-		print "-------------------------------"
-		print data["cvende"]
-		print "-------------------------------"
-		
 		query_facturas = {}
-		"""query_facturas = {
+		"""
+		query_facturas = {
 			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
@@ -1048,7 +1128,6 @@ class report_fn_bill(PDFTemplateView):
 
 		totales = {}
 
-		"""facturas = Fac.objects.using(self.request.db).filter(**query_facturas)"""
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
 		
 		totales["subtotal"] = 0
@@ -1069,7 +1148,6 @@ class report_fn_bill(PDFTemplateView):
 			totales["vtt_otros"] += factura.data_report["otros_valores"]
 			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 			totales["vtt_iva"] += factura.data_report["vt_iva"]
-
 
 		context['data'] = data
 		context['facturas'] = facturas

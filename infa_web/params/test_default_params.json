@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/10/13 16:16:53", 
+        "value": "2016/10/14 14:42:03", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/10/13 16:16:53", 
+            "selected": "2016/10/14 14:42:03", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -522,5 +522,27 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo ab facturacion"
+    },
+    {
+        "cparam": "discount_percentages_allow_billing", 
+        "type": "Boolean", 
+        "value": true, 
+        "label": {
+            "text": "Permitir Porcentajes de Descuento en Facturacion"
+        }, 
+        "field": {
+            "input": true, 
+            "selected": true, 
+            "type": "checkbox", 
+            "id": "discount_percentages_allow_billing", 
+            "select": false
+        }, 
+        "smodule": "F", 
+        "css": {
+            "field": "", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "Permitir Porcentajes de Descuento en Facturacion"
     }
 ]

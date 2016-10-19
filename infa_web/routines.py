@@ -29,6 +29,26 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 			return response
 		articulo = Arlo.objects.using(db_name).get(carlos=carlos)
 
+		# Testear esta parte
+		"""initial_note = manageParameters.get_param_value("initial_note")
+
+		try:
+			invinicab = Invinicab.objects.using(db_name).get(cii=initial_note)
+		except Invinicab.DoesNotExist, e:
+			invinicab = None
+		try:
+			invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
+		except Invinideta.DoesNotExist, e:
+			invinideta = None
+
+		if invinideta:
+			articulo.canti = invinideta.canti
+			articulo.vcosto = invinideta.vunita
+		else:
+			articulo.canti = 0
+			articulo.vcosto = 0"""
+		# Testear esta parte
+
 		response["current_vcosto"] = str(articulo.vcosto)
 		response["current_canti"] = str(articulo.canti)
 
@@ -45,7 +65,7 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		
 
 		if if_save:
-			articulo.save()
+			articulo.save(using=db_name)
 			
 		response["status"] = True
 		return response
@@ -114,7 +134,7 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='defau
 			articulo.vcosto = 0
 
 		if if_save:
-			articulo.save()
+			articulo.save(using=db_name)
 
 		if not len(mvsdeta):
 			data_operation = {

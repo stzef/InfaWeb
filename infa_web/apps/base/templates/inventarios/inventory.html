@@ -216,6 +216,7 @@
 		}
 		data_table();
 		data_esdo(response.esdo);
+		$(".input-currency").inputCurrency()
 	}
 	function const_add(){
 		return '<tr class="add-cont">'+
@@ -232,7 +233,7 @@
 						'<input type="number" class="form-control cant id_canti" value="0"/>'+
 					'</td>'+
 					'<td>'+
-						'<input type="number" class="form-control value text-right id_vunita" value="0"/>'+
+						'<input type="text" class="input-currency form-control value text-right id_vunita" value="0"/>'+
 					'</td>'+
 					'<td class="id_vttotal text-right">0</td>'+
 					'<td class="ajuent text-right">0</td>'+
@@ -287,7 +288,7 @@
 					'<td id="nlargo-'+item.carlos+'" title="'+item.nlargo+'"><span id="nom-'+item.carlos+'" data-toggle="tooltip" data-placement="left" title="'+item.nlargo+'">'+item.nlargo+'...'+'</span></td>'+
 					'<td id="cancalcu-'+item.carlos+'" class="text-right">'+item.cancalcu+'</td>'+
 					'<td><input type="number" id="cant-'+item.carlos+'" step="0.01" class="text-right cant val positive" value="'+item.canti+'"></td>'+
-					'<td><input type="number" id="vunita-'+item.carlos+'" step="0.01" class="text-right value val positive" value="'+item.vcosto+'"></td>'+
+					'<td><input type="text" id="vunita-'+item.carlos+'" step="0.01" class="input-currency text-right value val positive" value="'+item.vcosto+'"></td>'+
 					'<td id="vtotal-'+item.carlos+'" class="text-right">'+(item.canti * item.vcosto).format(2)+'</td>'+
 					'<td id="ajuent-'+item.carlos+'" class="text-right">0</td>'+
 					'<td id="ajusal-'+item.carlos+'" class="text-right">0</td>'+
@@ -296,6 +297,7 @@
 			window.localStorage.getItem(item.carlos) != null ? '': save_local_storage(item.carlos)
 			calc_aj(item.canti, item.cancalcu, item.carlos)
 		});
+		$(".input-currency").inputCurrency()
 	}
 	function data_table(){
 		var val_tot = 0;
@@ -332,7 +334,7 @@
 			'nlargo': $('#nom-'+id).attr('title'),
 			'cancalcu': parseFloat($('#cancalcu-'+id).text()),
 			'canti': parseFloat($('#cant-'+id).val()),
-			'vcosto': parseFloat($('#vunita-'+id).val()),
+			'vcosto': currencyFormat.sToN($('#vunita-'+id).val()),
 			'ajuent': parseFloat($('#ajuent-'+id).text()),
 			'ajusal': parseFloat($('#ajusal-'+id).text()),
 			'cbarras': $('#cbarras-'+id).text(),
@@ -374,7 +376,7 @@
 		var id = $(this).parent().parent().attr('id');
 		var this_value = isNaN(parseFloat($(this).val())) ? 0: parseFloat($(this).val());
 		var cant_calcu = parseFloat($('#cancalcu-'+id).text());
-		var value_tot = this_value*$('#vunita-'+id).val();
+		var value_tot = this_value*currencyFormat.sToN($('#vunita-'+id).val());
 		var cantidad = isNaN($('#vtotal-'+id).attr('val')) ? 0: $('#vtotal-'+id).attr('val');
 		var val_tot = $('#val-tot').attr('val');
 		var val_calcu = (parseFloat(val_tot)-parseFloat(cantidad))+value_tot;
@@ -389,7 +391,7 @@
 		save = false
 		var id =$(this).parent().parent().attr('id');
 		var this_value = parseFloat($('#cant-'+id).val());
-		var value_tot = this_value*$('#vunita-'+id).val()
+		var value_tot = this_value*currencyFormat.sToN($('#vunita-'+id).val())
 		var val_calcu = (parseFloat($('#val-tot').attr('val'))-parseFloat($('#vtotal-'+id).attr('val')))+value_tot;
 		$('.val-tot').each(function() {
 			$(this).text('$ '+val_calcu.format(2)).attr('val', val_calcu);
@@ -406,7 +408,7 @@
 				'nlargo': $('.id_nlargo').text(),
 				'cancalcu': parseFloat($('.id_cantcalcu').text()),
 				'canti': parseFloat($('.id_canti').val()),
-				'vcosto': parseFloat($('.id_vunita').val()),
+				'vcosto': currencyFormat.sToN($(".id_vunita").val()),
 				'ajuent': parseFloat($('.ajuent').text()),
 				'ajusal': parseFloat($('.ajusal').text()),
 				'cbarras': $('.id_cbarras').text(),

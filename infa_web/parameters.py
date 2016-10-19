@@ -10,11 +10,7 @@ class ManageParameters(object):
 		super(ManageParameters, self).__init__()
 		self.name_db = name_db
 		subdomain = get_subdomain_by_name_db(name_db)
-
-		print "--------------------"
-		print subdomain + " : " + name_db
-		print "--------------------"
-
+		
 		self.path_file = BASE_DIR + '/infa_web/params/' + self.name_db + '_params.json'
 		if not os.path.isfile(self.path_file):
 			raise ImproperlyConfigured(
@@ -26,7 +22,6 @@ class ManageParameters(object):
 			with open(self.path_file) as json_data:
 				return True
 		except IOError as e:
-			print e
 			return False
 
 	def get_all(self):
