@@ -30,15 +30,28 @@ class FacForm(forms.ModelForm):
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
 
 			'cfac' : forms.TextInput(attrs={'class':'app-input-important form-control', 'readonly': True}),
+			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
+
 			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True,'readonly': True}),
 			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'fhasdomi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+
 			'descri' : forms.Textarea(attrs={'class':'form-control'}),
-			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
-			'vtbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
-			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
-			'vflete' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'vtbase' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0,"readonly":True}),
+			'vtiva' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0,"readonly":True}),
+			'vflete' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vttotal' : forms.TextInput(attrs={'class': 'input-currency app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'ventre' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vcambio' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'brtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vrtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			
+			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			
+			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+
 			#'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'doctar' : forms.TextInput(attrs={'class':'form-control'}),
@@ -46,17 +59,9 @@ class FacForm(forms.ModelForm):
 			#'vchq' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'docchq' : forms.TextInput(attrs={'class':'form-control'}),
 			#'bancochq' : forms.Select(attrs={'class':'form-control','required':True}),
-			'ventre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vcambio' : forms.NumberInput(attrs={'class': 'form-control','required':True,'readonly':True,'step':'0.01','min':0}),
 			#cusu char(20)
-			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#ccoti char(10)
-			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'doccre' : forms.TextInput(attrs={'class':'form-control'}),
-			'brtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vrtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'fhasdomi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}
 		labels = {
 			'cfac' : 'Codigo Factura',
@@ -114,14 +119,17 @@ class FacdetaForm(forms.ModelForm):
 			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
-			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#niva char(40)
 			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
-			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
+			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
+			
+			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			
+			'vunita' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vtotal' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
+
 			'pvtafull' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
@@ -162,7 +170,7 @@ class FacpagoForm(forms.ModelForm):
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
 			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
 			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
-			'vmpago' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vmpago' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
 		}
 		labels = {
 			'cfac' : 'Codigo Factura',
