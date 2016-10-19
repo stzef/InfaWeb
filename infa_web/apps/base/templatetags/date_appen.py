@@ -1,7 +1,9 @@
 import os
 from django import template
-
+from django.db.models import Sum
 from django.template import Context, Template
+from infa_web.apps.movimientos.models import *
+from infa_web.apps.facturacion.views import *
 
 register = template.Library()
 
@@ -77,3 +79,10 @@ def multiply(val_1, val_2):
 @register.filter
 def subtotal_group_invini(group):
 	return "{:.2f}".format(sum((data.vunita * data.canti) for data in group))
+
+@register.filter
+def saldo_factura(cmovi, request_db):
+	movi = Movi.objects.using(request_db).get(cmovi = cmovi)
+	ctimo_ab = ctimo_billing('ctimo_ab_billing', request_db)
+	ab = Movideta.objects.using(request_db).filter(docrefe = movi.cmovi, cmovi__ctimo = ctimo_ab.pk).aggregate(ab_tot = Sum('vmovi'))['ab_tot']
+	return float(movi.vttotal) - float(ab if ab is not None else 0)

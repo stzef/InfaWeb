@@ -492,11 +492,41 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo cxc facturacion"
-    }, 
+    },
+    {
+        "cparam": "ctimo_ab_billing", 
+        "smodule": "F", 
+        "app": "base", 
+        "value": "4101", 
+        "label": {
+            "text": "ctimo ab facturacion"
+        }, 
+        "field": {
+            "text": "ntimo", 
+            "selected": "4101", 
+            "value": "ctimo", 
+            "options": [], 
+            "input": false, 
+            "type": false, 
+            "id": "ctimo_ab_billing", 
+            "select": true
+        }, 
+        "query": {
+            "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_AB::"
+        }, 
+        "model": "Timo", 
+        "type": "Model", 
+        "css": {
+            "field": "form-control", 
+            "field_container": "col-sm-8 checkbox", 
+            "label": "col-sm-4 control-label"
+        }, 
+        "nparam": "ctimo ab facturacion"
+    },
     {
         "cparam": "discount_percentages_allow_billing", 
         "type": "Boolean", 
-        "value": false, 
+        "value": true, 
         "label": {
             "text": "Permitir Porcentajes de Descuento en Facturacion"
         }, 

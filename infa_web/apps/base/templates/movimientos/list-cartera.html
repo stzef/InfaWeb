@@ -1,0 +1,66 @@
+{%extends 'layouts/base.html'%}
+
+{% load static %}
+
+{% load date_appen %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+
+{% load humanize %}
+
+{%block content%} 
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">{{title}}</h3>
+						</div>
+						<div class="box-body">
+							<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Cliente</th>
+										<th>Fecha</th>
+										<th>Valor Total</th>
+										<th>Saldo</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for movi in object_list %}
+										<tr>
+											<td>{{ movi.citerce }}</td>
+											<td>{{ movi.fmovi }}</td>
+											<td>$ {{ movi.vttotal|intcomma }}</td>
+											<td>$ {{ movi.cmovi|saldo_factura:request.db|intcomma }}</td>
+											<td>
+												Detalle
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+
+{% block content_script %}
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$('table').DataTable({"language": languageDataTable});
+		});
+	</script>
+{% endblock %}
