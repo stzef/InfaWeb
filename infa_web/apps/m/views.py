@@ -18,13 +18,27 @@ def mDashboard(request):
 def mFacChooseClient(request):
 	# Consultar cliente mostrador
 	clienteMostrador = 1
+	form = ThirdPartyForm(request.db)
 
 	# Agregar contexto
+	context = {
+		'clienteMostrador' : clienteMostrador,
+		'form' : form
+	}
+
+	return render(request, 'm/m_fac_choose_client.html', context)
+
+
+def mFac(request):
+
+	clienteMostrador = 1
+
 	context = {
 		'clienteMostrador' : clienteMostrador
 	}
 
-	return render(request, 'm/m_fac_choose_client.html', context)
+	return render(request, 'm/m_fac.html', context)
+
 
 def mFacSearchClient(request):
 	# Consultar Terceros

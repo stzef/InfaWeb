@@ -6,6 +6,9 @@ url = [
 
 	# Pages
 	url(r'^m/dashboard$', mDashboard, name='m_dashboard'),
+
+	url(r'^m/fac$', mFac, name='m_fac'),
+
 	url(r'^m/choose-client$', mFacChooseClient, name='m_choose_client'),
 	url(r'^m/search-client$', mFacSearchClient, name='m_search_client'),
 	url(r'^m/order$', mFacOrder, name='m_order'),
