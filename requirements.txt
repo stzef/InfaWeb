@@ -1,6 +1,7 @@
 astroid==1.4.8
 backports.functools-lru-cache==1.2.1
 configparser==3.5.0
+CurrencyConverter==0.8.1
 dj-database-url==0.4.1
 Django==1.9.6
 django-easy-pdf==0.1.0
@@ -17,6 +18,8 @@ PyPDF2==1.26.0
 python-dateutil==2.5.3
 reportlab==3.3.0
 six==1.10.0
+tabulate==0.7.5
+termcolor==1.1.0
 virtualenv==15.0.3
 wrapt==1.10.8
 xhtml2pdf==0.0.6

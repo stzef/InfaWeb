@@ -3,6 +3,7 @@ from datetime import datetime
 from infa_web.parameters import ManageParameters
 from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
+from termcolor import colored
 	
 class verifyConfigurationFile(object):
 	def process_request(self, request):
@@ -46,11 +47,11 @@ class subdomainMiddleware:
 
 					request.db = DOMAINS[request.subdomain]
 
-					print "Subdominio : %s , DB : %s" % (request.subdomain,request.db)
+					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
 					redirect('/dashboard')
 
 			else:
 				request.db = 'default'
-				print "Subdominio : %s , DB : %s" % (request.subdomain,request.db)
+				print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 				redirect('/')
