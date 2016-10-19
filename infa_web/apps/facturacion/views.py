@@ -36,14 +36,14 @@ class BillList(CustomListView):
 		context['title'] = "Listar Facturas"
 		return context
 
-def code_generate(Model, ccaja, value_get, request_db):
+def code_generate(Model, prefijo, value_get, request_db):
 	try:
 		value = str(Model.objects.using(request_db).latest(value_get))
 		value_sum = str(int(value[2:]) + 1)
 		cant_space = 8-int(len(value_sum))
-		model_pk = ccaja.ctimocj.prefijo + (cant_space * '0') + value_sum
+		model_pk = prefijo + (cant_space * '0') + value_sum
 	except Model.DoesNotExist:
-		model_pk = ccaja.ctimocj.prefijo+'00001000'
+		model_pk = prefijo+'00001000'
 	return model_pk
 
 def value_tot(query_array, code_find):
@@ -167,8 +167,7 @@ def save_movi(request_db, movi_array):
 	return movi
 
 def movi_find(fac, request_db, ctimo_billing):
-	movi_find = Movi.objects.using(request_db).filter(movideta__docrefe = fac)
-	return movi_find.filter(ctimo__pk = ctimo_billing)
+	return Movi.objects.using(request_db).filter(movideta__docrefe = fac, ctimo__pk = ctimo_billing)
 
 def ctimo_billing(ctimo_billing, request_db):
 	manageParameters = ManageParameters(request_db)
@@ -177,12 +176,13 @@ def ctimo_billing(ctimo_billing, request_db):
 
 def save_movideta(request_db, movideta_array):
 	movi = movi_find(movideta_array['docrefe'], request_db, movideta_array['ctimo'])
-	if movi:
-		movideta = movi[0].movideta_set.using(request_db).get(itmovi = movideta_array['itmovi'])
+	movi =  Movi.objects.using(request_db).get(cmovi = (movideta_array['cmovi'].cmovi if not movi else (movi[0] if movi.count() > 1 else movi)))
+	try:
+		movideta = movi.movideta_set.using(request_db).get(itmovi = movideta_array['itmovi'])
 		movideta.vmovi = movideta_array['vmovi']
-	else:
+	except Movideta.DoesNotExist:
 		movideta = Movideta(
-			cmovi = (movi[0] if movi else movideta_array['cmovi']),
+			cmovi = movi,
 			itmovi = movideta_array['itmovi'],
 			docrefe = movideta_array['docrefe'],
 			detalle = movideta_array['detalle'],
@@ -336,7 +336,7 @@ def BillSave(request):
 
 	medios_pagos_total = vefe_t + vtar_t + vch_t + vncred_t
 
-	fac_pk = code_generate(Fac, ccaja, 'cfac', request.db)
+	fac_pk = code_generate(Fac, ccaja.ctimocj.prefijo, 'cfac', request.db)
 
 	# guarda los datos en factura
 	fac = save_fac(
@@ -385,8 +385,9 @@ def BillSave(request):
 		}
 	)
 
+	cmo = 'RC'
 	while(val_cont != 0):
-		movi_pk = code_generate(Movi, ccaja, 'cmovi', request.db)
+		movi_pk = code_generate(Movi, cmo, 'cmovi', request.db)
 
 		movi = save_movi(
 			request.db,
@@ -468,6 +469,7 @@ def BillSave(request):
 
 		if(value_vttotal > medios_pagos_total):
 			ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
+			cmo = 'CR'
 			vefe_t = 0
 			vtar_t = 0
 			vch_t = 0

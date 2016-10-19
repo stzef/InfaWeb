@@ -16,11 +16,14 @@ import json
 from infa_web.apps.base.forms import *
 from infa_web.apps.movimientos.forms import *
 from infa_web.apps.movimientos.models import *
+from infa_web.apps.facturacion.views import ctimo_billing
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
+
+var_template_dir = "movimientos/"
 
 class InputMovementList(CustomListView):
 	model = Mven
-	template_name = "movimientos/list-movements.html"
+	template_name = var_template_dir+"list-movements.html"
 	form_class = InputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -32,7 +35,7 @@ class InputMovementList(CustomListView):
 
 class OutputMovementList(CustomListView):
 	model = Mvsa
-	template_name = "movimientos/list-movements.html"
+	template_name = var_template_dir+"list-movements.html"
 	form_class = OutputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -42,9 +45,22 @@ class OutputMovementList(CustomListView):
 		context['is_output_movement'] = True
 		return context
 
+class CarteraList(CustomListView):
+	model = Movi
+	template_name = var_template_dir+"list-cartera.html"
+
+	def get_context_data(self,**kwargs):
+		context = super(CarteraList, self).get_context_data(**kwargs)
+		context['title'] = "Lista de Cartera"
+		return context
+
+	def get_queryset(self):
+		queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+		return queryset
+
 class InputMovementCreate(CustomCreateView):
 	model = Mven
-	template_name = "movimientos/movement.html"
+	template_name = var_template_dir+"movement.html"
 	form_class = InputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -63,7 +79,7 @@ class InputMovementCreate(CustomCreateView):
 
 class OutputMovementCreate(CustomCreateView):
 	model = Mvsa 
-	template_name = "movimientos/movement.html"
+	template_name = var_template_dir+"movement.html"
 	form_class = OutputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -81,7 +97,7 @@ class OutputMovementCreate(CustomCreateView):
 
 class InputMovementUpdate(CustomUpdateView):
 	model = Mven
-	template_name = "movimientos/movement.html"
+	template_name = var_template_dir+"movement.html"
 	form_class = InputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -104,7 +120,7 @@ class InputMovementUpdate(CustomUpdateView):
 
 class OutputMovementUpdate(CustomUpdateView):
 	model = Mvsa 
-	template_name = "movimientos/movement.html"
+	template_name = var_template_dir+"movement.html"
 	form_class = OutputMovementForm
 
 	def get_context_data(self,**kwargs):
@@ -127,7 +143,7 @@ class OutputMovementUpdate(CustomUpdateView):
 
 def proccess_view_annulment(request):
 	form = CommonForm(request.db)
-	return render(request,"movimientos/procesos/annulment.html",{"form":form})
+	return render(request,var_template_dir+"procesos/annulment.html",{"form":form})
 
 @csrf_exempt
 def proccess_fn_annulment(request,pk):
@@ -153,7 +169,7 @@ def proccess_fn_annulment(request,pk):
 def proccess_view_costing_and_stock(request):
 	form = ProccessCostingAndStock(request.db)
 	form_common = CommonForm(request.db)
-	return render(request,"movimientos/procesos/costing_and_stock.html",{"form":form,"form_common":form_common})
+	return render(request,var_template_dir+"procesos/costing_and_stock.html",{"form":form,"form_common":form_common})
 
 @csrf_exempt
 def proccess_fn_costing_and_stock(request):
