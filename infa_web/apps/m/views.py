@@ -15,6 +15,26 @@ from infa_web.custom.generic_views import CustomCreateView
 def mDashboard(request):
 	return render(request, 'm/m_dashboard.html')
 
+def mFacOptionsArticle(request):
+
+	# obtener articulo & cliente
+	codigoDelArticulo = request.GET.get('carlo', None)
+	codigoCliente = request.GET.get('client', None)
+	context = {}
+
+	# obtener valor del articulo para el cliente
+	if codigoDelArticulo is not None and codigoCliente is not None:
+		cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+		articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo) 
+
+
+		listaDePrecio = cliente.clipre
+		valorUnitarioArticulo = getattr(articulo, 'pvta' + str(listaDePrecio))
+		context["valorUnitario"] = valorUnitarioArticulo
+
+
+	return render(request, 'm/m_fac_options_article.html', context)
+
 def mFacChooseClient(request):
 	# Consultar cliente mostrador
 	clienteMostrador = 1
@@ -100,6 +120,7 @@ def mThirtyPartyList(request):
 	return JsonResponse(data, safe=False)
 	# responder
 
+@csrf_exempt
 def mArticlesList(request):
 
 	# filtro codigo | nombre del articulo
@@ -111,7 +132,7 @@ def mArticlesList(request):
 			Q(carlos=query) | Q(ncorto__contains=query)
 		)
 
-		data = serializers.serialize("json", articulos, fields=('ncorto', 'carlos', 'pvta1'))
+		data = serializers.serialize("json", articulos, fields=('carlos', 'ncorto', 'pvta1'))
 		return JsonResponse(data, safe=False)
 
 	else:

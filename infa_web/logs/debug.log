@@ -1423,3 +1423,213 @@ Traceback (most recent call last):
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/engine.py", line 169, in find_template
     raise TemplateDoesNotExist(name, tried=tried)
 TemplateDoesNotExist: m/header_fac.html
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 11:24:40,500 base 13495 139972227086080 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 19, in mFacOptionsArticle
+    return render(request, 'm/m_fac_options_article.html')
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 96, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 32, in get_template
+    return engine.get_template(template_name, dirs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 40, in get_template
+    return Template(self.engine.get_template(template_name, dirs), self)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/engine.py", line 190, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/engine.py", line 157, in find_template
+    name, template_dirs=dirs, skip=skip,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loaders/base.py", line 46, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 189, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 231, in compile_nodelist
+    return parser.parse()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 516, in parse
+    raise self.error(token, e)
+TemplateSyntaxError: 'block' tag with name 'content' appears more than once
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 15:44:52,707 base 17048 140672910997248 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 32, in mFacOptionsArticle
+    valorUnitarioArticulo = getattr(articulo, 'pvta' + listaDePrecio)
+TypeError: cannot concatenate 'str' and 'int' objects
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 15:52:24,093 base 17271 140698531452672 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 28, in mFacOptionsArticle
+    articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'undefined'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 15:52:45,918 base 17271 140698531452672 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 28, in mFacOptionsArticle
+    articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'undefined'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 15:53:43,493 base 17271 140698531452672 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 28, in mFacOptionsArticle
+    articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'undefined'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 15:55:14,341 base 17271 140698531452672 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 28, in mFacOptionsArticle
+    articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'undefined'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-19 16:22:40,915 base 17271 140698531452672 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 28, in mFacOptionsArticle
+    articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'undefined'

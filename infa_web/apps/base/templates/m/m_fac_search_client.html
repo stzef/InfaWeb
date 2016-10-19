@@ -18,7 +18,7 @@
 		</div>
 	</div>
 
-	<ul id="buscarClienteList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
+	<ul id="searchClientList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
 		{% for tercero in terceros %}
 			<li><a data-client="{{tercero.idterce}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
 				{{tercero.nom1}} {{tercero.ape1}}  <span> {{tercero.idterce}}</span>
@@ -28,7 +28,7 @@
 	<script>
 
 		// Busqueda de Terceros
-		$("#buscarClienteList" ).on( "filterablebeforefilter", function ( e, data ) {
+		$("#searchClientList" ).on( "filterablebeforefilter", function ( e, data ) {
 
 			var $ul = $( this ),
 			// dato de entrada
@@ -57,17 +57,21 @@
 
 					// Parsear datos
 					var clientes = JSON.parse(data)
+					if (clientes.length > 0) {
+						// recorrer datos y armar template
+						for (var i = 0; i < clientes.length; i++) {
 
-					// recorrer datos y armar template
-					for (var i = 0; i < clientes.length; i++) {
+							html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].fields.idterce +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
+						};
 
-						html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].fields.idterce +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
-					};
-
-					// cargar template a la lista
-					$ul.html( html );
-					$ul.listview( "refresh" );
-					$ul.trigger( "updatelayout");
+						// cargar template a la lista
+						$ul.html( html );
+						$ul.listview( "refresh" );
+						$ul.trigger( "updatelayout");
+					}
+					else{
+						$ul.html( "Sin resultados" );
+					}
 
 				}, function ( data, statusCode, xhr){
 
@@ -78,7 +82,7 @@
 		})
 
 		// Asignar dato a cliente global
-		$("#buscarClienteList").on("click", ".tercero", function (event) {
+		$("#searchClientList").on("click", ".tercero", function (event) {
 
 			// Asignar valor a cliente
 			cliente = $(this).attr("data-client")

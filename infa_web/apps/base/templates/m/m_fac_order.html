@@ -15,7 +15,34 @@
 
 	<a href="{% url 'm_choose_article' %}" class="ui-btn" data-transition="slide">Seleccionar Articulo</a>
 
+	<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+		<thead>
+		<tr>
+			<th data-priority="1">It</th>
+			<th data-priority="2">Articulo</th>
+			<th data-priority="4">Cant.</th>
+			<th data-priority="5">v. Unitario</th>
+			<th data-priority="3">v. Total</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>1</th>
+				<td>Arroz Diana</td>
+				<td>2</td>
+				<td>1.5000</td>
+				<td>3.000</td>
+			</tr>
+		</tbody>
+	</table>
+
 	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
 		<h4 class="ui-title" role="heading" aria-level="1">TOTAL $ X.XXX.XXX</h4>
 	</div>
+	<script>
+
+		// variable global para manejar articulo seleccionado
+		var articleSelected = {}
+
+	</script>
 {% endblock content %}

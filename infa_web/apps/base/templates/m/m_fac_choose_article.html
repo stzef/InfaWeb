@@ -1,45 +1,77 @@
 {% extends "m/base.html" %}
 
 {% block title %}
+	{% include "m/m_header_fac.html" %}
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
 {% endblock title %}
 
 {% block content %}
 	<h4>Seleccione Articulo</h4>
-	<ul data-role="listview" data-filter="true" data-inset="true">
-		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
-			<h2>Arroz Diana</h2>
-			<p>cod: 12093 &nbsp;&nbsp;<span>$ 193891</span></p></a>
-		</li>
-		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
-			<h2>Leche Alqueria</h2>
-			<p>cod: 3934 &nbsp;&nbsp;<span>$ 982212</span></p></a>
-		</li>
-		<li><a href="#popupDialog" data-rel="popup"  data-position-to="window" data-transition="pop">
-			<h2>Salchichas Zenu</h2>
-			<p>cod: 1294 &nbsp;&nbsp;<span>$ 984120</span></p></a>
-		</li>
+	<ul id="searchArticleList" data-role="listview" data-filter="true" data-inset="true" data-filter-placeholder="Buscar Articulo">
 	</ul>
 
-	<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-dismissible="false" style="max-width:400px;">
-		<div data-role="header">
-		<h1>Detalles</h1>
-		</div>
-		<div role="main" class="ui-content">
-			<form action="">
-				<label for="text-basic">Cantidad</label>
-				<input type="number" name="text-basic" id="text-basic" value="">
+	<script>
 
-				<label for="text-basic">Descuento</label>
-				<input type="number" name="text-basic" id="text-basic" value="">
+		// Busqueda de Terceros
+		$("#searchArticleList" ).on( "filterablebeforefilter", function ( e, data ) {
 
-				<label for="text-basic">V. Unitario</label>
-				<input type="number" name="text-basic" id="text-basic" value="">
-			</form>
+			var $ul = $( this ),
+			// dato de entrada
+			$datoDeEntrada = $( data.input ),
+			valorDatoDeEntrada = $datoDeEntrada.val(),
+			// Template Lista 
+			html = "";
+			// restablecer valores
+			$ul.html( "" );
 
-			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back">Cancel</a>
-			<a href="{% url 'm_order2' %}" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-transition="flow">Agregar</a>
+			if (valorDatoDeEntrada && valorDatoDeEntrada.length > 2) {
 
-		</div>
-	</div>
+				// Gestos UI
+				$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" )
+				$ul.listview( "refresh" )
+
+				// request obtener Terceros
+				$.ajax({
+					url : "{% url 'm_ajax_article_list' %}",
+					dataType: "json",
+					data: {
+						q: $datoDeEntrada.val()
+					}
+				})
+				.then( function ( data, statusCode, xhr) {
+
+					// Parsear datos
+					var articles = JSON.parse(data)
+					if (articles.length > 0) {
+
+						// recorrer datos y armar template
+						for (var i = 0; i < articles.length; i++) {
+
+							html += "<li><a href='{% url 'm_options_article' %}?carlo="+ 1000 +"&client="+cliente +"' data-transition='slide' class='article'><h2>"+ articles[i].fields.ncorto +"</h2><p>cod:"+ articles[i].fields.carlos +"&nbsp;&nbsp;<span>$"+ articles[i].fields.pvta1 +"</span></p></a></li>"
+						};
+
+						// cargar template a la lista
+						$ul.html( html );
+						$ul.listview( "refresh" );
+						$ul.trigger( "updatelayout");
+						$("#searchArticleList li").removeClass("ui-screen-hidden")
+					}
+					else {
+						$ul.html("Sin resultados");
+					}
+
+				}, function ( data, statusCode, xhr){
+
+					// Manejar el Error
+
+				});
+			}
+		})
+
+		// Cargar datos de articulo
+		$("#searchArticleList").on("click", ".article", function (event) {
+			articleSelected["carlo"] = $(this).attr("data-carlo")
+		})
+
+	</script>
 {% endblock content %}
