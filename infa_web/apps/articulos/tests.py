@@ -8,6 +8,8 @@ from tabulate import tabulate
 
 from infa_web.routines import costing_and_stock
 
+from infa_web.bills_fn import *
+
 
 # Create your tests here.
 
@@ -19,6 +21,7 @@ from infa_web.routines import *
 class ExampleTestCase(TestCase):
 
 	using = "default"
+
 
 	def setUp(self):
 		c = Client()
@@ -70,43 +73,57 @@ class ExampleTestCase(TestCase):
 				]
 			}
 		]
-
+		"""
+		{
+			"cmpago" : 1000,
+			"nmpago" : "Efectivo",
+			"porcentaje" : 0,
+		},
+		{
+			"cmpago" : 1001,
+			"nmpago" : "Tarjeta",
+			"porcentaje" : 0,
+		},
+		{
+			"cmpago" : 1002,
+			"nmpago" : "Cheque",
+			"porcentaje" : 0,
+		},
+		{
+			"cmpago" : 1003,
+			"nmpago" : "Nota Credito",
+			"porcentaje" : 0,
+		},
+		"""
 		data_facs = [
 			{
+				"brtefte":0,
+				"prtefte":0,
 				"medios_pagos":[
-					{
-					}
+						{
+							"cmpago" : 1000,
+							"nmpago" : "Efectivo",
+							"porcentaje" : 100,
+							"docmpago" : 0,
+							"banmpago" : 1000,
+						},
 				],
 				"deta":[
 					{
 						"carlos" : 1000,
 						"canti" : 5,
-						"vunita" : 500
+						"vunita" : 500,
+						"pordes" : 0,
+						"civa" :1,
 					},
 					{
-						"carlos" : 1000,
+						"carlos" : 1001,
 						"canti" : 5,
-						"vunita" : 500
+						"vunita" : 500,
+						"pordes" : 0,
+						"civa" :1,
 					},
 				],
-			},
-			{
-				"medios_pagos":[
-					{
-					}
-				],
-				"deta":[
-					{
-						"carlos" : 1000,
-						"canti" : 5,
-						"vunita" : 500
-					},
-					{
-						"carlos" : 1000,
-						"canti" : 5,
-						"vunita" : 500
-					},
-				]
 			},
 		]
 
@@ -123,7 +140,7 @@ class ExampleTestCase(TestCase):
 				"canti":0,
 				"vcosto":0,
 				"porult1":0,
-				"pvta1":0,
+				"pvta1":500,
 				"porult2":0,
 				"pvta2":0,
 				"porult3":0,
@@ -154,7 +171,7 @@ class ExampleTestCase(TestCase):
 				"canti":0,
 				"vcosto":0,
 				"porult1":0,
-				"pvta1":0,
+				"pvta1":500,
 				"porult2":0,
 				"pvta2":0,
 				"porult3":0,
@@ -319,8 +336,11 @@ class ExampleTestCase(TestCase):
 			print tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
 
 
+
 		# Creacion de Facturas - CONTADO
 		print colored("\nCreacion de Factura - CONTADO", 'white', attrs=['bold','reverse', 'blink'])
+		
+
 		body_request_fac_contado = {
 			"mode_view":"create",
 			"cfac":"",
@@ -335,53 +355,77 @@ class ExampleTestCase(TestCase):
 			"ccaja":"1",
 			"cesdo":"1",
 			"descri":"",
-			"vttotal":"1300",
-			"ventre":"1300",
-			"vcambio":"0",
-			"vtbase":"1300",
-			"vtiva":"0",
-			"brtefte":"0",
-			"prtefte":"0",
-			"vrtefte":"0",
-			"vflete":"0",
-			"vdescu":"0",
+			"vttotal":0,
+			"ventre":0,
+			"vcambio":0,
+			"vtbase":0,
+			"vtiva":0,
+			"brtefte":0,
+			"prtefte":0,
+			"vrtefte":0,
+			"vflete":0,
+			"vdescu":0,
 			"it":"",
 			"cmpago":"",
 			"vmpago":"",
-			"medios_pagos":[
-				{
-					"it":1,
-					"cmpago":1000,
-					"docmpago":0,
-					"banmpago":1000,
-					"vmpago":1300
-				}
-			],
-			"mvdeta":[
-				{
-					"itfac":1,
-					"carlos":1000,
-					"name__carlos":"CocaCola",
-					"canti":1,
-					"pordes":0,
-					"civa":1,
-					"vunita":1000,
-					"vtotal":1000
-				},
-				{
-					"itfac":2,
-					"carlos":1001,
-					"name__carlos":"qqqqq",
-					"canti":1,
-					"pordes":0,
-					"civa":1,
-					"vunita":300,
-					"vtotal":300
-				}
-			]
+			"medios_pagos":[],
+			"mvdeta":[]
 		}
-		response_fac_contado = c.post(reverse('save-bill'),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
+		data_table_fac = []
+		for data_facdeta in data_facs:
+			body_request_fac_contado["brtefte"] = data_facdeta["brtefte"]
+			body_request_fac_contado["prtefte"] = data_facdeta["prtefte"]
 
+			it_facdeta = 1
+			for data_articulo in data_facdeta["deta"]:
+				article = Arlo.objects.get(carlos=data_articulo["carlos"])
+
+				canti = data_articulo["canti"]
+				#vunita = data_articulo["vunita"]
+				vunita = calcular_valor_unitario(article.carlos,1,data_articulo["pordes"],self.using)
+
+				temp_arl = {
+					"itfac":it_facdeta,
+					"carlos":article.carlos,
+					"name__carlos":article.nlargo,
+					"canti":canti,
+					"pordes":data_articulo["pordes"],
+					"civa":data_articulo["civa"],
+					"vunita":vunita,
+					"vtotal":canti * vunita
+				}
+				it_facdeta += 1
+				body_request_fac_contado["mvdeta"].append(temp_arl)
+				
+				body_request_fac_contado["vttotal"] += vunita
+
+				totales = calcular_vtbase_vtiva(body_request_fac_contado["mvdeta"])
+				body_request_fac_contado["vtbase"] = totales["vtbase"]
+				body_request_fac_contado["vtiva"] = totales["vtiva"]
+
+			it_facpagodeta = 1
+			for medio_pago in data_facdeta["medios_pagos"]:
+				temp_mp = {
+					"it":it_facpagodeta,
+					"cmpago":medio_pago["cmpago"],
+					"docmpago":medio_pago["docmpago"],
+					"banmpago":medio_pago["banmpago"],
+					"vmpago":body_request_fac_contado["vttotal"] * ( medio_pago["porcentaje"] / 100 )
+				}
+				it_facpagodeta += 1
+				body_request_fac_contado["medios_pagos"].append(temp_mp)
+
+			body_request_fac_contado["vcambio"] = calcular_valor_cambio(body_request_fac_contado["ventre"],body_request_fac_contado["vttotal"])
+			body_request_fac_contado["vttotal"] = calcular_total(body_request_fac_contado["mvdeta"],body_request_fac_contado["vflete"],body_request_fac_contado["vdescu"])
+			
+			body_request_fac_contado["vrtefte"] = calcular_total_flete(body_request_fac_contado["brtefte"],body_request_fac_contado["prtefte"])
+			
+			response_fac_contado = c.post(reverse('save-bill'),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
+			response_fac_contado = json.loads(response_fac_contado.content)
+			data_table_fac.append([response_fac_contado["cfac"]])
+
+		#print json.dumps(body_request_fac_contado,indent=4)
+		print tabulate(data_table_fac,headers=["Cod"],tablefmt="fancy_grid")
 
 
 
