@@ -1,0 +1,74 @@
+
+Creacion de Articulos
+╒═══════╤════════════╕
+│   Cod │ Nombre     │
+╞═══════╪════════════╡
+│  1001 │ Articulo 2 │
+├───────┼────────────┤
+│  1000 │ Articulo 1 │
+╘═══════╧════════════╛
+Creacion de Inventario Inicial
+Invetario Inicial Creado : II-00001
+╒════════════╤════════════╤═════════╕
+│ Articulo   │   Cantidad │   Costo │
+╞════════════╪════════════╪═════════╡
+│ Articulo 1 │         20 │     800 │
+╘════════════╧════════════╧═════════╛
+Creacion de Movimientos Entrada
+Movimiento de Entrada 1 - Fecha:2016-10-13 00:00:00 - Doc Ref:RA00001 - T Movimiento:COMPRA MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         20 │          800 │
+╘════════════╧════════════╧════════════╧══════════════╛
+Movimiento de Entrada 2 - Fecha:2016-10-15 00:00:00 - Doc Ref:RA00002 - T Movimiento:COMPRA MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         10 │         1000 │
+╘════════════╧════════════╧════════════╧══════════════╛
+Movimiento de Entrada 3 - Fecha:2016-10-16 00:00:00 - Doc Ref:RA00003 - T Movimiento:COMPRA MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         10 │         3000 │
+╘════════════╧════════════╧════════════╧══════════════╛
+Movimiento de Entrada 4 - Fecha:2016-10-17 00:00:00 - Doc Ref:RA00004 - T Movimiento:COMPRA MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         10 │         2500 │
+╘════════════╧════════════╧════════════╧══════════════╛
+Movimiento de Entrada 5 - Fecha:2016-10-18 00:00:00 - Doc Ref:RA00005 - T Movimiento:COMPRA MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         10 │         1833 │
+╘════════════╧════════════╧════════════╧══════════════╛
+
+Creacion de Movimientos Salida
+Movimiento de Entrada 1 - Fecha:2016-10-14 00:00:00 - Doc Ref:SA00001 - T Movimiento:SALIDAS MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         15 │          800 │
+╘════════════╧════════════╧════════════╧══════════════╛
+Movimiento de Entrada 2 - Fecha:2016-10-19 00:00:00 - Doc Ref:SA00002 - T Movimiento:SALIDAS MERCANCIA
+╒════════════╤════════════╤════════════╤══════════════╕
+│ Cod        │ nombre     │   Cantidad │   V Unitario │
+╞════════════╪════════════╪════════════╪══════════════╡
+│ Articulo 1 │ Articulo 1 │         20 │         2083 │
+╘════════════╧════════════╧════════════╧══════════════╛
+
+Creacion de Factura
+
+Creacion de Movimientos
+
+Costos y Existencias Finales
+╒═══════╤════════════╤════════════╤══════════════╕
+│   Cod │ nombre     │   Cantidad │   V Unitario │
+╞═══════╪════════════╪════════════╪══════════════╡
+│  1001 │ Articulo 2 │          0 │         0    │
+├───────┼────────────┼────────────┼──────────────┤
+│  1000 │ Articulo 1 │         45 │      1589.69 │
+╘═══════╧════════════╧════════════╧══════════════╛

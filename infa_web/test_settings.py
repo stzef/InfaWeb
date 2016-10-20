@@ -41,7 +41,6 @@ DJANGO_APPS = [
 	'django.contrib.humanize',
 ]
 PROJECT_APPS = [
-	'infa_web.apps.base.templatetags.date_appen',
 	'infa_web.apps.base',
 	'infa_web.apps.terceros',
 	'infa_web.apps.articulos',
@@ -50,6 +49,7 @@ PROJECT_APPS = [
 	'infa_web.apps.usuarios',
 	'infa_web.apps.facturacion',
 	'easy_pdf',
+	'infa_web.apps.base.templatetags',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS

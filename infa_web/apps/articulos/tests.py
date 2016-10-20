@@ -19,6 +19,9 @@ from infa_web.apps.inventarios.models import *
 from infa_web.apps.facturacion.models import *
 from infa_web.routines import *
 
+from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values
+import codecs
+
 class ExampleTestCase(TestCase):
 
 	using = "default"
@@ -27,172 +30,6 @@ class ExampleTestCase(TestCase):
 
 	def setUp(self):
 		c = Client()
-
-		data_mvens = [
-			[
-				{
-					"carlos" : 1000,
-					"canti" : 10,
-					"vunita" : 1200
-				},
-				{
-					"carlos" : 1001,
-					"canti" : 10,
-					"vunita" : 1200
-				},
-			],
-		]
-
-		data_mvsas = [
-			[
-				{
-					"carlos" : 1000,
-					"canti" : 10,
-					"vunita" : 1500
-				},
-				{
-					"carlos" : 1001,
-					"canti" : 10,
-					"vunita" : 1500
-				},
-			],
-		]
-
-		data_invs = [
-			{
-				"cii" : "",
-				"deta" : [
-					{
-						"carlos" : 1000,
-						"canti" : 10,
-						"vcosto" : 2000
-					},
-					{
-						"carlos" : 1001,
-						"canti" : 10,
-						"vcosto" : 2000
-					}
-				]
-			}
-		]
-		"""
-		{
-			"cmpago" : 1000,
-			"nmpago" : "Efectivo",
-			"porcentaje" : 0,
-		},
-		{
-			"cmpago" : 1001,
-			"nmpago" : "Tarjeta",
-			"porcentaje" : 0,
-		},
-		{
-			"cmpago" : 1002,
-			"nmpago" : "Cheque",
-			"porcentaje" : 0,
-		},
-		{
-			"cmpago" : 1003,
-			"nmpago" : "Nota Credito",
-			"porcentaje" : 0,
-		},
-		"""
-		data_facs = [
-			{
-				"brtefte":0,
-				"prtefte":0,
-				"medios_pagos":[
-						{
-							"cmpago" : 1000,
-							"nmpago" : "Efectivo",
-							"porcentaje" : 100,
-							"docmpago" : 0,
-							"banmpago" : 1000,
-						},
-				],
-				"deta":[
-					{
-						"carlos" : 1000,
-						"canti" : 5,
-						"vunita" : 1000,
-						"pordes" : 0,
-						"civa" :1,
-					},
-					{
-						"carlos" : 1001,
-						"canti" : 5,
-						"vunita" : 1000,
-						"pordes" : 0,
-						"civa" :1,
-					},
-				],
-			},
-		]
-
-		data_articles = [
-			{
-				"cbarras":4634563421231,
-				"ncorto":"Articulo 1",
-				"refe":"",
-				"nlargo":"Articulo 1",
-				"cgpo":1,
-				"cmarca":1,
-				"ctiarlo":1,
-				"cunidad":1,
-				"canti":0,
-				"vcosto":0,
-				"porult1":0,
-				"pvta1":500,
-				"porult2":0,
-				"pvta2":0,
-				"porult3":0,
-				"pvta3":0,
-				"porult4":0,
-				"pvta4":0,
-				"porult5":0,
-				"pvta5":0,
-				"porult6":0,
-				"pvta6":0,
-				"ifcostear":"on",
-				"stomin":1,
-				"stomax":100,
-				"mesesgara":0,
-				"ivas_civa":1,
-				"cubica":1,
-				"cesdo":1
-			},
-			{
-				"cbarras":98078967898978,
-				"ncorto":"Articulo 2",
-				"refe":"",
-				"nlargo":"Articulo 2",
-				"cgpo":1,
-				"cmarca":1,
-				"ctiarlo":1,
-				"cunidad":1,
-				"canti":0,
-				"vcosto":0,
-				"porult1":0,
-				"pvta1":500,
-				"porult2":0,
-				"pvta2":0,
-				"porult3":0,
-				"pvta3":0,
-				"porult4":0,
-				"pvta4":0,
-				"porult5":0,
-				"pvta5":0,
-				"porult6":0,
-				"pvta6":0,
-				"ifcostear":"on",
-				"stomin":1,
-				"stomax":100,
-				"mesesgara":0,
-				"ivas_civa":1,
-				"cubica":1,
-				"cesdo":1
-			},
-		]
 
 		# Creacion De Articulo
 		for data_article in data_articles:
@@ -244,26 +81,11 @@ class ExampleTestCase(TestCase):
 
 
 
-		# Creacion de Movimientos
 		# Creacion de Movimientos Entrada
 		for data_mven in data_mvens:
-			body_request_mven_1 = {
-				"mode_view":"create",
-				"cmven":"",
-				"ctimo":"1001",
-				"fmven":"2016-10-13",
-				"citerce":"1",
-				"name__citerce":"MOSTRADOR",
-				"docrefe":"RA00001",
-				"descri":"-",
-				"cesdo":"1",
-				"cbode0":"1",
-				"vttotal":0,
-				"is_input_movement":True,
-				"mvdeta":[]
-			}
+			body_request_mven_1 = data_mven["base"]
 			it_mven = 1
-			for data_mvendeta in data_mven:
+			for data_mvendeta in data_mven["deta"]:
 				article = Arlo.objects.get(carlos=data_mvendeta["carlos"])
 
 				canti = data_mvendeta["canti"]
@@ -285,23 +107,9 @@ class ExampleTestCase(TestCase):
 
 		# Creacion de Movimientos Salida
 		for data_mvsa in data_mvsas:
-			body_request_mvsa_1 = {
-				"mode_view":"create",
-				"cmvsa":"",
-				"ctimo":"2001",
-				"fmvsa":"2016-10-13",
-				"citerce":"1",
-				"name__citerce":"MOSTRADOR",
-				"docrefe":"SA00001",
-				"descri":"-",
-				"cesdo":"1",
-				"cbode0":"1",
-				"vttotal":0,
-				"is_input_movement":False,
-				"mvdeta":[]
-			}
+			body_request_mvsa_1 = data_mvsa["base"]
 			it_mvsa = 1
-			for data_mvsadeta in data_mvsa:
+			for data_mvsadeta in data_mvsa["deta"]:
 				article = Arlo.objects.get(carlos=data_mvsadeta["carlos"])
 
 				canti = data_mvsadeta["canti"]
@@ -324,39 +132,8 @@ class ExampleTestCase(TestCase):
 
 
 		# Creacion de Facturas
-		body_request_fac_contado = {
-			"mode_view":"create",
-			"cfac":"",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
-			"cvende":"1",
-			"cdomici":"1",
-			"ctifopa":"1001",
-			"femi":"2016-10-18",
-			"fpago":"2016-10-18",
-			"cemdor":"1",
-			"ccaja":"1",
-			"cesdo":"1",
-			"descri":"",
-			"vttotal":0,
-			"ventre":0,
-			"vcambio":0,
-			"vtbase":0,
-			"vtiva":0,
-			"brtefte":0,
-			"prtefte":0,
-			"vrtefte":0,
-			"vflete":0,
-			"vdescu":0,
-			"it":"",
-			"cmpago":"",
-			"vmpago":"",
-			"medios_pagos":[],
-			"mvdeta":[]
-		}
 		for data_facdeta in data_facs:
-			body_request_fac_contado["brtefte"] = data_facdeta["brtefte"]
-			body_request_fac_contado["prtefte"] = data_facdeta["prtefte"]
+			body_request_fac_contado = data_facdeta["base"]
 
 			it_facdeta = 1
 			for data_articulo in data_facdeta["deta"]:
@@ -385,6 +162,10 @@ class ExampleTestCase(TestCase):
 				body_request_fac_contado["vtbase"] = totales["vtbase"]
 				body_request_fac_contado["vtiva"] = totales["vtiva"]
 
+			body_request_fac_contado["vcambio"] = calcular_valor_cambio(body_request_fac_contado["ventre"],body_request_fac_contado["vttotal"])
+			body_request_fac_contado["vrtefte"] = calcular_total_flete(body_request_fac_contado["brtefte"],body_request_fac_contado["prtefte"])
+			body_request_fac_contado["vttotal"] = calcular_total(body_request_fac_contado["mvdeta"],body_request_fac_contado["vflete"],body_request_fac_contado["vdescu"])
+
 			it_facpagodeta = 1
 			for medio_pago in data_facdeta["medios_pagos"]:
 				temp_mp = {
@@ -397,10 +178,7 @@ class ExampleTestCase(TestCase):
 				it_facpagodeta += 1
 				body_request_fac_contado["medios_pagos"].append(temp_mp)
 
-			body_request_fac_contado["vcambio"] = calcular_valor_cambio(body_request_fac_contado["ventre"],body_request_fac_contado["vttotal"])
-			body_request_fac_contado["vttotal"] = calcular_total(body_request_fac_contado["mvdeta"],body_request_fac_contado["vflete"],body_request_fac_contado["vdescu"])
 			
-			body_request_fac_contado["vrtefte"] = calcular_total_flete(body_request_fac_contado["brtefte"],body_request_fac_contado["prtefte"])
 			
 			response_fac_contado = c.post(reverse('save-bill'),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 			response_fac_contado = json.loads(response_fac_contado.content)
@@ -408,60 +186,134 @@ class ExampleTestCase(TestCase):
 
 
 	def costing_and_stock(self):
+		report = codecs.open("report.txt", "w", "utf-8")
 
-		print colored("\nCreacion de Articulos", 'white', attrs=['bold','reverse', 'blink'])
+		#report = open("report.txt", "wb")
+
+		text = "\nCreacion de Articulos\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		data_table_articles = []
 		for article in Arlo.objects.all():
+
 			data_table_articles.append([article.carlos,article.nlargo])
-		print tabulate(data_table_articles,headers=["Cod", "Nombre"],tablefmt="fancy_grid")
+		text = tabulate(data_table_articles,headers=["Cod", "Nombre"],tablefmt="fancy_grid")
+		print text
+		report.write(text)
 
 
 
-		print colored("\nCreacion de Inventario Inicial", 'white', attrs=['bold','reverse', 'blink'])
+		text = "\nCreacion de Inventario Inicial\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		invinicab = Invinicab.objects.get(cii=self.cii)
-		print "Invetario Inicial Creado : " + self.cii
+		text = "Invetario Inicial Creado : %s\n" % self.cii
+		print text
+		report.write(text)
 
 
 		data_table_invinideta = []
 		for invinideta in Invinideta.objects.filter(cii=self.cii):
 			data_table_invinideta.append([invinideta.carlos,invinideta.canti,invinideta.vunita])
-		print tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
+		text = tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
+		print text
+		report.write(text)
 
 
+		text = "\nCreacion de Movimientos Entrada\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		for mven in Mven.objects.all():
-			print colored("\nCreacion de Movimientos Entrada", 'white', attrs=['bold','reverse', 'blink'])
+			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mven.cmven,mven.fmven,mven.docrefe,mven.ctimo)
+			print text
+			report.write(text)
 			data_table_mven = []
 			for mvendeta in Mvendeta.objects.filter(cmven = mven.cmven):
 				data_table_mven.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
-			print tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			text = tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			print text
+			report.write(text)
+			text = "\n"
+			print text
+			report.write(text)
 
 
 
+		text = "\nCreacion de Movimientos Salida\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		for mvsa in Mvsa.objects.all():
-			print colored("\nCreacion de Movimientos Salida", 'white', attrs=['bold','reverse', 'blink'])
+			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mvsa.cmvsa,mvsa.fmvsa,mvsa.docrefe,mvsa.ctimo)
+			print text
+			report.write(text)
 			data_table_mvsa = []
 			for mvendeta in Mvsadeta.objects.filter(cmvsa = mvsa.cmvsa):
 				data_table_mvsa.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
-			print tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			text = tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			print text
+			report.write(text)
+			text = "\n"
+			print text
+			report.write(text)
 
 
+		text = "\nCreacion de Factura\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		for fac in Fac.objects.all():
-			print colored("\nCreacion de Factura", 'white', attrs=['bold','reverse', 'blink'])
+			text = "Factura %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (fac.cfac,fac.femi,fac.ctifopa,fac.vttotal)
+			print text
+			report.write(text)
 			data_table_fac = []
 
 			for facdeta in Facdeta.objects.filter(cfac = fac.pk):
 				data_table_fac.append([facdeta.carlos.carlos,facdeta.nlargo,facdeta.canti,facdeta.vunita])
 
-			print tabulate(data_table_fac,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			text = tabulate(data_table_fac,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			print text
+			report.write(text)
+			text = "\n"
+			print text
+			report.write(text)
 
 
+		text = "\nCreacion de Movimientos\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
+		for movi in Movi.objects.all():
+			text = "Movimiento %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (movi.cmovi,movi.ctimo,movi.fmovi,movi.vttotal)
+			print text
+			report.write(text)
+			data_table_movi = []
 
+			for movideta in Movideta.objects.filter(cmovi = movi.pk):
+				data_table_movi.append([movideta.itmovi,movideta.docrefe,movideta.vmovi])
 
-		costing_and_stock(False,True,{},self.using)
+			text = tabulate(data_table_movi,headers=["Item","Doc Ref", "Vr Total"],tablefmt="fancy_grid")
+			print text
+			report.write(text)
+			text = "\n"
+			print text
+			report.write(text)
 
+		result_c_s = costing_and_stock(False,True,{},self.using)
 
-		print colored("\nCostos y Existencias Finales", 'white', attrs=['bold','reverse', 'blink'])
+		text = "\nCostos y Existencias Finales\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
 		data_table_costing_and_stock = []
 		for article in Arlo.objects.all():
 			data_table_costing_and_stock.append([article.carlos,article.nlargo,article.canti,article.vcosto])
-		print tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+			expected_values = costing_and_stock_expected_values[article.carlos]
+
+			msg_error_assert_canti = "Se esperaba una Cantidad de %s para el Articulo %s - %s pero se obtuvo %s" %(expected_values["canti"],article.carlos,article.nlargo,article.canti)
+			msg_error_assert_vcosto = "Se esperaba un Costo de %s para el Articulo %s - %s pero se obtuvo %s" %(expected_values["vcosto"],article.carlos,article.nlargo,article.vcosto)
+
+			self.assertEqual(article.canti, expected_values["canti"],msg_error_assert_canti)
+			self.assertEqual(float(article.vcosto), float(expected_values["vcosto"]),msg_error_assert_vcosto)
+
+		text = tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
+		print text
+		report.write(text)
+
+		report.close()
