@@ -125,6 +125,7 @@ def ParametersList(request):
 
 	parameters = manageParameters.get_all()
 	for parameter in parameters:
+		print parameter
 		if parameter["type"] == "Model":
 			modelString = parameter["model"]
 			appString = parameter["app"]

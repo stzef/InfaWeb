@@ -647,6 +647,13 @@
 			$("#lista_precios").modal("show")
 	}
 
+	function borrar_medios_pago_registrados(){
+		$("#list_medios_pago").find("tbody").children().remove()
+	}
+	function borrar_articulos_registrados(){
+		$("#list_items_mdeta").find("tbody").children().remove()
+	}
+
 	function show_modal_totalizar(){
 		/*
 			[name=ctifopa] : Forma de Pago
@@ -667,14 +674,20 @@
 		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
 		//$("#list_medios_pago table tbody tr").remove()
 
-		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
-			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").custom_format_val()).trigger("change") /*Revisar*/
-			$("#form_medios_pago").submit()
-		}
+		set_pago_completo_efectivo(true)
+
 		$("#medios_pago").modal("show")
 		//$("#medios_pago [name=cmpago]").focus()
 		$(selector_element_focus_on_totalizar).focus()
+	}
+
+	function set_pago_completo_efectivo(borrar_otros){
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			if(borrar_otros) borrar_medios_pago_registrados()
+			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
+			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").custom_format_val()).trigger("change")
+			$("#form_medios_pago").submit()
+		}
 	}
 
 	function get_data_list(selector_list){/*Revisar*/
@@ -902,6 +915,10 @@
 				$("[name=canti]").focus()
 			}
 		}
+
+		if( parseFloat($(this).custom_format_val()) > parseFloat($("[name=ventre]").val()) ){
+			$("[name=ventre]").val($(this)).trigger("change")
+		}
 		calcular_valor_cambio()
 	})
 
@@ -985,6 +1002,7 @@
 	})
 
 	$('#id_carlos').change(function(){
+		$("#form_deta_movement [type=submit]").prop("disabled",true)
 		/*
 			Eschuca el cambio en el cambio #id_carlos
 			Al cambiar el #id_carlos realiza una peticion a url'api-get-object' para buscar al articulos con ese 'carlos', si no se encuentra ningun articulo con ese 'carlos' se realiza otra peticion con 'cbarras'. Esta retorna el objeto de la DB en json y se asigna a current_arlo
@@ -1024,6 +1042,8 @@
 				pvta_menor = mostrar_modal_lista_precios(true)
 
 				setValueFieldArlo()
+
+				$("#form_deta_movement [type=submit]").prop("disabled",false)
 			}else{
 				current_arlo = null
 				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
@@ -1038,6 +1058,7 @@
 						current_arlo = null
 					}
 					setValueFieldArlo()
+					$("#form_deta_movement [type=submit]").prop("disabled",false)
 				})
 			}
 		})
@@ -1074,6 +1095,7 @@
 
 	/*Falta por Documentar */
 
+
 	$("#form_medios_pago").submit(function (event){
 		event.preventDefault()
 		var nuevo_valor_medios_pagos = parseFloat(currencyFormat.sToN($("#form_medios_pago").find("[name=vmpago]").val()))
@@ -1084,7 +1106,7 @@
 
 		var total_meidos_pagos_existentes = 0
 		$("#list_medios_pago tbody tr").toArray().forEach(function(e,i,a){
-			var vtemp = parseFloat($(e).find("[data-name=vmpago]").data("value"))
+			var vtemp = parseFloat(currencyFormat.sToN($(e).find("[data-name=vmpago]").data("value")))
 			total_meidos_pagos_existentes += vtemp
 		})
 		var t_temp = nuevo_valor_medios_pagos + total_meidos_pagos_existentes
@@ -1336,7 +1358,8 @@
 					var message = alertBootstrap(response.message,"success")
 				}
 				if(mode_view != "edit"){
-					$("#list_items_mdeta").find("tbody").children().remove()
+					borrar_medios_pago_registrados()
+					borrar_articulos_registrados()
 				}
 				currentForm.prepend(message)
 				if(confirm("Desea Imprimir La Factura")){
@@ -1392,6 +1415,10 @@
 
 	/* Ejecuta el evento change del campo de seleccion del tercero*/
 	$('#id_citerce').change()
+
+	/*Al doble click en el vt medio pago se actualiza con el valor total de la factura*/
+	$("#id_vmpago").dblclick(function(){$(this).val($("#id_vttotal").val()).trigger("change")})
+
 
 </script>
 {% endblock content_script %}

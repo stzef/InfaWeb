@@ -53,16 +53,28 @@ Movimiento de Entrada 1 - Fecha:2016-10-14 00:00:00 - Doc Ref:SA00001 - T Movimi
 ╞════════════╪════════════╪════════════╪══════════════╡
 │ Articulo 1 │ Articulo 1 │         15 │          800 │
 ╘════════════╧════════════╧════════════╧══════════════╛
-Movimiento de Entrada 2 - Fecha:2016-10-19 00:00:00 - Doc Ref:SA00002 - T Movimiento:SALIDAS MERCANCIA
+Movimiento de Entrada 90 - Fecha:2016-10-19 00:00:00 - Doc Ref:IA00001000 - T Movimiento:RECIBOS CAJA ABONOS FACTURAS
 ╒════════════╤════════════╤════════════╤══════════════╕
 │ Cod        │ nombre     │   Cantidad │   V Unitario │
 ╞════════════╪════════════╪════════════╪══════════════╡
-│ Articulo 1 │ Articulo 1 │         20 │         2083 │
+│ Articulo 1 │ Articulo 1 │         20 │          500 │
 ╘════════════╧════════════╧════════════╧══════════════╛
 
 Creacion de Factura
+Factura IA00001000 - Fecha:2016-10-19 00:00:00 - Forma Pago:CONTADO - Vr. Total:10000.00
+╒═══════╤════════════╤════════════╤══════════════╕
+│   Cod │ nombre     │   Cantidad │   V Unitario │
+╞═══════╪════════════╪════════════╪══════════════╡
+│  1000 │ Articulo 1 │         20 │          500 │
+╘═══════╧════════════╧════════════╧══════════════╛
 
 Creacion de Movimientos
+Movimiento RC00001000 - Fecha:RECIBOS CAJA ABONOS FACTURAS - Forma Pago:2016-10-19 00:00:00 - Vr. Total:10000.00
+╒════════╤════════════╤════════════╕
+│   Item │ Doc Ref    │   Vr Total │
+╞════════╪════════════╪════════════╡
+│      1 │ IA00001000 │      10000 │
+╘════════╧════════════╧════════════╛
 
 Costos y Existencias Finales
 ╒═══════╤════════════╤════════════╤══════════════╕

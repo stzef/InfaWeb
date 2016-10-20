@@ -16,7 +16,7 @@
 {% block content %}
 <table class="center">
 	<thead>
-		<tr class="">
+		<tr>
 			<th>Factura</th>
 			{% if cells.citerce.show %}
 				<th>Cliente</th>
@@ -33,7 +33,7 @@
 	</thead>
 	<tbody>
 		{% for factura in facturas %}
-			<tr>
+			<tr class="cesdo-{{factura.cesdo.pk}}">
 				<td>{{factura.cfac}}</td>
 				{% if cells.citerce.show %}
 					<td>{{factura.citerce.rasocial}}</td>

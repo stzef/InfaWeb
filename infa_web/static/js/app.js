@@ -12,7 +12,9 @@ jQuery.fn.extend({
 
 		input.change(function(){
 			input = $(this)
+			console.log(input)
 			input.val(input.val().replace(regexp_clear,""))
+			console.log(input.val().replace(regexp_clear,""))
 			if (!regexp.test(input.val())){
 				var valueInput = input.val(),
 					clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()

@@ -146,6 +146,8 @@ data_mvsas = [
 			}
 		]
 	},
+]
+"""
 	{
 		"base":{
 			"mode_view":"create",
@@ -170,7 +172,7 @@ data_mvsas = [
 			},
 		]
 	},
-]
+"""
 
 data_invs = [
 	{
@@ -207,7 +209,7 @@ data_invs = [
 	},
 """
 data_facs = []
-"""data_facs = [
+data_facs = [
 	{
 		"base":{
 			"mode_view":"create",
@@ -217,8 +219,8 @@ data_facs = []
 			"cvende":"1",
 			"cdomici":"1",
 			"ctifopa":"1001",
-			"femi":"2016-10-18",
-			"fpago":"2016-10-18",
+			"femi":"2016-10-19",
+			"fpago":"2016-10-19",
 			"cemdor":"1",
 			"ccaja":"1",
 			"cesdo":"1",
@@ -251,21 +253,14 @@ data_facs = []
 		"deta":[
 			{
 				"carlos" : 1000,
-				"canti" : 30,
-				"vunita" : 1000,
-				"pordes" : 0,
-				"civa" :1,
-			},
-			{
-				"carlos" : 1001,
-				"canti" : 60,
-				"vunita" : 1000,
+				"canti" : 20,
+				"vunita" : 2083,
 				"pordes" : 0,
 				"civa" :1,
 			},
 		],
 	},
-]"""
+]
 
 data_articles = [
 	{

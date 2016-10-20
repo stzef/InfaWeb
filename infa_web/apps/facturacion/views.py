@@ -9,6 +9,8 @@ from django.db.models import Max
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
+from infa_web.apps.base.constantes import *
+
 import json
 import datetime
 from infa_web.parameters import ManageParameters
@@ -1007,34 +1009,39 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas_formas_pago.html"
 
 	def get_context_data(self, **kwargs):
+		cesdo_anulado = Esdo.objects.get(cesdo=CESDO_ANULADO)
+
 		context = super(report_fn_bill_payment_methods, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
 		data = self.request.GET
 
 		cvende = data["cvende"]
 		citerce = data["citerce"]
-
 		ctifopa = data["ctifopa"]
-		tifopa = Tifopa.objects.get(ctifopa=ctifopa)
 
 		context['title'] = 'Reporte de Ventas Por Medios de Pagos y Rango de Fechas'
 		cells = {
 			"cvende":{"show":True},
-			"citerce":{"show":True}
+			"citerce":{"show":True},
+			"ctifopa":{"show":True},
 		}
 		context['header'] = {
-			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
-			"Forma de Pago" : tifopa.ntifopa
+			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"]
 		}
 
 
-		query_facturas = {"ctifopa__ctifopa":ctifopa}
+		query_facturas = {}
 		"""
 		query_facturas = {
 			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
 		"""
+		if(ctifopa):
+			query_facturas["ctifopa__ctifopa"] = ctifopa
+			context['title'] += " Por Medios De Pagor"
+			context['header']["Medio de Pago"] = Tifopa.objects.get(ctifopa=ctifopa).ntifopa
+			cells["ctifopa"]["show"] = False
 		if(cvende):
 			query_facturas["cvende__cvende"] = cvende
 			context['title'] += " Por Vendedor"
@@ -1061,29 +1068,25 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		}
 
 		for factura in facturas:
-			factura.data_report = {}
-			totales["subtotal"] += factura.vttotal
-			totales["total"] += factura.vttotal
+			if factura.cesdo != cesdo_anulado:
+				factura.data_report = {}
+				totales["subtotal"] += factura.vttotal
+				totales["total"] += factura.vttotal
 
-			totales["fpago"]["efectivo"] += factura.vefe
-			totales["fpago"]["tarjeta"] += factura.vtar
-			totales["fpago"]["cheque"] += factura.vch
-			totales["fpago"]["nota_credito"] += factura.vcred
+				totales["fpago"]["efectivo"] += factura.vefe
+				totales["fpago"]["tarjeta"] += factura.vtar
+				totales["fpago"]["cheque"] += factura.vch
+				totales["fpago"]["nota_credito"] += factura.vcred
 
 		context['data'] = data
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
-
-		context['colspan_total'] = 4
-		if(cvende):
-			context['colspan_total'] = 3
-			if(citerce):
-				context['colspan_total'] = 2
-		if(citerce):
-			context['colspan_total'] = 3
-			if(cvende):
-				context['colspan_total'] = 2
+		
+		context['colspan_total'] = 5
+		for k,v in cells.iteritems():
+			if v["show"] == False:
+				context['colspan_total'] -= 1
 
 		return context
 
@@ -1096,6 +1099,9 @@ class report_fn_bill(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas.html"
 
 	def get_context_data(self, **kwargs):
+
+		cesdo_anulado = Esdo.objects.get(cesdo=CESDO_ANULADO)
+
 		context = super(report_fn_bill, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
 		data = self.request.GET
@@ -1141,31 +1147,28 @@ class report_fn_bill(PDFTemplateView):
 		totales["vtt_iva"] = 0
 
 		for factura in facturas:
-			factura.data_report = {}
-			totales["subtotal"] += factura.vttotal
-			totales["total"] += factura.vttotal
+			if factura.cesdo != cesdo_anulado:
+				factura.data_report = {}
+				totales["subtotal"] += factura.vttotal
+				totales["total"] += factura.vttotal
 
-			factura.data_report["otros_valores"] = factura.vflete
-			factura.data_report["vt_base_iva"] = factura.vtbase
-			factura.data_report["vt_iva"] = factura.vtiva
+				factura.data_report["otros_valores"] = factura.vflete
+				factura.data_report["vt_base_iva"] = factura.vtbase
+				factura.data_report["vt_iva"] = factura.vtiva
 
-			totales["vtt_otros"] += factura.data_report["otros_valores"]
-			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
-			totales["vtt_iva"] += factura.data_report["vt_iva"]
+				totales["vtt_otros"] += factura.data_report["otros_valores"]
+				totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
+				totales["vtt_iva"] += factura.data_report["vt_iva"]
 
 		context['data'] = data
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
 
+
 		context['colspan_total'] = 4
-		if(cvende):
-			context['colspan_total'] = 3
-			if(citerce):
-				context['colspan_total'] = 2
-		if(citerce):
-			context['colspan_total'] = 3
-			if(cvende):
-				context['colspan_total'] = 2
+		for k,v in cells.iteritems():
+			if v["show"] == False:
+				context['colspan_total'] -= 1
 
 		return context
