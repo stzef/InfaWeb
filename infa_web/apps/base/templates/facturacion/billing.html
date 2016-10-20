@@ -877,13 +877,13 @@
 		if(!data_validation.invoice_without_stock){
 			if(parseFloat($(this).val()) > parseFloat(current_arlo.canti)){
 				if(!confirm("La Cantidad " + current_arlo.canti + " no existe en el inventario actual, ¿Desea Continuar?")){
-					$(this).val("")
+					$(this).val("").focus()
 				}
 			}
 		}
 		if( parseFloat($(this).val()) > parseFloat(data_validation.maximum_amount_items_billing) ){
 			if(!confirm("La factura ha superado la Cantidad Maxima de " + data_validation.maximum_amount_items_billing + ", ¿Desea Continuar?")){
-				$(this).val("")
+				$(this).val("").focus()
 			}
 		}
 	})
@@ -899,6 +899,7 @@
 		if( parseFloat($(this).custom_format_val()) > parseFloat(data_validation.top_sales_invoice) ){
 			if(!confirm("La factura ha superado el Valor Total maximo de " + data_validation.top_sales_invoice + ", ¿Desea Continuar?")){
 				$(this).val("")
+				$("[name=canti]").focus()
 			}
 		}
 		calcular_valor_cambio()
@@ -913,7 +914,7 @@
 			Recalcula el valor unitario del articulo actual
 		*/
 		if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
-			$(this).val("")
+			$(this).val("").focus()
 			alert("El Tope de Descuento es " + data_validation.top_discount_bills)
 		}
 		calcular_valor_unitario()
@@ -1032,7 +1033,7 @@
 						current_arlo = fields
 						pvta_menor = mostrar_modal_lista_precios(true)
 					}else{
-						$('#id_carlos').val("")
+						$('#id_carlos').val("").focus()
 						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
 						current_arlo = null
 					}

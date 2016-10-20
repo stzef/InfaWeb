@@ -526,6 +526,10 @@ def BillSave(request):
 		)
 
 	response["cfac"] = fac.cfac
+
+	#response["fac"] = serializers.serialize("json", list([fac]),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+	#response["mvsa"] = serializers.serialize("json", list([mvsa]),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+	
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
