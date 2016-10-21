@@ -34,7 +34,8 @@ DB = {
 		'PORT': '5432',
 	}
 }
-"""DB = {
+"""
+DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'infaweb_db',
