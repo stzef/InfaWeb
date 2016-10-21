@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 import json
+import codecs
 
 from termcolor import colored
 from tabulate import tabulate
@@ -20,7 +21,6 @@ from infa_web.apps.facturacion.models import *
 from infa_web.routines import *
 
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values
-import codecs
 
 class ExampleTestCase(TestCase):
 
@@ -168,15 +168,18 @@ class ExampleTestCase(TestCase):
 
 			it_facpagodeta = 1
 			for medio_pago in data_facdeta["medios_pagos"]:
+
 				temp_mp = {
 					"it":it_facpagodeta,
 					"cmpago":medio_pago["cmpago"],
 					"docmpago":medio_pago["docmpago"],
 					"banmpago":medio_pago["banmpago"],
-					"vmpago":body_request_fac_contado["vttotal"] * ( medio_pago["porcentaje"] / 100 )
+					"vmpago":body_request_fac_contado["vttotal"] * ( float(medio_pago["porcentaje"]) / float(100) )
 				}
 				it_facpagodeta += 1
 				body_request_fac_contado["medios_pagos"].append(temp_mp)
+
+			#print json.dumps(body_request_fac_contado, indent=4)
 
 			
 			
@@ -188,81 +191,81 @@ class ExampleTestCase(TestCase):
 	def costing_and_stock(self):
 		report = codecs.open("report.txt", "w", "utf-8")
 
-		#report = open("report.txt", "wb")
-
 		text = "\nCreacion de Articulos\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		data_table_articles = []
 		for article in Arlo.objects.all():
-
 			data_table_articles.append([article.carlos,article.nlargo])
 		text = tabulate(data_table_articles,headers=["Cod", "Nombre"],tablefmt="fancy_grid")
-		print text
+		#print text
 		report.write(text)
 
 
 
 		text = "\nCreacion de Inventario Inicial\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		invinicab = Invinicab.objects.get(cii=self.cii)
 		text = "Invetario Inicial Creado : %s\n" % self.cii
-		print text
+		#print text
 		report.write(text)
+
 
 
 		data_table_invinideta = []
 		for invinideta in Invinideta.objects.filter(cii=self.cii):
 			data_table_invinideta.append([invinideta.carlos,invinideta.canti,invinideta.vunita])
 		text = tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
-		print text
+		#print text
 		report.write(text)
+
 
 
 		text = "\nCreacion de Movimientos Entrada\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for mven in Mven.objects.all():
 			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mven.cmven,mven.fmven,mven.docrefe,mven.ctimo)
-			print text
+			#print text
 			report.write(text)
 			data_table_mven = []
 			for mvendeta in Mvendeta.objects.filter(cmven = mven.cmven):
 				data_table_mven.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
 			text = tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			print text
+			#print text
 			report.write(text)
 			text = "\n"
-			print text
+			#print text
 			report.write(text)
 
 
 
 		text = "\nCreacion de Movimientos Salida\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for mvsa in Mvsa.objects.all():
 			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mvsa.cmvsa,mvsa.fmvsa,mvsa.docrefe,mvsa.ctimo)
-			print text
+			#print text
 			report.write(text)
 			data_table_mvsa = []
 			for mvendeta in Mvsadeta.objects.filter(cmvsa = mvsa.cmvsa):
 				data_table_mvsa.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
 			text = tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			print text
+			#print text
 			report.write(text)
 			text = "\n"
-			print text
+			#print text
 			report.write(text)
+
 
 
 		text = "\nCreacion de Factura\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for fac in Fac.objects.all():
 			text = "Factura %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (fac.cfac,fac.femi,fac.ctifopa,fac.vttotal)
-			print text
+			#print text
 			report.write(text)
 			data_table_fac = []
 
@@ -270,19 +273,20 @@ class ExampleTestCase(TestCase):
 				data_table_fac.append([facdeta.carlos.carlos,facdeta.nlargo,facdeta.canti,facdeta.vunita])
 
 			text = tabulate(data_table_fac,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			print text
+			#print text
 			report.write(text)
 			text = "\n"
-			print text
+			#print text
 			report.write(text)
+
 
 
 		text = "\nCreacion de Movimientos\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for movi in Movi.objects.all():
 			text = "Movimiento %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (movi.cmovi,movi.ctimo,movi.fmovi,movi.vttotal)
-			print text
+			#print text
 			report.write(text)
 			data_table_movi = []
 
@@ -290,16 +294,17 @@ class ExampleTestCase(TestCase):
 				data_table_movi.append([movideta.itmovi,movideta.docrefe,movideta.vmovi])
 
 			text = tabulate(data_table_movi,headers=["Item","Doc Ref", "Vr Total"],tablefmt="fancy_grid")
-			print text
+			#print text
 			report.write(text)
 			text = "\n"
-			print text
+			#print text
 			report.write(text)
 
-		result_c_s = costing_and_stock(False,True,{},self.using)
 
+
+		result_c_s = costing_and_stock(False,True,{},self.using)
 		text = "\nCostos y Existencias Finales\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		data_table_costing_and_stock = []
 		for article in Arlo.objects.all():
@@ -313,7 +318,7 @@ class ExampleTestCase(TestCase):
 			self.assertEqual(float(article.vcosto), float(expected_values["vcosto"]),msg_error_assert_vcosto)
 
 		text = tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-		print text
+		#print text
 		report.write(text)
 
 		report.close()

@@ -1,3 +1,8 @@
+from infa_web.apps.terceros.models import *
+
+tercero = Tercero.objects.get(pk=1)
+
+
 data_mvens = [
 	{
 		"base":{
@@ -5,8 +10,8 @@ data_mvens = [
 			"cmven":"",
 			"ctimo":"1001",
 			"fmven":"2016-10-13",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"RA00001",
 			"descri":"-",
 			"cesdo":"1",
@@ -29,8 +34,8 @@ data_mvens = [
 			"cmven":"",
 			"ctimo":"1001",
 			"fmven":"2016-10-15",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"RA00002",
 			"descri":"-",
 			"cesdo":"1",
@@ -53,8 +58,8 @@ data_mvens = [
 			"cmven":"",
 			"ctimo":"1001",
 			"fmven":"2016-10-16",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"RA00003",
 			"descri":"-",
 			"cesdo":"1",
@@ -77,8 +82,8 @@ data_mvens = [
 			"cmven":"",
 			"ctimo":"1001",
 			"fmven":"2016-10-17",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"RA00004",
 			"descri":"-",
 			"cesdo":"1",
@@ -101,8 +106,8 @@ data_mvens = [
 			"cmven":"",
 			"ctimo":"1001",
 			"fmven":"2016-10-18",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"RA00005",
 			"descri":"-",
 			"cesdo":"1",
@@ -128,8 +133,8 @@ data_mvsas = [
 			"cmvsa":"",
 			"ctimo":"2001",
 			"fmvsa":"2016-10-14",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"SA00001",
 			"descri":"-",
 			"cesdo":"1",
@@ -154,8 +159,8 @@ data_mvsas = [
 			"cmvsa":"",
 			"ctimo":"2001",
 			"fmvsa":"2016-10-19",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"docrefe":"SA00002",
 			"descri":"-",
 			"cesdo":"1",
@@ -208,14 +213,13 @@ data_invs = [
 		"porcentaje" : 0,
 	},
 """
-data_facs = []
 data_facs = [
 	{
 		"base":{
 			"mode_view":"create",
 			"cfac":"",
-			"citerce":"1",
-			"name__citerce":"MOSTRADOR",
+			"citerce":tercero.pk,
+			"name__citerce":tercero.rasocial,
 			"cvende":"1",
 			"cdomici":"1",
 			"ctifopa":"1001",
@@ -245,7 +249,7 @@ data_facs = [
 				{
 					"cmpago" : 1000,
 					"nmpago" : "Efectivo",
-					"porcentaje" : 100,
+					"porcentaje" : 50,
 					"docmpago" : 0,
 					"banmpago" : 1000,
 				},
@@ -255,7 +259,7 @@ data_facs = [
 				"carlos" : 1000,
 				"canti" : 20,
 				"vunita" : 2083,
-				"pordes" : 0,
+				"pordes" : 25,
 				"civa" :1,
 			},
 		],

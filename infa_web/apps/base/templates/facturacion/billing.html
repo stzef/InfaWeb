@@ -206,7 +206,7 @@
 												<th>Articulo</th>
 												<th width="5%">Cantidad</th>
 												{% if data_validation.discount_percentages_allow_billing %}
-													<th width="10%">
+													<th width="10%" class="nopadding">
 														Descuento
 													</th>
 												{% else %}
@@ -233,16 +233,18 @@
 													<input type="text" name="name__{{form_movement_detail.carlos.name}}" id="name__{{form_movement_detail.carlos.name}}" class="form-control" readonly>
 												</th>
 												<th>{{ form_movement_detail.canti }}</th>
-												<th>
-													{% if data_validation.discount_percentages_allow_billing %}
+												{% if data_validation.discount_percentages_allow_billing %}
+													<th>
 														<div class="input-group">
 															{{ form_movement_detail.pordes }}
 															<span class="input-group-addon">%</span>
 														</div>
-													{% else %}
+													</th>
+												{% else %}
+													<th class="nopadding">
 														<input type="hidden" name="{{form_movement_detail.pordes.name}}" id="{{form_movement_detail.pordes.id_for_label}}" value="0" >
-													{% endif %}
-												</th>
+													</th>
+												{% endif %}
 												<th>{{ form_movement_detail.civa }}</th>
 												<th>{{ form_movement_detail.vunita }}</th>
 												<th>{{ form_movement_detail.vtotal }}</th>
@@ -408,17 +410,14 @@
 															</div>
 															<div class="box-body">
 															<div>
-																<div class="row col-md-6">
-																	<div class="form-group">
+																<div class="row col-md-12">
+																	<div class="form-group col-md-6">
 																		<label for="{{form.vflete.id_for_label}}" class="">{{form.vflete.label}}</label>
 																		{{form.vflete}}
 																	</div>
-																	<div class="form-group">
+																	<div class="form-group col-md-6">
 																		<label for="{{form.vdescu.id_for_label}}" class="">{{form.vdescu.label}}</label>
-																		<div class="input-group">
-																			{{form.vdescu}}
-																			<span class="input-group-addon">%</span>
-																		</div>
+																		{{form.vdescu}}
 																	</div>
 																</div>
 															</div>
@@ -803,13 +802,18 @@
 		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
 			var cantidad = parseFloat($(e).find("[data-name=canti]").data("value"))
 			var precio = parseFloat(currencyFormat.sToN($(e).find("[data-name=vunita]").data("value")))
-			var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
+			//var porcentaje_descuento = parseFloat($(e).find("[data-name=pordes]").data("value"))
 
 			var codigo_iva = parseFloat($(e).find("[data-name=civa]").data("value"))
 			var porcentaje_iva = valores_iva[codigo_iva]
 
-			var precio_total_sin_descuento = cantidad * precio
-			var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
+				/*
+					Anotacion: El descuento no se aplica aqui oues el valor unitario ya lo tiene aplicado
+				*/
+
+			//var precio_total_sin_descuento = cantidad * precio
+			//var precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / 100 ) )
+			var precio_total = cantidad * precio
 
 			var vbase = precio_total / ( 1 + ( porcentaje_iva / 100 ) )
 			var viva = vbase * ( porcentaje_iva / 100 )
@@ -834,20 +838,32 @@
 
 				var temp_vunita = parseFloat(currencyFormat.sToN($(e).find("[data-name=vunita]").data("value")))
 				var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
+
+				/*
+					Anotacion: El descuento no se aplica aqui oues el valor unitario ya lo tiene aplicado
+				*/
+
 				var vtotal_temp = temp_vunita * temp_canti
 				vttotal_items += vtotal_temp
 			}
 		)
 		var vflete = parseFloat($("[name=vflete]").custom_format_val())
 		var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
+		var valor_descuento = parseFloat(currencyFormat.sToN($("[name=vdescu]").val()))
+
 
 		vttotal_local_sin_descuento = vflete + vttotal_items
-		vttotal_local = vttotal_local_sin_descuento - ( vttotal_local_sin_descuento * ( porcentaje_descuento / 100 ) )
+		vttotal_local = vttotal_local_sin_descuento - valor_descuento
 
 		$("[name=vttotal]").val(vttotal_local).trigger("change")
 		$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("cahnge")
 		
 		$("[name=ventre]").val(vttotal_local).trigger("change")
+		if(valor_descuento > vttotal_local_sin_descuento){
+			$("[name=vdescu]").val("0")
+			return alert("No puede Realizar un Descuento Mayor al Valor Total.")
+		}
+
 	}
 
 	/* Operaciones */
@@ -887,6 +903,11 @@
 			Validacion
 			Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no
 		*/	
+		if(!current_arlo) {
+			$(this).val("1")
+			return alert("Por favor seleccione un articulo.")
+		}
+
 		if(!data_validation.invoice_without_stock){
 			if(parseFloat($(this).val()) > parseFloat(current_arlo.canti)){
 				if(!confirm("La Cantidad " + current_arlo.canti + " no existe en el inventario actual, ¿Desea Continuar?")){
@@ -1242,6 +1263,9 @@
 				/*if(e.name == 'vunita' || e.name == 'vtotal'){
 					value = parseFloat(e.value).format(2)
 				}*/
+				if(e.name == "pordes"){
+					if(!data_validation.discount_percentages_allow_billing) css_class += " nopadding"
+				}
 				if(e.type == "hidden"){
 					value = ""
 				}
@@ -1353,7 +1377,7 @@
 					var message = alertBootstrap(response.message,"danger")
 				}else{
 					if(mode_view != "edit"){
-						$("[name*=cmv]").val(response.cmv)
+						//$("[name*=cmv]").val(response.cmv)
 					}
 					var message = alertBootstrap(response.message,"success")
 				}
@@ -1366,8 +1390,10 @@
 					print_bill(response.cfac)
 				}
 
-				$("form").trigger("reset")
-				$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
+				if(mode_view != "edit"){
+					$("form").trigger("reset")
+					$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
+				}
 
 				$(".animation").empty()
 			}

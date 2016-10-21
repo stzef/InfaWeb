@@ -12,9 +12,7 @@ jQuery.fn.extend({
 
 		input.change(function(){
 			input = $(this)
-			console.log(input)
 			input.val(input.val().replace(regexp_clear,""))
-			console.log(input.val().replace(regexp_clear,""))
 			if (!regexp.test(input.val())){
 				var valueInput = input.val(),
 					clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()
@@ -149,7 +147,6 @@ function defaultfn(){}
 
 
 $("button[action=reset-form]").click(function (e){
-	console.log("Action Reset Form")
 	$(this).closest("form")
 		.trigger("reset")
 		.find(":input")
@@ -160,8 +157,6 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 	$(selectorForm).submit(function(event){
 		var currentForm = $(this)
 		event.preventDefault()
-
-		console.log(this)
 
 		var formData = new FormData(this);
 		$('input[type=file]').each(function(i, file) {
@@ -226,13 +221,11 @@ function customValidationInput(selector){
 	$(selector).attr("novalidate","")
 
 	var inputs = $(selector).find("input:invalid,select:invalid")
-	console.info(inputs)
 	if(inputs.length != 0){
 		var element = inputs.first();
 		var oHTML = element[0];
 		var container = element.parent();
 
-		console.log(element)
 
 		element.closest(".tab-pane").addClass("active");
 		element.focus();
@@ -257,11 +250,7 @@ function customValidationFormTabs(selectorForm,fn){
 			var oHTML = element[0];
 			var container = element.closest(".form-group");
 
-			console.log(element)
-
 			var tab = element.closest(".tab-pane").addClass("active");
-
-			console.info(tab)
 
 			$(".nav.nav-pills li").removeClass("active");
 			$("[href='#" + tab.attr("id") + "']").closest("li").addClass("active");
@@ -382,7 +371,6 @@ var languageDataTable = {
 
 if($("form").length){
 	$(window).on('beforeunload', function(){
-		console.log("hola")
 		//return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
 
 		//Esta seguro de abandonar el sitio? SI o NO
@@ -444,7 +432,6 @@ $(window).on('beforeunload', function (e) {
 
 //$(document).ready(function(e){
 	if(window.opener){
-		console.warn("Hola")
 
 		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
 			.click(function(){
