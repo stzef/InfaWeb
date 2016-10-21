@@ -792,6 +792,8 @@ class BillCreate(CustomCreateView):
 		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
 		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
 
+		context['is_fac_anulada'] = False
+
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		return context
@@ -850,6 +852,11 @@ class BillEdit(CustomUpdateView):
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
+		factura = Fac.objects.get(pk=self.kwargs["pk"])
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
+		
+		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False
+
 		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
@@ -885,11 +892,25 @@ def bill_proccess_fn_annulment(request):
 			return HttpResponse(json.dumps(response), content_type="application/json",status=400)
 
 		try:
-			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)[0]
+			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)
 
-			print Movideta.objects.using(request.db).filter(docrefe = factura.cfac)
+			movis = map(lambda x: x.cmovi, movideta)
+			response["movimientos"] = []
+			for movi in movis:
+				print "-------------------.-.-.-..-.-s"
+				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
+				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
-			movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
+				movi.cesdo = estado
+				movi.detaanula = detaanula
+				movi.save(using=request.db)
+
+				data_mov = {
+					"esdo_last" : movi.cesdo.nesdo,
+					'esdo_mew' :estado.nesdo
+				}
+				data_mov["cmovi"] = movi.cmovi
+				response["movimientos"].append(data_mov)
 
 		except Movi.DoesNotExist:
 			response["message"] = "No existe un movimiento asociado a la factura."
@@ -904,13 +925,7 @@ def bill_proccess_fn_annulment(request):
 			"esdo_last" : mvsa.cesdo.nesdo,
 			'esdo_mew' :estado.nesdo
 		}
-		response["movimiento"] = {
-			"esdo_last" : movimiento.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
-		}
 
-		movimiento.cesdo = estado
-		movimiento.detaanula = detaanula
 		factura.detaanula = detaanula
 		factura.cesdo = estado
 		mvsa.detaanula = detaanula
@@ -918,11 +933,9 @@ def bill_proccess_fn_annulment(request):
 
 		factura.save(using=request.db)
 		mvsa.save(using=request.db)
-		movimiento.save(using=request.db)
 
 		response["factura"]["cfac"] = factura.cfac
 		response["mvsa"]["cmvsa"] = mvsa.cmvsa
-		response["movimiento"]["cmovi"] = movimiento.cmovi
 
 		return HttpResponse(json.dumps(response), content_type="application/json",status=200)
 	except Fac.DoesNotExist:

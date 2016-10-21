@@ -276,8 +276,8 @@
 													<td data-name="vunita" data-value="{{ list.vunita }}">{{ list.vunita }}</td>
 													<td data-name="vtotal" data-value="{{ list.vtotal }}">{{ list.vtotal }}</td>
 													<td>
-														<span class="btn btn-info" style="margin-right: 3px;" id="edit-item-fac"><i class="fa fa-edit"></i></span>
-														<span class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></span>
+														<button class="btn btn-info" style="margin-right: 3px;" id="edit-item-fac"><i class="fa fa-edit"></i></button>
+														<button class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></button>
 													</td>
 												</tr>
 											{% endfor %}
@@ -470,7 +470,7 @@
 														<td data-name="banmpago" data-value="{{ medios_pagos.banmpago.pk }}">{{ medios_pagos.banmpago.nbanfopa }}</td>
 														<td data-name="vmpago" data-value="{{ medios_pagos.vmpago }}">{{ medios_pagos.vmpago }}</td>
 														<td>
-															<span class="btn btn-info" style="margin-right: 3px;" id="edit-item-medios-pagos"><i class="fa fa-edit"></i></span>
+															<button class="btn btn-info" style="margin-right: 3px;" id="edit-item-medios-pagos"><i class="fa fa-edit"></i></button>
 														</td>
 													</tr>
 												{% endfor %}
@@ -860,7 +860,7 @@
 		vttotal_local = vttotal_local_sin_descuento - valor_descuento
 
 		$("[name=vttotal]").val(vttotal_local).trigger("change")
-		$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("cahnge")
+		$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("change")
 		
 		$("[name=ventre]").val(vttotal_local).trigger("change")
 		if(valor_descuento > vttotal_local_sin_descuento){
@@ -1056,37 +1056,41 @@
 				arlo_in_list = true
 			}
 		})
-		//if(arlo_in_list) return
-		loading_animation("Cargando Datos")
-		$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
-			$(".animation").empty()
-			if(response.object){
-				var object = JSON.parse(response.object)[0]
-				fields = object.fields
-				current_arlo = fields
-				pvta_menor = mostrar_modal_lista_precios(true)
+		if(!arlo_in_list){
+			loading_animation("Cargando Datos")
+			$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': this.name,'value': input_value}),function(response){
+				$(".animation").empty()
+				if(response.object){
+					var object = JSON.parse(response.object)[0]
+					fields = object.fields
+					current_arlo = fields
+					pvta_menor = mostrar_modal_lista_precios(true)
 
-				setValueFieldArlo()
-
-				$("#form_deta_movement [type=submit]").prop("disabled",false)
-			}else{
-				current_arlo = null
-				$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
-					if(response.object){
-						var object = JSON.parse(response.object)[0]
-						fields = object.fields
-						current_arlo = fields
-						pvta_menor = mostrar_modal_lista_precios(true)
-					}else{
-						$('#id_carlos').val("").focus()
-						tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-						current_arlo = null
-					}
 					setValueFieldArlo()
+
 					$("#form_deta_movement [type=submit]").prop("disabled",false)
-				})
-			}
-		})
+				}else{
+					current_arlo = null
+					$.post('{% url 'api-get-object' %}',JSON.stringify({'model': 5,'field': "cbarras",'value': input_value}),function(response){
+						if(response.object){
+							var object = JSON.parse(response.object)[0]
+							fields = object.fields
+							current_arlo = fields
+							pvta_menor = mostrar_modal_lista_precios(true)
+						}else{
+							$('#id_carlos').val("").focus()
+							tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+							current_arlo = null
+						}
+						setValueFieldArlo()
+						$("#form_deta_movement [type=submit]").prop("disabled",false)
+					})
+				}
+			})
+		}else{
+			$("#form_deta_movement [type=submit]").prop("disabled",false)
+			calcular_total()
+		}
 	});
 
 	$('#id_citerce').change(function(){
@@ -1171,8 +1175,8 @@
 					html:value}))
 			})
 			td = $("<td>")
-			var btnEdit = td.append($("<span class='btn btn-info' id='edit-item-medios-pagos' style='margin-right: 3px;'><i class='fa fa-edit'></span>"))
-			var btnDelete = td.append($("<span class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></span>"))
+			var btnEdit = td.append($("<button class='btn btn-info' id='edit-item-medios-pagos' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
+			var btnDelete = td.append($("<button class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></button>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_medios_pago").find("tbody").append(tr)
 
@@ -1280,8 +1284,8 @@
 					html:value}))
 			})
 			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<span class='btn btn-info' id='edit-item-fac' style='margin-right: 3px;'><i class='fa fa-edit'></span>"))
-			var btnDelete = td.append($("<span class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></span>"))
+			var btnEdit = td.append($("<button class='btn btn-info' id='edit-item-fac' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
+			var btnDelete = td.append($("<button class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></button>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 
@@ -1443,6 +1447,10 @@
 			$('#item_medio_pago').submit()
 			$('#item_medio_pago').trigger("reset")
 		})
+		{% if is_fac_anulada %}
+			$("form :input, button").prop("disabled",true).off("submit")
+			$("#id_cfac").addClass("cesdo-2")
+		{% endif %}
 	})
 
 	/* Da formato de fecha a los campos con la clase .date - Libreria*/
