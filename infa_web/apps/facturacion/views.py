@@ -894,10 +894,9 @@ def bill_proccess_fn_annulment(request):
 		try:
 			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)
 
-			movis = map(lambda x: x.cmovi, movideta)
+			movis = list(set(map(lambda x: x.cmovi, movideta)))
 			response["movimientos"] = []
 			for movi in movis:
-				print "-------------------.-.-.-..-.-s"
 				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
