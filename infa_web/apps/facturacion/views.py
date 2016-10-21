@@ -1009,7 +1009,7 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas_formas_pago.html"
 
 	def get_context_data(self, **kwargs):
-		cesdo_anulado = Esdo.objects.get(cesdo=CESDO_ANULADO)
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 
 		context = super(report_fn_bill_payment_methods, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
@@ -1040,7 +1040,7 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		if(ctifopa):
 			query_facturas["ctifopa__ctifopa"] = ctifopa
 			context['title'] += " Por Medios De Pagor"
-			context['header']["Medio de Pago"] = Tifopa.objects.get(ctifopa=ctifopa).ntifopa
+			context['header']["Medio de Pago"] = Tifopa.objects.using(self.request.db).get(ctifopa=ctifopa).ntifopa
 			cells["ctifopa"]["show"] = False
 		if(cvende):
 			query_facturas["cvende__cvende"] = cvende
@@ -1100,7 +1100,7 @@ class report_fn_bill(PDFTemplateView):
 
 	def get_context_data(self, **kwargs):
 
-		cesdo_anulado = Esdo.objects.get(cesdo=CESDO_ANULADO)
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO) 
 
 		context = super(report_fn_bill, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
