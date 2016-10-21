@@ -850,6 +850,9 @@ class BillEdit(CustomUpdateView):
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
+		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
 		return context
 
 def bill_proccess_view_annulment(request):
@@ -883,6 +886,8 @@ def bill_proccess_fn_annulment(request):
 
 		try:
 			movideta = Movideta.objects.using(request.db).filter(docrefe = factura.cfac)[0]
+
+			print Movideta.objects.using(request.db).filter(docrefe = factura.cfac)
 
 			movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
