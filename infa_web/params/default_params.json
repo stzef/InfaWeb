@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/10/19 11:53:36", 
+        "value": "2016/10/21 10:19:37", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/10/19 11:53:36", 
+            "selected": "2016/10/21 10:19:37", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -362,20 +362,20 @@
     {
         "cparam": "top_sales_invoice", 
         "type": "Number", 
-        "value": "2000000", 
+        "value": 2000000, 
         "label": {
             "text": "Tope factura de Venta"
         }, 
         "field": {
             "input": true, 
-            "selected": "2000000", 
-            "type": "number", 
+            "selected": 2000000, 
+            "type": "text", 
             "id": "top_sales_invoice", 
             "select": false
         }, 
         "smodule": "F", 
         "css": {
-            "field": "form-control", 
+            "field": "form-control input-currency", 
             "field_container": "col-sm-8", 
             "label": "col-sm-4 control-label"
         }, 
@@ -405,7 +405,7 @@
     }, 
     {
         "cparam": "default_output_movement_for_billing", 
-        "smodule": "P", 
+        "type": "Model", 
         "app": "base", 
         "value": "2004", 
         "label": {
@@ -414,18 +414,15 @@
         "field": {
             "text": "ntimo", 
             "selected": "2004", 
-            "value": "ctimo", 
             "options": [], 
-            "input": false, 
-            "type": false, 
-            "id": "default_output_movement_for_billing", 
-            "select": true
+            "value": "ctimo", 
+            "input": false
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "P", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -435,7 +432,7 @@
     }, 
     {
         "cparam": "ctimo_rc_billing", 
-        "smodule": "F", 
+        "type": "Model", 
         "app": "base", 
         "value": "3001", 
         "label": {
@@ -445,17 +442,17 @@
             "text": "ntimo", 
             "selected": "3001", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "ctimo_rc_billing", 
             "input": false, 
             "type": false, 
-            "id": "ctimo_rc_billing", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_RC::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "F", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -465,7 +462,7 @@
     }, 
     {
         "cparam": "ctimo_cxc_billing", 
-        "smodule": "F", 
+        "type": "Model", 
         "app": "base", 
         "value": "4003", 
         "label": {
@@ -475,54 +472,54 @@
             "text": "ntimo", 
             "selected": "4003", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "ctimo_cxc_billing", 
             "input": false, 
             "type": false, 
-            "id": "ctimo_cxc_billing", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_CXC::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "F", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo cxc facturacion"
-    },
+    }, 
     {
         "cparam": "ctimo_ab_billing", 
-        "smodule": "F", 
+        "type": "Model", 
         "app": "base", 
-        "value": "4101", 
+        "value": "4000", 
         "label": {
             "text": "ctimo ab facturacion"
         }, 
         "field": {
             "text": "ntimo", 
-            "selected": "4101", 
+            "selected": "4000", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "ctimo_ab_billing", 
             "input": false, 
             "type": false, 
-            "id": "ctimo_ab_billing", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_AB::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "F", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo ab facturacion"
-    },
+    }, 
     {
         "cparam": "discount_percentages_allow_billing", 
         "type": "Boolean", 

@@ -16,13 +16,16 @@
 {% block content %}
 <table class="center">
 	<thead>
-		<tr class="">
+		<tr>
 			<th>Factura</th>
 			{% if cells.citerce.show %}
 				<th>Cliente</th>
 			{% endif %}
 			{% if cells.cvende.show %}
 				<th>Vendedor</th>
+			{% endif %}
+			{% if cells.ctifopa.show %}
+				<th>F Pago</th>
 			{% endif %}
 			<th>Fecha</th>
 			<th>Vr.Efe</th>
@@ -34,13 +37,16 @@
 	</thead>
 	<tbody>
 		{% for factura in facturas %}
-			<tr>
+			<tr class="cesdo-{{factura.cesdo.pk}}">
 				<td>{{factura.cfac}}</td>
 				{% if cells.citerce.show %}
 					<td>{{factura.citerce.rasocial}}</td>
 				{% endif %}
 				{% if cells.cvende.show %}
 					<td>{{factura.cvende.nvende}}</td>
+				{% endif %}
+				{% if cells.ctifopa.show %}
+					<td>{{factura.ctifopa.ntifopa}}</td>
 				{% endif %}
 				<td>{{factura.femi|date:"d M Y"}}</td>
 

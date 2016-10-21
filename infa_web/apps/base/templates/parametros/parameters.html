@@ -100,6 +100,9 @@
 				if(e.type == "checkbox"){
 					parameter.value = e.checked ? true :false
 				}
+				if($(e).hasClass("input-currency")){
+					parameter.value = currencyFormat.sToN(e.value)
+				}
 			}else if (e.tagName == "SELECT"){
 				parameter.value = e.value
 			}

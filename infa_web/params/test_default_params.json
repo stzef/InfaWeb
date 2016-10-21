@@ -46,13 +46,13 @@
     {
         "cparam": "date_appen", 
         "type": "String", 
-        "value": "2016/10/14 14:42:03", 
+        "value": "2016/10/20 10:19:18", 
         "label": {
             "text": "Fecha de Appen"
         }, 
         "field": {
             "input": true, 
-            "selected": "2016/10/14 14:42:03", 
+            "selected": "2016/10/20 10:19:18", 
             "type": "text", 
             "id": "date_appen", 
             "select": false
@@ -153,7 +153,7 @@
     }, 
     {
         "cparam": "city_third_party", 
-        "type": "Model", 
+        "smodule": "I", 
         "app": "base", 
         "value": "2", 
         "label": {
@@ -163,14 +163,14 @@
             "text": "nciu", 
             "selected": "2", 
             "value": "cciu", 
-            "id": "city_third_party", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "city_third_party", 
             "select": true
         }, 
         "model": "Ciudad", 
-        "smodule": "I", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -180,7 +180,7 @@
     }, 
     {
         "cparam": "initial_note", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "inventarios", 
         "value": "II-00001", 
         "label": {
@@ -190,6 +190,9 @@
             "text": "cii", 
             "selected": "II-00001", 
             "value": "cii", 
+            "id": "initial_note", 
+            "input": false, 
+            "type": false, 
             "options": [
                 {
                     "text": "Seleccione", 
@@ -197,13 +200,10 @@
                     "value": "@"
                 }
             ], 
-            "input": false, 
-            "type": false, 
-            "id": "initial_note", 
             "select": true
         }, 
         "model": "Invinicab", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -213,7 +213,7 @@
     }, 
     {
         "cparam": "default_movement_for_input_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "base", 
         "value": "1001", 
         "label": {
@@ -223,17 +223,17 @@
             "text": "ntimo", 
             "selected": "1001", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_input_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_input_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_ENTRADA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -243,7 +243,7 @@
     }, 
     {
         "cparam": "default_movement_for_output_bills", 
-        "smodule": "I", 
+        "type": "Model", 
         "app": "base", 
         "value": "2001", 
         "label": {
@@ -253,17 +253,17 @@
             "text": "ntimo", 
             "selected": "2001", 
             "value": "ctimo", 
-            "options": [], 
+            "id": "default_movement_for_output_bills", 
             "input": false, 
             "type": false, 
-            "id": "default_movement_for_output_bills", 
+            "options": [], 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
         }, 
         "model": "Timo", 
-        "type": "Model", 
+        "smodule": "I", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -362,20 +362,20 @@
     {
         "cparam": "top_sales_invoice", 
         "type": "Number", 
-        "value": "2000000", 
+        "value": 2000000, 
         "label": {
             "text": "Tope factura de Venta"
         }, 
         "field": {
             "input": true, 
-            "selected": "2000000", 
-            "type": "number", 
+            "selected": 2000000, 
+            "type": "text", 
             "id": "top_sales_invoice", 
             "select": false
         }, 
         "smodule": "F", 
         "css": {
-            "field": "form-control", 
+            "field": "form-control input-currency", 
             "field_container": "col-sm-8", 
             "label": "col-sm-4 control-label"
         }, 
@@ -414,12 +414,9 @@
         "field": {
             "text": "ntimo", 
             "selected": "2004", 
-            "value": "ctimo", 
             "options": [], 
-            "input": false, 
-            "type": false, 
-            "id": "default_output_movement_for_billing", 
-            "select": true
+            "value": "ctimo", 
+            "input": false
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_SALIDA::"
@@ -492,18 +489,18 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo cxc facturacion"
-    },
+    }, 
     {
         "cparam": "ctimo_ab_billing", 
         "smodule": "F", 
         "app": "base", 
-        "value": "4101", 
+        "value": "4000", 
         "label": {
             "text": "ctimo ab facturacion"
         }, 
         "field": {
             "text": "ntimo", 
-            "selected": "4101", 
+            "selected": "4000", 
             "value": "ctimo", 
             "options": [], 
             "input": false, 
@@ -522,7 +519,7 @@
             "label": "col-sm-4 control-label"
         }, 
         "nparam": "ctimo ab facturacion"
-    },
+    }, 
     {
         "cparam": "discount_percentages_allow_billing", 
         "type": "Boolean", 

@@ -50,7 +50,7 @@ class FacForm(forms.ModelForm):
 			
 			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
 			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
-			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+			'vdescu' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),#Revisar
 
 			#'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
@@ -91,11 +91,11 @@ class FacForm(forms.ModelForm):
 			'cdomici' : 'Domiciliario',
 			'tpordes' : '',
 			'cemdor' : 'Empacador',
-			'vncre' : 'V Nota Credito',
+			'vncre' : 'Vr. Nota Credito',
 			'doccre' : 'Doc Nota Credito',
 			'brtefte' : 'Base Rte Fte',
 			'prtefte' : 'Porc Rte Fte',
-			'vrtefte' : 'V Rte Fte',
+			'vrtefte' : 'Vr. Rte Fte',
 			'fhasdomi' : 'Fecha Domicilio',
 			'cusu' : 'Usuario',
 			'ccoti' : 'Cotizacion',

@@ -274,13 +274,13 @@
     {
         "cparam": "invoice_without_stock", 
         "type": "Boolean", 
-        "value": true, 
+        "value": false, 
         "label": {
             "text": "Facturar Articulos Sin Existencia."
         }, 
         "field": {
             "input": true, 
-            "selected": true, 
+            "selected": false, 
             "type": "checkbox", 
             "id": "invoice_without_stock", 
             "select": false
@@ -362,20 +362,20 @@
     {
         "cparam": "top_sales_invoice", 
         "type": "Number", 
-        "value": "2000000", 
+        "value": 2000000, 
         "label": {
             "text": "Tope factura de Venta"
         }, 
         "field": {
             "input": true, 
-            "selected": "2000000", 
-            "type": "number", 
+            "selected": 2000000, 
+            "type": "text", 
             "id": "top_sales_invoice", 
             "select": false
         }, 
         "smodule": "F", 
         "css": {
-            "field": "form-control", 
+            "field": "form-control input-currency", 
             "field_container": "col-sm-8", 
             "label": "col-sm-4 control-label"
         }, 
@@ -497,13 +497,13 @@
         "cparam": "ctimo_ab_billing", 
         "type": "Model", 
         "app": "base", 
-        "value": "4101", 
+        "value": "4000", 
         "label": {
             "text": "ctimo ab facturacion"
         }, 
         "field": {
             "text": "ntimo", 
-            "selected": "4101", 
+            "selected": "4000", 
             "value": "ctimo", 
             "id": "ctimo_ab_billing", 
             "input": false, 

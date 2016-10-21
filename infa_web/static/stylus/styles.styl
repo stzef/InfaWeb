@@ -115,4 +115,12 @@ input,select,textarea
 	border-color #222D32
 	box-shadow none
 
+/* Ocultar rows(spin-button) de los input type number*/
+input[type='number']
+	-moz-appearance textfield
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button
+	-webkit-appearance none
+
 
