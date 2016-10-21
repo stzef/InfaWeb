@@ -4,6 +4,9 @@ from django.core.urlresolvers import reverse
 import json
 import codecs
 
+import locale
+locale.setlocale(locale.LC_ALL, '')
+
 from termcolor import colored
 from tabulate import tabulate
 
@@ -21,7 +24,8 @@ from infa_web.apps.facturacion.models import *
 from infa_web.routines import *
 
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values
-
+def fc(x):
+	return locale.currency(x,grouping=True)
 class ExampleTestCase(TestCase):
 
 	using = "default"
@@ -141,7 +145,7 @@ class ExampleTestCase(TestCase):
 
 				canti = data_articulo["canti"]
 				#vunita = data_articulo["vunita"]
-				vunita = calcular_valor_unitario(article.carlos,1,data_articulo["pordes"],self.using)
+				vunita = calcular_valor_unitario(article.carlos,1,data_articulo["pordes"],data_articulo["vunita"],self.using)
 
 				temp_arl = {
 					"itfac":it_facdeta,
@@ -192,123 +196,123 @@ class ExampleTestCase(TestCase):
 		report = codecs.open("report.txt", "w", "utf-8")
 
 		text = "\nCreacion de Articulos\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		data_table_articles = []
 		for article in Arlo.objects.all():
-			data_table_articles.append([article.carlos,article.nlargo])
-		text = tabulate(data_table_articles,headers=["Cod", "Nombre"],tablefmt="fancy_grid")
-		#print text
+			data_table_articles.append([article.carlos,article.nlargo,article.canti,fc(article.vcosto)])
+		text = tabulate(data_table_articles,headers=["Cod", "Nombre","Cantidad","Costo"],tablefmt="fancy_grid")
+		print text
 		report.write(text)
 
 
 
 		text = "\nCreacion de Inventario Inicial\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		invinicab = Invinicab.objects.get(cii=self.cii)
 		text = "Invetario Inicial Creado : %s\n" % self.cii
-		#print text
+		print text
 		report.write(text)
 
 
 
 		data_table_invinideta = []
 		for invinideta in Invinideta.objects.filter(cii=self.cii):
-			data_table_invinideta.append([invinideta.carlos,invinideta.canti,invinideta.vunita])
-		text = tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo"],tablefmt="fancy_grid")
-		#print text
+			data_table_invinideta.append([invinideta.carlos.carlos,invinideta.canti,fc(invinideta.vunita),fc(invinideta.vtotal),invinideta.cancalcu,invinideta.ajuent,invinideta.ajusal])
+		text = tabulate(data_table_invinideta,headers=["Articulo", "Cantidad", "Costo","Vr. Total","Cant Calc","Ajus. Entra","Ajus. Sal"],tablefmt="fancy_grid")
+		print text
 		report.write(text)
 
 
 
 		text = "\nCreacion de Movimientos Entrada\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for mven in Mven.objects.all():
-			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mven.cmven,mven.fmven,mven.docrefe,mven.ctimo)
-			#print text
+			text = "Movimiento de Entrada %s\nFecha:%s\nDoc Ref:%s\nT Movimiento:%s\n" % (mven.cmven,mven.fmven,mven.docrefe,mven.ctimo)
+			print text
 			report.write(text)
 			data_table_mven = []
 			for mvendeta in Mvendeta.objects.filter(cmven = mven.cmven):
-				data_table_mven.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
-			text = tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			#print text
+				data_table_mven.append([mvendeta.carlos.carlos,mvendeta.nlargo,mvendeta.canti,fc(mvendeta.vunita),fc(mvendeta.vtotal)])
+			text = tabulate(data_table_mven,headers=["Cod","nombre", "Cantidad", "Vr. Unitario","Vr. Total"],tablefmt="fancy_grid")
+			print text
 			report.write(text)
 			text = "\n"
-			#print text
+			print text
 			report.write(text)
 
 
 
 		text = "\nCreacion de Movimientos Salida\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for mvsa in Mvsa.objects.all():
-			text = "Movimiento de Entrada %s - Fecha:%s - Doc Ref:%s - T Movimiento:%s\n" % (mvsa.cmvsa,mvsa.fmvsa,mvsa.docrefe,mvsa.ctimo)
-			#print text
+			text = "Movimiento de Entrada %s\nFecha:%s\nDoc Ref:%s\nT Movimiento:%s\n" % (mvsa.cmvsa,mvsa.fmvsa,mvsa.docrefe,mvsa.ctimo)
+			print text
 			report.write(text)
 			data_table_mvsa = []
 			for mvendeta in Mvsadeta.objects.filter(cmvsa = mvsa.cmvsa):
-				data_table_mvsa.append([mvendeta.carlos,mvendeta.nlargo,mvendeta.canti,mvendeta.vunita])
-			text = tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			#print text
+				data_table_mvsa.append([mvendeta.carlos.carlos,mvendeta.nlargo,mvendeta.canti,fc(mvendeta.vunita),fc(mvendeta.vtotal)])
+			text = tabulate(data_table_mvsa,headers=["Cod","nombre", "Cantidad", "Vr. Unitario","Vr. Total"],tablefmt="fancy_grid")
+			print text
 			report.write(text)
 			text = "\n"
-			#print text
+			print text
 			report.write(text)
 
 
 
 		text = "\nCreacion de Factura\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for fac in Fac.objects.all():
-			text = "Factura %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (fac.cfac,fac.femi,fac.ctifopa,fac.vttotal)
-			#print text
+			text = "Factura %s\nFecha:%s\nForma Pago:%s\nVr. Total:%s\n" % (fac.cfac,fac.femi,fac.ctifopa,fc(fac.vttotal))
+			print text
 			report.write(text)
 			data_table_fac = []
 
 			for facdeta in Facdeta.objects.filter(cfac = fac.pk):
-				data_table_fac.append([facdeta.carlos.carlos,facdeta.nlargo,facdeta.canti,facdeta.vunita])
+				data_table_fac.append([facdeta.itfac,facdeta.carlos,facdeta.nlargo,facdeta.canti,facdeta.civa,fc(facdeta.vunita),fc(facdeta.vbase),fc(facdeta.viva),fc(facdeta.vtotal),facdeta.pordes,fc(facdeta.vcosto)])
 
-			text = tabulate(data_table_fac,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-			#print text
+			text = tabulate(data_table_fac,headers=["Item","Cod","Articulos","Cantidad","IVA","Vr. Unitario","Vr. Base","Vr. Iva","Vt Total","Descuento","Vr. costo"],tablefmt="fancy_grid")
+			print text
 			report.write(text)
 			text = "\n"
-			#print text
+			print text
 			report.write(text)
 
 
 
 		text = "\nCreacion de Movimientos\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		for movi in Movi.objects.all():
-			text = "Movimiento %s - Fecha:%s - Forma Pago:%s - Vr. Total:%s\n" % (movi.cmovi,movi.ctimo,movi.fmovi,movi.vttotal)
-			#print text
+			text = "Movimiento %s\nFecha:%s\nT Movi:%s\nVr. Total:%s\n" % (movi.cmovi,movi.fmovi,movi.ctimo,fc(movi.vttotal))
+			print text
 			report.write(text)
 			data_table_movi = []
 
 			for movideta in Movideta.objects.filter(cmovi = movi.pk):
-				data_table_movi.append([movideta.itmovi,movideta.docrefe,movideta.vmovi])
+				data_table_movi.append([movideta.itmovi,movideta.docrefe,fc(movideta.vmovi)])
 
-			text = tabulate(data_table_movi,headers=["Item","Doc Ref", "Vr Total"],tablefmt="fancy_grid")
-			#print text
+			text = tabulate(data_table_movi,headers=["Item","Doc Ref", "Vr. Total"],tablefmt="fancy_grid")
+			print text
 			report.write(text)
 			text = "\n"
-			#print text
+			print text
 			report.write(text)
 
 
 
 		result_c_s = costing_and_stock(False,True,{},self.using)
 		text = "\nCostos y Existencias Finales\n"
-		#print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
 		report.write(text)
 		data_table_costing_and_stock = []
 		for article in Arlo.objects.all():
-			data_table_costing_and_stock.append([article.carlos,article.nlargo,article.canti,article.vcosto])
+			data_table_costing_and_stock.append([article.carlos,article.nlargo,article.canti,fc(article.vcosto)])
 			expected_values = costing_and_stock_expected_values[article.carlos]
 
 			msg_error_assert_canti = "Se esperaba una Cantidad de %s para el Articulo %s - %s pero se obtuvo %s" %(expected_values["canti"],article.carlos,article.nlargo,article.canti)
@@ -317,8 +321,8 @@ class ExampleTestCase(TestCase):
 			self.assertEqual(article.canti, expected_values["canti"],msg_error_assert_canti)
 			self.assertEqual(float(article.vcosto), float(expected_values["vcosto"]),msg_error_assert_vcosto)
 
-		text = tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "V Unitario"],tablefmt="fancy_grid")
-		#print text
+		text = tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "Vr. Unitario"],tablefmt="fancy_grid")
+		print text
 		report.write(text)
 
 		report.close()

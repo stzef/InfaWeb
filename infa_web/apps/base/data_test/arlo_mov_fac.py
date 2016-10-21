@@ -259,7 +259,7 @@ data_facs = [
 				"carlos" : 1000,
 				"canti" : 20,
 				"vunita" : 2083,
-				"pordes" : 25,
+				"pordes" : 0,
 				"civa" :1,
 			},
 		],

@@ -1,3 +1,4 @@
+import math
 from infa_web.apps.articulos.models import *
 from infa_web.apps.base.models import *
 
@@ -23,7 +24,7 @@ def calcular_valor_cambio(ventre,vttotal):
 		v_cambio = float(0)
 	return v_cambio
 
-def calcular_valor_unitario(carlos,list_price,descuento,name_db):
+def calcular_valor_unitario(carlos,list_price,descuento,pvta,name_db):
 	"""
 		pordes: Porcentaje de descuento del articulo
 		vunita: Valor Unitario del articulo
@@ -37,8 +38,11 @@ def calcular_valor_unitario(carlos,list_price,descuento,name_db):
 	"""
 	article = Arlo.objects.using(name_db).get(carlos=carlos)
 
-	name_list_price = "pvta" + str(list_price)
-	price_venta = float(getattr(article, name_list_price))
+	#name_list_price = "pvta" + str(list_price)
+	#price_venta = float(getattr(article, name_list_price))
+	price_venta = float(pvta)
+
+
 	descuento = float(descuento)
 
 	vunita = price_venta - ( price_venta * ( descuento / cient_por_ciento ) )
@@ -91,24 +95,33 @@ def calcular_vtbase_vtiva(data_array,name_db="default"):
 		codigo_iva = int(data["civa"])
 		porcentaje_iva = float(Iva.objects.using(name_db).get(civa = codigo_iva).poriva)
 
-		precio_total_sin_descuento = cantidad * precio
-		precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / cient_por_ciento ) )
-		#5625
+		#precio_total_sin_descuento = cantidad * precio
+		#precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / cient_por_ciento ) )
+		"""
+			No se Aplica el Descuento pues en el valor unitario ya se calculo
+		"""
+		precio_total = cantidad * precio
+
 		vbase = precio_total / ( float(1) + ( porcentaje_iva / cient_por_ciento ) )
 		viva = vbase * ( porcentaje_iva / cient_por_ciento )
-		print "...........................................:"
-		print "precio_total_sin_descuento " + str(precio_total_sin_descuento)
-		print "precio_total " + str(precio_total)
-		print "vbase " + str(vbase)
-		print "porcentaje_iva " + str(porcentaje_iva)
-		print "...........................................:"
 
-		vtbase += vbase
-		vtiva += viva
+		vtbase += custom_round(vbase)
+		#vtbase += vbase
+		vtiva += custom_round(viva)
+		#vtiva += viva
 
 	print {"vtbase": vtbase,"vtiva": vtiva}
 
 	return {"vtbase": vtbase,"vtiva": vtiva}
+
+def custom_round(x):
+	decimal = math.modf(x)[0]
+	integer = math.modf(x)[1]
+
+	if(decimal > 0.5):
+		return math.ceil(x)
+	else:
+		return math.floor(x)
 
 def calcular_total(data_array,vflete,vdescu):
 	"""
@@ -124,8 +137,12 @@ def calcular_total(data_array,vflete,vdescu):
 		temp_canti = float(data["canti"])
 		descuento = float(data["pordes"])
 		
-		vtotal_temp_sin_descuento = temp_vunita * temp_canti
-		vtotal_temp = vtotal_temp_sin_descuento - ( vtotal_temp_sin_descuento * ( descuento / cient_por_ciento ) )
+		#vtotal_temp_sin_descuento = temp_vunita * temp_canti
+		#vtotal_temp = vtotal_temp_sin_descuento - ( vtotal_temp_sin_descuento * ( descuento / cient_por_ciento ) )
+		"""
+			No se Aplica el Descuento pues en el valor unitario ya se calculo
+		"""
+		vtotal_temp = temp_vunita * temp_canti
 
 		vttotal_items += vtotal_temp
 
