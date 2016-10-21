@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, ListView, UpdateView, FormView, DetailView
 from django.core.exceptions import ImproperlyConfigured 
 from django.db.models.query import QuerySet
 from django.utils import six
@@ -217,3 +217,24 @@ class CustomUpdateView(UpdateView):
 			kwargs['using'] = self.request.db
 
 		return form_class(**kwargs)
+
+
+
+class CustomDetailView(DetailView):
+
+	usingAlias = None
+
+	def get_usignAlias_db(self):
+		if self.usingAlias is not None:
+			return self.usingAlias
+		else:
+			if self.request.db is None:
+				raise ImproperlyConfigured(
+					"Missing request.db"
+				)
+			else:
+				return self.request.db
+
+	# retorna el queryset
+	def get_object(self):
+		return self.model._default_manager.using(self.get_usignAlias_db()).get(pk = self.kwargs['pk'])

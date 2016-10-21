@@ -1,6 +1,6 @@
 from django.shortcuts import render,render_to_response
 
-from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+from infa_web.custom.generic_views import *
 
 from infa_web.apps.articulos.models import *
 from django.http import HttpResponse, JsonResponse
@@ -16,7 +16,7 @@ import json
 from infa_web.apps.base.forms import *
 from infa_web.apps.movimientos.forms import *
 from infa_web.apps.movimientos.models import *
-from infa_web.apps.facturacion.views import ctimo_billing
+from infa_web.apps.facturacion.views import *
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
 var_template_dir = "movimientos/"
@@ -139,6 +139,17 @@ class OutputMovementUpdate(CustomUpdateView):
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-movement',kwargs={'pk': self.kwargs["pk"]},)
 
+		return context
+
+class CarteraDetalle(CustomDetailView):
+	model = Tercero
+	template_name = var_template_dir+"detail-cartera.html"
+
+	def get_context_data(self,**kwargs):
+		context = super(CarteraDetalle, self).get_context_data(**kwargs)
+		context['title'] = "Detalle cartera por cobrar"
+		ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db)
+		context['object_movi'] = Movi.objects.using(self.request.db).filter(citerce = self.kwargs['pk'], ctimo = ctimo)
 		return context
 
 def proccess_view_annulment(request):

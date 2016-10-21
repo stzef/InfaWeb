@@ -1,0 +1,41 @@
+{%extends 'layouts/base.html'%}
+
+{% load static %}
+
+{% load date_appen %}
+
+{% load humanize %}
+
+{%block content%} 
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title">{{title}} - {{ object }}</h3>
+						</div>
+						<div class="box-body">
+							<table class="table table-striped no-footer" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Còdigo Movimiento</th>
+										<th>Referencia</th>
+										<th>Fecha</th>
+										<th>Valor</th>
+										<th>Abono</th>
+										<th>Saldo</th>
+								</thead>
+								<tbody>
+									{{ object_movi }}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

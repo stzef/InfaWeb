@@ -1,0 +1,2692 @@
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:23:40,400 base 3768 4316 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in saldo_factura
+    movi = Movi.objects.using(request_db).get(cmovi = cmovi)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:36:54,869 base 4732 1984 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 58, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk).annotate(total_movi = Sum('vttotal'))
+NameError: global name 'Sum' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:37:05,217 base 4580 2236 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 58, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk).annotate(total_movi = sum('vttotal'))
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:37:24,285 base 3308 5488 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 58, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk).annotate(sum('vttotal'))
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:37:26,579 base 3308 3284 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 58, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk).annotate(sum('vttotal'))
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:46:19,500 base 3736 6072 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "C:\Python27\lib\site-packages\django\template\utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "C:\Python27\lib\site-packages\django\template\utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 84
+    return sum(d.get('vttotal') for d in )
+                                         ^
+SyntaxError: invalid syntax
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:48:49,282 base 4364 2668 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in return_tot_movi
+    return sum(d.get('vttotal') for d in list_citerce)
+TypeError: 'Tercero' object is not iterable
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:49:18,085 base 4364 2720 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in return_tot_movi
+    return sum(d.get('vttotal') for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in <genexpr>
+    return sum(d.get('vttotal') for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'get'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:50:31,677 base 1236 5100 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in return_tot_movi
+    print lista_citerce
+NameError: global name 'lista_citerce' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:51:06,869 base 4576 5372 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.get('vttotal') for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.get('vttotal') for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'get'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:51:29,691 base 5660 2960 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.get('movi__vttotal') for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.get('movi__vttotal') for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'get'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:54:31,888 base 180 4196 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "C:\Python27\lib\site-packages\django\template\utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "C:\Python27\lib\site-packages\django\template\utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85
+    print d.movi for d in list_citerce
+                   ^
+SyntaxError: invalid syntax
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:55:22,280 base 180 4624 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.movi for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.movi for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:55:37,970 base 5820 5000 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.movi for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.movi for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:56:13,408 base 5820 5604 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.movi for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.movi for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 07:56:55,950 base 4776 2100 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in return_tot_movi
+    return sum(d.movi for d in list_citerce)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 86, in <genexpr>
+    return sum(d.movi for d in list_citerce)
+AttributeError: 'unicode' object has no attribute 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:03:28,546 base 2440 5348 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in return_tot_movi
+    print list_movi.vttotal
+AttributeError: 'list' object has no attribute 'vttotal'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:04:18,937 base 4348 3508 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 85, in return_tot_movi
+    print list_movi.annotate(sum('vttotal'))
+AttributeError: 'list' object has no attribute 'annotate'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:16:57,213 base 5424 1368 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 730, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 850, in resolve
+    value = self._resolve_lookup(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 905, in _resolve_lookup
+    (bit, current))  # missing attribute
+VariableDoesNotExist: Failed lookup for key [reques] in u"[{'False': False, 'None': None, 'True': True}, {}, {}, {u'paginator': None, u'movi_list': [<Movi: IA00001031>, <Movi: IA00001033>, <Movi: CR00001035>], u'page_obj': None, 'title': 'Lista de Cartera', u'object_list': [<Movi: IA00001031>, <Movi: IA00001033>, <Movi: CR00001035>], u'is_paginated': False, u'view': <infa_web.apps.movimientos.views.CarteraList object at 0x03631AB0>}]"
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:17:55,119 base 4756 6000 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 730, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 850, in resolve
+    value = self._resolve_lookup(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 905, in _resolve_lookup
+    (bit, current))  # missing attribute
+VariableDoesNotExist: Failed lookup for key [reques] in u"[{'False': False, 'None': None, 'True': True}, {}, {}, {u'paginator': None, u'movi_list': [<Movi: IA00001031>, <Movi: IA00001033>, <Movi: CR00001035>], u'page_obj': None, 'title': 'Lista de Cartera', u'object_list': [<Movi: IA00001031>, <Movi: IA00001033>, <Movi: CR00001035>], u'is_paginated': False, u'view': <infa_web.apps.movimientos.views.CarteraList object at 0x035BF790>}]"
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:19:09,483 base 3080 5700 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 91, in saldo_factura
+    movi = Movi.objects.using(request_db).filter(citerce = citerce).ggregate(val_tot = Sum('vttotal'))['val_tot']
+AttributeError: 'QuerySet' object has no attribute 'ggregate'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:19:18,569 base 3080 2712 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 91, in saldo_factura
+    movi = Movi.objects.using(request_db).filter(citerce = citerce).aggregate(val_tot = Sum('vttotal'))['val_tot']
+AttributeError: 'QuerySet' object has no attribute 'ggregate'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:19:21,470 base 4284 5388 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 92, in saldo_factura
+    movi_ab = movi.filter(ctimo = ctimo_abn)
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:21:00,638 base 5820 5628 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 92, in saldo_factura
+    movi_ab = movi.filter(ctimo = ctimo_abn)
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:22:28,315 base 2680 3944 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = movi.filter(ctimo = ctimo_abn)
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:22:55,849 base 3592 5408 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = float(movi.filter(ctimo = ctimo_abn))
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:23:16,845 base 4740 4292 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = float(movi.filter(ctimo = ctimo_abn))
+AttributeError: 'dict' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:23:52,634 base 980 5616 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = float(movi.filter(ctimo = ctimo_abn))
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:23:55,436 base 980 2820 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = float(movi.filter(ctimo = ctimo_abn))
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:24:28,134 base 3720 2900 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = float(movi.filter(ctimo = ctimo_abn)).aggregate(val_tot = Sum('vttotal'))['val_tot']
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:25:04,013 base 2660 5684 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return movi_cr - float(movi_ab if movi_ab is not None else 0)
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:25:05,980 base 2660 5836 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return movi_cr - float(movi_ab if movi_ab is not None else 0)
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:25:07,051 base 2660 2752 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return movi_cr - float(movi_ab if movi_ab is not None else 0)
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:25:07,104 base 2660 2688 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return movi_cr - float(movi_ab if movi_ab is not None else 0)
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:26:42,207 base 4048 2760 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:27:21,391 base 4048 1376 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:27:37,088 base 4048 156 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:27:37,385 base 4048 2632 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:27:37,585 base 4048 2544 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 95, in saldo_factura
+    return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:27:52,329 base 5736 1808 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 93, in saldo_factura
+    movi_ab = movi.filter(ctimo = ctimo_abn)
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:29:05,464 base 5000 3640 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 91, in saldo_factura
+    movi = Movi.objects.using(request_db).filter(citerce = citerce).ggregate(val_tot = Sum('vttotal'))['val_tot']
+AttributeError: 'QuerySet' object has no attribute 'ggregate'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:29:15,461 base 4872 4552 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 92, in saldo_factura
+    movi_ab = movi.filter(ctimo = ctimo_abn)
+AttributeError: 'Decimal' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:31:56,048 base 4728 2704 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 94, in saldo_factura
+    return float(movi.vttotal) - float(ab if ab is not None else 0)
+AttributeError: 'QuerySet' object has no attribute 'vttotal'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:44:28,058 base 2992 3080 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 99, in total_abono
+    movi_ab = movi.filter(ctimo = ctimo_abn).aggregate(val_tot = Sum('vttotal'))['val_tot']
+NameError: global name 'movi' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:44:45,665 base 5912 4692 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:44:51,098 base 5912 5412 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:45:24,342 base 5912 736 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:45:24,582 base 5912 2120 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:45:24,996 base 5912 4624 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 08:45:25,247 base 5912 5316 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 101, in total_abono
+    return float(movi_ab)
+TypeError: float() argument must be a string or a number
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:21:43,690 base 3616 1104 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 243, in get_queryset
+    return self.model._default_manager.using(self.get_usignAlias_db()).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:22:30,877 base 5676 4248 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 244, in get_queryset
+    return self.model._default_manager.using(self.get_usignAlias_db()).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:24:04,463 base 180 3180 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 231, in get_queryset
+    return self.model._default_manager.using(self.request.db).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:25:27,440 base 5928 5836 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 231, in get_queryset
+    return self.model._default_manager.using(self.request.db).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:25:31,938 base 5928 2564 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 231, in get_queryset
+    return self.model._default_manager.using(self.request.db).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:25:43,005 base 4320 5820 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 231, in get_queryset
+    return self.model._default_manager.using(self.request.db).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Movi matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:25:46,005 base 4320 5736 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 58, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'ctimo' into field. Choices are: ape1, ape2, cautorre, cautorre_id, cesdo, cesdo_id, citerce, citerce1, citerce2, citerce3, ciudad, ciudad_id, clipre, contacto, coti, cpersona, cpersona_id, cregiva, cregiva_id, cruta, cruta_id, ctiide, ctiide_id, cvende, cvende_id, czona, czona_id, dirterce, dv, email, fac, faxterce, fnaci, idterce, movi, mven, mvsa, nom1, nom2, nomcomer, ordenruta, rasocial, replegal, sigla, telterce, topcxc
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:26:14,278 base 5436 4924 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:27:06,874 base 4532 2324 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:31:09,585 base 5444 4824 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 231, in get_queryset
+    return self.model.using(self.request.db).get(pk = self.kwargs['pk'])
+AttributeError: type object 'Tercero' has no attribute 'using'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:32:06,059 base 5460 1408 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:32:37,305 base 6096 3484 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:32:57,023 base 5884 5792 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:33:25,345 base 5776 3956 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:34:17,967 base 5836 5024 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:34:46,296 base 4696 5876 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:37:00,697 base 4876 5428 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:41:35,424 base 5004 5564 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:47:16,154 base 3000 3848 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 09:58:58,746 base 3916 3048 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 242, in get_queryset
+    queryset = self.model._default_manager.using(self.get_usignAlias_db()).get(id = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 378, in get
+    clone = self.filter(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'id' into field. Choices are: ape1, ape2, cautorre, cautorre_id, cesdo, cesdo_id, citerce, citerce1, citerce2, citerce3, ciudad, ciudad_id, clipre, contacto, coti, cpersona, cpersona_id, cregiva, cregiva_id, cruta, cruta_id, ctiide, ctiide_id, cvende, cvende_id, czona, czona_id, dirterce, dv, email, fac, faxterce, fnaci, idterce, movi, mven, mvsa, nom1, nom2, nomcomer, ordenruta, rasocial, replegal, sigla, telterce, topcxc
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:00:12,091 base 2092 3080 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 32, in get_object
+    queryset = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 264, in get_queryset
+    return queryset
+UnboundLocalError: local variable 'queryset' referenced before assignment
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:00:32,578 base 4320 3504 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:03:59,348 base 4100 5552 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:04:01,994 base 4100 4292 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 38, in get_object
+    queryset = queryset.filter(pk=pk)
+AttributeError: 'Tercero' object has no attribute 'filter'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:04:54,417 base 5072 4752 Internal Server Error: /cartera/detalle/5/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 240, in get_object
+    queryset = self.model._default_manager.using(self.get_usignAlias_db()).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:05:07,536 base 5244 5104 Internal Server Error: /cartera/detalle/5/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 117, in get
+    self.object = self.get_object()
+  File "D:\Proyectos\infa web\infa_web\infa_web\custom\generic_views.py", line 240, in get_object
+    return self.model._default_manager.using(self.get_usignAlias_db()).get(pk = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-21 10:28:21,068 base 4228 5256 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 151, in get_context_data
+    context['object_movi'] = Movi.objects.using(self.request.db).filter(tercero = self.kwargs['pk'])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'tercero' into field. Choices are: baseiva, ccaja, ccaja_id, cesdo, cesdo_id, citerce, citerce_id, cmovi, ctimo, ctimo_id, descrimovi, detaanula, fmovi, movideta, movipago, vcambio, vch, vcred, vefe, ventre, vtar, vtdescu, vtiva, vtsuma, vttotal
