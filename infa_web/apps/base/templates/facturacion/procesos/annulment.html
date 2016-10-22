@@ -96,6 +96,7 @@
 				
 				console.log(response)
 				var string_generic = "Se ha realizado el cambio de estado al(a) %name con codigo %code de %esdo_last a %esdo_new"
+
 				response.factura
 				var text_factura = string_generic
 									.replace("%name","factura")
@@ -108,16 +109,20 @@
 									.replace("%code",response.mvsa.cmvsa)
 									.replace("%esdo_last",response.mvsa.esdo_last)
 									.replace("%esdo_new",response.mvsa.esdo_mew)
-				response.movimiento
-				var text_movimiento = string_generic
-									.replace("%name","movimiento")
-									.replace("%code",response.movimiento.cmovi)
-									.replace("%esdo_last",response.movimiento.esdo_last)
-									.replace("%esdo_new",response.movimiento.esdo_mew)
-
-				$("form").append(alertBootstrap(text_movimiento,"info"))
+				
 				$("form").append(alertBootstrap(text_mvsa,"info"))
 				$("form").append(alertBootstrap(text_factura,"info"))
+				
+				response.movimientos.forEach(function(movimiento){
+
+					var text_movimiento = string_generic
+									.replace("%name","movimiento")
+									.replace("%code",movimiento.cmovi)
+									.replace("%esdo_last",movimiento.esdo_last)
+									.replace("%esdo_new",movimiento.esdo_mew)
+					$("form").append(alertBootstrap(text_movimiento,"info"))
+				})
+
 			}
 		)
 	})

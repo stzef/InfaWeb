@@ -3,6 +3,7 @@ from datetime import datetime
 from infa_web.parameters import ManageParameters
 from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
+from termcolor import colored
 	
 class verifyConfigurationFile(object):
 	def process_request(self, request):
@@ -31,18 +32,26 @@ class subdomainMiddleware:
 	def process_request(self, request):
 		host = request.META.get('HTTP_HOST', '')
 		host = host.replace('www.', '').split('.')
-		if len(host) > 2:
-				request.subdomain = ''.join(host[:-2])
 
-				# validar si dominio existe
-				if not(request.subdomain in DOMAINS):
-					return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
-
-				request.db = DOMAINS[request.subdomain]
-				redirect('/dashboard')
-
+		server = request.META.get('SERVER_NAME', '')
+		if server == "testserver":
+			request.subdomain = "test_local"
+			request.db = DOMAINS[request.subdomain]
+			redirect('/dashboard')
 		else:
-			request.db = 'default'
-			return render_to_response("home/index.html")
+			if len(host) > 2:
+					request.subdomain = ''.join(host[:-2])
+					# validar si dominio existe
+					if not(request.subdomain in DOMAINS):
+						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 
+					request.db = DOMAINS[request.subdomain]
 
+					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+
+					redirect('/dashboard')
+
+			else:
+				request.db = 'default'
+				print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+				redirect('/')

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from infa_web.apps.movimientos.views import *
+from .views import *
 
 from django.contrib.auth.decorators import login_required
 
@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 urlInputMovement = [
 	url(r'^input-movement/$', InputMovementList.as_view(), name = 'list-input-movements'),
 	url(r'^output-movement/$', OutputMovementList.as_view(), name = 'list-output-movements'),
+	url(r'^cartera/$', CarteraList.as_view(), name = 'list-cartera'),
+	url(r'^cartera/detalle/(?P<pk>\d+)/$', CarteraDetalle.as_view(), name = 'detail-cartera'),
 
 	url(r'^output-movement/add/$', OutputMovementCreate.as_view(), name = 'add-output-movement'),
 	url(r'^input-movement/add/$', InputMovementCreate.as_view(), name = 'add-input-movement'),

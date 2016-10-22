@@ -29,16 +29,29 @@ class FacForm(forms.ModelForm):
 			'cemdor'  : forms.Select(attrs={'class':'form-control','required':True}),
 			'ctifopa' : forms.Select(attrs={'class':'form-control','required':True}),
 
-			'cfac' : forms.TextInput(attrs={'class':'form-control', 'readonly': True}),
-			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
-			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
-			'descri' : forms.Textarea(attrs={'class':'form-control'}),
+			'cfac' : forms.TextInput(attrs={'class':'app-input-important form-control', 'readonly': True}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
-			'vtbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
-			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"readonly":True}),
-			'vflete' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+
+			'femi' : forms.DateInput(attrs={'class':'form-control date','required':True,'readonly': True}),
+			'fpago' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+			'fhasdomi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
+
+			'descri' : forms.Textarea(attrs={'class':'form-control'}),
+			'vtbase' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0,"readonly":True}),
+			'vtiva' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0,"readonly":True}),
+			'vflete' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vttotal' : forms.TextInput(attrs={'class': 'input-currency app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'ventre' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vcambio' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'readonly':True,'step':'0.01','min':0}),
+			'brtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vrtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			
+			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			
+			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
+			'vdescu' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),#Revisar
+
 			#'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'doctar' : forms.TextInput(attrs={'class':'form-control'}),
@@ -46,20 +59,12 @@ class FacForm(forms.ModelForm):
 			#'vchq' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'docchq' : forms.TextInput(attrs={'class':'form-control'}),
 			#'bancochq' : forms.Select(attrs={'class':'form-control','required':True}),
-			'ventre' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'step':'0.01','min':0}),
-			'vcambio' : forms.NumberInput(attrs={'class': 'app-input-important form-control','required':True,'readonly':True,'step':'0.01','min':0}),
 			#cusu char(20)
-			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#ccoti char(10)
-			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#'doccre' : forms.TextInput(attrs={'class':'form-control'}),
-			'brtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vrtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'fhasdomi' : forms.DateInput(attrs={'class':'form-control date','required':True}),
 		}
 		labels = {
-			'cfac' : 'Codigo Interno',
+			'cfac' : 'Codigo Factura',
 			'femi' : 'Fecha Emision',
 			'citerce' : 'Tercero',
 			'cesdo' : 'Estado',
@@ -86,11 +91,11 @@ class FacForm(forms.ModelForm):
 			'cdomici' : 'Domiciliario',
 			'tpordes' : '',
 			'cemdor' : 'Empacador',
-			'vncre' : 'V Nota Credito',
+			'vncre' : 'Vr. Nota Credito',
 			'doccre' : 'Doc Nota Credito',
 			'brtefte' : 'Base Rte Fte',
 			'prtefte' : 'Porc Rte Fte',
-			'vrtefte' : 'V Rte Fte',
+			'vrtefte' : 'Vr. Rte Fte',
 			'fhasdomi' : 'Fecha Domicilio',
 			'cusu' : 'Usuario',
 			'ccoti' : 'Cotizacion',
@@ -114,14 +119,17 @@ class FacdetaForm(forms.ModelForm):
 			'itfac' : forms.TextInput(attrs={'class':'form-control'}),
 			'nlargo' : forms.TextInput(attrs={'class':'form-control'}),
 			'ncorto' : forms.TextInput(attrs={'class':'form-control'}),
-			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			#niva char(40)
 			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
-			'vunita' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			'vtotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
+			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
+			
+			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			
+			'vunita' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+			'vtotal' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
+
 			'pvtafull' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vcosto' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 		}
@@ -162,7 +170,7 @@ class FacpagoForm(forms.ModelForm):
 			'cfac' : forms.Select(attrs={'class':'form-control','required':True}),
 			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
 			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
-			'vmpago' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+			'vmpago' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
 		}
 		labels = {
 			'cfac' : 'Codigo Factura',
@@ -184,11 +192,16 @@ class ReportVentaForm(forms.Form):
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Tercero.objects.all()
 	)
+	ctifopa = forms.ModelChoiceField(
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Tifopa.objects.all()
+	)
 	def __init__(self, using='', *args, **kwargs):
 		super(ReportVentaForm, self).__init__(*args, **kwargs)
 		name_db = using
 
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
 
 		manageParameters = ManageParameters(name_db)

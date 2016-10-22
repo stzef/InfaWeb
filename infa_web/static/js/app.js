@@ -1,6 +1,44 @@
 var date_appen = new Date($("[name=date_appen").val())
 format_date_appen = "YYYY-MM-DD"
 
+jQuery.fn.extend({
+	inputCurrency : function(){
+		var input = this,
+			regexp = /^\$ (?!0\.00)[1-9]\d{0,2}(,\d{3})*(\.\d\d)?$/
+		input.css({"text-align":"right"})
+
+		//Selecciona todo lo que no sea un nuemro, una coma, un punto o un espacio
+		var regexp_clear = /([^0-9|\$|\,|\.|\s])/g
+
+		input.change(function(){
+			input = $(this)
+			input.val(input.val().replace(regexp_clear,""))
+			if (!regexp.test(input.val())){
+				var valueInput = input.val(),
+					clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()
+
+				input.val(currencyFormat.format(clearValue))
+			}
+		})
+
+		if(input.val() == "") {
+			input.val( "$ 0")
+		}else{
+			input.trigger("change")
+		}
+
+	},
+	custom_format_val : function(){
+		var val = ""
+		if (this.hasClass("input-currency")){
+			val = currencyFormat.sToN(this.val()).toString()
+		}else{
+			val = this.val()
+		}
+		return val
+	}
+})
+
 $('[check-carlos]').change(function(){
 	var input_value = this.value
 	var fn = eval($(this).data("fn"))
@@ -109,7 +147,6 @@ function defaultfn(){}
 
 
 $("button[action=reset-form]").click(function (e){
-	console.log("Action Reset Form")
 	$(this).closest("form")
 		.trigger("reset")
 		.find(":input")
@@ -126,6 +163,11 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 			$.each(file.files, function(n, file) {
 				formData.append('file-'+i, file);
 			})
+		})
+
+		$(this).find(".input-currency").toArray().forEach(function(ic){
+			nVal = currencyFormat.sToN($(ic).val())
+			formData.set(ic.name,nVal)
 		})
 
 		loading_animation(messageWait)
@@ -179,13 +221,11 @@ function customValidationInput(selector){
 	$(selector).attr("novalidate","")
 
 	var inputs = $(selector).find("input:invalid,select:invalid")
-	console.info(inputs)
 	if(inputs.length != 0){
 		var element = inputs.first();
 		var oHTML = element[0];
 		var container = element.parent();
 
-		console.log(element)
 
 		element.closest(".tab-pane").addClass("active");
 		element.focus();
@@ -210,11 +250,7 @@ function customValidationFormTabs(selectorForm,fn){
 			var oHTML = element[0];
 			var container = element.closest(".form-group");
 
-			console.log(element)
-
 			var tab = element.closest(".tab-pane").addClass("active");
-
-			console.info(tab)
 
 			$(".nav.nav-pills li").removeClass("active");
 			$("[href='#" + tab.attr("id") + "']").closest("li").addClass("active");
@@ -335,7 +371,6 @@ var languageDataTable = {
 
 if($("form").length){
 	$(window).on('beforeunload', function(){
-		console.log("hola")
 		//return "Si abandona este sitio no se guardaran los cambios que ha realizado.";
 
 		//Esta seguro de abandonar el sitio? SI o NO
@@ -348,10 +383,15 @@ function CurrencyFormat(){
 }
 
 CurrencyFormat.prototype.format = function(number){
+	if(this.numberFormat.format(number) == "NaN") return "$ 0"
 	return "$ " + this.numberFormat.format(number)
 }
 CurrencyFormat.prototype.clear = function(number){
 	return number.replace(",","").replace("$","").trim()
+}
+CurrencyFormat.prototype.sToN = function(s){
+	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\$/g,"").trim())//.replace(/\./g,"")
+	return n
 }
 
 var currencyFormat = new CurrencyFormat()
@@ -392,7 +432,6 @@ $(window).on('beforeunload', function (e) {
 
 //$(document).ready(function(e){
 	if(window.opener){
-		console.warn("Hola")
 
 		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
 			.click(function(){
@@ -406,3 +445,7 @@ $(window).on('beforeunload', function (e) {
 		}
 	}
 //})
+
+$(document).ready(function(e){
+	$(".input-currency").inputCurrency()
+})

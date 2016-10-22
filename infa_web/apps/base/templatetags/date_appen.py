@@ -1,7 +1,9 @@
 import os
 from django import template
-
+from django.db.models import Sum
 from django.template import Context, Template
+from infa_web.apps.movimientos.models import *
+from infa_web.apps.facturacion.views import *
 
 register = template.Library()
 
@@ -77,3 +79,23 @@ def multiply(val_1, val_2):
 @register.filter
 def subtotal_group_invini(group):
 	return "{:.2f}".format(sum((data.vunita * data.canti) for data in group))
+
+@register.filter
+def return_tot_movi(list_movi):
+	return sum(movi.vttotal for movi in list_movi)
+
+@register.filter
+def saldo_factura(citerce, request_db):
+	ctimo_abn = ctimo_billing('ctimo_ab_billing', request_db)
+	ctimo_car = ctimo_billing('ctimo_cxc_billing', request_db)
+	movi = Movi.objects.using(request_db).filter(citerce = citerce)
+	movi_ab = movi.filter(ctimo = ctimo_abn).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	movi_cr = movi.filter(ctimo = ctimo_car).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
+
+@register.filter
+def total_abono(citerce, request_db):
+	ctimo_abn = ctimo_billing('ctimo_ab_billing', request_db)
+	movi = Movi.objects.using(request_db).filter(citerce = citerce)
+	movi_ab = movi.filter(ctimo = ctimo_abn).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	return (movi_ab if movi_ab is not None else 0)

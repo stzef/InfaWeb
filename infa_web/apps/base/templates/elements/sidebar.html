@@ -57,8 +57,26 @@
 							<li>
 								<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
-									<li><a href=""><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
+									<li><a href="{% url 'report_view_bill' %}"><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
+									<li><a href="{% url 'report_view_bill_payment_methods' %}"><i class="fa fa-sticky-note-o"></i>Ventas por Formas de Pago</a></li>
 								</ul>
+							</li>
+						</ul>
+					</li>
+				</li>
+				<li class="treeview">
+					<li>
+						<a href="#"><i class="fa fa-usd"></i> Cartera por Cobrar
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="{% url 'list-cartera' %}">
+									<i class="fa fa-list"></i>
+									Lista de cartera
+								</a>
 							</li>
 						</ul>
 					</li>

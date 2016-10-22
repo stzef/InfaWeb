@@ -244,10 +244,11 @@
 
 	$("[name=canti],[name=vunita]").change(function(event) {
 		if($("[name=canti]").val() != "" && $("[name=vunita]").val() != ""){
-			$("[name=vtotal]").val(parseFloat($("[name=canti]").val()) * parseFloat($("[name=vunita]").val()))
+			$("[name=vtotal]").val(parseFloat($("[name=canti]").val()) * parseFloat($("[name=vunita]").custom_format_val()))
 		}else{
-			$("[name=vtotal]").val("")
+			$("[name=vtotal]").val("0")
 		}
+		$("[name=vtotal]").trigger("change")
 	})
 
 	$('.date').datetimepicker({
@@ -260,10 +261,14 @@
 		parent = target.closest("tr")
 		parent.find("[data-name]").each(function(i,e){
 
+
 			var td = $(e)
 
 			var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
 			input.val(td.data("value"))
+			if(td.data("name") != "carlos"){
+				input.trigger("change")
+			}
 		})
 		parent.remove()
 	}
@@ -275,7 +280,10 @@
 
 	function calcular_total(){
 		vtotal_temp = 0
-		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){vtotal_temp += parseFloat($(e).data("value"));})
+
+		$("#list_items_mdeta").find("[data-name=vtotal]").toArray().forEach(function(e){
+			vtotal_temp += parseFloat(currencyFormat.sToN($(e).data("value")));
+		})
 		//$("[name=vttotal]").val(currencyFormat.format(vtotal_temp))
 
 		console.warn(vtotal_temp)
@@ -289,7 +297,11 @@
 				var data = {}
 				$(e).children("[data-name]").toArray().forEach(
 					function(e2){
-						data[$(e2).data("name")] = $(e2).data("value")
+						if($(e2).hasClass("value-currency")){
+							data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
+						}else{
+							data[$(e2).data("name")] = $(e2).data("value")
+						}
 					}
 				)
 				return data
@@ -304,7 +316,7 @@
 
 	function setValueFieldArlo(vunita,name__carlos){
 		$("[name='vunita']")
-			.val(vunita)
+			.val(currencyFormat.format(vunita))
 			.trigger("change")
 		$("[name=name__carlos]").val(name__carlos)
 	}
@@ -312,53 +324,66 @@
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
-			setValueFieldArlo("","")
+			setValueFieldArlo("0","")
 			return
 		}
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 5,
-				'field': this.name,
-				'value': input_value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-					var t_vcosto = fields.vcosto
-					var t_nlargo = fields.nlargo
-					setValueFieldArlo(t_vcosto,t_nlargo)
-				}else{
-					$.ajax({
-						url: '{% url 'api-get-object' %}',
-						type: 'POST',
-						data: JSON.stringify({
-							'model': 5,
-							'field': "cbarras",
-							'value': input_value
-						}),
-						contentType: "application/json",
-						success: function(response){
-							if(response.object){
-								var object = JSON.parse(response.object)[0]
-								fields = object.fields
-								var t_vcosto = fields.vcosto
-								var t_nlargo = fields.nlargo
-							}else{
-								var t_vcosto = ""
-								var t_nlargo = ""
-								$('#id_carlos').val("")
-								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-							}
-							setValueFieldArlo(t_vcosto,t_nlargo)
-						}
-					});
-				}
+		var arlo_in_list = false
+
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var td = $(e).find("[data-name=carlos]")
+			if(td.data("value") == input_value){
+				$(e).find(".fa.fa-edit").click()
+				arlo_in_list = true
 			}
-		});
+		})
+		if(!arlo_in_list){
+			$.ajax({
+				url: '{% url 'api-get-object' %}',
+				type: 'POST',
+				data: JSON.stringify({
+					'model': 5,
+					'field': this.name,
+					'value': input_value
+				}),
+				contentType: "application/json",
+				success: function(response){
+					if(response.object){
+						var object = JSON.parse(response.object)[0]
+						fields = object.fields
+						var t_vcosto = fields.vcosto
+						var t_nlargo = fields.nlargo
+						setValueFieldArlo(t_vcosto,t_nlargo)
+					}else{
+						$.ajax({
+							url: '{% url 'api-get-object' %}',
+							type: 'POST',
+							data: JSON.stringify({
+								'model': 5,
+								'field': "cbarras",
+								'value': input_value
+							}),
+							contentType: "application/json",
+							success: function(response){
+								if(response.object){
+									var object = JSON.parse(response.object)[0]
+									fields = object.fields
+									var t_vcosto = fields.vcosto
+									var t_nlargo = fields.nlargo
+								}else{
+									var t_vcosto = ""
+									var t_nlargo = ""
+									$('#id_carlos').val("")
+									tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+								}
+								setValueFieldArlo(t_vcosto,t_nlargo)
+							}
+						});
+					}
+				}
+			});
+		}else{
+			calcular_total()
+		}
 	});
 
 	$('#id_citerce').change(function(){
@@ -406,14 +431,18 @@
 				var value = e.value
 				var data_value = e.value
 
-				if(eval($(e).data("if-currency"))){
-					var value = currencyFormat.format(e.value)
+				var css_class = ""
+
+				if($(e).hasClass("input-currency")){
+					//var value = currencyFormat.format(e.value)
+					css_class = "value-currency"
 				}
 
 				tr.append($("<td>",{
 					width:oth.attr("width"),
 					"data-name":e.name,
 					"data-value":data_value,
+					"class":css_class,
 					html:value}))
 			})
 			td = $("<td width='10%'>")
@@ -434,6 +463,7 @@
 			calcular_total()
 		}
 	})
+
 	$("#btn-save").click(function(event){
 		loading_animation("Guardando Movimiento.")
 		event.preventDefault()
@@ -499,16 +529,20 @@
 	{% else %}
 		var js_list = []
 	{% endif %}
-	js_list.forEach(function(object){
-		$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
-		$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
-		$('#item_mdeta').find("#id_canti").val(object.fields.canti)
-		$('#item_mdeta').find("#id_vunita").val(object.fields.vunita)
-		$('#item_mdeta').find("#id_vtotal").val(object.fields.vtotal)
-		$('#form_deta_movement').submit()
-		$('#form_deta_movement').trigger("reset")
-		calcular_total()
+	$(document).ready(function(e){
+		js_list.forEach(function(object){
+			$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
+			$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
+			$('#item_mdeta').find("#id_canti").val(object.fields.canti)
+			$('#item_mdeta').find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change")
+			$('#item_mdeta').find("#id_vtotal").val(currencyFormat.format(object.fields.vtotal)).trigger("change")
+			$('#form_deta_movement').submit()
+			$('#form_deta_movement').trigger("reset")
+			calcular_total()
+		})
+
 	})
+
 
 </script>
 {% endblock content_script %}

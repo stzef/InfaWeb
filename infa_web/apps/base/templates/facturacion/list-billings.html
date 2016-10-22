@@ -26,8 +26,7 @@
 								<th>Descripcion</th>
 								<th>V. Total</th>
 								<th>Caja</th>
-								<th>Vende</th>
-								<th>fhasdomi</th>
+								<th>Forma Pago</th>
 								<th>Editar</th>
 								<th>Imprimir</th>
 							</tr>
@@ -40,10 +39,9 @@
 									<td>{{bill.citerce}}</td>
 									<td>{{bill.cesdo}}</td>
 									<td>{{bill.descri}}</td>
-									<td>{{bill.vttotal}}</td>
+									<td>{{bill.vttotal|intcomma}}</td>
 									<td>{{bill.ccaja}}</td>
-									<td>{{bill.cvende}}</td>
-									<td>{{bill.fhasdomi}}</td>
+									<td>{{bill.ctifopa}}</td>
 									<td><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
 									<td><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
 								</tr>

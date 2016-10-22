@@ -44,8 +44,8 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 		response["new_canti"] = str(articulo.canti)
 		
 
-		if if_save:
-			articulo.save()
+		#if if_save:
+		articulo.save(using=db_name)
 			
 		response["status"] = True
 		return response
@@ -113,8 +113,8 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='defau
 			articulo.canti = 0
 			articulo.vcosto = 0
 
-		if if_save:
-			articulo.save()
+		#if if_save:
+		articulo.save(using=db_name)
 
 		if not len(mvsdeta):
 			data_operation = {

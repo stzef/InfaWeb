@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
@@ -28,7 +30,8 @@ def mFacOptionsArticle(request):
 	parametros = ManageParameters(request.db)
 
 	context = {
-		'parametros' : parametros.to_dict()
+		'parametros' : parametros.to_dict(),
+		'parametros_json' : json.dumps(parametros.to_dict())
 	}
 
 	# obtener valor del articulo para el cliente
@@ -39,7 +42,11 @@ def mFacOptionsArticle(request):
 
 		listaDePrecio = cliente.clipre
 		valorUnitarioArticulo = getattr(articulo, 'pvta' + str(listaDePrecio))
+		valorMinimoDelArticulo = articulo.pvta6
+
+		# agregar datos al contexto
 		context["valorUnitario"] = valorUnitarioArticulo
+		context["valorMinimoDelArticulo"] = valorMinimoDelArticulo
 
 
 	return render(request, 'm/m_fac_options_article.html', context)

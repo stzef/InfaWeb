@@ -125,7 +125,26 @@ WSGI_APPLICATION = 'infa_web.wsgi.application'
 
 from infa_web.config.databases import DB
 
-DATABASES = DB
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'test_db',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
+		'HOST': 'localhost',
+		'PORT': '5432',
+	}
+}
+"""
+,'test_default': {
+	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	'NAME': 'test_test_db',
+	'USER': 'postgres',
+	'PASSWORD': '123456',
+	'HOST': 'localhost',
+	'PORT': '5432',
+}
+"""
 
 SITE_ID = 1
 
@@ -147,10 +166,6 @@ AUTH_PASSWORD_VALIDATORS = [
 	},
 ]
 
-AUTHENTICATION_BACKENDS = (
-	'django.contrib.auth.backends.ModelBackend',
-	'infa_web.apps.usuarios.auth_backend.UserBackend',
-)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

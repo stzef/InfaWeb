@@ -1,10 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Advent+Pro")
 
-
 @font-face
 	font-family 'Digital'
 	src url('../fonts/custom/DIGITALDREAM.ttf')  format('truetype')
-
 
 .ae
 	&-img-list
@@ -22,14 +20,16 @@
 		font-size 1.5rem
 		border none
 	&-input-caja-registradora
-		background-color black !important
+		/*background-color black !important*/
+		background-color #3c8dbc !important
 		font-family 'Digital'
-		color green
+		color white
+		/*color green*/
 		padding 5px
 		font-weight bold
 		font-size 2rem
 		border none
-	
+
 input[type=number]
 	text-align right
 
@@ -62,14 +62,14 @@ input[type=number]
 
 a[disabled]
 	pointer-events none
-	
+
 .html_tooltip
 	font-size 16px
 
 input,select,textarea
 	&:required
 		border 2px solid #3C8DBC
-		
+
 .loading-animation
 	width 100%
 	height 100%
@@ -88,7 +88,6 @@ input,select,textarea
 	border-radius 3px
 	transition 1.2s
 
-
 /* Modificaicones al framework de estilos */
 .btn-app
 	background #337ab7
@@ -99,23 +98,31 @@ input,select,textarea
 
 .content-wrapper, .right-side
 	background-color white
-	
 
 /* Modificaicones al framework de estilos */
+
 
 .nopadding
 	padding 0 !important
 
-
 .form-group
 	margin-bottom 5px
 
-
-.form-control{
+.form-control
 	padding 5px
-
 
 .form-control:focus
 	border-color #222D32
 	box-shadow none
 
+/* Ocultar rows(spin-button) de los input type number*/
+input[type='number']
+	-moz-appearance textfield
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button
+	-webkit-appearance none
+
+
+input.cesdo-2
+	background-color #DC0101 !important

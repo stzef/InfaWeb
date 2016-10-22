@@ -24,10 +24,14 @@
 			{% if cells.cvende.show %}
 				<th>Vendedor</th>
 			{% endif %}
+			{% if cells.ctifopa.show %}
+				<th>F Pago</th>
+			{% endif %}
 			<th>Fecha</th>
-			<th>Vr.Otros</th>
-			<th>Vr.Base IVA</th>
-			<th>Vr.IVA</th>
+			<th>Vr.Efe</th>
+			<th>Vr.Tarj</th>
+			<th>Vr.Cheq</th>
+			<th>Vr.NCred</th>
 			<th>Vr.Total</th>
 		</tr>
 	</thead>
@@ -41,25 +45,32 @@
 				{% if cells.cvende.show %}
 					<td>{{factura.cvende.nvende}}</td>
 				{% endif %}
+				{% if cells.ctifopa.show %}
+					<td>{{factura.ctifopa.ntifopa}}</td>
+				{% endif %}
 				<td>{{factura.femi|date:"d M Y"}}</td>
-				<td>{{factura.data_report.otros_valores|intcomma}}</td>
-				<td>{{factura.data_report.vt_base_iva|intcomma}}</td>
-				<td>{{factura.data_report.vt_iva|intcomma}}</td>
+
+				<td>{{factura.vefe|intcomma}}</td>
+				<td>{{factura.vtar|intcomma}}</td>
+				<td>{{factura.vch|intcomma}}</td>
+				<td>{{factura.vcred|intcomma}}</td>
 				<td>{{factura.vttotal|intcomma}}</td>
 			</tr>
 		{% endfor %}
 		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
 			<td colspan="{{colspan_total}}">SubTotal</td>
-			<td>{{totales.vtt_otros|intcomma}}</td>
-			<td>{{totales.vtt_base_iva|intcomma}}</td>
-			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.fpago.efectivo|intcomma}}</td>
+			<td>{{totales.fpago.tarjeta|intcomma}}</td>
+			<td>{{totales.fpago.cheque|intcomma}}</td>
+			<td>{{totales.fpago.nota_credito|intcomma}}</td>
 			<td>{{totales.subtotal|intcomma}}</td>
 		</tr>
 		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
 			<td colspan="{{colspan_total}}">Total</td>
-			<td>{{totales.vtt_otros|intcomma}}</td>
-			<td>{{totales.vtt_base_iva|intcomma}}</td>
-			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.fpago.efectivo|intcomma}}</td>
+			<td>{{totales.fpago.tarjeta|intcomma}}</td>
+			<td>{{totales.fpago.cheque|intcomma}}</td>
+			<td>{{totales.fpago.nota_credito|intcomma}}</td>
 			<td>{{totales.total|intcomma}}</td>
 		</tr>
 	</tbody>
