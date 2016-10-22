@@ -86,16 +86,36 @@ def return_tot_movi(list_movi):
 
 @register.filter
 def saldo_factura(citerce, request_db):
-	ctimo_abn = ctimo_billing('ctimo_ab_billing', request_db)
-	ctimo_car = ctimo_billing('ctimo_cxc_billing', request_db)
+	ctimo_abono = ctimo_billing('ctimo_ab_billing', request_db)
+	ctimo_cartera = ctimo_billing('ctimo_cxc_billing', request_db)
 	movi = Movi.objects.using(request_db).filter(citerce = citerce)
-	movi_ab = movi.filter(ctimo = ctimo_abn).aggregate(val_tot = Sum('vttotal'))['val_tot']
-	movi_cr = movi.filter(ctimo = ctimo_car).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	movi_ab = movi.filter(ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	movi_cr = movi.filter(ctimo = ctimo_cartera).aggregate(val_tot = Sum('vttotal'))['val_tot']
 	return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
 
 @register.filter
+def get_saldo(cmovi, request_db):
+	ctimo_cartera = ctimo_billing('ctimo_cxc_billing', request_db)
+	if cmovi.cmovi.ctimo == ctimo_cartera:
+		value = cmovi.vmovi
+	else:
+		movi_original = Movi.objects.using(request_db).get(cmovi = cmovi.docrefe).vttotal
+		movi_abono = Movideta.objects.using(request_db).filter(docrefe = cmovi.docrefe, cmovi__fmovi__lte = cmovi.cmovi.fmovi).aggregate(val_tot = Sum('vmovi'))['val_tot']
+		value = movi_original - movi_abono
+	return value
+
+@register.filter
+def get_total_saldo(citerce, request_db):
+	ctimo_cartera = ctimo_billing('ctimo_cxc_billing', request_db)
+	ctimo_abono = ctimo_billing('ctimo_ab_billing', request_db)
+	movi_cartera = Movi.objects.using(request_db).filter(citerce = citerce.citerce, ctimo = ctimo_cartera).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	movi_abono = Movideta.objects.using(request_db).filter(cmovi__citerce = citerce.citerce, cmovi__ctimo = ctimo_abono).aggregate(val_tot = Sum('vmovi'))['val_tot']
+	value = movi_cartera - movi_abono
+	return value
+
+@register.filter
 def total_abono(citerce, request_db):
-	ctimo_abn = ctimo_billing('ctimo_ab_billing', request_db)
+	ctimo_abono = ctimo_billing('ctimo_ab_billing', request_db)
 	movi = Movi.objects.using(request_db).filter(citerce = citerce)
-	movi_ab = movi.filter(ctimo = ctimo_abn).aggregate(val_tot = Sum('vttotal'))['val_tot']
+	movi_ab = movi.filter(ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
 	return (movi_ab if movi_ab is not None else 0)

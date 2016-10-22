@@ -148,8 +148,11 @@ class CarteraDetalle(CustomDetailView):
 	def get_context_data(self,**kwargs):
 		context = super(CarteraDetalle, self).get_context_data(**kwargs)
 		context['title'] = "Detalle cartera por cobrar"
-		ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db)
-		context['object_movi'] = Movi.objects.using(self.request.db).filter(citerce = self.kwargs['pk'], ctimo = ctimo)
+		ctimo_cr = ctimo_billing('ctimo_cxc_billing', self.request.db)
+		ctimo_ab = ctimo_billing('ctimo_ab_billing', self.request.db)
+		context['movi_rc'] = ctimo_cr.pk
+		context['movi_ab'] = ctimo_ab.pk
+		context['object_movi'] = Movideta.objects.using(self.request.db).filter(cmovi__citerce = self.kwargs['pk'], cmovi__ctimo__in = [ctimo_cr, ctimo_ab]).order_by('cmovi__fmovi')
 		return context
 
 def proccess_view_annulment(request):

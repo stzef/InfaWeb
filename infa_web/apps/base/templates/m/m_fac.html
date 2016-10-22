@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Appem Movil</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="{% static 'css/jquery.mobile.theme-1.4.5.min.css' %}">
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+	<!-- Page -->
+	<div data-role="page" id="pageChooseClient">
+		<!-- Header -->
+		<div data-role="header">
+			{% include "m/m_header_fac.html" %}
+			<h1 class="ui-title" role="heading" aria-level="1">Elegir cliente</h1>
+		</div>
+		<!-- Header -->
+		<!-- Content -->
+		<div data-role="content">
+			<a href="#pageSearchClient" class="ui-btn" data-transition="slide" data-client="{{clienteMostrador}}" id="chooseMostrador">Mostrador</a>
+
+			<a href="#pageSearchClient" class="ui-btn" data-transition="slide">Elegir Cliente</a>
+		</div>
+		<!-- Content -->
+	</div>
+	<!-- Page -->
+
+	<!-- Page -->
+	<div data-role="page" id="pageSearchClient">
+		<!-- Header -->
+		<div data-role="header">
+			{% include "m/m_header_fac.html" %}
+			<h1 class="ui-title" role="heading" aria-level="1">Buscar Cliente</h1>
+		</div>
+		<!-- Header -->
+		<!-- Content -->
+		<div data-role="content">
+
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<h4>Buscar cliente</h4>
+				</div>
+				<div class="ui-block-b">
+					<a href="#pageAddClient" class="ui-btn" data-transition="slide">Crear nuevo</a>
+				</div>
+			</div>
+
+			<ul id="buscarClienteList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
+				{% for tercero in terceros %}
+					<li><a data-client="{{tercero.idterce}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
+						{{tercero.nom1}} {{tercero.ape1}}  <span> {{tercero.idterce}}</span>
+					</a></li>
+				{% endfor %}
+			</ul>
+
+		</div>
+		<!-- Content -->
+	</div>
+	<!-- Page -->
+
+	<!-- Page -->
+	<div data-role="page" id="pageAddClient">
+
+		<!-- Header -->
+		<div data-role="header">
+			{% include "m/m_header_fac.html" %}
+			<h1 class="ui-title" role="heading" aria-level="1">Nuevo Cliente</h1>
+		</div>
+		<!-- Header -->
+
+		<!-- Content -->
+		<div data-role="content">
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{form}}
+				<input type="submit" value="Guardar">
+			</form>
+		</div>
+		<!-- Content -->
+
+	</div>
+	<!-- Page -->
+
+
+</body>
+<script>
+	var cliente = false;
+
+	$( "#chooseMostrador" ).on( "click", function( event ) {
+		// Prevenir Comportamiento
+		event.preventDefault();
+
+		// assign value cliente
+		cliente = $(this).attr("data-client")
+
+		// Alter the url according to the anchor's href attribute, and
+		// store the data-foo attribute information with the url
+		$.mobile.navigate( $(this).attr( "href" ), {
+			foo: $(this).attr("data-foo")
+		});
+
+		// Hypothetical content alteration based on the url. E.g, make
+		// an Ajax request for JSON data and render a template into the page.
+		//alterContent( $(this).attr("href") );
+	});
+
+	// Busqueda de Terceros
+	$("#buscarClienteList" ).on( "filterablebeforefilter", function ( e, data ) {
+
+		var $ul = $( this ),
+		// dato de entrada
+		$datoDeEntrada = $( data.input ),
+		valorDatoDeEntrada = $datoDeEntrada.val(),
+		// Template Lista 
+		html = "";
+		// restablecer valores
+		$ul.html( "" );
+
+		if (valorDatoDeEntrada && valorDatoDeEntrada.length > 2) {
+
+			// Gestos UI
+			$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" )
+			$ul.listview( "refresh" )
+
+			// request obtener Terceros
+			$.ajax({
+				url : "{% url 'm_ajax_third_party_list' %}",
+				dataType: "json",
+				data: {
+					q: $datoDeEntrada.val()
+				}
+			})
+			.then( function ( data, statusCode, xhr) {
+
+				// Parsear datos
+				var clientes = JSON.parse(data)
+
+				// recorrer datos y armar template
+				for (var i = 0; i < clientes.length; i++) {
+
+					html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].fields.idterce +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
+				};
+
+				// cargar template a la lista
+				$ul.html( html );
+				$ul.listview( "refresh" );
+				$ul.trigger( "updatelayout");
+
+			}, function ( data, statusCode, xhr){
+
+				// Manejar el Error
+
+			});
+		}
+	})
+
+	// Asignar dato a cliente global
+	$("#buscarClienteList").on("click", ".tercero", function (event) {
+		// Asignar valor a cliente
+		cliente = $(this).attr("data-client")
+	})
+
+</script>
+</html>

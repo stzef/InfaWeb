@@ -1,5 +1,23 @@
 var date_appen = new Date($("[name=date_appen").val())
 format_date_appen = "YYYY-MM-DD"
+function CurrencyFormat(){
+	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
+	this.numberFormat = Intl.NumberFormat("es-419")
+}
+
+CurrencyFormat.prototype.format = function(number){
+	if(this.numberFormat.format(number) == "NaN") return "$ 0"
+	return "$ " + this.numberFormat.format(number)
+}
+CurrencyFormat.prototype.clear = function(number){
+	return number.replace(",","").replace("$","").trim()
+}
+CurrencyFormat.prototype.sToN = function(s){
+	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\$/g,"").trim())//.replace(/\./g,"")
+	return n
+}
+
+var currencyFormat = new CurrencyFormat()
 
 jQuery.fn.extend({
 	inputCurrency : function(){
@@ -14,10 +32,10 @@ jQuery.fn.extend({
 			input = $(this)
 			input.val(input.val().replace(regexp_clear,""))
 			if (!regexp.test(input.val())){
-				var valueInput = input.val(),
-					clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()
-
-				input.val(currencyFormat.format(clearValue))
+				var valueInput = input.val()
+				input.val(currencyFormat.format(valueInput))
+				//clearValue = valueInput.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim()
+				//input.val(currencyFormat.format(clearValue))
 			}
 		})
 
@@ -167,6 +185,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 
 		$(this).find(".input-currency").toArray().forEach(function(ic){
 			nVal = currencyFormat.sToN($(ic).val())
+			console.log(nVal)
 			formData.set(ic.name,nVal)
 		})
 
@@ -376,25 +395,6 @@ if($("form").length){
 		//Esta seguro de abandonar el sitio? SI o NO
 	});
 }
-
-function CurrencyFormat(){
-	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
-	this.numberFormat = Intl.NumberFormat("es-419")
-}
-
-CurrencyFormat.prototype.format = function(number){
-	if(this.numberFormat.format(number) == "NaN") return "$ 0"
-	return "$ " + this.numberFormat.format(number)
-}
-CurrencyFormat.prototype.clear = function(number){
-	return number.replace(",","").replace("$","").trim()
-}
-CurrencyFormat.prototype.sToN = function(s){
-	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\$/g,"").trim())//.replace(/\./g,"")
-	return n
-}
-
-var currencyFormat = new CurrencyFormat()
 
 $("[data-currency-format]").change(function(event){
 	var currencyFormat = CurrencyFormat()

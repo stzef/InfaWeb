@@ -64,7 +64,6 @@ def mFacChooseClient(request):
 
 	return render(request, 'm/m_fac_choose_client.html', context)
 
-
 def mFac(request):
 
 	clienteMostrador = 1
@@ -74,7 +73,6 @@ def mFac(request):
 	}
 
 	return render(request, 'm/m_fac.html', context)
-
 
 def mFacSearchClient(request):
 	# Consultar Terceros
@@ -114,14 +112,12 @@ def mFacPay(request):
 
 	return render(request, 'm/m_fac_pay.html', context)
 
-
 class mThirdPartyAdd(CustomCreateView):
 
 	model = Tercero
 	template_name = "m/m_third_party_add.html"
 	form_class = ThirdPartyForm
 	success_url = "/m/search-client"
-
 
 ## Request Ajax basadas en JSON
 @csrf_exempt
