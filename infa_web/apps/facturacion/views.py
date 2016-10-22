@@ -292,9 +292,10 @@ def save_mvsa_deta(request_db, mvsa_deta_array):
 
 @csrf_exempt
 def BillSave(request):
+	today = datetime.datetime.today()
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
-
+	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
 	response["error"] = False
@@ -385,9 +386,8 @@ def BillSave(request):
 		}
 	)
 
-	cmo = 'RC'
 	while(val_cont != 0):
-		movi_pk = code_generate(Movi, cmo, 'cmovi', request.db)
+		movi_pk = code_generate(Movi, ctimo.prefijo, 'cmovi', request.db)
 
 		movi = save_movi(
 			request.db,
@@ -536,7 +536,9 @@ def BillSave(request):
 
 @csrf_exempt
 def BillUpdate(request,pk):
+	today = datetime.datetime.today()
 	data = json.loads(request.body)
+	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
 	response["error"] = False
