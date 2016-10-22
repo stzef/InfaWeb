@@ -8,7 +8,12 @@ from django.db.models import Q
 from infa_web.apps.terceros.models import Tercero
 from infa_web.apps.terceros.forms import ThirdPartyForm
 from infa_web.apps.articulos.models import Arlo
+from infa_web.apps.base.models import MediosPago
+from infa_web.apps.base.models import Tifopa
+from infa_web.apps.facturacion.models import Facpago
+from infa_web.apps.facturacion.forms import FacpagoForm
 from infa_web.custom.generic_views import CustomCreateView
+from infa_web.parameters import ManageParameters
 
 
 
@@ -20,7 +25,11 @@ def mFacOptionsArticle(request):
 	# obtener articulo & cliente
 	codigoDelArticulo = request.GET.get('carlo', None)
 	codigoCliente = request.GET.get('client', None)
-	context = {}
+	parametros = ManageParameters(request.db)
+
+	context = {
+		'parametros' : parametros.to_dict()
+	}
 
 	# obtener valor del articulo para el cliente
 	if codigoDelArticulo is not None and codigoCliente is not None:
@@ -84,10 +93,20 @@ def mFacChooseArtice(request):
 	return render(request, 'm/m_fac_choose_article.html')
 
 def mFacPay(request):
-	return render(request, 'm/m_fac_pay.html')
 
-#def mThirdPartyAdd(request):
-#	return render(request, 'm/m_third_party_add.html')
+	formasDePago = Tifopa.objects.using(request.db).all()
+	mediosDePago = MediosPago.objects.using(request.db).all()
+	formPagosDeFactura = FacpagoForm(request.db)
+
+
+	context = {
+		'formasPago' : formasDePago,
+		'mediosPago' : mediosDePago,
+		'form' : formPagosDeFactura
+	}
+
+	return render(request, 'm/m_fac_pay.html', context)
+
 
 class mThirdPartyAdd(CustomCreateView):
 

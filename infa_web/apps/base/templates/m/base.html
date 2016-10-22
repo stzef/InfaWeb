@@ -32,6 +32,10 @@
 <script>
 
 		var cliente = false;
+		var articleSelected = {};
+		var articlesOrder = []
+		var vtotalFactura = 0;
+
 
 		$( "#chooseMostrador" ).on( "click", function( event ) {
 			// Prevenir Comportamiento
@@ -42,6 +46,7 @@
 
 			// Alter the url according to the anchor's href attribute, and
 			// store the data-foo attribute information with the url
+
 			$.mobile.navigate( $(this).attr( "href" ), {
 				foo: $(this).attr("data-foo")
 			});

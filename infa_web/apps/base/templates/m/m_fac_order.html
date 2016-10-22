@@ -18,31 +18,65 @@
 	<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
 		<thead>
 		<tr>
-			<th data-priority="1">It</th>
+			<th data-priority="1">cod</th>
 			<th data-priority="2">Articulo</th>
 			<th data-priority="4">Cant.</th>
-			<th data-priority="5">v. Unitario</th>
+			<th data-priority="5">Desc. %</th>
+			<th data-priority="6">v. Unitario</th>
 			<th data-priority="3">v. Total</th>
 		</tr>
 		</thead>
-		<tbody>
-			<tr>
-				<th>1</th>
-				<td>Arroz Diana</td>
-				<td>2</td>
-				<td>1.5000</td>
-				<td>3.000</td>
-			</tr>
+		<tbody id="articleTableBody">
+			
 		</tbody>
 	</table>
 
 	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
-		<h4 class="ui-title" role="heading" aria-level="1">TOTAL $ X.XXX.XXX</h4>
+		<div class="ui-grid-a" style="text-align:center;">
+			<div class="ui-block-a">
+				<h3>TOTAL $</h3>
+			</div>
+			<div class="ui-block-b">
+				<input id="vtotalFactura" type="number" value="0" style="text-align:right;" disabled>
+			</div>
+		</div>
 	</div>
 	<script>
 
-		// variable global para manejar articulo seleccionado
-		var articleSelected = {}
+		var templateArticleList = "<tr>" +
+				"<td>:carlo:</td>" +
+				"<td>:ncorto:</td>" +
+				"<td>:cantidad:</td>" +
+				"<td>:descuento:</td>" +
+				"<td>:vunitario:</td>" +
+				"<td>:vtotal:</td>" +
+			"</tr>"
+
+		// recorrer lista de articulos
+		if ( articlesOrder.length > 0) {
+
+			var t = "";
+			var totalPedido = 0
+
+			// armar template
+			for (var i = 0; i < articlesOrder.length; i++) {
+				t += templateArticleList
+								.replace(":carlo:", articlesOrder[i].carlo)
+								.replace(":ncorto:", articlesOrder[i].ncorto)
+								.replace(":cantidad:", articlesOrder[i].cantidad)
+								.replace(":descuento:", articlesOrder[i].descuento)
+								.replace(":vunitario:", articlesOrder[i].vunitario)
+								.replace(":vtotal:", articlesOrder[i].vtotal)
+
+				totalPedido += articlesOrder[i].vtotal
+				vtotalFactura = totalPedido
+
+			}
+
+			// renderizar template
+			$("#articleTableBody").append(t)
+			$("#vtotalFactura").val(totalPedido)
+		}
 
 	</script>
 {% endblock content %}
