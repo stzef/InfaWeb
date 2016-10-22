@@ -44,7 +44,15 @@
 	<script>
 			$("#vtfactura").val(vtotalFactura)
 
-			
+			$($0).children().toArray().map(function(div){
+				console.log(div)
+				return {
+				id_docmpago:$(div).find("#id_docmpago").val(),
+				id_banmpago:$(div).find("#id_banmpago").val(),
+				id_vmpago:$(div).find("#id_vmpago").val(),
+				id_cmpago:$(div).find("#id_cmpago").val(),
+				}
+			})
 			// recolectar los datos para guardar factura
 
 			// guardar factura

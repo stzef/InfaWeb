@@ -6,7 +6,7 @@
 
 {% block header %}
 	{% include "m/m_header_fac.html" %}
-	<a href="{% url 'm_pay' %}" class="ui-btn-right ui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="slide" role="button">Pagar</a>
+	<a href="{% url 'm_pay' %}" class="ui-btn-right ui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="slide" role="button" id="pay">Pagar</a>
 {% endblock header %}
 
 {% block content %}
@@ -15,15 +15,15 @@
 
 	<a href="{% url 'm_choose_article' %}" class="ui-btn" data-transition="slide">Seleccionar Articulo</a>
 
-	<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+	<table data-role="table" data-mode="columntoggle" data-column-btn-text="columnas..." class="ui-responsive table-stroke">
 		<thead>
 		<tr>
-			<th data-priority="1">cod</th>
-			<th data-priority="2">Articulo</th>
-			<th data-priority="4">Cant.</th>
-			<th data-priority="5">Desc. %</th>
-			<th data-priority="6">v. Unitario</th>
-			<th data-priority="3">v. Total</th>
+			<th data-priority="3">cod</th>
+			<th>Articulo</th>
+			<th>Cant.</th>
+			<th data-priority="1">Desc. %</th>
+			<th data-priority="2">v. Unitario</th>
+			<th>v. Total</th>
 		</tr>
 		</thead>
 		<tbody id="articleTableBody">
@@ -42,6 +42,25 @@
 		</div>
 	</div>
 	<script>
+
+		$( "#pay" ).on( "click", function( event ) {
+
+			event.preventDefault();
+
+			// Validar si existen articulos cargados a la factura antes de pagar
+			if ( articlesOrder.length > 0){
+				$.mobile.navigate( 
+					$(this).attr("href"), 
+					{ transition: "slide"}
+				);
+			}
+			else {
+				// mostrar dialogo
+				alert("Primero debes cargar articulos a la factura")
+			}
+
+
+		});
 
 		var templateArticleList = "<tr>" +
 				"<td>:carlo:</td>" +
