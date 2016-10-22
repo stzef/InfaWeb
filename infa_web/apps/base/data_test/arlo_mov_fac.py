@@ -229,7 +229,7 @@ data_invs = [
 """
 data_facs = [
 	{
-		"base":{
+		"base":{ 
 			"mode_view":"create",
 			"cfac":"",
 			"citerce":tercero.pk,

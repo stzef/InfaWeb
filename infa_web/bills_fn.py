@@ -11,10 +11,6 @@ def calcular_valor_cambio(ventre,vttotal):
 		ventre: Valor entregado
 		vttotal: Valor Total de la factura
 
-		Validaciones
-		Verifica que el ventre tenga valor
-		Verifica que el vttotal tenga valor
-
 		Calcula el valor de cambio de la factura
 		Operacion = ventre - vttotal
 	"""
@@ -29,9 +25,6 @@ def calcular_valor_unitario(carlos,list_price,descuento,pvta,name_db):
 		pordes: Porcentaje de descuento del articulo
 		vunita: Valor Unitario del articulo
 		precio_venta: precio de venta que aplica para el tercero seleccionado(clipre: lista de precios)
-
-		Validaciones
-		Valida que se haya seleccionado un articulo en #form_deta_movement
 
 		Calcula el valor unitario de un articulo
 		Operacion = precio_venta - ( precio_venta * ( pordes / 100 ) )
@@ -127,7 +120,7 @@ def calcular_total(data_array,vflete,vdescu):
 	"""
 		Calcula el valor Total de la Factura
 
-		Recorre todos los times de la factura calculando el valor individual y sumandolos para luego operarlos con el descuento y los valores del flete
+		Recorre todos los items de la factura calculando el valor individual y sumandolos para luego operarlos con el descuento y los valores del flete
 	"""
 	vttotal_items = float(0)
 	vttotal_local = float(0)
