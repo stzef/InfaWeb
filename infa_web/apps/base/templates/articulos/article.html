@@ -151,7 +151,6 @@
 											</div>
 											<div class="col-md-6 form-group">
 												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
-													{{form.vcosto.value}}
 													{{form.vcosto.label}}
 													{% if typeInventory != "M" %} 
 														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
@@ -448,10 +447,13 @@
 			customValidationFormTabs("form",fn_customValidationFormTabs)
 		}
 
-		$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
+		$(document).ready(function(e){
+			/* Añadir el eschucador despues despues de cargaqr totalmente el DOM pues sino todo slos pvta quedan en el vcosto*/
+			$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
+		})
 		
 		$("[name*=porult]").change(function(){
-			var costo = parseFloat($("#id_vcosto").val());
+			var costo = parseFloat($("#id_vcosto").custom_format_val());
 			var porcentaje = parseFloat($(this).val());
 			var valor = parseInt(costo/((100-porcentaje)/100));
 			if(porcentaje >= 0 && valor){

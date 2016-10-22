@@ -185,6 +185,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 
 		$(this).find(".input-currency").toArray().forEach(function(ic){
 			nVal = currencyFormat.sToN($(ic).val())
+			console.log(nVal)
 			formData.set(ic.name,nVal)
 		})
 
