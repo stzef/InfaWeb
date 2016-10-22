@@ -390,7 +390,7 @@ CurrencyFormat.prototype.clear = function(number){
 	return number.replace(",","").replace("$","").trim()
 }
 CurrencyFormat.prototype.sToN = function(s){
-	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\./g,"").replace(/\$/g,"").trim())
+	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\$/g,"").trim())//.replace(/\./g,"")
 	return n
 }
 

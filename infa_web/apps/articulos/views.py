@@ -48,7 +48,7 @@ def SaveBreakdownArticle(request,pk):
 			arlodesglo.costoglo = costoglo
 			arlodesglo.vtoglo = vtoglo
 
-			arlodesglo.save()
+			arlodesglo.save(using=request.db)
 		else:
 			response["message"] = "Creacion Exitosa"
 			Arlosdesglo.objects.create(

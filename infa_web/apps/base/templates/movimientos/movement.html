@@ -316,7 +316,7 @@
 
 	function setValueFieldArlo(vunita,name__carlos){
 		$("[name='vunita']")
-			.val(vunita)
+			.val(currencyFormat.format(vunita))
 			.trigger("change")
 		$("[name=name__carlos]").val(name__carlos)
 	}
@@ -324,53 +324,66 @@
 	$('#id_carlos').change(function(){
 		var input_value = this.value
 		if(!input_value){
-			setValueFieldArlo("","")
+			setValueFieldArlo("0","")
 			return
 		}
-		$.ajax({
-			url: '{% url 'api-get-object' %}',
-			type: 'POST',
-			data: JSON.stringify({
-				'model': 5,
-				'field': this.name,
-				'value': input_value
-			}),
-			contentType: "application/json",
-			success: function(response){
-				if(response.object){
-					var object = JSON.parse(response.object)[0]
-					fields = object.fields
-					var t_vcosto = fields.vcosto
-					var t_nlargo = fields.nlargo
-					setValueFieldArlo(t_vcosto,t_nlargo)
-				}else{
-					$.ajax({
-						url: '{% url 'api-get-object' %}',
-						type: 'POST',
-						data: JSON.stringify({
-							'model': 5,
-							'field': "cbarras",
-							'value': input_value
-						}),
-						contentType: "application/json",
-						success: function(response){
-							if(response.object){
-								var object = JSON.parse(response.object)[0]
-								fields = object.fields
-								var t_vcosto = fields.vcosto
-								var t_nlargo = fields.nlargo
-							}else{
-								var t_vcosto = ""
-								var t_nlargo = ""
-								$('#id_carlos').val("")
-								tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
-							}
-							setValueFieldArlo(t_vcosto,t_nlargo)
-						}
-					});
-				}
+		var arlo_in_list = false
+
+		$("#list_items_mdeta tbody tr").toArray().forEach(function (e,i,a){
+			var td = $(e).find("[data-name=carlos]")
+			if(td.data("value") == input_value){
+				$(e).find(".fa.fa-edit").click()
+				arlo_in_list = true
 			}
-		});
+		})
+		if(!arlo_in_list){
+			$.ajax({
+				url: '{% url 'api-get-object' %}',
+				type: 'POST',
+				data: JSON.stringify({
+					'model': 5,
+					'field': this.name,
+					'value': input_value
+				}),
+				contentType: "application/json",
+				success: function(response){
+					if(response.object){
+						var object = JSON.parse(response.object)[0]
+						fields = object.fields
+						var t_vcosto = fields.vcosto
+						var t_nlargo = fields.nlargo
+						setValueFieldArlo(t_vcosto,t_nlargo)
+					}else{
+						$.ajax({
+							url: '{% url 'api-get-object' %}',
+							type: 'POST',
+							data: JSON.stringify({
+								'model': 5,
+								'field': "cbarras",
+								'value': input_value
+							}),
+							contentType: "application/json",
+							success: function(response){
+								if(response.object){
+									var object = JSON.parse(response.object)[0]
+									fields = object.fields
+									var t_vcosto = fields.vcosto
+									var t_nlargo = fields.nlargo
+								}else{
+									var t_vcosto = ""
+									var t_nlargo = ""
+									$('#id_carlos').val("")
+									tooltipBootstrap($('#id_carlos'),".input-group","Este Articulo no se encuentra registrado.")
+								}
+								setValueFieldArlo(t_vcosto,t_nlargo)
+							}
+						});
+					}
+				}
+			});
+		}else{
+			calcular_total()
+		}
 	});
 
 	$('#id_citerce').change(function(){
@@ -521,8 +534,8 @@
 			$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
 			$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
 			$('#item_mdeta').find("#id_canti").val(object.fields.canti)
-			$('#item_mdeta').find("#id_vunita").val(object.fields.vunita).trigger("change")
-			$('#item_mdeta').find("#id_vtotal").val(object.fields.vtotal).trigger("change")
+			$('#item_mdeta').find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change")
+			$('#item_mdeta').find("#id_vtotal").val(currencyFormat.format(object.fields.vtotal)).trigger("change")
 			$('#form_deta_movement').submit()
 			$('#form_deta_movement').trigger("reset")
 			calcular_total()

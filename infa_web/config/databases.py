@@ -1,6 +1,6 @@
  
 # Configuraciones de bases de datos
-DB = {
+"""DB = {
 	'default': {
 		#'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		#'NAME': 'd1e6lv1qvghpv4',
@@ -40,7 +40,8 @@ DB = {
 		'PORT': '5432',
 	}
 }
-"""DB = {
+"""
+DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'infaweb_db',
@@ -57,4 +58,4 @@ DB = {
 		'HOST': 'localhost',
 		'PORT': '',
 	}
-}"""
+}
