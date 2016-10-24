@@ -117,3 +117,23 @@ Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/date_appen.py", line 113, in get_total_saldo
     value = movi_cartera - movi_abono
 TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 11:09:41,693 base 15687 140067859322624 Internal Server Error: /bill/proccess/fn/annulment 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 944, in bill_proccess_fn_annulment
+    return HttpResponse(json.dumps(response), content_type="application/json",status=200)
+  File "/usr/lib/python2.7/json/__init__.py", line 243, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python2.7/json/encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python2.7/json/encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python2.7/json/encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: Decimal('4000.00') is not JSON serializable

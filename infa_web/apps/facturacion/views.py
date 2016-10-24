@@ -764,7 +764,7 @@ class BillCreate(CustomCreateView):
 
 		context['medios_pago'] = medios_pago
 
-		context['title'] = "Facturar"
+		context['title'] = "Facturas"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
 		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
@@ -908,7 +908,8 @@ def bill_proccess_fn_annulment(request):
 
 				data_mov = {
 					"esdo_last" : movi.cesdo.nesdo,
-					'esdo_mew' :estado.nesdo
+					'esdo_mew' :estado.nesdo,
+					'vttotal' : str(movi.vttotal),
 				}
 				data_mov["cmovi"] = movi.cmovi
 				response["movimientos"].append(data_mov)
@@ -919,12 +920,14 @@ def bill_proccess_fn_annulment(request):
 
 		response["factura"] = {
 			"esdo_last" : factura.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
+			'esdo_mew' :estado.nesdo,
+			'vttotal' : str(factura.vttotal),
 		}
 
 		response["mvsa"] = {
 			"esdo_last" : mvsa.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
+			'esdo_mew' :estado.nesdo,
+			'vttotal' : str(mvsa.vttotal),
 		}
 
 		factura.detaanula = detaanula
