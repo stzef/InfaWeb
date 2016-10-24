@@ -110,7 +110,7 @@ def get_total_saldo(citerce, request_db):
 	ctimo_abono = ctimo_billing('ctimo_ab_billing', request_db)
 	movi_cartera = Movi.objects.using(request_db).filter(citerce = citerce.citerce, ctimo = ctimo_cartera).aggregate(val_tot = Sum('vttotal'))['val_tot']
 	movi_abono = Movideta.objects.using(request_db).filter(cmovi__citerce = citerce.citerce, cmovi__ctimo = ctimo_abono).aggregate(val_tot = Sum('vmovi'))['val_tot']
-	value = movi_cartera - movi_abono
+	value = movi_cartera - (movi_abono if movi_abono is not None else 0)
 	return value
 
 @register.filter
