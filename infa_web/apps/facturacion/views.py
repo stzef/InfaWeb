@@ -295,6 +295,7 @@ def BillSave(request):
 	today = datetime.datetime.today()
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
+	print data
 	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
@@ -660,8 +661,8 @@ def BillUpdate(request,pk):
 	ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
 	movi = movi_find(fac.cfac, request.db, ctimo.pk)
 	if movi:
-		if(val_tot_mp < float(data['vttotal'])):
-			movi_vttotal = (float(data['vttotal']) - val_tot_mp)
+		if(medios_pagos_total < float(data['vttotal'])):
+			movi_vttotal = (float(data['vttotal']) - medios_pagos_total)
 		else:
 			movi_vttotal = 0
 
