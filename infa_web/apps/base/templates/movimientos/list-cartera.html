@@ -39,7 +39,7 @@
 											<td>{{ movi.grouper }}</td>
 											<td class="text-right">$ {{ movi.list|return_tot_movi|intcomma }}</td>
 											<td class="text-right">$ {{ movi.grouper.pk|total_abono:request.db|intcomma }}</td>
-											<td class="text-right">$ {{ movi.grouper.pk|saldo_factura:request.db|intcomma }}</td>
+											<td class="text-right">$ {{ movi.grouper.pk|saldo_cartera:request.db|intcomma }}</td>
 											<td class="text-center">
 												<a href="{% url 'detail-cartera' movi.grouper.pk %}" class="btn btn-primary">Detalle</a>
 											</td>
