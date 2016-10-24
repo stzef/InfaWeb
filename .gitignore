@@ -6,6 +6,7 @@
 *.sh
 .env
 *.json
+report_test.txt
 *.log
 infa_web/logs/debug.log
 infa_web/config/databases.py

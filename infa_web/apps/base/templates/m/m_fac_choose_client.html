@@ -1,8 +1,17 @@
 {% extends "m/base.html" %}
+
 {% block title %}
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación - cliente</h1>
 {% endblock title %}
+
+{% block header %}
+	{% include "m/m_header_fac.html" %}
+{% endblock header %}
+
 {% block content %}
-	<a href="{% url 'm_order' %}" class="ui-btn" data-transition="flow">Mostrador</a>
-	<a href="{% url 'm_search_client' %}" class="ui-btn" data-transition="flow">Elegir Cliente</a>
+	<a href="{% url 'm_order' %}" class="ui-btn" data-transition="slide" data-client="{{clienteMostrador}}" id="chooseMostrador">Mostrador</a>
+
+	<a href="{% url 'm_search_client' %}" class="ui-btn" data-transition="slide">Elegir Cliente</a>
+
 {% endblock content %}
+

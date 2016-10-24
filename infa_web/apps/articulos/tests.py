@@ -195,7 +195,7 @@ class ExampleTestCase(TestCase):
 
 
 	def costing_and_stock(self):
-		report = codecs.open("report.txt", "w", "utf-8")
+		report = codecs.open("report_test.txt", "w", "utf-8")
 
 
 
