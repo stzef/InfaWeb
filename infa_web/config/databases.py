@@ -1,25 +1,19 @@
- 
+
 # Configuraciones de bases de datos
-"""DB = {
+DB = {
 	'default': {
-		#'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		#'NAME': 'd1e6lv1qvghpv4',
-		#'USER': 'zcmxfilhhxlhfe',
-		#'PASSWORD': 'Rv_JkDujcFszA040TuDvAnO_3p',
-		#'HOST': 'ec2-54-243-52-209.compute-1.amazonaws.com',
-		#'PORT': '5432',
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
 		'HOST': 'localhost',
-		'PORT': '',
+		'PORT': '5432',
 	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
+		'NAME': 'stzef',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
 		'HOST': 'localhost',
 		'PORT': '',
 	},
@@ -42,20 +36,21 @@
 }
 """
 DB = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	},
 	'db_1': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
 		'HOST': 'localhost',
-		'PORT': '',
-	}
+		'PORT': '5432',
+	},
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'infaweb_db',
+		'USER': 'postgres',
+		'PASSWORD': '123456',
+		'HOST': 'localhost',
+		'PORT': '5432',
+	},
 }
+"""

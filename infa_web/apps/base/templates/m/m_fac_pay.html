@@ -1,28 +1,62 @@
 {% extends "m/base.html" %}
 {% block title %}
+	{% include "m/m_header_fac.html" %}
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación - Pago</h1>
 {% endblock title %}
 {% block content %}
 	<h4>Pago</h4>
-	<form action="">
-		<label for="text-basic">Forma de Pago</label>
-		<select>
-			<option value="standard">Contado</option>
-			<option value="rush">Credito</option>
-		</select>
-
-		<label for="text-basic">Valor entregado</label>
-		<input type="number">
-
-		<label for="text-basic">Descuento</label>
-		<input type="number">
-	</form>
+	<select name="" id="">
+		{% for forma_pago in formasPago %}
+			<option value="{{forma_pago.ctifopa}}">{{forma_pago.ntifopa}}</option>
+		{% endfor %}
+	</select>
 	
+	<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+		{% for medios_pago in mediosPago %}
+			<div data-role="collapsible">
+				<h3>{{medios_pago.nmpago}}</h3>
+					<input type="hidden" name="cmpago" id="id_cmpago" value="{{medios_pago.cmpago}}">
+				{% if medios_pago.ifdoc %}
+					{{form.docmpago.label_tag}}
+					{{form.docmpago}}
+					{{form.banmpago.label_tag}}
+					{{form.banmpago}}
+				{% endif %}
+				{{form.vmpago.label_tag}}
+				{{form.vmpago}}
+			</div>
+
+		{% endfor %}
+	</div>
+
 	<a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Guardar</a>
 
 	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
-		<h4 class="ui-title" role="heading" aria-level="1">TOTAL $ X.XXX.XXX</h4>
+		<div class="ui-grid-a" style="text-align:center;">
+			<div class="ui-block-a">
+				<h3>TOTAL $</h3>
+			</div>
+			<div class="ui-block-b">
+				<input id="vtfactura" type="number" value="0" style="text-align:right;" disabled>
+			</div>
+		</div>
 	</div>
+	<script>
+			$("#vtfactura").val(vtotalFactura)
 
+			$($0).children().toArray().map(function(div){
+				console.log(div)
+				return {
+				id_docmpago:$(div).find("#id_docmpago").val(),
+				id_banmpago:$(div).find("#id_banmpago").val(),
+				id_vmpago:$(div).find("#id_vmpago").val(),
+				id_cmpago:$(div).find("#id_cmpago").val(),
+				}
+			})
+			// recolectar los datos para guardar factura
+
+			// guardar factura
+
+	</script>
 
 {% endblock content %}

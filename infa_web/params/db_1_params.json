@@ -495,7 +495,7 @@
     }, 
     {
         "cparam": "ctimo_ab_billing", 
-        "type": "Model", 
+        "smodule": "F", 
         "app": "base", 
         "value": "4000", 
         "label": {
@@ -505,17 +505,17 @@
             "text": "ntimo", 
             "selected": "4000", 
             "value": "ctimo", 
-            "id": "ctimo_ab_billing", 
+            "options": [], 
             "input": false, 
             "type": false, 
-            "options": [], 
+            "id": "ctimo_ab_billing", 
             "select": true
         }, 
         "query": {
             "ctimo__startswith": "::PREFIJO_MOVIMIENTOS_AB::"
         }, 
         "model": "Timo", 
-        "smodule": "F", 
+        "type": "Model", 
         "css": {
             "field": "form-control", 
             "field_container": "col-sm-8 checkbox", 
@@ -526,13 +526,13 @@
     {
         "cparam": "discount_percentages_allow_billing", 
         "type": "Boolean", 
-        "value": false, 
+        "value": true, 
         "label": {
             "text": "Permitir Porcentajes de Descuento en Facturacion"
         }, 
         "field": {
             "input": true, 
-            "selected": false, 
+            "selected": true, 
             "type": "checkbox", 
             "id": "discount_percentages_allow_billing", 
             "select": false

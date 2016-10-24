@@ -1,0 +1,138 @@
+{% extends "m/base.html" %}
+
+{% block title %}
+	{% include "m/m_header_fac.html" %}
+	<h1 class="ui-title" role="heading" aria-level="1">Facturación</h1>
+{% endblock title %}
+
+{% block content %}
+	<h4>Detalles Articulo</h4>
+	<form id="articleOptionsForm" action="#">
+		<label for="text-basic">Cantidad</label>
+
+		<input type="number" name="cantidad" value="1" required>
+
+		{% if parametros.discount_percentages_allow_billing %}
+			<label for="text-basic">Descuento</label>
+			<input type="number" name="descuento" value="0" min="0">
+		{% else %}
+			<input type="hidden" name="descuento" value="0">
+		{% endif %}
+
+		<label for="text-basic">V. Unitario</label>
+		<input type="number" name="vunitario" value="{{valorUnitario}}" required>
+
+		<input type="submit" value="Agregar">
+
+	</form>
+
+	<script>
+
+		var parametros = {{parametros_json | safe}}
+		var form = $('#articleOptionsForm')
+		var valorMinimoDeArticulo = {{valorMinimoDelArticulo}}
+		var valorDelArticuloPorClient = {{valorUnitario}}
+
+		// Validaciones de cantidad
+		form
+			.find("[name=cantidad]")
+			.on("change", function () {
+				if ( this.value > parametros.maximum_amount_items_billing )
+					alert("cantidad de articulos no permitida")
+			})
+
+		// Calculo de valores al cambiar descuento
+		form
+			.find("[name=descuento]")
+			.on("change", function () {
+				// validar valor maximo de descuento
+				var vunitario = form.find("[name=vunitario]")
+
+				if ( this.value > parametros.top_discount_bills) {
+					alert("Excedio el tope máximo de descuento")
+					this.value = 0
+					vunitario.val(valorDelArticuloPorClient)
+					return
+				}
+
+				// cambiar valor unitario por el valor aplicando descuento
+				vunitario.val(
+					((100-this.value)/100) * valorDelArticuloPorClient
+				)
+
+			})
+
+
+		function validacionVentaPrecioMinimo () {
+
+			var descuento = form.find('[name=descuento]')
+			var vunitario = form.find('[name=vunitario]')
+			var precioAplicandoDescuento = ((100 - descuento.val())/100) * valorDelArticuloPorClient
+
+			// Validar precio de venta minimo
+			if (precioAplicandoDescuento < valorMinimoDeArticulo) {
+
+				// Si permite precio de venta minimo 
+				if (parametros.invoice_below_minimum_sales_price) {
+					var response = confirm("El precio del articulo es menor al precio minimo de venta, desea continuar")
+					if (response)
+						return true
+					else{
+						// restablecer valores
+						descuento.val(0)
+						vunitario.val('{{valorUnitario}}')
+						return false
+					}
+				}
+
+				else{
+					alert("El precio de venta minimo de este articulo es: $ " + valorMinimoDeArticulo)
+					// restablecer valores
+					descuento.val(0)
+					vunitario.val('{{valorUnitario}}')
+					return false
+				}
+			}
+
+			return true
+
+		}
+
+		//cargar datos a variable de articulo seleccionado
+		form.on("submit", function (event) {
+
+			event.preventDefault()
+
+			if (validacionVentaPrecioMinimo()) {
+
+				var formularioOpcionesDeArticulo = this;
+
+				// valores ingresados
+				var cantidad = formularioOpcionesDeArticulo.cantidad.value;
+				var descuentoIngresado = formularioOpcionesDeArticulo.descuento.value;
+				var valorUnitarioDelArticulo = formularioOpcionesDeArticulo.vunitario.value;
+
+				// calculo de valores
+				var valorTotalDelItem = cantidad * valorUnitarioDelArticulo;
+
+				// armar objeto de articulo seleccionado
+				articleSelected["cantidad"] = cantidad
+				articleSelected["descuento"] = descuentoIngresado
+				articleSelected["vunitario"] = valorUnitarioDelArticulo
+				articleSelected["vtotal"] = valorTotalDelItem
+
+				// agregar objeto a la lista de articulos del pedido
+				articlesOrder.push(articleSelected)
+
+				// reiniciar objeto de articulo seleccionado
+				articleSelected = {}
+
+				// redirigir pagina de pedido
+				$.mobile.navigate( "/m/order", { transition: "slide"});
+			}
+
+		})
+
+	</script>
+
+{% endblock content %}

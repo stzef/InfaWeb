@@ -1,0 +1,18 @@
+{% extends "m/base.html" %}
+
+{% block title %}
+	<h1 class="ui-title" role="heading" aria-level="1">Agregar Cliente</h1>
+{% endblock title %}
+
+{% block header %}
+	{% include "m/m_header_fac.html" %}
+{% endblock header %}
+
+{% block content %}
+	<h4>Crear tercero</h4>
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="Guardar">
+	</form>
+{% endblock content %}
