@@ -37,11 +37,13 @@
 				<h3>TOTAL $</h3>
 			</div>
 			<div class="ui-block-b">
-				<input id="vtotalFactura" type="number" value="0" style="text-align:right;" disabled>
+				<input id="vtotalFactura" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
 			</div>
 		</div>
 	</div>
 	<script>
+
+		var vtotalFactura = 0;
 
 		$( "#pay" ).on( "click", function( event ) {
 
@@ -94,7 +96,7 @@
 
 			// renderizar template
 			$("#articleTableBody").append(t)
-			$("#vtotalFactura").val(totalPedido)
+			$("#vtotalFactura").val(vtotalFactura)
 		}
 
 	</script>

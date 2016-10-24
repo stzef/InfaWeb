@@ -16,7 +16,7 @@ from infa_web.apps.facturacion.models import Facpago
 from infa_web.apps.facturacion.forms import FacpagoForm
 from infa_web.custom.generic_views import CustomCreateView
 from infa_web.parameters import ManageParameters
-
+from infa_web.apps.base.constantes import FORMA_PAGO_CONTADO
 
 
 def mDashboard(request):
@@ -102,11 +102,15 @@ def mFacPay(request):
 	formasDePago = Tifopa.objects.using(request.db).all()
 	mediosDePago = MediosPago.objects.using(request.db).all()
 	formPagosDeFactura = FacpagoForm(request.db)
-
+	parametros = ManageParameters(request.db)
+	pagoContado = FORMA_PAGO_CONTADO
 
 	context = {
 		'formasPago' : formasDePago,
 		'mediosPago' : mediosDePago,
+		'pagoContado' : pagoContado,
+		'parametros' : parametros.to_dict(),
+		'parametros_json' : json.dumps(parametros.to_dict()),
 		'form' : formPagosDeFactura
 	}
 
