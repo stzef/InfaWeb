@@ -17,6 +17,8 @@ from infa_web.apps.base.forms import *
 from infa_web.apps.movimientos.forms import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.views import *
+from infa_web.apps.base.utils import *
+from infa_web.apps.base.constantes import CESDO_ACTIVO
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
 
 var_template_dir = "movimientos/"
@@ -55,7 +57,8 @@ class CarteraList(CustomListView):
 		return context
 
 	def get_queryset(self):
-		queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+		cesdo = get_or_none(Esdo, self.request.db, cesdo = CESDO_ACTIVO)
+		queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db), cesdo = cesdo)
 		return queryset
 
 class InputMovementCreate(CustomCreateView):
@@ -146,13 +149,14 @@ class CarteraDetalle(CustomDetailView):
 	template_name = var_template_dir+"detail-cartera.html"
 
 	def get_context_data(self,**kwargs):
+		cesdo = get_or_none(Esdo, self.request.db, cesdo = CESDO_ACTIVO)
 		context = super(CarteraDetalle, self).get_context_data(**kwargs)
 		context['title'] = "Detalle cartera por cobrar"
 		ctimo_cr = ctimo_billing('ctimo_cxc_billing', self.request.db)
 		ctimo_ab = ctimo_billing('ctimo_ab_billing', self.request.db)
 		context['movi_rc'] = ctimo_cr.pk
 		context['movi_ab'] = ctimo_ab.pk
-		context['object_movi'] = Movideta.objects.using(self.request.db).filter(cmovi__citerce = self.kwargs['pk'], cmovi__ctimo__in = [ctimo_cr, ctimo_ab]).order_by('cmovi__fmovi')
+		context['object_movi'] = Movideta.objects.using(self.request.db).filter(cmovi__citerce = self.kwargs['pk'], cmovi__ctimo__in = [ctimo_cr, ctimo_ab], cmovi__cesdo = cesdo).order_by('cmovi__fmovi')
 		return context
 
 def proccess_view_annulment(request):

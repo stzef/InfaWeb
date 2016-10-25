@@ -23,6 +23,8 @@ from infa_web.apps.inventarios.models import *
 from infa_web.apps.facturacion.models import *
 from infa_web.routines import *
 
+from infa_web.apps.facturacion.views import ctimo_billing
+
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values
 def fc(x):
 	return locale.currency(x,grouping=True)
@@ -193,17 +195,7 @@ class ExampleTestCase(TestCase):
 
 
 	def costing_and_stock(self):
-		report = codecs.open("report.txt", "w", "utf-8")
-
-		text = "\nCreacion de Articulos\n"
-		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
-		report.write(text)
-		data_table_articles = []
-		for article in Arlo.objects.all():
-			data_table_articles.append([article.carlos,article.nlargo,article.canti,fc(article.vcosto)])
-		text = tabulate(data_table_articles,headers=["Cod", "Nombre","Cantidad","Costo"],tablefmt="fancy_grid")
-		print text
-		report.write(text)
+		report = codecs.open("report_test.txt", "w", "utf-8")
 
 
 
@@ -324,5 +316,30 @@ class ExampleTestCase(TestCase):
 		text = tabulate(data_table_costing_and_stock,headers=["Cod","nombre", "Cantidad", "Vr. Unitario"],tablefmt="fancy_grid")
 		print text
 		report.write(text)
+
+
+
+		text = "\nCartera por Tercero\n"
+		print colored(text, 'white', attrs=['bold','reverse', 'blink'])
+		report.write(text)
+		for tercero in Tercero.objects.all():
+
+			text = "Tercero : %s\n" % tercero.rasocial
+			print text
+			report.write(text)
+			
+			ctimo_cr = ctimo_billing('ctimo_cxc_billing', self.using)
+			ctimo_ab = ctimo_billing('ctimo_ab_billing', self.using)
+			movidetas = Movideta.objects.using(self.using).filter(cmovi__citerce = tercero.pk, cmovi__ctimo__in = [ctimo_cr, ctimo_ab]).order_by('cmovi__fmovi')
+			
+			data_table_cartera = []
+			for movideta in movidetas:
+				data_table_cartera.append([movideta.itmovi,movideta.docrefe,fc(movideta.vmovi)])
+
+			text = tabulate(data_table_cartera,headers=["Item","Doc Ref", "Vr. Total"],tablefmt="fancy_grid")
+			print text
+			report.write(text)
+
+
 
 		report.close()

@@ -263,26 +263,7 @@
 
 								<section role="form" id="list_items_mdeta">
 									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
-										<tbody>
-										{% comment %}
-											{% for list in object.facdeta_set.all %}
-												<tr>
-													<td data-name="itfac" data-value="{{ list.itfac }}">{{ list.itfac }}</td>
-													<td data-name="carlos" data-value="{{ list.carlos.pk }}">{{ list.carlos.pk }}</td>
-													<td data-name="name__carlos" data-value="{{ list.carlos.nlargo }}">{{ list.carlos.nlargo }}</td>
-													<td data-name="canti" data-value="{{ list.canti }}">{{ list.canti }}</td>
-													<td data-name="pordes" data-value="{{ list.pordes }}">{{ list.pordes }}</td>
-													<td data-name="civa" data-value="{{ list.civa.pk }}">{{ list.civa }}</td>
-													<td data-name="vunita" data-value="{{ list.vunita }}">{{ list.vunita }}</td>
-													<td data-name="vtotal" data-value="{{ list.vtotal }}">{{ list.vtotal }}</td>
-													<td>
-														<button class="btn btn-info" style="margin-right: 3px;" id="edit-item-fac"><i class="fa fa-edit"></i></button>
-														<button class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></button>
-													</td>
-												</tr>
-											{% endfor %}
-											{% endcomment %}
-										</tbody>
+										<tbody></tbody>
 									</table>
 								</section>
 
@@ -1431,6 +1412,7 @@
 	$(document).ready(function(e){
 		td_js_facdeta.forEach(function(object){
 			$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
+			$('#item_mdeta').find("#id_itfac").val(object.fields.itfac)
 			$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
 			$('#item_mdeta').find("#id_canti").val(object.fields.canti)
 			$('#item_mdeta').find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change")
