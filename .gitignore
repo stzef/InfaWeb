@@ -11,6 +11,8 @@ report_test.txt
 infa_web/logs/debug.log
 infa_web/config/databases.py
 
+infa_web/logs/*
+
 !infa_web/params/*.json
 !infa_web/static/img/articles/default.jpg
 !infa_web/static/img/articles/default.png

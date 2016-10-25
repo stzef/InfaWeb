@@ -1381,6 +1381,21 @@
 			$("[name=carlos]").focus()
 		}
 	})
+	
+	function array_to_table(){}
+
+	function show_detalle(data){
+		$("#detalle").modal("show")
+		data.fac
+		data.fac.fac_deta
+		data.fac.medios_pago
+
+		data.mvsa
+		data.mvsa.deta
+
+		data.movi
+		data.movi.movideta
+	}
 
 	function reset_form_fac(){
 		$("form :input, button").prop("disabled",false)
@@ -1482,6 +1497,8 @@
 				if(confirm("Desea Imprimir La Factura")){
 					print_bill(response.fac.cfac)
 				}
+
+				show_detalle()
 
 				$("form :input, button:not(#bnt-new-fac)").prop("disabled",true).off("submit")
 

@@ -34,9 +34,6 @@ DB = {
 	}
 }
 
-print "_--------------------------------D"
-print os.environ
-print "_--------------------------------D"
 if 'CURRENT_ENV_WORK' in os.environ:
 	if os.environ["CURRENT_ENV_WORK"] == "DEV":
 		print " DEV"

@@ -987,19 +987,23 @@ def bill_proccess_fn_annulment(request):
 
 			movis = list(set(map(lambda x: x.cmovi, movideta)))
 			response["movimientos"] = []
-			for movi in movis:
+			for t_movi in movis:
 				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 				#movimiento = Movi.objects.using(request.db).filter(cmovi = movideta.cmovi,ctimo__in = ctimos)[0]
 
-				movi.cesdo = estado
-				movi.detaanula = detaanula
-				movi.save(using=request.db)
+				movi = Movi.objects.using(request.db).get(pk=t_movi.pk)
 
 				data_mov = {
 					"esdo_last" : movi.cesdo.nesdo,
 					'esdo_mew' :estado.nesdo,
 					'vttotal' : str(movi.vttotal),
 				}
+
+				movi.cesdo = estado
+				movi.detaanula = detaanula
+				movi.save(using=request.db)
+
+
 				data_mov["cmovi"] = movi.cmovi
 				response["movimientos"].append(data_mov)
 
