@@ -6,7 +6,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-
 from infa_web.apps.terceros.models import Tercero
 from infa_web.apps.terceros.forms import ThirdPartyForm
 from infa_web.apps.articulos.models import Arlo
@@ -16,7 +15,7 @@ from infa_web.apps.facturacion.models import Facpago
 from infa_web.apps.facturacion.forms import FacpagoForm
 from infa_web.custom.generic_views import CustomCreateView
 from infa_web.parameters import ManageParameters
-
+from infa_web.apps.base.constantes import FORMA_PAGO_CONTADO
 
 
 def mDashboard(request):
@@ -26,7 +25,7 @@ def mFacOptionsArticle(request):
 
 	# obtener articulo & cliente
 	codigoDelArticulo = request.GET.get('carlo', None)
-	codigoCliente = request.GET.get('client', None)
+	pkCliente = request.GET.get('client', None)
 	parametros = ManageParameters(request.db)
 
 	context = {
@@ -35,8 +34,8 @@ def mFacOptionsArticle(request):
 	}
 
 	# obtener valor del articulo para el cliente
-	if codigoDelArticulo is not None and codigoCliente is not None:
-		cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+	if codigoDelArticulo is not None and pkCliente is not None:
+		cliente = Tercero.objects.using(request.db).get(pk=pkCliente)
 		articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo) 
 
 
@@ -102,11 +101,15 @@ def mFacPay(request):
 	formasDePago = Tifopa.objects.using(request.db).all()
 	mediosDePago = MediosPago.objects.using(request.db).all()
 	formPagosDeFactura = FacpagoForm(request.db)
-
+	parametros = ManageParameters(request.db)
+	pagoContado = FORMA_PAGO_CONTADO
 
 	context = {
 		'formasPago' : formasDePago,
 		'mediosPago' : mediosDePago,
+		'pagoContado' : pagoContado,
+		'parametros' : parametros.to_dict(),
+		'parametros_json' : json.dumps(parametros.to_dict()),
 		'form' : formPagosDeFactura
 	}
 

@@ -20,8 +20,8 @@
 
 	<ul id="searchClientList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
 		{% for tercero in terceros %}
-			<li><a data-client="{{tercero.idterce}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
-				{{tercero.nom1}} {{tercero.ape1}}  <span> {{tercero.idterce}}</span>
+			<li><a data-client="{{tercero.pk}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
+				{{tercero.rasocial}}  <span> {{tercero.idterce}}</span>
 			</a></li>
 		{% endfor %}
 	</ul>
@@ -56,12 +56,13 @@
 				.then( function ( data, statusCode, xhr) {
 
 					// Parsear datos
+
 					var clientes = JSON.parse(data)
 					if (clientes.length > 0) {
 						// recorrer datos y armar template
 						for (var i = 0; i < clientes.length; i++) {
 
-							html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].fields.idterce +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
+							html += "<li><a class='tercero' data-transition='slide' data-client='"+ clientes[i].pk +"' href='{% url 'm_order' %}'>" + clientes[i].fields.rasocial + ", " + clientes[i].fields.idterce + "</a></li>"
 						};
 
 						// cargar template a la lista

@@ -20,7 +20,10 @@
 		{% endif %}
 
 		<label for="text-basic">V. Unitario</label>
-		<input type="number" name="vunitario" value="{{valorUnitario}}" required>
+		<input type="number" name="vunitario" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
+
+		<label for="text-basic">V. Total</label>
+		<input type="number" name="vtotal" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
 
 		<input type="submit" value="Agregar">
 
@@ -33,12 +36,20 @@
 		var valorMinimoDeArticulo = {{valorMinimoDelArticulo}}
 		var valorDelArticuloPorClient = {{valorUnitario}}
 
+		var cantidad = form.find("[name=cantidad]")
+		var vunitario = form.find("[name=vunitario]")
+		var vtotal = form.find("[name=vtotal]")
+
 		// Validaciones de cantidad
 		form
 			.find("[name=cantidad]")
 			.on("change", function () {
 				if ( this.value > parametros.maximum_amount_items_billing )
 					alert("cantidad de articulos no permitida")
+
+				// calcular total
+				vtotal.val(vunitario.val() * this.value)
+
 			})
 
 		// Calculo de valores al cambiar descuento
@@ -46,9 +57,9 @@
 			.find("[name=descuento]")
 			.on("change", function () {
 				// validar valor maximo de descuento
-				var vunitario = form.find("[name=vunitario]")
 
-				if ( this.value > parametros.top_discount_bills) {
+				if ( this.value > Number(parametros.top_discount_bills)) {
+					console.log(this.value)
 					alert("Excedio el tope máximo de descuento")
 					this.value = 0
 					vunitario.val(valorDelArticuloPorClient)
@@ -60,13 +71,15 @@
 					((100-this.value)/100) * valorDelArticuloPorClient
 				)
 
+				// calcular total
+				vtotal.val(vunitario.val() * cantidad.val())
+
 			})
 
 
 		function validacionVentaPrecioMinimo () {
 
 			var descuento = form.find('[name=descuento]')
-			var vunitario = form.find('[name=vunitario]')
 			var precioAplicandoDescuento = ((100 - descuento.val())/100) * valorDelArticuloPorClient
 
 			// Validar precio de venta minimo
@@ -116,9 +129,9 @@
 				var valorTotalDelItem = cantidad * valorUnitarioDelArticulo;
 
 				// armar objeto de articulo seleccionado
-				articleSelected["cantidad"] = cantidad
-				articleSelected["descuento"] = descuentoIngresado
-				articleSelected["vunitario"] = valorUnitarioDelArticulo
+				articleSelected["canti"] = cantidad
+				articleSelected["pordes"] = descuentoIngresado
+				articleSelected["vunita"] = valorUnitarioDelArticulo
 				articleSelected["vtotal"] = valorTotalDelItem
 
 				// agregar objeto a la lista de articulos del pedido

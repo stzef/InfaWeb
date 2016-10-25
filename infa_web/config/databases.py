@@ -32,21 +32,4 @@ DB = {
 		'PORT': '5432',
 	}
 }
-"""DB = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	},
-	'db_1': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	}
-}"""
+
