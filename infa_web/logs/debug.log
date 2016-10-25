@@ -457,8 +457,140 @@ Traceback (most recent call last):
     return self.get_prep_value(value)
   File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 976, in get_prep_value
     return int(value)
+<<<<<<< HEAD
+ValueError: invalid literal for int() with base 10: 'undefined'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-20 09:31:44,543 base 4955 139919414515456 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 27, in mFacOptionsArticle
+    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-20 09:42:24,322 base 4955 139919414515456 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 27, in mFacOptionsArticle
+    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-22 09:54:38,033 base 9173 140051847022336 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 31, in mFacOptionsArticle
+    'parametros' : parametros.to_dict()
+AttributeError: 'ManageParameters' object has no attribute 'to_dict'
+=======
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 913, in bill_proccess_fn_annulment
+    response["movimientos"].appen(data_mov)
+AttributeError: 'list' object has no attribute 'appen'
+>>>>>>> c980741b8d88c438efcd9bab9723dfec9f90df5c
+<<<<<<< HEAD
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-22 14:26:17,402 base 13709 140373324556032 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 39, in mFacOptionsArticle
+    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-22 16:06:24,485 base 17666 140017940625152 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 39, in mFacOptionsArticle
+    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+=======
+>>>>>>> 910776d3911b0369e1313fbeedf7fbbcc01508c6
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:44:15,734 base 6980 139828714215168 Internal Server Error: /m/options-article 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 38, in mFacOptionsArticle
+    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
+    self.model._meta.object_name
+DoesNotExist: Tercero matching query does not exist.
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:03:39,856 base 7222 139808331585280 Internal Server Error: /m/articles/list 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: "1'''"
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:14:29,809 base 7222 139808321881856 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 298, in BillSave
+    data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
+KeyError: 'femi'
+=======
 TypeError: int() argument must be a string or a number, not 'Esdo'
 >>>>>>> 80aaf54b7872818c3b8df1785cc846c7b7e2e0fc
+<<<<<<< HEAD
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
  ERROR 2016-10-25 07:46:14,716 base 5292 140497455757056 Internal Server Error: /parameters/ 
 Traceback (most recent call last):
@@ -477,3 +609,5 @@ Traceback (most recent call last):
   File "/usr/lib/python2.7/json/decoder.py", line 384, in raw_decode
     raise ValueError("No JSON object could be decoded")
 ValueError: No JSON object could be decoded
+=======
+>>>>>>> 4b73d0768b90c9d393b773d041ed08fb59b36087

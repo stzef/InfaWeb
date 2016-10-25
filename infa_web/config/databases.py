@@ -1,4 +1,4 @@
-"""
+
 DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -33,22 +33,24 @@ DB = {
 		'PORT': '5432',
 	}
 }
-"""
-DB = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	},
-	'db_1': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'infaweb_db',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST': 'localhost',
-		'PORT': '',
-	}
-}
+
+if 'CURRENT_ENV_WORK' in os.environ:
+	if CURRENT_ENV_WORK == "DEV"
+		DB = {
+			'default': {
+				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			},
+			'db_1': {
+				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			}
+		}

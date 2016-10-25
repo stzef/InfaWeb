@@ -4,14 +4,20 @@
 	<h1 class="ui-title" role="heading" aria-level="1">Facturación - Pago</h1>
 {% endblock title %}
 {% block content %}
-	<h4>Pago</h4>
-	<select name="" id="">
+	<h4>Ingresa los pagos</h4>
+	<select name="forma_pago" id="id_forma_pago">
+
 		{% for forma_pago in formasPago %}
-			<option value="{{forma_pago.ctifopa}}">{{forma_pago.ntifopa}}</option>
+			{% if forma_pago.ctifopa == pagoContado %}
+				<option value="{{forma_pago.ctifopa}}" selected>{{forma_pago.ntifopa}}</option>
+			{% else %}
+				<option value="{{forma_pago.ctifopa}}">{{forma_pago.ntifopa}}</option>
+			{% endif %}
 		{% endfor %}
+
 	</select>
-	
-	<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+
+	<div id="id_content_pagos" data-role="collapsibleset" data-theme="a" data-content-theme="a">
 		{% for medios_pago in mediosPago %}
 			<div data-role="collapsible">
 				<h3>{{medios_pago.nmpago}}</h3>
@@ -23,39 +29,152 @@
 					{{form.banmpago}}
 				{% endif %}
 				{{form.vmpago.label_tag}}
-				{{form.vmpago}}
+				<input class="input-currency form-control valor_pagos" id="{{form.vmpago.id_for_label}}" min="0" name="{{form.vmpago.html_name}}" step="0.01" type="text" required="">
 			</div>
 
 		{% endfor %}
 	</div>
+	
+	<label for="descuento_factura">Descuento:</label>
+	<input type="number" id="id_descuento_factura" name="descuento_factura" min="0" max="100" value="0">
 
-	<a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Guardar</a>
+	<a id="id_guardar_factura" href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Guardar</a>
 
 	<div data-role="footer" data-position="fixed" role="contentinfo" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
 		<div class="ui-grid-a" style="text-align:center;">
 			<div class="ui-block-a">
-				<h3>TOTAL $</h3>
+				<h3>PAGOS</h3>
+				<h3>TOTAL</h3>
 			</div>
 			<div class="ui-block-b">
-				<input id="vtfactura" type="number" value="0" style="text-align:right;" disabled>
+				<input id="id_total_pagos" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
+				<input id="vtfactura" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
 			</div>
 		</div>
 	</div>
 	<script>
-			$("#vtfactura").val(vtotalFactura)
 
-			$($0).children().toArray().map(function(div){
-				console.log(div)
-				return {
-				id_docmpago:$(div).find("#id_docmpago").val(),
-				id_banmpago:$(div).find("#id_banmpago").val(),
-				id_vmpago:$(div).find("#id_vmpago").val(),
-				id_cmpago:$(div).find("#id_cmpago").val(),
+		var mediosPago = []
+		var codigoPagoContado = "{{pagoContado}}"
+		$("#vtfactura").val(vtotalFactura)
+
+		// Eventos para descuento
+		$("#id_descuento_factura")
+			.on("change", function () {
+				if (this.value > Number(parametros.top_discount_bills)) {
+					alert("Excedio el tope máximo de descuento")
+					this.value = 0
+					$("#vtfactura").val(vtotalFactura)
+				}
+				else{
+					var totalAplicandoDescuento =((100-this.value)/100) * vtotalFactura;
+					$("#vtfactura").val(totalAplicandoDescuento)
 				}
 			})
-			// recolectar los datos para guardar factura
 
-			// guardar factura
+		// Click al guardar
+		$("#id_guardar_factura")
+				.on("click", function () {
+
+					// validaciones 
+					if (validaciones())
+						guardarFactura()
+
+				})
+
+		// Evento para calcular los valores entregados en los pagos
+		$(".valor_pagos")
+			.on("change", function () {
+				setMediosPago()
+				$("#id_total_pagos").val(getTotalMediosPago())
+			})
+
+		// Cargar Medios de pago
+		function setMediosPago () {
+			mediosPago = $("#id_content_pagos")
+											.children()
+											.toArray()
+											.map(function(div){
+												return {
+													docmpago:$(div).find("#id_docmpago").val(),
+													banmpago:$(div).find("#id_banmpago").val(),
+													cmpago:$(div).find("#id_cmpago").val(),
+													vmpago:$(div).find("#id_vmpago").val(),
+												}
+											})
+		}
+
+		function validaciones () {
+
+			// validacion factura de contado
+			if ((getTotalMediosPago() < $("#vtfactura").val()) && $("#id_forma_pago").val() == codigoPagoContado) {
+				alert("Factura contado")
+				return false
+			}
+
+			// validacion total de factura
+			if (getTotalMediosPago() > $("#vtfactura").val()) {
+				alert("El valor de los pagos sobrepaso el valor total de la factura")
+				return false
+			}
+
+			return true
+		}
+
+		// Obtener el valor total sumando los medios de pago
+		function getTotalMediosPago () {
+			// Setiar datos a medios de pago
+			setMediosPago()
+			// Obtener valor total de los pagos
+			var totalPagos = 0;
+			for (var i = 0; i < mediosPago.length; i++) {
+				totalPagos = totalPagos + Number(mediosPago[i].vmpago)
+			}
+			return totalPagos
+		}
+
+		// Construir objeto para guardar en backend
+		function armarObjetoDatos () {
+
+			var vtotalAplicandoDescuentoDeFactura = ((100 - $("#id_descuento_factura").val())/100) * vtotalFactura
+
+			return {
+				citerce : cliente,
+				ctifopa : $("#id_forma_pago").val(),
+				mvdeta : articlesOrder,
+				medios_pagos : mediosPago,
+				vdescu : $("#id_descuento_factura").val(),
+				vttotal : vtotalAplicandoDescuentoDeFactura,
+			}
+
+		}
+
+		// Guardar factura
+		function guardarFactura () {
+
+			var data = armarObjetoDatos()
+
+			$.ajax({
+				url : "{% url 'save-bill' %}",
+				type: 'POST',
+				data : JSON.stringify(data),
+				contentType : 'application/json',
+				error : function (xhr, statusCode, errorThrown) {
+					console.log(xhr)
+					console.log(statusCode)
+					console.log(errorThrown)
+				},
+				success : function (data, statusCode, xhr) {
+					console.log(data)
+					console.log(statusCode)
+					console.log(xhr)
+				}
+
+			})
+
+		}
+
+		
 
 	</script>
 
