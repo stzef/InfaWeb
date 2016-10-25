@@ -324,8 +324,8 @@ function open_new_window(event){
 	if(window.location.href == this.href) {
 		return;
 	}
-	var h = 650,
-		w = 1000,
+	var h = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
@@ -359,8 +359,8 @@ $("[data-new-window]").click(function(event){
 	if(window.location.href == this.href) {
 		return;
 	}
-	var h = 650,
-		w = 1000,
+	var h = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);

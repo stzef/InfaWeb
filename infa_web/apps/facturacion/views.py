@@ -653,6 +653,8 @@ def BillUpdate(request,pk):
 	response['mvsa'] = {}
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
 	response['mvsa']['deta'] = {}
+	response['movi'] = {}
+	response['movi'][ctimo.prefijo] = {}
 	response['movi'][ctimo.prefijo]['movideta'] = {}
 
 	for data_facpago in data["medios_pagos"]:
@@ -848,7 +850,7 @@ class BillCreate(CustomCreateView):
 
 		context['medios_pago'] = medios_pago
 
-		context['title'] = "Facturar"
+		context['title'] = "Facturas"
 		context['form_movement_detail'] = FacdetaForm(self.request.db)
 		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
@@ -992,7 +994,8 @@ def bill_proccess_fn_annulment(request):
 
 				data_mov = {
 					"esdo_last" : movi.cesdo.nesdo,
-					'esdo_mew' :estado.nesdo
+					'esdo_mew' :estado.nesdo,
+					'vttotal' : str(movi.vttotal),
 				}
 				data_mov["cmovi"] = movi.cmovi
 				response["movimientos"].append(data_mov)
@@ -1003,12 +1006,14 @@ def bill_proccess_fn_annulment(request):
 
 		response["factura"] = {
 			"esdo_last" : factura.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
+			'esdo_mew' :estado.nesdo,
+			'vttotal' : str(factura.vttotal),
 		}
 
 		response["mvsa"] = {
 			"esdo_last" : mvsa.cesdo.nesdo,
-			'esdo_mew' :estado.nesdo
+			'esdo_mew' :estado.nesdo,
+			'vttotal' : str(mvsa.vttotal),
 		}
 
 		factura.detaanula = detaanula
@@ -1250,15 +1255,15 @@ class report_fn_bill(PDFTemplateView):
 		totales["vtt_iva"] = 0
 
 		for factura in facturas:
+			factura.data_report = {}
+			totales["subtotal"] += factura.vttotal
+			totales["total"] += factura.vttotal
+
+			factura.data_report["otros_valores"] = factura.vflete
+			factura.data_report["vt_base_iva"] = factura.vtbase
+			factura.data_report["vt_iva"] = factura.vtiva
+
 			if factura.cesdo != cesdo_anulado:
-				factura.data_report = {}
-				totales["subtotal"] += factura.vttotal
-				totales["total"] += factura.vttotal
-
-				factura.data_report["otros_valores"] = factura.vflete
-				factura.data_report["vt_base_iva"] = factura.vtbase
-				factura.data_report["vt_iva"] = factura.vtiva
-
 				totales["vtt_otros"] += factura.data_report["otros_valores"]
 				totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 				totales["vtt_iva"] += factura.data_report["vt_iva"]

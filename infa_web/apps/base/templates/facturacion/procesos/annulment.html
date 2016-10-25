@@ -63,13 +63,47 @@
 				<div class="text-center">
 					<div class="btn-group">
 						<button class="btn btn-app" type="submit">
-							<i class="fa fa-plus-square-o"></i>Anular
+							<i class="fa fa-save"></i>Guardar
+						</button>
+						<button class="btn btn-app" type="button" data-toggle="modal" data-target="#detalle">
+							<i class="fa fa-list"></i>Ver Detalle
 						</button>
 					</div>
 				</div>
 			</form>
 		</section>
+		<div class="modal fade" tabindex="-1" role="dialog" id="detalle">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Acciones Realizadas</h4>
+					</div>
+				<div class="modal-body">
+					<div>
+						<table id="costing_and_stock" class="table">
+							<thead>
+								<th>Tipo</th>
+								<th>Codigo</th>
+								<th>Estado Anterior</th>
+								<th>Nuevo Estado</th>
+								<th>Valor Total</th>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn-app btn" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+				</div>
+				</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</div>
+
+
 	{% include 'elements/footer.html' %}
 {% endblock %}
 
@@ -94,35 +128,35 @@
 				$("form").trigger("reset")
 				$("form").prepend(alertBootstrap(response.message,"success"))
 				
-				console.log(response)
-				var string_generic = "Se ha realizado el cambio de estado al(a) %name con codigo %code de %esdo_last a %esdo_new"
+				$("#detalle tbody").empty()
 
-				response.factura
-				var text_factura = string_generic
-									.replace("%name","factura")
-									.replace("%code",response.factura.cfac)
-									.replace("%esdo_last",response.factura.esdo_last)
-									.replace("%esdo_new",response.factura.esdo_mew)
-				response.mvsa
-				var text_mvsa = string_generic
-									.replace("%name","mvsa")
-									.replace("%code",response.mvsa.cmvsa)
-									.replace("%esdo_last",response.mvsa.esdo_last)
-									.replace("%esdo_new",response.mvsa.esdo_mew)
-				
-				$("form").append(alertBootstrap(text_mvsa,"info"))
-				$("form").append(alertBootstrap(text_factura,"info"))
-				
+				$("#detalle tbody").append(
+					$("<tr>")
+					.append($("<td>",{html:"Factura"}))
+					.append($("<td>",{html:response.factura.cfac}))
+					.append($("<td>",{html:response.factura.esdo_last}))
+					.append($("<td>",{html:response.factura.esdo_mew}))
+					.append($("<td>",{html:currencyFormat.format(response.factura.vttotal)}))
+				)
+				$("#detalle tbody").append(
+					$("<tr>")
+					.append($("<td>",{html:"M. Salida"}))
+					.append($("<td>",{html:response.mvsa.cmvsa}))
+					.append($("<td>",{html:response.mvsa.esdo_last}))
+					.append($("<td>",{html:response.mvsa.esdo_mew}))
+					.append($("<td>",{html:currencyFormat.format(response.mvsa.vttotal)}))
+				)
 				response.movimientos.forEach(function(movimiento){
-
-					var text_movimiento = string_generic
-									.replace("%name","movimiento")
-									.replace("%code",movimiento.cmovi)
-									.replace("%esdo_last",movimiento.esdo_last)
-									.replace("%esdo_new",movimiento.esdo_mew)
-					$("form").append(alertBootstrap(text_movimiento,"info"))
+					$("#detalle tbody").append(
+						$("<tr>")
+						.append($("<td>",{html:"Movimiento"}))
+						.append($("<td>",{html:movimiento.cmovi}))
+						.append($("<td>",{html:movimiento.esdo_last}))
+						.append($("<td>",{html:movimiento.esdo_mew}))
+						.append($("<td>",{html:currencyFormat.format(movimiento.vttotal)}))
+					)
 				})
-
+				console.log(response)
 			}
 		)
 	})

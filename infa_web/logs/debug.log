@@ -1,82 +1,5 @@
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 07:52:29,162 base 6796 140448339203840 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/movimientos/views.py", line 58, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 176, in ctimo_billing
-    return Timo.objects.using(request_db).get(pk = ctimo_billing)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 381, in get
-    num = len(clone)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
-    self._fetch_all()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
-    self._result_cache = list(self.iterator())
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
-    results = compiler.execute_sql()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
-    cursor = self.connection.cursor()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
-    cursor = self.make_debug_cursor(self._cursor())
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
-    self.ensure_connection()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
-    self.connect()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
-    six.reraise(dj_exc_type, dj_exc_value, traceback)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
-    self.connect()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
-    self.connection = self.get_new_connection(conn_params)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
-    connection = Database.connect(**conn_params)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
-    conn = _connect(dsn, connection_factory=connection_factory, async=async)
-OperationalError: FATAL:  database "stzef" does not exist
-
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 07:55:40,311 base 6987 140543220799232 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/generic/list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/movimientos/views.py", line 58, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 176, in ctimo_billing
-    return Timo.objects.using(request_db).get(pk = ctimo_billing)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 381, in get
-    num = len(clone)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
-    self._fetch_all()
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
-    self._result_cache = list(self.iterator())
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/query.py", line 49, in __iter__
-    compiler = queryset.query.get_compiler(using=db)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 254, in get_compiler
-    connection = connections[using]
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 209, in __getitem__
-    self.ensure_defaults(alias)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/db/utils.py", line 179, in ensure_defaults
-    raise ConnectionDoesNotExist("The connection %s doesn't exist" % alias)
-ConnectionDoesNotExist: The connection db_1 doesn't exist
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 07:56:47,753 base 7027 140495190472448 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 09:46:59,739 base 11772 140296150144768 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
@@ -84,442 +7,327 @@ Traceback (most recent call last):
     response = response.render()
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
     self.content = self.rendered_content
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 137, in rendered_content
-    content = template.render(context, self._request)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
-    return self.template.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
-    return self._render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
-    return self.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
-    return compiled_parent._render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
-    return self.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
-    result = block.nodelist.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
-    return self.render(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 1043, in render
-    output = self.filter_expression.resolve(context)
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/base.py", line 736, in resolve
-    new_obj = func(obj, *arg_vals)
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/date_appen.py", line 113, in get_total_saldo
-    value = movi_cartera - movi_abono
-TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:01:54,530 base 4684 5624 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 09:47:08,699 base 11772 140296150144768 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
     response = response.render()
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
     self.content = self.rendered_content
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
-    content = template.render(context, self._request)
-  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
-    return self.template.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
-    return self._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
-    return compiled_parent._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
-    result = block.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
-    output = self.filter_expression.resolve(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
-    new_obj = func(obj, *arg_vals)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
-    value = movi_cartera - movi_abono
-TypeError: unsupported operand type(s) for -: 'NoneType' and 'NoneType'
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:03:37,344 base 4684 4844 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 09:47:18,377 base 11772 140296139917056 Internal Server Error: / 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
     response = response.render()
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
     self.content = self.rendered_content
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
-    content = template.render(context, self._request)
-  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
-    return self.template.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
-    return self._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
-    return compiled_parent._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
-    result = block.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
-    output = self.filter_expression.resolve(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
-    new_obj = func(obj, *arg_vals)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
-    value = movi_cartera - movi_abono
-TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:04:52,625 base 4684 6128 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 09:47:25,689 base 11772 140296150144768 Internal Server Error: / 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
     response = response.render()
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
     self.content = self.rendered_content
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
-    content = template.render(context, self._request)
-  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
-    return self.template.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
-    return self._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
-    return compiled_parent._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
-    result = block.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
-    output = self.filter_expression.resolve(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
-    new_obj = func(obj, *arg_vals)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
-    value = movi_cartera - movi_abono
-TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:57:49,631 base 5004 664 Internal Server Error: /cartera/ 
+ ERROR 2016-10-25 09:47:51,451 base 11891 139779509319424 Internal Server Error: / 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__id = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
-    lookup_class = field.get_lookup(lookups[0])
-  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
-    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
-TypeError: Related Field got invalid lookup: id
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:57:55,512 base 5004 4480 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__id = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
-    lookup_class = field.get_lookup(lookups[0])
-  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
-    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
-TypeError: Related Field got invalid lookup: id
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:58:10,598 base 2128 2652 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__pk = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
-    lookup_class = field.get_lookup(lookups[0])
-  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
-    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
-TypeError: Related Field got invalid lookup: id
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 10:58:17,184 base 2128 1288 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
-    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__pk = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
-    lookup_class = field.get_lookup(lookups[0])
-  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
-    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
-TypeError: Related Field got invalid lookup: id
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 11:11:38,127 base 4948 348 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
-    self.object_list = self.get_queryset()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 60, in get_queryset
-    cesdo = get_or_none(Esdo, request_db, cesdo = CESDO_ACTIVO)
-NameError: global name 'request_db' is not defined
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 11:17:32,865 base 1852 4528 Internal Server Error: /cartera/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 172, in get_response
     response = response.render()
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 160, in render
     self.content = self.rendered_content
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
-    content = template.render(context, self._request)
-  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
-    return self.template.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
-    return self._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
-    return compiled_parent._render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
-    return self.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
-    result = block.nodelist.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
-    bit = node.render_annotated(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
-    nodelist.append(node.render_annotated(context))
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
-    return self.render(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
-    output = self.filter_expression.resolve(context)
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
-    new_obj = func(obj, *arg_vals)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 96, in saldo_factura
-    movi_ab = movi.filter(cesdo__pk = cesdo, ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1203, in build_filter
-    condition = self.build_lookup(lookups, col, value)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1099, in build_lookup
-    return final_lookup(lhs, rhs)
-  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 19, in __init__
-    self.rhs = self.get_prep_lookup()
-  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 57, in get_prep_lookup
-    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
-  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 744, in get_prep_lookup
-    return self.get_prep_value(value)
-  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 976, in get_prep_value
-    return int(value)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 55, in select_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:47:58,594 base 11891 139779500926720 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
 <<<<<<< HEAD
-ValueError: invalid literal for int() with base 10: 'undefined'
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-20 09:31:44,543 base 4955 139919414515456 Internal Server Error: /m/options-article 
-Traceback (most recent call last):
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 27, in mFacOptionsArticle
-    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
-    self.model._meta.object_name
-DoesNotExist: Tercero matching query does not exist.
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-20 09:42:24,322 base 4955 139919414515456 Internal Server Error: /m/options-article 
-Traceback (most recent call last):
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 27, in mFacOptionsArticle
-    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
-    self.model._meta.object_name
-DoesNotExist: Tercero matching query does not exist.
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-22 09:54:38,033 base 9173 140051847022336 Internal Server Error: /m/options-article 
-Traceback (most recent call last):
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 31, in mFacOptionsArticle
-    'parametros' : parametros.to_dict()
-AttributeError: 'ManageParameters' object has no attribute 'to_dict'
-=======
-  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
     return view_func(*args, **kwargs)
-  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 913, in bill_proccess_fn_annulment
-    response["movimientos"].appen(data_mov)
-AttributeError: 'list' object has no attribute 'appen'
->>>>>>> c980741b8d88c438efcd9bab9723dfec9f90df5c
-<<<<<<< HEAD
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-22 14:26:17,402 base 13709 140373324556032 Internal Server Error: /m/options-article 
-Traceback (most recent call last):
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 39, in mFacOptionsArticle
-    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
-    self.model._meta.object_name
-DoesNotExist: Tercero matching query does not exist.
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-22 16:06:24,485 base 17666 140017940625152 Internal Server Error: /m/options-article 
-Traceback (most recent call last):
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 39, in mFacOptionsArticle
-    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
-    self.model._meta.object_name
-DoesNotExist: Tercero matching query does not exist.
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 298, in BillSave
+    data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
+KeyError: 'femi'
 =======
->>>>>>> 910776d3911b0369e1313fbeedf7fbbcc01508c6
+TypeError: int() argument must be a string or a number, not 'Esdo'
+>>>>>>> 80aaf54b7872818c3b8df1785cc846c7b7e2e0fc
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:44:15,734 base 6980 139828714215168 Internal Server Error: /m/options-article 
+ ERROR 2016-10-25 09:43:46,884 base 9789 140232789120768 Internal Server Error: /m/search-client 
 Traceback (most recent call last):
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
     response = self.process_exception_by_middleware(e, request)
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 38, in mFacOptionsArticle
-    cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
-  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 387, in get
-    self.model._meta.object_name
-DoesNotExist: Tercero matching query does not exist.
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 88, in mFacSearchClient
+    return render(request, 'm/m_fac_search_client.html', context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  password authentication failed for user "root"
+FATAL:  password authentication failed for user "root"
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:03:39,856 base 7222 139808331585280 Internal Server Error: /m/articles/list 
+ ERROR 2016-10-25 09:45:54,053 base 10239 139738790016768 Internal Server Error: /m/search-client 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 88, in mFacSearchClient
+    return render(request, 'm/m_fac_search_client.html', context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  password authentication failed for user "postgres"
+FATAL:  password authentication failed for user "postgres"
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:51:32,776 base 10369 140519889377024 Internal Server Error: /m/articles/list 
 Traceback (most recent call last):
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
     response = self.process_exception_by_middleware(e, request)
@@ -553,9 +361,9 @@ Traceback (most recent call last):
     return self.get_prep_value(value)
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
     return int(value)
-ValueError: invalid literal for int() with base 10: "1'''"
+ValueError: invalid literal for int() with base 10: 'moto'
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:14:29,809 base 7222 139808321881856 Internal Server Error: /bill/save/ 
+ ERROR 2016-10-25 09:51:34,638 base 10369 140519889377024 Internal Server Error: /m/articles/list 
 Traceback (most recent call last):
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
     response = self.process_exception_by_middleware(e, request)
@@ -563,14 +371,148 @@ Traceback (most recent call last):
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
     return view_func(*args, **kwargs)
-  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 298, in BillSave
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'motoro'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:51:42,702 base 10369 140519889377024 Internal Server Error: /m/articles/list 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'motor'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:03:06,872 base 10899 139857132615424 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 299, in BillSave
     data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 KeyError: 'femi'
 =======
-TypeError: int() argument must be a string or a number, not 'Esdo'
-<<<<<<< HEAD
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/views.py", line 158, in ParametersList
+    return render_to_response("parametros/parameters.html",context)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/shortcuts.py", line 39, in render_to_response
+    content = loader.render_to_string(template_name, context, using=using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 96, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 26, in get_template
+    engines = _engine_list(using)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/loader.py", line 143, in _engine_list
+    return engines.all() if using is None else [engines[using]]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 110, in all
+    return [self[alias] for alias in self]
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/utils.py", line 101, in __getitem__
+    engine = engine_cls(params)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 31, in __init__
+    options['libraries'] = self.get_templatetag_libraries(libraries)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 49, in get_templatetag_libraries
+    libraries = get_installed_libraries()
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 142, in get_installed_libraries
+    for name in get_package_libraries(pkg):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 155, in get_package_libraries
+    module = import_module(entry[1])
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/templatetags/tags_appem.py", line 3, in <module>
+    register = template.Library()
+NameError: name 'template' is not defined
+>>>>>>> efae654f4b16b2de233d66921eb420a6663121af
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-24 11:51:38,323 base 5984 4148 Internal Server Error: /cartera/ 
+ ERROR 2016-10-25 10:43:22,028 base 5696 5748 Internal Server Error: /bill/list/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\middleware.py", line 24, in process_request
+    manageParameters.set_param_object("date_appen",current_date_format)
+  File "D:\Proyectos\infa web\infa_web\infa_web\parameters.py", line 42, in set_param_object
+    parameters = json.load(json_data)
+  File "C:\Python27\lib\json\__init__.py", line 291, in load
+    **kw)
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\Python27\lib\json\decoder.py", line 380, in raw_decode
+    obj, end = self.scan_once(s, idx)
+ValueError: Expecting property name: line 49 column 1 (char 1326)
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:43:39,701 base 5696 6120 Internal Server Error: /bill/list/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\middleware.py", line 24, in process_request
+    manageParameters.set_param_object("date_appen",current_date_format)
+  File "D:\Proyectos\infa web\infa_web\infa_web\parameters.py", line 42, in set_param_object
+    parameters = json.load(json_data)
+  File "C:\Python27\lib\json\__init__.py", line 291, in load
+    **kw)
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\Python27\lib\json\decoder.py", line 380, in raw_decode
+    obj, end = self.scan_once(s, idx)
+ValueError: Expecting property name: line 49 column 1 (char 1326)
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:44:17,591 base 5696 5108 Internal Server Error: /bill/list/ 
 Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
@@ -578,263 +520,638 @@ Traceback (most recent call last):
     response = response.render()
   File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
     self.content = self.rendered_content
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
-    template = self._resolve_template(self.template_name)
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 90, in _resolve_template
-    new_template = self.resolve_template(template)
-  File "C:\Python27\lib\site-packages\django\template\response.py", line 80, in resolve_template
-    return select_template(template, using=self.using)
-  File "C:\Python27\lib\site-packages\django\template\loader.py", line 62, in select_template
-    return engine.get_template(template_name, dirs)
-  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 40, in get_template
-    return Template(self.engine.get_template(template_name, dirs), self)
-  File "C:\Python27\lib\site-packages\django\template\engine.py", line 190, in get_template
-    template, origin = self.find_template(template_name, dirs)
-  File "C:\Python27\lib\site-packages\django\template\engine.py", line 157, in find_template
-    name, template_dirs=dirs, skip=skip,
-  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 46, in get_template
-    contents, origin, origin.template_name, self.engine,
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 189, in __init__
-    self.nodelist = self.compile_nodelist()
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 231, in compile_nodelist
-    return parser.parse()
-  File "C:\Python27\lib\site-packages\django\template\base.py", line 516, in parse
-    raise self.error(token, e)
-TemplateSyntaxError: Could not parse the remainder: '-cartera' from 'list-cartera'
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 240, in __len__
+    self._fetch_all()
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 07:31:31,089 base 4704 3484 Internal Server Error: /cartera/ 
+ ERROR 2016-10-25 10:44:25,161 base 5696 6060 Internal Server Error: /bill/list/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
-    context = self.get_context_data()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
-    context = super(CarteraList, self).get_context_data(**kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
-    kwargs['form'] = self.get_form()
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
-    return form_class(**self.get_form_kwargs())
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 196, in __init__
-    if tercero: self.fields['tercero'].initial = tercero
-NameError: global name 'tercero' is not defined
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 240, in __len__
+    self._fetch_all()
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 07:32:12,302 base 3136 4808 Internal Server Error: /cartera/ 
+ ERROR 2016-10-25 10:44:29,710 base 5696 3784 Internal Server Error: /bill/list/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
-    context = self.get_context_data()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
-    context = super(CarteraList, self).get_context_data(**kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
-    kwargs['form'] = self.get_form()
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
-    return form_class(**self.get_form_kwargs())
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 197, in __init__
-    if tercero: self.fields['tercero'].initial = tercero
-NameError: global name 'tercero' is not defined
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 240, in __len__
+    self._fetch_all()
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 07:36:33,046 base 4312 2932 Internal Server Error: /cartera/ 
+ ERROR 2016-10-25 10:44:33,818 base 5696 928 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
-    context = self.get_context_data()
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
-    context = super(CarteraList, self).get_context_data(**kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
-    kwargs['form'] = self.get_form()
-  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
-    return form_class(**self.get_form_kwargs())
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 195, in __init__
-    self.fields['tercero'].choices = [(x.pk, x.nameFull) for x in Tercero.objects.using(self.request.db).all().order_by('ape1')]
-AttributeError: 'CarteraSearchForm' object has no attribute 'request'
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:13:29,107 base 4328 3896 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 10:44:49,832 base 5696 5292 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi = queryset.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-NameError: global name 'queryset' is not defined
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:13:46,510 base 2760 2764 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 10:45:21,247 base 5696 5732 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi = object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
-    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
-    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
-    "Choices are: %s" % (name, ", ".join(available)))
-FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:14:13,048 base 4628 2480 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 10:45:45,056 base 5696 4064 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
-    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
-    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
-    "Choices are: %s" % (name, ", ".join(available)))
-FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:14:13,260 base 4628 3728 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 10:46:42,971 base 1900 5756 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
-    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
-    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
-    "Choices are: %s" % (name, ", ".join(available)))
-FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:14:13,463 base 4628 5152 Internal Server Error: /cartera/detalle/1/ 
+ ERROR 2016-10-25 10:47:28,757 base 3140 2000 Internal Server Error: /bill/billing/ 
 Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
     response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
-    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
-    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
-    "Choices are: %s" % (name, ", ".join(available)))
-FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1049, in render
+    return render_value_in_context(output, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1026, in render_value_in_context
+    value = force_text(value)
+  File "C:\Python27\lib\site-packages\django\utils\encoding.py", line 78, in force_text
+    s = six.text_type(s)
+  File "C:\Python27\lib\site-packages\django\utils\html.py", line 381, in <lambda>
+    klass.__unicode__ = lambda self: mark_safe(klass_unicode(self))
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 43, in __str__
+    return self.as_widget()
+  File "C:\Python27\lib\site-packages\django\forms\boundfield.py", line 101, in as_widget
+    return force_text(widget.render(name, self.value(), attrs=attrs))
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 528, in render
+    options = self.render_options(choices, [value])
+  File "C:\Python27\lib\site-packages\django\forms\widgets.py", line 554, in render_options
+    for option_value, option_label in chain(self.choices, choices):
+  File "C:\Python27\lib\site-packages\django\forms\models.py", line 1109, in __iter__
+    for obj in queryset:
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 199, in ensure_connection
+    self.connect()
+  File "C:\Python27\lib\site-packages\django\db\backends\base\base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "C:\Python27\lib\site-packages\django\db\backends\postgresql\base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "C:\Python27\lib\site-packages\psycopg2\__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  la autentificación password falló para el usuario «postgres»
+
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:14:13,707 base 4628 3144 Internal Server Error: /cartera/detalle/1/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
-    return handler(request, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
-    context = self.get_context_data(object=self.object)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
-    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
-    return self._filter_or_exclude(False, *args, **kwargs)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
-    clone.query.add_q(Q(*args, **kwargs))
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
-    allow_joins=allow_joins, split_subq=split_subq,
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
-    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
-    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
-  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
-    "Choices are: %s" % (name, ", ".join(available)))
-FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:56:07,460 base 5476 3180 Internal Server Error: /bill/save/ 
+ ERROR 2016-10-25 10:49:23,723 base 4472 3952 Internal Server Error: /bill/save/164/ 
 Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
     response = self.process_exception_by_middleware(e, request)
@@ -842,101 +1159,6 @@ Traceback (most recent call last):
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
     return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 539, in BillSave
-    response['fac']['fac_deta']['carlos'] = carlos.carlo
-AttributeError: 'Arlo' object has no attribute 'carlo'
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 08:57:02,984 base 1760 644 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 558, in BillSave
-    response['mvsa']['deta']['carlos'] = carlos.carlo
-AttributeError: 'Arlo' object has no attribute 'carlo'
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:27:46,684 base 3960 5000 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 542, in BillSave
-    costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
-  File "D:\Proyectos\infa web\infa_web\infa_web\routines.py", line 77, in costing_and_stock
-    invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
-    (self.model._meta.object_name, num)
-MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:28:36,865 base 3960 5392 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 542, in BillSave
-    costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
-  File "D:\Proyectos\infa web\infa_web\infa_web\routines.py", line 77, in costing_and_stock
-    invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
-    (self.model._meta.object_name, num)
-MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:30:00,085 base 3960 5096 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 542, in BillSave
-    costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
-  File "D:\Proyectos\infa web\infa_web\infa_web\routines.py", line 77, in costing_and_stock
-    invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
-    (self.model._meta.object_name, num)
-MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:31:58,782 base 4788 4916 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 542, in BillSave
-    costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
-  File "D:\Proyectos\infa web\infa_web\infa_web\routines.py", line 78, in costing_and_stock
-    invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
-    (self.model._meta.object_name, num)
-MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
- ERROR 2016-10-25 09:32:53,457 base 2484 4748 Internal Server Error: /bill/save/ 
-Traceback (most recent call last):
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
-    response = self.process_exception_by_middleware(e, request)
-  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
-    return view_func(*args, **kwargs)
-  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 541, in BillSave
-    costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
-  File "D:\Proyectos\infa web\infa_web\infa_web\routines.py", line 78, in costing_and_stock
-    invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
-  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 391, in get
-    (self.model._meta.object_name, num)
-MultipleObjectsReturned: get() returned more than one Invinideta -- it returned 2!
-=======
->>>>>>> 80aaf54b7872818c3b8df1785cc846c7b7e2e0fc
->>>>>>> 4b73d0768b90c9d393b773d041ed08fb59b36087
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 657, in BillUpdate
+    response['movi'][ctimo.prefijo]['movideta'] = {}
+KeyError: u'IA'

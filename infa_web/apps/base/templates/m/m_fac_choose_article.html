@@ -47,7 +47,7 @@
 						// recorrer datos y armar template
 						for (var i = 0; i < articles.length; i++) {
 
-							html += "<li><a href='{% url 'm_options_article' %}?carlo="+ 1000 +"&client="+cliente +"' data-transition='slide' class='article' data-carlo="+1000+" data-ncorto="+ articles[i].fields.ncorto +"><h2>"+ articles[i].fields.ncorto +"</h2><p>cod:"+ articles[i].fields.carlos +"&nbsp;&nbsp;<span>$"+ articles[i].fields.pvta1 +"</span></p></a></li>"
+							html += "<li><a href='{% url 'm_options_article' %}?carlo="+ articles[i].pk+"&client="+cliente +"' data-transition='slide' class='article' data-carlo="+articles[i].pk+" data-ncorto="+ articles[i].fields.ncorto +"><h2>"+ articles[i].fields.ncorto +"</h2><p>cod:"+ articles[i].pk +"&nbsp;&nbsp;<span>$"+ articles[i].fields.pvta1 +"</span></p></a></li>"
 						};
 
 						// cargar template a la lista

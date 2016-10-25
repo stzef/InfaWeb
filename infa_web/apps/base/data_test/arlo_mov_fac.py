@@ -379,6 +379,34 @@ data_facs = [
 	},
 ]
 
+data_edit_facs = data_facs
+data_edit_facs[0]["medios_pagos"] = [
+	{
+		"cmpago" : 1000,
+		"nmpago" : "Efectivo",
+		"porcentaje" : 50,
+		"docmpago" : 0,
+		"banmpago" : 1000,
+	},
+]
+data_edit_facs[1]["medios_pagos"] = []
+data_edit_facs[2]["medios_pagos"] = [
+	{
+		"cmpago" : 1000,
+		"nmpago" : "Efectivo",
+		"porcentaje" : 50,
+		"docmpago" : 0,
+		"banmpago" : 1000,
+	},
+	{
+		"cmpago" : 1002,
+		"nmpago" : "Cheque",
+		"docmpago" : 124657987,
+		"porcentaje" : 50,
+		"banmpago" : 1001,
+	},
+]
+
 data_articles = [
 	{
 		"cbarras":"",
@@ -460,7 +488,6 @@ data_articles = [
 		"foto2":"img/articles/default.jpg",
 		"foto3":"img/articles/default.jpg"
 	}
-
 ]
 
 costing_and_stock_expected_values = {
