@@ -4,7 +4,10 @@ function CurrencyFormat(){
 	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
 	this.numberFormat = Intl.NumberFormat("es-419")
 }
-
+$.urlParam = function(name){
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	return (results != null) ? results[1] || 0: false;
+}
 CurrencyFormat.prototype.format = function(number){
 	if(this.numberFormat.format(number) == "NaN") return "$ 0"
 	return "$ " + this.numberFormat.format(number)

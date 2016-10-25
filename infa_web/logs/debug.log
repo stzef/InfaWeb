@@ -437,3 +437,267 @@ Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 976, in get_prep_value
     return int(value)
 TypeError: int() argument must be a string or a number, not 'Esdo'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 11:51:38,323 base 5984 4148 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    template = self._resolve_template(self.template_name)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 90, in _resolve_template
+    new_template = self.resolve_template(template)
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 80, in resolve_template
+    return select_template(template, using=self.using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 62, in select_template
+    return engine.get_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 40, in get_template
+    return Template(self.engine.get_template(template_name, dirs), self)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 190, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 157, in find_template
+    name, template_dirs=dirs, skip=skip,
+  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 46, in get_template
+    contents, origin, origin.template_name, self.engine,
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 189, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 231, in compile_nodelist
+    return parser.parse()
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 516, in parse
+    raise self.error(token, e)
+TemplateSyntaxError: Could not parse the remainder: '-cartera' from 'list-cartera'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 07:31:31,089 base 4704 3484 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
+    context = self.get_context_data()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
+    context = super(CarteraList, self).get_context_data(**kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
+    kwargs['form'] = self.get_form()
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
+    return form_class(**self.get_form_kwargs())
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 196, in __init__
+    if tercero: self.fields['tercero'].initial = tercero
+NameError: global name 'tercero' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 07:32:12,302 base 3136 4808 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
+    context = self.get_context_data()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
+    context = super(CarteraList, self).get_context_data(**kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
+    kwargs['form'] = self.get_form()
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
+    return form_class(**self.get_form_kwargs())
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 197, in __init__
+    if tercero: self.fields['tercero'].initial = tercero
+NameError: global name 'tercero' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 07:36:33,046 base 4312 2932 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 174, in get
+    context = self.get_context_data()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 57, in get_context_data
+    context = super(CarteraList, self).get_context_data(**kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 122, in get_context_data
+    kwargs['form'] = self.get_form()
+  File "C:\Python27\lib\site-packages\django\views\generic\edit.py", line 74, in get_form
+    return form_class(**self.get_form_kwargs())
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\forms.py", line 195, in __init__
+    self.fields['tercero'].choices = [(x.pk, x.nameFull) for x in Tercero.objects.using(self.request.db).all().order_by('ape1')]
+AttributeError: 'CarteraSearchForm' object has no attribute 'request'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:13:29,107 base 4328 3896 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi = queryset.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+NameError: global name 'queryset' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:13:46,510 base 2760 2764 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi = object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:14:13,048 base 4628 2480 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:14:13,260 base 4628 3728 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:14:13,463 base 4628 5152 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 08:14:13,707 base 4628 3144 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\detail.py", line 118, in get
+    context = self.get_context_data(object=self.object)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 178, in get_context_data
+    object_movi.filter(movi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1149, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1035, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1330, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+FieldError: Cannot resolve keyword 'movi' into field. Choices are: cmovi, cmovi_id, detalle, docrefe, id, itmovi, vmovi

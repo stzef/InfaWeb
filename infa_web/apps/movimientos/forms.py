@@ -2,6 +2,7 @@
 from django import forms 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.inventarios.models import *
+from infa_web.apps.terceros.models import *
 from infa_web.parameters import ManageParameters
 
 class InputMovementForm(forms.ModelForm):
@@ -180,6 +181,22 @@ class ProccessCostingAndStock(forms.Form):
 		except Invinicab.DoesNotExist:
 			self.fields['nota_inicial'].initial = ''
 			self.fields['fecha_nota_inicial'].initial = ''
+
+class CarteraSearchForm(forms.Form):
+	fecha_inicio = forms.CharField(label = 'Fecha Inicio', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+	fecha_fin = forms.CharField(label = 'Fecha Fin', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+	tercero = forms.ChoiceField(label = 'Tercero', widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
+
+	def __init__(self, *args, **kwargs):
+		fecha_inicio = kwargs.pop('fecha_inicio', None)
+		fecha_fin = kwargs.pop('fecha_fin', None)
+		tercero = kwargs.pop('tercero', None)
+		request_db = kwargs.pop('request_db', None)
+		super(CarteraSearchForm, self).__init__(*args, **kwargs)
+		self.fields['tercero'].choices = [('', 'Seleccione una opcion')]+[('all', 'Todos')]+[(x.pk, x.nameFull()) for x in Tercero.objects.using(request_db).all().order_by('ape1')]
+		if fecha_inicio: self.fields['fecha_inicio'].initial = fecha_inicio
+		if fecha_fin: self.fields['fecha_fin'].initial = fecha_fin
+		if tercero: self.fields['tercero'].initial = tercero
 
 class MoviForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
