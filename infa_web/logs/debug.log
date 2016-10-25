@@ -118,6 +118,7 @@ Traceback (most recent call last):
     value = movi_cartera - movi_abono
 TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+<<<<<<< HEAD
  ERROR 2016-10-24 11:09:41,693 base 15687 140067859322624 Internal Server Error: /bill/proccess/fn/annulment 
 Traceback (most recent call last):
   File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
@@ -137,3 +138,342 @@ Traceback (most recent call last):
   File "/usr/lib/python2.7/json/encoder.py", line 184, in default
     raise TypeError(repr(o) + " is not JSON serializable")
 TypeError: Decimal('4000.00') is not JSON serializable
+=======
+ ERROR 2016-10-24 10:01:54,530 base 4684 5624 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
+    value = movi_cartera - movi_abono
+TypeError: unsupported operand type(s) for -: 'NoneType' and 'NoneType'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:03:37,344 base 4684 4844 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
+    value = movi_cartera - movi_abono
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:04:52,625 base 4684 6128 Internal Server Error: /cartera/detalle/1/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 113, in get_total_saldo
+    value = movi_cartera - movi_abono
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'NoneType'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:57:49,631 base 5004 664 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__id = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
+    lookup_class = field.get_lookup(lookups[0])
+  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
+    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
+TypeError: Related Field got invalid lookup: id
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:57:55,512 base 5004 4480 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__id = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
+    lookup_class = field.get_lookup(lookups[0])
+  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
+    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
+TypeError: Related Field got invalid lookup: id
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:58:10,598 base 2128 2652 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__pk = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
+    lookup_class = field.get_lookup(lookups[0])
+  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
+    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
+TypeError: Related Field got invalid lookup: id
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 10:58:17,184 base 2128 1288 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 59, in get_queryset
+    queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(cesdo__pk = CESDO_ACTIVO, ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db).pk)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1194, in build_filter
+    lookup_class = field.get_lookup(lookups[0])
+  File "C:\Python27\lib\site-packages\django\db\models\fields\related.py", line 693, in get_lookup
+    raise TypeError('Related Field got invalid lookup: %s' % lookup_name)
+TypeError: Related Field got invalid lookup: id
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 11:11:38,127 base 4948 348 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\list.py", line 159, in get
+    self.object_list = self.get_queryset()
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\movimientos\views.py", line 60, in get_queryset
+    cesdo = get_or_none(Esdo, request_db, cesdo = CESDO_ACTIVO)
+NameError: global name 'request_db' is not defined
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-24 11:17:32,865 base 1852 4528 Internal Server Error: /cartera/ 
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 174, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 172, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 160, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 137, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 95, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 206, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\defaulttags.py", line 220, in render
+    nodelist.append(node.render_annotated(context))
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 959, in render_annotated
+    return self.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 1043, in render
+    output = self.filter_expression.resolve(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 736, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "D:\Proyectos\infa web\infa_web\infa_web\apps\base\templatetags\date_appen.py", line 96, in saldo_factura
+    movi_ab = movi.filter(cesdo__pk = cesdo, ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Python27\lib\site-packages\django\db\models\sql\query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Python27\lib\site-packages\django\db\models\lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "C:\Python27\lib\site-packages\django\db\models\fields\__init__.py", line 976, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'Esdo'
+>>>>>>> 80aaf54b7872818c3b8df1785cc846c7b7e2e0fc
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 07:46:14,716 base 5292 140497455757056 Internal Server Error: /parameters/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 123, in get_response
+    response = middleware_method(request)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/base/middleware.py", line 24, in process_request
+    manageParameters.set_param_object("date_appen",current_date_format)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/parameters.py", line 42, in set_param_object
+    parameters = json.load(json_data)
+  File "/usr/lib/python2.7/json/__init__.py", line 290, in load
+    **kw)
+  File "/usr/lib/python2.7/json/__init__.py", line 338, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 366, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python2.7/json/decoder.py", line 384, in raw_decode
+    raise ValueError("No JSON object could be decoded")
+ValueError: No JSON object could be decoded

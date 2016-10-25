@@ -295,6 +295,7 @@ def BillSave(request):
 	today = datetime.datetime.today()
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
+	print data
 	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
@@ -660,8 +661,8 @@ def BillUpdate(request,pk):
 	ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
 	movi = movi_find(fac.cfac, request.db, ctimo.pk)
 	if movi:
-		if(val_tot_mp < float(data['vttotal'])):
-			movi_vttotal = (float(data['vttotal']) - val_tot_mp)
+		if(medios_pagos_total < float(data['vttotal'])):
+			movi_vttotal = (float(data['vttotal']) - medios_pagos_total)
 		else:
 			movi_vttotal = 0
 
@@ -854,7 +855,7 @@ class BillEdit(CustomUpdateView):
 
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
-		factura = Fac.objects.get(pk=self.kwargs["pk"])
+		factura = Fac.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 		
 		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False

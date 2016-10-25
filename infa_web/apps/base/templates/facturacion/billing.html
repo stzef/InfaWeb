@@ -210,7 +210,7 @@
 												<th>Articulo</th>
 												<th width="5%">Cantidad</th>
 												{% if data_validation.discount_percentages_allow_billing %}
-													<th width="10%" class="nopadding">
+													<th width="10%">
 														Descuento
 													</th>
 												{% else %}
@@ -219,7 +219,7 @@
 												<th>IVA</th>
 												<th>V. unitario</th>
 												<th>V. total</th>
-												<th></th>
+												<th width="100px"></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -267,26 +267,26 @@
 
 								<section role="form" id="list_items_mdeta">
 									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
-										<tbody>
-										{% comment %}
-											{% for list in object.facdeta_set.all %}
-												<tr>
-													<td data-name="itfac" data-value="{{ list.itfac }}">{{ list.itfac }}</td>
-													<td data-name="carlos" data-value="{{ list.carlos.pk }}">{{ list.carlos.pk }}</td>
-													<td data-name="name__carlos" data-value="{{ list.carlos.nlargo }}">{{ list.carlos.nlargo }}</td>
-													<td data-name="canti" data-value="{{ list.canti }}">{{ list.canti }}</td>
-													<td data-name="pordes" data-value="{{ list.pordes }}">{{ list.pordes }}</td>
-													<td data-name="civa" data-value="{{ list.civa.pk }}">{{ list.civa }}</td>
-													<td data-name="vunita" data-value="{{ list.vunita }}">{{ list.vunita }}</td>
-													<td data-name="vtotal" data-value="{{ list.vtotal }}">{{ list.vtotal }}</td>
-													<td>
-														<button class="btn btn-info" style="margin-right: 3px;" id="edit-item-fac"><i class="fa fa-edit"></i></button>
-														<button class="btn btn-danger" id="delete-item-fac"><i class="fa fa-remove"></i></button>
-													</td>
-												</tr>
-											{% endfor %}
-											{% endcomment %}
-										</tbody>
+										<thead>
+											<tr>
+												<th>It</th>
+												<th width="15%">Cod. Articulo</th>
+												<th>Articulo</th>
+												<th width="5%">Cantidad</th>
+												{% if data_validation.discount_percentages_allow_billing %}
+													<th width="10%">
+														Descuento
+													</th>
+												{% else %}
+													<th></th>
+												{% endif%}
+												<th>IVA</th>
+												<th>V. unitario</th>
+												<th>V. total</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody></tbody>
 									</table>
 								</section>
 
@@ -457,13 +457,23 @@
 												<th>{{ form_medios_pagos.docmpago }}</th>
 												<th>{{ form_medios_pagos.banmpago }}</th>
 												<th>{{ form_medios_pagos.vmpago }}</th>
-												<th><button type="submit" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+												<th><button type="submit" title="Agregar Forma de Pago" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
 											</tr>
 										</thead>
 									</table>
 								</section>
 								<section role="form" id="list_medios_pago">
 									<table class="table table-striped no-footer text-center" cellspacing="0">
+										<thead>
+											<tr>
+												<th>It</th>
+												<th>Medio de Pago</th>
+												<th>Documento</th>
+												<th>Banco</th>
+												<th>Total</th>
+												<th></th>
+											</tr>
+										</thead>
 										<tbody>
 											{% comment %}
 												{% for medios_pagos in object.facpago_set.all %}
@@ -495,9 +505,9 @@
 				</div>
 			</div>
 
-			<div class="text-center">
+			<div class="text-center buttons-action">
 				<div class="btn-group">
-					<button class="btn btn-app btn-info" type="reset">
+					<button class="btn btn-app btn-info" onclick="reset_form_fac()" type="button">
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
 					</button>
@@ -681,16 +691,16 @@
 		if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
 		//$("#list_medios_pago table tbody tr").remove()
 
-		if(mode_view != "edit") set_pago_completo_efectivo(true)
+		if(mode_view != "edit") set_pago_completo_efectivo()
 
 		$("#medios_pago").modal("show")
 		//$("#medios_pago [name=cmpago]").focus()
 		
 	}
 
-	function set_pago_completo_efectivo(borrar_otros){
+	function set_pago_completo_efectivo(){
 		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			if(borrar_otros) borrar_medios_pago_registrados()
+			borrar_medios_pago_registrados()
 			$("#item_medio_pago [name=cmpago]").val(data_validation.medios_pago.MEDIO_PAGO_EFECTIVO).change()
 			$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").custom_format_val()).trigger("change")
 			$("#form_medios_pago").submit()
@@ -708,7 +718,7 @@
 				...
 			}
 		*/
-		return $(selector_list).find("tr").toArray().map(
+		return $(selector_list).find("tbody").find("tr").toArray().map(
 			function(e){
 				var data = {}
 				$(e).children("[data-name]").toArray().forEach(
@@ -949,6 +959,31 @@
 			$("[name=ventre]").val($(this)).trigger("change")
 		}
 		calcular_valor_cambio()
+
+		//set_pago_completo_efectivo()
+		/*var medios_pagos = get_data_list("#list_medios_pago")
+		if(medios_pagos.some(function(e){return e.cmpago == data_validation.medios_pago.MEDIO_PAGO_EFECTIVO})){
+			var sum_medios_pagos_no_efectivo = medios_pagos
+				.filter(
+					function(e){
+						return e.cmpago != data_validation.medios_pago.MEDIO_PAGO_EFECTIVO
+					}
+				).reduce(function(a,b){
+					return a.vmpago + b.vmpago;
+					
+				}, {vmpago:0});
+			var nuevo_vmpago_efectivo = $("[name=vttotal]").custom_format_val() - sum_medios_pagos_no_efectivo.vmpago
+			var format_nuevo_vmpago_efectivo = currencyFormat.format(nuevo_vmpago_efectivo.toString())
+
+			$("#list_medios_pago")
+				.find("[data-name=cmpago][data-value=1000]")
+				.closest("tr")
+				.find("[data-name=vmpago]")
+				.attr("data-value",format_nuevo_vmpago_efectivo)
+				.html(format_nuevo_vmpago_efectivo)
+		
+		}*/
+
 	})
 
 	$("#form_deta_movement [name=pordes]").change(function(){
@@ -1179,8 +1214,8 @@
 					html:value}))
 			})
 			td = $("<td>")
-			var btnEdit = td.append($("<button class='btn btn-info' id='edit-item-medios-pagos' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
-			var btnDelete = td.append($("<button class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></button>"))
+			var btnEdit = td.append($("<button class='btn btn-info' title='Editar Registro' id='edit-item-medios-pagos' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
+			var btnDelete = td.append($("<button class='btn btn-danger' title='Borrar Registro' id='delete-item-fac'><i class='fa fa-remove'></button>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_medios_pago").find("tbody").append(tr)
 
@@ -1287,9 +1322,9 @@
 					"class":css_class,
 					html:value}))
 			})
-			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<button class='btn btn-info' id='edit-item-fac' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
-			var btnDelete = td.append($("<button class='btn btn-danger' id='delete-item-fac'><i class='fa fa-remove'></button>"))
+			td = $("<td width='100px'>")
+			var btnEdit = td.append($("<button class='btn btn-info' title='Editar Registro' id='edit-item-fac' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
+			var btnDelete = td.append($("<button class='btn btn-danger' title='Borrar Registro' id='delete-item-fac'><i class='fa fa-remove'></button>"))
 			tr.append(btnEdit,btnDelete)
 			$("#list_items_mdeta").find("tbody").append(tr)
 
@@ -1313,6 +1348,19 @@
 			$("[name=carlos]").focus()
 		}
 	})
+
+	function reset_form_fac(){
+		$("form :input, button").prop("disabled",false)
+		if(mode_view != "edit"){
+			borrar_medios_pago_registrados()
+			borrar_articulos_registrados()
+		}
+
+		if(mode_view != "edit"){
+			$("form").trigger("reset")
+			$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
+		}
+	}
 
 	$("#btn-save").click(function(event){
 
@@ -1385,6 +1433,7 @@
 				$(".animation").empty()
 			},
 			success: function(response){
+				$(".animation").empty()
 				if(response.error){
 					var message = alertBootstrap(response.message,"danger")
 				}else{
@@ -1393,21 +1442,14 @@
 					}
 					var message = alertBootstrap(response.message,"success")
 				}
-				if(mode_view != "edit"){
-					borrar_medios_pago_registrados()
-					borrar_articulos_registrados()
-				}
+				
 				currentForm.prepend(message)
 				if(confirm("Desea Imprimir La Factura")){
 					print_bill(response.cfac)
 				}
 
-				if(mode_view != "edit"){
-					$("form").trigger("reset")
-					$('.date').each(function(i,e){$(e).data("DateTimePicker").date(date_appen)})
-				}
+				$("form :input, button").prop("disabled",true).off("submit")
 
-				$(".animation").empty()
 			}
 		});
 		$("#medios_pago").modal("hide")
@@ -1434,6 +1476,7 @@
 	$(document).ready(function(e){
 		td_js_facdeta.forEach(function(object){
 			$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
+			$('#item_mdeta').find("#id_itfac").val(object.fields.itfac)
 			$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
 			$('#item_mdeta').find("#id_canti").val(object.fields.canti)
 			$('#item_mdeta').find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change")

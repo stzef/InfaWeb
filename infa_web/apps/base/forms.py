@@ -183,14 +183,21 @@ class CommonForm(forms.Form):
 		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
 		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
-	cesdo = forms.ModelChoiceField(queryset=Esdo.objects.all())
+	cesdo = forms.ModelChoiceField(
+		label='Estado',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Esdo.objects.all()
+	)
 	group = forms.ModelChoiceField(
+		label='Grupo',
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Gpo.objects.all()
 	)
 	carlos = forms.ModelChoiceField(
+		label='Articulo',
 		widget=forms.NumberInput(attrs={'class':'form-control'}),
 		queryset=Arlo.objects.all()
 	)
 	
 	widgets = {}
+

@@ -185,14 +185,17 @@ class ReportVentaForm(forms.Form):
 	fecha_inicial = forms.CharField(label = 'Fecha Inicial', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 	cvende = forms.ModelChoiceField(
+		label='Vendedor',
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Vende.objects.all()
 	)
 	citerce = forms.ModelChoiceField(
+		label='Tercero',
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Tercero.objects.all()
 	)
 	ctifopa = forms.ModelChoiceField(
+		label='Forma de Pago',
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Tifopa.objects.all()
 	)
