@@ -1445,8 +1445,9 @@
 				}
 				
 				currentForm.prepend(message)
+				console.log(response)
 				if(confirm("Desea Imprimir La Factura")){
-					print_bill(response.cfac)
+					print_bill(response.fac.cfac)
 				}
 
 				$("form :input, button").prop("disabled",true).off("submit")
