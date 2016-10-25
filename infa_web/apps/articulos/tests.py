@@ -28,6 +28,45 @@ from infa_web.apps.facturacion.views import ctimo_billing
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values
 def fc(x):
 	return locale.currency(x,grouping=True)
+
+def create_articles(array):
+	for data_article in array:
+		c.post(reverse('add-article'),data_article,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+def create_invinideta(array):
+	for data_inv in array:
+		for data_invdeta in data_inv["deta"]:
+			article = Arlo.objects.get(carlos = data_invdeta["carlos"])
+
+			canti = data_invdeta["canti"]
+			vcosto = data_invdeta["vcosto"]
+
+			cancalcu = article.canti
+
+			ajuent = canti - article.canti
+			ajusal = 0
+
+			body_request_inventory = {
+				"cii":str(self.cii),
+				"val_tot":"15000",
+				"fii":"14/10/2016 08:22",
+				"cesdo":"1",
+				"data_r":json.dumps([
+					{
+						"carlos":str(article.carlos),
+						"nlargo":str(article.nlargo),
+						"cancalcu":str(cancalcu),
+						"canti":str(canti),
+						"vcosto":str(vcosto),
+						"ajuent":str(ajuent),
+						"ajusal":str(ajusal),
+						"cbarras":str(article.cbarras),
+					}
+				])
+			}
+			response_inventory_deta_1 = c.post(reverse('inventory_save'),body_request_inventory,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+
 class ExampleTestCase(TestCase):
 
 	using = "default"
@@ -38,53 +77,15 @@ class ExampleTestCase(TestCase):
 		c = Client()
 
 		# Creacion De Articulo
-		for data_article in data_articles:
-			response_article_1 = c.post(reverse('add-article'),data_article,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-			article_1 = json.loads(response_article_1.content)
-			article_1 = json.loads(article_1["object"])[0]
-
-
+		create_articles(data_articles)
 
 		# Creacion de Inventario Inicial Cabeza
 		response_inventory = c.post(reverse('inventory_latest'),HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		inventory = json.loads(response_inventory.content)
 		self.cii = inventory["code"]
 
-
-
 		# Creacon de Inventario Inicial Detalle
-		for data_inv in data_invs:
-			for data_invdeta in data_inv["deta"]:
-				article = Arlo.objects.get(carlos = data_invdeta["carlos"])
-
-				canti = data_invdeta["canti"]
-				vcosto = data_invdeta["vcosto"]
-
-				cancalcu = article.canti
-
-				ajuent = canti - article.canti
-				ajusal = 0
-
-				body_request_inventory = {
-					"cii":str(self.cii),
-					"val_tot":"15000",
-					"fii":"14/10/2016 08:22",
-					"cesdo":"1",
-					"data_r":json.dumps([
-						{
-							"carlos":str(article.carlos),
-							"nlargo":str(article.nlargo),
-							"cancalcu":str(cancalcu),
-							"canti":str(canti),
-							"vcosto":str(vcosto),
-							"ajuent":str(ajuent),
-							"ajusal":str(ajusal),
-							"cbarras":str(article.cbarras),
-						}
-					])
-				}
-				response_inventory_deta_1 = c.post(reverse('inventory_save'),body_request_inventory,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
+		create_invinideta(data_invs)
 
 
 		# Creacion de Movimientos Entrada

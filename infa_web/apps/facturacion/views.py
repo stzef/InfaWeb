@@ -641,6 +641,7 @@ def BillUpdate(request,pk):
 		}
 	)
 	response['fac'] = {}
+	response['movi'] = {}
 	response['fac']['cfac'] = fac.cfac
 	response['fac']['vttotal'] = data['vttotal']
 	response['fac']['medios_pago'] = {}
@@ -655,6 +656,8 @@ def BillUpdate(request,pk):
 		}
 	)
 	response['mvsa'] = {}
+	response['movi'][ctimo.prefijo] = {}
+	
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
 	response['mvsa']['vttotal'] = data['vttotal']
 	response['mvsa']['deta'] = {}

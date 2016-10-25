@@ -507,7 +507,7 @@
 
 			<div class="text-center buttons-action">
 				<div class="btn-group">
-					<button class="btn btn-app btn-info" onclick="reset_form_fac()" type="button">
+					<button class="btn btn-app btn-info" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
 					</button>
@@ -526,8 +526,41 @@
 					{% endif %}
 
 					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
+
+					<button class="btn btn-app" type="button" data-toggle="modal" data-target="#detalle">
+						<i class="fa fa-list"></i>Ver Detalle
+					</button>
+
 				</div>
 			</div>
+
+			<div class="modal fade" tabindex="-1" role="dialog" id="detalle">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Acciones Realizadas</h4>
+						</div>
+					<div class="modal-body">
+						<div>
+							<table id="costing_and_stock" class="table">
+								<thead>
+									<th>Tipo</th>
+									<th>Codigo</th>
+									<th>Valor Total</th>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+					<div class="btn-group">
+						<button type="button" class="btn-app btn" data-dismiss="modal"><i class="fa fa-close"></i>Volver</button>
+					</div>
+					</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 
 		</section>
 	</div>
@@ -1450,7 +1483,7 @@
 					print_bill(response.fac.cfac)
 				}
 
-				$("form :input, button").prop("disabled",true).off("submit")
+				$("form :input, button:not(#bnt-new-fac)").prop("disabled",true).off("submit")
 
 			}
 		});

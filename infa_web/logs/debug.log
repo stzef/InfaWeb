@@ -476,6 +476,43 @@ KeyError: 'femi'
 NameError: name 'template' is not defined
 >>>>>>> efae654f4b16b2de233d66921eb420a6663121af
 .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+<<<<<<< HEAD
+ ERROR 2016-10-25 10:29:30,135 base 14591 139642824529664 Internal Server Error: /bill/save/3/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 656, in BillUpdate
+    response['movi'][ctimo.prefijo]['movideta'] = {}
+KeyError: 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:29:47,720 base 14591 139642858100480 Internal Server Error: /bill/save/3/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 656, in BillUpdate
+    response['movi'][ctimo.prefijo]['movideta'] = {}
+KeyError: 'movi'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:30:19,982 base 14852 139636607534848 Internal Server Error: /bill/save/3/ 
+Traceback (most recent call last):
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/midas/Documentos/infa_web_folder/dev_env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/midas/Documentos/infa_web_folder/InfaWeb/infa_web/apps/facturacion/views.py", line 656, in BillUpdate
+    response['movi'][ctimo.prefijo]['movideta'] = {}
+KeyError: 'movi'
+=======
  ERROR 2016-10-25 10:43:22,028 base 5696 5748 Internal Server Error: /bill/list/ 
 Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 123, in get_response
@@ -1162,3 +1199,4 @@ Traceback (most recent call last):
   File "D:\Proyectos\infa web\infa_web\infa_web\apps\facturacion\views.py", line 657, in BillUpdate
     response['movi'][ctimo.prefijo]['movideta'] = {}
 KeyError: u'IA'
+>>>>>>> a33de2ef11d4c724b2e2e7468e15a54528bf3b44
