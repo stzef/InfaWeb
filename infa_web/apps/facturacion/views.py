@@ -393,6 +393,7 @@ def BillSave(request):
 	response['mvsa'] = {}
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
 	response['mvsa']['deta'] = {}
+	response['movi'] = {}
 
 	while(val_cont != 0):
 		movi_pk = code_generate(Movi, ctimo.prefijo, 'cmovi', request.db)
@@ -421,7 +422,6 @@ def BillSave(request):
 				'vtdescu': float(data['vdescu'])
 			}
 		)
-		response['movi'] = {}
 		response['movi'][ctimo.prefijo] = {}
 		response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
 		response['movi'][ctimo.prefijo]['movideta'] = {}
@@ -656,6 +656,8 @@ def BillUpdate(request,pk):
 	
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
 	response['mvsa']['deta'] = {}
+	response['movi'] = {}
+	response['movi'][ctimo.prefijo] = {}
 	response['movi'][ctimo.prefijo]['movideta'] = {}
 
 	for data_facpago in data["medios_pagos"]:
