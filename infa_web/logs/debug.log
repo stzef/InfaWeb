@@ -569,3 +569,255 @@ KeyError: 'femi'
 =======
 TypeError: int() argument must be a string or a number, not 'Esdo'
 >>>>>>> 80aaf54b7872818c3b8df1785cc846c7b7e2e0fc
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:43:46,884 base 9789 140232789120768 Internal Server Error: /m/search-client 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 88, in mFacSearchClient
+    return render(request, 'm/m_fac_search_client.html', context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  password authentication failed for user "root"
+FATAL:  password authentication failed for user "root"
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:45:54,053 base 10239 139738790016768 Internal Server Error: /m/search-client 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 88, in mFacSearchClient
+    return render(request, 'm/m_fac_search_client.html', context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader.py", line 97, in render_to_string
+    return template.render(context, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/backends/django.py", line 95, in render
+    return self.template.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 206, in render
+    return self._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 173, in render
+    return compiled_parent._render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 197, in _render
+    return self.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/loader_tags.py", line 69, in render
+    result = block.nodelist.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 992, in render
+    bit = node.render_annotated(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/base.py", line 959, in render_annotated
+    return self.render(context)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/template/defaulttags.py", line 168, in render
+    len_values = len(values)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 240, in __len__
+    self._fetch_all()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 1074, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 52, in __iter__
+    results = compiler.execute_sql()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 846, in execute_sql
+    cursor = self.connection.cursor()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 231, in cursor
+    cursor = self.make_debug_cursor(self._cursor())
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 204, in _cursor
+    self.ensure_connection()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 199, in ensure_connection
+    self.connect()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/base/base.py", line 171, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/backends/postgresql/base.py", line 175, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+OperationalError: FATAL:  password authentication failed for user "postgres"
+FATAL:  password authentication failed for user "postgres"
+
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:51:32,776 base 10369 140519889377024 Internal Server Error: /m/articles/list 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'moto'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:51:34,638 base 10369 140519889377024 Internal Server Error: /m/articles/list 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'motoro'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 09:51:42,702 base 10369 140519889377024 Internal Server Error: /m/articles/list 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/m/views.py", line 157, in mArticlesList
+    Q(carlos=query) | Q(ncorto__contains=query)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 790, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/query.py", line 808, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1243, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1263, in _add_q
+    current_negated, allow_joins, split_subq)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1269, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1203, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1099, in build_lookup
+    return final_lookup(lhs, rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 19, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 57, in get_prep_lookup
+    return self.lhs.output_field.get_prep_lookup(self.lookup_name, self.rhs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1860, in get_prep_lookup
+    return super(IntegerField, self).get_prep_lookup(lookup_type, value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 744, in get_prep_lookup
+    return self.get_prep_value(value)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1854, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'motor'
+.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- 
+ ERROR 2016-10-25 10:03:06,872 base 10899 139857132615424 Internal Server Error: /bill/save/ 
+Traceback (most recent call last):
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/env/local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/jsandoval86/ProjectsDev/Appem/appem/infa_web/apps/facturacion/views.py", line 299, in BillSave
+    data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
+KeyError: 'femi'

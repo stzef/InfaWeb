@@ -154,7 +154,7 @@ def mArticlesList(request):
 	#filtrar articulos
 	if query is not None:
 		articulos = Arlo.objects.using(request.db).filter(
-			Q(carlos=query) | Q(ncorto__contains=query)
+			Q(carlos__icontains=query) | Q(ncorto__icontains=query)
 		)
 
 		data = serializers.serialize("json", articulos, fields=('carlos', 'ncorto', 'pvta1'))
