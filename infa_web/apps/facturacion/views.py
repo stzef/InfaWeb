@@ -26,6 +26,7 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
 from infa_web.apps.base.utils import *
+from infa_web.routines import costing_and_stock
 from django.core.exceptions import ObjectDoesNotExist
 
 class BillList(CustomListView):
@@ -295,7 +296,6 @@ def BillSave(request):
 	today = datetime.datetime.today()
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
-	print data
 	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
@@ -372,6 +372,10 @@ def BillSave(request):
 			'vcred': vncred_t
 		}
 	)
+	response['fac'] = {}
+	response['fac']['cfac'] = fac.cfac
+	response['fac']['medios_pago'] = {}
+	response['fac']['fac_deta'] = {}
 
 	# crea un movimiento de salida para los articulos recibidos en la factura
 	mvsa = save_mvsa(
@@ -386,6 +390,9 @@ def BillSave(request):
 			'descri': '-'
 		}
 	)
+	response['mvsa'] = {}
+	response['mvsa']['cmvsa'] = mvsa.cmvsa
+	response['mvsa']['deta'] = {}
 
 	while(val_cont != 0):
 		movi_pk = code_generate(Movi, ctimo.prefijo, 'cmovi', request.db)
@@ -414,6 +421,10 @@ def BillSave(request):
 				'vtdescu': float(data['vdescu'])
 			}
 		)
+		response['movi'] = {}
+		response['movi'][ctimo.prefijo] = {}
+		response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
+		response['movi'][ctimo.prefijo]['movideta'] = {}
 
 		if not data["medios_pagos"]:
 			movideta = save_movideta(
@@ -427,6 +438,10 @@ def BillSave(request):
 					'vmovi': medios_pagos_total
 				}
 			)
+			response['movi'][ctimo.prefijo]['movideta'][movideta.pk] = {}
+			response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['it'] = 1
+			response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['docrefe'] = fac.cfac
+			response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['vmovi'] = medios_pagos_total
 		else:
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -443,6 +458,11 @@ def BillSave(request):
 						'vmpago': float(data_facpago['vmpago'])
 					}
 				)
+				response['fac']['medios_pago'][fac_pago.pk] = {}
+				response['fac']['medios_pago'][fac_pago.pk]['it'] = data_facpago['it']
+				response['fac']['medios_pago'][fac_pago.pk]['cmpago'] = mediopago.nmpago
+				response['fac']['medios_pago'][fac_pago.pk]['banmpago'] = banmpago.nbanfopa
+				response['fac']['medios_pago'][fac_pago.pk]['vmpago'] = data_facpago['vmpago']
 
 				movipago = save_movi_pago(
 					request.db,
@@ -467,6 +487,10 @@ def BillSave(request):
 						'vmovi': medios_pagos_total
 					}
 				)
+				response['movi'][ctimo.prefijo]['movideta'][movideta.pk] = {}
+				response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['it'] = 1
+				response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['docrefe'] = fac.cfac
+				response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['vmovi'] = medios_pagos_total
 
 		if(value_vttotal > medios_pagos_total):
 			ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
@@ -514,6 +538,14 @@ def BillSave(request):
 				'vcosto': float(carlos.vcosto1)
 			}
 		)
+		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
+		response['fac']['fac_deta'][fac_deta.pk] = {}
+		response['fac']['fac_deta'][fac_deta.pk]['itfac'] = data_deta['itfac']
+		response['fac']['fac_deta'][fac_deta.pk]['carlos'] = carlos.pk
+		response['fac']['fac_deta'][fac_deta.pk]['nlargo'] = carlos.nlargo
+		response['fac']['fac_deta'][fac_deta.pk]['canti'] = data_deta['canti']
+		response['fac']['fac_deta'][fac_deta.pk]['vunita'] = data_deta['vunita']
+		response['fac']['fac_deta'][fac_deta.pk]['vtotal'] = (vt + viva)
 
 		mvsa_deta = save_mvsa_deta(
 			request.db,
@@ -527,8 +559,13 @@ def BillSave(request):
 				'vtotal': float((vt + viva))
 			}
 		)
-
-	response["cfac"] = fac.cfac
+		response['mvsa']['deta'][mvsa_deta.pk] = {}
+		response['mvsa']['deta'][mvsa_deta.pk]['it'] = data_deta['itfac']
+		response['mvsa']['deta'][mvsa_deta.pk]['carlos'] = carlos.pk
+		response['mvsa']['deta'][mvsa_deta.pk]['nlargo'] = carlos.nlargo
+		response['mvsa']['deta'][mvsa_deta.pk]['canti'] = data_deta['canti']
+		response['mvsa']['deta'][mvsa_deta.pk]['vunita'] = data_deta['vunita']
+		response['mvsa']['deta'][mvsa_deta.pk]['vtotal'] = (vt + viva)
 
 	#response["fac"] = serializers.serialize("json", list([fac]),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 	#response["mvsa"] = serializers.serialize("json", list([mvsa]),use_natural_foreign_keys=True, use_natural_primary_keys=True)
@@ -600,6 +637,10 @@ def BillUpdate(request,pk):
 			'vcred': vncred_t
 		}
 	)
+	response['fac'] = {}
+	response['fac']['cfac'] = fac.cfac
+	response['fac']['medios_pago'] = {}
+	response['fac']['fac_deta'] = {}
 
 	mvsa = save_mvsa(
 		request.db,
@@ -609,6 +650,10 @@ def BillUpdate(request,pk):
 			'vttotal': float(data['vttotal']),
 		}
 	)
+	response['mvsa'] = {}
+	response['mvsa']['cmvsa'] = mvsa.cmvsa
+	response['mvsa']['deta'] = {}
+	response['movi'][ctimo.prefijo]['movideta'] = {}
 
 	for data_facpago in data["medios_pagos"]:
 		mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
@@ -626,6 +671,11 @@ def BillUpdate(request,pk):
 				'vmpago': float(data_facpago['vmpago'])
 			}
 		)
+		response['fac']['medios_pago'][fac_pago.pk] = {}
+		response['fac']['medios_pago'][fac_pago.pk]['it'] = data_facpago['it']
+		response['fac']['medios_pago'][fac_pago.pk]['cmpago'] = mediopago.nmpago
+		response['fac']['medios_pago'][fac_pago.pk]['banmpago'] = banmpago.nbanfopa
+		response['fac']['medios_pago'][fac_pago.pk]['vmpago'] = data_facpago['vmpago']
 
 		movideta = save_movideta(
 			request.db,
@@ -637,6 +687,10 @@ def BillUpdate(request,pk):
 				'vmovi': float(data_facpago['vmpago'])
 			}
 		)
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk] = {}
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['it'] = 1
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['docrefe'] = fac.cfac
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['vmovi'] = medios_pagos_total
 
 	movi = save_movi(
 		request.db,
@@ -657,6 +711,9 @@ def BillUpdate(request,pk):
 			'vtdescu': float(data['vdescu']),
 		}
 	)
+	response['movi'] = {}
+	response['movi'][ctimo.prefijo] = {}
+	response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
 
 	ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
 	movi = movi_find(fac.cfac, request.db, ctimo.pk)
@@ -685,6 +742,10 @@ def BillUpdate(request,pk):
 				'vtdescu': 0,
 			}
 		)
+		response['movi'] = {}
+		response['movi'][ctimo.prefijo] = {}
+		response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
+		response['movi'][ctimo.prefijo]['movideta'] = {}
 
 		movideta = save_movideta(
 			request.db,
@@ -696,6 +757,10 @@ def BillUpdate(request,pk):
 				'vmovi': movi_vttotal
 			}
 		)
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk] = {}
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['it'] = 1
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['docrefe'] = fac.cfac
+		response['movi'][ctimo.prefijo]['movideta'][movideta.pk]['vmovi'] = medios_pagos_total
 
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
@@ -725,6 +790,14 @@ def BillUpdate(request,pk):
 				'vcosto': float(carlos.vcosto1)
 			}
 		)
+		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
+		response['fac']['fac_deta'][fac_deta.pk] = {}
+		response['fac']['fac_deta'][fac_deta.pk]['itfac'] = data_deta['itfac']
+		response['fac']['fac_deta'][fac_deta.pk]['carlos'] = carlos.pk
+		response['fac']['fac_deta'][fac_deta.pk]['nlargo'] = carlos.nlargo
+		response['fac']['fac_deta'][fac_deta.pk]['canti'] = data_deta['canti']
+		response['fac']['fac_deta'][fac_deta.pk]['vunita'] = data_deta['vunita']
+		response['fac']['fac_deta'][fac_deta.pk]['vtotal'] = (vt + viva)
 
 		mvsa_deta = save_mvsa_deta(
 			request.db,
@@ -738,10 +811,20 @@ def BillUpdate(request,pk):
 				'vtotal': float((vt + viva))
 			}
 		)
+		response['mvsa']['deta'][mvsa_deta.pk] = {}
+		response['mvsa']['deta'][mvsa_deta.pk]['it'] = data_deta['itfac']
+		response['mvsa']['deta'][mvsa_deta.pk]['carlos'] = carlos.pk
+		response['mvsa']['deta'][mvsa_deta.pk]['nlargo'] = carlos.nlargo
+		response['mvsa']['deta'][mvsa_deta.pk]['canti'] = data_deta['canti']
+		response['mvsa']['deta'][mvsa_deta.pk]['vunita'] = data_deta['vunita']
+		response['mvsa']['deta'][mvsa_deta.pk]['vtotal'] = (vt + viva)
 
-	Facdeta.objects.using(request.db).exclude(carlos__in = exclude_arlo).delete()
-	Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo).delete()
-	response["cfac"] = fac.cfac
+	fac_deta = Facdeta.objects.using(request.db).exclude(carlos__in = exclude_arlo)
+	response['fac']['fac_deta']['num_delete'] = fac_deta.count()
+	fac_deta.delete()
+	mvsa_deta = Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo)
+	response['mvsa']['deta']['num_delete'] = mvsa_deta.count()
+	mvsa_deta.delete()
 	return HttpResponse(json.dumps(response), "application/json")
 
 class BillCreate(CustomCreateView):
