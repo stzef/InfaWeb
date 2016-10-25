@@ -374,6 +374,7 @@ def BillSave(request):
 	)
 	response['fac'] = {}
 	response['fac']['cfac'] = fac.cfac
+	response['fac']['vttotal'] = data['vttotal']
 	response['fac']['medios_pago'] = {}
 	response['fac']['fac_deta'] = {}
 
@@ -392,6 +393,7 @@ def BillSave(request):
 	)
 	response['mvsa'] = {}
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
+	response['mvsa']['vttotal'] = data['vttotal']
 	response['mvsa']['deta'] = {}
 	response['movi'] = {}
 
@@ -423,6 +425,7 @@ def BillSave(request):
 			}
 		)
 		response['movi'][ctimo.prefijo] = {}
+		response['movi'][ctimo.prefijo]['vttotal'] = medios_pagos_total
 		response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
 		response['movi'][ctimo.prefijo]['movideta'] = {}
 
@@ -639,6 +642,7 @@ def BillUpdate(request,pk):
 	)
 	response['fac'] = {}
 	response['fac']['cfac'] = fac.cfac
+	response['fac']['vttotal'] = data['vttotal']
 	response['fac']['medios_pago'] = {}
 	response['fac']['fac_deta'] = {}
 
@@ -652,6 +656,7 @@ def BillUpdate(request,pk):
 	)
 	response['mvsa'] = {}
 	response['mvsa']['cmvsa'] = mvsa.cmvsa
+	response['mvsa']['vttotal'] = data['vttotal']
 	response['mvsa']['deta'] = {}
 	response['movi'] = {}
 	response['movi'][ctimo.prefijo] = {}
@@ -714,6 +719,7 @@ def BillUpdate(request,pk):
 		}
 	)
 	response['movi'] = {}
+	response['movi'][ctimo.prefijo]['vttotal'] = (vefe_t + vtar_t + vch_t)
 	response['movi'][ctimo.prefijo] = {}
 	response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
 
@@ -745,6 +751,7 @@ def BillUpdate(request,pk):
 			}
 		)
 		response['movi'] = {}
+		response['movi'][ctimo.prefijo]['vttotal'] = movi_vttotal
 		response['movi'][ctimo.prefijo] = {}
 		response['movi'][ctimo.prefijo]['cmovi'] = movi.cmovi
 		response['movi'][ctimo.prefijo]['movideta'] = {}
