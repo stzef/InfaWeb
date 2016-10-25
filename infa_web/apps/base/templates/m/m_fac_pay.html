@@ -58,9 +58,10 @@
 		var codigoPagoContado = "{{pagoContado}}"
 		$("#vtfactura").val(vtotalFactura)
 
+		// Eventos para descuento
 		$("#id_descuento_factura")
 			.on("change", function () {
-				if (this.value > parametros.top_discount_bills) {
+				if (this.value > Number(parametros.top_discount_bills)) {
 					alert("Excedio el tope máximo de descuento")
 					this.value = 0
 					$("#vtfactura").val(vtotalFactura)
@@ -88,8 +89,8 @@
 				$("#id_total_pagos").val(getTotalMediosPago())
 			})
 
+		// Cargar Medios de pago
 		function setMediosPago () {
-			// Cargar Medios de pago
 			mediosPago = $("#id_content_pagos")
 											.children()
 											.toArray()
@@ -112,7 +113,7 @@
 			}
 
 			// validacion total de factura
-			if (getTotalMediosPago() > vtotalFactura) {
+			if (getTotalMediosPago() > $("#vtfactura").val()) {
 				alert("El valor de los pagos sobrepaso el valor total de la factura")
 				return false
 			}
@@ -120,6 +121,7 @@
 			return true
 		}
 
+		// Obtener el valor total sumando los medios de pago
 		function getTotalMediosPago () {
 			// Setiar datos a medios de pago
 			setMediosPago()
@@ -131,19 +133,45 @@
 			return totalPagos
 		}
 
+		// Construir objeto para guardar en backend
 		function armarObjetoDatos () {
-			console.log("cliente" + cliente)
-			console.log("formapago" + $("#id_forma_pago").val())
-			console.log("articulos" + articlesOrder)
-			console.log("medios de pago"+ mediosPago)
-			console.log("pago" + $("#id_total_pagos").val())
-			console.log("total factura" + vtotalFactura)
-			console.log("descuento" + $("#id_descuento_fac").val())
+
+			var vtotalAplicandoDescuentoDeFactura = ((100 - $("#id_descuento_factura").val())/100) * vtotalFactura
+
+			return {
+				citerce : cliente,
+				ctifopa : $("#id_forma_pago").val(),
+				mvdeta : articlesOrder,
+				medios_pagos : mediosPago,
+				vdescu : $("#id_descuento_factura").val(),
+				vttotal : vtotalAplicandoDescuentoDeFactura,
+			}
+
 		}
 
+		// Guardar factura
 		function guardarFactura () {
-			armarObjetoDatos()
-			console.log("Guardar factura")
+
+			var data = armarObjetoDatos()
+
+			$.ajax({
+				url : "{% url 'save-bill' %}",
+				type: 'POST',
+				data : JSON.stringify(data),
+				contentType : 'application/json',
+				error : function (xhr, statusCode, errorThrown) {
+					console.log(xhr)
+					console.log(statusCode)
+					console.log(errorThrown)
+				},
+				success : function (data, statusCode, xhr) {
+					console.log(data)
+					console.log(statusCode)
+					console.log(xhr)
+				}
+
+			})
+
 		}
 
 		

@@ -6,7 +6,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-
 from infa_web.apps.terceros.models import Tercero
 from infa_web.apps.terceros.forms import ThirdPartyForm
 from infa_web.apps.articulos.models import Arlo
@@ -26,7 +25,7 @@ def mFacOptionsArticle(request):
 
 	# obtener articulo & cliente
 	codigoDelArticulo = request.GET.get('carlo', None)
-	codigoCliente = request.GET.get('client', None)
+	pkCliente = request.GET.get('client', None)
 	parametros = ManageParameters(request.db)
 
 	context = {
@@ -35,8 +34,8 @@ def mFacOptionsArticle(request):
 	}
 
 	# obtener valor del articulo para el cliente
-	if codigoDelArticulo is not None and codigoCliente is not None:
-		cliente = Tercero.objects.using(request.db).get(idterce=codigoCliente)
+	if codigoDelArticulo is not None and pkCliente is not None:
+		cliente = Tercero.objects.using(request.db).get(pk=pkCliente)
 		articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo) 
 
 

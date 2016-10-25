@@ -82,11 +82,11 @@
 			// armar template
 			for (var i = 0; i < articlesOrder.length; i++) {
 				t += templateArticleList
-								.replace(":carlo:", articlesOrder[i].carlo)
+								.replace(":carlo:", articlesOrder[i].carlos)
 								.replace(":ncorto:", articlesOrder[i].ncorto)
-								.replace(":cantidad:", articlesOrder[i].cantidad)
-								.replace(":descuento:", articlesOrder[i].descuento)
-								.replace(":vunitario:", articlesOrder[i].vunitario)
+								.replace(":cantidad:", articlesOrder[i].canti)
+								.replace(":descuento:", articlesOrder[i].pordes)
+								.replace(":vunitario:", articlesOrder[i].vunita)
 								.replace(":vtotal:", articlesOrder[i].vtotal)
 
 				totalPedido += articlesOrder[i].vtotal
