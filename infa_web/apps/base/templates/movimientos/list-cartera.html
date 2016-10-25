@@ -5,6 +5,7 @@
 {% load date_appen %}
 
 {% block content_head %}
+	<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 
@@ -16,37 +17,56 @@
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-md-12">
 					<div class="box">
 						<div class="box-header">
 							<h3 class="box-title">{{title}}</h3>
 						</div>
 						<div class="box-body">
-							<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th class="text-center" >Cliente</th>
-										<th class="text-center" >Valor Total</th>
-										<th class="text-center" >Abono Total</th>
-										<th class="text-center" >Saldo Total</th>
-										<th class="text-center" ></th>
-									</tr>
-								</thead>
-								<tbody>
-									{% regroup object_list by citerce as data_list %}
-									{% for movi in data_list %}
-										<tr>
-											<td>{{ movi.grouper }}</td>
-											<td class="text-right">$ {{ movi.list|return_tot_movi|intcomma }}</td>
-											<td class="text-right">$ {{ movi.grouper.pk|total_abono:request.db|intcomma }}</td>
-											<td class="text-right">$ {{ movi.grouper.pk|saldo_cartera:request.db|intcomma }}</td>
-											<td class="text-center">
-												<a href="{% url 'detail-cartera' movi.grouper.pk %}" class="btn btn-primary">Detalle</a>
-											</td>
-										</tr>
+							<div class="col-md-12" style="margin-bottom: 20px">
+								<form action="{% url 'list-cartera' %}" method="GET">
+									{% for forms in form %}
+										<div class="form-group col-md-3">
+											<div class="col-md-4">
+												<label>{{ forms.label }}</label>
+											</div>
+											<div class="col-md-8">
+												{{ forms }}
+											</div>
+										</div>
 									{% endfor %}
-								</tbody>
-							</table>
+									<div class="form-group col-md-3">
+										<input type="submit" class="btn btn-primary" value="Buscar">
+									</div>
+								</form>
+							</div>
+							<div class="col-md-12">
+								<table class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th class="text-center" >Cliente</th>
+											<th class="text-center" >Valor Total</th>
+											<th class="text-center" >Abono Total</th>
+											<th class="text-center" >Saldo Total</th>
+											<th class="text-center" ></th>
+										</tr>
+									</thead>
+									<tbody>
+										{% regroup object_list by citerce as data_list %}
+										{% for movi in data_list %}
+											<tr>
+												<td>{{ movi.grouper }}</td>
+												<td class="text-right">$ {{ movi.list|return_tot_movi|intcomma }}</td>
+												<td class="text-right">$ {{ movi.grouper.pk|total_abono:request.db|intcomma }}</td>
+												<td class="text-right">$ {{ movi.grouper.pk|saldo_cartera:request.db|intcomma }}</td>
+												<td class="text-center">
+													<a href="{% url 'detail-cartera' movi.grouper.pk %}" class="btn btn-primary" id="detail">Detalle</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -59,8 +79,17 @@
 {% block content_script %}
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+	<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 	<script>
-		$(document).ready(function() {
+		$(document).ready(function(){
+			$('#detail').click(function(event){
+				event.preventDefault();
+				window.location = $(this).attr('href')+window.location.search;
+			});
+			$('.date').datetimepicker({
+				format: 'YYYY-MM-DD',
+			});
 			$('table').DataTable({"language": languageDataTable});
 		});
 	</script>

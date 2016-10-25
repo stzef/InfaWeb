@@ -73,10 +73,6 @@
 	var mod_edit = false
 	var cont = 1
 	var save = true
-	$.urlParam = function(name){
-		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-		return (results != null) ? results[1] || 0: false;
-	}
 	get_param();
 	Number.prototype.format = function(n, x) {
 		var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';

@@ -4,7 +4,10 @@ function CurrencyFormat(){
 	//numberFormat = Intl.NumberFormat({style:"currency",currency:"COP",currencyDisplay:"symbol"})
 	this.numberFormat = Intl.NumberFormat("es-419")
 }
-
+$.urlParam = function(name){
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	return (results != null) ? results[1] || 0: false;
+}
 CurrencyFormat.prototype.format = function(number){
 	if(this.numberFormat.format(number) == "NaN") return "$ 0"
 	return "$ " + this.numberFormat.format(number)
@@ -321,8 +324,8 @@ function open_new_window(event){
 	if(window.location.href == this.href) {
 		return;
 	}
-	var h = 650,
-		w = 1000,
+	var h = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
@@ -356,8 +359,8 @@ $("[data-new-window]").click(function(event){
 	if(window.location.href == this.href) {
 		return;
 	}
-	var h = 650,
-		w = 1000,
+	var h = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
 	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);

@@ -1,3 +1,4 @@
+import os
 DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -33,3 +34,24 @@ DB = {
 	}
 }
 
+if 'CURRENT_ENV_WORK' in os.environ:
+	if os.environ["CURRENT_ENV_WORK"] == "DEV":
+		print " DEV"
+		DB = {
+			'default': {
+				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			},
+			'db_1': {
+				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				'NAME': 'infaweb_db',
+				'USER': 'root',
+				'PASSWORD': 'root',
+				'HOST': 'localhost',
+				'PORT': '',
+			}
+		}

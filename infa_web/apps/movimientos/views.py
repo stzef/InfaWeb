@@ -20,6 +20,7 @@ from infa_web.apps.facturacion.views import *
 from infa_web.apps.base.utils import *
 from infa_web.apps.base.constantes import CESDO_ACTIVO
 from infa_web.routines import calcular_costo_articulo,costing_and_stock
+from django.views.generic.edit import FormMixin
 
 var_template_dir = "movimientos/"
 
@@ -47,8 +48,9 @@ class OutputMovementList(CustomListView):
 		context['is_output_movement'] = True
 		return context
 
-class CarteraList(CustomListView):
+class CarteraList(FormMixin, CustomListView):
 	model = Movi
+	form_class = CarteraSearchForm
 	template_name = var_template_dir+"list-cartera.html"
 
 	def get_context_data(self,**kwargs):
@@ -56,9 +58,24 @@ class CarteraList(CustomListView):
 		context['title'] = "Lista de Cartera"
 		return context
 
+	def get_form_kwargs(self):
+		kwargs = super(CarteraList, self).get_form_kwargs()
+		kwargs['request_db'] = self.request.db
+		kwargs['tercero'] = self.request.GET.get('tercero')
+		kwargs['fecha_inicio'] = self.request.GET.get('fecha_inicio')
+		kwargs['fecha_fin'] = self.request.GET.get('fecha_fin')
+		return kwargs
+
 	def get_queryset(self):
 		cesdo = get_or_none(Esdo, self.request.db, cesdo = CESDO_ACTIVO)
 		queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db), cesdo = cesdo)
+		if self.request.GET.get('fecha_inicio') is not None and self.request.GET.get('fecha_fin') is not None:
+			queryset = queryset.filter(fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+		if self.request.GET.get('tercero') is not None:
+			if self.request.GET.get('tercero') == "all":
+				queryset = queryset
+			else:
+				queryset = queryset.filter(citerce = self.request.GET.get('tercero'))
 		return queryset
 
 class InputMovementCreate(CustomCreateView):
@@ -156,8 +173,23 @@ class CarteraDetalle(CustomDetailView):
 		ctimo_ab = ctimo_billing('ctimo_ab_billing', self.request.db)
 		context['movi_rc'] = ctimo_cr.pk
 		context['movi_ab'] = ctimo_ab.pk
-		context['object_movi'] = Movideta.objects.using(self.request.db).filter(cmovi__citerce = self.kwargs['pk'], cmovi__ctimo__in = [ctimo_cr, ctimo_ab], cmovi__cesdo = cesdo).order_by('cmovi__fmovi')
+		object_movi = Movideta.objects.using(self.request.db).filter(cmovi__citerce = self.kwargs['pk'], cmovi__ctimo__in = [ctimo_cr, ctimo_ab], cmovi__cesdo = cesdo).order_by('cmovi__fmovi')
+		if self.request.GET.get('fecha_inicio') is not None and self.request.GET.get('fecha_fin') is not None:
+			object_movi = object_movi.filter(cmovi__fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+		context['object_movi'] = object_movi
 		return context
+
+	def get_queryset(self):
+		cesdo = get_or_none(Esdo, self.request.db, cesdo = CESDO_ACTIVO)
+		queryset = super(CarteraList, self).get_queryset().order_by('fmovi').filter(ctimo = ctimo_billing('ctimo_cxc_billing', self.request.db), cesdo = cesdo)
+		if self.request.GET.get('fecha_inicio') is not None and self.request.GET.get('fecha_fin') is not None:
+			queryset = queryset.filter(fmovi__range = [self.request.GET.get('fecha_inicio'), self.request.GET.get('fecha_fin')])
+		if self.request.GET.get('tercero') is not None:
+			if self.request.GET.get('tercero') == "all":
+				queryset = queryset
+			else:
+				queryset = queryset.filter(citerce = self.request.GET.get('tercero'))
+		return queryset
 
 def proccess_view_annulment(request):
 	form = CommonForm(request.db)
