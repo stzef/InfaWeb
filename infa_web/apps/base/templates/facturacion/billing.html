@@ -1370,6 +1370,16 @@
 		if(!customValidationInput("#form_totales").valid) return
 
 		var currentForm = $("#form_movement")
+		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
+			if(tot_medios_pagos < parseFloat($("[name=vttotal]").custom_format_val())){
+				if(confirm("La factura actual es de tipo C|ONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
+					$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
+				}else{
+					alert("El valor de pago no puede ser menor al valor total")
+					return
+				}
+			}
+		}
 
 		/*var querystring = $("form:not(#form_deta_movement)").serialize();
 		var data = JSON.parse('{"' + decodeURI(querystring).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')*/
@@ -1392,16 +1402,6 @@
 		var tot_medios_pagos = 0
 		array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
 
-		if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
-			if(tot_medios_pagos < parseFloat($("[name=vttotal]").custom_format_val())){
-				if(confirm("La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
-					$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
-				}else{
-					alert("El valor de pago no puede ser menor al valor total")
-					return
-				}
-			}
-		}
 
 		if(array_medios_pagos.length){
 			data.medios_pagos = array_medios_pagos
