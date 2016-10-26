@@ -121,6 +121,9 @@ class mThirdPartyAdd(CustomCreateView):
 	form_class = ThirdPartyForm
 	success_url = "/m/search-client"
 
+def mExitFac(request):
+	return render(request, "m/m_salir_fac.html")
+
 ## Request Ajax basadas en JSON
 @csrf_exempt
 def mThirtyPartyList(request):

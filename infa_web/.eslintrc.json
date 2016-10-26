@@ -3,6 +3,14 @@
         "browser": true,
         "jquery" : true
     },
+    "globals": {
+        "reset_form_fac" : true,
+        "customValidationInput" : true,
+        "currencyFormat" : true,
+        "data_validation" : true,
+        "alertBootstrap" : true,
+        "loading_animation" : true,
+    },
     "extends": "eslint:recommended",
     "rules": {
         "indent": [

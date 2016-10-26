@@ -45,8 +45,8 @@
     }, 
     {
         "cparam": "date_appen", 
-        "type": "String", 
-        "value": "2016/10/26 10:42:59", 
+        "type": "String",
+        "value": "2016/10/26 10:42:59",
         "label": {
             "text": "Fecha de Appen"
         }, 

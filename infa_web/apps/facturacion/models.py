@@ -6,6 +6,7 @@ from infa_web.apps.base.models import *
 from infa_web.apps.usuarios.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
+from infa_web.apps.movimientos.models import *
 
 class Fac(models.Model):
 	cfac = models.CharField(max_length=10)
@@ -53,6 +54,31 @@ class Fac(models.Model):
 
 	def __str__(self):
 		return self.cfac
+
+	def get_mvsa(self,using):
+		mvsa = Mvsa.objects.using(using).get(docrefe = self.cfac)
+		mvsa.mvsadeta = mvsa.get_mvsadeta(using)
+		return mvsa
+
+	def get_facdeta(self,using):
+		facdeta = Facdeta.objects.using(using).filter(cfac = self.pk)
+		return facdeta
+
+	def get_movi(self,using):
+		movideta = Movideta.objects.using(using).filter(docrefe = self.cfac)
+
+		t_movis = list(set(map(lambda x: x.cmovi, movideta)))
+
+		movis = []
+
+		for t_movi in t_movis:
+			movi = Movi.objects.using(using).get(pk=t_movi.pk)
+			movi.movideta =  Movideta.objects.using(using).filter(cmovi = movi.cmovi)
+			movis.append(movi)
+		return movis
+
+
+
 
 class Facdeta(models.Model):
 	cfac = models.ForeignKey(Fac)

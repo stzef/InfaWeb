@@ -67,7 +67,7 @@ MIDDLEWARE_CLASSES = [
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'infa_web.apps.base.middleware.updateDateAppen',
 ]
-
+'''
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': False,
@@ -95,6 +95,7 @@ LOGGING = {
 		},
 	},
 }
+'''
 
 ROOT_URLCONF = 'infa_web.urls'
 

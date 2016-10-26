@@ -1,4 +1,5 @@
 from infa_web.apps.terceros.models import *
+import copy
 
 tercero = Tercero.objects.get(pk=1)
 
@@ -379,33 +380,28 @@ data_facs = [
 	},
 ]
 
-data_edit_facs = data_facs
+data_edit_facs = movis = map(lambda x: x.copy(), data_facs)
+
 data_edit_facs[0]["medios_pagos"] = [
 	{
 		"cmpago" : 1000,
 		"nmpago" : "Efectivo",
-		"porcentaje" : 50,
+		"porcentaje" : 100,
 		"docmpago" : 0,
 		"banmpago" : 1000,
 	},
 ]
-data_edit_facs[1]["medios_pagos"] = []
+
 data_edit_facs[2]["medios_pagos"] = [
 	{
 		"cmpago" : 1000,
 		"nmpago" : "Efectivo",
-		"porcentaje" : 50,
+		"porcentaje" : 100,
 		"docmpago" : 0,
 		"banmpago" : 1000,
-	},
-	{
-		"cmpago" : 1002,
-		"nmpago" : "Cheque",
-		"docmpago" : 124657987,
-		"porcentaje" : 50,
-		"banmpago" : 1001,
-	},
+	}
 ]
+
 
 data_articles = [
 	{
@@ -499,4 +495,9 @@ costing_and_stock_expected_values = {
 		"canti" : 200,
 		"vcosto" : 250,
 	},
+}
+cartera_expected_values = {
+	1:{
+		"vttotal" : 21830,
+	}
 }
