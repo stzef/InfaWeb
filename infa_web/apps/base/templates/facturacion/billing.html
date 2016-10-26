@@ -544,36 +544,82 @@
 						</div>
 					<div class="modal-body">
 						<div>
-							<table id="costing_and_stock" class="table">
-								{% if mode_view == 'edit' %}
-									<h2>Factura</h2>
-									<p>{{factura.cfac}} - ${{factura.vttotal|intcomma}}</p>
-									<ul>
-										{% for facdeta in factura.facdeta %}
-											<li>{{facdeta.pk}} - {{facdeta.vtotal|intcomma}}</li>
-										{% endfor %}
-									</ul>
+							{% if mode_view == 'edit' %}
+								<div class="panel panel-primary">
+									<div class="panel-heading"> 
+										<h3 class="panel-title">Factura {{factura.cfac}} - ${{factura.vttotal|intcomma}}</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Item</th>
+													<th>Vr. Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for facdeta in factura.facdeta %}
+													<tr>
+														<td>{{facdeta.pk}} </td>
+														<td>{{facdeta.vtotal|intcomma}}</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
 
-									<h2>Movimiento de Salida</h2>
-									<p>{{factura.mvsa.cmvsa}} - ${{factura.mvsa.vttotal|intcomma}}</p>
-									<ul>
-										{% for mvsadeta in factura.mvsa.mvsadeta %}
-											<li>{{mvsadeta.pk}} - ${{mvsadeta.vtotal|intcomma}}</li>
-										{% endfor %}
-									</ul>
-									
-									<h2>Movimientos</h2>
-									{% for movi in factura.movis %}
-										<p>{{movi.cmovi}} - ${{movi.vttotal|intcomma}}</p>
-										<ul>
-											{% for movideta in movi.movideta %}
-												<li>{{movideta.pk}} - ${{movideta.vmovi|intcomma}}</li>
-											{% endfor %}
-										</ul>
-									{% endfor %}
-								{% endif %}
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title">Movimiento de Salida {{factura.mvsa.cmvsa}} - ${{factura.mvsa.vttotal|intcomma}}</h3>
+									</div>
+									<div class="panel-body">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Item</th>
+													<th>Vr. Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for mvsadeta in factura.mvsa.mvsadeta %}
+													<td>{{mvsadeta.pk}}</td>
+													<td>${{mvsadeta.vtotal|intcomma}}</td>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
 								
-							</table>
+								<div class="panel panel-primary">
+									<div class="panel-heading"> <h3 class="panel-title">Movimientos</h3> </div>
+									<div class="panel-body">
+										{% for movi in factura.movis %}
+											<div class="panel panel-info">
+												<div class="panel-heading">
+													<h3 class="panel-title">Movimiento {{movi.cmovi}} - ${{movi.vttotal|intcomma}}</h3>
+												</div>
+												<div class="panel-body">
+													<table class="table table-striped">
+														<thead>
+															<tr>
+																<th>Item</th>
+																<th>Vr. Total</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for movideta in movi.movideta %}
+																<td>{{movideta.pk}}</td>
+																<td>${{movideta.vmovi|intcomma}}</td>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							{% endif %}
 						</div>
 					</div>
 					<div class="modal-footer">
