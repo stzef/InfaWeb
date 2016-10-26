@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
@@ -544,12 +545,34 @@
 					<div class="modal-body">
 						<div>
 							<table id="costing_and_stock" class="table">
-								<thead>
-									<th>Tipo</th>
-									<th>Codigo</th>
-									<th>Valor Total</th>
-								</thead>
-								<tbody></tbody>
+								{% if mode_view == 'edit' %}
+									<h2>Factura</h2>
+									<p>{{factura.cfac}} - ${{factura.vttotal|intcomma}}</p>
+									<ul>
+										{% for facdeta in factura.facdeta %}
+											<li>{{facdeta.pk}} - {{facdeta.vtotal|intcomma}}</li>
+										{% endfor %}
+									</ul>
+
+									<h2>Movimiento de Salida</h2>
+									<p>{{factura.mvsa.cmvsa}} - ${{factura.mvsa.vttotal|intcomma}}</p>
+									<ul>
+										{% for mvsadeta in factura.mvsa.mvsadeta %}
+											<li>{{mvsadeta.pk}} - ${{mvsadeta.vtotal|intcomma}}</li>
+										{% endfor %}
+									</ul>
+									
+									<h2>Movimientos</h2>
+									{% for movi in factura.movis %}
+										<p>{{movi.cmovi}} - ${{movi.vttotal|intcomma}}</p>
+										<ul>
+											{% for movideta in movi.movideta %}
+												<li>{{movideta.pk}} - ${{movideta.vmovi|intcomma}}</li>
+											{% endfor %}
+										</ul>
+									{% endfor %}
+								{% endif %}
+								
 							</table>
 						</div>
 					</div>

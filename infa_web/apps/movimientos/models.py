@@ -27,6 +27,10 @@ class Mven(models.Model):
 	def __str__(self):
 		return "M. Entrada - D.Ref: %s - Cod: %s - TMovi: %s " % (self.docrefe,self.cmven,self.ctimo)
 
+	def get_mvendeta(self,using):
+		mvendeta = Mvendeta.objects.using(using).filter(cmven = self.cmven)
+		return mvendeta
+
 class Mvendeta(models.Model):
 	class Meta:
 		unique_together = (('cmven', 'ctimo','it'))
@@ -57,6 +61,10 @@ class Mvsa(models.Model):
 	detaanula = models.CharField(max_length=250,default='-')
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
+
+	def get_mvsadeta(self,using):
+		mvsadeta = Mvsadeta.objects.using(using).filter(cmvsa = self.cmvsa)
+		return mvsadeta
 
 	def __str__(self):
 		return "M. Salida - D.Ref: %s - Cod: %s - TMovi: %s " % (self.docrefe,self.cmvsa,self.ctimo)

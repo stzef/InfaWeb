@@ -1424,7 +1424,7 @@ class Command(BaseCommand):
 				clipre = DEFAULT_LISTA_PRECIOS,
 				fnaci = datetime.strptime(manageParameters.get_param_value("date_appen"),'%Y/%m/%d %H:%M:%S'),
 				ordenruta = 1,
-				ciudad = Ciudad.objects.using(name_db).get(pk=DEFAULT_CIUDAD),
+				ciudad = Ciudad.objects.using(name_db).get(cciu=DEFAULT_CIUDAD),
 				cesdo = estadoActivo,
 				cvende = Vende.objects.using(name_db).get(pk=DEFAULT_VENDE),
 				czona = Zona.objects.using(name_db).get(pk=DEFAULT_ZONA),

@@ -965,6 +965,13 @@ class BillEdit(CustomUpdateView):
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		factura = Fac.objects.using(self.request.db).get(pk=self.kwargs["pk"])
+
+		factura.mvsa = factura.get_mvsa(self.request.db)
+		factura.movis = factura.get_movi(self.request.db)
+		factura.facdeta = factura.get_facdeta(self.request.db)
+
+		context['factura'] = factura
+
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 		
 		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False

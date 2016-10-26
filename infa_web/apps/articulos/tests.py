@@ -25,7 +25,7 @@ from infa_web.routines import *
 
 from infa_web.apps.facturacion.views import ctimo_billing
 
-from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_articles,costing_and_stock_expected_values,cartera_expected_values
+from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_edit_facs,data_articles,costing_and_stock_expected_values,cartera_expected_values
 
 def fc(x):
 	return locale.currency(x,grouping=True)
@@ -121,7 +121,7 @@ def create_mvsa(data):
 
 	response_mvsa_1 = c.post(reverse('save-movement'),json.dumps(body_request_mvsa_1),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 
-def create_fac(data,using):
+def create_fac(index,data,using):
 	c = Client()
 	body_request_fac_contado = data["base"]
 
@@ -175,6 +175,7 @@ def create_fac(data,using):
 	
 	response_fac_contado = c.post(reverse('save-bill'),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 	response_fac_contado = json.loads(response_fac_contado.content)
+	data_edit_facs[index]["pk"] = index
 
 def update_fac(data,using):
 	c = Client()
@@ -228,7 +229,7 @@ def update_fac(data,using):
 
 	
 	
-	response_fac_contado = c.post(reverse('update-bill',args=[]),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
+	response_fac_contado = c.post(reverse('update-bill',args=[data["pk"]]),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 	response_fac_contado = json.loads(response_fac_contado.content)
 
 def list_articles(report):
@@ -337,12 +338,12 @@ class ExampleTestCase(TestCase):
 			create_mvsa(data_mvsa)
 
 		# Creacion de Facturas
-		for data_facdeta in data_facs:
-			create_fac(data_facdeta,self.using)
+		for index,data_facdeta in enumerate(data_facs):
+			create_fac(index,data_facdeta,self.using)
 
 		# Creacion de Facturas
-		#for data_edit_facdeta in data_edit_facs:
-		#	update_fac(data_edit_facdeta,self.using)
+		for data_edit_facdeta in data_edit_facs:
+			update_fac(data_edit_facdeta,self.using)
 
 	def costing_and_stock(self):
 		report = codecs.open("report_test.txt", "w", "utf-8")
