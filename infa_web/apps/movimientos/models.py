@@ -3,10 +3,13 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 from infa_web.apps.base.constantes import *
+from django.core import serializers
 
 from infa_web.apps.articulos.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.base.models import *
+
+import json
 
 class Mven(models.Model):
 	class Meta:
@@ -62,8 +65,12 @@ class Mvsa(models.Model):
 	cbode0 = models.ForeignKey(Bode, related_name = 'cbode_0',default=DEFAULT_BODEGA)
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
 
-	def get_mvsadeta(self,using):
-		mvsadeta = Mvsadeta.objects.using(using).filter(cmvsa = self.cmvsa)
+	def get_mvsadeta(self,using,format_json=False):
+		query = Mvsadeta.objects.using(using).filter(cmvsa = self.cmvsa)
+		if format_json:
+			mvsadeta = json.loads(serializers.serialize('json', query))
+		else:
+			mvsadeta = query
 		return mvsadeta
 
 	def __str__(self):
@@ -105,6 +112,14 @@ class Movi(models.Model):
 	vtsuma = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vtdescu = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	detaanula = models.CharField(max_length=80,blank=True, null=True)
+
+	def get_movideta(self,using,format_json=False):
+		query = Movideta.objects.using(using).filter(cmovi = self.cmovi)
+		if format_json:
+			movideta = json.loads(serializers.serialize('json', query))
+		else:
+			movideta = query
+		return movideta
 
 	def __str__(self):
 		return str(self.cmovi)

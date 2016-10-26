@@ -896,6 +896,8 @@ $("#btn-save").click(function(event){
 	}
 	loading_animation("Guardando Movimiento.")
 
+	console.info(data)
+
 	$.ajax({
 		url: var_template_django_url,
 		type: 'POST',

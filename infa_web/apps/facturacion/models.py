@@ -1,12 +1,15 @@
 from __future__ import unicode_literals
 
 from django.db import models
+import json
 
 from infa_web.apps.base.models import *
 from infa_web.apps.usuarios.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.movimientos.models import *
+
+from django.core import serializers
 
 class Fac(models.Model):
 	cfac = models.CharField(max_length=10)
@@ -55,30 +58,57 @@ class Fac(models.Model):
 	def __str__(self):
 		return self.cfac
 
-	def get_mvsa(self,using):
-		mvsa = Mvsa.objects.using(using).get(docrefe = self.cfac)
-		mvsa.mvsadeta = mvsa.get_mvsadeta(using)
+	def to_json(self):
+		#fac = json.loads(serializers.serialize('json', [self],fields=("vttotal","cfac")))[0]
+		fac = json.loads(serializers.serialize('json', [self],fields=("cfac","citerce","cesdo","ctifopa","descri","detaanula","vtbase","vtiva","vflete","vdescu","vttotal","vefe","vtar","vch","vcred","ventre","vcambio","ccaja","cvende","cdomici""tpordes","cemdor","brtefte","prtefte","vrtefte")))[0]
+		return fac
+
+	def get_mvsa(self,using,format_json=False):
+		query = Mvsa.objects.using(using).get(docrefe = self.cfac)
+		if format_json:
+			mvsa = json.loads(serializers.serialize('json', [query]))[0]
+			mvsa["mvsadeta"] = query.get_mvsadeta(using,format_json)
+		else:
+			mvsa = query
+			mvsa.mvsadeta = query.get_mvsadeta(using)
 		return mvsa
 
-	def get_facdeta(self,using):
-		facdeta = Facdeta.objects.using(using).filter(cfac = self.pk)
+	def get_facdeta(self,using,format_json=False):
+		query = Facdeta.objects.using(using).filter(cfac = self.pk)
+		if format_json:
+			facdeta = json.loads(serializers.serialize('json', query))
+		else:
+			facdeta = Facdeta.objects.using(using).filter(cfac = self.pk)
 		return facdeta
 
-	def get_movi(self,using):
-		movideta = Movideta.objects.using(using).filter(docrefe = self.cfac)
+	def get_related_information(self,using):
+		data = self.to_json()
 
-		t_movis = list(set(map(lambda x: x.cmovi, movideta)))
+		data["mvsa"] = self.get_mvsa(using,True)
+		data["movis"] = self.get_movi(using,True)
+		data["facdeta"] = self.get_facdeta(using,True)
+
+		return data
+
+	def get_movi(self,using,format_json=False):
+		query_movideta = Movideta.objects.using(using).filter(docrefe = self.cfac)
+
+		t_movis = list(set(map(lambda x: x.cmovi, query_movideta)))
 
 		movis = []
 
 		for t_movi in t_movis:
-			movi = Movi.objects.using(using).get(pk=t_movi.pk)
-			movi.movideta =  Movideta.objects.using(using).filter(cmovi = movi.cmovi)
-			movis.append(movi)
+			query_movi = Movi.objects.using(using).get(pk=t_movi.pk)
+
+			if format_json:
+				movi = json.loads(serializers.serialize('json', [query_movi]))[0]
+				movi["movideta"] = query_movi.get_movideta(using,format_json)
+				movis.append(movi)
+			else:
+				movi = query_movi
+				movi.movideta = query_movi.get_movideta(using,format_json)
+				movis.append(movi)
 		return movis
-
-
-
 
 class Facdeta(models.Model):
 	cfac = models.ForeignKey(Fac)
