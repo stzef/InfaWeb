@@ -38,17 +38,16 @@ def mFacOptionsArticle(request):
 		cliente = Tercero.objects.using(request.db).get(pk=pkCliente)
 		articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo) 
 
-
 		listaDePrecio = cliente.clipre
 		valorUnitarioArticulo = getattr(articulo, 'pvta' + str(listaDePrecio))
 		valorMinimoDelArticulo = articulo.pvta6
 
 		# agregar datos al contexto
+		context["articulo"] = articulo
 		context["valorUnitario"] = valorUnitarioArticulo
 		context["valorMinimoDelArticulo"] = valorMinimoDelArticulo
 
-
-	return render(request, 'm/m_fac_options_article.html', context)
+		return render(request, 'm/m_fac_options_article.html', context)
 
 def mFacChooseClient(request):
 	# Consultar cliente mostrador

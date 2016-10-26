@@ -29,7 +29,7 @@
 					{{form.banmpago}}
 				{% endif %}
 				{{form.vmpago.label_tag}}
-				<input class="input-currency form-control valor_pagos" id="{{form.vmpago.id_for_label}}" min="0" name="{{form.vmpago.html_name}}" step="0.01" type="text" required="">
+				<input class="input-currency form-control valor_pagos" id="{{form.vmpago.id_for_label}}" min="0" name="{{form.vmpago.html_name}}" step="0.01" type="number" required="">
 			</div>
 
 		{% endfor %}
