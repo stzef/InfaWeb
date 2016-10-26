@@ -5,8 +5,23 @@ var current_arlo = null //Articulo(Objeto DB) que se selecciona en el #form_deta
 var current_tercero = null //Tercero(Objeto DB) que se selecciona en el #id_citerce
 var pvta_menor = null
 var it = 1
+var containerMessages = $("#messages-container")
 $('#id_itfac').val(it)
 calcular_total()
+
+var text_message_ingrese_medios_pago = "No ha ingresado ningún Medio de Pago."
+var text_message_ingrese_articulos = "No ha ingresado ningún Artículo."
+var text_message_ventre_menor_total = "El Valor Entrado es menor al Valor Total."
+var text_message_descuento_mayor_vttotal = "No puede realizar un Descuento Mayor al Valor Total."
+var text_message_error_request = "Ha ocurrido un error en el proceso."
+var text_message_vttotal_mayor_cero = "El Valor Total debe ser mayor a cero."
+var text_message_seleccione_articulo = "Seleccione un artículo."
+var text_message_seleccione_tercero = "Seleccione un Tercero."
+var text_message_menor_igual_cero = "El Valor a Pagar no puede ser menor o igual a cero."
+var text_message_tope_descuento = "El tope de descuento es " + data_validation.top_discount_bills
+var text_message_vpago_mayor_vttotal = "El Valor a Pagar no puede ser mayor al Valor Total."
+var text_message_numero_maximo_items_por_factura = "El número máximo de ítems por factura para este usuario segun el talonario ya se ha superado."
+text_message_vpago_menor_vttotal = "El Valor de Pago no puede ser menor al Valor Total."
 
 Number.prototype.format = function(n, x) {
 	var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -99,7 +114,7 @@ function mostrar_modal_lista_precios(if_return_mpvta){
 		Muestra una ventana Modal con la lista de precios del articulo actual (current_arlo)
 	*/
 	$("#lista_precios .modal-body").empty()
-	if(!current_arlo) return alert("Por favor seleccione un articulo.")
+	if(!current_arlo) return alert(text_message_seleccione_articulo)
 	var table = $("<table class='table table table-striped'>")
 		for (field in current_arlo){
 			regexp = /pvta[0-9]/
@@ -146,7 +161,7 @@ function show_modal_totalizar(){
 		Si no lo es simplemente abre la ventana modal en blanco
 	*/
 	var array_mvdeta = get_data_list("#list_items_mdeta")
-	if(!array_mvdeta.length) return $("#form_deta_movement").prepend(alertBootstrap("No ha ingresado Ningun Articulo","warning"))
+	if(!array_mvdeta.length) return containerMessages.prepend(alertBootstrap(text_message_ingrese_articulos,"warning"))
 	//$("#list_medios_pago table tbody tr").remove()
 
 	if(mode_view != "edit") set_pago_completo_efectivo()
@@ -210,7 +225,7 @@ function calcular_valor_cambio(){
 			var v_cambio = parseFloat($("[name=ventre]").custom_format_val()) - parseFloat($("[name=vttotal]").custom_format_val())
 		}else{
 			var v_cambio = ""
-			$("#form_totales").prepend(alertBootstrap("El valor Entrado es menor al Total","info"))
+			$("#form_totales").prepend(alertBootstrap(text_message_ventre_menor_total,"info"))
 		}
 		$("[name=vcambio]").val(v_cambio).trigger("change")
 	}
@@ -337,7 +352,7 @@ function calcular_total(){/*Revisar*/
 	$("[name=ventre]").val(vttotal_local).trigger("change")
 	if(valor_descuento > vttotal_local_sin_descuento){
 		$("[name=vdescu]").val("0")
-		return alert("No puede Realizar un Descuento Mayor al Valor Total.")
+		return alert(text_message_descuento_mayor_vttotal)
 	}
 
 }
@@ -381,7 +396,7 @@ $("[name=canti]").change(function(){
 	*/	
 	if(!current_arlo) {
 		$(this).val("1")
-		return alert("Por favor seleccione un articulo.")
+		return alert(text_message_seleccione_articulo)
 	}
 
 	if(!data_validation.invoice_without_stock){
@@ -454,7 +469,7 @@ $("#form_deta_movement [name=pordes]").change(function(){
 	*/
 	if( parseFloat($(this).val()) > parseFloat(data_validation.top_discount_bills) ){
 		$(this).val("").focus()
-		alert("El Tope de Descuento es " + data_validation.top_discount_bills)
+		alert(text_message_tope_descuento)
 	}
 	calcular_valor_unitario()
 })
@@ -540,7 +555,7 @@ $('#id_carlos').change(function(){
 	if(!current_tercero){
 		current_arlo = null
 		setValueFieldArlo()
-		alert("Seleccione un Tercero para Continuar.")
+		alert(text_message_seleccione_tercero)
 		return
 	}
 
@@ -626,7 +641,7 @@ $("#form_medios_pago").submit(function (event){
 	event.preventDefault()
 	var nuevo_valor_medios_pagos = parseFloat(currencyFormat.sToN($("#form_medios_pago").find("[name=vmpago]").val()))
 	if(nuevo_valor_medios_pagos <= 0){
-		alert("El Valor a pagar no puede ser menor o igual a Cero")
+		alert(text_message_menor_igual_cero)
 		return
 	}
 
@@ -637,7 +652,7 @@ $("#form_medios_pago").submit(function (event){
 	})
 	var t_temp = nuevo_valor_medios_pagos + total_meidos_pagos_existentes
 	if( t_temp > parseFloat(currencyFormat.sToN($("[name=vttotal]").val()) )){
-		alert("El Valor a Pagar no puede ser mayor al Valor Total")
+		alert(text_message_vpago_mayor_vttotal)
 		return
 	}
 
@@ -738,10 +753,10 @@ $("#form_deta_movement").submit(function(event){
 	var number_items_billing = $("#list_items_mdeta tbody tr").length
 
 	if(number_items_billing >= data_validation.maximum_number_items_billing){
-		return alert("EL numero Maximo de items por factura para este usuario segunel talonario ya se ha superado")
+		return alert(text_message_numero_maximo_items_por_factura)
 	}
 	if( parseFloat($('#item_mdeta input[name=vtotal]').custom_format_val()) <= 0){
-		return alert("El Valor Total debe Se Mayor a Cero")
+		return alert(text_message_vttotal_mayor_cero)
 	}
 	if(customValidationInput("#item_mdeta").valid){
 		var tr = $("<tr>")
@@ -828,13 +843,12 @@ $("#btn-save").click(function(event){
 	if(!customValidationInput("#form_movement").valid) return
 	if(!customValidationInput("#form_totales").valid) return
 
-	var currentForm = $("#form_movement")
 	if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 		if(tot_medios_pagos < parseFloat($("[name=vttotal]").custom_format_val())){
 			if(confirm("La factura actual es de tipo C|ONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
 				$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
 			}else{
-				alert("El valor de pago no puede ser menor al valor total")
+				alert(text_message_vpago_menor_vttotal)
 				return
 			}
 		}
@@ -868,16 +882,16 @@ $("#btn-save").click(function(event){
 		if($("[name=ctifopa]").val() != data_validation.formas_pago.FORMA_PAGO_CONTADO){
 			data.medios_pagos = []
 		}else{
-			var message = alertBootstrap("No ha ingresado Medio de Pago","warning")
-			currentForm.prepend(message)
+			var message = alertBootstrap(text_message_ingrese_medios_pago,"warning")
+			$("#form_totales").prepend(message)
 			return
 		}
 	}
 	if(array_mvdeta.length){
 		data.mvdeta = array_mvdeta
 	}else{
-		var message = alertBootstrap("No ha ingresado Ningun Articulo","warning")
-		currentForm.prepend(message)
+		var message = alertBootstrap(text_message_ingrese_articulos,"warning")
+		containerMessages.prepend(message)
 		return
 	}
 	loading_animation("Guardando Movimiento.")
@@ -888,8 +902,8 @@ $("#btn-save").click(function(event){
 		data: JSON.stringify(data),
 		contentType: "application/json",
 		error: function(response){
-			var message = alertBootstrap("Ha ocurrido un error en el proceso.","danger")
-			currentForm.prepend(message)
+			var message = alertBootstrap(text_message_error_request,"danger")
+			containerMessages.prepend(message)
 			$(".animation").empty()
 		},
 		success: function(response){
@@ -903,7 +917,7 @@ $("#btn-save").click(function(event){
 				var message = alertBootstrap(response.message,"success")
 			}
 			
-			currentForm.prepend(message)
+			containerMessages.prepend(message)
 			console.log(response)
 			if(confirm("Desea Imprimir La Factura")){
 				print_bill(response.fac.cfac)
