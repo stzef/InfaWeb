@@ -340,4 +340,5 @@ class InventoryPDF(PDFTemplateView):
 		context['data'] = data
 		context['title'] = 'Nota inicial '+data.get('nota_inicial')
 		context['sum_tot'] = "{:.2f}".format(sum((data.vunita * data.canti) for data in invinideta_set))
+		context['image'] = "http://s-media-cache-ak0.pinimg.com/236x/80/91/f9/8091f9dceb2ea55fa7b57bb7295e1824.jpg"
 		return context
