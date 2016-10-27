@@ -2,7 +2,7 @@
 {% if mode_view == 'edit' %}
 	<div class="panel panel-primary">
 		<div class="panel-heading"> 
-			<h3 class="panel-title">Factura {{factura.cfac}} - ${{factura.vttotal|intcomma}}</h3>
+			<h3 class="panel-title">Factura {{related_information_factura.cfac}} - ${{related_information_factura.vttotal|intcomma}}</h3>
 		</div>
 		<div class="panel-body">
 			<table class="table table-striped">
@@ -13,7 +13,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for facdeta in factura.facdeta %}
+					{% for facdeta in related_information_factura.facdeta %}
 						<tr>
 							<td>{{facdeta.pk}} </td>
 							<td>{{facdeta.vtotal|intcomma}}</td>
@@ -26,7 +26,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">Movimiento de Salida {{factura.mvsa.cmvsa}} - ${{factura.mvsa.vttotal|intcomma}}</h3>
+			<h3 class="panel-title">Movimiento de Salida {{related_information_factura.mvsa.cmvsa}} - ${{related_information_factura.mvsa.vttotal|intcomma}}</h3>
 		</div>
 		<div class="panel-body">
 			<table class="table table-striped">
@@ -37,9 +37,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for mvsadeta in factura.mvsa.mvsadeta %}
-						<td>{{mvsadeta.pk}}</td>
-						<td>${{mvsadeta.vtotal|intcomma}}</td>
+					{% for mvsadeta in related_information_factura.mvsa.mvsadeta %}
+						<tr>
+							<td>{{mvsadeta.pk}}</td>
+							<td>${{mvsadeta.vtotal|intcomma}}</td>
+						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
@@ -49,7 +51,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading"> <h3 class="panel-title">Movimientos</h3> </div>
 		<div class="panel-body">
-			{% for movi in factura.movis %}
+			{% for movi in related_information_factura.movis %}
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">Movimiento {{movi.cmovi}} - ${{movi.vttotal|intcomma}}</h3>

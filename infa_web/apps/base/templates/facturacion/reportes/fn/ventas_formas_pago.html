@@ -14,66 +14,66 @@
 
 
 {% block content %}
-<table class="center">
-	<thead>
-		<tr>
-			<th>Factura</th>
-			{% if cells.citerce.show %}
-				<th>Cliente</th>
-			{% endif %}
-			{% if cells.cvende.show %}
-				<th>Vendedor</th>
-			{% endif %}
-			{% if cells.ctifopa.show %}
-				<th>F Pago</th>
-			{% endif %}
-			<th>Fecha</th>
-			<th>Vr.Efe</th>
-			<th>Vr.Tarj</th>
-			<th>Vr.Cheq</th>
-			<th>Vr.NCred</th>
-			<th>Vr.Total</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for factura in facturas %}
-			<tr class="cesdo-{{factura.cesdo.pk}}">
-				<td>{{factura.cfac}}</td>
+	<table class="center" cellspacing="0px">
+		<thead>
+			<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1">
+				<th>Factura</th>
 				{% if cells.citerce.show %}
-					<td>{{factura.citerce.rasocial}}</td>
+					<th>Cliente</th>
 				{% endif %}
 				{% if cells.cvende.show %}
-					<td>{{factura.cvende.nvende}}</td>
+					<th>Vendedor</th>
 				{% endif %}
 				{% if cells.ctifopa.show %}
-					<td>{{factura.ctifopa.ntifopa}}</td>
+					<th>F Pago</th>
 				{% endif %}
-				<td>{{factura.femi|date:"d M Y"}}</td>
-
-				<td>{{factura.vefe|intcomma}}</td>
-				<td>{{factura.vtar|intcomma}}</td>
-				<td>{{factura.vch|intcomma}}</td>
-				<td>{{factura.vcred|intcomma}}</td>
-				<td>{{factura.vttotal|intcomma}}</td>
+				<th>Fecha</th>
+				<th>Vr.Efe</th>
+				<th>Vr.Tarj</th>
+				<th>Vr.Cheq</th>
+				<th>Vr.NCred</th>
+				<th>Vr.Total</th>
 			</tr>
-		{% endfor %}
-		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
-			<td colspan="{{colspan_total}}">SubTotal</td>
-			<td>{{totales.fpago.efectivo|intcomma}}</td>
-			<td>{{totales.fpago.tarjeta|intcomma}}</td>
-			<td>{{totales.fpago.cheque|intcomma}}</td>
-			<td>{{totales.fpago.nota_credito|intcomma}}</td>
-			<td>{{totales.subtotal|intcomma}}</td>
-		</tr>
-		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
-			<td colspan="{{colspan_total}}">Total</td>
-			<td>{{totales.fpago.efectivo|intcomma}}</td>
-			<td>{{totales.fpago.tarjeta|intcomma}}</td>
-			<td>{{totales.fpago.cheque|intcomma}}</td>
-			<td>{{totales.fpago.nota_credito|intcomma}}</td>
-			<td>{{totales.total|intcomma}}</td>
-		</tr>
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{% for factura in facturas %}
+				<tr class="cesdo-{{factura.cesdo.pk}}">
+					<td>{{factura.cfac}}</td>
+					{% if cells.citerce.show %}
+						<td>{{factura.citerce.rasocial}}</td>
+					{% endif %}
+					{% if cells.cvende.show %}
+						<td>{{factura.cvende.nvende}}</td>
+					{% endif %}
+					{% if cells.ctifopa.show %}
+						<td>{{factura.ctifopa.ntifopa}}</td>
+					{% endif %}
+					<td>{{factura.femi|date:"d M Y"}}</td>
+
+					<td>{{factura.vefe|intcomma}}</td>
+					<td>{{factura.vtar|intcomma}}</td>
+					<td>{{factura.vch|intcomma}}</td>
+					<td>{{factura.vcred|intcomma}}</td>
+					<td>{{factura.vttotal|intcomma}}</td>
+				</tr>
+			{% endfor %}
+			<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+				<td colspan="{{colspan_total}}">SubTotal</td>
+				<td>{{totales.fpago.efectivo|intcomma}}</td>
+				<td>{{totales.fpago.tarjeta|intcomma}}</td>
+				<td>{{totales.fpago.cheque|intcomma}}</td>
+				<td>{{totales.fpago.nota_credito|intcomma}}</td>
+				<td>{{totales.subtotal|intcomma}}</td>
+			</tr>
+			<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+				<td colspan="{{colspan_total}}">Total</td>
+				<td>{{totales.fpago.efectivo|intcomma}}</td>
+				<td>{{totales.fpago.tarjeta|intcomma}}</td>
+				<td>{{totales.fpago.cheque|intcomma}}</td>
+				<td>{{totales.fpago.nota_credito|intcomma}}</td>
+				<td>{{totales.total|intcomma}}</td>
+			</tr>
+		</tbody>
+	</table>
 {% endblock content %}
 

@@ -342,8 +342,8 @@ class ExampleTestCase(TestCase):
 			create_fac(index,data_facdeta,self.using)
 
 		# Creacion de Facturas
-		for data_edit_facdeta in data_edit_facs:
-			update_fac(data_edit_facdeta,self.using)
+		#for data_edit_facdeta in data_edit_facs:
+		#	update_fac(data_edit_facdeta,self.using)
 
 	def costing_and_stock(self):
 		report = codecs.open("report_test.txt", "w", "utf-8")
