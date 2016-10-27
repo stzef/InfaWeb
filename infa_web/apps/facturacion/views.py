@@ -319,13 +319,15 @@ def BillSave(request):
 	vncred_t = 0
 
 	# Busqueda a modelos de acuerdo a los parametros recibidos
-	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
-	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
+
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
 	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
-	cvende = Vende.objects.using(request.db).get(pk = data['cvende'])
-	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
-	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
+
+	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'] if "citerce" in data else DEFAULT_TERCERO)
+	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'] if "cesdo" in data else DEFAULT_ACTIVO)
+	cvende = Vende.objects.using(request.db).get(pk = data['cvende'] if "cvende" in data else DEFAULT_VENDE)
+	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'] if "cdomici" in data else DEFAULT_DOMICILIARIO)
+	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'] if "cemdor" in data else DEFAULT_EMPACADOR)
 
 	value_vttotal = float(data['vttotal'])
 	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
@@ -384,7 +386,7 @@ def BillSave(request):
 			'ctimo': ccaja.ctimocj,
 			'cesdo': cesdo,
 			'vttotal': float(data['vttotal']),
-			'descri': '-'
+			'descri': data['descri']
 		}
 	)
 
