@@ -38,17 +38,16 @@ def mFacOptionsArticle(request):
 		cliente = Tercero.objects.using(request.db).get(pk=pkCliente)
 		articulo = Arlo.objects.using(request.db).get(carlos=codigoDelArticulo) 
 
-
 		listaDePrecio = cliente.clipre
 		valorUnitarioArticulo = getattr(articulo, 'pvta' + str(listaDePrecio))
 		valorMinimoDelArticulo = articulo.pvta6
 
 		# agregar datos al contexto
+		context["articulo"] = articulo
 		context["valorUnitario"] = valorUnitarioArticulo
 		context["valorMinimoDelArticulo"] = valorMinimoDelArticulo
 
-
-	return render(request, 'm/m_fac_options_article.html', context)
+		return render(request, 'm/m_fac_options_article.html', context)
 
 def mFacChooseClient(request):
 	# Consultar cliente mostrador
@@ -121,6 +120,9 @@ class mThirdPartyAdd(CustomCreateView):
 	template_name = "m/m_third_party_add.html"
 	form_class = ThirdPartyForm
 	success_url = "/m/search-client"
+
+def mExitFac(request):
+	return render(request, "m/m_salir_fac.html")
 
 ## Request Ajax basadas en JSON
 @csrf_exempt

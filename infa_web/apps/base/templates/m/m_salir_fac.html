@@ -1,0 +1,15 @@
+{% extends "m/base.html" %}
+
+{% block content %}
+	<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
+
+		<div data-role="header" data-theme="b" role="banner" class="ui-header ui-bar-b">
+			<h1 class="ui-title" role="heading" aria-level="1">Salir</h1>
+		</div>
+
+		<div role="main" class="ui-content">
+		<p>Desea salir de la factura, no se guardaran cambios</p>
+		<a href="{% url 'm_dashboard' %}" rel="external" class="ui-btn ui-shadow ui-corner-all ui-btn-a">Salir</a>
+		</div>
+	</div>
+{% endblock content %}

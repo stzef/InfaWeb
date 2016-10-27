@@ -15,13 +15,14 @@
 
 	<a href="{% url 'm_choose_article' %}" class="ui-btn" data-transition="slide">Seleccionar Articulo</a>
 
-	<table data-role="table" data-mode="columntoggle" data-column-btn-text="columnas..." class="ui-responsive table-stroke">
+	<table id="table-order"data-role="table" data-mode="columntoggle" data-column-btn-text="columnas..." class="ui-responsive table-stroke">
 		<thead>
 		<tr>
-			<th data-priority="3">cod</th>
+			<th data-priority="1">It</th>
+			<th data-priority="4">cod</th>
 			<th>Articulo</th>
 			<th>Cant.</th>
-			<th data-priority="1">Desc. %</th>
+			<th data-priority="3">Desc. %</th>
 			<th data-priority="2">v. Unitario</th>
 			<th>v. Total</th>
 		</tr>
@@ -41,30 +42,18 @@
 			</div>
 		</div>
 	</div>
+	<style>
+		.article-item:hover{
+			background-color: gainsboro;
+		}
+	</style>
 	<script>
 
 		var vtotalFactura = 0;
 
-		$( "#pay" ).on( "click", function( event ) {
-
-			event.preventDefault();
-
-			// Validar si existen articulos cargados a la factura antes de pagar
-			if ( articlesOrder.length > 0){
-				$.mobile.navigate( 
-					$(this).attr("href"), 
-					{ transition: "slide"}
-				);
-			}
-			else {
-				// mostrar dialogo
-				alert("Primero debes cargar articulos a la factura")
-			}
-
-
-		});
-
-		var templateArticleList = "<tr>" +
+		// Template Item de factura
+		var templateArticleList = "<tr class='article-item' data-item=':dataitem:'>" +
+				"<td>:item:</td>" +
 				"<td>:carlo:</td>" +
 				"<td>:ncorto:</td>" +
 				"<td>:cantidad:</td>" +
@@ -73,31 +62,85 @@
 				"<td>:vtotal:</td>" +
 			"</tr>"
 
-		// recorrer lista de articulos
-		if ( articlesOrder.length > 0) {
+		// Ejecutar al crear la tabla
+		$( "#table-order" ).on( "tablecreate", function( event, ui ) {
+			// Renderizar articulos en la orden
+			renderArticulosDeOrden();
+		});
 
-			var t = "";
-			var totalPedido = 0
+		// Eliminar item de factura
+		$("#articleTableBody").on("click", ".article-item", function () {
+			// confirmar borrado
+			var respuesta = confirm("Eliminar item")
+			var itemDeFactura = this
 
-			// armar template
-			for (var i = 0; i < articlesOrder.length; i++) {
-				t += templateArticleList
-								.replace(":carlo:", articlesOrder[i].carlos)
-								.replace(":ncorto:", articlesOrder[i].ncorto)
-								.replace(":cantidad:", articlesOrder[i].canti)
-								.replace(":descuento:", articlesOrder[i].pordes)
-								.replace(":vunitario:", articlesOrder[i].vunita)
-								.replace(":vtotal:", articlesOrder[i].vtotal)
+			if (respuesta)
+				removerItemDeFactura(itemDeFactura)
+		})
 
-				totalPedido += articlesOrder[i].vtotal
-				vtotalFactura = totalPedido
+		// Remover item de factura 
+		function removerItemDeFactura (itemDeFactura) {
 
-			}
+			// item y valor del indice
+			var item = $(itemDeFactura)
+			var indice = item.attr("data-item")
 
-			// renderizar template
-			$("#articleTableBody").append(t)
-			$("#vtotalFactura").val(vtotalFactura)
+			// remover articulo de la orden
+			articlesOrder.splice(indice,1);
+			// remover articulo del DOM
+			item.remove()
+
+			// renderizar articulos
+			renderArticulosDeOrden()
 		}
+
+		// Renderizar tabla con los items de la factura
+		function renderArticulosDeOrden () {
+			// recorrer lista de articulos
+			if ( articlesOrder.length > 0) {
+
+				var t = "";
+				var totalPedido = 0
+
+				// armar template
+				for (var i = 0; i < articlesOrder.length; i++) {
+					t += templateArticleList
+									.replace(":dataitem:", i)
+									.replace(":item:", i + 1)
+									.replace(":carlo:", articlesOrder[i].carlos)
+									.replace(":ncorto:", articlesOrder[i].ncorto)
+									.replace(":cantidad:", articlesOrder[i].canti)
+									.replace(":descuento:", articlesOrder[i].pordes)
+									.replace(":vunitario:", articlesOrder[i].vunita)
+									.replace(":vtotal:", articlesOrder[i].vtotal)
+
+					totalPedido += articlesOrder[i].vtotal
+					vtotalFactura = totalPedido
+
+				}
+
+				// renderizar template
+				$("#articleTableBody").empty()
+				$("#articleTableBody").append(t)
+				// Refrescar tabla
+				$( "#table-order" ).table("refresh")
+
+				$("#vtotalFactura").val(vtotalFactura)
+			}
+		}
+
+		// Pagar
+		$( "#pay" ).on( "click", function( event ) {
+			event.preventDefault();
+			// Validar si existen articulos cargados a la factura antes de pagar
+			if ( articlesOrder.length > 0){
+				$.mobile.navigate( $(this).attr("href"), { transition: "slide"});
+			}
+			else {
+				// mostrar dialogo
+				alert("Primero debes cargar articulos a la factura")
+			}
+		});
 
 	</script>
 {% endblock content %}
