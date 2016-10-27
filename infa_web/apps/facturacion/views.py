@@ -2,6 +2,7 @@ from django.shortcuts import render,render_to_response
 from django.template.loader import get_template
 
 from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -1039,6 +1040,7 @@ class BillPrint(PDFTemplateView):
 
 		factura.vttotal_letter = number_to_letter(factura.vttotal)
 		factura.text_bill = manageParameters.get_param_value('text_bill')
+		factura.company_logo = static(manageParameters.get_param_value('company_logo'))
 
 		context['factura'] = factura
 		context['factura_deta'] = factura_deta
