@@ -19,11 +19,16 @@
 	</div>
 
 	<ul id="searchClientList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Buscar Cliente" data-autodividers="true" data-filter-theme="a">
-		{% for tercero in terceros %}
-			<li><a data-client="{{tercero.pk}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
-				{{tercero.rasocial}}  <span> {{tercero.idterce}}</span>
-			</a></li>
-		{% endfor %}
+		{% if terceros %}
+			{% for tercero in terceros %}
+				<li><a data-client="{{tercero.pk}}" class="tercero" href="{% url 'm_order' %}" data-transition="slide">
+					{{tercero.rasocial}}  <span> {{tercero.idterce}}</span>
+				</a></li>
+			{% endfor %}
+
+		{% else %}
+				<li><p>No hay Clientes</p></li>
+		{% endif %}
 	</ul>
 	<script>
 
