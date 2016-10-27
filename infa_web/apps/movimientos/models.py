@@ -66,7 +66,7 @@ class Mvsa(models.Model):
 	cbode1 = models.ForeignKey(Bode, related_name = 'cbode_1',null=True,blank=True)
 
 	def get_mvsadeta(self,using,format_json=False):
-		query = Mvsadeta.objects.using(using).filter(cmvsa = self.cmvsa)
+		query = Mvsadeta.objects.using(using).filter(cmvsa = self.cmvsa).order_by('it')
 		if format_json:
 			mvsadeta = json.loads(serializers.serialize('json', query))
 		else:
@@ -114,7 +114,7 @@ class Movi(models.Model):
 	detaanula = models.CharField(max_length=80,blank=True, null=True)
 
 	def get_movideta(self,using,format_json=False):
-		query = Movideta.objects.using(using).filter(cmovi = self.cmovi)
+		query = Movideta.objects.using(using).filter(cmovi = self.cmovi).order_by('itmovi')
 		if format_json:
 			movideta = json.loads(serializers.serialize('json', query))
 		else:

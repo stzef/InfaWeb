@@ -74,19 +74,26 @@ class Fac(models.Model):
 		return mvsa
 
 	def get_facdeta(self,using,format_json=False):
-		query = Facdeta.objects.using(using).filter(cfac = self.pk)
+		query = Facdeta.objects.using(using).filter(cfac = self.pk).order_by('itfac')
 		if format_json:
 			facdeta = json.loads(serializers.serialize('json', query))
 		else:
 			facdeta = Facdeta.objects.using(using).filter(cfac = self.pk)
 		return facdeta
 
-	def get_related_information(self,using):
-		data = self.to_json()
+	def get_related_information(self,using,format_json):
+		if format_json:
+			data = self.to_json()
 
-		data["mvsa"] = self.get_mvsa(using,True)
-		data["movis"] = self.get_movi(using,True)
-		data["facdeta"] = self.get_facdeta(using,True)
+			data["mvsa"] = self.get_mvsa(using,format_json)
+			data["movis"] = self.get_movi(using,format_json)
+			data["facdeta"] = self.get_facdeta(using,format_json)
+		else:
+			data = self
+
+			data.mvsa = self.get_mvsa(using,format_json)
+			data.movis = self.get_movi(using,format_json)
+			data.facdeta = self.get_facdeta(using,format_json)
 
 		return data
 

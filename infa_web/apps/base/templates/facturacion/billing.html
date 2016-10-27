@@ -20,7 +20,7 @@
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
 							<h4 class="panel-title">
 								Detalle
 								<span class="pull-right-container">
@@ -29,7 +29,7 @@
 							</h4>
 						</a>
 					</div>
-					<div id="collapse1" class="panel-collapse collapse in">
+					<div id="collapse_detail" class="panel-collapse collapse in">
 						<div class="panel-body">
 							{% include "facturacion/partials/billing_deta.html" %}
 						</div>
@@ -38,11 +38,11 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
 							<h4 class="panel-title">Encabezado</h4>
 						</a>
 					</div>
-					<div id="collapse2" class="panel-collapse collapse">
+					<div id="collapse_head" class="panel-collapse collapse">
 						<div class="panel-body">
 							{% include "facturacion/partials/billing_head.html" %}
 						</div>
@@ -51,11 +51,11 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_docs">
 							<h4 class="panel-title">Documentos</h4>
 						</a>
 					</div>
-					<div id="collapse3" class="panel-collapse collapse">
+					<div id="collapse_docs" class="panel-collapse collapse">
 						<div class="panel-body">
 							{% include "facturacion/partials/billing_documents.html" %}
 						</div>

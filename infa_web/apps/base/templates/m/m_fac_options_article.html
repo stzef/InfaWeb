@@ -10,6 +10,8 @@
 	<form id="articleOptionsForm" action="#">
 		<label for="text-basic">Cantidad</label>
 
+		<input type="hidden" name="carlos" value="{{articulo.carlos}}">
+		<input type="hidden" name="ncorto" value="{{articulo.ncorto}}">
 		<input type="number" name="cantidad" value="1" required>
 
 		{% if parametros.discount_percentages_allow_billing %}
@@ -124,11 +126,15 @@
 				var cantidad = formularioOpcionesDeArticulo.cantidad.value;
 				var descuentoIngresado = formularioOpcionesDeArticulo.descuento.value;
 				var valorUnitarioDelArticulo = formularioOpcionesDeArticulo.vunitario.value;
+				var codigoArticulo = formularioOpcionesDeArticulo.carlos.value;
+				var nombreArticulo = formularioOpcionesDeArticulo.ncorto.value;
 
 				// calculo de valores
 				var valorTotalDelItem = cantidad * valorUnitarioDelArticulo;
 
 				// armar objeto de articulo seleccionado
+				articleSelected["carlos"] = codigoArticulo
+				articleSelected["ncorto"] = nombreArticulo
 				articleSelected["canti"] = cantidad
 				articleSelected["pordes"] = descuentoIngresado
 				articleSelected["vunita"] = valorUnitarioDelArticulo

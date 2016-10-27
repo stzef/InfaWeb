@@ -16,6 +16,7 @@ url = [
 	url(r'^m/choose-article$', mFacChooseArtice, name='m_choose_article'),
 	url(r'^m/options-article$', mFacOptionsArticle, name='m_options_article'),
 	url(r'^m/pay$', mFacPay, name='m_pay'),
+	url(r'^m/exit-fac$', mExitFac, name='m_exit_fac'),
 	url(r'^m/third-party/add$', mThirdPartyAdd.as_view(), name='m_third_party_add'),
 
 	# Ajax

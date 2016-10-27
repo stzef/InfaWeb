@@ -701,7 +701,7 @@ $("#form_medios_pago").submit(function (event){
 				$(e).attr("data-value",it);
 				it++
 			})
-		calcular_total()
+		//calcular_total()
 	}
 })
 
@@ -828,9 +828,7 @@ function reset_form_fac(){
 	if(mode_view != "edit"){
 		borrar_medios_pago_registrados();
 		borrar_articulos_registrados();
-	}
-
-	if(mode_view != "edit"){
+		$("#collapse_docs > .panel-body").empty()
 		$("form").trigger("reset");
 		$(".date").each(function(i,e){$(e).data("DateTimePicker").date(date_appen);});
 	}
@@ -909,6 +907,7 @@ $("#btn-save").click(function(event){
 			$(".animation").empty()
 		},
 		success: function(response){
+			related_information = response.related_information
 			$(".animation").empty()
 			if(response.error){
 				var message = alertBootstrap(response.message,"danger")
@@ -922,10 +921,12 @@ $("#btn-save").click(function(event){
 			containerMessages.prepend(message)
 			console.log(response)
 			if(confirm("Desea Imprimir La Factura")){
-				print_bill(response.fac.cfac)
+				print_bill(related_information.fields.cfac)
 			}
 
 			$("form :input, button:not(#bnt-new-fac)").prop("disabled",true).off("submit")
+
+			$("#collapse_docs > .panel-body").empty().html(response.html)
 
 		}
 	});
@@ -980,6 +981,11 @@ $("#medios_pago").on("hidden.bs.modal", function () {$("#form_medios_pago").trig
 
 /* Envia el Foco al vr entregado al abrir el modal de totalizar*/
 $("#medios_pago").on("shown.bs.modal", function () { $(selector_element_focus_on_totalizar).focus();});
+
+/* Expande el tab de acordeaon del encabezado de la factura para poder mostrar el modal de la descripcion */
+$('#modal_descripcion').on('show.bs.modal', function (e) {
+	$("#collapse_head").collapse("show")
+})
 
 /* Ejecuta el evento change del campo de seleccion del tercero*/
 $("#id_citerce").change();

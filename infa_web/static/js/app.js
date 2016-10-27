@@ -433,7 +433,7 @@ $(window).on('beforeunload', function (e) {
 	localStorage.clear();
 });
 
-//$(document).ready(function(e){
+$(document).ready(function(e){
 	if(window.opener){
 
 		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
@@ -447,7 +447,7 @@ $(window).on('beforeunload', function (e) {
 			$(".content-wrapper").append(button)
 		}
 	}
-//})
+})
 
 $(document).ready(function(e){
 	$(".input-currency").inputCurrency()

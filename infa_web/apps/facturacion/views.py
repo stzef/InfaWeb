@@ -1,4 +1,5 @@
 from django.shortcuts import render,render_to_response
+from django.template.loader import get_template
 
 from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
 
@@ -529,8 +530,14 @@ def BillSave(request):
 			}
 		)
 	
-	related_information = fac.get_related_information(request.db)
+	related_information = fac.get_related_information(request.db,True)
 	response["related_information"] = related_information
+
+
+	template = get_template("facturacion/partials/billing_documents.html")
+	html = template.render({'mode_view':'edit','related_information_factura': fac.get_related_information(request.db,False) })
+	response["html"] = html
+
 
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -608,8 +615,6 @@ def BillUpdate(request,pk):
 			'vttotal': float(data['vttotal']),
 		}
 	)
-	auxmvsa['cmvsa'] = mvsa.cmvsa
-	auxmvsa['vttotal'] = data['vttotal']
 
 	movi = save_movi(
 		request.db,
@@ -746,8 +751,12 @@ def BillUpdate(request,pk):
 	mvsa_deta = Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo)
 	mvsa_deta.delete()
 
-	related_information = fac.get_related_information(request.db)
+	related_information = fac.get_related_information(request.db,True)
 	response["related_information"] = related_information
+
+	template = get_template("facturacion/partials/billing_documents.html")
+	html = template.render({'mode_view':'edit','related_information_factura': fac.get_related_information(request.db,False) })
+	response["html"] = html
 
 	return HttpResponse(json.dumps(response), "application/json")
 
@@ -863,19 +872,15 @@ class BillEdit(CustomUpdateView):
 		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		factura = Fac.objects.using(self.request.db).get(pk=self.kwargs["pk"])
-
-		factura.mvsa = factura.get_mvsa(self.request.db)
-		factura.movis = factura.get_movi(self.request.db)
-		factura.facdeta = factura.get_facdeta(self.request.db)
-
-		context['factura'] = factura
+		related_information = factura.get_related_information(self.request.db,False)
+		context['related_information_factura'] = related_information
 
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 		
 		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False
 
-		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
-		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('itfac')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('it')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
 
 		return context
 
