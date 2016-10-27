@@ -1,32 +1,27 @@
-from django.test import TestCase  
-from django.test import Client
 from django.core.urlresolvers import reverse
-import json
+from django.test import Client
+from django.test import TestCase  
+
 import codecs
-
+import json
 import locale
-locale.setlocale(locale.LC_ALL, '')
-
-from termcolor import colored
-from tabulate import tabulate
-
-from infa_web.routines import costing_and_stock
-
-from infa_web.bills_fn import *
 from html import HTML
-document_html = HTML()
-
-# Create your tests here.
 
 from infa_web.apps.articulos.models import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.inventarios.models import *
 from infa_web.apps.facturacion.models import *
-from infa_web.routines import *
 
 from infa_web.apps.facturacion.views import ctimo_billing
+from infa_web.routines import costing_and_stock
+from infa_web.routines import *
+from infa_web.bills_fn import *
 
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_edit_facs,data_articles,costing_and_stock_expected_values,cartera_expected_values
+
+document_html = HTML()
+locale.setlocale(locale.LC_ALL, '')
+
 
 def fc(x):
 	return locale.currency(x,grouping=True)
@@ -441,10 +436,9 @@ class ExampleTestCase(TestCase):
 				vttotal_cartera += movideta.vmovi
 
 			msg_error_assert_cartera = "Para el Tercero %s Se esperaba una Cartea de %s Pero se obtuvo una de %s" % (tercero.rasocial,expected_values["vttotal"],vttotal_cartera)
-			
+
 			self.assertEqual(vttotal_cartera, expected_values["vttotal"],msg_error_assert_cartera)
-		
-		
+
 		with open('template_test.html', 'r') as template:
 			data=template.read().replace('::content::', str(document_html))
 

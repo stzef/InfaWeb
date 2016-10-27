@@ -423,6 +423,15 @@ data_edit_facs[1]["medios_pagos"] = [
 		"banmpago" : 1000,
 	}
 ]
+data_edit_facs[2]["medios_pagos"] = [
+	{
+		"cmpago" : 1000,
+		"nmpago" : "Efectivo",
+		"porcentaje" : 50,
+		"docmpago" : 0,
+		"banmpago" : 1000,
+	}
+]
 
 data_articles = [
 	{
@@ -519,7 +528,7 @@ costing_and_stock_expected_values = {
 }
 cartera_expected_values = {
 	1:{
-		"vttotal" : 0,
+		"vttotal" : 30000,
 	}
 }
 """

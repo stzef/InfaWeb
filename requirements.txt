@@ -1,11 +1,13 @@
 astroid==1.4.8
 backports.functools-lru-cache==1.2.1
 configparser==3.5.0
+coverage==4.2
 CurrencyConverter==0.8.1
 dj-database-url==0.4.1
 Django==1.9.6
 django-easy-pdf==0.1.0
 gunicorn==19.6.0
+html==1.16
 html5lib==0.9999999
 isort==4.2.5
 lazy-object-proxy==1.2.2
@@ -20,5 +22,6 @@ reportlab==3.3.0
 six==1.10.0
 tabulate==0.7.5
 termcolor==1.1.0
+virtualenv==15.0.3
 wrapt==1.10.8
 xhtml2pdf==0.0.6
