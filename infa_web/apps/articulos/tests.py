@@ -169,13 +169,11 @@ def create_fac(index,data,using):
 		it_facpagodeta += 1
 		body_request_fac_contado["medios_pagos"].append(temp_mp)
 
-	#print json.dumps(body_request_fac_contado, indent=4)
-
-	
-	
 	response_fac_contado = c.post(reverse('save-bill'),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 	response_fac_contado = json.loads(response_fac_contado.content)
-	data_edit_facs[index]["pk"] = index
+
+	data_edit_facs[index]["base"]["cfac"] = response_fac_contado['related_information']['fields']["cfac"]
+	data_edit_facs[index]["pk"] = response_fac_contado['related_information']['pk']
 
 def update_fac(data,using):
 	c = Client()
@@ -342,8 +340,8 @@ class ExampleTestCase(TestCase):
 			create_fac(index,data_facdeta,self.using)
 
 		# Creacion de Facturas
-		#for data_edit_facdeta in data_edit_facs:
-		#	update_fac(data_edit_facdeta,self.using)
+		for data_edit_facdeta in data_edit_facs:
+			update_fac(data_edit_facdeta,self.using)
 
 	def costing_and_stock(self):
 		report = codecs.open("report_test.txt", "w", "utf-8")
@@ -428,7 +426,6 @@ class ExampleTestCase(TestCase):
 			text = tabulate(data_table_cartera,headers=["Item","Doc Ref", "Vr. Total"],tablefmt="fancy_grid")
 			print text
 			report.write(text)
-
 
 
 		report.close()

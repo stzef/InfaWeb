@@ -751,7 +751,7 @@ def BillUpdate(request,pk):
 	mvsa_deta = Mvsadeta.objects.using(request.db).filter(cmvsa = mvsa.pk).exclude(carlos__in = exclude_arlo)
 	mvsa_deta.delete()
 
-	related_information = fac.get_related_information(request.db)
+	related_information = fac.get_related_information(request.db,True)
 	response["related_information"] = related_information
 
 	template = get_template("facturacion/partials/billing_documents.html")

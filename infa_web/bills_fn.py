@@ -79,7 +79,6 @@ def calcular_vtbase_vtiva(data_array,name_db="default"):
 	vtbase = float(0)
 	vtiva = float(0)
 
-	print "vbase " + str(data_array)
 	for data in data_array:
 		cantidad = float(data["canti"])
 		precio = float(data["vunita"])
@@ -102,8 +101,6 @@ def calcular_vtbase_vtiva(data_array,name_db="default"):
 		#vtbase += vbase
 		vtiva += custom_round(viva)
 		#vtiva += viva
-
-	print {"vtbase": vtbase,"vtiva": vtiva}
 
 	return {"vtbase": vtbase,"vtiva": vtiva}
 

@@ -74,7 +74,6 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='defau
 	all_data = []
 	for articulo in articulos:
 		try:
-			print invinicab
 			invinideta = Invinideta.objects.using(db_name).get(cii=invinicab,carlos=articulo)
 		except Invinideta.DoesNotExist, e:
 			invinideta = None
