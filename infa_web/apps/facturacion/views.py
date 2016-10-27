@@ -320,6 +320,22 @@ def BillSave(request):
 	vncred_t = 0
 
 	# Busqueda a modelos de acuerdo a los parametros recibidos
+	data_femi = data['femi']
+	data_fpago = data['fpago']
+	data_descri = data['descri'] if 'descri' in data else ""
+
+	data_vtbase = float(data['vtbase'])
+	data_vtiva = float(data['vtiva'])
+	data_vdescu = float(data['vdescu'])
+	data_ventre = float(data['ventre'])
+	data_vcambio = float(data['vcambio'])
+
+	data_brtefte = float(data['brtefte'])
+	data_prtefte = float(data['prtefte'])
+	data_vrtefte = float(data['vrtefte'])
+
+	data_vflete = float(data['vflete'])
+	data_vttotal = float(data['vttotal'])
 
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
 	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
@@ -349,27 +365,27 @@ def BillSave(request):
 		request.db,
 		{
 			'fac_pk': fac_pk,
-			'femi': data['femi'],
+			'femi': data_femi,
 			'citerce': citerce,
 			'cesdo': cesdo,
-			'fpago': data['fpago'],
+			'fpago': data_fpago,
 			'ctifopa': ctifopa,
-			'descri': data['descri'],
-			'vtbase': float(data['vtbase']),
-			'vtiva': float(data['vtiva']),
-			'vflete': float(data['vflete']),
-			'vdescu': float(data['vdescu']),
-			'vttotal': float(data['vttotal']),
-			'ventre': float(data['ventre']),
-			'vcambio': float(data['vcambio']),
+			'descri': data_descri,
+			'vtbase': data_vtbase,
+			'vtiva': data_vtiva,
+			'vflete': data_vflete,
+			'vdescu': data_vdescu,
+			'vttotal': data_vttotal,
+			'ventre': data_ventre,
+			'vcambio': data_vcambio,
 			'ccaja': ccaja,
 			'cvende': cvende,
 			'cdomici': cdomici,
 			'tpordes': 0,
 			'cemdor': cemdor,
-			'brtefte': float(data['brtefte']),
-			'prtefte': float(data['prtefte']),
-			'vrtefte': float(data['vrtefte']),
+			'brtefte': data_brtefte,
+			'prtefte': data_prtefte,
+			'vrtefte': data_vrtefte,
 			'vefe': vefe_t,
 			'vtar': vtar_t,
 			'vch': vch_t,
@@ -381,13 +397,13 @@ def BillSave(request):
 	mvsa = save_mvsa(
 		request.db,
 		{
-			'fmvsa': data['femi'],
+			'fmvsa': data_femi,
 			'docrefe': fac.cfac,
 			'citerce': citerce,
 			'ctimo': ccaja.ctimocj,
 			'cesdo': cesdo,
-			'vttotal': float(data['vttotal']),
-			'descri': data['descri']
+			'vttotal': data_vttotal,
+			'descri': data_descri
 		}
 	)
 
@@ -401,7 +417,7 @@ def BillSave(request):
 				'cmovi': movi_pk,
 				'ctimo': ctimo,
 				'citerce': citerce,
-				'fmovi': data['femi'],
+				'fmovi': data_femi,
 				'descrimovi': '-',
 				'vttotal': medios_pagos_total,
 				'cesdo': cesdo,
@@ -409,13 +425,13 @@ def BillSave(request):
 				'vtar': vtar_t,
 				'vch': vch_t,
 				'vcred': vncred_t,
-				'ventre': float(data['ventre']),
-				'vcambio': float(data['vcambio']),
+				'ventre': data_ventre,
+				'vcambio': data_vcambio,
 				'ccaja': ccaja,
-				'baseiva': float(data['vtbase']),
-				'vtiva': float(data['vtiva']),
-				'vtsuma': float(data['vttotal']),
-				'vtdescu': float(data['vdescu'])
+				'baseiva': data_vtbase,
+				'vtiva': data_vtiva,
+				'vtsuma': data_vttotal,
+				'vtdescu': data_vdescu
 			}
 		)
 
@@ -563,15 +579,31 @@ def BillUpdate(request,pk):
 
 	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
 	#ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
+	data_cfac = data['cfac']
+	data_fpago = data['fpago']
+	data_femi = data['femi']
+	data_descri = data['descri']
+	data_vtbase = float(data['vtbase'])
+	data_vtiva = float(data['vtiva'])
+	data_vflete = float(data['vflete'])
+	data_vdescu = float(data['vdescu'])
 
+	data_vttotal = float(data['vttotal'])
+	data_ventre = float(data['ventre'])
+	data_vcambio = float(data['vcambio'])
 
-	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'])
-	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'])
+	data_brtefte = float(data['brtefte'])
+	data_prtefte = float(data['prtefte'])
+	data_vrtefte = float(data['vrtefte'])
+
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
 	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
-	cvende = Vende.objects.using(request.db).get(pk = data['cvende'])
-	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'])
-	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'])
+
+	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'] if 'citerce' in data else DEFAULT_TERCERO)
+	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'] if 'cesdo' in data else DEFAULT_ACTIVO)
+	cvende = Vende.objects.using(request.db).get(pk = data['cvende'] if 'cvende' in data else DEFAULT_VENDE)
+	cdomici = Domici.objects.using(request.db).get(pk = data['cdomici'] if 'cdomici' in data else DEFAULT_DOMICILIARIO)
+	cemdor = Emdor.objects.using(request.db).get(pk = data['cemdor'] if 'cemdor' in data else DEFAULT_EMPACADOR)
 
 	vefe_t = value_tot(data["medios_pagos"], 1000)
 	vtar_t = value_tot(data["medios_pagos"], 1001)
@@ -581,28 +613,28 @@ def BillUpdate(request,pk):
 	fac = save_fac(
 		request.db,
 		{
-			'fac_pk': data['cfac'],
-			'femi': data['femi'],
+			'fac_pk': data_cfac,
+			'femi': data_femi,
 			'citerce': citerce,
 			'cesdo': cesdo,
-			'fpago': data['fpago'],
+			'fpago': data_fpago,
 			'ctifopa': ctifopa,
-			'descri': data['descri'],
-			'vtbase': float(data['vtbase']),
-			'vtiva': float(data['vtiva']),
-			'vflete': float(data['vflete']),
-			'vdescu': float(data['vdescu']),
-			'vttotal': float(data['vttotal']),
-			'ventre': float(data['ventre']),
-			'vcambio': float(data['vcambio']),
+			'descri': data_descri,
+			'vtbase': data_vtbase,
+			'vtiva': data_vtiva,
+			'vflete': data_vflete,
+			'vdescu': data_vdescu,
+			'vttotal': data_vttotal,
+			'ventre': data_ventre,
+			'vcambio': data_vcambio,
 			'ccaja': ccaja,
 			'cvende': cvende,
 			'cdomici': cdomici,
 			'tpordes': 0,
 			'cemdor': cemdor,
-			'brtefte': float(data['brtefte']),
-			'prtefte': float(data['prtefte']),
-			'vrtefte': float(data['vrtefte']),
+			'brtefte': data_brtefte,
+			'prtefte': data_prtefte,
+			'vrtefte': data_vrtefte,
 			'vefe': vefe_t,
 			'vtar': vtar_t,
 			'vch': vch_t,
@@ -615,7 +647,7 @@ def BillUpdate(request,pk):
 		{
 			'citerce': citerce,
 			'docrefe': fac.cfac,
-			'vttotal': float(data['vttotal']),
+			'vttotal': data_vttotal,
 		}
 	)
 
@@ -630,12 +662,12 @@ def BillUpdate(request,pk):
 			'vtar': vtar_t,
 			'vch': vch_t,
 			'vcred': vncred_t,
-			'ventre': float(data['ventre']),
-			'vcambio': float(data['vcambio']),
-			'baseiva': float(data['vtbase']),
-			'vtiva': float(data['vtiva']),
-			'vtsuma': float(data['vttotal']),
-			'vtdescu': float(data['vdescu']),
+			'ventre': data_ventre,
+			'vcambio': data_vcambio,
+			'baseiva': data_vtbase,
+			'vtiva': data_vtiva,
+			'vtsuma': data_vttotal,
+			'vtdescu': data_vdescu,
 		}
 	)
 
@@ -670,8 +702,8 @@ def BillUpdate(request,pk):
 	ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
 	movi = movi_find(fac.cfac, request.db, ctimo.pk)
 	if movi:
-		if(medios_pagos_total < float(data['vttotal'])):
-			movi_vttotal = (float(data['vttotal']) - medios_pagos_total)
+		if(medios_pagos_total < data_vttotal):
+			movi_vttotal = (data_vttotal - medios_pagos_total)
 		else:
 			movi_vttotal = 0
 
