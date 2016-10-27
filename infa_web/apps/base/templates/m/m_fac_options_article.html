@@ -22,10 +22,10 @@
 		{% endif %}
 
 		<label for="text-basic">V. Unitario</label>
-		<input type="number" name="vunitario" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
+		<input class="input-currency" type="text" name="vunitario" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
 
 		<label for="text-basic">V. Total</label>
-		<input type="number" name="vtotal" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
+		<input class="input-currency" type="text" name="vtotal" value="{{valorUnitario}}" style="text-align: right;background-color: black;color: white;font-size: 20px;" required disabled>
 
 		<input type="submit" value="Agregar">
 
@@ -35,8 +35,8 @@
 
 		var parametros = {{parametros_json | safe}}
 		var form = $('#articleOptionsForm')
-		var valorMinimoDeArticulo = {{valorMinimoDelArticulo}}
-		var valorDelArticuloPorClient = {{valorUnitario}}
+		var valorMinimoDeArticulo = '{{valorMinimoDelArticulo}}'
+		var valorDelArticuloPorClient = '{{valorUnitario}}'
 
 		var cantidad = form.find("[name=cantidad]")
 		var vunitario = form.find("[name=vunitario]")
@@ -50,7 +50,9 @@
 					alert("cantidad de articulos no permitida")
 
 				// calcular total
-				vtotal.val(vunitario.val() * this.value)
+				vtotal.val(
+					currencyFormat.format(vunitario.custom_format_val() * this.value)
+				)
 
 			})
 
@@ -61,24 +63,27 @@
 				// validar valor maximo de descuento
 
 				if ( this.value > Number(parametros.top_discount_bills)) {
-					console.log(this.value)
 					alert("Excedio el tope máximo de descuento")
 					this.value = 0
-					vunitario.val(valorDelArticuloPorClient)
+					vunitario.val(
+						currencyFormat.format(valorDelArticuloPorClient)
+					)
 					return
 				}
 
 				// cambiar valor unitario por el valor aplicando descuento
 				vunitario.val(
-					((100-this.value)/100) * valorDelArticuloPorClient
+					currencyFormat.format(((100-this.value)/100) * valorDelArticuloPorClient)
 				)
 
 				// calcular total
-				vtotal.val(vunitario.val() * cantidad.val())
+				vtotal.val(
+					currencyFormat.format(vunitario.custom_format_val() * cantidad.val())
+				)
 
 			})
 
-
+		// Validaciones opciones de articulo
 		function validacionVentaPrecioMinimo () {
 
 			var descuento = form.find('[name=descuento]')
@@ -95,7 +100,9 @@
 					else{
 						// restablecer valores
 						descuento.val(0)
-						vunitario.val('{{valorUnitario}}')
+						vunitario.val(
+							currencyFormat.format(valorDelArticuloPorClient)
+						)
 						return false
 					}
 				}
@@ -104,7 +111,9 @@
 					alert("El precio de venta minimo de este articulo es: $ " + valorMinimoDeArticulo)
 					// restablecer valores
 					descuento.val(0)
-					vunitario.val('{{valorUnitario}}')
+					vunitario.val(
+						currencyFormat.format(valorDelArticuloPorClient)
+					)
 					return false
 				}
 			}
@@ -122,22 +131,22 @@
 
 				var formularioOpcionesDeArticulo = this;
 
-				// valores ingresados
+				// valores ingresados custom_format_val
 				var cantidad = formularioOpcionesDeArticulo.cantidad.value;
 				var descuentoIngresado = formularioOpcionesDeArticulo.descuento.value;
-				var valorUnitarioDelArticulo = formularioOpcionesDeArticulo.vunitario.value;
 				var codigoArticulo = formularioOpcionesDeArticulo.carlos.value;
 				var nombreArticulo = formularioOpcionesDeArticulo.ncorto.value;
-
+				
+				var vunitario = form.find("[name=vunitario]")
 				// calculo de valores
-				var valorTotalDelItem = cantidad * valorUnitarioDelArticulo;
+				var valorTotalDelItem = cantidad * vunitario.custom_format_val();
 
 				// armar objeto de articulo seleccionado
 				articleSelected["carlos"] = codigoArticulo
 				articleSelected["ncorto"] = nombreArticulo
 				articleSelected["canti"] = cantidad
 				articleSelected["pordes"] = descuentoIngresado
-				articleSelected["vunita"] = valorUnitarioDelArticulo
+				articleSelected["vunita"] = vunitario.custom_format_val()
 				articleSelected["vtotal"] = valorTotalDelItem
 
 				// agregar objeto a la lista de articulos del pedido
