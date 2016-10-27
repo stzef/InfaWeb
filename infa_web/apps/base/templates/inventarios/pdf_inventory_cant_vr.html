@@ -16,7 +16,8 @@
 {% endblock head_table %}
 
 {% block content %}
-	<table>
+	<img src="{{ image|get64 }}" alt="">
+	<table style="background-image: url('https://s-media-cache-ak0.pinimg.com/236x/80/91/f9/8091f9dceb2ea55fa7b57bb7295e1824.jpg')">
 		{% regroup invinideta_set by carlos.cgpo as data_group %}
 		{% for data in data_group %}
 			<tr style="border: 1px solid black; padding-top: 5px; padding-left: 10px;">

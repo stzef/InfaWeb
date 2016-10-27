@@ -5,6 +5,7 @@ from infa_web.apps.facturacion.views import *
 from infa_web.apps.base.models import *
 from infa_web.apps.base.utils import *
 from django.db.models import Sum
+import urllib, cStringIO, base64
 from django import template
 import os
 
@@ -127,3 +128,8 @@ def total_abono(citerce, request_db):
 	movi = Movi.objects.using(request_db).filter(cesdo = cesdo, citerce = citerce)
 	movi_ab = movi.filter(ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
 	return (movi_ab if movi_ab is not None else 0)
+
+@register.filter
+def get64(url):
+	image = cStringIO.StringIO(urllib.urlopen(url).read())
+	return 'data:image/jpg;base64,' + base64.b64encode(image.read())
