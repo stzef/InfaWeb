@@ -226,7 +226,7 @@
 					'<td class="id_nlargo"></td>'+
 					'<td class="id_cantcalcu text-right"></td>'+
 					'<td>'+
-						'<input type="number" class="form-control cant id_canti" value="0"/>'+
+						'<input type="number" class="form-control cant id_canti text-right"/>'+
 					'</td>'+
 					'<td>'+
 						'<input type="text" class="input-currency form-control value text-right id_vunita" value="0"/>'+
@@ -349,17 +349,16 @@
 		$.post('{% url "find_arlo" %}', {'carlos': this.value, 'invini': $('#id_codigo').val()}, function(response){
 			if(response.find != 0){
 				var id_carlos = $('#id_carlos').val()
-				$('.add-cont').add('id', id_carlos)
+				$('.add-cont').attr('id', id_carlos)
 				$('.id_cbarras').attr('id', 'cbarras-'+id_carlos).text(response.cbarras)
 				$('.id_nlargo').attr('id', 'nom-'+id_carlos).attr('title', response.nlargo).text(response.nlargo)
 				$('.id_cantcalcu').text(response.cancalcu).attr('id', 'cancalcu-'+id_carlos)
 				$('.id_vunita').val(response.vcosto).attr('id', 'vunita-'+id_carlos)
-				$('.id_canti').focus().attr('id', 'cant-'+id_carlos).val(response.canti)
+				$('.id_canti').val(response.canti).attr('id', 'cant-'+id_carlos).trigger('keyup').focus()
 				$('.add-cont').attr('id', id_carlos)
 				$('.ajusal').attr('id', 'ajusal-'+id_carlos).text(response.ajusal)
 				$('.ajuent').attr('id', 'ajuent-'+id_carlos).text(response.ajuent)
 				$('.id_vttotal').attr('id', 'vtotal-'+id_carlos)
-				$(':input.cant ').val(0).trigger('keyup');
 				save_local_storage(id_carlos)
 			}else{
 				alert('Artículo no encontrado')
