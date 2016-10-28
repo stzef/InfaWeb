@@ -29,7 +29,7 @@
 					{{form.banmpago}}
 				{% endif %}
 				{{form.vmpago.label_tag}}
-				<input class="input-currency form-control valor_pagos" id="{{form.vmpago.id_for_label}}" min="0" name="{{form.vmpago.html_name}}" step="0.01" type="number" required="">
+				<input class="input-currency form-control valor_pagos" id="{{form.vmpago.id_for_label}}" min="0" name="{{form.vmpago.html_name}}" step="0.01" type="text" required="">
 			</div>
 
 		{% endfor %}
@@ -47,8 +47,8 @@
 				<h3>TOTAL</h3>
 			</div>
 			<div class="ui-block-b">
-				<input id="id_total_pagos" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
-				<input id="vtfactura" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
+				<input id="id_total_pagos" class="input-currency" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
+				<input id="vtfactura" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
 			</div>
 		</div>
 	</div>
@@ -56,7 +56,9 @@
 
 		var mediosPago = []
 		var codigoPagoContado = "{{pagoContado}}"
-		$("#vtfactura").val(vtotalFactura)
+		$("#vtfactura").val(
+			currencyFormat.format(vtotalFactura)
+		)
 
 		// Eventos para descuento
 		$("#id_descuento_factura")
@@ -64,11 +66,15 @@
 				if (this.value > Number(parametros.top_discount_bills)) {
 					alert("Excedio el tope máximo de descuento")
 					this.value = 0
-					$("#vtfactura").val(vtotalFactura)
+					$("#vtfactura").val(
+						currencyFormat.format(vtotalFactura)
+					)
 				}
 				else{
 					var totalAplicandoDescuento =((100-this.value)/100) * vtotalFactura;
-					$("#vtfactura").val(totalAplicandoDescuento)
+					$("#vtfactura").val(
+						currencyFormat.format(totalAplicandoDescuento)
+					)
 				}
 			})
 
@@ -86,7 +92,7 @@
 		$(".valor_pagos")
 			.on("change", function () {
 				setMediosPago()
-				$("#id_total_pagos").val(getTotalMediosPago())
+				$("#id_total_pagos").val(currencyFormat.format(getTotalMediosPago()))
 			})
 
 		// Cargar Medios de pago
@@ -95,25 +101,27 @@
 											.children()
 											.toArray()
 											.map(function(div){
-												return {
-													docmpago:$(div).find("#id_docmpago").val(),
-													banmpago:$(div).find("#id_banmpago").val(),
-													cmpago:$(div).find("#id_cmpago").val(),
-													vmpago:$(div).find("#id_vmpago").val(),
-												}
+
+														return {
+															docmpago:$(div).find("#id_docmpago").val(),
+															banmpago:$(div).find("#id_banmpago").val(),
+															cmpago:$(div).find("#id_cmpago").val(),
+															vmpago:$(div).find("#id_vmpago").custom_format_val(),
+														}
+
 											})
 		}
 
 		function validaciones () {
 
 			// validacion factura de contado
-			if ((getTotalMediosPago() < $("#vtfactura").val()) && $("#id_forma_pago").val() == codigoPagoContado) {
+			if ((getTotalMediosPago() < $("#vtfactura").custom_format_val()) && $("#id_forma_pago").val() == codigoPagoContado) {
 				alert("Factura contado")
 				return false
 			}
 
 			// validacion total de factura
-			if (getTotalMediosPago() > $("#vtfactura").val()) {
+			if (getTotalMediosPago() > $("#vtfactura").custom_format_val()()) {
 				alert("El valor de los pagos sobrepaso el valor total de la factura")
 				return false
 			}
@@ -133,16 +141,31 @@
 			return totalPagos
 		}
 
+		// retornar medios de pago diligenciados
+		function getMediosPagoDiligenciados (pagos) {
+			var pagosDiligenciados = []
+			pagos.map( function (pago) {
+				if ( pago.vmpago > 0)
+					pagosDiligenciados.push(pago)
+			})
+
+			return pagosDiligenciados
+
+		}
+
+
 		// Construir objeto para guardar en backend
 		function armarObjetoDatos () {
 
 			var vtotalAplicandoDescuentoDeFactura = ((100 - $("#id_descuento_factura").val())/100) * vtotalFactura
 
+			var mediosPagoDiligenciados = getMediosPagoDiligenciados(mediosPago)
+
 			return {
 				citerce : cliente,
 				ctifopa : $("#id_forma_pago").val(),
 				mvdeta : articlesOrder,
-				medios_pagos : mediosPago,
+				medios_pagos : mediosPagoDiligenciados,
 				vdescu : $("#id_descuento_factura").val(),
 				vttotal : vtotalAplicandoDescuentoDeFactura,
 			}
