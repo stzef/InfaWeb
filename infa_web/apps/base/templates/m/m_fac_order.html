@@ -38,13 +38,16 @@
 				<h3>TOTAL $</h3>
 			</div>
 			<div class="ui-block-b">
-				<input id="vtotalFactura" type="number" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
+				<input id="vtotalFactura" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
 			</div>
 		</div>
 	</div>
 	<style>
 		.article-item:hover{
 			background-color: gainsboro;
+		}
+		.article-item td, .article-item th{
+			text-align: right;
 		}
 	</style>
 	<script>
@@ -111,13 +114,13 @@
 									.replace(":ncorto:", articlesOrder[i].ncorto)
 									.replace(":cantidad:", articlesOrder[i].canti)
 									.replace(":descuento:", articlesOrder[i].pordes)
-									.replace(":vunitario:", articlesOrder[i].vunita)
-									.replace(":vtotal:", articlesOrder[i].vtotal)
+									.replace(":vunitario:", currencyFormat.format(articlesOrder[i].vunita))
+									.replace(":vtotal:", currencyFormat.format(articlesOrder[i].vtotal))
 
 					totalPedido += articlesOrder[i].vtotal
-					vtotalFactura = totalPedido
 
 				}
+				vtotalFactura = totalPedido
 
 				// renderizar template
 				$("#articleTableBody").empty()
@@ -125,7 +128,7 @@
 				// Refrescar tabla
 				$( "#table-order" ).table("refresh")
 
-				$("#vtotalFactura").val(vtotalFactura)
+				$("#vtotalFactura").val(currencyFormat.format(vtotalFactura))
 			}
 		}
 

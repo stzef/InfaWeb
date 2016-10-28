@@ -385,25 +385,7 @@ data_edit_facs = map(lambda x: x.copy(), data_facs)
 for data_edit_fac in data_edit_facs:
 	data_edit_fac["base"]["mode_view"] = "edit"
 
-"""data_edit_facs[0]["medios_pagos"] = [
-	{
-		"cmpago" : 1000,
-		"nmpago" : "Efectivo",
-		"porcentaje" : 100,
-		"docmpago" : 0,
-		"banmpago" : 1000,
-	},
-]
 
-data_edit_facs[2]["medios_pagos"] = [
-	{
-		"cmpago" : 1000,
-		"nmpago" : "Efectivo",
-		"porcentaje" : 100,
-		"docmpago" : 0,
-		"banmpago" : 1000,
-	}
-]"""
 data_edit_facs[0]["medios_pagos"] = [
 	{
 		"cmpago" : 1000,
@@ -423,6 +405,7 @@ data_edit_facs[1]["medios_pagos"] = [
 		"banmpago" : 1000,
 	}
 ]
+
 
 data_articles = [
 	{
@@ -517,15 +500,10 @@ costing_and_stock_expected_values = {
 		"vcosto" : 250,
 	},
 }
-cartera_expected_values = {
-	1:{
-		"vttotal" : 0,
-	}
-}
-"""
+
 cartera_expected_values = {
 	1:{
 		"vttotal" : 21830,
 	}
 }
-"""
+

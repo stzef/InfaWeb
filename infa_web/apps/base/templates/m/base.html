@@ -3,14 +3,11 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<!--<link rel="stylesheet" href="{% static 'css/jquery.mobile-1.4.5.min.css' %}" />
-	<link rel="stylesheet" href="{% static 'css/jquery.mobile.theme-1.4.5.min.css' %}">
-	<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
-	<script src="{% static 'js/jquery.mobile-1.4.5.min.js' %}"></script>
-	-->
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<link rel="stylesheet" href="{% static 'm/jquery.mobile-1.4.5.min.css' %}" />
+	<script src="{% static 'm/jquery-1.11.1.min.js' %}"></script>
+	<script src="{% static 'm/jquery.mobile-1.4.5.min.js' %}"></script>
+	<script src="{% static 'js/app.js' %}"></script>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	{% block head %}
 	{% endblock head %}
@@ -36,6 +33,10 @@
 		var articlesOrder = []
 		var vtotalFactura = 0;
 
+		// Cargar formato para inputs
+		$(document).delegate('.ui-page', 'pageshow', function () {
+			$(".input-currency").inputCurrency()
+		});
 
 		$( "#chooseMostrador" ).on( "click", function( event ) {
 			// Prevenir Comportamiento
