@@ -274,7 +274,7 @@ class MoviForm(forms.ModelForm):
 
 class MoviDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(ArticleForm, self).__init__(*args, **kwargs)
+		super(MoviDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 		self.fields['cmovi'].queryset = Movi.objects.using(name_db).all()
