@@ -178,9 +178,9 @@ def find_arlo(request):
 		invini_deta = Invinideta.objects.using(request.db).get(cii = invini, carlos = carlos)
 		response['cbarras'] = invini_deta.carlos.cbarras
 		response['nlargo'] = invini_deta.nlargo
-		response['canti'] = str(invini_deta.cancalcu)
+		response['canti'] = str(invini_deta.canti)
 		response['vcosto'] = str(invini_deta.vunita)
-		response['cancalcu'] = str(invini_deta.canti)
+		response['cancalcu'] = str(invini_deta.cancalcu)
 		response['ajuent'] = str(invini_deta.ajuent)
 		response['ajusal'] = str(invini_deta.ajusal)
 	except Invinideta.DoesNotExist:
