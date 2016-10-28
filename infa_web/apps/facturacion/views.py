@@ -542,7 +542,9 @@ def BillSave(request):
 		data_deta_civa = data_deta['civa'] if 'civa' in data_deta else carlos.ivas_civa.civa
 		civa = Iva.objects.using(request.db).get(pk = data_deta_civa)
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
-		viva = vt * float(civa.poriva)
+		#viva = vt * (float(civa.poriva)/float(100))
+
+		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
 		fac_deta = save_fac_deta(
 			request.db,
@@ -558,11 +560,11 @@ def BillSave(request):
 				'poriva': civa.poriva,
 				'pordes': data_deta['pordes'],
 				'vunita': float(data_deta['vunita']),
-				'viva': viva,
-				'vbase': vt,
-				'vtotal': float((vt + viva)),
+				'viva': vtiva_vtbase["viva"],
+				'vbase': vtiva_vtbase["vbase"],
+				'vtotal': vt,
 				'pvtafull': float(carlos.pvta1),
-				'vcosto': float(carlos.vcosto1)
+				'vcosto': float(carlos.vcosto)
 			}
 		)
 
@@ -575,7 +577,7 @@ def BillSave(request):
 				'nlargo': carlos.nlargo,
 				'canti': data_deta['canti'],
 				'vunita': float(data_deta['vunita']),
-				'vtotal': float((vt + viva))
+				'vtotal': float(vt)
 			}
 		)
 		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
@@ -795,8 +797,10 @@ def BillUpdate(request,pk):
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
 		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
-		viva = vt * float(civa.poriva)
+		#viva = vt * float(civa.poriva)
 		exclude_arlo.append(carlos.pk)
+
+		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
 		fac_deta = save_fac_deta(
 			request.db,
@@ -812,9 +816,9 @@ def BillUpdate(request,pk):
 				'poriva': civa.poriva,
 				'pordes': data_deta['pordes'],
 				'vunita': float(data_deta['vunita']),
-				'viva': viva,
-				'vbase': vt,
-				'vtotal': float((vt + viva)),
+				'viva': vtiva_vtbase["viva"],
+				'vbase': vtiva_vtbase["vbase"],
+				'vtotal': float(vt),
 				'pvtafull': float(carlos.pvta1),
 				'vcosto': float(carlos.vcosto1)
 			}
@@ -829,7 +833,7 @@ def BillUpdate(request,pk):
 				'nlargo': carlos.nlargo,
 				'canti': data_deta['canti'],
 				'vunita': float(data_deta['vunita']),
-				'vtotal': float((vt + viva))
+				'vtotal': float(vt)
 			}
 		)
 		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
