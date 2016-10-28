@@ -23,7 +23,9 @@ from easy_pdf.views import PDFTemplateView
 
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
+from infa_web.apps.facturacion.bills_fn import *
 from infa_web.apps.terceros.models import *
+from infa_web.apps.usuarios.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.base.forms import *
@@ -296,13 +298,17 @@ def save_mvsa_deta(request_db, mvsa_deta_array):
 @csrf_exempt
 def BillSave(request):
 	today = datetime.datetime.today()
+	default_fecha = today.strftime("%Y-%m-%d %H:%M:%S")
 	# Recibe parametros en JSON desde la vista
 	data = json.loads(request.body)
-	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
 	response["error"] = False
 	response["message"] = "Factura Guardada con Exito"
+
+	# Datos de Prueba - Cambiar Posteriormente
+	usuario_actual = Usuario.objects.using(request.db).all()[0]
+	# Datos de Prueba - Cambiar Posteriormente
 
 	# variable para total de medios de pago
 	medios_pagos_total = 0
@@ -319,26 +325,44 @@ def BillSave(request):
 	# variable para total de credito
 	vncred_t = 0
 
+	# Valores por defecto para calculos de facturacion
+	default_vflete = 0
+	default_brtefte = 0
+	default_prtefte = 0
+	default_ventre = 0
+
 	# Busqueda a modelos de acuerdo a los parametros recibidos
-	data_femi = data['femi']
-	data_fpago = data['fpago']
+	data_femi = data['femi'] + " " + today.strftime("%H:%M:%S") if 'femi' in data else default_fecha
+	data_fpago = data['fpago']  if 'fpago' in data else default_fecha
 	data_descri = data['descri'] if 'descri' in data else ""
 
-	data_vtbase = float(data['vtbase'])
-	data_vtiva = float(data['vtiva'])
 	data_vdescu = float(data['vdescu'])
-	data_ventre = float(data['ventre'])
-	data_vcambio = float(data['vcambio'])
+	data_vflete = float(data['vflete']) if 'vflete' in data else default_vflete
 
-	data_brtefte = float(data['brtefte'])
-	data_prtefte = float(data['prtefte'])
-	data_vrtefte = float(data['vrtefte'])
+	data_ventre = float(data['ventre']) if 'ventre' in data else default_ventre
 
-	data_vflete = float(data['vflete'])
+	data_brtefte = float(data['brtefte']) if 'brtefte' in data else default_brtefte
+	data_prtefte = float(data['prtefte']) if 'prtefte' in data else default_prtefte
+
+
 	data_vttotal = float(data['vttotal'])
 
+	# Calculos
+	calc_vcambio = calcular_valor_cambio(data_ventre,data_vttotal)
+	
+	calc_vflete = calcular_total_flete(data_brtefte,data_prtefte)
+	calc_vtbase_vtiva = calcular_vtbase_vtiva(data['mvdeta'],request.db)
+	#calc_vttotal = calcular_total(data['mvdeta'],data_vflete,data_vdescu)
+	
+
+	data_vcambio = float(data['vcambio']) if 'vcambio' in data else calc_vcambio
+	data_vrtefte = float(data['vrtefte']) if 'vrtefte' in data else calc_vflete
+	data_vtbase = float(data['vtbase']) if 'vtbase' in data else calc_vtbase_vtiva["vtbase"]
+	data_vtiva = float(data['vtiva']) if 'vtiva' in data else calc_vtbase_vtiva["vtiva"]
+
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
-	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	#ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	ccaja = usuario_actual.ccaja
 
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'] if "citerce" in data else DEFAULT_TERCERO)
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'] if "cesdo" in data else DEFAULT_ACTIVO)
@@ -448,17 +472,20 @@ def BillSave(request):
 				}
 			)
 		else:
+			data_it = 1
 			for data_facpago in data["medios_pagos"]:
 				mediopago = MediosPago.objects.using(request.db).get(pk = data_facpago['cmpago'])
-				banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'])
+				banmpago = Banfopa.objects.using(request.db).get(pk = data_facpago['banmpago'] if 'banmpago' in data_facpago else DEFAULT_BANCO)
 
+				data_facpago_docpago = data_facpago['docmpago'] if 'docmpago' in data_facpago else 0
 				fac_pago = save_fac_pago(
 					request.db, 
 					{
 						'cfac': fac,
-						'it': data_facpago['it'],
+						'it': data_it,
+						#'it': data_facpago['it'],
 						'cmpago': mediopago,
-						'docmpago': data_facpago['docmpago'],
+						'docmpago': data_facpago_docpago,
 						'banmpago': banmpago,
 						'vmpago': float(data_facpago['vmpago'])
 					}
@@ -468,9 +495,10 @@ def BillSave(request):
 					request.db,
 					{
 						'cmovi': movi,
-						'it': data_facpago['it'],
+						'it': data_it,
+						#'it': data_facpago['it'],
 						'cmpago': mediopago,
-						'docmpago': data_facpago['docmpago'],
+						'docmpago': data_facpago_docpago,
 						'banmpago': banmpago,
 						'vmpago': float(data_facpago['vmpago'])
 					}
@@ -481,12 +509,14 @@ def BillSave(request):
 					{
 						'cmovi': movi,
 						'ctimo': ctimo.pk,
-						'itmovi': data_facpago['it'],
+						'itmovi': data_it,
+						#'itmovi': data_facpago['it'],
 						'docrefe': fac.cfac,
 						'detalle': '-',
 						'vmovi': medios_pagos_total
 					}
 				)
+				data_it += 1
 
 		if(value_vttotal > medios_pagos_total):
 			ctimo = ctimo_billing('ctimo_cxc_billing', request.db)
@@ -509,9 +539,12 @@ def BillSave(request):
 
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
-		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
+		data_deta_civa = data_deta['civa'] if 'civa' in data_deta else carlos.ivas_civa.civa
+		civa = Iva.objects.using(request.db).get(pk = data_deta_civa)
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
-		viva = vt * float(civa.poriva)
+		#viva = vt * (float(civa.poriva)/float(100))
+
+		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
 		fac_deta = save_fac_deta(
 			request.db,
@@ -527,11 +560,11 @@ def BillSave(request):
 				'poriva': civa.poriva,
 				'pordes': data_deta['pordes'],
 				'vunita': float(data_deta['vunita']),
-				'viva': viva,
-				'vbase': vt,
-				'vtotal': float((vt + viva)),
+				'viva': vtiva_vtbase["viva"],
+				'vbase': vtiva_vtbase["vbase"],
+				'vtotal': vt,
 				'pvtafull': float(carlos.pvta1),
-				'vcosto': float(carlos.vcosto1)
+				'vcosto': float(carlos.vcosto)
 			}
 		)
 		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
@@ -545,7 +578,7 @@ def BillSave(request):
 				'nlargo': carlos.nlargo,
 				'canti': data_deta['canti'],
 				'vunita': float(data_deta['vunita']),
-				'vtotal': float((vt + viva))
+				'vtotal': float(vt)
 			}
 		)
 	
@@ -563,8 +596,9 @@ def BillSave(request):
 @csrf_exempt
 def BillUpdate(request,pk):
 	today = datetime.datetime.today()
+	default_fecha = today.strftime("%Y-%m-%d %H:%M:%S")
 	data = json.loads(request.body)
-	data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
+	#data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
 	response["error"] = False
@@ -577,27 +611,48 @@ def BillUpdate(request,pk):
 	val_tot_mp = 0
 	exclude_arlo = []
 
+	# Datos de Prueba - Cambiar Posteriormente
+	usuario_actual = Usuario.objects.using(request.db).all()[0]
+	# Datos de Prueba - Cambiar Posteriormente
+
+	# Valores por defecto para calculos de facturacion
+	default_vflete = 0
+	default_brtefte = 0
+	default_prtefte = 0
+	default_ventre = 0
+
 	ctimo = ctimo_billing('ctimo_rc_billing', request.db)
 	#ctimo_cxc_billing = manageParameters.get_param_value('ctimo_cxc_billing')
 	data_cfac = data['cfac']
-	data_fpago = data['fpago']
-	data_femi = data['femi']
-	data_descri = data['descri']
-	data_vtbase = float(data['vtbase'])
-	data_vtiva = float(data['vtiva'])
-	data_vflete = float(data['vflete'])
+	data_femi = data['femi'] + " " + today.strftime("%H:%M:%S") if 'femi' in data else default_fecha
+	data_fpago = data['fpago']  if 'fpago' in data else default_fecha
+	data_descri = data['descri'] if 'descri' in data else ""
+
 	data_vdescu = float(data['vdescu'])
+	data_vflete = float(data['vflete']) if 'vflete' in data else default_vflete
 
 	data_vttotal = float(data['vttotal'])
-	data_ventre = float(data['ventre'])
-	data_vcambio = float(data['vcambio'])
+	data_ventre = float(data['ventre']) if 'ventre' in data else default_ventre
 
-	data_brtefte = float(data['brtefte'])
-	data_prtefte = float(data['prtefte'])
-	data_vrtefte = float(data['vrtefte'])
+	data_brtefte = float(data['brtefte']) if 'brtefte' in data else default_brtefte
+	data_prtefte = float(data['prtefte']) if 'prtefte' in data else default_prtefte
+
+	# Calculos
+	calc_vcambio = calcular_valor_cambio(data_ventre,data_vttotal)
+	
+	calc_vflete = calcular_total_flete(data_brtefte,data_prtefte)
+	calc_vtbase_vtiva = calcular_vtbase_vtiva(data['mvdeta'],request.db)
+	#calc_vttotal = calcular_total(data['mvdeta'],data_vflete,data_vdescu)
+	
+
+	data_vcambio = float(data['vcambio']) if 'vcambio' in data else calc_vcambio
+	data_vrtefte = float(data['vrtefte']) if 'vrtefte' in data else calc_vflete
+	data_vtbase = float(data['vtbase']) if 'vtbase' in data else calc_vtbase_vtiva["vtbase"]
+	data_vtiva = float(data['vtiva']) if 'vtiva' in data else calc_vtbase_vtiva["vtiva"]
 
 	ctifopa = Tifopa.objects.using(request.db).get(pk = data['ctifopa'])
-	ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	#ccaja = Caja.objects.using(request.db).get(pk = data['ccaja'])
+	ccaja = usuario_actual.ccaja
 
 	citerce = Tercero.objects.using(request.db).get(pk = data['citerce'] if 'citerce' in data else DEFAULT_TERCERO)
 	cesdo = Esdo.objects.using(request.db).get(pk = data['cesdo'] if 'cesdo' in data else DEFAULT_ACTIVO)
@@ -742,8 +797,10 @@ def BillUpdate(request,pk):
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
 		civa = Iva.objects.using(request.db).get(pk = data_deta['civa'])
 		vt = float(data_deta['vunita']) * float(data_deta['canti'])
-		viva = vt * float(civa.poriva)
+		#viva = vt * float(civa.poriva)
 		exclude_arlo.append(carlos.pk)
+
+		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
 		fac_deta = save_fac_deta(
 			request.db,
@@ -759,9 +816,9 @@ def BillUpdate(request,pk):
 				'poriva': civa.poriva,
 				'pordes': data_deta['pordes'],
 				'vunita': float(data_deta['vunita']),
-				'viva': viva,
-				'vbase': vt,
-				'vtotal': float((vt + viva)),
+				'viva': vtiva_vtbase["viva"],
+				'vbase': vtiva_vtbase["vbase"],
+				'vtotal': float(vt),
 				'pvtafull': float(carlos.pvta1),
 				'vcosto': float(carlos.vcosto1)
 			}
@@ -777,7 +834,7 @@ def BillUpdate(request,pk):
 				'nlargo': carlos.nlargo,
 				'canti': data_deta['canti'],
 				'vunita': float(data_deta['vunita']),
-				'vtotal': float((vt + viva))
+				'vtotal': float(vt)
 			}
 		)
 

@@ -16,7 +16,7 @@ from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.views import ctimo_billing
 from infa_web.routines import costing_and_stock
 from infa_web.routines import *
-from infa_web.bills_fn import *
+from infa_web.apps.facturacion.bills_fn import *
 
 from infa_web.apps.base.data_test.arlo_mov_fac import data_mvens,data_mvsas,data_invs,data_facs,data_edit_facs,data_articles,costing_and_stock_expected_values,cartera_expected_values
 
@@ -360,7 +360,8 @@ class ExampleTestCase(TestCase):
 
 	using = "default"
 	cii = None
-	name_file_reporte = 'report_test.html'
+	name_file_reporte = 'report_test/report.html'
+	name_file_template = 'report_test/template_test.html'
 
 
 	def setUp(self):
@@ -461,7 +462,7 @@ class ExampleTestCase(TestCase):
 
 
 
-		with open('template_test.html', 'r') as template:
+		with open(self.name_file_template, 'r') as template:
 			data=template.read().replace('::content::', str(document_html))
 
 

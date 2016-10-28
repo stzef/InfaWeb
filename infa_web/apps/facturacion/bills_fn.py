@@ -57,6 +57,27 @@ def calcular_total_flete(brtefte,prtefte):
 	vrtefte = brtefte - ( brtefte * ( prtefte / cient_por_ciento ) )
 	return vrtefte
 
+def calcular_vtbase_vtiva_arlo(data,name_db):
+	article = Arlo.objects.using(name_db).get(carlos=data["carlos"])
+	cantidad = float(data["canti"])
+	precio = float(data["vunita"])
+	porcentaje_descuento = float(data["pordes"])
+
+	codigo_iva = int(data["civa"]) if 'civa' in data else article.ivas_civa.civa
+	porcentaje_iva = float(Iva.objects.using(name_db).get(civa = codigo_iva).poriva)
+
+	#precio_total_sin_descuento = cantidad * precio
+	#precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / cient_por_ciento ) )
+	"""
+		No se Aplica el Descuento pues en el valor unitario ya se calculo
+	"""
+	precio_total = cantidad * precio
+
+	vbase = precio_total / ( float(1) + ( porcentaje_iva / cient_por_ciento ) )
+	viva = vbase * ( porcentaje_iva / cient_por_ciento )
+
+	return {"vbase":vbase,"viva":viva}
+
 def calcular_vtbase_vtiva(data_array,name_db="default"):
 	"""
 		canti: cantidad a vender del articulo
@@ -75,31 +96,15 @@ def calcular_vtbase_vtiva(data_array,name_db="default"):
 			vtbase += vbase
 			vtiva += viva
 	"""
-
 	vtbase = float(0)
 	vtiva = float(0)
 
 	for data in data_array:
-		cantidad = float(data["canti"])
-		precio = float(data["vunita"])
-		porcentaje_descuento = float(data["pordes"])
+		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data,name_db)
 
-		codigo_iva = int(data["civa"])
-		porcentaje_iva = float(Iva.objects.using(name_db).get(civa = codigo_iva).poriva)
-
-		#precio_total_sin_descuento = cantidad * precio
-		#precio_total = precio_total_sin_descuento - ( precio_total_sin_descuento * ( porcentaje_descuento / cient_por_ciento ) )
-		"""
-			No se Aplica el Descuento pues en el valor unitario ya se calculo
-		"""
-		precio_total = cantidad * precio
-
-		vbase = precio_total / ( float(1) + ( porcentaje_iva / cient_por_ciento ) )
-		viva = vbase * ( porcentaje_iva / cient_por_ciento )
-
-		vtbase += custom_round(vbase)
+		vtbase += custom_round(vtiva_vtbase["vbase"])
 		#vtbase += vbase
-		vtiva += custom_round(viva)
+		vtiva += custom_round(vtiva_vtbase["viva"])
 		#vtiva += viva
 
 	return {"vtbase": vtbase,"vtiva": vtiva}
