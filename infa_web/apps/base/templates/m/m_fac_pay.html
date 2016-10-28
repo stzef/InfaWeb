@@ -48,7 +48,7 @@
 			</div>
 			<div class="ui-block-b">
 				<input id="id_total_pagos" class="input-currency" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
-				<input id="vtfactura" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
+				<input id="vtfactura"class="input-currency" type="text" value="0" style="text-align:right;background-color: black;color: white;font-size: 20px;" disabled>
 			</div>
 		</div>
 	</div>
@@ -56,9 +56,12 @@
 
 		var mediosPago = []
 		var codigoPagoContado = "{{pagoContado}}"
-		$("#vtfactura").val(
-			currencyFormat.format(vtotalFactura)
-		)
+
+		$(document).delegate('.ui-page', 'pageshow', function () {
+			$("#vtfactura").val(
+				currencyFormat.format(vtotalFactura)
+			)
+		});
 
 		// Eventos para descuento
 		$("#id_descuento_factura")
@@ -121,7 +124,7 @@
 			}
 
 			// validacion total de factura
-			if (getTotalMediosPago() > $("#vtfactura").custom_format_val()()) {
+			if (getTotalMediosPago() > $("#vtfactura").custom_format_val()) {
 				alert("El valor de los pagos sobrepaso el valor total de la factura")
 				return false
 			}
