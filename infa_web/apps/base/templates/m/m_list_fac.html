@@ -1,0 +1,33 @@
+{% extends "m/base.html" %}
+
+{% block title %}
+	{% include "m/m_header_fac.html" %}
+	<h1 class="ui-title" role="heading" aria-level="1">Facturas</h1>
+{% endblock title %}
+
+{% block content %}
+	{% if facturas %}
+
+		<table class="ui-body-d table-stripe" data-role="table" data-mode="columntoggle">
+			<thead>
+				<tr class="ui-bar-d">
+					<th>Factura</th>
+					<th>Detalles</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for factura in facturas %}
+					<tr>
+						<td>{{factura.cfac}}</td>
+						<td><a href="#">Detalles</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+
+		<p>No hay facturas por mostrar</p>
+
+	{% endif %}
+{% endblock content %}

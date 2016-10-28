@@ -185,12 +185,15 @@
 				type: 'POST',
 				data : JSON.stringify(data),
 				contentType : 'application/json',
-				error : function (xhr, statusCode, errorThrown) {
+				error : function (xhr, statusCodeText, errorThrown) {
 					console.log(xhr)
 					console.log(statusCode)
 					console.log(errorThrown)
+
+					alert("Ocurrio un error al guardar la factura")
+
 				},
-				success : function (data, statusCode, xhr) {
+				success : function (data, statusCodeText, xhr) {
 					console.log(data)
 					console.log(statusCode)
 					console.log(xhr)
