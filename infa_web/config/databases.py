@@ -48,7 +48,7 @@ if 'CURRENT_ENV_WORK' in os.environ:
 			},
 			'db_1': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
-				'NAME': 'stzef',
+				'NAME': 'infaweb_db',
 				'USER': 'postgres',
 				'PASSWORD': '123456',
 				'HOST': 'localhost',
