@@ -565,7 +565,6 @@ def BillSave(request):
 				'vcosto': float(carlos.vcosto1)
 			}
 		)
-		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
 
 		mvsa_deta = save_mvsa_deta(
 			request.db,
@@ -579,7 +578,8 @@ def BillSave(request):
 				'vtotal': float((vt + viva))
 			}
 		)
-	
+		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
+
 	related_information = fac.get_related_information(request.db,True)
 	response["related_information"] = related_information
 
@@ -819,7 +819,6 @@ def BillUpdate(request,pk):
 				'vcosto': float(carlos.vcosto1)
 			}
 		)
-		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
 
 		mvsa_deta = save_mvsa_deta(
 			request.db,
@@ -833,6 +832,7 @@ def BillUpdate(request,pk):
 				'vtotal': float((vt + viva))
 			}
 		)
+		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
 
 	fac_deta = Facdeta.objects.using(request.db).exclude(carlos__in = exclude_arlo)
 	fac_deta.delete()
