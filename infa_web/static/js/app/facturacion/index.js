@@ -948,6 +948,8 @@ $(document).ready(function(e){
 		$("#item_mdeta").find("#id_itfac").val(object.fields.itfac);
 		$("#item_mdeta").find("#name__carlos").val(object.fields.nlargo);
 		$("#item_mdeta").find("#id_canti").val(object.fields.canti);
+		$("#item_mdeta").find("#id_pordes").val(object.fields.pordes);
+		$("#item_mdeta").find("#id_civa").val(object.fields.civa);
 		$("#item_mdeta").find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change");
 		$("#item_mdeta").find("#id_vtotal").val(currencyFormat.format(object.fields.vtotal)).trigger("change");
 		$("#form_deta_movement").submit();
