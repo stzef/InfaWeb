@@ -75,16 +75,16 @@ def calcular_vtbase_vtiva(data_array,name_db="default"):
 			vtbase += vbase
 			vtiva += viva
 	"""
-
 	vtbase = float(0)
 	vtiva = float(0)
 
 	for data in data_array:
+		article = Arlo.objects.using(name_db).get(carlos=data["carlos"])
 		cantidad = float(data["canti"])
 		precio = float(data["vunita"])
 		porcentaje_descuento = float(data["pordes"])
 
-		codigo_iva = int(data["civa"])
+		codigo_iva = int(data["civa"]) if 'civa' in data else article.ivas_civa.civa
 		porcentaje_iva = float(Iva.objects.using(name_db).get(civa = codigo_iva).poriva)
 
 		#precio_total_sin_descuento = cantidad * precio
