@@ -1,0 +1,61 @@
+{% load humanize %}
+<form class="form-horizontal" id="form_items">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+				</div>
+				<div class="box-body">
+
+					<section class="col-md-12" id="form_temp_mvendeta"> 
+					</section>
+					<section role="form" id="section_item">
+						<table class="table table-striped no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="10%">Item</th>
+									<th>Doc Referencia</th>
+									<th>Detalle</th>
+									<th>Vr. Total</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th>{{ form_movideta.itmovi }}</th>
+									<th>{{ form_movideta.docrefe }}</th>
+									<th>{{ form_movideta.detalle }}</th>
+									<th>{{ form_movideta.vmovi }}</th>
+									<th>
+										<button type="submit" class="btn btn-success" title="Agregar Articulo">
+											<i class="fa fa-plus-square"></i>
+										</button>
+										<button class="btn btn-info" title="Lista de Precios" type="button" onclick="mostrar_modal_lista_precios(false)">
+											<i class="fa fa-list-alt"></i>
+										</button>
+									</th>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+
+					<section role="form" id="list_items">
+						<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="10%">Item</th>
+									<th>Doc Referencia</th>
+									<th>Detalle</th>
+									<th>Vr. Total</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</section>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

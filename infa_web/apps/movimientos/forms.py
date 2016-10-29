@@ -284,10 +284,11 @@ class MoviDetailForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = { 
 			'cmovi' : forms.Select(attrs={'class':'form-control','required':True}),
-			'itmovi' : forms.TextInput(attrs={'class':'form-control'}),
+			'itmovi' : forms.TextInput(attrs={'class':'form-control','required':True}),
 			'docrefe' : forms.TextInput(attrs={'class':'form-control'}),
+			'detalle' : forms.TextInput(attrs={'class':'form-control','required':True}),
+			'vmovi':forms.TextInput(attrs={'class': 'form-control input-currency','required':True,'min':0}),
 			#'ccta' : forms.Select(attrs={'class':'form-control','required':True}),
-			'detalle' : forms.TextInput(attrs={'class':'form-control'}),
 			#'vdebi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
 			#'vcredi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
 			#'vinte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
@@ -319,4 +320,33 @@ class MoviDetailForm(forms.ModelForm):
 			#'vinte_cal' : '',
 			#'abo_inte' : '',
 			#'vcomi' : '',
+		}
+
+class MovipagoForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(MovipagoForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmpago'].queryset = MediosPago.objects.using(name_db).all()
+		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmovi'].queryset = Movi.objects.using(name_db).all()
+		self.fields['banmpago'].queryset = Banfopa.objects.using(name_db).all()
+
+	class Meta:
+		model = Movipago
+		fields = "__all__"
+		widgets = {
+			'cmovi' : forms.Select(attrs={'class':'form-control','required':True}),
+			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
+			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
+			'vmpago' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+		}
+		labels = {
+			'cmovi' : 'Codigo Factura',
+			'it' : 'Item',
+			'cmpago' : 'Medio de Pago',
+			'docmpago' : 'Doc. Medio Pago',
+			'banmpago' : 'Ban. Medio Pago',
+			'vmpago' : 'Valor Medio Pago',
 		}

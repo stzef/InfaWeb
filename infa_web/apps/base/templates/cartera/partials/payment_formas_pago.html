@@ -1,0 +1,42 @@
+<form class="form-horizontal" id="form_medios_pago">
+	<section id="section_item">
+		<table class="table table-striped no-footer" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>It</th>
+					<th>Medio de Pago</th>
+					<th>Documento</th>
+					<th>Banco</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+				<tr>
+					<th>
+						<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
+					</th>
+					<th>{{ form_medios_pagos.cmpago }}</th>
+					<th>{{ form_medios_pagos.docmpago }}</th>
+					<th>{{ form_medios_pagos.banmpago }}</th>
+					<th>{{ form_medios_pagos.vmpago }}</th>
+					<th><button type="submit" title="Agregar Forma de Pago" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+				</tr>
+			</thead>
+		</table>
+	</section>
+
+	<section role="form" id="list_items">
+		<table class="table table-striped no-footer text-center" cellspacing="0">
+			<thead>
+				<tr>
+					<th>It</th>
+					<th>Medio de Pago</th>
+					<th>Documento</th>
+					<th>Banco</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</section>
+</form>

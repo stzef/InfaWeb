@@ -1,0 +1,168 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content-header">
+			<h1>{{title}}</h1>
+		</section>
+		<section class="content" id="messages-container">
+
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
+							<h4 class="panel-title">
+								Detalle
+								<span class="pull-right-container">
+									<input type="text" name="" class="input-currency pull-right app-input-important" readonly>
+								</span>
+							</h4>
+						</a>
+					</div>
+					<div id="collapse_detail" class="panel-collapse collapse in">
+						<div class="panel-body">
+							{% include "cartera/partials/payment_deta.html" %}
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
+							<h4 class="panel-title">Encabezado</h4>
+						</a>
+					</div>
+					<div id="collapse_head" class="panel-collapse collapse">
+						<div class="panel-body">
+							{% include "cartera/partials/payment_head.html" %}
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="modal fade" role="dialog" id="medios_pago">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Totalizar</h4>
+						</div>
+						<div class="modal-body">
+
+							<form role="form" id="form_totales">
+								<div>
+									<ul class="nav nav-pills">
+										<li class="active"><a data-toggle="pill" href="#tab_pagos">Pagos</a></li>
+									</ul>
+									<secition>
+										<div class="tab-content"> 
+											<div id="tab_pagos" class="tab-pane fade in active">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="box box-primary">
+															<div class="box-header with-border">
+															</div>
+															<div class="box-body">
+																<div class="form-group col-md-3">
+																	<label for="{{form.vttotal.id_for_label}}" class="">{{form.vttotal.label}}</label>
+																	{{form.vttotal}}
+																</div>
+																<div class="form-group col-md-3">
+																	<label for="{{form.ventre.id_for_label}}">{{form.ventre.label}}</label>
+																	{{form.ventre}}
+																</div>
+																<div class="form-group col-md-3">
+																	<label for="{{form.vcambio.id_for_label}}">{{form.vcambio.label}}</label>
+																	{{form.vcambio}}
+																</div>
+																<div class="form-group col-md-3">
+																	<label for="{{form.vtdescu.id_for_label}}">{{form.vtdescu.label}}</label>
+																	{{form.vtdescu}}
+																</div>
+
+																<div class="form-group col-md-6">
+																	<label for="{{form.vtiva.id_for_label}}">{{form.vtiva.label}}</label>
+																	{{form.vtiva}}
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+										</div>
+									</secition>
+								</div>
+							</form>
+
+							{% include 'cartera/partials/payment_formas_pago.html' %}
+
+						</div>
+						<div class="modal-footer">
+							<div class="btn-group">
+								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
+								<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="text-center buttons-action">
+				<div class="btn-group">
+					<button class="btn btn-app btn-info" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
+						<i class="fa fa-plus-square-o"></i>
+						Nuevo
+					</button>
+					<button type="button" class="btn btn-app" data-toggle="modal" data-target="#modal_descripcion">
+						<i class="fa fa-file-text-o"></i>Descripción
+					</button>
+					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
+						<i class="fa fa-dollar"></i>
+						Totalizar
+					</button>
+					{% if mode_view == "edit" %}
+						<button class="btn btn-app" type="button" id="print_bill">
+							<i class="fa fa-print"></i>
+							Imprimir
+						</button>
+					{% endif %}
+
+					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
+
+				</div>
+			</div>
+
+		</section>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+
+{% block content_script %}
+	<script src="{% static 'js/moment-with-locales.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+
+	<script type="text/javascript">
+		var var_template_django_url = "{{url}}"
+		{% if facdeta_json %}
+			var td_js_facdeta = {{facdeta_json|safe}}
+		{% else %}
+			var td_js_facdeta = []
+		{% endif %}
+		$("#form_items").customTable()
+		$("#form_medios_pago").customTable()
+	</script>
+
+	<script src="{% static 'js/app/cartera/index.js' %}"></script>
+{% endblock content_script %}

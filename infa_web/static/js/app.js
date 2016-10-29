@@ -57,6 +57,68 @@ jQuery.fn.extend({
 			val = this.val()
 		}
 		return val
+	},
+	customTable : function(){
+		$(this).submit(function(event){
+			event.preventDefault()
+			if(customValidationInput("#section_item").valid){
+				var tr = $("<tr>")
+				$(this).find('#section_item').find("input,select").toArray().forEach(function(e,i){
+					var oth = $(e).closest("th")
+
+					var value = e.value
+					var data_value = e.value
+					var css_class = ""
+
+					if($(e).hasClass("input-currency")) {
+						css_class = "value-currency"
+					}
+
+					if(e instanceof HTMLSelectElement){
+						var value = $(e).find("option[value=" + e.value + "]").html()
+					}
+					if(e.type == "hidden"){
+						value = ""
+					}
+					tr.append($("<td>",{
+						"data-name":e.name,
+						"data-value":data_value,
+						"class":css_class,
+						html:value
+					}))
+				})
+				td = $("<td width='100px'>")
+				var btnEdit = td.append($("<button type='button' class='btn btn-info' title='Editar Registro' id='edit_item' style='margin-right: 3px;'><i class='fa fa-edit'></button>"))
+				var btnDelete = td.append($("<button type='button' class='btn btn-danger' title='Borrar Registro' id='delete_item'><i class='fa fa-remove'></button>"))
+
+				btnDelete.click(function(){
+					$(this).closest("tr").remove()
+				})
+
+
+				btnEdit.click(function(){
+					var target = $(this)
+					parent = target.closest("tr")
+					parent.find("[data-name]").each(function(i,e){
+						var td = $(e)
+						var input = $("#section_item").find("[name = " + td.data("name") + "]")
+						input.val(td.data("value"))
+					})
+					parent.remove()
+				});
+
+				tr.append(btnEdit,btnDelete)
+				$(this).find("#list_items").find("tbody").append(tr)
+				/*
+				$("#list_items").find("[data-name=itfac]").toArray().forEach(
+					function(e){
+						$(e).html(it);
+						$(e).attr("data-value",it);
+					})
+				*/
+				it++
+			}
+		})
 	}
 })
 

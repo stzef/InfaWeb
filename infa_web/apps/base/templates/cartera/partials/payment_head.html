@@ -1,0 +1,67 @@
+{% load static %}
+<form class="form-horizontal" id="form_movement">
+	<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+				</div>
+				<div class="box-body">
+
+					<div class="col-md-6 nopadding">
+
+						<div class="form-group col-md-12">
+							<label for="{{form.citerce.id_for_label}}" class="col-sm-2 control-label">{{form.citerce.label}}</label>
+							{%if form.citerce.errors%}
+							{{form.citerce.errors}}
+							{%endif%}
+							<div class="col-sm-10">
+								<div class="input-group">
+									<div class="col-md-3" style="padding: 0px;">
+										<input type="number" value="{{form.citerce.field.widget.attrs.value}}" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}" {% if form.citerce.field.required %}required{% endif %}>
+									</div>
+									<div class="col-md-9" style="padding: 0px;">
+										<input type="text" name="name__{{form.citerce.name}}" id="name__{{form.citerce.name}}" class="form-control" readonly>
+									</div>
+									<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+									<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="{{form.cmovi.id_for_label}}" class="col-md-3 control-label">{{form.cmovi.label}}</label>
+							<div class="col-md-9">
+								{{form.cmovi}}
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="{{form.ctimo.id_for_label}}" class="col-md-3 control-label">{{form.ctimo.label}}</label>
+							<div class="col-md-9">
+								{{form.ctimo}}
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="{{form.fmovi.id_for_label}}" class="col-md-3 control-label">{{form.fmovi.label}}</label>
+							<div class="col-md-9">
+								{{form.fmovi}}
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="{{form.descrimovi.id_for_label}}" class="col-md-3 control-label">{{form.descrimovi.label}}</label>
+							<div class="col-md-9">
+								{{form.descrimovi}}
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="{{form.cesdo.id_for_label}}" class="col-md-3 control-label">{{form.cesdo.label}}</label>
+							<div class="col-md-9">
+								{{form.cesdo}}
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+
+</form>
