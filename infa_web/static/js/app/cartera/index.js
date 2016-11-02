@@ -2,22 +2,16 @@ var selector_element_focus_on_totalizar = "[name=ventre]"
 
 var mode_view = $("#mode_view").val()
 var it = 1
+var vttotal_cartera_tercero = 0
 var containerMessages = $("#messages-container")
 $('#id_itfac').val(it)
 
 var text_message_ingrese_medios_pago = "No ha ingresado ningún Medio de Pago."
 var text_message_ingrese_articulos = "No ha ingresado ningún Artículo."
-var text_message_ventre_menor_total = "El Valor Entrado es menor al Valor Total."
 var text_message_descuento_mayor_vttotal = "No puede realizar un Descuento Mayor al Valor Total."
 var text_message_error_request = "Ha ocurrido un error en el proceso."
-var text_message_vttotal_mayor_cero = "El Valor Total debe ser mayor a cero."
-var text_message_seleccione_articulo = "Seleccione un artículo."
-var text_message_seleccione_tercero = "Seleccione un Tercero."
 var text_message_menor_igual_cero = "El Valor a Pagar no puede ser menor o igual a cero."
 var text_message_vpago_mayor_vttotal = "El Valor a Pagar no puede ser mayor al Valor Total."
-var text_message_numero_maximo_items_por_factura = "El número máximo de ítems por factura para este usuario segun el talonario ya se ha superado."
-var text_message_vpago_menor_vttotal = "El Valor de Pago no puede ser menor al Valor Total."
-var text_message_cambio_contado_credito = "La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?"
 
 function print_rc(cmovi){
 	window.open("/cartera/print?cmovi=" + cmovi)
@@ -39,74 +33,20 @@ function show_modal_totalizar(){
 	
 }
 
-function get_data_list(selector_list){/*Revisar*/
+function calcular_total(){
 	/*
-		Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
-		{
-			tr1[data-name]: tr1[data-value],
-			trn[data-name]: trn[data-value],
-			...
-			...
-			...
-		}
+		Calcula el valor Total del Abono
+		Recorre todos los items del abono calculando el valor individual y sumandolos
 	*/
-	return $(selector_list).find("tbody").find("tr").toArray().map(
-		function(e){
-			var data = {}
-			$(e).children("[data-name]").toArray().forEach(
-				function(e2){
-					if($(e2).hasClass("value-currency")){
-						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
-					}else{
-						data[$(e2).data("name")] = $(e2).data("value")
-					}
-				}
-			)
-			return data
+	var vt_vmovi = 0
+	$("#list_items tbody tr").toArray().forEach(function(e){
+			var vmovi = parseFloat(currencyFormat.sToN($(e).find("[data-name=vmovi]").data("value")))
+			vt_vmovi += vmovi
 		}
 	)
-}
-
-function calcular_total(){/*Revisar*/
-	/*
-		Calcula el valor Total de la Factura
-
-		Recorre todos los times de la factura calculando el valor individual y sumandolos para luego operarlos con el descuento y los valores del flete
-	*/
-	var vttotal_items = 0
-	var vttotal_local = 0
-	$("#list_items_mdeta tbody tr")
-		.toArray()
-		.forEach(function(e){
-
-			var temp_vunita = parseFloat(currencyFormat.sToN($(e).find("[data-name=vunita]").data("value")))
-			var temp_canti = parseFloat($(e).find("[data-name=canti]").data("value"))
-
-			/*
-				Anotacion: El descuento no se aplica aqui oues el valor unitario ya lo tiene aplicado
-			*/
-
-			var vtotal_temp = temp_vunita * temp_canti
-			vttotal_items += vtotal_temp
-		}
-	)
-	var vflete = parseFloat($("[name=vflete]").custom_format_val())
-	var porcentaje_descuento = parseFloat($("[name=vdescu]").val())
-	var valor_descuento = parseFloat(currencyFormat.sToN($("[name=vdescu]").val()))
-
-
-	vttotal_local_sin_descuento = vflete + vttotal_items
-	vttotal_local = vttotal_local_sin_descuento - valor_descuento
-
-	$("[name=vttotal]").val(vttotal_local).trigger("change")
-	$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("change")
-	
-	$("[name=ventre]").val(vttotal_local).trigger("change")
-	if(valor_descuento > vttotal_local_sin_descuento){
-		$("[name=vdescu]").val("0")
-		return alert(text_message_descuento_mayor_vttotal)
-	}
-
+	$("[name=vttotal]").val(vt_vmovi).trigger("change")
+	$("#mask_vttotal").val(vt_vmovi).trigger("change")
+	$("[name=ventre]").val(vt_vmovi).trigger("change")
 }
 
 $("#print_bill").click(function(){
@@ -125,6 +65,7 @@ $(window).keydown(function(event) {
 		show_modal_totalizar()
 	}
 })
+
 function setValueFieldTerce(){
 	/*
 
@@ -155,6 +96,7 @@ $('#id_citerce').change(function(){
 	*/
 	var input_value = this.value
 	current_tercero = null
+	vttotal_cartera_tercero = 0
 
 	if(!input_value){
 		setValueFieldTerce()
@@ -167,17 +109,38 @@ $('#id_citerce').change(function(){
 			var object = JSON.parse(response.object)[0]
 			fields = object.fields
 			current_tercero = fields
+			var cartera = getCartera(object.pk)
+			
 		}else{
 			current_tercero = null
+			vttotal_cartera_tercero = 0
 			tooltipBootstrap($('#id_citerce'),".form-group","Esta Idendificación no se encuentra registrada.")
 		}
 		setValueFieldTerce()
 	})
 });
 
+function pintar_cartera(cartera){
+	$("#cartera_tercero tbody").empty()
+	cartera.cartera.forEach(function(movimiento){
+		var tr = $("<tr>")
+		tr.append($("<td>",{html:movimiento.pk}))
+		tr.append($("<td>",{html:currencyFormat.format(movimiento.fields.vttotal)}))
+		$("#cartera_tercero tbody").append(tr)
+	})
+}
+function getCartera(citerce){
+	$.get('/cartera/get_cartera/' + citerce,function(response){
+		response.cartera = JSON.parse(response.cartera)
+		console.info(response)
+		vttotal_cartera_tercero = currencyFormat.sToN("5000.00")
+		pintar_cartera(response)
+	})
+}
+
 /*Falta por Documentar */
 
-
+/*
 $("#form_medios_pago").submit(function (event){
 	event.preventDefault()
 	var nuevo_valor_medios_pagos = parseFloat(currencyFormat.sToN($("#form_medios_pago").find("[name=vmpago]").val()))
@@ -218,9 +181,6 @@ $("#form_medios_pago").submit(function (event){
 			if(e instanceof HTMLSelectElement){
 				var value = $(e).find("option[value=" + e.value + "]").html()
 			}
-			/*if(e.name == 'vmpago'){
-				value = parseFloat(e.value).format(2)
-			}*/
 			tr.append($("<td>",{
 				"data-name":e.name,
 				"data-value":data_value,
@@ -270,7 +230,7 @@ $(document).on('click', '#edit-item-fac', function(){
 
 		var input = $("#item_mdeta").find("[name = " + td.data("name") + "]")
 		input.val(td.data("value"))
-		/*No lanzar el evento trigger sobre 'input', pues este vuelve a ejecutar esta funcion*/
+		//No lanzar el evento trigger sobre 'input', pues este vuelve a ejecutar esta funcion
 		if(input.attr("name") != "carlos"){
 			input.change()
 		}
@@ -287,21 +247,20 @@ $(document).on('click', '#delete-item-fac', function(){
 	$(this).closest("tr").remove()
 	calcular_total()
 });
-
+*/
 
 function reset_form_fac(){
 	$("form :input, button").prop("disabled",false);
-	$("#id_vttotal__mask").prop("disabled",false);
+	$("#vttotal__mask").prop("disabled",false);
 	if(mode_view != "edit"){
-		$("[data-mask=id_vttotal__mask]").val(0).trigger("change");
+		$("#vttotal__mask").val(0).trigger("change");
 		borrar_medios_pago_registrados();
 		borrar_articulos_registrados();
-		$("#collapse_docs > .panel-body").empty()
 		$("form").trigger("reset");
 		$(".date").each(function(i,e){$(e).data("DateTimePicker").date(date_appen);});
 	}
-	$("#collapse_head,#collapse_docs").collapse("hide")
-	$("#collapse_detail").collapse("show")
+	$("#collapse_head,#collapse_deta").collapse("hide")
+	$("#collapse_head").collapse("show")
 }
 
 $("#btn-save").click(function(event){
@@ -311,8 +270,8 @@ $("#btn-save").click(function(event){
 	if(!customValidationInput("#form_movement").valid) return
 	if(!customValidationInput("#form_totales").valid) return
 
-	var array_mvdeta = get_data_list("#list_items_mdeta")
-	var array_medios_pagos = get_data_list("#list_medios_pago")
+	var array_mvdeta = get_data_list("#form_items #list_items table")
+	var array_medios_pagos = get_data_list("#form_medios_pago #list_items table")
 
 	var tot_medios_pagos = 0
 	array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
@@ -333,14 +292,14 @@ $("#btn-save").click(function(event){
 	})
 
 	if(array_medios_pagos.length){
-		data.medios_pagos = array_medios_pagos
+		data.mpagos = array_medios_pagos
 	}else{
 		var message = alertBootstrap(text_message_ingrese_medios_pago,"warning")
 		$("#form_totales").prepend(message)
 		return
 	}
 	if(array_mvdeta.length){
-		data.mvdeta = array_mvdeta
+		data.deta = array_mvdeta
 	}else{
 		var message = alertBootstrap(text_message_ingrese_articulos,"warning")
 		containerMessages.prepend(message)
@@ -407,20 +366,39 @@ $(".date").datetimepicker({
 	defaultDate:date_appen
 });
 
-
 /* Reinicia el formulario de medios de pagos al cerra la ventana modal del mismo*/
 $("#medios_pago").on("hidden.bs.modal", function () {$("#form_medios_pago").trigger("reset");});
 
 /* Envia el Foco al vr entregado al abrir el modal de totalizar*/
 $("#medios_pago").on("shown.bs.modal", function () { $(selector_element_focus_on_totalizar).focus();});
 
-/* Expande el tab de acordeaon del encabezado de la factura para poder mostrar el modal de la descripcion */
-$('#modal_descripcion').on('show.bs.modal', function (e) {
-	$("#collapse_head").collapse("show")
-})
-
 /* Ejecuta el evento change del campo de seleccion del tercero*/
 $("#id_citerce").change();
 
 /*Al doble click en el vt medio pago se actualiza con el valor total de la factura*/
 $("#id_vmpago").dblclick(function(){$(this).val($("#id_vttotal").val()).trigger("change");});
+
+function max_value_for_item(){
+	var vttotal_items = sum_cell("#form_items #list_items table","vmovi")
+	var vtotal_item = parseFloat($(this).find("[name=vmovi]").custom_format_val())
+	var vttotal_local = vttotal_items + vtotal_item
+
+	if(vttotal_local > vttotal_cartera_tercero) return false
+	return true
+}
+function min_value_for_item(){
+	var vtotal_item = parseFloat($(this).find("[name=vmovi]").custom_format_val())
+
+	if(vtotal_item <= 0) return false
+	return true
+}
+
+
+$("#form_items").customTable(
+	[
+		{fn:max_value_for_item,msg:"El valor no puede superar el total"},
+		{fn:min_value_for_item,msg:"El valor no puede se menor o igual a 0"}
+	]
+)
+
+$("#form_medios_pago").customTable([])

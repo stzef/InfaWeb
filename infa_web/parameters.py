@@ -4,6 +4,7 @@ import os.path
 from django.core.exceptions import ImproperlyConfigured 
 
 from infa_web.custom.utils import get_subdomain_by_name_db
+from django.apps import AppConfig
 
 class ManageParameters(object):
 	def __init__(self,name_db):
@@ -65,6 +66,16 @@ class ManageParameters(object):
 		except IOError as e:
 			return None
 
+	"""def get_object_db(self,cparam):
+		if not self.ok(): return None
+		parameter = self.get_param_object(cparam)
+		if parameter["type"] == "Model":
+			apps = AppConfig()
+			Model = apps.get_model(parameter["model"])
+			kwargs = {}
+			kwargs[parameter["field"]["value"]] = parameter["field"]["selected"]
+			return Model.object.using(self.name_db).get(**kwargs)
+	"""
 	def get_param_object(self,cparam):
 		if not self.ok(): return None
 		try:

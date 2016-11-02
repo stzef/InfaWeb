@@ -20,34 +20,35 @@
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
+							<h4 class="panel-title">Encabezado</h4>
+						</a>
+					</div>
+					<div id="collapse_head" class="panel-collapse collapse in">
+						<div class="panel-body">
+							{% include "cartera/partials/payment_head.html" %}
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
 							<h4 class="panel-title">
 								Detalle
 								<span class="pull-right-container">
-									<input type="text" name="" class="input-currency pull-right app-input-important" readonly>
+									<input type="text" name="" id="mask_vttotal" class="input-currency pull-right app-input-important" readonly>
 								</span>
 							</h4>
 						</a>
 					</div>
-					<div id="collapse_detail" class="panel-collapse collapse in">
+					<div id="collapse_detail" class="panel-collapse collapse">
 						<div class="panel-body">
 							{% include "cartera/partials/payment_deta.html" %}
 						</div>
 					</div>
 				</div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
-							<h4 class="panel-title">Encabezado</h4>
-						</a>
-					</div>
-					<div id="collapse_head" class="panel-collapse collapse">
-						<div class="panel-body">
-							{% include "cartera/partials/payment_head.html" %}
-						</div>
-					</div>
-				</div>
 
 			</div>
 
@@ -125,9 +126,6 @@
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
 					</button>
-					<button type="button" class="btn btn-app" data-toggle="modal" data-target="#modal_descripcion">
-						<i class="fa fa-file-text-o"></i>Descripción
-					</button>
 					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
 						<i class="fa fa-dollar"></i>
 						Totalizar
@@ -160,8 +158,7 @@
 		{% else %}
 			var td_js_facdeta = []
 		{% endif %}
-		$("#form_items").customTable()
-		$("#form_medios_pago").customTable()
+
 	</script>
 
 	<script src="{% static 'js/app/cartera/index.js' %}"></script>

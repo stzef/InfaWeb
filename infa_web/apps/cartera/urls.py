@@ -9,6 +9,8 @@ url = [
 	url(r'^cartera/payment/(?P<pk>\d+)/$', PaymentEdit.as_view(), name = 'view-update-payment'),
 	url(r'^cartera/payment/save/$', PaymentSave, name = 'save-payment'),
 	url(r'^cartera/payment/save/(?P<pk>\d+)/$', PaymentUpdate, name = 'update-payment'),
+	
+	url(r'^cartera/get_cartera/(?P<citerce>\d+)/$', get_cartera_tercero, name = 'get-cartera-tercero'),
 ]
 
 urlpatterns = url

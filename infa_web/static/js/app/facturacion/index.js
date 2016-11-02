@@ -181,34 +181,6 @@ function set_pago_completo_efectivo(){
 	}
 }
 
-function get_data_list(selector_list){/*Revisar*/
-	/*
-		Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
-		{
-			tr1[data-name]: tr1[data-value],
-			trn[data-name]: trn[data-value],
-			...
-			...
-			...
-		}
-	*/
-	return $(selector_list).find("tbody").find("tr").toArray().map(
-		function(e){
-			var data = {}
-			$(e).children("[data-name]").toArray().forEach(
-				function(e2){
-					if($(e2).hasClass("value-currency")){
-						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
-					}else{
-						data[$(e2).data("name")] = $(e2).data("value")
-					}
-				}
-			)
-			return data
-		}
-	)
-}
-
 function calcular_valor_cambio(){
 	/*
 		ventre: Valor entregado
