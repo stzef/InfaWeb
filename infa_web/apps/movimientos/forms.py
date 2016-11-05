@@ -5,6 +5,8 @@ from infa_web.apps.inventarios.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.parameters import ManageParameters
 
+from infa_web.custom.utils import *
+
 class InputMovementForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(InputMovementForm, self).__init__(*args, **kwargs)
@@ -17,7 +19,9 @@ class InputMovementForm(forms.ModelForm):
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)
+		
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db,{"ctimo__startswith" : PREFIJO_MOVIMIENTOS_ENTRADA})
 		self.fields['ctimo'].initial = default_movement
 
 	class Meta:
@@ -63,7 +67,8 @@ class OutputMovementForm(forms.ModelForm):
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db,{"ctimo__startswith" : PREFIJO_MOVIMIENTOS_SALIDA})
 		self.fields['ctimo'].initial = default_movement
 		
 	class Meta:
@@ -204,7 +209,9 @@ class MoviForm(forms.ModelForm):
 
 		name_db = using
 
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db)
+
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()

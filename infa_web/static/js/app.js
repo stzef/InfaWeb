@@ -132,11 +132,12 @@ function validate_aray_val(array_validations,bind){
 		var fn = validation.fn
 		var required = typeof validation.required != "undefined" ? validation.required : true
 		var msg = validation.msg
+		var params = validation.params
 
 		if (bind){
-			result = fn.bind(bind)()
+			result = fn.bind(bind)(params)
 		}else{
-			result = fn()
+			result = fn(params)
 		}
 		if (required == true){
 			if(result == false){

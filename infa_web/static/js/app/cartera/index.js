@@ -38,12 +38,8 @@ function calcular_total(){
 		Calcula el valor Total del Abono
 		Recorre todos los items del abono calculando el valor individual y sumandolos
 	*/
-	var vt_vmovi = 0
-	$("#list_items tbody tr").toArray().forEach(function(e){
-			var vmovi = parseFloat(currencyFormat.sToN($(e).find("[data-name=vmovi]").data("value")))
-			vt_vmovi += vmovi
-		}
-	)
+	var vt_vmovi = sum_cell("#form_items #list_items table","vmovi")
+	
 	$("[name=vttotal]").val(vt_vmovi).trigger("change")
 	$("#mask_vttotal").val(vt_vmovi).trigger("change")
 	$("[name=ventre]").val(vt_vmovi).trigger("change")
@@ -378,7 +374,7 @@ $("#id_citerce").change();
 /*Al doble click en el vt medio pago se actualiza con el valor total de la factura*/
 $("#id_vmpago").dblclick(function(){$(this).val($("#id_vttotal").val()).trigger("change");});
 
-function max_value_for_item(){
+function max_value_for_item_deta(){
 	var vttotal_items = sum_cell("#form_items #list_items table","vmovi")
 	var vtotal_item = parseFloat($(this).find("[name=vmovi]").custom_format_val())
 	var vttotal_local = vttotal_items + vtotal_item
@@ -386,8 +382,17 @@ function max_value_for_item(){
 	if(vttotal_local > vttotal_cartera_tercero) return false
 	return true
 }
-function min_value_for_item(){
-	var vtotal_item = parseFloat($(this).find("[name=vmovi]").custom_format_val())
+function max_value_for_item_pago(){
+	var vttotal_items = sum_cell("#form_medios_pago #list_items table","vmpago")
+	var vtotal_item = parseFloat($(this).find("[name=vmpago]").custom_format_val())
+	var vttotal_local = vttotal_items + vtotal_item
+
+	if(vttotal_local > parseFloat($("[name=vttotal]").custom_format_val())) return false
+	return true
+}
+function min_value_for_item(obj_params){
+	var selector_input = "[name=" + obj_params.input_name + "]"
+	var vtotal_item = parseFloat($(this).find(selector_input).custom_format_val())
 
 	if(vtotal_item <= 0) return false
 	return true
@@ -396,9 +401,12 @@ function min_value_for_item(){
 
 $("#form_items").customTable(
 	[
-		{fn:max_value_for_item,msg:"El valor no puede superar el total"},
-		{fn:min_value_for_item,msg:"El valor no puede se menor o igual a 0"}
+		{fn:max_value_for_item_deta,params:{},msg:"El valor no puede superar el total"},
+		{fn:min_value_for_item,params:{input_name:"vmovi"},msg:"El valor no puede se menor o igual a 0"}
 	]
 )
 
-$("#form_medios_pago").customTable([])
+$("#form_medios_pago").customTable([
+		{fn:max_value_for_item_pago,params:{},msg:"El valor no puede superar el total"},
+		{fn:min_value_for_item,params:{input_name:"vmpago"},msg:"El valor no puede se menor o igual a 0"}
+	])

@@ -2,6 +2,7 @@
 from django import forms
 
 from infa_web.apps.facturacion.models import *
+from infa_web.custom.utils import *
 from infa_web.parameters import ManageParameters
 
 class FacForm(forms.ModelForm):
@@ -15,7 +16,9 @@ class FacForm(forms.ModelForm):
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['cdomici'].queryset = Domici.objects.using(name_db).all()
 		self.fields['cemdor'].queryset = Emdor.objects.using(name_db).all()
-		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		
+		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
 		
 	class Meta:
 		model = Fac
@@ -205,6 +208,8 @@ class ReportVentaForm(forms.Form):
 
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
-		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		
+		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
 
 		manageParameters = ManageParameters(name_db)

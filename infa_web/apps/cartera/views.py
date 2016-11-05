@@ -21,21 +21,17 @@ from django.core import serializers
 def save_movi(data_array,request_db):
 	movi = get_or_none(Movi, request_db, cmovi=data_array['cmovi'])
 
-	#calcular_valor_unitario(carlos,list_price,descuento,pvta,request_db):
-	#calcular_total_flete(brtefte,prtefte)
-
 	# sumatoria para cada forma de pago
-	data_array['vefe'] = value_tot(data_array["mpagos"], 1000)
-	data_array['vtar'] = value_tot(data_array["mpagos"], 1001)
-	data_array['vch'] = value_tot(data_array["mpagos"], 1002)
-	data_array['vcred'] = value_tot(data_array["mpagos"], 1003)
+	data_array['vefe'] = float(value_tot(data_array["mpagos"], 1000))
+	data_array['vtar'] = float(value_tot(data_array["mpagos"], 1001))
+	data_array['vch'] = float(value_tot(data_array["mpagos"], 1002))
+	data_array['vcred'] = float(value_tot(data_array["mpagos"], 1003))
 
 	usuario_actual = Usuario.objects.using(request_db).all()[0]
-	#ccaja = Caja.objects.using(request_db).get(ccaja = data_array['ccaja'])
+	#ccaja = Cakja.objects.using(request_db).get(ccaja = data_array['ccaja'])
 	caja = usuario_actual.ccaja
 
-
-	#data_array["vttotal"] = vefe_t + vtar_t + vch_t + vncred_t
+	data_array["vttotal"] = data_array['vefe']+data_array['vtar']+data_array['vch']+data_array['vcred']
 
 	data_array['cmovi'] = code_generate(Movi, caja.ctimocj.prefijo, 'cmovi', request_db)
 
@@ -43,15 +39,14 @@ def save_movi(data_array,request_db):
 	#data_array["baseiva"] = vtbase_vtiva["vtbase"]
 	data_array["baseiva"] = data_array["vttotal"]
 	#data_array["vtiva"] = vtbase_vtiva['vtiva']
-	data_array["vtiva"] = data_array["vttotal"]
+	data_array["vtiva"] = 0
 	data_array["vtsuma"] = data_array["vttotal"]
 
 	timo = Timo.objects.using(request_db).get(ctimo = data_array["ctimo"])
 	tercero = Tercero.objects.using(request_db).get(citerce = data_array['citerce'])
 	estado = Esdo.objects.using(request_db).get(cesdo = data_array['cesdo'])
 
-	data_array["vttotal"] = data_array['vefe']+data_array['vtar']+data_array['vch']+data_array['vcred']
-	data_array["vcambio"] = calcular_valor_cambio(data_array["ventre"],data_array["vttotal"])
+	data_array["vcambio"] = float(calcular_valor_cambio(data_array["ventre"],data_array["vttotal"]))
 	if movi:
 		movi = movi
 		movi.citerce = tercero
@@ -75,13 +70,12 @@ def save_movi(data_array,request_db):
 			descrimovi = data_array['descrimovi'],
 			vttotal = data_array["vttotal"],
 			cesdo = estado,
-			vefe = float(data_array['vefe']),
-			vtar = float(data_array['vtar']),
-			vch = float(data_array['vch']),
-			vcred = float(data_array['vcred']),
+			vefe = data_array['vefe'],
+			vtar = data_array['vtar'],
+			vch = data_array['vch'],
+			vcred = data_array['vcred'],
 			ventre = float(data_array['ventre']),
-			vcambio = float(data_array["vcambio"]),
-			#ccaja = data_array['ccaja'],
+			vcambio = data_array["vcambio"],
 			ccaja = caja,
 			baseiva = float(data_array["baseiva"]),
 			vtiva = float(data_array["vtiva"]),
@@ -92,9 +86,6 @@ def save_movi(data_array,request_db):
 	return movi
 
 def save_movi_deta(movi,data_array_deta,request_db):
-	print "----------------------"
-	print movi
-	print "----------------------"
 	Movideta.objects.using(request_db).filter(cmovi = movi.cmovi).delete()
 	array = []
 	it = 1
@@ -117,20 +108,21 @@ def save_movi_pago(movi,data_array_mpagos,request_db):
 	array = []
 	it = 1
 	for data_medio_pago in data_array_mpagos:
+		cmpago = MediosPago.objects.using(request_db).get(cmpago=data_medio_pago['cmpago'])
+		banmpago = Banfopa.objects.using(request_db).get(cbanfopa=data_medio_pago['banmpago'])
 		movi_pago = Movipago(
-			cmovi = data_pago_array['cmovi'],
-			#it = data_pago_array['it'],
+			cmovi = movi,
+			#it = data_medio_pago['it'],
 			it = it,
-			cmpago = data_pago_array['cmpago'],
-			docmpago = data_pago_array['docmpago'],
-			banmpago = data_pago_array['banmpago'],
-			vmpago = data_pago_array['vmpago']
+			cmpago = cmpago,
+			docmpago = data_medio_pago['docmpago'],
+			banmpago = banmpago,
+			vmpago = data_medio_pago['vmpago']
 		)
 		movi_pago.save(using=request_db)
 		array.append(movi_pago)
 		it += 1
 	return array
-
 
 class PaymentCreate(CustomCreateView):
 	model = Movi
@@ -168,31 +160,26 @@ class PaymentEdit(CustomUpdateView):
 def PaymentSave(request):
 	data = json.loads(request.body)
 	response = {}
-	data_ctimo = data["ctimo"]
-	ctimo = get_or_none(Timo,request.db,ctimo=data_ctimo)
+
 	movi = save_movi(data,request.db)
-	response["pk"] = movi.pk
+
 	save_movi_deta(movi, data["deta"], request.db)
 	save_movi_pago(movi, data["mpagos"], request.db)
+
+	response = movi.get_related_information(request.db,True)
+
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
 def PaymentUpdate(request):
 	data = json.loads(request.body)
-	response = {}
-
-	data_ctimo = data["ctimo"]
-	data_cmovi = data["cmovi"]
-
-	ctimo = get_or_none(Timo,request.db,ctimo=data_ctimo)
 
 	movi = save_movi(data,request.db)
-	response["pk"] = movi.pk
 
 	save_movi_deta(movi, data["deta"], request.db)
 	save_movi_pago(movi, data["mpagos"], request.db)
 
-
+	response = movi.get_related_information(request.db,True)
 	return HttpResponse(json.dumps(response), "application/json")
 
 def get_cartera_tercero(request,citerce):
@@ -211,5 +198,4 @@ def get_cartera_tercero(request,citerce):
 		"cartera" : serializers.serialize('json', cartera),
 		"vttotal" : str(vttotal)
 	}
-	print response
 	return HttpResponse(json.dumps(response), "application/json")
