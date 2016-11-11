@@ -178,6 +178,7 @@ function get_data_list(selector_list){/*Revisar*/
 			var data = {}
 			$(e).children("[data-name]").toArray().forEach(
 				function(e2){
+					console.log(e2)
 					if($(e2).hasClass("value-currency")){
 						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
 					}else{

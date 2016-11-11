@@ -33,6 +33,27 @@ from infa_web.apps.base.utils import *
 from infa_web.routines import costing_and_stock
 from django.core.exceptions import ObjectDoesNotExist
 
+def get_clear_data_fac(request_body):
+	data = json.loads(request_body)
+
+	data["vttotal"] = float(data["vttotal"])
+	data["vdescu"] = float(data["vdescu"])
+
+	for medio_pago in data["medios_pagos"]:
+		medio_pago["cmpago"] = int(medio_pago["cmpago"])
+		medio_pago["vmpago"] = float(medio_pago["vmpago"])
+
+	for data_deta in data["mvdeta"]:
+		data_deta["canti"] = float(data_deta["canti"])
+		data_deta["pordes"] = int(data_deta["pordes"])
+		data_deta["vtotal"] = float(data_deta["vtotal"])
+		data_deta["vunita"] = float(data_deta["vunita"])
+
+	print data["medios_pagos"]
+	print data["mvdeta"]
+	return data
+
+
 class BillList(CustomListView):
 	model = Fac
 	template_name = "facturacion/list-billings.html"
@@ -300,7 +321,7 @@ def BillSave(request):
 	today = datetime.datetime.today()
 	default_fecha = today.strftime("%Y-%m-%d %H:%M:%S")
 	# Recibe parametros en JSON desde la vista
-	data = json.loads(request.body)
+	data = get_clear_data_fac(request.body)
 	response = {}
 	fac_pk = ""
 	response["error"] = False
@@ -537,6 +558,7 @@ def BillSave(request):
 		else:
 			val_cont = 0
 
+	itfac = 1
 	for data_deta in data["mvdeta"]:
 		carlos = Arlo.objects.using(request.db).get(pk = data_deta['carlos'])
 		data_deta_civa = data_deta['civa'] if 'civa' in data_deta else carlos.ivas_civa.civa
@@ -550,7 +572,7 @@ def BillSave(request):
 			request.db,
 			{
 				'cfac': fac,
-				'itfac': data_deta['itfac'],
+				'itfac': itfac,
 				'carlos': carlos,
 				'nlargo': carlos.nlargo,
 				'ncorto': carlos.ncorto,
@@ -572,7 +594,7 @@ def BillSave(request):
 			request.db,
 			{
 				'cmvsa': mvsa,
-				'it': data_deta['itfac'],
+				'it': itfac,
 				'carlos': carlos,
 				'nlargo': carlos.nlargo,
 				'canti': data_deta['canti'],
@@ -581,6 +603,8 @@ def BillSave(request):
 			}
 		)
 		costing_and_stock(False, True, {"carlos": carlos.carlos}, request.db)
+		itfac = itfac + 1
+
 
 	related_information = fac.get_related_information(request.db,True)
 	response["related_information"] = related_information
@@ -597,7 +621,7 @@ def BillSave(request):
 def BillUpdate(request,pk):
 	today = datetime.datetime.today()
 	default_fecha = today.strftime("%Y-%m-%d %H:%M:%S")
-	data = json.loads(request.body)
+	data = get_clear_data_fac(request.body)
 	#data['femi'] = data['femi'] + " " + today.strftime("%H:%M:%S")
 	response = {}
 	fac_pk = ""
