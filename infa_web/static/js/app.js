@@ -57,8 +57,139 @@ jQuery.fn.extend({
 			val = this.val()
 		}
 		return val
+	},
+	customTable : function(array_validations){
+		var form = $(this)
+		form.submit(function(event){
+			event.preventDefault()
+			var selector_section_item = "#" + form.attr("id") + " #section_item"
+			if(customValidationInput(selector_section_item).valid && validate_aray_val(array_validations,this)){
+				var tr = $("<tr>")
+				form.find('#section_item').find("input,select").toArray().forEach(function(e,i){
+					var oth = $(e).closest("th")
+
+					var value = e.value
+					var data_value = e.value
+					var css_class = ""
+
+					if($(e).hasClass("input-currency")) {
+						css_class = "value-currency"
+					}
+
+					if(e instanceof HTMLSelectElement){
+						var value = $(e).find("option[value=" + e.value + "]").html()
+					}
+					if(e.type == "hidden"){
+						value = ""
+					}
+					tr.append($("<td>",{
+						"data-name":e.name,
+						"data-value":data_value,
+						"class":css_class,
+						html:value
+					}))
+				})
+				td = $("<td width='100px'>")
+				var btnEdit = $("<button type='button' class='btn btn-info' title='Editar Registro' id='edit_item' style='margin-right: 3px;'><i class='fa fa-edit'></button>")
+				var btnDelete = $("<button type='button' class='btn btn-danger' title='Borrar Registro' id='delete_item'><i class='fa fa-remove'></button>")
+
+				btnDelete.click(function(){
+					$(this).closest("tr").remove()
+				})
+
+
+				btnEdit.click(function(){
+					var target = $(this)
+					parent = target.closest("tr")
+					parent.find("[data-name]").each(function(i,e){
+						var td = $(e)
+						var input = form.find("#section_item").find("[name = " + td.data("name") + "]")
+						input.val(td.data("value"))
+					})
+					parent.remove()
+				});
+
+				td.append(btnEdit,btnDelete)
+				tr.append(td)
+				form.find("#list_items").find("tbody").append(tr)
+				form.trigger("reset")
+				/*
+				$("#list_items").find("[data-name=itfac]").toArray().forEach(
+					function(e){
+						$(e).html(it);
+						$(e).attr("data-value",it);
+					})
+				*/
+				it++
+			}
+		})
 	}
 })
+
+function validate_aray_val(array_validations,bind){
+	var status = true
+	array_validations.forEach(function(validation){
+		var fn = validation.fn
+		var required = typeof validation.required != "undefined" ? validation.required : true
+		var msg = validation.msg
+		var params = validation.params
+
+		if (bind){
+			result = fn.bind(bind)(params)
+		}else{
+			result = fn(params)
+		}
+		if (required == true){
+			if(result == false){
+				status = false
+				alert(msg)
+			}
+		}
+	})
+	return status
+}
+
+function sum_cell(sel_table,name_cell){
+	/*
+	*/
+	sum = 0
+	var sel_cells = "[data-name=" + name_cell + "]"
+	$(sel_table).find(sel_cells).toArray().forEach(function(td){
+		td = $(td)
+		val = currencyFormat.sToN(td.data("value"))
+		sum += val
+	})
+	return sum
+}
+
+function get_data_list(selector_list){/*Revisar*/
+	/*
+		Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
+		{
+			tr1[data-name]: tr1[data-value],
+			trn[data-name]: trn[data-value],
+			...
+			...
+			...
+		}
+	*/
+	return $(selector_list).find("tbody").find("tr").toArray().map(
+		function(e){
+			var data = {}
+			$(e).children("[data-name]").toArray().forEach(
+				function(e2){
+					console.log(e2)
+					if($(e2).hasClass("value-currency")){
+						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
+					}else{
+						data[$(e2).data("name")] = $(e2).data("value")
+					}
+				}
+			)
+			return data
+		}
+	)
+}
 
 $('[check-carlos]').change(function(){
 	var input_value = this.value

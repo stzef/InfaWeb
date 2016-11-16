@@ -23,9 +23,7 @@
 								<th>F. Emision</th>
 								<th>Tercero</th>
 								<th>Estado</th>
-								<th>Descripcion</th>
 								<th>V. Total</th>
-								<th>Caja</th>
 								<th>Forma Pago</th>
 								<th>Editar</th>
 								<th>Imprimir</th>
@@ -38,9 +36,7 @@
 									<td>{{bill.femi}}</td>
 									<td>{{bill.citerce}}</td>
 									<td>{{bill.cesdo}}</td>
-									<td>{{bill.descri}}</td>
 									<td>{{bill.vttotal|intcomma}}</td>
-									<td>{{bill.ccaja}}</td>
 									<td>{{bill.ctifopa}}</td>
 									<td><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
 									<td><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>

@@ -4,7 +4,7 @@
 
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
-	<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
 {% endblock content_head %}
 
 {% block content %}
@@ -108,8 +108,8 @@
 {% endblock %}
 
 {% block content_script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+<script src="{% static 'js/moment-with-locales.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
 
 <script>
 	var data = {}

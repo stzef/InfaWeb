@@ -59,6 +59,7 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='defau
 	query_arlo["cesdo"] = CESTADO_ACTIVO
 
 	articulos = Arlo.objects.using(db_name).order_by('carlos').filter(**query_arlo)
+	print articulos
 
 	"""
 	No validar costos en 0

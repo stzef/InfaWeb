@@ -21,7 +21,8 @@ var text_message_menor_igual_cero = "El Valor a Pagar no puede ser menor o igual
 var text_message_tope_descuento = "El tope de descuento es " + data_validation.top_discount_bills
 var text_message_vpago_mayor_vttotal = "El Valor a Pagar no puede ser mayor al Valor Total."
 var text_message_numero_maximo_items_por_factura = "El número máximo de ítems por factura para este usuario segun el talonario ya se ha superado."
-text_message_vpago_menor_vttotal = "El Valor de Pago no puede ser menor al Valor Total."
+var text_message_vpago_menor_vttotal = "El Valor de Pago no puede ser menor al Valor Total."
+var text_message_cambio_contado_credito = "La factura actual es de tipo CONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?"
 
 Number.prototype.format = function(n, x) {
 	var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -178,34 +179,6 @@ function set_pago_completo_efectivo(){
 		$("#item_medio_pago [name=vmpago]").val($("[name=vttotal]").custom_format_val()).trigger("change")
 		$("#form_medios_pago").submit()
 	}
-}
-
-function get_data_list(selector_list){/*Revisar*/
-	/*
-		Retorna un objeto con los valores de los atributos [data-name] y [data-value] de los tr de una tabla
-		{
-			tr1[data-name]: tr1[data-value],
-			trn[data-name]: trn[data-value],
-			...
-			...
-			...
-		}
-	*/
-	return $(selector_list).find("tbody").find("tr").toArray().map(
-		function(e){
-			var data = {}
-			$(e).children("[data-name]").toArray().forEach(
-				function(e2){
-					if($(e2).hasClass("value-currency")){
-						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
-					}else{
-						data[$(e2).data("name")] = $(e2).data("value")
-					}
-				}
-			)
-			return data
-		}
-	)
 }
 
 function calcular_valor_cambio(){
@@ -825,13 +798,17 @@ $("#form_deta_movement").submit(function(event){
 
 function reset_form_fac(){
 	$("form :input, button").prop("disabled",false);
+	$("#id_vttotal__mask").prop("disabled",false);
 	if(mode_view != "edit"){
+		$("[data-mask=id_vttotal__mask]").val(0).trigger("change");
 		borrar_medios_pago_registrados();
 		borrar_articulos_registrados();
 		$("#collapse_docs > .panel-body").empty()
 		$("form").trigger("reset");
 		$(".date").each(function(i,e){$(e).data("DateTimePicker").date(date_appen);});
 	}
+	$("#collapse_head,#collapse_docs").collapse("hide")
+	$("#collapse_detail").collapse("show")
 }
 
 $("#btn-save").click(function(event){
@@ -841,9 +818,15 @@ $("#btn-save").click(function(event){
 	if(!customValidationInput("#form_movement").valid) return
 	if(!customValidationInput("#form_totales").valid) return
 
+	var array_mvdeta = get_data_list("#list_items_mdeta")
+	var array_medios_pagos = get_data_list("#list_medios_pago")
+
+	var tot_medios_pagos = 0
+	array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
+
 	if($("[name=ctifopa]").val() == data_validation.formas_pago.FORMA_PAGO_CONTADO){
 		if(tot_medios_pagos < parseFloat($("[name=vttotal]").custom_format_val())){
-			if(confirm("La factura actual es de tipo C|ONTADO, y el valor que pago es menor al total. ¿Dese cambiarla a CREDITO?")){
+			if(confirm(text_message_cambio_contado_credito)){
 				$("[name=ctifopa]").val(data_validation.formas_pago.FORMA_PAGO_CREDITO)
 			}else{
 				alert(text_message_vpago_menor_vttotal)
@@ -866,13 +849,6 @@ $("#btn-save").click(function(event){
 	})
 
 	data.descri = data.descri.replace(/\+/g," ")
-
-	var array_mvdeta = get_data_list("#list_items_mdeta")
-	var array_medios_pagos = get_data_list("#list_medios_pago")
-
-	var tot_medios_pagos = 0
-	array_medios_pagos.forEach(function(e){tot_medios_pagos+=e.vmpago})
-
 
 	if(array_medios_pagos.length){
 		data.medios_pagos = array_medios_pagos

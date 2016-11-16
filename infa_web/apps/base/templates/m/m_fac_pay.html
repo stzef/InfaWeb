@@ -108,8 +108,8 @@
 														return {
 															docmpago:$(div).find("#id_docmpago").val(),
 															banmpago:$(div).find("#id_banmpago").val(),
-															cmpago:$(div).find("#id_cmpago").val(),
-															vmpago:$(div).find("#id_vmpago").custom_format_val(),
+															cmpago:parseFloat($(div).find("#id_cmpago").val()),
+															vmpago:parseFloat($(div).find("#id_vmpago").custom_format_val()),
 														}
 
 											})

@@ -5,6 +5,8 @@ from infa_web.apps.inventarios.models import *
 from infa_web.apps.terceros.models import *
 from infa_web.parameters import ManageParameters
 
+from infa_web.custom.utils import *
+
 class InputMovementForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(InputMovementForm, self).__init__(*args, **kwargs)
@@ -17,7 +19,9 @@ class InputMovementForm(forms.ModelForm):
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_input_bills")
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)
+		
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_ENTRADA)
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db,{"ctimo__startswith" : PREFIJO_MOVIMIENTOS_ENTRADA})
 		self.fields['ctimo'].initial = default_movement
 
 	class Meta:
@@ -63,7 +67,8 @@ class OutputMovementForm(forms.ModelForm):
 
 		manageParameters = ManageParameters(name_db)
 		default_movement = manageParameters.get_param_value("default_movement_for_output_bills")
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).filter(ctimo__startswith=PREFIJO_MOVIMIENTOS_SALIDA)
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db,{"ctimo__startswith" : PREFIJO_MOVIMIENTOS_SALIDA})
 		self.fields['ctimo'].initial = default_movement
 		
 	class Meta:
@@ -204,7 +209,9 @@ class MoviForm(forms.ModelForm):
 
 		name_db = using
 
-		self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		#self.fields['ctimo'].queryset = Timo.objects.using(name_db).all()
+		self.fields['ctimo'].widget.choices = get_choices_timo(name_db)
+
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
@@ -229,17 +236,17 @@ class MoviForm(forms.ModelForm):
 			'docch' : forms.TextInput(attrs={'class':'form-control'}),
 			'banch' : forms.TextInput(attrs={'class':'form-control'}),
 			'detaanula' : forms.TextInput(attrs={'class':'form-control'}),
-			'vttotal' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vefe' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vtar' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vch' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'ventre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vcambio' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			#'vcuota' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'baseiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vtiva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			#'vtsuma' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
-			'vtdescu' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'1','min':0,'data-if-currency':'true'}),
+			'vttotal' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vefe' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vtar' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vch' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'ventre' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vcambio' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			#'vcuota' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'baseiva' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vtiva' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			#'vtsuma' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
+			'vtdescu' : forms.TextInput(attrs={'class': 'form-control input-currency','required':True}),
 			
 		}
 		labels = {
@@ -254,18 +261,18 @@ class MoviForm(forms.ModelForm):
 			'docch' :'Doc. Cheque',
 			'banch' :'Banco Cheque',
 			'detaanula' :'Detalle anulacion',
-			'vttotal' :'Valor Total',
-			'vefe' :'Valor Efectivo',
-			'vtar' :'Valor Tarjeta',
-			'vch' :'Valor Cheque',
-			'ventre' :'Valor Entregado',
-			'vcambio' :'Valor Cambio',
+			'vttotal' :'Vr. Total',
+			'vefe' :'Vr. Efectivo',
+			'vtar' :'Vr. Tarjeta',
+			'vch' :'Vr. Cheque',
+			'ventre' :'Vr. Entregado',
+			'vcambio' :'Vr. Cambio',
 			#'vcuota' :'',
 			'baseiva' :'Base IVA',
-			'vtiva' :'Valor Toal IVA',
+			'vtiva' :'Vr. Total IVA',
 			#'vtsuma' :'',
-			'vtdescu' :'Valor Descuento',
-			'ctimo' :'Timo Movimiento',
+			'vtdescu' :'Vr. Descuento',
+			'ctimo' :'Tipo Movimiento',
 			'citerce' :'Tercero',
 			'cesdo' :'Estado',
 			'ccaja' :'Caja',
@@ -274,7 +281,7 @@ class MoviForm(forms.ModelForm):
 
 class MoviDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(ArticleForm, self).__init__(*args, **kwargs)
+		super(MoviDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 		self.fields['cmovi'].queryset = Movi.objects.using(name_db).all()
@@ -284,10 +291,11 @@ class MoviDetailForm(forms.ModelForm):
 		fields = "__all__"
 		widgets = { 
 			'cmovi' : forms.Select(attrs={'class':'form-control','required':True}),
-			'itmovi' : forms.TextInput(attrs={'class':'form-control'}),
+			'itmovi' : forms.TextInput(attrs={'class':'form-control','required':True}),
 			'docrefe' : forms.TextInput(attrs={'class':'form-control'}),
+			'detalle' : forms.TextInput(attrs={'class':'form-control','required':True}),
+			'vmovi':forms.TextInput(attrs={'class': 'form-control input-currency','required':True,'min':0}),
 			#'ccta' : forms.Select(attrs={'class':'form-control','required':True}),
-			'detalle' : forms.TextInput(attrs={'class':'form-control'}),
 			#'vdebi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
 			#'vcredi' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
 			#'vinte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,'data-if-currency':'true'}),
@@ -306,10 +314,11 @@ class MoviDetailForm(forms.ModelForm):
 			'docrefe' : 'Doc Referencia',
 			#'ccta' : '',
 			'detalle' : 'Detalle',
+			'vmovi' : 'Vr. Total',
 			
 			#'vdebi' : '',
 			#'vcredi' : '',
-			'valor' : 'Valor',
+			#'valor' : 'Valor',
 
 			#'vinte' : '',
 			#'prointe' : '',
@@ -319,4 +328,33 @@ class MoviDetailForm(forms.ModelForm):
 			#'vinte_cal' : '',
 			#'abo_inte' : '',
 			#'vcomi' : '',
+		}
+
+class MovipagoForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(MovipagoForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmpago'].queryset = MediosPago.objects.using(name_db).all()
+		self.fields['banmpago'].widget.attrs.update({'required': True, 'class': 'form-control'})
+		self.fields['cmovi'].queryset = Movi.objects.using(name_db).all()
+		self.fields['banmpago'].queryset = Banfopa.objects.using(name_db).all()
+
+	class Meta:
+		model = Movipago
+		fields = "__all__"
+		widgets = {
+			'cmovi' : forms.Select(attrs={'class':'form-control','required':True}),
+			'it' : forms.TextInput(attrs={'class':'form-control','required':True}),
+			'docmpago' : forms.TextInput(attrs={'class':'form-control'}),
+			'vmpago' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
+		}
+		labels = {
+			'cmovi' : 'Codigo Factura',
+			'it' : 'Item',
+			'cmpago' : 'Medio de Pago',
+			'docmpago' : 'Doc. Medio Pago',
+			'banmpago' : 'Ban. Medio Pago',
+			'vmpago' : 'Valor Medio Pago',
 		}

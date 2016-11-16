@@ -113,6 +113,11 @@ class Movi(models.Model):
 	vtdescu = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	detaanula = models.CharField(max_length=80,blank=True, null=True)
 
+	def to_json(self,using):
+		query = Movi.objects.using(using).get(cmovi = self.cmovi)
+		movi = json.loads(serializers.serialize('json', [query]))[0]
+		return movi
+
 	def get_movideta(self,using,format_json=False):
 		query = Movideta.objects.using(using).filter(cmovi = self.cmovi).order_by('itmovi')
 		if format_json:
@@ -120,6 +125,26 @@ class Movi(models.Model):
 		else:
 			movideta = query
 		return movideta
+
+	def get_movipago(self,using,format_json=False):
+		query = Movipago.objects.using(using).filter(cmovi = self.cmovi).order_by('it')
+		if format_json:
+			movipago = json.loads(serializers.serialize('json', query))
+		else:
+			movipago = query
+		return movipago
+
+	def get_related_information(self,using,format_json):
+		if format_json:
+			data = self.to_json(using)
+
+			data["movideta"] = self.get_movideta(using,format_json)
+			data["movipago"] = self.get_movipago(using,format_json)
+		else:
+			data = self
+			data.mvsa = self.get_movideta(using,format_json)
+			data.movis = self.get_movipago(using,format_json)
+		return data
 
 	def __str__(self):
 		return str(self.cmovi)
