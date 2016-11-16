@@ -29,15 +29,6 @@ class Command(BaseCommand):
 		if(confirmation == "Si"):
 			manageParameters = ManageParameters(name_db)
 
-			if 'APPEMPRESARIAL_USER' in os.environ:
-				if not User.objects.using(name_db).filter(username=APPEMPRESARIAL_USER).exists():
-					print "Super Usuario Creado Con exito."
-					User.objects.using(name_db).create_superuser(APPEMPRESARIAL_USER, APPEMPRESARIAL_EMAIL, APPEMPRESARIAL_PASS)
-				else:
-					print "El Super Usuario ya Existe."
-			else:
-				print "No se encontro la variable de entorno APPEMPRESARIAL_USER."
-
 			#Base
 			Esdo.objects.using(name_db).all().delete()
 			Timo.objects.using(name_db).all().delete()
@@ -1434,19 +1425,6 @@ class Command(BaseCommand):
 				cregiva = Regiva.objects.using(name_db).get(pk=DEFAULT_REGIMEN_IVA),
 				ctiide = Tiide.objects.using(name_db).get(pk=DEFAULT_TIIDE),
 			)
-			
-			#Usuario - Usuarios
-			Usuario.objects.using(name_db).create(
-				user=User.objects.using(name_db).get(username=APPEMPRESARIAL_USER),
-				finusu="2016-02-02",
-				fveusu="2016-02-02",
-				cesdo=estadoActivo,
-				foto="img/logo.png",
-				ifprises=True,
-				ccaja=caja,
-				ctalomos=talonario,
-				ctalopos=talonario,
-				cvende=vendedor,
-			)
+
 		else:
 			print "Operación Cancelada."

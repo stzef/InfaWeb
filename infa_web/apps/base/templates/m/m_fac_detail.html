@@ -1,0 +1,112 @@
+{% extends "m/base.html" %}
+{% load humanize %}
+
+{% block title %}
+	<a href="{% url 'm_dashboard' %}" class="ui-btn-lef tui-btn ui-icon-gear ui-shadow ui-corner-all" data-role="button" data-transition="pop">Inicio</a>
+	<h1 class="ui-title" role="heading" aria-level="1">Facturas</h1>
+	<button class="ui-btn-right ui-icon-carat-r ui-btn-icon-right ui-btn-inline ui-shadow ui-corner-all">email</button>
+{% endblock title %}
+
+{% block content %}
+
+	<!-- Datos de factura -->
+	<h3>Datos de factura</h3>
+	<table>
+		<tbody>
+			<tr>
+				<td><b>Factura: </b></td>
+				<td>{{data.cfac}}</td>
+			</tr>
+			<tr>
+				<td><b>Cliente: </b></td>
+				<td>{{data.citercce.rasocial}}</td>
+			</tr>
+			<tr>
+				<td><b>Estado: </b></td>
+				<td>{{data.cesdo}}</td>
+			</tr>
+			<tr>
+				<td><b>Tipo de pago: </b></td>
+				<td>{{data.ctifopa}}</td>
+			</tr>
+			<tr>
+				<td><b>Base: </b></td>
+				<td>{{data.vtbase|intcomma}}</td>
+			</tr>
+			<tr>
+				<td><b>Iva: </b></td>
+				<td>{{data.vtiva|intcomma}}</td>
+			</tr>
+			<tr>
+				<td><b>Descuento: </b></td>
+				<td>{{data.vdescu|intcomma}}</td>
+			</tr>
+			<tr>
+				<td><b>Total: </b></td>
+				<td>{{data.vttotal|intcomma}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<br><br>
+	<div class="separator"></div>
+	<!-- Detalles de factura -->
+	<h3>Detalle</h3>
+	<table class="ui-body-d table-stripe" data-role="table" data-mode="columntoggle" data-column-btn-text="columnas...">
+		<thead>
+			<tr>
+				<th >It</th>
+				<th data-priority="2">Cod</th>
+				<th >Nom</th>
+				<th >Cant</th>
+				<th data-priority="1">V. unitario</th>
+				<th >V. total</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for detalle in data.facdeta %}
+				<tr>
+					<td>{{detalle.itfac}}</td>
+					<td>{{detalle.carlos}}</td>
+					<td>{{detalle.ncorto}}</td>
+					<td>{{detalle.canti}}</td>
+					<td>{{detalle.vunita|intcomma}}</td>
+					<td>{{detalle.vtotal|intcomma}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<br><br>
+	<div class="separator"></div>
+	
+	<!-- Movimientos Relacionados -->
+	<h3>Movimientos Relacionados</h3>
+
+	<h4>Movimiento de salida</h4>
+	<span><b>Movimiento: </b> {{data.mvsa}}</span>
+
+	<div class="separator"></div>
+
+	<h4>Movimientos</h4>
+	<table class="ui-body-d table-stripe" data-role="table" data-mode="columntoggle" data-column-btn-text="columnas...">
+		<thead>
+			<tr>
+				<th data-priority="1">Cod.</th>
+				<th>Tipo</th>
+				<th>V. total</th>
+				<th>Estado</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for movimiento in data.movis %}
+				<tr>
+					<td>{{movimiento.cmovi}}</td>
+					<td>{{movimiento.ctimo}}</td>
+					<td>{{movimiento.vttotal|intcomma}}</td>
+					<td>{{movimiento.cesdo}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+{% endblock content %}

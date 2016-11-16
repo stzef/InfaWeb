@@ -16,6 +16,7 @@ from infa_web.apps.facturacion.models import Fac
 from infa_web.apps.facturacion.forms import FacpagoForm
 from infa_web.custom.generic_views import CustomCreateView
 from infa_web.custom.generic_views import CustomListView
+from infa_web.custom.generic_views import CustomDetailView
 from infa_web.parameters import ManageParameters
 from infa_web.apps.base.constantes import FORMA_PAGO_CONTADO
 
@@ -123,9 +124,23 @@ class mThirdPartyAdd(CustomCreateView):
 
 class mListFac(CustomListView):
 	model = Fac
-	template_name = "m/m_list_fac.html"
+	template_name = "m/m_fac_list.html"
 	context_object_name = "facturas"
 
+
+class mDetailFac(CustomDetailView):
+	model = Fac
+	template_name = "m/m_fac_detail.html"
+	context_object_name = "factura"
+
+	def get_context_data(self, **kwargs):
+		context = super(mDetailFac, self).get_context_data(**kwargs)
+		factura = self.get_object()
+		data = factura.get_related_information(self.request.db, False)
+
+		context['data'] = data
+
+		return context
 
 def mExitFac(request):
 	return render(request, "m/m_salir_fac.html")
