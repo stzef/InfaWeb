@@ -129,7 +129,7 @@ function getCartera(citerce){
 	$.get('/cartera/get_cartera/' + citerce,function(response){
 		response.cartera = JSON.parse(response.cartera)
 		console.info(response)
-		vttotal_cartera_tercero = currencyFormat.sToN("5000.00")
+		vttotal_cartera_tercero = currencyFormat.sToN(response.vttotal)
 		pintar_cartera(response)
 	})
 }
@@ -404,9 +404,13 @@ $("#form_items").customTable(
 		{fn:max_value_for_item_deta,params:{},msg:"El valor no puede superar el total"},
 		{fn:min_value_for_item,params:{input_name:"vmovi"},msg:"El valor no puede se menor o igual a 0"}
 	]
-)
+).on("insert_row",function(){
+	console.log("insert_row")
+	calcular_total()
+})
 
 $("#form_medios_pago").customTable([
 		{fn:max_value_for_item_pago,params:{},msg:"El valor no puede superar el total"},
 		{fn:min_value_for_item,params:{input_name:"vmpago"},msg:"El valor no puede se menor o igual a 0"}
-	])
+	]
+)

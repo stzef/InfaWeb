@@ -4,7 +4,7 @@ from infa_web.parameters import ManageParameters
 from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
 from termcolor import colored
-	
+
 class verifyConfigurationFile(object):
 	def process_request(self, request):
 		manageParameters = ManageParameters(request.db)
@@ -41,6 +41,7 @@ class subdomainMiddleware:
 			request.db = DOMAINS[request.subdomain]
 			redirect('/dashboard')
 		else:
+			print host
 			if len(host) > 2:
 					request.subdomain = ''.join(host[:-2])
 					# validar si dominio existe
@@ -55,5 +56,5 @@ class subdomainMiddleware:
 
 			else:
 				request.db = 'default'
-				print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+				#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 				redirect('/')

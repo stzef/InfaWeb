@@ -40,17 +40,18 @@ if 'CURRENT_ENV_WORK' in os.environ:
 		DB = {
 			'default': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				#'ENGINE': 'django.db.backends.mysql',
 				'NAME': 'infaweb_db',
-				'USER': 'postgres',
-				'PASSWORD': '123456',
+				'USER': 'root',
+				'PASSWORD': 'stzEF0987',
 				'HOST': 'localhost',
 				'PORT': '',
 			},
 			'db_1': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
 				'NAME': 'infaweb_db',
-				'USER': 'postgres',
-				'PASSWORD': '123456',
+				'USER': 'root',
+				'PASSWORD': 'stzEF0987',
 				'HOST': 'localhost',
 				'PORT': '',
 			}

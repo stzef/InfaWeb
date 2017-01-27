@@ -112,6 +112,7 @@ jQuery.fn.extend({
 				td.append(btnEdit,btnDelete)
 				tr.append(td)
 				form.find("#list_items").find("tbody").append(tr)
+				form.trigger("insert_row")
 				form.trigger("reset")
 				/*
 				$("#list_items").find("[data-name=itfac]").toArray().forEach(
@@ -123,6 +124,7 @@ jQuery.fn.extend({
 				it++
 			}
 		})
+		return form
 	}
 })
 

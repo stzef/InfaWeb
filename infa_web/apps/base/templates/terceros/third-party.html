@@ -1,4 +1,5 @@
 {%extends 'layouts/base.html'%}
+{% load static %}
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
 {% endblock content_head %}
@@ -13,7 +14,7 @@
 				<li><a data-toggle="pill" href="#tabLegales">Legales</a></li>
 				<li><a data-toggle="pill" href="#tabOtros">Otros</a></li>
 			</ul>
-			
+
 			<form action="" method="POST" role="form" class="form-horizontal">
 				{%csrf_token%}
 				<div class="tab-content">
@@ -32,7 +33,7 @@
 										{{form.cpersona}}
 									</div>
 								</div>
-								
+
 								<div class="col-md-6 form-group">
 									<label for="{{form.ape1.id_for_label}}" class="col-sm-4 control-label">{{form.ape1.label}}</label>
 									{%if form.ape1.errors%}
@@ -124,7 +125,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="row">
 									<div class="col-sm-5 form-group">
 										<label for="{{form.dirterce.id_for_label}}" class="col-md-4 control-label">{{form.dirterce.label}}</label>
@@ -187,7 +188,7 @@
 										</div>
 									</div>
 								</div>
-	
+
 							</div>
 						</div>
 					</div>
@@ -198,7 +199,7 @@
 								<h3 class="box-title">Legales</h3>
 							</div>
 							<div class="box-body">
-								
+
 								<div class="form-group">
 									<label for="{{form.replegal.id_for_label}}" class="col-sm-2 control-label">{{form.replegal.label}}</label>
 									{%if form.replegal.errors%}
@@ -278,7 +279,7 @@
 										{{form.ordenruta}}
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<label for="{{form.cvende.id_for_label}}" class="col-sm-2 control-label">{{form.cvende.label}}</label>
 									{%if form.cvende.errors%}
