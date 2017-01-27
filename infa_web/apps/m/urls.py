@@ -8,6 +8,8 @@ url = [
 	url(r'^m/dashboard$', mDashboard, name='m_dashboard'),
 
 	url(r'^m/fac$', mFac, name='m_fac'),
+	url(r'^m/list-fac$', mListFac.as_view(), name='m_list_fac'),
+	url(r'^m/detail-fac/(?P<pk>[0-9\w]+)/$', mDetailFac.as_view(), name='m_detail_fac'),
 
 	url(r'^m/choose-client$', mFacChooseClient, name='m_choose_client'),
 	url(r'^m/search-client$', mFacSearchClient, name='m_search_client'),

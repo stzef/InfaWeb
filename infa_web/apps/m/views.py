@@ -12,8 +12,11 @@ from infa_web.apps.articulos.models import Arlo
 from infa_web.apps.base.models import MediosPago
 from infa_web.apps.base.models import Tifopa
 from infa_web.apps.facturacion.models import Facpago
+from infa_web.apps.facturacion.models import Fac
 from infa_web.apps.facturacion.forms import FacpagoForm
 from infa_web.custom.generic_views import CustomCreateView
+from infa_web.custom.generic_views import CustomListView
+from infa_web.custom.generic_views import CustomDetailView
 from infa_web.parameters import ManageParameters
 from infa_web.apps.base.constantes import FORMA_PAGO_CONTADO
 
@@ -118,6 +121,26 @@ class mThirdPartyAdd(CustomCreateView):
 	template_name = "m/m_third_party_add.html"
 	form_class = ThirdPartyForm
 	success_url = "/m/search-client"
+
+class mListFac(CustomListView):
+	model = Fac
+	template_name = "m/m_fac_list.html"
+	context_object_name = "facturas"
+
+
+class mDetailFac(CustomDetailView):
+	model = Fac
+	template_name = "m/m_fac_detail.html"
+	context_object_name = "factura"
+
+	def get_context_data(self, **kwargs):
+		context = super(mDetailFac, self).get_context_data(**kwargs)
+		factura = self.get_object()
+		data = factura.get_related_information(self.request.db, False)
+
+		context['data'] = data
+
+		return context
 
 def mExitFac(request):
 	return render(request, "m/m_salir_fac.html")

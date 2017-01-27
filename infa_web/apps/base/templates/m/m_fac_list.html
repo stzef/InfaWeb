@@ -1,0 +1,32 @@
+{% extends "m/base.html" %}
+
+{% block title %}
+	<h1 class="ui-title" role="heading" aria-level="1">Facturas</h1>
+{% endblock title %}
+
+{% block content %}
+	{% if facturas %}
+
+		<table class="ui-body-d table-stripe" data-role="table" data-mode="columntoggle" data-column-btn-text="columnas...">
+			<thead>
+				<tr class="ui-bar-d">
+					<th>Factura</th>
+					<th>Detalles</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for factura in facturas %}
+					<tr>
+						<td>{{factura.cfac}}</td>
+						<td><a href="{% url 'm_detail_fac' factura.pk %}">Detalles</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+
+		<p>No hay facturas por mostrar</p>
+
+	{% endif %}
+{% endblock content %}

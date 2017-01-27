@@ -185,15 +185,16 @@
 				type: 'POST',
 				data : JSON.stringify(data),
 				contentType : 'application/json',
-				error : function (xhr, statusCode, errorThrown) {
-					console.log(xhr)
-					console.log(statusCode)
-					console.log(errorThrown)
+				error : function (xhr, statusCodeText, errorThrown) {
+					alert("Ocurrio un error al guardar la factura")
 				},
-				success : function (data, statusCode, xhr) {
+				success : function (data, statusCodeText, xhr) {
 					console.log(data)
-					console.log(statusCode)
-					console.log(xhr)
+					if (!data.error) {
+						setTimeout(function () {
+							window.location.href = "/m/detail-fac/" + data.related_information.pk
+						}, 2000)
+					}
 				}
 
 			})
