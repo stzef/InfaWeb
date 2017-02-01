@@ -10,7 +10,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.db import models
 
-class CgposMenus(models.Model):
+class GposMenus(models.Model):
 	cgpomenu = models.IntegerField(primary_key=True)
 	ngpomenu = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -79,7 +79,7 @@ class Menus(models.Model):
 	nmenu = models.CharField(max_length=50)
 	fcrea = models.DateTimeField()
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	cgpomenu = models.ForeignKey(CgposMenus,default=CESTADO_ACTIVO)
+	cgpomenu = models.ForeignKey(GposMenus,default=CESTADO_ACTIVO)
 	npax = models.IntegerField()
 	pvta1 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
 	pvta2 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])

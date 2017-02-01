@@ -17,4 +17,10 @@ urlDishes = [
 	url(r'^dishes/edit/(?P<pk>\d+)/$', DishUpdate.as_view(), name = 'edit-dish'),
 ]
 
-urlpatterns = urlIngredients + urlDishes
+urlMenu = [
+	#url(r'^Menus/$', MenusList.as_view(), name = 'list-Menus'),
+	#url(r'^Menus/add/$', MenuCreate.as_view(), name = 'add-menu'),
+	#url(r'^Menus/edit/(?P<pk>\d+)/$', MenuUpdate.as_view(), name = 'edit-menu'),
+]
+
+urlpatterns = urlIngredients + urlDishes + urlMenu
