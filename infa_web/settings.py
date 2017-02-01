@@ -53,7 +53,10 @@ PROJECT_APPS = [
 	'infa_web.apps.base.templatetags',
 ]
 PROJECT_APPS_RESTAURANT = [
+	'infa_web.apps.restaurante_comandas',
+	'infa_web.apps.restaurante_inventarios',
 	'infa_web.apps.restaurante_menus',
+	'infa_web.apps.restaurante_movimientos',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
