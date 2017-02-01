@@ -2,7 +2,7 @@
 from django.shortcuts import render,get_object_or_404,get_list_or_404,redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.apps import apps
-from django.core.urlresolvers import reverse_lazy 
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.db.models import Max
@@ -28,13 +28,13 @@ def SaveBreakdownArticle(request,pk):
 	itglo = 0
 	for item in data:
 		#return HttpResponse(json.dumps(item), "application/json")
-		
+
 		response = {}
 
 		cesdo = Esdo.objects.get(cesdo=item["cesdo"])
-		carlosp = Arlo.objects.get(carlos=item["carlosp"]) 
-		carlosglo = Arlo.objects.get(carlos=item["carlosglo"]) 
-	
+		carlosp = Arlo.objects.get(carlos=item["carlosp"])
+		carlosglo = Arlo.objects.get(carlos=item["carlosglo"])
+
 		#itglo = item["itglo"]
 		cantiglo = item["cantiglo"]
 		costoglo = item["costoglo"]
@@ -85,7 +85,7 @@ class ArticleCreate(AjaxableResponseMixin,CustomCreateView):
 	form_class = ArticleForm
 	success_url=reverse_lazy("add-article")
 	success_message = "Articulo creado."
-		
+
 	def get_context_data(self, **kwargs):
 		context = super(ArticleCreate, self).get_context_data(**kwargs)
 		context['title'] = "Crear Articulo"
@@ -117,7 +117,7 @@ class ArticleCreate(AjaxableResponseMixin,CustomCreateView):
 		mutable_data["carlos"] = carlos
 
 		request.POST = mutable_data
-		
+
 		return super(ArticleCreate, self).post(request, *args, **kwargs)
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -127,7 +127,7 @@ class ArticleCopy(CustomUpdateView):
 	form_class = ArticleForm
 	success_url=reverse_lazy("add-article")
 	success_message = "Articulo creado."
-		
+
 	def get_context_data(self, **kwargs):
 		context = super(ArticleCopy, self).get_context_data(**kwargs)
 		maxCarlos = Arlo.objects.using(self.request.db).aggregate(Max('carlos'))
@@ -352,6 +352,9 @@ codeModels = {
 	30:{'name':'Fac','app':'facturacion'},
 	31:{'name':'Facdeta','app':'facturacion'},
 	32:{'name': 'MediosPago','app':'base'},
+
+	33:{'name': 'Ingredientes','app':'restaurante_menus'},
+
 }
 
 from django.core import serializers

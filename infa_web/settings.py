@@ -52,8 +52,11 @@ PROJECT_APPS = [
 	'easy_pdf',
 	'infa_web.apps.base.templatetags',
 ]
+PROJECT_APPS_RESTAURANT = [
+	'infa_web.apps.restaurante_menus',
+]
 
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
 
 MIDDLEWARE_CLASSES = [
 	'django.middleware.security.SecurityMiddleware',

@@ -1,0 +1,82 @@
+{%extends 'layouts/base.html'%}
+{% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+{% load humanize %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Ingredientes</h3>
+
+
+				</div>
+				<div class="box-body">
+					{%include 'elements/filters_ingredients.html'%}
+					<div class="col-md-12">
+						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>cingre</th>
+									<th>ningre</th>
+									<th>canti</th>
+									<th>vcosto</th>
+									<th>stomin</th>
+									<th>stomax</th>
+									<th>cesdo</th>
+									<th>cunidad</th>
+									<th>foto</th>
+								</tr>
+							</thead>
+							<tbody id="cont-data"></tbody>
+						</table>
+						{%include 'elements/paginate.html'%}
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>
+		var cont = 1
+		data_table()
+		function data_table(){
+			var buscarPor = $('.buscarPor').val().length > 0 ? '&buscarPor='+$('.buscarPor').val(): ''
+			$.get("{% url 'ingrediends_list' %}?page="+cont+"&orderBy="+$('input[name=orderTipo]:checked').val()+$('input[name=orderBy]:checked').val()+buscarPor, function(data){
+				$('#cont-data').empty()
+				if(data.response == 0){
+					$(".next").addClass('disabled')
+				}else{
+					$(".next").removeClass('disabled')
+				}
+				$.each(data.arlo, function (key, item){
+					$('#cont-data').append(
+						'<tr data-object-search='+item.cingre+'>'+
+							'<td>'+item.cingre+'</td>'+
+							'<td>'+item.ningre+'</td>'+
+							'<td>'+item.canti+'</td>'+
+							'<td>'+item.vcosto+'</td>'+
+							'<td>'+item.stomin+'</td>'+
+							'<td>'+item.stomax+'</td>'+
+							'<td>'+item.cesdo+'</td>'+
+							'<td>'+item.cunidad+'</td>'+
+							'<td>'+item.foto+'</td>'+
+							'<td><a data-link-edit href="/articles/edit/'+item.cingre+'" target="_blank">Editar</a></td>'+
+						'</tr>'
+					)
+				});
+				windowSearch("[name=cingre]")
+			});
+		}
+	</script>
+{% endblock %}
