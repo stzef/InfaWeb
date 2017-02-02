@@ -18,9 +18,15 @@ urlDishes = [
 ]
 
 urlMenu = [
-	#url(r'^Menus/$', MenusList.as_view(), name = 'list-Menus'),
-	#url(r'^Menus/add/$', MenuCreate.as_view(), name = 'add-menu'),
-	#url(r'^Menus/edit/(?P<pk>\d+)/$', MenuUpdate.as_view(), name = 'edit-menu'),
+	#url(r'^menus/$', MenusList.as_view(), name = 'list-menus'),
+	#url(r'^menus/add/$', MenuCreate.as_view(), name = 'add-menu'),
+	#url(r'^menus/edit/(?P<pk>\d+)/$', MenuUpdate.as_view(), name = 'edit-menu'),
 ]
 
-urlpatterns = urlIngredients + urlDishes + urlMenu
+urlGroups = [
+	#url(r'^menus/groups/$', GroupsList.as_view(), name = 'list-groups-menus'),
+	#url(r'^menus/groups/add/$', GroupCreate.as_view(), name = 'add-group-menu'),
+	#url(r'^menus/groups/edit/(?P<pk>\d+)/$', GroupUpdate.as_view(), name = 'edit-group-menu'),
+]
+
+urlpatterns = urlIngredients + urlDishes + urlMenu + urlGroups

@@ -1,0 +1,10 @@
+from django.conf.urls import patterns, include, url
+from infa_web.apps.restaurante_movimientos.views import *
+
+from django.contrib.auth.decorators import login_required
+
+#url(r'^articles/$', login_required(ArticleList.as_view()), name = 'list-articles'),
+url = [
+]
+
+urlpatterns = url

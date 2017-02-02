@@ -16,6 +16,9 @@ urlpatterns = [
 	url('', include('infa_web.apps.m.urls')),
 
 	# Restaurante
+	url('', include('infa_web.apps.restaurante_comandas.urls')),
+	url('', include('infa_web.apps.restaurante_inventarios.urls')),
 	url('', include('infa_web.apps.restaurante_menus.urls')),
+	url('', include('infa_web.apps.restaurante_movimientos.urls')),
 	url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

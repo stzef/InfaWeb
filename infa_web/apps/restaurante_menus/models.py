@@ -15,10 +15,10 @@ class GposMenus(models.Model):
 	ngpomenu = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	def __str__(self):
-		return self.ningre
+		return self.ngpomenu
 
 	def __unicode__(self):
-		return self.ningre
+		return self.ngpomenu
 
 class Ingredientes(models.Model):
 	cingre = models.IntegerField(primary_key=True)
@@ -90,10 +90,10 @@ class Menus(models.Model):
 	foto = models.FileField(upload_to="img/dishes/", blank=True, null=True,default=DEFAULT_IMAGE_DISHES)
 
 	def __str__(self):
-		return self.nplato
+		return self.nmenu
 
 	def __unicode__(self):
-		return self.nplato
+		return self.nmenu
 
 class Menusdeta(models.Model):
 	cmenu = models.ForeignKey(Menus)

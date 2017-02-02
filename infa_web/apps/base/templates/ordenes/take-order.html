@@ -1,0 +1,119 @@
+
+{%extends 'layouts/base.html'%}
+{% load static %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+
+	<style>
+		.section-resumen-pedido{
+			min-height: 300px;
+		}
+		.section-menu{
+			min-height: 300px;
+		}
+	</style>
+
+
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content">
+			<div class="row">
+				<h2>Ordenes</h2>
+
+				<div class="col-md-6">
+					<div class="section-resumen-pedido panel panel-default">
+						<div>
+							<div>
+
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Cantidad</th>
+											<th>Descripcion</th>
+											<th>Precio</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="col-md-6">
+							<p> Mesero: ----------- </p>
+							<p> Mesa: ----------- </p>
+						</div>
+						<div class="col-md-6">
+							<h2>Total : $0000000</h2>
+						</div>
+					</div>
+					<div>
+						<div class="text-center">
+							<div class="btn-group">
+								<button class="btn btn-app btn-info" type="button">
+									<i class="fa fa-plus-square-o"></i>Buscar
+								</button>
+								<button class="btn btn-app btn-info" type="button">
+									<i class="fa fa-save"></i>Imprimir
+								</button>
+								<a class="btn btn-app" data-new-window href="#">
+									<i class="fa fa-list"></i>Caja
+								</a>
+							</div>
+							<div class="btn-group">
+								<button class="btn btn-app btn-danger" type="button">
+									<i class="fa fa-save"></i>Salir
+								</button>
+								<a class="btn btn-app btn-danger" data-new-window href="#">
+									<i class="fa fa-list"></i>Cancelar
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="section-menu panel panel-default col-md-6">
+					<div class="col-md-4 panel panel-default" style="height: 100%">
+						<table>
+							<thead>
+								<tr>
+									<th>Mesas</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-success" type="button">
+											<i class="fa fa-save"></i>Mesa1
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-info" type="button">
+											<i class="fa fa-save"></i>Agregar
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-8">
+						{% for item_menu in menu %}
+							<div class="col-md-4 text-center">
+								<img class="img-responsive" src="{% static item_menu.foto.url %}" />
+								<hr>
+								<span class="text-bold">{{ item_menu.nmenu }}</span>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	{%include 'elements/footer.html'%}
+{%endblock%}
+
+{% block content_script %}
+	<script></script>
+{%endblock%}
