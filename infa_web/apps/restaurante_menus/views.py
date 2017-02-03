@@ -114,7 +114,33 @@ def Ingredients_list(request):
 
 @csrf_exempt
 def load_deta(request):
+	deta = Platosdeta.objects.using(request.db).all()
+
+	ingredientes = Ingredientes.objects.using(request.db).all()
+	ingredientes_json = []
+
+	for ingrediente in ingredientes:
+		ingredientes_json.append({"value":ingrediente.cingre,"label":ingrediente.ningre})
+
 	data = {
+		"data" :[] ,
+		"options": {"ingredientes.cingre": ingredientes_json}
+	}
+	for item in deta:
+		data["data"].append({
+				"DT_RowId": "row_1",
+				"ingredientes" : {
+					"cingre" : str(item.cingre.cingre),
+					"it" : str(item.it),
+					"canti" : str(item.canti),
+					"vunita" : str(item.vunita),
+					"vtotal" : str(item.vtotal),
+				},
+				"cingres" : {
+					"name" : str(item.cingre.ningre)
+				}
+			})
+	"""data = {
 		"data": [
 			{
 				"DT_RowId": "row_1",
@@ -142,7 +168,7 @@ def load_deta(request):
 				]
 			}
 		]
-	}
+	}"""
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
 class IngredientsList(CustomListView):

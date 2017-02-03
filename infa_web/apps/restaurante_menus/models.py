@@ -69,10 +69,10 @@ class Platosdeta(models.Model):
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 
 	def __str__(self):
-		return self.cplato
+		return self.it
 
 	def __unicode__(self):
-		return self.cplato
+		return self.it
 
 class Menus(models.Model):
 	cmenu = models.IntegerField(primary_key=True)

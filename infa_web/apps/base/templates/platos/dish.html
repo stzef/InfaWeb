@@ -58,18 +58,20 @@
 					<table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Location</th>
-                <th>Permissions</th>
+                <th>Item</th>
+                <th>Ingrediente</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+                <th>Valor Total</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>Item</th>
+                <th>Ingrediente</th>
                 <th>Location</th>
-                <th>Permissions</th>
+                <th>Valor Unitario</th>
+                <th>Valor Total</th>
             </tr>
         </tfoot>
     </table>
@@ -340,19 +342,21 @@ $(document).ready(function() {
         ajax: "/dishes/load_deta/",
         table: "#example",
         fields: [ {
-                label: "First name:",
-                name:  "users.first_name"
+                label: "Item:",
+                name:  "ingredientes.it"
             }, {
-                label: "Last name:",
-                name:  "users.last_name"
+                label: "Ingrediente:",
+                name:  "ingredientes.cingre",
+                type : "select"
             }, {
-                label: "Site:",
-                name:  "users.site",
-                type:  "select"
+                label: "Cantidad:",
+                name:  "ingredientes.canti",
             }, {
-                "label": "Permissions:",
-                "name": "permission[].id",
-                "type": "checkbox"
+                "label": "Valor Unitario:",
+                "name": "ingredientes.vunita"
+            }, {
+                "label": "Valor Total:",
+                "name": "ingredientes.vtotal"
             }
         ]
     } );
@@ -364,10 +368,11 @@ $(document).ready(function() {
             type: 'POST'
         },
         columns: [
-            { data: "users.first_name" },
-            { data: "users.last_name" },
-            { data: "sites.name" },
-            { data: "permission", render: "[, ].name" }
+            { data: "cingres.name" },
+            { data: "ingredientes.it" },
+            { data: "ingredientes.canti" },
+            { data: "ingredientes.vunita" },
+            { data: "ingredientes.vtotal" }
         ],
         select: true,
         buttons: [
