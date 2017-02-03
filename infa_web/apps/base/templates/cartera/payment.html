@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
@@ -67,7 +67,7 @@
 										<li class="active"><a data-toggle="pill" href="#tab_pagos">Pagos</a></li>
 									</ul>
 									<secition>
-										<div class="tab-content"> 
+										<div class="tab-content">
 											<div id="tab_pagos" class="tab-pane fade in active">
 												<div class="row">
 													<div class="col-md-12">
@@ -101,7 +101,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 										</div>
 									</secition>
 								</div>
@@ -112,8 +112,8 @@
 						</div>
 						<div class="modal-footer">
 							<div class="btn-group">
-								<button type="button" class="btn btn-app" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
-								<button type="button" class="btn btn-app" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
+								<button type="button" class="btn btn-app btn-primary" data-dismiss="modal"><i class="fa fa-mail-reply"></i>Volver</button>
+								<button type="button" class="btn btn-app btn-primary" id="btn-save"><i class="fa fa-save"></i>Guardar</button>
 							</div>
 						</div>
 					</div>
@@ -122,22 +122,22 @@
 
 			<div class="text-center buttons-action">
 				<div class="btn-group">
-					<button class="btn btn-app btn-info" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
+					<button class="btn btn-app btn-primary" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
 					</button>
-					<button class="btn btn-app" type="button" onclick="show_modal_totalizar()">
+					<button class="btn btn-app btn-primary" type="button" onclick="show_modal_totalizar()">
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
 					{% if mode_view == "edit" %}
-						<button class="btn btn-app" type="button" id="print_bill">
+						<button class="btn btn-app btn-primary" type="button" id="print_bill">
 							<i class="fa fa-print"></i>
 							Imprimir
 						</button>
 					{% endif %}
 
-					<a data-new-window class="btn btn-app" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
+					<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
 
 				</div>
 			</div>

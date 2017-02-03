@@ -21,7 +21,7 @@
 
 		<div class="tab-content">
 			{% for module in modules %}
-				{% if forloop.first %}  
+				{% if forloop.first %}
 					<div id="{{module.nmodule}}" class="tab-pane fade in active">
 				{% else %}
 					<div id="{{module.nmodule}}" class="tab-pane fade in ">
@@ -62,7 +62,7 @@
 										{% endfor %}
 										<div class="text-center">
 											<div class="btn-group">
-												<button class="btn btn-app btn-info" type="submit">
+												<button class="btn btn-app btn-primary" type="submit">
 													<i class="fa fa-plus-square-o"></i>Guardar
 												</button>
 											</div>

@@ -36,15 +36,15 @@
 											<div class="cont-info"></div>
 										</div>
 									</div>
-									
+
 								</div>
 							</div>
 							<div class="text-center">
 								<div class="btn-group">
-									<a class="btn btn-app btn-info" href="{% url 'inventory' %}">
+									<a class="btn btn-app btn-primary" href="{% url 'inventory' %}">
 										<i class="fa fa-plus-square-o"></i>Nuevo
 									</a>
-									<a class="btn btn-app" href="{% url 'inventory_list' %}">
+									<a class="btn btn-app btn-primary" href="{% url 'inventory_list' %}">
 										<i class="fa fa-list"></i>Listar
 									</a>
 								</div>
@@ -157,16 +157,16 @@
 				'<div class="box-footer text-center">'+
 					'<div class="box-footer text-center">'+
 						'<div class="btn-group">'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-save" href="#">'+
+							'<a class="btn btn-app btn btn-primary" id="btn-save" href="#">'+
 								'<i class="fa fa-floppy-o"></i>Guardar'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary open-modal" data-toggle="modal" data-target="#Modal" id="btn-print" href="{% url 'inventory_report' %}?invini='+cii.val()+'" '+dis_print+'>'+
+							'<a class="btn btn-app btn btn-primary open-modal" data-toggle="modal" data-target="#Modal" id="btn-print" href="{% url 'inventory_report' %}?invini='+cii.val()+'" '+dis_print+'>'+
 								'<i class="fa fa-print"></i>Imprimir'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" id="btn-reset" href="#">'+
+							'<a class="btn btn-app btn btn-primary" id="btn-reset" href="#">'+
 								'<i class="fa fa-undo"></i>Valores en cero'+
 							'</a>'+
-							'<a class="btn btn-app btn-info btn btn-primary" href="{% url 'dashboard' %}">'+
+							'<a class="btn btn-app btn btn-primary" href="{% url 'dashboard' %}">'+
 								'<i class="fa fa-sign-out"></i>Salir'+
 							'</a>'+
 						'</div>'+

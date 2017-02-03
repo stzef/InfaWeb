@@ -112,6 +112,39 @@ def Ingredients_list(request):
 		}
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 
+@csrf_exempt
+def load_deta(request):
+	data = {
+		"data": [
+			{
+				"DT_RowId": "row_1",
+				"users": {
+					"first_name": "Quynn",
+					"last_name": "Contreras",
+					"site": "1"
+				},
+				"sites": {
+					"name": "Edinburgh"
+				},
+				"permission": [
+					{
+						"id": "3",
+						"name": "Desktop"
+					},
+					{
+						"id": "1",
+						"name": "Printer"
+					},
+					{
+						"id": "4",
+						"name": "VMs"
+					}
+				]
+			}
+		]
+	}
+	return HttpResponse(json.dumps(data), content_type="application/json")
+
 class IngredientsList(CustomListView):
 	model = Ingredientes
 	template_name = "ingredientes/list-ingredients.html"
@@ -141,7 +174,7 @@ class DishCreate(CustomCreateView):
 		context['form_platosdeta'] = form_platosdeta
 
 		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('save-dish')
+		context['url'] = reverse_lazy('add-dish')
 
 		return context
 

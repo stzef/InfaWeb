@@ -50,7 +50,7 @@ class IngredientForm(forms.ModelForm):
 
 class DishForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(IngredientForm, self).__init__(*args, **kwargs)
+		super(DishForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 
@@ -75,7 +75,7 @@ class DishForm(forms.ModelForm):
 
 class DishDetail(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(IngredientForm, self).__init__(*args, **kwargs)
+		super(DishDetail, self).__init__(*args, **kwargs)
 
 		name_db = using
 		#self.fields['cingre'].queryset = Esdo.objects.using(name_db).all()
@@ -103,7 +103,7 @@ class DishDetail(forms.ModelForm):
 
 class MenuForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(IngredientForm, self).__init__(*args, **kwargs)
+		super(MenuForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
@@ -143,7 +143,7 @@ class MenuForm(forms.ModelForm):
 
 class MenuDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(IngredientForm, self).__init__(*args, **kwargs)
+		super(MenuDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 		#self.fields['cingre'].queryset = Esdo.objects.using(name_db).all()

@@ -7,10 +7,10 @@
 
 	<style>
 		.section-resumen-pedido{
-			min-height: 300px;
+			min-height: 350px;
 		}
 		.section-menu{
-			min-height: 300px;
+			min-height: 350px;
 		}
 	</style>
 
@@ -33,6 +33,23 @@
 											<th>Precio</th>
 										</tr>
 									</thead>
+									<tbody>
+										<tr>
+											<td> 4 </td>
+											<td> Hamburgesa </td>
+											<td> $ 6.000 </td>
+										</tr>
+										<tr>
+											<td> 4 </td>
+											<td> Gaseosa </td>
+											<td> $ 2.500 </td>
+										</tr>
+										<tr>
+											<td> 1 </td>
+											<td> Pizza </td>
+											<td> $ 5.000 </td>
+										</tr>
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -43,19 +60,19 @@
 							<p> Mesa: ----------- </p>
 						</div>
 						<div class="col-md-6">
-							<h2>Total : $0000000</h2>
+							<h2>Total : $ 39.000</h2>
 						</div>
 					</div>
 					<div>
 						<div class="text-center">
 							<div class="btn-group">
-								<button class="btn btn-app btn-info" type="button">
+								<button class="btn btn-app btn-primary" type="button">
 									<i class="fa fa-plus-square-o"></i>Buscar
 								</button>
-								<button class="btn btn-app btn-info" type="button">
+								<button class="btn btn-app btn-primary" type="button">
 									<i class="fa fa-save"></i>Imprimir
 								</button>
-								<a class="btn btn-app" data-new-window href="#">
+								<a class="btn btn-app  btn-primary" data-new-window href="#">
 									<i class="fa fa-list"></i>Caja
 								</a>
 							</div>
@@ -83,13 +100,27 @@
 								<tr>
 									<td>
 										<button class="btn btn-app btn-success" type="button">
-											<i class="fa fa-save"></i>Mesa1
+											<i class="fa fa-save"></i>Mesa 1
 										</button>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<button class="btn btn-app btn-info" type="button">
+										<button class="btn btn-app btn-default" type="button">
+											<i class="fa fa-save"></i>Mesa 2
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-default" type="button">
+											<i class="fa fa-save"></i>Mesa 3
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-primary" type="button">
 											<i class="fa fa-save"></i>Agregar
 										</button>
 									</td>
@@ -101,7 +132,6 @@
 						{% for item_menu in menu %}
 							<div class="col-md-4 text-center">
 								<img class="img-responsive" src="{% static item_menu.foto.url %}" />
-								<hr>
 								<span class="text-bold">{{ item_menu.nmenu }}</span>
 							</div>
 						{% endfor %}

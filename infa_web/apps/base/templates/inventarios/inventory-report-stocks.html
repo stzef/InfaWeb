@@ -46,10 +46,10 @@
 								</div>
 							</div>
 							<div class="box-footer text-center">
-								<button class="btn btn-app btn-info btn btn-primary" type="submit">
+								<button class="btn btn-app btn-primary" type="submit">
 									<i class="fa fa-print"></i>Imprimir
 								</button>
-								<a class="btn btn-app btn-info btn btn-primary" href="{% url 'dashboard' %}">
+								<a class="btn btn-app btn-primary" href="{% url 'dashboard' %}">
 									<i class="fa fa-sign-out"></i>Salir
 								</a>
 							</div>
@@ -63,7 +63,7 @@
 	{% include 'elements/footer.html' %}
 {% endblock %}
 
-{% block content_script %} 
+{% block content_script %}
 	<script src="{% static 'js/moment-with-locales.js' %}"></script>
 	<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
 	<script>

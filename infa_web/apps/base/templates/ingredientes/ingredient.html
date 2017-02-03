@@ -205,19 +205,19 @@
 				</div>
 				<div class="text-center">
 					<div class="btn-group">
-						<button class="btn btn-app btn-info" type="button" action="reset-form">
+						<button class="btn btn-app btn-primary" type="button" action="reset-form">
 							<i class="fa fa-plus-square-o"></i>Nuevo
 						</button>
-						<button class="btn btn-app btn-info" type="submit">
+						<button class="btn btn-app btn-primary" type="submit">
 							<i class="fa fa-save"></i>Guardar
 						</button>
-						<a class="btn btn-app" data-new-window href="{% url 'list-ingredients' %}">
+						<a class="btn btn-app btn-primary" data-new-window href="{% url 'list-ingredients' %}">
 							<i class="fa fa-list"></i>Listar
 						</a>
 						{% if mode_view == "edit" %}
-							<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
+							<a class="btn btn-app btn-primary" href="{% url 'copy-article' current_pk %}" target="_blank">
 						{% else %}
-							<a class="btn btn-app" href="#" disabled>
+							<a class="btn btn-app btn-primary" href="#" disabled>
 						{% endif %}
 							<i class="fa fa-copy"></i>Duplicar
 						</a>

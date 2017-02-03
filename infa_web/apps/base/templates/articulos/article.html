@@ -26,7 +26,7 @@
 									</div>
 									<div class="box-body">
 										<div class="row">
-											
+
 										<div class="col-md-6 form-group">
 											<label for="{{form.carlos.id_for_label}}" class="col-sm-4 control-label">{{form.carlos.label}}</label>
 											{%if form.carlos.errors%}
@@ -87,7 +87,7 @@
 												{%endif%}
 												<div class="col-sm-8">
 													<div class="input-group">
-														{{form.cgpo}} 
+														{{form.cgpo}}
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-group' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 													</div>
 												</div>
@@ -114,7 +114,7 @@
 												{%endif%}
 												<div class="col-sm-8">
 													<div class="input-group">
-														{{form.ctiarlo}} 
+														{{form.ctiarlo}}
 														<span class="input-group-addon"><a data-new-window href="{% url 'add-type-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 													</div>
 												</div>
@@ -138,7 +138,7 @@
 
 												<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">
 													{{form.canti.label}}
-													{% if typeInventory != "M" %} 
+													{% if typeInventory != "M" %}
 														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
 													{% endif %}
 												</label>
@@ -152,7 +152,7 @@
 											<div class="col-md-6 form-group">
 												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
 													{{form.vcosto.label}}
-													{% if typeInventory != "M" %} 
+													{% if typeInventory != "M" %}
 														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
 													{% endif %}
 												</label>
@@ -415,19 +415,19 @@
 				</div>
 				<div class="text-center">
 					<div class="btn-group">
-						<button class="btn btn-app btn-info" type="button" action="reset-form">
+						<button class="btn btn-app btn-primary" type="button" action="reset-form">
 							<i class="fa fa-plus-square-o"></i>Nuevo
 						</button>
-						<button class="btn btn-app btn-info" type="submit">
+						<button class="btn btn-app btn-primary" type="submit">
 							<i class="fa fa-save"></i>Guardar
 						</button>
-						<a class="btn btn-app" data-new-window href="{% url 'list-articles' %}">
+						<a class="btn btn-app btn-primary" data-new-window href="{% url 'list-articles' %}">
 							<i class="fa fa-list"></i>Listar
 						</a>
 						{% if mode_view == "edit" %}
-							<a class="btn btn-app" href="{% url 'copy-article' current_pk %}" target="_blank">
+							<a class="btn btn-app btn-primary" href="{% url 'copy-article' current_pk %}" target="_blank">
 						{% else %}
-							<a class="btn btn-app" href="#" disabled>
+							<a class="btn btn-app btn-primary" href="#" disabled>
 						{% endif %}
 							<i class="fa fa-copy"></i>Duplicar
 						</a>
@@ -451,7 +451,7 @@
 			/* Añadir el eschucador despues despues de cargaqr totalmente el DOM pues sino todo slos pvta quedan en el vcosto*/
 			$("#id_vcosto").change(function(){$("[name*=porult]").trigger("change");});
 		})
-		
+
 		$("[name*=porult]").change(function(){
 			var costo = parseFloat($("#id_vcosto").custom_format_val());
 			var porcentaje = parseFloat($(this).val());
@@ -466,10 +466,10 @@
 			if (valid){
 				$("form").off("submit")
 				AJAXGenericView("form","select[name=carlos]","ncorto","{{url}}",fn,"Creando el Articulo.")
-				$("form").submit() 
+				$("form").submit()
 			}
 		}
-		
+
 		$("[name={{form.cbarras.name}}]").change(function(){
 			var element = $(this)
 			if(!element.val().length) return
@@ -496,9 +496,9 @@
 				}
 			});
 		})
-		
+
 	</script>
-	
-	
+
+
 {%endblock%}
 
