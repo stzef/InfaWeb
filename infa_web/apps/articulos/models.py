@@ -5,7 +5,7 @@ from infa_web.apps.base.models import *
 from infa_web.apps.base.constantes import *
 
 from django.core.validators import MinValueValidator, MaxValueValidator
- 
+
 from django.db import models
 
 class Tiarlos(models.Model):

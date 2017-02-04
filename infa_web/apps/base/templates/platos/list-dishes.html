@@ -4,7 +4,7 @@
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {% load humanize %}
-{%block content%} 
+{%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
@@ -19,36 +19,21 @@
 					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>Códgio Interno</th>
-								<th>Fecha</th>
-								<th>Tercero</th>
-								<th>Tipo Movimiento</th>
-								<th>Doc Refrencia</th>
-								<th>Descripcion</th>
-								<th>Valor Total</th>
+								<th>cplato</th>
+								<th>nplato</th>
+								<th>fcrea</th>
+								<th>vttotal</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for movement in object_list %}
-								<tr data-object-search="{{ movement.pk }}">
-									{% if is_input_movement %}
-										<td>{{movement.cmven}}</td>
-										<td>{{movement.fmven}}</td>
-									{% else %}
-										<td>{{movement.cmvsa}}</td>
-										<td>{{movement.fmvsa}}</td>
-									{% endif %}
-									<td>{{movement.citerce}}</td>
-									<td>{{movement.ctimo}}</td>
-									<td>{{movement.docrefe}}</td>
-									<td>{{movement.descri}}</td>
-									<td>{{movement.vttotal}}</td>
-									{% if is_input_movement %}
-										<td><a data-link-edit href="{% url 'edit-input-movement' movement.cmven %}" target="_blank">Editar</a></td>
-									{% else %}
-										<td><a data-link-edit href="{% url 'edit-output-movement' movement.cmvsa %}" target="_blank">Editar</a></td>
-									{% endif %}
+							{% for plato in object_list %}
+								<tr data-object-search="{{ plato.pk }}">
+									<td>{{plato.cplato}}</td>
+									<td>{{plato.nplato}}</td>
+									<td>{{plato.fcrea}}</td>
+									<td>{{plato.vttotal}}</td>
+									<td><a data-link-edit href="{% url 'edit-dish' plato.pk %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>

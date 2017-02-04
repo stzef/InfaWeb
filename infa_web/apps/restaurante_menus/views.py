@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 
@@ -7,6 +9,8 @@ from infa_web.parameters import ManageParameters
 from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.base.views import AjaxableResponseMixin
 from infa_web.apps.restaurante_menus.forms import *
+from infa_web.apps.base.constantes import *
+
 
 from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -21,7 +25,7 @@ class IngredientCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Ingredientes
 	template_name = "ingredientes/ingredient.html"
 	form_class = IngredientForm
-	success_url=reverse_lazy("add-ingredient")
+	success_url=reverse_lazy("list-ingredient")
 	success_message = "Ingrediente creado."
 
 	def get_context_data(self, **kwargs):
@@ -113,8 +117,8 @@ def Ingredients_list(request):
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 
 @csrf_exempt
-def load_deta(request):
-	deta = Platosdeta.objects.using(request.db).all()
+def GetIngredientsDish(request,pk):
+	deta = Platosdeta.objects.using(request.db).filter(cplato=pk)
 
 	ingredientes = Ingredientes.objects.using(request.db).all()
 	ingredientes_json = []
@@ -140,35 +144,6 @@ def load_deta(request):
 					"name" : str(item.cingre.ningre)
 				}
 			})
-	"""data = {
-		"data": [
-			{
-				"DT_RowId": "row_1",
-				"users": {
-					"first_name": "Quynn",
-					"last_name": "Contreras",
-					"site": "1"
-				},
-				"sites": {
-					"name": "Edinburgh"
-				},
-				"permission": [
-					{
-						"id": "3",
-						"name": "Desktop"
-					},
-					{
-						"id": "1",
-						"name": "Printer"
-					},
-					{
-						"id": "4",
-						"name": "VMs"
-					}
-				]
-			}
-		]
-	}"""
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
 class IngredientsList(CustomListView):
@@ -187,37 +162,89 @@ class DishesList(CustomListView):
 		context['title'] = "Listar Platos"
 		return context
 
-class DishCreate(CustomCreateView):
+@csrf_exempt
+def DishDetailCreate(request):
+	data = json.loads(request.body)
+	response = { "data" : []  }
+
+	for key, value in data["data"].iteritems():
+		print value
+		value["ingredientes"]["cingre"] = Ingredientes.objects.using(request.db).get(pk=value["ingredientes"]["cingre"])
+		value["ingredientes"]["cplato"] = Platos.objects.using(request.db).get(pk=value["ingredientes"]["cplato"])
+		platodeta = Platosdeta(**value["ingredientes"])
+
+		response["data"].append({
+			"DT_RowId": "row_1",
+			"ingredientes" : {
+				"it" : platodeta.it,
+				"cingre" : platodeta.cingre.cingre,
+				"canti" : platodeta.canti,
+				"vunita" : platodeta.vunita,
+				"vtotal" : platodeta.vtotal,
+			},
+			"cingres" : {
+				"name" : str(platodeta.cingre.ningre)
+			}
+	})
+
+		platodeta.save(using=request.db)
+		print platodeta
+
+	return HttpResponse(json.dumps(response), content_type="application/json")
+
+class DishCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Platos
 	template_name = "platos/dish.html"
 	form_class = DishForm
+	success_url=reverse_lazy("list-dishes")
 
 	def get_context_data(self,**kwargs):
 		context = super(DishCreate, self).get_context_data(**kwargs)
 
 		context['title'] = "Crear Plato"
-		form_platosdeta = DishDetail(self.request.db)
+		form_platosdeta = DishDetailForm(self.request.db)
 		context['form_platosdeta'] = form_platosdeta
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-dish')
+		context['url_foto'] = DEFAULT_IMAGE_DISHES
 
 		return context
 
-class DishUpdate(CustomUpdateView):
+	def post(self, request, *args, **kwargs):
+		mutable_data = request.POST.copy()
+
+		manageParameters = ManageParameters(self.request.db)
+		minCodeDish = manageParameters.get_param_value("min_code_dish")
+
+		maxCplato = Platos.objects.using(request.db).aggregate(Max('cplato'))
+		if maxCplato["cplato__max"]:
+			cplato = maxCplato["cplato__max"] + 1
+		else:
+			cplato = minCodeDish
+
+		mutable_data["cplato"] = cplato
+
+		request.POST = mutable_data
+
+		return super(DishCreate, self).post(request, *args, **kwargs)
+
+class DishUpdate(AjaxableResponseMixin,CustomUpdateView):
 	model = Platos
 	template_name = "platos/dish.html"
 	form_class = DishForm
+	success_url=reverse_lazy("list-dishes")
 
 	def get_context_data(self,**kwargs):
 		context = super(DishUpdate, self).get_context_data(**kwargs)
 
 		context['title'] = "Editar Movimiento de Entrada"
-		form_platosdeta = DishDetail(self.request.db)
+		form_platosdeta = DishDetailForm(self.request.db)
 		context['form_platosdeta'] = form_platosdeta
 
-		context['platosdeta'] = list(Platosdeta.objects.using(self.request.db).filter(cplato=self.kwargs["pk"]))
-		context['platosdeta_json'] = serializers.serialize("json", list(Platosdeta.objects.using(self.request.db).filter(cplato=self.kwargs["pk"])),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		plato = Platos.objects.using(self.request.db).get(pk=self.kwargs["pk"])
+
+		context['url_foto'] = plato.foto
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]

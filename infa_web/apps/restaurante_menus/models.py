@@ -49,7 +49,7 @@ class Ingredientes(models.Model):
 class Platos(models.Model):
 	cplato = models.IntegerField(primary_key=True)
 	nplato = models.CharField(max_length=50)
-	fcrea = models.DateTimeField()
+	fcrea = models.DateTimeField(auto_now_add=True)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 
 	foto = models.FileField(upload_to="img/dishes/", blank=True, null=True,default=DEFAULT_IMAGE_DISHES)

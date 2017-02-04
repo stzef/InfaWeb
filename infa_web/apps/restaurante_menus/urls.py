@@ -16,8 +16,8 @@ urlDishes = [
 	url(r'^dishes/add/$', DishCreate.as_view(), name = 'add-dish'),
 	url(r'^dishes/edit/(?P<pk>\d+)/$', DishUpdate.as_view(), name = 'edit-dish'),
 
-	#url(r'^dishes/load_deta/(?P<pk>\d+)/$', DishUpdate.as_view(), name = 'edit-dish'),
-	url(r'^dishes/load_deta/$', load_deta, name = 'load-deta-dish'),
+	url(r'^dishes/ingredients/(?P<pk>\d+)/$', GetIngredientsDish, name = 'get-ingredients-dish'),
+	url(r'^dishes/ingredients/add/$', DishDetailCreate, name = 'add-ingredient-dish'),
 ]
 
 urlMenu = [

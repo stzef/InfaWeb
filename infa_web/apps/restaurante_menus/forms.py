@@ -31,6 +31,7 @@ class IngredientForm(forms.ModelForm):
 			'civa': forms.Select(attrs={'class':'form-control','required':True}),
 
 			'foto':forms.FileInput(attrs={'class': 'form-control'}),
+
 		}
 		labels = {
 			'cingre':'Código Interno',
@@ -55,7 +56,7 @@ class DishForm(forms.ModelForm):
 		name_db = using
 
 	class Meta:
-		model = Ingredientes
+		model = Platos
 		fields = "__all__"
 		exclude = []
 		widgets = {
@@ -73,17 +74,17 @@ class DishForm(forms.ModelForm):
 			'vttotal':'Valor Total',
 		}
 
-class DishDetail(forms.ModelForm):
+class DishDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(DishDetail, self).__init__(*args, **kwargs)
+		super(DishDetailForm, self).__init__(*args, **kwargs)
 
 		name_db = using
 		#self.fields['cingre'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
-		model = Ingredientes
+		model = Platosdeta
 		fields = "__all__"
-		exclude = []
+		#exclude = []
 		widgets = {
 			#'cplato' :
 			'cingre' : forms.Select(attrs={'class':'form-control','required':True}),
@@ -111,7 +112,7 @@ class MenuForm(forms.ModelForm):
 
 
 	class Meta:
-		model = Ingredientes
+		model = Menus
 		fields = "__all__"
 		exclude = []
 		widgets = {
@@ -149,7 +150,7 @@ class MenuDetailForm(forms.ModelForm):
 		#self.fields['cingre'].queryset = Esdo.objects.using(name_db).all()
 
 	class Meta:
-		model = Ingredientes
+		model = Menusdeta
 		fields = "__all__"
 		exclude = []
 		widgets = {

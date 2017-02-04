@@ -4,7 +4,7 @@
 
 {% block content_head %}
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<!--<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">-->
 	<link rel="stylesheet" href="{% static 'css/buttons.dataTables.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/select.dataTables.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/editor.dataTables.min.css' %}">
@@ -15,14 +15,17 @@
 {% block content %}
 	{% include 'elements/nav.html' %}
 	{% include 'elements/sidebar.html' %}
+
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content-header">
-			<h1>Movimientos de Inventario</h1>
+			<h1>Platos</h1>
 		</section>
 		<section class="content">
 			<form class="form-horizontal" id="form_movement">
 				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
 				<div class="row">
+					{%csrf_token%}
+
 					<div class="col-md-12">
 						<div class="box box-primary">
 							<div class="box-header with-border">
@@ -32,156 +35,97 @@
 							<div class="box-body">
 
 								<div class="row">
-									<div class="form-group col-md-4">
-										<label for="{{ form.nplato.id_for_label }}" class="col-sm-4 control-label">{{ form.nplato.label }}</label>
-										<div class="col-sm-8">
-											{{ form.nplato }}
+									<div class="col-md-6">
+
+
+
+
+										<div class="form-group">
+											<label for="{{form.cplato.id_for_label}}" class="col-sm-4 control-label">{{form.cplato.label}}</label>
+											{%if form.cplato.errors%}
+											{{form.cplato.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.cplato.id_for_label}}" name="{{form.cplato.html_name}}" >
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="{{ form.nplato.id_for_label }}" class="col-sm-4 control-label">{{ form.nplato.label }}</label>
+											<div class="col-sm-8">
+												{{ form.nplato }}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{ form.vttotal.id_for_label }}" class="col-sm-4 control-label">{{ form.vttotal.label }}</label>
+											<div class="col-sm-8">
+												{{ form.vttotal }}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="col-md-4 form-group">
+											<img class="ae-img-article img-responsive" src="/static/{{url_foto}}" alt="">
+											<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
+											{%if form.foto.errors%}
+												{{form.foto.errors}}
+											{%endif%}
+											<div class="col-sm-8">
+												{{form.foto}}
+											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="text-center">
+									<div class="btn-group">
+										<button class="btn btn-app btn-primary" type="button" action="reset-form">
+											<i class="fa fa-plus-square-o"></i>Nuevo
+										</button>
+										<button class="btn btn-app btn-primary" type="submit">
+											<i class="fa fa-save"></i>Guardar
+										</button>
+										<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-dishes' %}"><i class="fa fa-list"></i>Listar</a>
+									</div>
+								</div>
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
 
-
-			<form class="form-horizontal" id="form_deta_movement">
-
-
-
-
-
-
-
-				<div class="row">
-					<table id="example" class="display" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Ingrediente</th>
-                <th>Cantidad</th>
-                <th>Valor Unitario</th>
-                <th>Valor Total</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>Item</th>
-                <th>Ingrediente</th>
-                <th>Location</th>
-                <th>Valor Unitario</th>
-                <th>Valor Total</th>
-            </tr>
-        </tfoot>
-    </table>
-				</div>
-
-
-
-
-
-
-
-
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="box box-primary">
-							<div class="box-header with-border">
-								<h3 class="box-title">Detalle</h3>
-							</div>
-							<div class="box-body">
-
-								<div class="form-group col-sm-12">
-									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
-									<div class="col-sm-2">
-										<input type="text" readonly data-mask="{{form.vttotal.id_for_label}}__mask" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
-										<input type="hidden" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
-									</div>
-								</div>
-
-								<section class="col-md-12" id="form_temp_mvendeta">
-								</section>
-
-								<section role="form" id="item_mdeta">
-									<table class="table table-striped no-footer" cellspacing="0" width="100%">
-										<thead>
-											<tr>
-												<th width="3%">It</th>
-												<th width="20%">Cod Articulo</th>
-												<th width="20%">Articulo</th>
-												<th width="10%">Cantidad</th>
-												<th width="10%">V unitario</th>
-												<th width="10%">V total</th>
-												<th width="10%"></th>
-											</tr>
-											<tr>
-												<th width="3%">
-													<input type="hidden" name="{{ form_platosdeta.it.name }}" id="{{ form_platosdeta.it.id_for_label}}" >
-												</th>
-												<th width="20%">
-													<div class="input-group">
-
-														<input type="number" name="{{form_platosdeta.carlos.name}}" id="{{form_platosdeta.carlos.id_for_label}}" class="{{form_platosdeta.carlos.field.widget.attrs.class}}" required>
-
-
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
-													</div>
-												</th>
-												<th width="20%">
-													<input type="text" name="name__{{form_platosdeta.carlos.name}}" id="name__{{form_platosdeta.carlos.name}}" class="form-control" readonly>
-												</th>
-												<th width="10%">{{ form_platosdeta.canti }}</th>
-												<th width="10%">{{ form_platosdeta.vunita }}</th>
-												<th width="10%">{{ form_platosdeta.vtotal }}</th>
-												<th width="10%"><button type="submit" class="btn btn-success" id="add_item_mdeta"><i class="fa fa-plus-square"></i></button></th>
-											</tr>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-								</section>
-
-								<section role="form" id="list_items_mdeta">
-									<table class="table table-striped no-footer text-center" cellspacing="0" width="100%">
-										<tbody>
-										</tbody>
-									</table>
-								</section>
-
-								<div class="form-group col-sm-12">
-									<label for="{{ form.vttotal.id_for_label }}" class="col-sm-10 control-label">{{ form.vttotal.label }}</label>
-									<div class="col-sm-2">
-										<input type="text" readonly data-mask="{{form.vttotal.id_for_label}}__mask" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
-										<input type="hidden" readonly name="{{form.vttotal.name}}" id="{{form.vttotal.id_for_label}}" class="{{form.vttotal.field.widget.attrs.class}} text-right" readonly">
-									</div>
-								</div>
-
-							</div>
-
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Detalle</h3>
+						</div>
+						<div class="box-body">
+							<table id="example" class="display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+									<th>Item</th>
+									<th>Ingrediente</th>
+									<th>Cantidad</th>
+									<th>Valor Unitario</th>
+									<th>Valor Total</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+									<th>Item</th>
+									<th>Ingrediente</th>
+									<th>Cantidad</th>
+									<th>Valor Unitario</th>
+									<th>Valor Total</th>
+									</tr>
+								</tfoot>
+							</table>
 						</div>
 					</div>
-				</div>
-			</form>
-
-			<div class="text-center">
-				<div class="btn-group">
-					<button class="btn btn-app btn-primary" type="button" action="reset-form">
-						<i class="fa fa-plus-square-o"></i>Nuevo
-					</button>
-					<button class="btn btn-app btn-primary" type="submit" id="btn-save">
-						<i class="fa fa-save"></i>Guardar
-					</button>
-					{% if is_input_movement %}
-						<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% else %}
-						<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
-					{% endif %}
 				</div>
 			</div>
-
 		</section>
 	</div>
 	{% include 'elements/footer.html' %}
@@ -189,200 +133,168 @@
 
 {% block content_script %}
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'js/dataTables.select.min.js' %}"></script>
-<script src="{% static 'js/dataTables.editor.min.js' %}"></script>
+	<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+	<script src="{% static 'js/dataTables.select.min.js' %}"></script>
+	<script src="{% static 'js/dataTables.editor.min.js' %}"></script>
 
-<!--<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>-->
+	<!--<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>-->
 
-<script src="{% static 'js/moment-with-locales.js' %}"></script>
-<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+	<script src="{% static 'js/moment-with-locales.js' %}"></script>
+	<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
 
-<script>
-	var mode_view = $("#mode_view").val()
+	<script>
+		var editor; // use a global for the submit and return data rendering in the examples
 
-	$('.date').datetimepicker({
-		format: 'YYYY-MM-D',
-		defaultDate:date_appen
-	});
+		function fn(response){
+			$("[name=cplato]").val(response.pk)
 
-
-
-
-	$("#form_deta_movement").submit(function(event){
-		event.preventDefault()
-		if(customValidationInput("#item_mdeta").valid){
-			var tr = $("<tr>")
-			$('#item_mdeta')
-			.find("input,select")
-			.toArray()
-			.forEach(function(e,i){
-				var oth = $(e).closest("th")
-				//var value = (e.type == "number") ? currencyFormat.format(e.value) : e.value
-
-				var value = e.value
-				var data_value = e.value
-
-				var css_class = ""
-
-				if($(e).hasClass("input-currency")){
-					//var value = currencyFormat.format(e.value)
-					css_class = "value-currency"
-				}
-
-				tr.append($("<td>",{
-					width:oth.attr("width"),
-					"data-name":e.name,
-					"data-value":data_value,
-					"class":css_class,
-					html:value}))
-			})
-			td = $("<td width='10%'>")
-			var btnEdit = td.append($("<span class='btn btn-info' ><i class='fa fa-edit '></span>").click(edit_item_mdeta))
-			var btnDelete = td.append($("<span class='btn btn-danger' ><i class='fa fa-remove'></span>").click(delete_item_mdeta))
-			tr.append(btnEdit,btnDelete)
-			$("#list_items_mdeta").find("tbody").append(tr)
-
-			$('#item_mdeta').find("input,select").val("")
-			$('#item_mdeta').find("[name=canti]").val(1)
-			var it = 1
-			$("#list_items_mdeta").find("[data-name=it]").toArray().forEach(
-				function(e){
-					$(e).html(it);
-					$(e).attr("data-value",it);
-					it++
-				})
-			calcular_total()
-		}
-	})
-
-	$("#btn-save").click(function(event){
-		loading_animation("Guardando Movimiento.")
-		event.preventDefault()
-		if(!customValidationInput("#form_movement").valid) return
-		var currentForm = $("#form_movement")
-		var data = {
-			docrefe : $("[name=docrefe]").val(),
-			citerce : $("[name=citerce]").val(),
-			ctimo : $("[name=ctimo]").val(),
-			cesdo : $("[name=cesdo]").val(),
-			vttotal : $("[name=vttotal]").val(),
-			descri : $("[name=descri]").val(),
-			cbode0 : $("[name=cbode0]").val(),
-		}
-		var array_mvdeta = get_mdeta()
-		if(array_mvdeta.length){
-			data.mvdeta = array_mvdeta
-		}else{
-			var message = alertBootstrap("No ha ingresado Ningun Articulo","warning")
-			currentForm.prepend(message)
-			return
-		}
-		if($("[name=cmven]").length != 0){
-			data.is_input_movement = true
-			data.fmven = $("[name=fmven]").val()
-		}else{
-			data.is_input_movement = false
-			data.fmvsa = $("[name=fmvsa]").val()
-		}
-		$.ajax({
-			//url: '{% url 'save-movement' %}',
-			url: '{{url}}',
-			type: 'POST',
-			data: JSON.stringify(data),
-			contentType: "application/json",
-			error: function(response){
-				var message = alertBootstrap("Ha ocurrido un error en el proceso.","danger")
-				currentForm.prepend(message)
-				$(".animation").empty()
-			},
-			success: function(response){
-				if(response.error){
-					var message = alertBootstrap(response.message,"danger")
-				}else{
-					if(mode_view != "edit"){
-						$("[name*=cmv]").val(response.cmv)
-					}
-					var message = alertBootstrap(response.message,"success")
-				}
-				if(mode_view != "edit"){
-					$("#list_items_mdeta").find("tbody").children().remove()
-				}
-				currentForm.prepend(message)
-				$(".animation").empty()
+			if( mode_view == "create" ){
+				$("form").find("input,button:not([action=reset-form])").prop("disabled",true)
+				fillTable()
 			}
-		});
-	})
+		}
 
-	{% if mvdeta_json %}
-		var js_list = {{mvdeta_json|safe}}
-	{% else %}
-		var js_list = []
-	{% endif %}
-	$(document).ready(function(e){
-		js_list.forEach(function(object){
-			$('#item_mdeta').find("#id_carlos").val(object.fields.carlos)
-			$('#item_mdeta').find("#name__carlos").val(object.fields.nlargo)
-			$('#item_mdeta').find("#id_canti").val(object.fields.canti)
-			$('#item_mdeta').find("#id_vunita").val(currencyFormat.format(object.fields.vunita)).trigger("change")
-			$('#item_mdeta').find("#id_vtotal").val(currencyFormat.format(object.fields.vtotal)).trigger("change")
-			$('#form_deta_movement').submit()
-			$('#form_deta_movement').trigger("reset")
-			calcular_total()
+		function fillTable(){
+
+			editor = new $.fn.dataTable.Editor( {
+				ajax: {
+					//url : "/dishes/load_deta/"
+					create : {
+						"url": "/dishes/ingredients/add/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": function(d) {
+							d.data["0"].ingredientes.cplato = $("[name=cplato]").val()
+							return JSON.stringify(d);
+						},
+					}
+				},
+				table: "#example",
+				i18n: {
+					create: {
+						button: "Nuevo",
+						title:  "Crear Nuevo",
+						submit: "Crear"
+					},
+					edit: {
+						button: "Modificar",
+						title:  "Modificar",
+						submit: "Actualizar"
+					},
+					remove: {
+						button: "Borrar",
+						title:  "Borrar",
+						submit: "Borrar",
+						confirm: {
+							_: "¿Está seguro de que quiere eliminar %d líneas?",
+							1: "¿Está seguro de que quiere borrar una línea?"
+							}
+					},
+					error: {
+						system: "Se ha producido un error, póngase en contacto con el administrador del sistema."
+					},
+					/*multi: {
+						title: "Plusieurs valeurs",
+						info: "Les éléments sélectionnés contiennent des valeurs différentes pour cette entrée. Pour modifier et mettre tous les éléments pour cette entrée pour la même valeur, cliquez ou appuyez ici, sinon ils vont conserver leurs valeurs individuelles.",
+						restore: "Annuler les modifications"
+					},
+					datetime: {
+						previous: 'Précédent',
+						next:     'Premier',
+						months:   [ 'Janvier', 'Février', 'Mars', 'Avril', 'peut', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
+						weekdays: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ]
+					}*/
+				},
+				fields: [
+					{
+						label: "Item:",
+						name:  "ingredientes.it"
+					},
+					{
+						label: "Ingrediente:",
+						name:  "ingredientes.cingre",
+						type : "select"
+					},
+					{
+						label: "Cantidad:",
+						name:  "ingredientes.canti",
+					},
+					{
+						"label": "Valor Unitario:",
+						"name": "ingredientes.vunita"
+					},
+					{
+						"label": "Valor Total:",
+						"name": "ingredientes.vtotal"
+					}
+				]
+			})
+
+			$('#example').DataTable( {
+				dom: "Bfrtip",
+				ajax: {
+					//url: "/dishes/load_deta/",
+					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
+					type: 'GET'
+				},
+				columns: [
+
+					{ data: "cingres.name" },
+					{ data: "ingredientes.it" },
+					{ data: "ingredientes.canti" },
+					{ data: "ingredientes.vunita" },
+					{ data: "ingredientes.vtotal" }
+				],
+				select: {
+					style:'os',
+					selector: 'td:first-child'
+				},
+				buttons: [
+					{ extend: "create", editor: editor },
+					{ extend: "edit",   editor: editor },
+					{ extend: "remove", editor: editor }
+				],
+				language: {
+					"sProcessing":     "Procesando...",
+					"sLengthMenu":     "Mostrar _MENU_ registros",
+					"sZeroRecords":    "No se encontraron resultados",
+					"sEmptyTable":     "Ningún dato disponible en esta tabla",
+					"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+					"sInfoPostFix":    "",
+					"sSearch":         "Buscar:",
+					"sUrl":            "",
+					"sInfoThousands":  ",",
+					"sLoadingRecords": "Cargando...",
+					"oPaginate": {
+						"sFirst":    "Primero",
+						"sLast":     "Último",
+						"sNext":     "Siguiente",
+						"sPrevious": "Anterior"
+					},
+					"oAria": {
+						"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					}
+				}
+			})
+		}
+
+		AJAXGenericView("form","select[name=cplato]","nplato","{{url}}",fn,"Creando el Plato.");
+
+		var mode_view = $("#mode_view").val()
+
+		$('.date').datetimepicker({
+			format: 'YYYY-MM-D',
+			defaultDate:date_appen
 		})
 
-	})
-
-
-
-var editor; // use a global for the submit and return data rendering in the examples
-
-$(document).ready(function() {
-    editor = new $.fn.dataTable.Editor( {
-        ajax: "/dishes/load_deta/",
-        table: "#example",
-        fields: [ {
-                label: "Item:",
-                name:  "ingredientes.it"
-            }, {
-                label: "Ingrediente:",
-                name:  "ingredientes.cingre",
-                type : "select"
-            }, {
-                label: "Cantidad:",
-                name:  "ingredientes.canti",
-            }, {
-                "label": "Valor Unitario:",
-                "name": "ingredientes.vunita"
-            }, {
-                "label": "Valor Total:",
-                "name": "ingredientes.vtotal"
-            }
-        ]
-    } );
-
-    $('#example').DataTable( {
-        dom: "Bfrtip",
-        ajax: {
-            url: "/dishes/load_deta/",
-            type: 'POST'
-        },
-        columns: [
-            { data: "cingres.name" },
-            { data: "ingredientes.it" },
-            { data: "ingredientes.canti" },
-            { data: "ingredientes.vunita" },
-            { data: "ingredientes.vtotal" }
-        ],
-        select: true,
-        buttons: [
-            { extend: "create", editor: editor },
-            { extend: "edit",   editor: editor },
-            { extend: "remove", editor: editor }
-        ]
-    } );
-} );
-
-
-</script>
+		$( document ).ready(function() {
+			if (mode_view == "edit"){
+				fillTable()
+			}
+		});
+	</script>
 {% endblock content_script %}
