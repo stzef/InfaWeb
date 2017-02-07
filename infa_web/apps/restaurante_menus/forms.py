@@ -126,10 +126,11 @@ class MenuForm(forms.ModelForm):
 			'pvta1' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
 			'pvta2' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
 			'pvta3' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
-			'vttotal' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
+			'vttotal' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'disabled':True,'step':'0.01','min':0}),
 			'foto' : forms.FileInput(attrs={'class': 'form-control'}),
 		}
 		labels = {
+			'cmenu' : 'Codigo',
 			'nmenu' : 'Nombre',
 			#'fcrea' : '',
 			'cesdo' : 'Estado',
@@ -138,7 +139,7 @@ class MenuForm(forms.ModelForm):
 			'pvta1' : 'Precio Venta 1',
 			'pvta2' : 'Precio Venta 2',
 			'pvta3' : 'Precio Venta 3',
-			'vttotal' : 'V Total',
+			'vttotal' : 'Vr. Total',
 			'foto' : 'Foto',
 
 		}

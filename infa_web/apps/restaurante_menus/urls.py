@@ -16,17 +16,19 @@ urlDishes = [
 	url(r'^dishes/add/$', DishCreate.as_view(), name = 'add-dish'),
 	url(r'^dishes/edit/(?P<pk>\d+)/$', DishUpdate.as_view(), name = 'edit-dish'),
 
-	url(r'^dishes/ingredients/(?P<pk>\d+)/$', GetIngredientsDish, name = 'get-ingredients-dish'),
-	url(r'^dishes/ingredients/add/$', DishDetailCreate, name = 'add-ingredient-dish'),
-	url(r'^dishes/ingredients/edit/$', DishDetailUpdate, name = 'add-ingredient-dish'),
-	url(r'^dishes/ingredients/remove/$', DishDetailRemove, name = 'add-ingredient-dish'),
+	url(r'^dishes/ingredients/(?P<pk>\d+)/$', GetDishDetail, name = 'get-ingredients-dish'),
+	url(r'^dishes/ingredients/$', DishDetailCRUD, name = 'crud-ingredient-dish'),
 ]
 
 urlMenu = [
-	#url(r'^menus/$', MenusList.as_view(), name = 'list-menus'),
-	#url(r'^menus/add/$', MenuCreate.as_view(), name = 'add-menu'),
-	#url(r'^menus/edit/(?P<pk>\d+)/$', MenuUpdate.as_view(), name = 'edit-menu'),
+	url(r'^menus/$', MenusList.as_view(), name = 'list-menus'),
+	url(r'^menus/add/$', MenuCreate.as_view(), name = 'add-menu'),
+	url(r'^menus/edit/(?P<pk>\d+)/$', MenuUpdate.as_view(), name = 'edit-menu'),
+
+	url(r'^menus/dishes/(?P<pk>\d+)/$', GetMenuDetail, name = 'get-platos-menu'),
+	url(r'^menus/dishes/$', MenuDetailCRUD, name = 'crud-platos-menu'),
 ]
+
 
 urlGroups = [
 	#url(r'^menus/groups/$', GroupsList.as_view(), name = 'list-groups-menus'),

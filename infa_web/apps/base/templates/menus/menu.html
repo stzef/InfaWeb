@@ -1,0 +1,362 @@
+{%extends 'layouts/base.html'%}
+{% load humanize %}
+{% load static %}
+{% load date_appen %}
+
+{% block content_head %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
+{% endblock content_head %}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<div class="content">
+			<h2>{{title}}</h2>
+			<ul class="nav nav-pills">
+				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
+				<li><a data-toggle="pill" href="#tabListaPrecios">Lista de Precios</a></li>
+			</ul>
+			<form action="" method="POST" role="form" class="form-horizontal">
+				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
+
+				{%csrf_token%}
+				<div class="tab-content">
+					<div id="tabBasicos" class="tab-pane  active">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Basicos</h3>
+									</div>
+									<div class="box-body">
+										<div class="col-md-6">
+
+											<div class="form-group">
+												<label for="{{form.cmenu.id_for_label}}" class="col-sm-2 control-label">{{form.cmenu.label}}</label>
+												{%if form.cmenu.errors%}
+												{{form.cmenu.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.cmenu.id_for_label}}" name="{{form.cmenu.html_name}}" >
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{form.nmenu.id_for_label}}" class="col-sm-2 control-label">{{form.nmenu.label}}</label>
+												{%if form.nmenu.errors%}
+												{{form.nmenu.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.nmenu}}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{form.npax.id_for_label}}" class="col-sm-2 control-label">{{form.npax.label}}</label>
+												{%if form.npax.errors%}
+												{{form.npax.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.npax}}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+												{%if form.cesdo.errors%}
+												{{form.cesdo.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.cesdo}}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{form.cgpomenu.id_for_label}}" class="col-sm-2 control-label">{{form.cgpomenu.label}}</label>
+												{%if form.cgpomenu.errors%}
+												{{form.cgpomenu.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													<div class="input-group">
+														{{form.cgpomenu}}
+														<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{ form.vttotal.id_for_label }}" class="col-sm-4 control-label">{{ form.vttotal.label }}</label>
+												<div class="col-sm-8">
+													{{ form.vttotal }}
+												</div>
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<img class="ae-img-article img-responsive" src="/static/{{url_foto}}" alt="">
+												<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
+												{%if form.foto.errors%}
+												{{form.foto.errors}}
+												{%endif%}
+												<div class="col-sm-8">
+													{{form.foto}}
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="tabListaPrecios" class="tab-pane ">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Listado de Precios</h3>
+									</div>
+									<div class="box-body">
+										<table class="table table-bordered">
+											<thead>
+												<th>Lista</th>
+												<th>Precio Venta</th>
+											</thead>
+											<tbody>
+												<tr>
+													<th>1</th>
+													<th>{{form.pvta1}}</th>
+												</tr>
+												<tr>
+													<th>2</th>
+													<th>{{form.pvta2}}</th>
+												</tr>
+												<tr>
+													<th>3</th>
+													<th>{{form.pvta3}}</th>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="text-center">
+					<div class="btn-group">
+						<button class="btn btn-app btn-primary" type="button" action="reset-form">
+							<i class="fa fa-plus-square-o"></i>Nuevo
+						</button>
+						<button class="btn btn-app btn-primary" type="submit">
+							<i class="fa fa-save"></i>Guardar
+						</button>
+						<a class="btn btn-app btn-primary" data-new-window href="{% url 'list-menus' %}">
+							<i class="fa fa-list"></i>Listar
+						</a>
+					</div>
+				</div>
+			</form>
+
+			<div id="section_menu_deatil"  class="row {% if mode_view == 'create' %} hidden {% endif %}">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Detalle</h3>
+						</div>
+						<div class="box-body">
+							<table id="example" class="display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+									<th>Item</th>
+									<th>Plato</th>
+									<th>Cantidad</th>
+									<th>Valor Unitario</th>
+									<th>Valor Total</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+									<th>Item</th>
+									<th>Plato</th>
+									<th>Cantidad</th>
+									<th>Valor Unitario</th>
+									<th>Valor Total</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="customTemplate">
+		<div class="col-md-12 form-group">
+			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+			<div class="col-sm-8">
+				<div class="input-group">
+					<editor-field name="platos.cplato"></editor-field>
+					<span class="input-group-addon"><a data-new-window href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 form-group">
+
+			<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+			<div class="col-sm-8">
+				<editor-field name="platos.canti"></editor-field>
+			</div>
+		</div>
+	</div>
+
+	{%include 'elements/footer.html'%}
+{%endblock%}
+
+{% block content_script %}
+
+	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
+
+	<script>
+		var editor; // use a global for the submit and return data rendering in the examples
+
+		function fn(response){
+			$("[name=cmenu]").val(response.pk)
+
+			if( mode_view == "create" ){
+				$("#section_menu_deatil").removeClass("hidden")
+				$("form").find("input,button:not([action=reset-form])").prop("disabled",true)
+				fillTable()
+			}
+		}
+
+		function clear_data(d) {
+			for (var key in d.data){
+				d.data[key].paltos.vunita = currencyFormat.sToN(d.data[key].paltos.vunita)
+				d.data[key].paltos.vtotal = currencyFormat.sToN(d.data[key].paltos.vtotal)
+				d.data[key].paltos.cmenu = $("[name=cmenu]").val()
+			}
+			return JSON.stringify(d);
+		}
+
+		function fillTable(){
+
+			editor = new $.fn.dataTable.Editor( {
+				template : "#customTemplate",
+				ajax: {
+					create : {
+						"url": "/menus/dishes/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": clear_data,
+					},
+					edit : {
+						"url": "/menus/dishes/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": clear_data,
+					},
+					remove : {
+						"url": "/menus/dishes/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": clear_data,
+					}
+				},
+				table: "#example",
+				i18n: CONF_DTE.i18n,
+				fields: [
+					{
+						label: "Item:",
+						name:  "platos.it",
+						"type" : "hidden"
+					},
+					{
+						label: "Ingrediente:",
+						name:  "platos.cplato",
+						//"type" : "select"
+					},
+					{
+						label: "Cantidad:",
+						name:  "platos.canti",
+						type: "text"
+					},
+					{
+						"label": "Valor Unitario:",
+						"name": "platos.vunita",
+						"type" : "hidden"
+					},
+					{
+						"label": "Valor Total:",
+						"name": "platos.vtotal",
+						"type" : "hidden"
+					}
+				]
+			})
+
+			editor.on("submitComplete",function(event, response, data){
+				$("#id_vttotal").val(currencyFormat.format(response.menu.fields.vttotal))
+				data = {data:[]}
+			}).on("preCreate preEdit",function(event, response, data){
+				data.platos.vunita = currencyFormat.format(data.platos.vunita)
+				data.platos.vtotal = currencyFormat.format(data.platos.vtotal)
+			}).on("preOpen",function(event, frame, action){
+				console.log(arguments)
+				event.target.field("platos.cingre").enable()
+				if(action == "edit"){
+					event.target.field("platos.cingre").disable()
+				}
+			})
+
+			$('#example').DataTable( {
+				dom: "Bfrtip",
+				ajax: {
+					url: "/menus/dishes/" + $("[name=cmenu]").val(),
+					type: 'GET',
+				},
+				columns: [
+					{ data: "platos.it" },
+					{ data: "platos.cingre" },
+					{ data: "platos.canti" },
+					{ data: "platos.vunita" },
+					{ data: "platos.vtotal" }
+				],
+				select: 'single',
+				buttons: [
+					{ extend: "create", editor: editor },
+					{ extend: "edit",   editor: editor },
+					{ extend: "remove", editor: editor }
+				],
+				language: CONF_DTE.language
+			}).on( 'xhr', function ( e, settings, data ) {
+				data.data.forEach(function(e){
+					e.platos.vunita = currencyFormat.format(e.platos.vunita)
+					e.platos.vtotal = currencyFormat.format(e.platos.vtotal)
+				})
+			})
+
+		}
+
+		AJAXGenericView("form","select[name=cmenu]","nmenu","{{url}}",fn,"Creando el Menu.");
+
+		var mode_view = $("#mode_view").val()
+
+		$( document ).ready(function() { if (mode_view == "edit") fillTable() })
+	</script>
+
+
+{%endblock%}
+

@@ -14,8 +14,6 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
 
-	<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/b-colvis-1.2.4/b-flash-1.2.4/b-html5-1.2.4/r-2.1.0/rr-1.2.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>-->
-
 {% endblock content_head %}
 
 {% block content %}
@@ -135,7 +133,7 @@
 		</section>
 	</div>
 
-	<div id="customForm">
+	<div id="customTemplate">
 		<div class="col-md-12 form-group">
 			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
 			<div class="col-sm-8">
@@ -188,25 +186,25 @@
 		function fillTable(){
 
 			editor = new $.fn.dataTable.Editor( {
-				template : "#customForm",
+				template : "#customTemplate",
 				ajax: {
 					//url : "/dishes/load_deta/"
 					create : {
-						"url": "/dishes/ingredients/add/",
+						"url": "/dishes/ingredients/",
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
 						"data": clear_data,
 					},
 					edit : {
-						"url": "/dishes/ingredients/edit/",
+						"url": "/dishes/ingredients/",
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
 						"data": clear_data,
 					},
 					remove : {
-						"url": "/dishes/ingredients/remove/",
+						"url": "/dishes/ingredients/",
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
@@ -247,15 +245,15 @@
 			editor.on("submitComplete",function(event, response, data){
 				$("#id_vttotal").val(currencyFormat.format(response.plato.fields.vttotal))
 				data = {data:[]}
-			})
-			editor.on("preCreate",function(event, response, data){
+			}).on("preCreate preEdit",function(event, response, data){
 				data.ingredientes.vunita = currencyFormat.format(data.ingredientes.vunita)
 				data.ingredientes.vtotal = currencyFormat.format(data.ingredientes.vtotal)
-
-			})
-			editor.on("preOpen",function(event, response, data){
-				console.log("Hola")
+			}).on("preOpen",function(event, frame, action){
 				console.log(arguments)
+				event.target.field("ingredientes.cingre").enable()
+				if(action == "edit"){
+					event.target.field("ingredientes.cingre").disable()
+				}
 			})
 
 			$('#example').DataTable( {
@@ -266,7 +264,7 @@
 				},
 				columns: [
 					{ data: "ingredientes.it" },
-					{ data: "cingres.name" },
+					{ data: "ingredientes.cingre" },
 					{ data: "ingredientes.canti" },
 					{ data: "ingredientes.vunita" },
 					{ data: "ingredientes.vtotal" }

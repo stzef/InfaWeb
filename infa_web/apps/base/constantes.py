@@ -57,6 +57,7 @@ DEFAULT_IMAGE_ARTICLE="img/articles/default.jpg"
 DEFAULT_IMAGE_INGREDIENTS="img/ingredients/default.jpg"
 DEFAULT_IMAGE_DISHES="img/dishes/default.jpg"
 DEFAULT_IMAGE_WAITERS="img/waiters/default.jpg"
+DEFAULT_IMAGE_MENUS ="img/menus/default.jpg"
 
 if 'APPEMPRESARIAL_USER' in os.environ:
 	APPEMPRESARIAL_USER = os.environ["APPEMPRESARIAL_USER"]

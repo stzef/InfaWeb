@@ -20,16 +20,22 @@
 						<thead>
 							<tr>
 								<th>Nombre</th>
-								<th>Valor Total</th>
+								<th>Estado</th>
+								<th>Grupo</th>
+								<th># Personas</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for plato in object_list %}
-								<tr data-object-search="{{ plato.pk }}">
-									<td>{{plato.nplato}}</td>
-									<td>{{plato.vttotal}}</td>
-									<td><a data-link-edit href="{% url 'edit-dish' plato.pk %}" target="_blank">Editar</a></td>
+							{% for menu in object_list %}
+								<tr data-object-search="{{ menu.pk }}">
+
+									<td> {{ menu.nmenu }} </td>
+									<td> {{ menu.cesdo }} </td>
+									<td> {{ menu.cgpomenu }} </td>
+									<td> {{ menu.npax }} </td>
+
+									<td><a data-link-edit href="{% url 'edit-menu' menu.pk %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -46,7 +52,7 @@
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
-		windowSearch("[name=cplato],[id*=cplato]:not([disabled])")
+		windowSearch("[name=cmenu],[id*=cmenu]:not([disabled])")
 		$(document).ready(function() {
 			$('#example').DataTable({"language": languageDataTable});
 		});

@@ -74,7 +74,7 @@ class Platosdeta(models.Model):
 class Menus(models.Model):
 	cmenu = models.IntegerField(primary_key=True)
 	nmenu = models.CharField(max_length=50)
-	fcrea = models.DateTimeField()
+	fcrea = models.DateTimeField(auto_now_add=True)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	cgpomenu = models.ForeignKey(GposMenus,default=CESTADO_ACTIVO)
 	npax = models.IntegerField()
@@ -84,7 +84,7 @@ class Menus(models.Model):
 
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 
-	foto = models.FileField(upload_to="img/dishes/", blank=True, null=True,default=DEFAULT_IMAGE_DISHES)
+	foto = models.FileField(upload_to="img/menus/", blank=True, null=True,default=DEFAULT_IMAGE_MENUS)
 
 	def __str__(self):
 		return self.nmenu
