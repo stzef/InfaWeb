@@ -101,7 +101,7 @@
 				</div>
 			</form>
 
-			<div class="row">
+			<div id="section_dish_deatil"  class="row {% if mode_view == 'create' %} hidden {% endif %}">
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -138,16 +138,6 @@
 {% endblock %}
 
 {% block content_script %}
-
-	<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/b-colvis-1.2.4/b-flash-1.2.4/b-html5-1.2.4/r-2.1.0/rr-1.2.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>-->
-
-	<!--
-	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-	<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
-	<script src="{% static 'js/dataTables.select.min.js' %}"></script>
-	<script src="{% static 'js/dataTables.editor.min.js' %}"></script>
-	-->
-
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
@@ -159,6 +149,7 @@
 			$("[name=cplato]").val(response.pk)
 
 			if( mode_view == "create" ){
+				$("#section_dish_deatil").removeClass("hidden")
 				$("form").find("input,button:not([action=reset-form])").prop("disabled",true)
 				fillTable()
 			}
@@ -240,26 +231,27 @@
 					{
 						label: "Item:",
 						name:  "ingredientes.it",
-						type : "hidden"
+						"type" : "hidden"
 					},
 					{
 						label: "Ingrediente:",
 						name:  "ingredientes.cingre",
-						type : "select"
+						"type" : "select"
 					},
 					{
 						label: "Cantidad:",
 						name:  "ingredientes.canti",
+						type: "text"
 					},
 					{
 						"label": "Valor Unitario:",
 						"name": "ingredientes.vunita",
-						type : "hidden"
+						"type" : "hidden"
 					},
 					{
 						"label": "Valor Total:",
 						"name": "ingredientes.vtotal",
-						type : "hidden"
+						"type" : "hidden"
 					}
 				]
 			})
@@ -269,12 +261,13 @@
 				data = {data:[]}
 			})
 			editor.on("preCreate",function(event, response, data){
-				console.log("------------------")
-				console.log(arguments)
 				data.ingredientes.vunita = currencyFormat.format(data.ingredientes.vunita)
 				data.ingredientes.vtotal = currencyFormat.format(data.ingredientes.vtotal)
 
-				console.log("------------------")
+			})
+			editor.on("preOpen",function(event, response, data){
+				console.log("Hola")
+				console.log(arguments)
 			})
 
 			$('#example').DataTable( {
@@ -284,12 +277,10 @@
 					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
 					type: 'GET',
 					/*success: function(data){
-						console.log(data)
 						data.data.forEach(function(e){
 							e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
 							e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
 						})
-						console.log(data)
 						return data
 					}*/
 				},
@@ -331,17 +322,12 @@
 						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 					}
 				}
-			})			.on( 'xhr', function ( e, settings, data ) {
+			}).on( 'xhr', function ( e, settings, data ) {
 				data.data.forEach(function(e){
-	//console.log(e.ingredientes)
-
-				e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
-
-				e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
-
-})
-				console.info(arguments)
-			} )
+					e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
+					e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
+				})
+			})
 
 		}
 
@@ -349,15 +335,6 @@
 
 		var mode_view = $("#mode_view").val()
 
-		/*$('.date').datetimepicker({
-			format: 'YYYY-MM-D',
-			defaultDate:date_appen
-		})*/
-
-		$( document ).ready(function() {
-			if (mode_view == "edit"){
-				fillTable()
-			}
-		});
+		$( document ).ready(function() { if (mode_view == "edit") fillTable() })
 	</script>
 {% endblock content_script %}
