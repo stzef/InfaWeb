@@ -134,6 +134,27 @@
 			</div>
 		</section>
 	</div>
+
+	<div id="customForm">
+		<div class="col-md-12 form-group">
+			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+			<div class="col-sm-8">
+				<div class="input-group">
+					<editor-field name="ingredientes.cingre"></editor-field>
+					<span class="input-group-addon"><a data-new-window href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 form-group">
+
+			<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+			<div class="col-sm-8">
+				<editor-field name="ingredientes.canti"></editor-field>
+			</div>
+		</div>
+	</div>
+
 	{% include 'elements/footer.html' %}
 {% endblock %}
 
@@ -167,6 +188,7 @@
 		function fillTable(){
 
 			editor = new $.fn.dataTable.Editor( {
+				template : "#customForm",
 				ajax: {
 					//url : "/dishes/load_deta/"
 					create : {
@@ -192,41 +214,7 @@
 					}
 				},
 				table: "#example",
-				i18n: {
-					create: {
-						button: "Nuevo",
-						title:  "Crear Nuevo",
-						submit: "Crear"
-					},
-					edit: {
-						button: "Modificar",
-						title:  "Modificar",
-						submit: "Actualizar"
-					},
-					remove: {
-						button: "Borrar",
-						title:  "Borrar",
-						submit: "Borrar",
-						confirm: {
-							_: "¿Está seguro de que quiere eliminar %d líneas?",
-							1: "¿Está seguro de que quiere borrar una línea?"
-							}
-					},
-					error: {
-						system: "Se ha producido un error, póngase en contacto con el administrador del sistema."
-					},
-					/*multi: {
-						title: "Plusieurs valeurs",
-						info: "Les éléments sélectionnés contiennent des valeurs différentes pour cette entrée. Pour modifier et mettre tous les éléments pour cette entrée pour la même valeur, cliquez ou appuyez ici, sinon ils vont conserver leurs valeurs individuelles.",
-						restore: "Annuler les modifications"
-					},
-					datetime: {
-						previous: 'Précédent',
-						next:     'Premier',
-						months:   [ 'Janvier', 'Février', 'Mars', 'Avril', 'peut', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
-						weekdays: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ]
-					}*/
-				},
+				i18n: CONF_DTE.i18n,
 				fields: [
 					{
 						label: "Item:",
@@ -236,7 +224,7 @@
 					{
 						label: "Ingrediente:",
 						name:  "ingredientes.cingre",
-						"type" : "select"
+						//"type" : "select"
 					},
 					{
 						label: "Cantidad:",
@@ -273,19 +261,10 @@
 			$('#example').DataTable( {
 				dom: "Bfrtip",
 				ajax: {
-					//url: "/dishes/load_deta/",
 					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
 					type: 'GET',
-					/*success: function(data){
-						data.data.forEach(function(e){
-							e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
-							e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
-						})
-						return data
-					}*/
 				},
 				columns: [
-
 					{ data: "ingredientes.it" },
 					{ data: "cingres.name" },
 					{ data: "ingredientes.canti" },
@@ -298,30 +277,7 @@
 					{ extend: "edit",   editor: editor },
 					{ extend: "remove", editor: editor }
 				],
-				language: {
-					"sProcessing":     "Procesando...",
-					"sLengthMenu":     "Mostrar _MENU_ registros",
-					"sZeroRecords":    "No se encontraron resultados",
-					"sEmptyTable":     "Ningún dato disponible en esta tabla",
-					"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-					"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-					"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-					"sInfoPostFix":    "",
-					"sSearch":         "Buscar:",
-					"sUrl":            "",
-					"sInfoThousands":  ",",
-					"sLoadingRecords": "Cargando...",
-					"oPaginate": {
-						"sFirst":    "Primero",
-						"sLast":     "Último",
-						"sNext":     "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"oAria": {
-						"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-					}
-				}
+				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {
 				data.data.forEach(function(e){
 					e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)

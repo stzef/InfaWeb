@@ -128,6 +128,68 @@ jQuery.fn.extend({
 	}
 })
 
+var CONF_DTE = {
+	i18n: {
+		create: {
+			button: "Nuevo",
+			title:  "Crear Nuevo",
+			submit: "Crear"
+		},
+		edit: {
+			button: "Modificar",
+			title:  "Modificar",
+			submit: "Actualizar"
+		},
+		remove: {
+			button: "Borrar",
+			title:  "Borrar",
+			submit: "Borrar",
+			confirm: {
+				_: "¿Está seguro de que quiere eliminar %d líneas?",
+				1: "¿Está seguro de que quiere borrar una línea?"
+				}
+		},
+		error: {
+			system: "Se ha producido un error, póngase en contacto con el administrador del sistema."
+		},
+		/*multi: {
+			title: "Plusieurs valeurs",
+			info: "Les éléments sélectionnés contiennent des valeurs différentes pour cette entrée. Pour modifier et mettre tous les éléments pour cette entrée pour la même valeur, cliquez ou appuyez ici, sinon ils vont conserver leurs valeurs individuelles.",
+			restore: "Annuler les modifications"
+		},
+		datetime: {
+			previous: 'Précédent',
+			next:     'Premier',
+			months:   [ 'Janvier', 'Février', 'Mars', 'Avril', 'peut', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
+			weekdays: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ]
+		}*/
+	},
+	language : {
+			"sProcessing":     "Procesando...",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
+			"sZeroRecords":    "No se encontraron resultados",
+			"sEmptyTable":     "Ningún dato disponible en esta tabla",
+			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix":    "",
+			"sSearch":         "Buscar:",
+			"sUrl":            "",
+			"sInfoThousands":  ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+				"sFirst":    "Primero",
+				"sLast":     "Último",
+				"sNext":     "Siguiente",
+				"sPrevious": "Anterior"
+			},
+			"oAria": {
+				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			}
+		}
+}
+
 function validate_aray_val(array_validations,bind){
 	var status = true
 	array_validations.forEach(function(validation){
