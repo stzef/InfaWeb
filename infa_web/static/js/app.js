@@ -249,12 +249,12 @@ function  calcularDigitoVerificacion ( myNit )  {
 		return "" ;
 	};
 	// Procedimiento
-	vpri = new Array(16) ; 
+	vpri = new Array(16) ;
 	z = myNit.length ;
 
 	vpri[1]  =  3 ;
 	vpri[2]  =  7 ;
-	vpri[3]  = 13 ; 
+	vpri[3]  = 13 ;
 	vpri[4]  = 17 ;
 	vpri[5]  = 19 ;
 	vpri[6]  = 23 ;
@@ -262,20 +262,20 @@ function  calcularDigitoVerificacion ( myNit )  {
 	vpri[8]  = 37 ;
 	vpri[9]  = 41 ;
 	vpri[10] = 43 ;
-	vpri[11] = 47 ;  
-	vpri[12] = 53 ;  
-	vpri[13] = 59 ; 
-	vpri[14] = 67 ; 
+	vpri[11] = 47 ;
+	vpri[12] = 53 ;
+	vpri[13] = 59 ;
+	vpri[14] = 67 ;
 	vpri[15] = 71 ;
 
 	x = 0 ;
 	y = 0 ;
-	for  ( var i = 0; i < z; i++ )  { 
+	for  ( var i = 0; i < z; i++ )  {
 		y = ( myNit.substr (i, 1 ) ) ;
 		// console.log ( y + "x" + vpri[z-i] + ":" ) ;
 
 		x += ( y * vpri [z-i] ) ;
-		// console.log ( x ) ;    
+		// console.log ( x ) ;
 	}
 
 	y = x % 11 ;
@@ -285,7 +285,7 @@ function  calcularDigitoVerificacion ( myNit )  {
 }
 
 function windowSearch(selectorInput){
-	if(window.opener){
+	if(window.APPEM_IS_WIN_POPUOT){
 		$("[data-object-search]").click(function(){
 			var value = $(this).data("object-search")
 			window.opener.$(selectorInput)
@@ -361,7 +361,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 				currentForm.prepend(message)
 				//currentForm.trigger("reset")
 				if (typeof callback == "function") callback(response,null)
-				if(window.opener){
+				if(window.APPEM_IS_WIN_POPUOT){
 					window.opener.$(selectorInput)
 						.append($("<option>",{value:response.pk,html:fields[nField]}).attr("selected",true))
 						.focus()
@@ -461,7 +461,8 @@ function open_new_window(event){
 		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
-	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+	var win = window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+	win.APPEM_IS_WIN_POPUOT = true
 }
 
 function alertBootstrap(message,type){
@@ -485,7 +486,7 @@ $("[data-less-than]").change(function(event){
 	}
 });
 
-$("[data-link-edit]").click(function(event){if(window.opener) window.close()})
+$("[data-link-edit]").click(function(event){if(window.APPEM_IS_WIN_POPUOT) window.close()})
 
 $("[data-new-window]").click(function(event){
 	event.preventDefault();
@@ -496,7 +497,8 @@ $("[data-new-window]").click(function(event){
 		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
-	window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+	var win = window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
+	win.APPEM_IS_WIN_POPUOT = true
 });
 
 var languageDataTable = {
@@ -567,9 +569,9 @@ $(window).on('beforeunload', function (e) {
 });
 
 $(document).ready(function(e){
-	if(window.opener){
+	if(window.APPEM_IS_WIN_POPUOT){
 
-		var button = $("<button type='button' class='btn btn-app' ><i class='fa fa-close'></i>Salir</button>")
+		var button = $("<button type='button' class='btn btn-app btn-danger' ><i class='fa fa-close'></i>Salir</button>")
 			.click(function(){
 				window.close()
 			})

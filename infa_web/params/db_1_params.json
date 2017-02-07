@@ -66,6 +66,28 @@
         "nparam": "Codigo Minimo de Platos"
     },
     {
+        "cparam": "min_code_ingredients",
+        "type": "Number",
+        "value": "1000",
+        "label": {
+            "text": "Codigo Minimo de Ingredientes"
+        },
+        "field": {
+            "input": true,
+            "selected": "1000",
+            "type": "number",
+            "id": "min_code_ingredients",
+            "select": false
+        },
+        "smodule": "R",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Codigo Minimo de Ingredientes"
+    },
+    {
         "cparam": "date_appen",
         "type": "String",
         "value": "2016/10/26 10:42:59",

@@ -19,19 +19,15 @@
 					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>cplato</th>
-								<th>nplato</th>
-								<th>fcrea</th>
-								<th>vttotal</th>
+								<th>Nombre</th>
+								<th>Valor Total</th>
 								<th>Editar</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for plato in object_list %}
 								<tr data-object-search="{{ plato.pk }}">
-									<td>{{plato.cplato}}</td>
 									<td>{{plato.nplato}}</td>
-									<td>{{plato.fcrea}}</td>
 									<td>{{plato.vttotal}}</td>
 									<td><a data-link-edit href="{% url 'edit-dish' plato.pk %}" target="_blank">Editar</a></td>
 								</tr>

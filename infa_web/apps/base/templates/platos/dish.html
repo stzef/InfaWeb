@@ -3,12 +3,18 @@
 {% load static %}
 
 {% block content_head %}
+	<!--
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-	<!--<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">-->
 	<link rel="stylesheet" href="{% static 'css/buttons.dataTables.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/select.dataTables.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/editor.dataTables.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+	-->
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
+
+	<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/b-colvis-1.2.4/b-flash-1.2.4/b-html5-1.2.4/r-2.1.0/rr-1.2.0/sc-1.4.2/se-1.2.0/datatables.min.css"/>-->
 
 {% endblock content_head %}
 
@@ -64,7 +70,7 @@
 										</div>
 									</div>
 									<div class="col-md-6">
-										<div class="col-md-4 form-group">
+										<div>
 											<img class="ae-img-article img-responsive" src="/static/{{url_foto}}" alt="">
 											<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
 											{%if form.foto.errors%}
@@ -132,15 +138,19 @@
 {% endblock %}
 
 {% block content_script %}
+
+	<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/b-colvis-1.2.4/b-flash-1.2.4/b-html5-1.2.4/r-2.1.0/rr-1.2.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script>-->
+
+	<!--
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
 	<script src="{% static 'js/dataTables.select.min.js' %}"></script>
 	<script src="{% static 'js/dataTables.editor.min.js' %}"></script>
+	-->
 
-	<!--<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>-->
-
-	<script src="{% static 'js/moment-with-locales.js' %}"></script>
-	<script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
 
 	<script>
 		var editor; // use a global for the submit and return data rendering in the examples
@@ -165,7 +175,27 @@
 						"dataType": "json",
 						"contentType": "application/json",
 						"data": function(d) {
-							d.data["0"].ingredientes.cplato = $("[name=cplato]").val()
+							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
+							return JSON.stringify(d);
+						},
+					},
+					edit : {
+						"url": "/dishes/ingredients/edit/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": function(d) {
+							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
+							return JSON.stringify(d);
+						},
+					},
+					remove : {
+						"url": "/dishes/ingredients/remove/",
+						"type": "POST",
+						"dataType": "json",
+						"contentType": "application/json",
+						"data": function(d) {
+							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
 							return JSON.stringify(d);
 						},
 					}
@@ -209,7 +239,8 @@
 				fields: [
 					{
 						label: "Item:",
-						name:  "ingredientes.it"
+						name:  "ingredientes.it",
+						type : "hidden"
 					},
 					{
 						label: "Ingrediente:",
@@ -222,11 +253,13 @@
 					},
 					{
 						"label": "Valor Unitario:",
-						"name": "ingredientes.vunita"
+						"name": "ingredientes.vunita",
+						type : "hidden"
 					},
 					{
 						"label": "Valor Total:",
-						"name": "ingredientes.vtotal"
+						"name": "ingredientes.vtotal",
+						type : "hidden"
 					}
 				]
 			})
@@ -240,16 +273,13 @@
 				},
 				columns: [
 
-					{ data: "cingres.name" },
 					{ data: "ingredientes.it" },
+					{ data: "cingres.name" },
 					{ data: "ingredientes.canti" },
 					{ data: "ingredientes.vunita" },
 					{ data: "ingredientes.vtotal" }
 				],
-				select: {
-					style:'os',
-					selector: 'td:first-child'
-				},
+				select: 'single',
 				buttons: [
 					{ extend: "create", editor: editor },
 					{ extend: "edit",   editor: editor },
@@ -286,10 +316,10 @@
 
 		var mode_view = $("#mode_view").val()
 
-		$('.date').datetimepicker({
+		/*$('.date').datetimepicker({
 			format: 'YYYY-MM-D',
 			defaultDate:date_appen
-		})
+		})*/
 
 		$( document ).ready(function() {
 			if (mode_view == "edit"){

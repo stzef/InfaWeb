@@ -63,7 +63,8 @@ class DishForm(forms.ModelForm):
 			#'cplato' :
 			'nplato' : forms.TextInput(attrs={'class': 'form-control','required':True}),
 			#'fcrea' :
-			'vttotal' : forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
+			'vttotal' : forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'disabled':True,'step':'0.01','min':0}),
+			'foto':forms.FileInput(attrs={'class': 'form-control'}),
 
 
 		}

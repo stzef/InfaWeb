@@ -16,7 +16,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
-
+import decimal
 from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
 
 # ingredients #
@@ -25,7 +25,7 @@ class IngredientCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Ingredientes
 	template_name = "ingredientes/ingredient.html"
 	form_class = IngredientForm
-	success_url=reverse_lazy("list-ingredient")
+	success_url=reverse_lazy("list-ingredients")
 	success_message = "Ingrediente creado."
 
 	def get_context_data(self, **kwargs):
@@ -46,15 +46,15 @@ class IngredientCreate(AjaxableResponseMixin,CustomCreateView):
 		mutable_data = request.POST.copy()
 
 		manageParameters = ManageParameters(self.request.db)
-		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		minCodeIngredient = manageParameters.get_param_value("min_code_ingredients")
 
-		maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
-		if maxCarlos["carlos__max"]:
-			carlos = maxCarlos["carlos__max"] + 1
+		maxCingre = Ingredientes.objects.using(request.db).aggregate(Max('cingre'))
+		if maxCingre["cingre__max"]:
+			cingre = maxCingre["cingre__max"] + 1
 		else:
-			carlos = minCodeArlos
+			cingre = minCodeIngredient
 
-		mutable_data["carlos"] = carlos
+		mutable_data["cingre"] = cingre
 
 		request.POST = mutable_data
 
@@ -73,14 +73,13 @@ class IngredientUpdate(AjaxableResponseMixin,CustomUpdateView):
 		context['current_pk'] = self.kwargs["pk"]
 		context['url'] = reverse_lazy('edit-ingredient',kwargs={'pk': self.kwargs["pk"]},)
 
-		current_article = Ingredientes.objects.using(self.request.db).get(pk=self.kwargs["pk"])
+		#current_article = Ingredientes.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 
 		manageParameters = ManageParameters(self.request.db)
-		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		minCodeArlos = manageParameters.get_param_value("min_code_ingredients")
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
 
-		context['url_foto'] = current_article.foto
 		return context
 
 def Ingredients_list(request):
@@ -99,20 +98,17 @@ def Ingredients_list(request):
 		data_arlo['response'] = 0
 	else:
 		data_arlo['response'] = 1
+
+
+
+
 	for queryset in arlo:
 		data_arlo['arlo'][queryset.cingre] = {
 			'cingre' :  queryset.cingre,
 			'ningre' :  queryset.ningre,
 			'canti' :  str(queryset.canti).replace(",", "."),
 			'vcosto' :  str(queryset.vcosto).replace(",", "."),
-			#'ifcostear' :  queryset.ifcostear,
-			#'stomin' :  queryset.stomin,
-			#'stomax' :  queryset.stomax,
-			#'ifedinom' :  queryset.ifedinom,
-			#'cesdo' :  queryset.cesdo,
-			#'cunidad' :  queryset.cunidad,
-			#'civa' :  queryset.civa,
-			#'foto' :  queryset.foto,
+			'cesdo' :  str(queryset.cesdo.nesdo)
 		}
 	return HttpResponse(json.dumps(data_arlo), content_type="application/json")
 
@@ -168,10 +164,71 @@ def DishDetailCreate(request):
 	response = { "data" : []  }
 
 	for key, value in data["data"].iteritems():
-		print value
-		value["ingredientes"]["cingre"] = Ingredientes.objects.using(request.db).get(pk=value["ingredientes"]["cingre"])
-		value["ingredientes"]["cplato"] = Platos.objects.using(request.db).get(pk=value["ingredientes"]["cplato"])
-		platodeta = Platosdeta(**value["ingredientes"])
+		ingrediente = Ingredientes.objects.using(request.db).get(pk=value["ingredientes"]["cingre"])
+		plato = Platos.objects.using(request.db).get(pk=value["ingredientes"]["cplato"])
+
+		if not Platosdeta.objects.using(request.db).filter(cingre=ingrediente,cplato=plato).exists():
+			it = Platosdeta.objects.using(request.db).filter(cplato=plato).aggregate(Max('it'))
+			if it["it__max"]:
+				it = int(it["it__max"]) + 1
+			else:
+				it = 1
+
+
+			value["ingredientes"]["cingre"] = ingrediente
+			value["ingredientes"]["cplato"] = plato
+
+			value["ingredientes"]["it"] = it
+
+			value["ingredientes"]["vunita"] = ingrediente.vcosto
+			value["ingredientes"]["vtotal"] = float(value["ingredientes"]["vunita"]) * float(value["ingredientes"]["canti"])
+
+			platodeta = Platosdeta(**value["ingredientes"])
+
+			response["data"].append({
+				"DT_RowId": "row_1",
+				"ingredientes" : {
+					"it" : str(platodeta.it),
+					"cingre" : str(platodeta.cingre.cingre),
+					"canti" : str(platodeta.canti),
+					"vunita" : str(platodeta.vunita),
+					"vtotal" : str(platodeta.vtotal),
+				},
+				"cingres" : {
+					"name" : str(platodeta.cingre.ningre)
+				}
+			})
+
+			platodeta.save(using=request.db)
+
+			plato.vttotal += decimal.Decimal(platodeta.vtotal)
+			plato.save(using=request.db)
+
+	return HttpResponse(json.dumps(response), content_type="application/json")
+
+@csrf_exempt
+def DishDetailUpdate(request):
+	data = json.loads(request.body)
+	response = { "data" : []  }
+
+	for key, value in data["data"].iteritems():
+		ingrediente = Ingredientes.objects.using(request.db).get(pk=value["ingredientes"]["cingre"])
+		plato = Platos.objects.using(request.db).get(pk=value["ingredientes"]["cplato"])
+
+		value["ingredientes"]["cingre"] = ingrediente
+		value["ingredientes"]["cplato"] = plato
+		platodeta = Platosdeta.objects.using(request.db).get(cplato=plato.cplato,cingre=ingrediente.cingre)
+
+		plato.vttotal -= decimal.Decimal(platodeta.vtotal)
+
+		platodeta.canti = float(platodeta.canti)
+		platodeta.vunita = float(platodeta.vunita)
+
+		platodeta.vtotal = platodeta.canti * platodeta.vunita
+
+		platodeta.canti = float(value["ingredientes"]["canti"])
+		platodeta.vunita = float(value["ingredientes"]["vunita"])
+		platodeta.vtotal = float(value["ingredientes"]["canti"]) * float(value["ingredientes"]["vunita"])
 
 		response["data"].append({
 			"DT_RowId": "row_1",
@@ -185,10 +242,32 @@ def DishDetailCreate(request):
 			"cingres" : {
 				"name" : str(platodeta.cingre.ningre)
 			}
-	})
+		})
 
 		platodeta.save(using=request.db)
+
+		plato.vttotal += decimal.Decimal(platodeta.vtotal)
+		plato.save(using=request.db)
 		print platodeta
+
+	return HttpResponse(json.dumps(response), content_type="application/json")
+
+@csrf_exempt
+def DishDetailRemove(request):
+	data = json.loads(request.body)
+	response = { "data" : []  }
+
+	for key, value in data["data"].iteritems():
+		ingrediente = Ingredientes.objects.using(request.db).get(pk=value["ingredientes"]["cingre"])
+		plato = Platos.objects.using(request.db).get(pk=value["ingredientes"]["cplato"])
+		platodeta = Platosdeta.objects.using(request.db).get(cplato=plato.cplato,cingre=ingrediente.cingre)
+
+		response["data"].append({})
+
+		platodeta.delete(using=request.db)
+
+		plato.vttotal -= decimal.Decimal(platodeta.vtotal)
+		plato.save(using=request.db)
 
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
@@ -238,7 +317,7 @@ class DishUpdate(AjaxableResponseMixin,CustomUpdateView):
 	def get_context_data(self,**kwargs):
 		context = super(DishUpdate, self).get_context_data(**kwargs)
 
-		context['title'] = "Editar Movimiento de Entrada"
+		context['title'] = "Editar Plato"
 		form_platosdeta = DishDetailForm(self.request.db)
 		context['form_platosdeta'] = form_platosdeta
 

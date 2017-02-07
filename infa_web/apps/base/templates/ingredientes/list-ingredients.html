@@ -23,15 +23,11 @@
 						<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th>cingre</th>
-									<th>ningre</th>
-									<th>canti</th>
-									<th>vcosto</th>
-									<th>stomin</th>
-									<th>stomax</th>
-									<th>cesdo</th>
-									<th>cunidad</th>
-									<th>foto</th>
+									<th>Codgio</th>
+									<th>Nombre</th>
+									<th>Cantidad</th>
+									<th>Vr. Costo</th>
+									<th>Estado</th>
 								</tr>
 							</thead>
 							<tbody id="cont-data"></tbody>
@@ -66,12 +62,8 @@
 							'<td>'+item.ningre+'</td>'+
 							'<td>'+item.canti+'</td>'+
 							'<td>'+item.vcosto+'</td>'+
-							'<td>'+item.stomin+'</td>'+
-							'<td>'+item.stomax+'</td>'+
 							'<td>'+item.cesdo+'</td>'+
-							'<td>'+item.cunidad+'</td>'+
-							'<td>'+item.foto+'</td>'+
-							'<td><a data-link-edit href="/articles/edit/'+item.cingre+'" target="_blank">Editar</a></td>'+
+							'<td><a data-link-edit href="/ingredients/edit/'+item.cingre+'" target="_blank">Editar</a></td>'+
 						'</tr>'
 					)
 				});

@@ -18,6 +18,8 @@ urlDishes = [
 
 	url(r'^dishes/ingredients/(?P<pk>\d+)/$', GetIngredientsDish, name = 'get-ingredients-dish'),
 	url(r'^dishes/ingredients/add/$', DishDetailCreate, name = 'add-ingredient-dish'),
+	url(r'^dishes/ingredients/edit/$', DishDetailUpdate, name = 'add-ingredient-dish'),
+	url(r'^dishes/ingredients/remove/$', DishDetailRemove, name = 'add-ingredient-dish'),
 ]
 
 urlMenu = [

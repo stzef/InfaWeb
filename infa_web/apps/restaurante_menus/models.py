@@ -34,9 +34,6 @@ class Ingredientes(models.Model):
 	cunidad = models.ForeignKey(Unidades, default=DEFAULT_UNIDAD)
 	civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 
-
-	foto = models.FileField(upload_to="img/ingredients/", blank=True, null=True,default=DEFAULT_IMAGE_INGREDIENTS)
-
 	def __str__(self):
 		return self.ningre
 
