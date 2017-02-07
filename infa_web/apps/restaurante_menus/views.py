@@ -2,6 +2,8 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+from django.core import serializers
+
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Max
 
@@ -204,6 +206,9 @@ def DishDetailCreate(request):
 			plato.vttotal += decimal.Decimal(platodeta.vtotal)
 			plato.save(using=request.db)
 
+	response["plato"] = json.loads(serializers.serialize("json", list([plato]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
+	print response
+
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 @csrf_exempt
@@ -250,6 +255,9 @@ def DishDetailUpdate(request):
 		plato.save(using=request.db)
 		print platodeta
 
+	response["plato"] = json.loads(serializers.serialize("json", list([plato]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
+	print response
+
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 @csrf_exempt
@@ -268,6 +276,9 @@ def DishDetailRemove(request):
 
 		plato.vttotal -= decimal.Decimal(platodeta.vtotal)
 		plato.save(using=request.db)
+
+	response["plato"] = json.loads(serializers.serialize("json", list([plato]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
+	print response
 
 	return HttpResponse(json.dumps(response), content_type="application/json")
 

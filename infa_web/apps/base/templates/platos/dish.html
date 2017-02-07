@@ -164,6 +164,15 @@
 			}
 		}
 
+		function clear_data(d) {
+			for (var key in d.data){
+				d.data[key].ingredientes.vunita = currencyFormat.sToN(d.data[key].ingredientes.vunita)
+				d.data[key].ingredientes.vtotal = currencyFormat.sToN(d.data[key].ingredientes.vtotal)
+				d.data[key].ingredientes.cplato = $("[name=cplato]").val()
+			}
+			return JSON.stringify(d);
+		}
+
 		function fillTable(){
 
 			editor = new $.fn.dataTable.Editor( {
@@ -174,30 +183,21 @@
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
-						"data": function(d) {
-							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
-							return JSON.stringify(d);
-						},
+						"data": clear_data,
 					},
 					edit : {
 						"url": "/dishes/ingredients/edit/",
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
-						"data": function(d) {
-							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
-							return JSON.stringify(d);
-						},
+						"data": clear_data,
 					},
 					remove : {
 						"url": "/dishes/ingredients/remove/",
 						"type": "POST",
 						"dataType": "json",
 						"contentType": "application/json",
-						"data": function(d) {
-							for (var key in d.data){ d.data[key].ingredientes.cplato = $("[name=cplato]").val() }
-							return JSON.stringify(d);
-						},
+						"data": clear_data,
 					}
 				},
 				table: "#example",
@@ -264,12 +264,34 @@
 				]
 			})
 
+			editor.on("submitComplete",function(event, response, data){
+				$("#id_vttotal").val(currencyFormat.format(response.plato.fields.vttotal))
+				data = {data:[]}
+			})
+			editor.on("preCreate",function(event, response, data){
+				console.log("------------------")
+				console.log(arguments)
+				data.ingredientes.vunita = currencyFormat.format(data.ingredientes.vunita)
+				data.ingredientes.vtotal = currencyFormat.format(data.ingredientes.vtotal)
+
+				console.log("------------------")
+			})
+
 			$('#example').DataTable( {
 				dom: "Bfrtip",
 				ajax: {
 					//url: "/dishes/load_deta/",
 					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
-					type: 'GET'
+					type: 'GET',
+					/*success: function(data){
+						console.log(data)
+						data.data.forEach(function(e){
+							e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
+							e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
+						})
+						console.log(data)
+						return data
+					}*/
 				},
 				columns: [
 
@@ -309,7 +331,18 @@
 						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 					}
 				}
-			})
+			})			.on( 'xhr', function ( e, settings, data ) {
+				data.data.forEach(function(e){
+	//console.log(e.ingredientes)
+
+				e.ingredientes.vunita = currencyFormat.format(e.ingredientes.vunita)
+
+				e.ingredientes.vtotal = currencyFormat.format(e.ingredientes.vtotal)
+
+})
+				console.info(arguments)
+			} )
+
 		}
 
 		AJAXGenericView("form","select[name=cplato]","nplato","{{url}}",fn,"Creando el Plato.");
