@@ -254,6 +254,26 @@
 				if(action == "edit"){
 					event.target.field("ingredientes.cingre").disable()
 				}
+			}).on("open",function(event, frame, action){
+				$("[id*=-cingre]").change(function(){
+					var input = this
+					$.ajax({
+						url: '{% url 'api-get-object' %}',
+						type: 'POST',
+						data: JSON.stringify({
+							'model': 33,
+							'field': "cingre",
+							'value': input.value
+						}),
+						contentType: "application/json",
+						success: function(response){
+							if(!response.object){
+								$(input).val("")
+								tooltipBootstrap($(input),".DTE_Field","Este Ingrediente no se encuentra registrado.")
+							}
+						}
+					})
+				})
 			})
 
 			$('#example').DataTable( {

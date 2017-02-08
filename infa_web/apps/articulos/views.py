@@ -354,6 +354,7 @@ codeModels = {
 	32:{'name': 'MediosPago','app':'base'},
 
 	33:{'name': 'Ingredientes','app':'restaurante_menus'},
+	34:{'name': 'Platos','app':'restaurante_menus'},
 
 }
 
