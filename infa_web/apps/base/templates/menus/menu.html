@@ -203,7 +203,7 @@
 			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
 			<div class="col-sm-8">
 				<div class="input-group">
-					<editor-field name="platos.cplato"></editor-field>
+					<editor-field name="detail.cplato"></editor-field>
 					<span class="input-group-addon"><a data-new-window href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 				</div>
 			</div>
@@ -213,7 +213,7 @@
 
 			<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
 			<div class="col-sm-8">
-				<editor-field name="platos.canti"></editor-field>
+				<editor-field name="detail.canti"></editor-field>
 			</div>
 		</div>
 	</div>
@@ -241,10 +241,11 @@
 		}
 
 		function clear_data(d) {
+			console.log(d)
 			for (var key in d.data){
-				d.data[key].paltos.vunita = currencyFormat.sToN(d.data[key].paltos.vunita)
-				d.data[key].paltos.vtotal = currencyFormat.sToN(d.data[key].paltos.vtotal)
-				d.data[key].paltos.cmenu = $("[name=cmenu]").val()
+				d.data[key].detail.vunita = currencyFormat.sToN(d.data[key].detail.vunita)
+				d.data[key].detail.vtotal = currencyFormat.sToN(d.data[key].detail.vtotal)
+				d.data[key].detail.cmenu = $("[name=cmenu]").val()
 			}
 			return JSON.stringify(d);
 		}
@@ -281,27 +282,27 @@
 				fields: [
 					{
 						label: "Item:",
-						name:  "platos.it",
+						name:  "detail.it",
 						"type" : "hidden"
 					},
 					{
-						label: "Ingrediente:",
-						name:  "platos.cplato",
+						label: "Plato:",
+						name:  "detail.cplato",
 						//"type" : "select"
 					},
 					{
 						label: "Cantidad:",
-						name:  "platos.canti",
+						name:  "detail.canti",
 						type: "text"
 					},
 					{
 						"label": "Valor Unitario:",
-						"name": "platos.vunita",
+						"name": "detail.vunita",
 						"type" : "hidden"
 					},
 					{
 						"label": "Valor Total:",
-						"name": "platos.vtotal",
+						"name": "detail.vtotal",
 						"type" : "hidden"
 					}
 				]
@@ -311,13 +312,13 @@
 				$("#id_vttotal").val(currencyFormat.format(response.menu.fields.vttotal))
 				data = {data:[]}
 			}).on("preCreate preEdit",function(event, response, data){
-				data.platos.vunita = currencyFormat.format(data.platos.vunita)
-				data.platos.vtotal = currencyFormat.format(data.platos.vtotal)
+				data.detail.vunita = currencyFormat.format(data.detail.vunita)
+				data.detail.vtotal = currencyFormat.format(data.detail.vtotal)
 			}).on("preOpen",function(event, frame, action){
 				console.log(arguments)
-				event.target.field("platos.cingre").enable()
+				event.target.field("detail.cplato").enable()
 				if(action == "edit"){
-					event.target.field("platos.cingre").disable()
+					event.target.field("detail.cplato").disable()
 				}
 			})
 
@@ -328,11 +329,11 @@
 					type: 'GET',
 				},
 				columns: [
-					{ data: "platos.it" },
-					{ data: "platos.cingre" },
-					{ data: "platos.canti" },
-					{ data: "platos.vunita" },
-					{ data: "platos.vtotal" }
+					{ data: "detail.it" },
+					{ data: "detail.cplato" },
+					{ data: "detail.canti" },
+					{ data: "detail.vunita" },
+					{ data: "detail.vtotal" }
 				],
 				select: 'single',
 				buttons: [
@@ -343,8 +344,8 @@
 				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {
 				data.data.forEach(function(e){
-					e.platos.vunita = currencyFormat.format(e.platos.vunita)
-					e.platos.vtotal = currencyFormat.format(e.platos.vtotal)
+					e.detail.vunita = currencyFormat.format(e.detail.vunita)
+					e.detail.vtotal = currencyFormat.format(e.detail.vtotal)
 				})
 			})
 
