@@ -28,7 +28,8 @@
 										<th>Fecha Actualización</th>
 										<th>Estado</th>
 										<th>Valor Total</th>
-										<th>Editar</th>
+										<th data-cell-action="edit">Editar</th>
+										<th data-cell-action="select" class="hidden">Seleccionar</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -39,9 +40,8 @@
 										<td>{% if invini.fuaii == None %}-{% else %}{{ invini.fuaii }}{% endif %}</td>
 										<td>{{ invini.cesdo.nesdo }}</td>
 										<td>$ {{ invini.vttotal|intcomma  }}</td>
-										<td>
-											<a class="btn btn-primary btn-edit" href="{% url 'inventory' %}?code={{ invini.cii }}" id="{{ invini.cii }}">Editar</a>
-										</td>
+										<td data-cell-action="edit"><a data-link-edit href="{% url 'inventory' %}?code={{ invini.cii }}" target="_blank" id="{{ invini.cii }}">Editar</a></td>
+										<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ invini.cii }}">Seleccionar</button></td>
 									</tr>
 									{% endfor %}
 								</tbody>

@@ -23,7 +23,8 @@
 								<th>Estado</th>
 								<th>Grupo</th>
 								<th># Personas</th>
-								<th>Editar</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -34,8 +35,9 @@
 									<td> {{ menu.cesdo }} </td>
 									<td> {{ menu.cgpomenu }} </td>
 									<td> {{ menu.npax }} </td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-menu' menu.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ menu.pk }}">Seleccionar</button></td>
 
-									<td><a data-link-edit href="{% url 'edit-menu' menu.pk %}" target="_blank">Editar</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>

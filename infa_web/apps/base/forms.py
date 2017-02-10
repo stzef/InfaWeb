@@ -162,6 +162,9 @@ class RegivaForm(forms.ModelForm):
 		}
 
 class IDTypeForm(forms.ModelForm):
+
+	def __init__(self, using='', *args, **kwargs):
+		super(IDTypeForm, self).__init__(*args, **kwargs)
 	class Meta:
 		model = Tiide
 		fields = "__all__"
@@ -198,6 +201,6 @@ class CommonForm(forms.Form):
 		widget=forms.NumberInput(attrs={'class':'form-control'}),
 		queryset=Arlo.objects.all()
 	)
-	
+
 	widgets = {}
 

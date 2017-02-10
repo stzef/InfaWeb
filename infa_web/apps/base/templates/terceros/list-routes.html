@@ -22,6 +22,8 @@
 								<th>Codigo Interno</th>
 								<th>Nombre</th>
 								<th>Estado</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,7 +32,8 @@
 									<td>{{ route.cruta }}</td>
 									<td>{{ route.nruta }}</td>
 									<td>{{ route.cesdo }}</td>
-									<td><a data-link-edit href="{% url 'edit-route' route.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-route' route.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ route.pk }}">Seleccionar</button></td>
 								</tr>
 							{% endfor %}
 						</tbody>

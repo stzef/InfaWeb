@@ -4,7 +4,7 @@
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {% load humanize %}
-{%block content%} 
+{%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
@@ -25,8 +25,9 @@
 								<th>Estado</th>
 								<th>V. Total</th>
 								<th>Forma Pago</th>
-								<th>Editar</th>
-								<th>Imprimir</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
+								<th data-cell-action="print">Imprimir</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -38,8 +39,11 @@
 									<td>{{bill.cesdo}}</td>
 									<td>{{bill.vttotal|intcomma}}</td>
 									<td>{{bill.ctifopa}}</td>
-									<td><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
-									<td><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
+
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ bill.pk }}">Seleccionar</button></td>
+									<td data-cell-action="print"><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
+
 								</tr>
 							{% endfor %}
 						</tbody>

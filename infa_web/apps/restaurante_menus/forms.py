@@ -37,12 +37,16 @@ class IngredientForm(forms.ModelForm):
 			'cingre':'Código Interno',
 			'ningre':'Nombre',
 			'vcosto':'Costo',
+			'canti':'Cantidad',
 			'stomin':'Stock Mínimo',
 			'stomax':'Stock Máximo',
 			'cesdo':'Estado',
 			'cunidad':'Unidades',
 			'civa':'IVA',
 			'foto':'Foto 1',
+			'ifcostear': 'Costear',
+			'ifedinom': 'Nombre Editable',
+
 		}
 
 	def clean(self):

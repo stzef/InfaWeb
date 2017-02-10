@@ -632,6 +632,10 @@ $(window).on('beforeunload', function (e) {
 
 $(document).ready(function(e){
 	if(window.APPEM_IS_WIN_POPUOT){
+		$.AdminLTE.pushMenu.collapse()
+
+		$("[data-cell-action='edit']").toggleClass("hidden")
+		$("[data-cell-action='select']").toggleClass("hidden")
 
 		var button = $("<button type='button' class='btn btn-app btn-danger' ><i class='fa fa-close'></i>Salir</button>")
 			.click(function(){
@@ -641,7 +645,9 @@ $(document).ready(function(e){
 		if($(".btn-group").length == 1){
 			$(".btn-group").append(button)
 		}else{
-			$(".content-wrapper").append(button)
+			$(".content-wrapper").append(
+				$("<div class='text-center'></div>").append(button)
+			)
 		}
 	}
 })

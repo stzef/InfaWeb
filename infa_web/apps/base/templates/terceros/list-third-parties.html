@@ -15,7 +15,7 @@
 				<div class="box-header">
 					<h3 class="box-title">{{title}}</h3>
 
-					
+
 				</div>
 				<div class="box-body">
 					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
@@ -25,7 +25,8 @@
 								<th>Razon Social</th>
 								<th>Direccion</th>
 								<th>Telefono</th>
-								<th>Editar</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -35,7 +36,9 @@
 									<td>{{ thirdParty.rasocial }}</td>
 									<td>{{ thirdParty.dirterce }}</td>
 									<td>{{ thirdParty.telterce }}</td>
-									<td><a data-link-edit href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-third-party' thirdParty.citerce %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ thirdParty.citerce }}">Seleccionar</button></td>
+
 								</tr>
 							{% endfor %}
 						</tbody>

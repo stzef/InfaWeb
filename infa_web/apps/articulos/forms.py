@@ -188,10 +188,10 @@ class BrandForm(forms.ModelForm):
 			'nmarca' : 'Nombre',
 			'cesdo' : 'Estado'
 		}
-		
+
 class TiarlosForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
-		super(Tiarlos, self).__init__(*args, **kwargs)
+		super(TiarlosForm, self).__init__(*args, **kwargs)
 
 	class Meta:
 		model = Tiarlos

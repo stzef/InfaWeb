@@ -24,6 +24,8 @@
 								<th>Porcentaje</th>
 								<th>ID</th>
 								<th>Estado</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -34,7 +36,9 @@
 									<td>{{ iva.poriva }}</td>
 									<td>{{ iva.idtira }}</td>
 									<td>{{ iva.cesdo }}</td>
-									<td><a data-link-edit href="{% url 'edit-iva' iva.civa %}" target="_blank">Editar</a></td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-iva' iva.civa %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ iva.civa }}">Seleccionar</button></td>
+
 								</tr>
 							{% endfor %}
 						</tbody>

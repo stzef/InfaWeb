@@ -10,6 +10,9 @@ from infa_web.apps.base.models import *
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.usuarios.models import *
+
+from infa_web.apps.restaurante_menus.models import *
+
 class Command(BaseCommand):
 
 	def add_arguments(self, parser):
@@ -64,6 +67,9 @@ class Command(BaseCommand):
 			#Usuario - Usuarios
 			Usuario.objects.using(name_db).all().delete()
 
+			#Restaurante_menus
+			GposMenus.objects.using(name_db).all().delete()
+
 			#Base - Esdo
 			estadoActivo = Esdo.objects.using(name_db).create(nesdo="ACTIVO",estavali="T")
 			Esdo.objects.using(name_db).create(nesdo="ANULADA",estavali="F")
@@ -74,7 +80,7 @@ class Command(BaseCommand):
 			Esdo.objects.using(name_db).create(nesdo="INTEGRIDAD",estavali="F")
 			print "Esdo. Registros Creados Correctamente."
 
-			#Base - Timo 
+			#Base - Timo
 			Timo.objects.using(name_db).create(ctimo=10,ntimo="*** ENTRADA INVENTARIOS ***",prefijo="_HG",filas=50,nrepo="")
 			Timo.objects.using(name_db).create(ctimo=1001,ntimo="COMPRA MERCANCIA",prefijo="EA",filas=10,nrepo="R00504TXT")
 			Timo.objects.using(name_db).create(ctimo=1002,ntimo="DEVOLUCIONES COMPRAS",prefijo="EB",filas=10,nrepo="R00504TXT")
@@ -120,7 +126,7 @@ class Command(BaseCommand):
 			Timo.objects.using(name_db).create(ctimo=44,ntimo="*** Servicios Tecnicos ***",prefijo="_HG",filas=0,nrepo="")
 			Timo.objects.using(name_db).create(ctimo=4401,ntimo="SERVICIOS",prefijo="TA",filas=0,nrepo="r141_win")
 			print "Timo. Registros Creados Correctamente."
-			
+
 			#Base - MediosPago
 			MediosPago.objects.using(name_db).create(pk=1000,nmpago="Efectivo",ifdoc=False)
 			MediosPago.objects.using(name_db).create(pk=1001,nmpago="Tarjeta",ifdoc=True)
@@ -1386,7 +1392,7 @@ class Command(BaseCommand):
 			#Terceros - Zona
 			Zona.objects.using(name_db).create(nzona="SIN ZONA",cesdo=estadoActivo)
 			print "Zona. Registros Creados Correctamente."
-			
+
 			#Terceros - Personas
 			Personas.objects.using(name_db).create(cpersona="PN",npersona="PERSONA NATURAL")
 			Personas.objects.using(name_db).create(cpersona="PJ",npersona="PERSONA JURIDICA")
@@ -1424,6 +1430,14 @@ class Command(BaseCommand):
 				cregiva = Regiva.objects.using(name_db).get(pk=DEFAULT_REGIMEN_IVA),
 				ctiide = Tiide.objects.using(name_db).get(pk=DEFAULT_TIIDE),
 			)
+
+			#Restaurante_menus - Grupos Menus
+			GposMenus.objects.using(name_db).create(cgpomenu = 1,ngpomenu = "PLATOS FUERTES",cesdo = estadoActivo,)
+			GposMenus.objects.using(name_db).create(cgpomenu = 2,ngpomenu = "ENTRADAS",cesdo = estadoActivo,)
+			GposMenus.objects.using(name_db).create(cgpomenu = 3,ngpomenu = "BEBIDAS",cesdo = estadoActivo,)
+			GposMenus.objects.using(name_db).create(cgpomenu = 4,ngpomenu = "PLATOS FRIOS",cesdo = estadoActivo,)
+			GposMenus.objects.using(name_db).create(cgpomenu = 5,ngpomenu = "ENSALADAS",cesdo = estadoActivo,)
+			GposMenus.objects.using(name_db).create(cgpomenu = 6,ngpomenu = "COMIDA RAPIDA",cesdo = estadoActivo,)
 
 		else:
 			print "Operación Cancelada."

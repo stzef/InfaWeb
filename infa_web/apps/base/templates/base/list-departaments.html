@@ -21,6 +21,8 @@
 							<tr>
 								<th>Codigo Interno</th>
 								<th>Nombre</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -28,7 +30,9 @@
 								<tr>
 									<td>{{ departament.cdepar }}</td>
 									<td>{{ departament.ndepar }}</td>
-									<td><a data-link-edit href="{% url 'edit-departament' departament.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-departament' departament.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ departament.pk }}">Seleccionar</button></td>
+
 								</tr>
 							{% endfor %}
 						</tbody>

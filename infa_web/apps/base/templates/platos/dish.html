@@ -291,9 +291,9 @@
 				],
 				select: 'single',
 				buttons: [
-					{ extend: "create", editor: editor },
-					{ extend: "edit",   editor: editor },
-					{ extend: "remove", editor: editor }
+					{ extend: "create", editor: editor,className: 'btn-app btn-primary', text: '<i class="fa fa-plus-square-o"></i> </br>Nuevo'},
+					{ extend: "edit",   editor: editor,className: 'btn-app btn-primary', text: '<i class="fa fa-edit"></i> </br>Modificar'},
+					{ extend: "remove", editor: editor,className: 'btn-app btn-primary', text: '<i class="fa fa-remove"></i> </br>Borrar'}
 				],
 				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {

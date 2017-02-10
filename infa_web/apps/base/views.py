@@ -111,7 +111,7 @@ class AjaxableResponseMixin(object):
 			return response
 
 # Parameters #
-def ParametersList(request): 
+def ParametersList(request):
 	context = {}
 	context['title'] = 'Parametros'
 
@@ -161,9 +161,9 @@ def ParametersSave(request):
 	data = json.loads(request.body)
 	response = {}
 	manageParameters = ManageParameters(request.db)
-	
+
 	parameters = manageParameters.get_all()
-	
+
 	for dparameter in data:
 		for parameter in parameters:
 			if(parameter["cparam"] == dparameter["cparam"]):

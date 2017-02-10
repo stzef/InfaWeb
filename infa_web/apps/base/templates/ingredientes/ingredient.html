@@ -10,7 +10,6 @@
 			<h2>{{title}}</h2>
 			<ul class="nav nav-pills">
 				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
-				<li><a data-toggle="pill" href="#tabOtros">Otros</a></li>
 			</ul>
 			<form action="" method="POST" role="form" class="form-horizontal">
 				{%csrf_token%}
@@ -95,39 +94,6 @@
 											</div>
 										</div>
 
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div id="tabOtros" class="tab-pane ">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="box box-primary">
-									<div class="box-header with-border">
-										<h3 class="box-title">Otros</h3>
-									</div>
-									<div class="box-body">
-										<div class="row">
-											<div class="form-group col-md-3">
-												<div class="checkbox">
-													<label for="{{form.ifedinom.id_for_label}}" class="col-sm-10 control-label">
-														{{form.ifedinom}}
-														{{form.ifedinom.label}}
-													</label>
-												</div>
-											</div>
-											<div class="form-group col-md-3">
-												<div class="checkbox">
-													<label for="{{form.ifcostear.id_for_label}}" class="col-sm-10 control-label">
-														{{form.ifcostear}}
-														{{form.ifcostear.label}}
-													</label>
-												</div>
-											</div>
-										</div>
 										<div class="row">
 											<div class="col-md-6 form-group">
 												<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
@@ -162,9 +128,7 @@
 													</div>
 												</div>
 											</div>
-										</div>
 
-										<div class="row">
 											<div class="col-md-6 form-group">
 												<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
 												{%if form.cesdo.errors%}
@@ -172,6 +136,24 @@
 												{%endif%}
 												<div class="col-sm-8">
 													{{form.cesdo}}
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-md-3">
+												<div class="checkbox">
+													<label for="{{form.ifedinom.id_for_label}}" class="col-sm-10 control-label">
+														{{form.ifedinom}}
+														{{form.ifedinom.label}}
+													</label>
+												</div>
+											</div>
+											<div class="form-group col-md-3">
+												<div class="checkbox">
+													<label for="{{form.ifcostear.id_for_label}}" class="col-sm-10 control-label">
+														{{form.ifcostear}}
+														{{form.ifcostear.label}}
+													</label>
 												</div>
 											</div>
 										</div>
@@ -191,13 +173,6 @@
 						</button>
 						<a class="btn btn-app btn-primary" data-new-window href="{% url 'list-ingredients' %}">
 							<i class="fa fa-list"></i>Listar
-						</a>
-						{% if mode_view == "edit" %}
-							<a class="btn btn-app btn-primary" href="{% url 'copy-article' current_pk %}" target="_blank">
-						{% else %}
-							<a class="btn btn-app btn-primary" href="#" disabled>
-						{% endif %}
-							<i class="fa fa-copy"></i>Duplicar
 						</a>
 					</div>
 				</div>

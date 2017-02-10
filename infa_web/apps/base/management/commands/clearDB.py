@@ -10,6 +10,8 @@ from infa_web.apps.movimientos.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.usuarios.models import *
 
+from infa_web.apps.restaurante_menus.models import *
+
 class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument(
@@ -90,6 +92,10 @@ class Command(BaseCommand):
 			print "Personas. Registros Borrados con Exito."
 			Usuario.objects.using(name_db).all().delete()
 			print "Usuarios. Registros Borrados con Exito."
+
+			#Restaurante_menus
+			GposMenus.objects.using(name_db).all().delete()
+			print "GposMenus. Registros Borrados con Exito."
 		else:
 			print "Operación Cancelada."
 
