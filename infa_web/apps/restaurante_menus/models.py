@@ -47,6 +47,7 @@ class Platos(models.Model):
 	cplato = models.IntegerField(primary_key=True)
 	nplato = models.CharField(max_length=50)
 	fcrea = models.DateTimeField(auto_now_add=True)
+	npax = models.IntegerField(default=1)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 
 	foto = models.FileField(upload_to="img/dishes/", blank=True, null=True,default=DEFAULT_IMAGE_DISHES)
@@ -62,6 +63,7 @@ class Platosdeta(models.Model):
 	cingre = models.ForeignKey(Ingredientes)
 	it = models.CharField(max_length=50)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,default=0.00)
+	cunidad = models.ForeignKey(Unidades, default=DEFAULT_UNIDAD)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 
@@ -77,7 +79,7 @@ class Menus(models.Model):
 	fcrea = models.DateTimeField(auto_now_add=True)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	cgpomenu = models.ForeignKey(GposMenus,default=CESTADO_ACTIVO)
-	npax = models.IntegerField()
+	npax = models.IntegerField(default=1)
 	pvta1 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
 	pvta2 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
 	pvta3 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
@@ -96,7 +98,9 @@ class Menusdeta(models.Model):
 	cmenu = models.ForeignKey(Menus)
 	it = models.CharField(max_length=50)
 	cplato = models.ForeignKey(Platos)
+	nplato = models.CharField(max_length=50)
 	canti = models.DecimalField(max_digits=15, decimal_places=2,default=0.00)
+	#cunidad = models.ForeignKey(Unidades, default=DEFAULT_UNIDAD)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 

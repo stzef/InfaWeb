@@ -187,7 +187,12 @@ var CONF_DTE = {
 				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
 				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 			}
-		}
+	},
+	buttons:{
+		create: { className: 'btn-app btn-primary', text: '<i class="fa fa-plus-square-o"></i> </br>Agregar'},
+		edit: { className: 'btn-app btn-primary', text: '<i class="fa fa-edit"></i> </br>editar'},
+		remove: { className: 'btn-app btn-primary', text: '<i class="fa fa-remove"></i> </br>Eliminar'}
+	}
 }
 
 function validate_aray_val(array_validations,bind){
@@ -632,10 +637,10 @@ $(window).on('beforeunload', function (e) {
 
 $(document).ready(function(e){
 	if(window.APPEM_IS_WIN_POPUOT){
-		$.AdminLTE.pushMenu.collapse()
 
-		$("[data-cell-action='edit']").toggleClass("hidden")
-		$("[data-cell-action='select']").toggleClass("hidden")
+		//$("[data-cell-action='edit']").toggleClass("hidden")
+		//$("[data-cell-action='select']").toggleClass("hidden")
+
 
 		var button = $("<button type='button' class='btn btn-app btn-danger' ><i class='fa fa-close'></i>Salir</button>")
 			.click(function(){
@@ -649,6 +654,13 @@ $(document).ready(function(e){
 				$("<div class='text-center'></div>").append(button)
 			)
 		}
+
+		/* Remover el Menu */
+		$(".main-sidebar").remove()
+
+		/* Colapsar el Menu */
+		$.AdminLTE.pushMenu.expand()
+		$.AdminLTE.pushMenu.collapse()
 	}
 })
 

@@ -8,12 +8,11 @@ import decimal
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-
-
 def DishDetailCreate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+		#del value["ingredientes"]["cunidad"]
 		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
 
@@ -33,6 +32,9 @@ def DishDetailCreate(data,using):
 			value["ingredientes"]["vunita"] = ingrediente.vcosto
 			value["ingredientes"]["vtotal"] = float(value["ingredientes"]["vunita"]) * float(value["ingredientes"]["canti"])
 
+			value["ingredientes"]["cunidad"] = ingrediente.cunidad
+
+
 			platodeta = Platosdeta(**value["ingredientes"])
 
 			response["data"].append({
@@ -43,6 +45,7 @@ def DishDetailCreate(data,using):
 					"canti" : str(platodeta.canti),
 					"vunita" : str(platodeta.vunita),
 					"vtotal" : str(platodeta.vtotal),
+					"cunidad" : str(platodeta.cingre.cunidad.nunidad),
 				},
 				"cingres" : {
 					"name" : str(platodeta.cingre.ningre)
@@ -79,6 +82,8 @@ def DishDetailUpdate(data,using):
 		platodeta.vunita = float(value["ingredientes"]["vunita"])
 		platodeta.vtotal = float(value["ingredientes"]["canti"]) * float(value["ingredientes"]["vunita"])
 
+		value["ingredientes"]["cunidad"] = ingrediente.cunidad
+
 		response["data"].append({
 			"DT_RowId": "row_1",
 			"ingredientes" : {
@@ -87,6 +92,7 @@ def DishDetailUpdate(data,using):
 				"canti" : platodeta.canti,
 				"vunita" : platodeta.vunita,
 				"vtotal" : platodeta.vtotal,
+				"cunidad" : platodeta.cingre.cunidad.nunidad,
 			},
 			"cingres" : {
 				"name" : str(platodeta.cingre.ningre)
@@ -106,6 +112,7 @@ def DishDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+		#del value["ingredientes"]["cunidad"]
 		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
 		platodeta = Platosdeta.objects.using(using).get(cplato=plato.cplato,cingre=ingrediente.cingre)
@@ -144,6 +151,7 @@ def GetDishDetail(request,pk):
 					"canti" : str(item.canti),
 					"vunita" : str(item.vunita),
 					"vtotal" : str(item.vtotal),
+					"cunidad" : str(item.cingre.cunidad.nunidad),
 				},
 				#"cingres" : {
 				#	"name" : str(item.cingre.ningre)

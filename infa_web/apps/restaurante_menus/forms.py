@@ -76,7 +76,7 @@ class DishForm(forms.ModelForm):
 			'cplato':'Código Interno',
 			'nplato':'Nombre',
 			'fcrea':'fECHA cREACION',
-			'vttotal':'Valor Total',
+			'vttotal':'Vr. Total',
 		}
 
 class DishDetailForm(forms.ModelForm):
@@ -126,7 +126,7 @@ class MenuForm(forms.ModelForm):
 			#'fcrea' :
 			'cesdo' : forms.Select(attrs={'class':'form-control','required':True}),
 			'cgpomenu' : forms.Select(attrs={'class':'form-control','required':True}),
-			'npax' : forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
+			'npax' : forms.TextInput(attrs={'type_input':'text','class': 'form-control ','required':True,'min':0}),
 			'pvta1' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
 			'pvta2' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),
 			'pvta3' :forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'step':'0.01','min':0}),

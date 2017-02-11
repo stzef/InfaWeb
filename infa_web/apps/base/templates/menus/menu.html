@@ -54,26 +54,6 @@
 											</div>
 
 											<div class="form-group">
-												<label for="{{form.npax.id_for_label}}" class="col-sm-2 control-label">{{form.npax.label}}</label>
-												{%if form.npax.errors%}
-												{{form.npax.errors}}
-												{%endif%}
-												<div class="col-sm-10">
-													{{form.npax}}
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
-												{%if form.cesdo.errors%}
-												{{form.cesdo.errors}}
-												{%endif%}
-												<div class="col-sm-10">
-													{{form.cesdo}}
-												</div>
-											</div>
-
-											<div class="form-group">
 												<label for="{{form.cgpomenu.id_for_label}}" class="col-sm-2 control-label">{{form.cgpomenu.label}}</label>
 												{%if form.cgpomenu.errors%}
 												{{form.cgpomenu.errors}}
@@ -87,6 +67,15 @@
 											</div>
 
 											<div class="form-group">
+												<label for="{{form.npax.id_for_label}}" class="col-sm-2 control-label">{{form.npax.label}}</label>
+												{%if form.npax.errors%}
+												{{form.npax.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.npax}}
+												</div>
+											</div>
+											<div class="form-group">
 												<label for="{{ form.vttotal.id_for_label }}" class="col-sm-2 control-label">{{ form.vttotal.label }}</label>
 												<div class="col-sm-10">
 													{{ form.vttotal }}
@@ -97,13 +86,25 @@
 
 										<div class="col-md-6">
 											<div class="form-group">
-												<img class="ae-img-article img-responsive" src="/static/{{url_foto}}" alt="">
+												<div class="panel">
+													<img class="ae-img-article img-responsive img-thumbnail center-block" src="/static/{{url_foto}}" alt="">
+												</div>
 												<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
 												{%if form.foto.errors%}
 												{{form.foto.errors}}
 												{%endif%}
 												<div class="col-sm-8">
 													{{form.foto}}
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+												{%if form.cesdo.errors%}
+												{{form.cesdo.errors}}
+												{%endif%}
+												<div class="col-sm-10">
+													{{form.cesdo}}
 												</div>
 											</div>
 										</div>
@@ -177,6 +178,7 @@
 									<th>Item</th>
 									<th>Plato</th>
 									<th>Cantidad</th>
+									<!--<th>Unidades</th>-->
 									<th>Valor Unitario</th>
 									<th>Valor Total</th>
 									</tr>
@@ -186,6 +188,7 @@
 									<th>Item</th>
 									<th>Plato</th>
 									<th>Cantidad</th>
+									<!--<th>Unidades</th>-->
 									<th>Valor Unitario</th>
 									<th>Valor Total</th>
 									</tr>
@@ -216,6 +219,9 @@
 				<editor-field name="detail.canti"></editor-field>
 			</div>
 		</div>
+		<div class="col-md-12 form-group">
+			<div>Unidades: <span id="nunidad"></span></div>
+		</div>
 	</div>
 
 	{%include 'elements/footer.html'%}
@@ -228,6 +234,12 @@
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
 
 	<script>
+
+		CONF_DTE.i18n.create.title = "Menu: Nuevo Plato"
+		CONF_DTE.i18n.edit.title = "Menu: Editar Plato"
+		CONF_DTE.i18n.remove.title = "Menu: Eliminar Plato"
+		CONF_DTE.i18n.remove.confirm["1"] = "Desea Eliminar el Plato?"
+
 		var editor; // use a global for the submit and return data rendering in the examples
 
 		function fn(response){
@@ -316,11 +328,13 @@
 				data.detail.vtotal = currencyFormat.format(data.detail.vtotal)
 			}).on("preOpen",function(event, frame, action){
 				console.log(arguments)
+				event.target.field("detail.canti").set(1)
 				event.target.field("detail.cplato").enable()
 				if(action == "edit"){
 					event.target.field("detail.cplato").disable()
 				}
 			}).on("open",function(event, frame, action){
+				//$("#nunidad").html("")
 				$("[id*=-cplato]").change(function(){
 					var input = this
 					$.ajax({
@@ -337,6 +351,8 @@
 								$(input).val("")
 								tooltipBootstrap($(input),".DTE_Field","Este Plato no se encuentra registrado.")
 							}
+							//response.object = JSON.parse(response.object)[0]
+							//$("#nunidad").html(response.object.fields.cunidad.nunidad)
 						}
 					})
 				})
@@ -352,14 +368,15 @@
 					{ data: "detail.it" },
 					{ data: "detail.cplato" },
 					{ data: "detail.canti" },
+					//{ data: "detail.cunidad" },
 					{ data: "detail.vunita" },
 					{ data: "detail.vtotal" }
 				],
 				select: 'single',
 				buttons: [
-					{ extend: "create", editor: editor },
-					{ extend: "edit",   editor: editor },
-					{ extend: "remove", editor: editor }
+					{ extend: "create", editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text},
+					{ extend: "edit",   editor: editor,className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text},
+					{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
 				],
 				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {

@@ -14,6 +14,7 @@ def MenuDetailCreate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+		#del value["detail"]["cunidad"]
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
 
@@ -42,6 +43,7 @@ def MenuDetailCreate(data,using):
 					"canti" : str(menudeta.canti),
 					"vunita" : str(menudeta.vunita),
 					"vtotal" : str(menudeta.vtotal),
+					#"cunidad" : str(menudeta.cplato.cunidad.nunidad),
 				},
 				#"cingres" : {
 				#	"name" : str(menudeta.cingre.ningre)
@@ -60,6 +62,7 @@ def MenuDetailUpdate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+		#del value["detail"]["cunidad"]
 		#ingrediente = Ingredientes.objects.using(using).get(pk=value["detail"]["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
@@ -87,6 +90,7 @@ def MenuDetailUpdate(data,using):
 				"canti" : str(menudeta.canti),
 				"vunita" : str(menudeta.vunita),
 				"vtotal" : str(menudeta.vtotal),
+				#"cunidad" : str(menudeta.cplato.cunidad.nunidad),
 			},
 			#"cingres" : {
 			#	"name" : str(menudeta.cingre.ningre)
@@ -106,6 +110,7 @@ def MenuDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+		#del value["detail"]["cunidad"]
 		menu = Menus.objects.using(using).get(cmenu=value["detail"]["cmenu"])
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato,cmenu=menu)
@@ -144,6 +149,7 @@ def GetMenuDetail(request,pk):
 					"canti" : str(item.canti),
 					"vunita" : str(item.vunita),
 					"vtotal" : str(item.vtotal),
+					#"cunidad" : str(item.cplato.cunidad.nunidad),
 				},
 				#"cplatos" : {
 				#	"name" : str(item.cplato.ningre)

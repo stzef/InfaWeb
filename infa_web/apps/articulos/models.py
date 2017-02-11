@@ -51,6 +51,13 @@ class Unidades(models.Model):
 	def __unicode__(self):
 		return self.nunidad
 
+	def natural_key(self):
+		return ({
+			"cunidad" : self.cunidad,
+			"nunidad" : self.nunidad,
+			"peso" : self.peso,
+		})
+
 class Arlo(models.Model):
 	carlos = models.IntegerField(primary_key=True)
 	cbarras = models.CharField(max_length=50,blank=True,null=True)
