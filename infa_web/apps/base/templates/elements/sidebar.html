@@ -83,27 +83,34 @@
 				</li>
 				<li class="treeview">
 					<li>
-						<a href="#"><i class="fa  fa-cog"></i> Configuracion
+						<a href="#"><i class="fa fa-list-alt"></i> Restaurante
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="{% url 'list-parameter' %}">
-									<i class="fa fa-cogs"></i>
-									Parametros
+								<a href="{% url 'add-ingredient' %}">
+									<i class="fa fa-archive"></i>
+									Ingredientes
 								</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-wrench"></i> Anulaciones<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-								<ul class="treeview-menu">
-									<li><a href="{% url 'proccess_view_annulment' %}"><i class="fa fa-arrows-h"></i>Movimientos de Inventario</a></li>
-									<li><a href="{% url 'bill_proccess_view_annulment' %}"><i class="fa fa-money"></i>Facturas</a></li>
-								</ul>
+								<a href="{% url 'add-dish' %}">
+									<i class="fa fa-cutlery"></i>
+									Platos
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'add-menu' %}">
+									<i class="fa fa-list-alt"></i>
+									Menu
+								</a>
 							</li>
 						</ul>
 					</li>
+				</li>
+				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-circle-o"></i> Basicos
 							<span class="pull-right-container">
@@ -197,34 +204,32 @@
 							</li>
 						</ul>
 					</li>
+				</li>
+				<li class="treeview">
 					<li>
-						<a href="#"><i class="fa fa-circle-o"></i> Restaurante
+						<a href="#"><i class="fa  fa-cog"></i> Configuracion
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="{% url 'add-ingredient' %}">
-									<i class="fa fa-users"></i>
-									Ingredientes
+								<a href="{% url 'list-parameter' %}">
+									<i class="fa fa-cogs"></i>
+									Parametros
 								</a>
 							</li>
 							<li>
-								<a href="{% url 'add-dish' %}">
-									<i class="fa fa-users"></i>
-									Platos
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-menu' %}">
-									<i class="fa fa-users"></i>
-									Menu
-								</a>
+								<a href="#"><i class="fa fa-wrench"></i> Anulaciones<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+								<ul class="treeview-menu">
+									<li><a href="{% url 'proccess_view_annulment' %}"><i class="fa fa-arrows-h"></i>Movimientos de Inventario</a></li>
+									<li><a href="{% url 'bill_proccess_view_annulment' %}"><i class="fa fa-money"></i>Facturas</a></li>
+								</ul>
 							</li>
 						</ul>
 					</li>
 				</li>
+
 				<li class="treeview">
 					<a href="#">
 						<i class="fa fa-sign-out"></i> <span>Salir</span>

@@ -9,7 +9,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 def DishDetailCreate(data,using):
-	response = { "data" : []  }
+	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
 		#del value["ingredientes"]["cunidad"]
@@ -56,6 +56,8 @@ def DishDetailCreate(data,using):
 
 			plato.vttotal += decimal.Decimal(platodeta.vtotal)
 			plato.save(using=using)
+		else:
+			response["message"] = {"text":"El ingrediente ya se encuentra registrado en el plato","type":"info"}
 
 	response["plato"] = json.loads(serializers.serialize("json", list([plato]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
 	return response

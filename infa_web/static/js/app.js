@@ -190,7 +190,7 @@ var CONF_DTE = {
 	},
 	buttons:{
 		create: { className: 'btn-app btn-primary', text: '<i class="fa fa-plus-square-o"></i> </br>Agregar'},
-		edit: { className: 'btn-app btn-primary', text: '<i class="fa fa-edit"></i> </br>editar'},
+		edit: { className: 'btn-app btn-primary', text: '<i class="fa fa-edit"></i> </br>Editar'},
 		remove: { className: 'btn-app btn-primary', text: '<i class="fa fa-remove"></i> </br>Eliminar'}
 	}
 }

@@ -25,7 +25,7 @@
 			<h1>Platos</h1>
 		</section>
 		<section class="content">
-			<form class="form-horizontal" id="form_movement">
+			<form class="form-horizontal" id="form">
 				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
 				<div class="row">
 					{%csrf_token%}
@@ -58,6 +58,12 @@
 											<label for="{{ form.nplato.id_for_label }}" class="col-sm-4 control-label">{{ form.nplato.label }}</label>
 											<div class="col-sm-8">
 												{{ form.nplato }}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="{{ form.npax.id_for_label }}" class="col-sm-4 control-label">{{ form.npax.label }}</label>
+											<div class="col-sm-8">
+												{{ form.npax }}
 											</div>
 										</div>
 										<div class="form-group">
@@ -262,6 +268,11 @@
 			})
 
 			editor.on("submitComplete",function(event, response, data){
+				if(response.message){
+					var message = alertBootstrap(response.message.text,response.message.type)
+					$("#form").prepend(message)
+				}
+
 				$("#id_vttotal").val(currencyFormat.format(response.plato.fields.vttotal))
 				data = {data:[]}
 			}).on("preCreate preEdit",function(event, response, data){

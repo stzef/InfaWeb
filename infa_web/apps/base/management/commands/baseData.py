@@ -1430,6 +1430,7 @@ class Command(BaseCommand):
 				cregiva = Regiva.objects.using(name_db).get(pk=DEFAULT_REGIMEN_IVA),
 				ctiide = Tiide.objects.using(name_db).get(pk=DEFAULT_TIIDE),
 			)
+			print "Terceros. Registros Creados Correctamente."
 
 			#Restaurante_menus - Grupos Menus
 			GposMenus.objects.using(name_db).create(cgpomenu = 1,ngpomenu = "PLATOS FUERTES",cesdo = estadoActivo,)
@@ -1438,6 +1439,7 @@ class Command(BaseCommand):
 			GposMenus.objects.using(name_db).create(cgpomenu = 4,ngpomenu = "PLATOS FRIOS",cesdo = estadoActivo,)
 			GposMenus.objects.using(name_db).create(cgpomenu = 5,ngpomenu = "ENSALADAS",cesdo = estadoActivo,)
 			GposMenus.objects.using(name_db).create(cgpomenu = 6,ngpomenu = "COMIDA RAPIDA",cesdo = estadoActivo,)
+			print "Grupos de Menus. Registros Creados Correctamente."
 
 		else:
 			print "Operación Cancelada."

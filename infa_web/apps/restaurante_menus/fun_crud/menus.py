@@ -3,18 +3,14 @@ from django.db.models import Max
 from django.core import serializers
 from django.http import HttpResponse
 
-
 import decimal
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-
-
 def MenuDetailCreate(data,using):
-	response = { "data" : []  }
+	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
-		#del value["detail"]["cunidad"]
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
 
@@ -43,17 +39,15 @@ def MenuDetailCreate(data,using):
 					"canti" : str(menudeta.canti),
 					"vunita" : str(menudeta.vunita),
 					"vtotal" : str(menudeta.vtotal),
-					#"cunidad" : str(menudeta.cplato.cunidad.nunidad),
-				},
-				#"cingres" : {
-				#	"name" : str(menudeta.cingre.ningre)
-				#}
+				}
 			})
 
 			menudeta.save(using=using)
 
 			menu.vttotal += decimal.Decimal(menudeta.vtotal)
 			menu.save(using=using)
+		else:
+			response["message"] = {"text":"El plato ya se encuentra registrado en el menu","type":"info"}
 
 	response["menu"] = json.loads(serializers.serialize("json", list([menu]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
 	return response
@@ -62,7 +56,6 @@ def MenuDetailUpdate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		#del value["detail"]["cunidad"]
 		#ingrediente = Ingredientes.objects.using(using).get(pk=value["detail"]["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
@@ -90,11 +83,7 @@ def MenuDetailUpdate(data,using):
 				"canti" : str(menudeta.canti),
 				"vunita" : str(menudeta.vunita),
 				"vtotal" : str(menudeta.vtotal),
-				#"cunidad" : str(menudeta.cplato.cunidad.nunidad),
-			},
-			#"cingres" : {
-			#	"name" : str(menudeta.cingre.ningre)
-			#}
+			}
 		})
 
 		menudeta.save(using=using)
@@ -110,7 +99,6 @@ def MenuDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		#del value["detail"]["cunidad"]
 		menu = Menus.objects.using(using).get(cmenu=value["detail"]["cmenu"])
 		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato,cmenu=menu)
@@ -130,16 +118,7 @@ def MenuDetailRemove(data,using):
 def GetMenuDetail(request,pk):
 	deta = Menusdeta.objects.using(request.db).filter(cmenu=pk)
 
-	#ingredientes = Ingredientes.objects.using(request.db).all()
-	#ingredientes_json = []
-
-	#for ingrediente in ingredientes:
-	#	ingredientes_json.append({"value":ingrediente.cingre,"label":ingrediente.ningre})
-
-	data = {
-		"data" :[] ,
-		#"options": {"ingredientes.cingre": ingredientes_json}
-	}
+	data = { "data" :[] }
 	for item in deta:
 		data["data"].append({
 				"DT_RowId": "row_1",
@@ -149,10 +128,6 @@ def GetMenuDetail(request,pk):
 					"canti" : str(item.canti),
 					"vunita" : str(item.vunita),
 					"vtotal" : str(item.vtotal),
-					#"cunidad" : str(item.cplato.cunidad.nunidad),
-				},
-				#"cplatos" : {
-				#	"name" : str(item.cplato.ningre)
-				#}
+				}
 			})
 	return HttpResponse(json.dumps(data), content_type="application/json")

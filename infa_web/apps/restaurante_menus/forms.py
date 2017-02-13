@@ -69,13 +69,15 @@ class DishForm(forms.ModelForm):
 			#'fcrea' :
 			'vttotal' : forms.TextInput(attrs={'type_input':'text','class': 'form-control input-currency','required':True,'disabled':True,'step':'0.01','min':0}),
 			'foto':forms.FileInput(attrs={'class': 'form-control'}),
+			'npax' : forms.TextInput(attrs={'type_input':'text','class': 'form-control ','required':True,'min':0}),
 
 
 		}
 		labels = {
 			'cplato':'Código Interno',
 			'nplato':'Nombre',
-			'fcrea':'fECHA cREACION',
+			'fcrea':'Fecha de Creacion',
+			'npax' : 'Numero Personas',
 			'vttotal':'Vr. Total',
 		}
 

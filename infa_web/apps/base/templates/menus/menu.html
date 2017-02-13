@@ -18,7 +18,7 @@
 				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
 				<li><a data-toggle="pill" href="#tabListaPrecios">Lista de Precios</a></li>
 			</ul>
-			<form action="" method="POST" role="form" class="form-horizontal">
+			<form action="" method="POST" role="form" id="form" class="form-horizontal">
 				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
 
 				{%csrf_token%}
@@ -321,6 +321,11 @@
 			})
 
 			editor.on("submitComplete",function(event, response, data){
+				if(response.message){
+					var message = alertBootstrap(response.message.text,response.message.type)
+					$("#form").prepend(message)
+				}
+
 				$("#id_vttotal").val(currencyFormat.format(response.menu.fields.vttotal))
 				data = {data:[]}
 			}).on("preCreate preEdit",function(event, response, data){
