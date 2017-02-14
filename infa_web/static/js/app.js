@@ -524,12 +524,14 @@ function open_new_window(event){
 	if(window.location.href == this.href) {
 		return;
 	}
+	var action_link = $(this).data("action")
 	var h = (window.innerHeight > 0) ? window.innerHeight : screen.height,
 		w = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 		x = screen.width/2 - w/2,
 		y = screen.height/2 - h/2;
 	var win = window.open(this.href,"", "height="+h+",width="+w+",left="+x+",top="+y);
 	win.APPEM_IS_WIN_POPUOT = true
+	win.APPEM_ACTION = action_link
 }
 
 function alertBootstrap(message,type){
@@ -637,9 +639,11 @@ $(window).on('beforeunload', function (e) {
 
 $(document).ready(function(e){
 	if(window.APPEM_IS_WIN_POPUOT){
-
-		//$("[data-cell-action='edit']").toggleClass("hidden")
-		//$("[data-cell-action='select']").toggleClass("hidden")
+		console.log(window.APPEM_ACTION)
+		if(window.APPEM_ACTION == "select"){
+			$("[data-cell-action='edit']").toggleClass("hidden")
+			$("[data-cell-action='select']").toggleClass("hidden")
+		}
 
 
 		var button = $("<button type='button' class='btn btn-app btn-danger' ><i class='fa fa-close'></i>Salir</button>")

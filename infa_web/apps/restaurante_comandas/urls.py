@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 urlOrders = [
 	url(r'^orders/$', OrdersList, name = 'list-orders'),
 	url(r'^orders/take/$', TakeOrder, name = 'take-order'),
+	url(r'^orders/commands/(?P<cmesa>\d+)/$', GetCommandsOrder, name = 'get-order-commands'),
 ]
 
 urlpatterns = urlOrders

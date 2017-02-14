@@ -1,6 +1,9 @@
 
 {%extends 'layouts/base.html'%}
 {% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
 {%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
@@ -20,12 +23,39 @@
 			<div class="row">
 				<h2>Ordenes</h2>
 
-				<div class="col-md-6">
+				<div class="col-md-1 panel panel-default" style="height: 100%">
+					<table>
+						<thead>
+							<tr>
+								<th>Mesas</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for mesa in mesas %}
+								<tr>
+									<td>
+										<button class="btn btn-app btn-success" type="button" data-cmesa={{mesa.cmesa}} onclick="cargas_comandas(this,event)">
+											<i class="fa fa-save"></i>{{ mesa.nmesa }}
+										</button>
+									</td>
+								</tr>
+							{% endfor %}
+							<tr>
+								<td>
+									<button class="btn btn-app btn-primary" type="button">
+										<i class="fa fa-save"></i>Agregar
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="col-md-4">
 					<div class="section-resumen-pedido panel panel-default">
 						<div>
 							<div>
-
-								<table class="table">
+								<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th>Cantidad</th>
@@ -33,23 +63,7 @@
 											<th>Precio</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td> 4 </td>
-											<td> Hamburgesa </td>
-											<td> $ 6.000 </td>
-										</tr>
-										<tr>
-											<td> 4 </td>
-											<td> Gaseosa </td>
-											<td> $ 2.500 </td>
-										</tr>
-										<tr>
-											<td> 1 </td>
-											<td> Pizza </td>
-											<td> $ 5.000 </td>
-										</tr>
-									</tbody>
+									<tbody id="cont-data"></tbody>
 								</table>
 							</div>
 						</div>
@@ -89,52 +103,43 @@
 				</div>
 
 				<div class="section-menu panel panel-default col-md-6">
-					<div class="col-md-4 panel panel-default" style="height: 100%">
-						<table>
-							<thead>
-								<tr>
-									<th>Mesas</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<button class="btn btn-app btn-success" type="button">
-											<i class="fa fa-save"></i>Mesa 1
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button class="btn btn-app btn-default" type="button">
-											<i class="fa fa-save"></i>Mesa 2
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button class="btn btn-app btn-default" type="button">
-											<i class="fa fa-save"></i>Mesa 3
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button class="btn btn-app btn-primary" type="button">
-											<i class="fa fa-save"></i>Agregar
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-8">
-						{% for item_menu in menu %}
-							<div class="col-md-4 text-center">
-								<img class="img-responsive" src="{% static item_menu.foto.url %}" />
-								<span class="text-bold">{{ item_menu.nmenu }}</span>
+
+					<div class="col-md-12">
+							<ul class="nav nav-pills">
+								{% for grupo in gruposMenu %}
+									<li class="{% if forloop.first %}active {% endif %}"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
+								{% endfor %}
+							</ul>
+							<div class="tab-content">
+								{% for grupo in gruposMenu %}
+									<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">{{grupo.ngpomenu}}</h3>
+													</div>
+													<div class="box-body">
+														<div class="row">
+															{% for menu in grupo.menus %}
+																<div class="text-center col-md-4 well menu" data-cmenu="{{menu.cmenu}}">
+																	<p>{{menu.nmenu}}</p>
+																	<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
+																	<div class="btn-group">
+																		<button class="btn btn-info">Info..</button>
+																		<button class="btn btn-success" onclick="agregar_a_comanda(this,event)"> + </button>
+																	</div>
+																</div>
+															{% endfor %}
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
 							</div>
-						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -145,5 +150,65 @@
 {%endblock%}
 
 {% block content_script %}
-	<script></script>
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+	var table
+		$(document).ready(function() {
+			table = $('#example').DataTable({ searching: false,paging: false, "language": languageDataTable});
+			$('#example tbody').on( 'click', 'tr', function () {
+				if ( $(this).hasClass('selected') ) {
+					$(this).removeClass('selected');
+				}else {
+					table.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('#button').click( function () {
+				table.row('.selected').remove().draw( false );
+			});
+		});
+	</script>
+	<script>
+		function cargas_comandas(button,event){
+			var cmesa = $(button).data("cmesa")
+			$.ajax({
+				url: '/orders/commands/' + cmesa,
+				type: 'GET',
+				contentType: "application/json",
+				success: function(response){
+				}
+			});
+		}
+		function actualizar_total() {
+			var data = table.data()
+			var valores = data.map(function(item){return item[2]})
+			//var vttotal = valores.reduce(function(a,b){ return a + b },0)
+			console.log(valores)
+			//console.log(vttotal)
+		}
+		function agregar_a_comanda(button,event) {
+			var div_menu = $(button).closest(".menu"),
+				cmenu = div_menu.data("cmenu")
+			$.ajax({
+				url: '{% url 'api-get-object' %}',
+				type: 'POST',
+				data: JSON.stringify({
+					'model': 35,
+					'field': "cmenu",
+					'value': cmenu
+				}),
+				contentType: "application/json",
+				success: function(response){
+					if(response.object){
+						response.object = JSON.parse(response.object)[0]
+						table.row.add([1,response.object.fields.nmenu,response.object.fields.pvta1]).draw( false );
+						actualizar_total()
+					}
+				}
+			});
+
+		}
+	</script>
 {%endblock%}

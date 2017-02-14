@@ -355,6 +355,7 @@ codeModels = {
 
 	33:{'name': 'Ingredientes','app':'restaurante_menus'},
 	34:{'name': 'Platos','app':'restaurante_menus'},
+	35:{'name': 'Menus','app':'restaurante_menus'},
 
 }
 

@@ -8,14 +8,14 @@ DB = {
 		'HOST': 'ec2-54-243-52-209.compute-1.amazonaws.com',
 		'PORT': '5432',
 	},
-	'db_1': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'stzef',
-		'USER': 'postgres',
-		'PASSWORD': '123456',
-		'HOST': 'localhost',
-		'PORT': '',
-	},
+	#'db_1': {
+	#	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	#	'NAME': 'stzef',
+	#	'USER': 'postgres',
+	#	'PASSWORD': '123456',
+	#	'HOST': 'localhost',
+	#	'PORT': '',
+	#},
 	'test_db': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'd9vpdvlh4hqqa1',

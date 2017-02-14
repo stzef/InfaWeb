@@ -97,7 +97,7 @@
 										<button class="btn btn-app btn-primary" type="submit">
 											<i class="fa fa-save"></i>Guardar
 										</button>
-										<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-dishes' %}"><i class="fa fa-list"></i>Listar</a>
+										<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-dishes' %}"><i class="fa fa-list"></i>Listar</a>
 									</div>
 								</div>
 
@@ -149,7 +149,7 @@
 			<div class="col-sm-8">
 				<div class="input-group">
 					<editor-field name="ingredientes.cingre"></editor-field>
-					<span class="input-group-addon"><a data-new-window href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+					<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 				</div>
 			</div>
 		</div>

@@ -1,12 +1,18 @@
+import os
 
 # Relacion subdominio a base de datos
 # key : subdominio, value : alias database
-# test_local - DataBase Test - test_manager.py 
+# test_local - DataBase Test - test_manager.py
 
 DOMAINS = {
-	'upc' : 'default',
 	'stzef' : 'db_1',
 	'testempresa' : 'test_db',
-	'huevos' : 'prod_db',
-	'test_local' : 'default',
+	#'test_local' : 'default',
 }
+
+if 'CURRENT_ENV_WORK' in os.environ:
+	if os.environ["CURRENT_ENV_WORK"] == "DEV":
+		DOMAINS = {
+			'huevos' : 'prod_db',
+			'testempresa' : 'test_db',
+		}

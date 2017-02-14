@@ -51,7 +51,7 @@
 										<div class="col-sm-9">
 											<div class="input-group">
 												{{form.ctimo}}
-												<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												<span class="input-group-addon"><a data-new-window data-action="create" href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
 									</div>
@@ -79,8 +79,8 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input type="number" value="{{form.citerce.field.widget.attrs.value}}" name="{{form.citerce.name}}" id="{{form.citerce.id_for_label}}" class="{{form.citerce.field.widget.attrs.class}}" {% if form.citerce.field.required %}required{% endif %}>
-												<span class="input-group-addon"><a data-new-window href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-												<span class="input-group-addon"><a data-new-window href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+												<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-third-party' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+												<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-third-parties' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 											</div>
 										</div>
 										<div class="col-sm-6">
@@ -173,8 +173,8 @@
 														<input type="number" name="{{form_movement_detail.carlos.name}}" id="{{form_movement_detail.carlos.id_for_label}}" class="{{form_movement_detail.carlos.field.widget.attrs.class}}" required>
 
 
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-														<span class="input-group-addon"><a data-new-window href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+														<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-article' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+														<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-articles' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 													</div>
 												</th>
 												<th width="20%">
@@ -222,9 +222,9 @@
 						<i class="fa fa-save"></i>Guardar
 					</button>
 					{% if is_input_movement %}
-						<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
+						<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-input-movements' %}"><i class="fa fa-list"></i>Listar</a>
 					{% else %}
-						<a data-new-window class="btn btn-app btn-primary" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
+						<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-output-movements' %}"><i class="fa fa-list"></i>Listar</a>
 					{% endif %}
 				</div>
 			</div>

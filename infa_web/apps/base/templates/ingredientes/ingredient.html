@@ -43,7 +43,7 @@
 												<div class="col-sm-8">
 													<div class="input-group">
 														{{form.cunidad}}
-														<span class="input-group-addon"><a data-new-window href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+														<span class="input-group-addon"><a data-new-window data-action="create" href="" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 													</div>
 												</div>
 											</div>
@@ -124,7 +124,7 @@
 												<div class="col-sm-8">
 													<div class="input-group">
 														{{form.civa}}
-														<span class="input-group-addon"><a data-new-window href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
+														<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 													</div>
 												</div>
 											</div>
@@ -171,7 +171,7 @@
 						<button class="btn btn-app btn-primary" type="submit">
 							<i class="fa fa-save"></i>Guardar
 						</button>
-						<a class="btn btn-app btn-primary" data-new-window href="{% url 'list-ingredients' %}">
+						<a class="btn btn-app btn-primary" data-new-window data-action="list" href="{% url 'list-ingredients' %}">
 							<i class="fa fa-list"></i>Listar
 						</a>
 					</div>

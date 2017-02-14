@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from infa_web.apps.base.models import *
+from infa_web.apps.restaurante_menus.models import *
 
 from infa_web.apps.base.constantes import *
 
@@ -35,21 +36,6 @@ class Meseros(models.Model):
 	def __unicode__(self):
 		return self.nmero
 
-class Coda(models.Model):
-
-	def __str__(self):
-		return self.ningre
-
-	def __unicode__(self):
-		return self.ningre
-
-class Codadeta(models.Model):
-	def __str__(self):
-		return self.ningre
-
-	def __unicode__(self):
-		return self.ningre
-
 class Talocoda(models.Model):
 	ctalocoda = models.IntegerField(primary_key=True)
 	ntalocoda = models.CharField(max_length=50)
@@ -58,10 +44,10 @@ class Talocoda(models.Model):
 	nfin = models.IntegerField()
 
 	def __str__(self):
-		return self.ningre
+		return self.ctalocoda
 
 	def __unicode__(self):
-		return self.ningre
+		return self.ctalocoda
 
 class Resupedi(models.Model):
 	cresupedi = models.IntegerField(primary_key=True)
@@ -72,10 +58,10 @@ class Resupedi(models.Model):
 	ifcortesia = models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.ningre
+		return self.cresupedi
 
 	def __unicode__(self):
-		return self.ningre
+		return self.cresupedi
 
 class Resupedipago(models.Model):
 	cresupedi = models.ForeignKey(Resupedi)
@@ -87,7 +73,37 @@ class Resupedipago(models.Model):
 
 
 	def __str__(self):
-		return self.ningre
+		return self.cresupedi
 
 	def __unicode__(self):
-		return self.ningre
+		return self.cresupedi
+
+class Coda(models.Model):
+	ctalocoda = models.IntegerField(primary_key=True)
+	ccoda = models.ForeignKey(Talocoda)
+	fcoda = models.DateTimeField(auto_now_add=True)
+	cmesa = models.ForeignKey(Mesas)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	cmero = models.ForeignKey(Meseros)
+	cresupedi = models.ForeignKey(Resupedi)
+	detaanula = models.CharField(max_length=250)
+	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
+	def __str__(self):
+		return self.ccoda
+
+	def __unicode__(self):
+		return self.ccoda
+
+class Codadeta(models.Model):
+	ccoda = models.ForeignKey(Coda)
+	it = models.IntegerField()
+	cmenu = models.ForeignKey(Menus)
+	nlargo = models.CharField(max_length=50)
+	canti = models.DecimalField(max_digits=15, decimal_places=2,default=0.00)
+	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
+	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
+	def __str__(self):
+		return self.ccoda
+
+	def __unicode__(self):
+		return self.ccoda

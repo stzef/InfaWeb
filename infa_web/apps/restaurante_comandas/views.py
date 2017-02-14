@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-from infa_web.apps.restaurante_menus.models import Menus
+from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.restaurante_comandas.models import *
 
 
 def OrdersList(request):
@@ -8,9 +9,20 @@ def OrdersList(request):
 	return render(request,"ordenes/list-orders.html",context)
 
 
+def GetCommandsOrder(request, cmesa):
+	comandas = Coda.objects.using(request.db).filter(cmesa=cmesa)
+
+	return comandas
+
 def TakeOrder(request):
-	print Menus.objects.using(request.db).all()
+	gruposMenu = GposMenus.objects.using(request.db).all()
+	for grupoMenu in gruposMenu:
+		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
+
+	mesas = Mesas.objects.using(request.db).all()
+
 	context = {
-		'menu' : Menus.objects.using(request.db).all()
+		'gruposMenu' : gruposMenu,
+		'mesas' : mesas
 	}
 	return render(request,"ordenes/take-order.html",context)
