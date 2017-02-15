@@ -18,10 +18,10 @@ DB = {
 	#},
 	'test_db': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'd9vpdvlh4hqqa1',
-		'USER': 'mfidvowuxajqob',
-		'PASSWORD': 'LwZANgRLUBPQ5Gee8nDasSlmmB',
-		'HOST': 'ec2-54-243-54-21.compute-1.amazonaws.com',
+		'NAME': 'd8kodpu1hq7be2',
+		'USER': 'dfcqngdxqjohqw',
+		'PASSWORD': '7063a8bae76314b9e5faa91f4b0f27449f32332bc6416948149639c86fe9ee5',
+		'HOST': 'ec2-50-19-116-106.compute-1.amazonaws.com',
 		'PORT': '5432',
 	},
 	# Comentariada por seguridad
