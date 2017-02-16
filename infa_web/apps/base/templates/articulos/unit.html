@@ -1,0 +1,63 @@
+{%extends 'layouts/base.html'%}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Nueva Unidad</h3>
+					</div>
+
+
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row">
+								<div class="form-group">
+									<label for="{{form.nunidad.id_for_label}}" class="col-sm-2 control-label">{{form.nunidad.label}}</label>
+									{%if form.nunidad.errors%}
+									{{form.nunidad.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nunidad}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.peso.id_for_label}}" class="col-sm-2 control-label">{{form.peso.label}}</label>
+									{%if form.peso.errors%}
+									{{form.peso.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.peso}}
+									</div>
+								</div>
+							</section>
+							<div class="text-center">
+								<div class="btn-group">
+									<button class="btn btn-app btn-primary" type="button" action="reset-form">
+										<i class="fa fa-plus-square-o"></i>Nuevo
+									</button>
+									<button class="btn btn-app btn-primary" type="submit">
+										<i class="fa fa-save"></i>Guardar
+									</button>
+									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-units' %}"><i class="fa fa-list"></i>Listar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>AJAXGenericView("form","select[name=cunidad]","nunidad","{{url}}",defaultfn,"Creando Unidad");</script>
+{% endblock %}
+

@@ -42,7 +42,7 @@ class Marca(models.Model):
 
 class Unidades(models.Model):
 	cunidad = models.AutoField(primary_key=True)
-	nunidad = models.CharField(max_length=60,default=DEFAULT_UNIDAD)
+	nunidad = models.CharField(max_length=60)
 	peso = models.IntegerField(validators=[MinValueValidator(0)])
 
 	def __str__(self):

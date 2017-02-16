@@ -204,3 +204,22 @@ class TiarlosForm(forms.ModelForm):
 			'ctiarlos' : 'Código Interno',
 			'ntiarlos' : 'Nombre',
 		}
+
+class UnidadesForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(UnidadesForm, self).__init__(*args, **kwargs)
+
+	class Meta:
+		model = Unidades
+		fields = "__all__"
+		exclude = ["cunidad"]
+		widgets = {
+			'nunidad' : forms.TextInput(attrs={'class': 'form-control','required': True}),
+			'peso' : forms.NumberInput(attrs={'class': 'form-control','required': True}),
+
+		}
+		labels = {
+			'cunidad' : 'Código Interno',
+			'nunidad' : 'Nombre',
+			'peso' : 'Peso',
+		}

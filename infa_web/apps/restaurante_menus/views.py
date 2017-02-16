@@ -288,3 +288,56 @@ def MenuDetailCRUD(request):
 
 	return HttpResponse(json.dumps(response), content_type="application/json")
 # menu #
+
+# Groups #
+class GroupCreate(AjaxableResponseMixin,CustomCreateView):
+	model = GposMenus
+	form_class = GposMenusForm
+	template_name = "menus/group.html"
+	success_url=reverse_lazy("add-menu-group")
+
+	def get_context_data(self, **kwargs):
+		context = super(GroupCreate, self).get_context_data(**kwargs)
+		context['title'] = "Crear Grupo"
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-menu-group')
+
+		return context
+
+class GroupUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = GposMenus
+	form_class = GposMenusForm
+	template_name = "menus/group.html"
+	success_url=reverse_lazy("add-group")
+	success_message = "was update successfully"
+
+	def get_context_data(self, **kwargs):
+		context = super(GroupUpdate, self).get_context_data(**kwargs)
+		context['title'] = "Editar Grupo"
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-menu-group',kwargs={'pk': self.kwargs["pk"]},)
+		return context
+
+class GroupList(CustomListView):
+	model = None
+	queryset = None
+	template_name = "menus/list-groups.html"
+
+	def get_queryset(self):
+		if self.queryset is not None:
+			queryset = self.queryset
+			if isinstance(queryset, QuerySet):
+				queryset = queryset.all()
+		elif self.model is not None:
+			queryset = self.model._default_manager.using(self.request.db).all()
+		else:
+			queryset = GposMenus.objects.using(self.request.db).all()
+
+		ordering = self.get_ordering()
+		if ordering:
+			if isinstance(ordering, six.string_types):
+				ordering = (ordering,)
+			queryset = queryset.order_by(*ordering)
+		return queryset
+# Groups #

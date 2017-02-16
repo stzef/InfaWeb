@@ -178,3 +178,32 @@ class MenuDetailForm(forms.ModelForm):
 			'vtotal': 'V Total'
 		}
 
+class GposMenusForm(forms.ModelForm):
+
+	def __init__(self, using='', *args, **kwargs):
+		super(GposMenusForm, self).__init__(*args, **kwargs)
+		name_db = using
+
+		lastCgpo = GposMenus.objects.using(name_db).aggregate(Max('cgpomenu'))
+		if lastCgpo["cgpomenu__max"]:
+			recommendedCgpo = lastCgpo["cgpomenu__max"] + 1
+		else:
+			recommendedCgpo = 0
+
+		self.fields['cgpomenu'].initial = recommendedCgpo
+
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+
+	class Meta:
+		model = GposMenus
+		fields = "__all__"
+		widgets = {
+			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
+			'cgpomenu' : forms.NumberInput(attrs={'class': 'form-control','required': True}),
+			'ngpomenu' : forms.TextInput(attrs={'class': 'form-control','required': True}),
+		}
+		labels = {
+			'cgpomenu' : 'Código Interno',
+			'ngpomenu' : 'Nombre',
+			'cesdo' : 'Estado'
+		}

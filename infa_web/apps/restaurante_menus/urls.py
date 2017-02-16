@@ -36,4 +36,10 @@ urlGroups = [
 	#url(r'^menus/groups/edit/(?P<pk>\d+)/$', GroupUpdate.as_view(), name = 'edit-group-menu'),
 ]
 
+urlGroups = [
+	url(r'^menu-groups/$', GroupList.as_view(), name = 'list-menu-groups'),
+	url(r'^menu-groups/add/$', GroupCreate.as_view(), name = 'add-menu-group'),
+	url(r'^menu-groups/edit/(?P<pk>\d+)/$', GroupUpdate.as_view(), name = 'edit-menu-group'),
+]
+
 urlpatterns = urlIngredients + urlDishes + urlMenu + urlGroups

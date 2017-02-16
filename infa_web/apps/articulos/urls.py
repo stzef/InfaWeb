@@ -35,10 +35,16 @@ urlBrands = [
 	url(r'^brands/edit/(?P<pk>\d+)/$', BrandUpdate.as_view(), name = 'edit-brand'),
 ]
 
+urlUnits = [
+	url(r'^units/$', UnitsList.as_view(), name = 'list-units'),
+	url(r'^units/add/$', UnitCreate.as_view(), name = 'add-unit'),
+	url(r'^units/edit/(?P<pk>\d+)/$', UnitUpdate.as_view(), name = 'edit-unit'),
+]
+
 urlAPI = [
 	url(r'^api/existis/$', API_exists, name = 'api-exists'),
 	url(r'^api/get-object/$', API_get_object, name = 'api-get-object'),
 ]
 
 """urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles"""
-urlpatterns = urlArticles + urlGroups + urlBrands + urlAPI + urlTypesArticles
+urlpatterns = urlArticles + urlGroups + urlBrands + urlAPI + urlTypesArticles + urlUnits

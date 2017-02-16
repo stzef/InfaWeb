@@ -1,0 +1,75 @@
+{%extends 'layouts/base.html'%}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">{{title}}</h3>
+					</div>
+
+
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row col-md-12">
+								<div class="form-group">
+
+									<label for="{{form.cgpomenu.id_for_label}}" class="col-sm-2 control-label">{{form.cgpomenu.label}}</label>
+									{%if form.cgpomenu.errors%}
+									{{form.cgpomenu.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.cgpomenu}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ngpomenu.id_for_label}}" class="col-sm-2 control-label">{{form.ngpomenu.label}}</label>
+									{%if form.ngpomenu.errors%}
+									{{form.ngpomenu.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ngpomenu}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									{%if form.cesdo.errors%}
+									{{form.cesdo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.cesdo}}
+									</div>
+								</div>
+							</section>
+							<div class="text-center">
+								<div class="btn-group">
+									<button class="btn btn-app btn-primary" type="button" action="reset-form">
+										<i class="fa fa-plus-square-o"></i>Nuevo
+									</button>
+									<button class="btn btn-app btn-primary" type="submit">
+										<i class="fa fa-save"></i>Guardar
+									</button>
+									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-menu-groups' %}"><i class="fa fa-list"></i>Listar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>
+		function update_recommended_cgpo(fields) {$("[name=cgpomenu]").val(fields.pk+1)}
+		AJAXGenericView("form","select[name=cgpomenu]","ngpomenu","{{url}}",update_recommended_cgpo,"Creando el Grupo.");
+	</script>
+{% endblock %}

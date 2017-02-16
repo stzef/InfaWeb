@@ -283,6 +283,25 @@ class TypesArticleList(CustomListView):
 
 # Types Articles #
 
+# Unidades #
+class UnitCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Unidades
+	form_class = UnidadesForm
+	template_name = "articulos/unit.html"
+	success_url=reverse_lazy("add-unit")
+
+class UnitUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Unidades
+	form_class = UnidadesForm
+	template_name = "articulos/unit.html"
+	success_url=reverse_lazy("add-unit")
+
+class UnitsList(CustomListView):
+	model = Unidades
+	template_name = "articulos/list-units.html"
+
+# Unidades #
+
 # Brands #
 class BrandCreate(AjaxableResponseMixin,CustomCreateView):
 	model = Marca
