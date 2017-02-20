@@ -1,63 +1,147 @@
 
 {%extends 'layouts/base.html'%}
 {% load static %}
+{% load humanize %}
+
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {%block content%}
-	{%include 'elements/nav.html'%}
-	{%include 'elements/sidebar.html'%}
+	{# {%include 'elements/nav.html'%} #}
+	{# {%include 'elements/sidebar.html'%} #}
 
 	<style>
-		.section-resumen-pedido{
-			min-height: 350px;
+		.menu{
+			padding: 1px
 		}
+			.menu .foto{padding: 0;}
+			.menu .more{padding: 0;}
+
+		.section-resumen-pedido{}
+			.section-resumen-pedido > div{min-height: 350px;}
+
+		.section_comandas{}
+			.section_comandas > div{min-height: 350px;}
+
+		.section-mesas{
+			padding: 0;
+		}
+			.section-mesas > div{min-height: 350px;}
+
 		.section-menu{
+			padding: 0px;
 			min-height: 350px;
 		}
+			.section-menu > div{ padding: 10px; }
 	</style>
 
+	<div class="modal fade" id="modal_agregar_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Agregar Mesa</h5>
+					<input type="hidden" id="modal_input_cmenu">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group">
+							<label for="modal_agregar_comanda_canti" class="col-sm-2 control-label"> Mesa </label>
+							<div class="col-sm-10">
+								<select id="modal_input_cmesa" class="form-control" required="">
+									{% for mesa in mesas %}
+										<option value="{{ mesa.cmesa }}"> {{ mesa.nmesa }} </option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="agregar_a_mesa(this,event)">Agregar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<div class="content-wrapper" style="min-height: 921px;">
+	<div class="modal fade" id="modal_detalle_menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel"><span id="modal_menu_nmenu"></span></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+
+						<div class="col-md-12">
+							<p>Precio :</p>
+						</div>
+						<div class="col-md-6">
+							<img class="img-responsive" src="" id="modal_menu_foto" alt="">
+						</div>
+						<div class="col-md-6">
+								<h2> Platos </h2>
+								<table class="table table-bordered">
+									<thead>
+										<th>Plato</th>
+										<th>Foto</th>
+										<th>Vr Unitario</th>
+									</thead>
+									<tbody></tbody>
+								</table>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="content-wrapper" style="margin:0;min-height: 921px;">
 		<section class="content">
 			<div class="row">
 				<h2>Ordenes</h2>
 
-				<div class="col-md-1 panel panel-default" style="height: 100%">
-					<table>
-						<thead>
-							<tr>
-								<th>Mesas</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for mesa in mesas %}
+				<!-- Mesas -->
+				<div class="section-mesas col-md-1" style="height: 100%">
+					<div class="panel panel-default">
+						<table class="mesas">
+							<thead>
+								<tr>
+									<th>Mesas</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr>
 									<td>
-										<button class="btn btn-app btn-success" type="button" data-cmesa={{mesa.cmesa}} onclick="cargas_comandas(this,event)">
-											<i class="fa fa-save"></i>{{ mesa.nmesa }}
+										<button class="btn btn-app btn-primary" type="button" onclick="mostrar_modal_mesa(this,event)">
+											<i class="fa fa-save"></i>Agregar
 										</button>
 									</td>
 								</tr>
-							{% endfor %}
-							<tr>
-								<td>
-									<button class="btn btn-app btn-primary" type="button">
-										<i class="fa fa-save"></i>Agregar
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
-				<div class="col-md-4">
-					<div class="section-resumen-pedido panel panel-default">
+				<!-- Detalle Comanda -->
+				<div class="section-resumen-pedido col-md-3">
+					<div class="panel panel-default">
 						<div>
 							<div>
 								<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 									<thead>
 										<tr>
+											<th>Codigo Menu</th>
 											<th>Cantidad</th>
 											<th>Descripcion</th>
 											<th>Precio</th>
@@ -67,6 +151,7 @@
 								</table>
 							</div>
 						</div>
+						<button class="btn-success btn-app" onclick="guardar_comanda()">Guardar</button>
 					</div>
 					<div>
 						<div class="col-md-6">
@@ -74,7 +159,8 @@
 							<p> Mesa: ----------- </p>
 						</div>
 						<div class="col-md-6">
-							<h2>Total : $ 39.000</h2>
+							<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
+							<input type="hidden" id="order_input_vttotal">
 						</div>
 					</div>
 					<div>
@@ -102,60 +188,95 @@
 					</div>
 				</div>
 
-				<div class="section-menu panel panel-default col-md-6">
+				<!-- Comandas Mesa -->
+				<div class="section_comandas col-md-2">
+					<div class="panel panel-default">
+						<table class="comandas">
+							<thead>
+								<tr><th>Comandas</th></tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
 
-					<div class="col-md-12">
-							<ul class="nav nav-pills">
-								{% for grupo in gruposMenu %}
-									<li class="{% if forloop.first %}active {% endif %}"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
-								{% endfor %}
-							</ul>
-							<div class="tab-content">
-								{% for grupo in gruposMenu %}
-									<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
-										<div class="row">
-											<div class="col-md-12">
-												<div class="box box-primary">
-													<div class="box-header with-border">
-														<h3 class="box-title">{{grupo.ngpomenu}}</h3>
-													</div>
-													<div class="box-body">
-														<div class="row">
-															{% for menu in grupo.menus %}
-																<div class="text-center col-md-4 well menu" data-cmenu="{{menu.cmenu}}">
-																	<p>{{menu.nmenu}}</p>
+				<!-- Menus -->
+				<div class="section-menu col-md-6">
+					<div class="panel panel-default">
+						<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
+							{% for grupo in gruposMenu %}
+								<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
+							{% endfor %}
+						</ul>
+						<div class="tab-content">
+							{% for grupo in gruposMenu %}
+								<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">{{grupo.ngpomenu}}</h3>
+												</div>
+												<div class="box-body">
+													<div class="row">
+														{% for menu in grupo.menus %}
+															<div class="text-center col-md-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
+																<p class="text-center">{{menu.nmenu}}</p>
+																<div class="col-md-6 foto">
 																	<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
+																</div>
+																<div class="col-md-6 more">
+																	<p>{{ menu.pvta1 | intcomma }}</p>
 																	<div class="btn-group">
-																		<button class="btn btn-info">Info..</button>
-																		<button class="btn btn-success" onclick="agregar_a_comanda(this,event)"> + </button>
+																		<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
 																	</div>
 																</div>
-															{% endfor %}
+															</div>
+														{% empty %}
+															<p>No hay Menus del grupo <b>{{grupo.ngpomenu}}</b> </p>
+														{% endfor %}
 
-														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								{% endfor %}
-							</div>
+								</div>
+							{% endfor %}
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 	</div>
 
-	{%include 'elements/footer.html'%}
+	{# {%include 'elements/footer.html'%} #}
 {%endblock%}
 
 {% block content_script %}
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
-	var table
+	var table,
+		cols = {
+			cmenu:{i:0},
+			canti:{i:1},
+			nmenu:{i:2},
+			vunita:{i:3},
+		}
 		$(document).ready(function() {
-			table = $('#example').DataTable({ searching: false,paging: false, "language": languageDataTable});
+			table = $('#example').DataTable({
+				info:false,
+				searching: false,
+				paging: false,
+				"language": languageDataTable,
+				"columnDefs": [
+					{
+						"targets": [ cols.cmenu.i ],
+						"visible": false
+					}
+				]
+			});
 			$('#example tbody').on( 'click', 'tr', function () {
 				if ( $(this).hasClass('selected') ) {
 					$(this).removeClass('selected');
@@ -171,44 +292,150 @@
 		});
 	</script>
 	<script>
-		function cargas_comandas(button,event){
-			var cmesa = $(button).data("cmesa")
-			$.ajax({
-				url: '/orders/commands/' + cmesa,
-				type: 'GET',
-				contentType: "application/json",
-				success: function(response){
+		var mesa_activa = null
+		$("#order_input_vttotal").change(function(event){
+			$("#order_input_vttotal_label").html(currencyFormat.format($(this).val()))
+		})
+
+		function msg_seleccione_mesa(selector){
+			var message = alertBootstrap("Seleccione una mesa para continuar con esta accion","danger")
+			$(selector).prepend(message)
+		}
+		function guardar_comanda(){
+
+			if (!mesa_activa) return msg_seleccione_mesa(".content")
+
+			var data = {
+				deta : table.data().toArray(),
+				cmesa : mesa_activa
+			}
+			if (data.deta.length){
+				console.log(data)
+			}else{
+				var message = alertBootstrap("Agrege almenos un menu a la Comanda","danger")
+				$(".content").prepend(message)
+			}
+
+		}
+		function agregar_a_mesa(button,event){
+
+			if( $("#modal_input_cmesa").is(":valid") ){
+				var cmesa = $("#modal_input_cmesa").val()
+				Models.objects.findOne("Mesas",{cmesa : cmesa},function(error,mesa){
+					var mesa_template = '<tr>'+
+							'<td>'+
+								'<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="__cmesa__" onclick="activar_mesa(this,event)">'+
+									'<i class="fa fa-save"></i> __nmesa__'+
+								'</button>'+
+							'</td>'+
+						'</tr>'
+					mesa_template = mesa_template.replace(/__nmesa__/g,mesa.fields.nmesa).replace(/__cmesa__/g,mesa.pk)
+					$("table.mesas").find("tbody").prepend($(mesa_template))
+					$("#modal_agregar_mesa").modal("hide")
+
+				})
+			}else{
+				var message = alertBootstrap("Seleccione una Mesa","danger")
+				$(button).closest(".modal-footer").prepend(message)
+			}
+		}
+		function mostrar_modal_mesa(button,event){
+			$("#modal_agregar_mesa").modal("show")
+		}
+
+		function listar_comandas_mesa(cmesa){
+			Models.objects.find("Coda",{cmesa : cmesa},function(error,comandas){
+				if(comandas){
+					comandas.forEach(function(comanda){
+					var mesa_comanda = '<tr>'+
+							'<td>'+
+								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda("__ccoda__")">'+
+									'<i class="fa fa-save"></i> __ncoda__'+
+								'</button>'+
+							'</td>'+
+						'</tr>'
+					})
+					mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.pk).replace(/__ccoda__/g,comanda.pk)
+					$("table.comandas").find("tbody").prepend($(mesa_comanda))
 				}
-			});
+			})
+
 		}
+
+
+		function activar_mesa(button,event){
+			$("button.mesa").removeClass("btn-success").addClass("btn-primary")
+			$(button).addClass("btn-success")
+			var cmesa = $(button).data("cmesa")
+			mesa_activa = cmesa
+			listar_comandas_mesa(cmesa)
+		}
+
 		function actualizar_total() {
-			var data = table.data()
-			var valores = data.map(function(item){return item[2]})
-			//var vttotal = valores.reduce(function(a,b){ return a + b },0)
-			console.log(valores)
-			//console.log(vttotal)
+			var data = table.data().toArray()
+			var valores = data.map(function(item){
+				var canti = parseFloat(item[cols.canti.i])
+				var vunita = parseFloat(item[cols.vunita.i])
+				return canti * vunita
+			})
+			var vttotal = valores.reduce(function(a,b){ return a + b },0)
+			console.log(vttotal)
+			$("#order_input_vttotal").val(vttotal).trigger("change")
 		}
-		function agregar_a_comanda(button,event) {
+
+		function agregar_a_comanda(div,event) {
+
+			if (!mesa_activa) return msg_seleccione_mesa(".content")
+
+			var cmenu = $(div).data("cmenu")
+
+			var data = table.data().toArray()
+			var cmenus = data.map(function(item,index){return {cmenu:item[cols.cmenu.i],row:index} })
+			var exists = cmenus.some(function(obj){ return obj.cmenu == cmenu })
+
+			if( exists ){
+				var cell = cmenus.find(function(obj){ return obj.cmenu == cmenu })
+
+				var canti = table.row(cell.row).cell(cell.row,cols.canti.i).data()
+
+				table.row(cell.row).cell(cell.row,cols.canti.i).data( canti + 1 )
+				actualizar_total()
+			}else{
+				Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
+					var row = table.row.add([menu.pk,1,menu.fields.nmenu,menu.fields.pvta1]).draw( false );
+					actualizar_total()
+				})
+			}
+		}
+
+		function mostrar_detalle(button,event) {
+			event.stopPropagation()
 			var div_menu = $(button).closest(".menu"),
 				cmenu = div_menu.data("cmenu")
-			$.ajax({
-				url: '{% url 'api-get-object' %}',
-				type: 'POST',
-				data: JSON.stringify({
-					'model': 35,
-					'field': "cmenu",
-					'value': cmenu
-				}),
-				contentType: "application/json",
-				success: function(response){
-					if(response.object){
-						response.object = JSON.parse(response.object)[0]
-						table.row.add([1,response.object.fields.nmenu,response.object.fields.pvta1]).draw( false );
-						actualizar_total()
-					}
-				}
-			});
 
+			Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
+				if(menu){
+					$("#modal_detalle_menu").find("table tbody").empty()
+					$("#modal_detalle_menu").modal("show")
+					$("#modal_detalle_menu").find("#modal_menu_nmenu").html(menu.fields.nmenu)
+					$("#modal_detalle_menu").find("#modal_menu_foto").attr("src","/static/"+menu.fields.foto)
+					Models.objects.find("Menusdeta",{cmenu : cmenu},function(error,detalle){
+						detalle.forEach(function(d){
+							console.info(d)
+							var tr = $("<tr></tr>").append(
+								$("<td>",{html:d.fields.cplato.nplato})
+							).append(
+								$("<td>").append( $("<img width='50px' class='img-responsive img-thumbnail'>").attr("src","/static/"+d.fields.cplato.foto) )
+							).append(
+								$("<td>",{html:d.fields.vunita})
+							)
+							$("#modal_detalle_menu").find("table tbody").append(tr)
+
+						})
+						console.log(detalle)
+					})
+				}
+			})
 		}
 	</script>
 {%endblock%}

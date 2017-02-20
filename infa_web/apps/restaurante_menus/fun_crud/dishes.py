@@ -12,7 +12,7 @@ def DishDetailCreate(data,using):
 	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
-		#del value["ingredientes"]["cunidad"]
+		del value["ingredientes"]["ningre"]
 		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
 
@@ -42,6 +42,7 @@ def DishDetailCreate(data,using):
 				"ingredientes" : {
 					"it" : str(platodeta.it),
 					"cingre" : str(platodeta.cingre.cingre),
+					"ningre" : str(platodeta.cingre.ningre),
 					"canti" : str(platodeta.canti),
 					"vunita" : str(platodeta.vunita),
 					"vtotal" : str(platodeta.vtotal),
@@ -91,6 +92,7 @@ def DishDetailUpdate(data,using):
 			"ingredientes" : {
 				"it" : platodeta.it,
 				"cingre" : platodeta.cingre.cingre,
+				"ningre" : platodeta.cingre.ningre,
 				"canti" : platodeta.canti,
 				"vunita" : platodeta.vunita,
 				"vtotal" : platodeta.vtotal,
@@ -149,6 +151,7 @@ def GetDishDetail(request,pk):
 				"DT_RowId": "row_1",
 				"ingredientes" : {
 					"cingre" : str(item.cingre.cingre),
+					"ningre" : str(item.cingre.ningre),
 					"it" : str(item.it),
 					"canti" : str(item.canti),
 					"vunita" : str(item.vunita),

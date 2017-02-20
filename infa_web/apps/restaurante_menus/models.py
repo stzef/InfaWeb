@@ -11,14 +11,28 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 class GposMenus(models.Model):
+
+	class Meta:
+		ordering = ["ngpomenu"]
+
 	cgpomenu = models.IntegerField(primary_key=True)
 	ngpomenu = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	orden = models.IntegerField(default=0)
+
 	def __str__(self):
 		return self.ngpomenu
 
 	def __unicode__(self):
 		return self.ngpomenu
+
+	def natural_key(self):
+		return ({
+			"cgpomenu" : self.cgpomenu,
+			"ngpomenu" : self.ngpomenu,
+			"cesdo" : self.cesdo.natural_key(),
+			"orden" : self.orden,
+		})
 
 class Ingredientes(models.Model):
 	cingre = models.IntegerField(primary_key=True)
@@ -43,6 +57,21 @@ class Ingredientes(models.Model):
 	class Meta:
 		ordering = ['-ningre']
 
+	"""def natural_key(self):
+		return ({
+			"cingre" : self.cingre,
+			"ningre" : self.ningre,
+			"canti" : self.canti,
+			"vcosto" : self.vcosto,
+			"ifcostear" : self.ifcostear,
+			"stomin" : self.stomin,
+			"stomax" : self.stomax,
+			"ifedinom" : self.ifedinom,
+			"cesdo" : self.cesdo.natural_key(),
+			"cunidad" : self.cunidad.natural_key(),
+			"civa" : self.civa.natural_key(),
+		})"""
+
 class Platos(models.Model):
 	cplato = models.IntegerField(primary_key=True)
 	nplato = models.CharField(max_length=50)
@@ -58,6 +87,16 @@ class Platos(models.Model):
 	def __unicode__(self):
 		return self.nplato
 
+	def natural_key(self):
+		return ({
+			"cplato" : self.cplato,
+			"nplato" : self.nplato,
+			"fcrea" : self.fcrea,
+			"npax" : self.npax,
+			"vttotal" : self.vttotal,
+			"foto" : self.foto.url,
+		})
+
 class Platosdeta(models.Model):
 	cplato = models.ForeignKey(Platos)
 	cingre = models.ForeignKey(Ingredientes)
@@ -72,6 +111,17 @@ class Platosdeta(models.Model):
 
 	def __unicode__(self):
 		return self.it
+
+	"""def natural_key(self):
+		return ({
+			"cplato" : self.cplato.natural_key(),
+			"cingre" : self.cingre.natural_key(),
+			"it" : self.it,
+			"canti" : self.canti,
+			"cunidad" : self.cunidad.natural_key(),
+			"vunita" : self.vunita,
+			"vtotal" : self.vtotal,
+		})"""
 
 class Menus(models.Model):
 	cmenu = models.IntegerField(primary_key=True)
@@ -94,6 +144,22 @@ class Menus(models.Model):
 	def __unicode__(self):
 		return self.nmenu
 
+
+	def natural_key(self):
+		return ({
+			"cmenu" : self.cmenu,
+			"nmenu" : self.nmenu,
+			"fcrea" : self.fcrea,
+			"cesdo" : self.cesdo.natural_key(),
+			"cgpomenu" : self.cgpomenu.natural_key(),
+			"npax" : self.npax,
+			"pvta1" : self.pvta1,
+			"pvta2" : self.pvta2,
+			"pvta3" : self.pvta3,
+			"vttotal" : self.vttotal,
+			"foto" : self.foto.url,
+		})
+
 class Menusdeta(models.Model):
 	cmenu = models.ForeignKey(Menus)
 	it = models.CharField(max_length=50)
@@ -109,3 +175,14 @@ class Menusdeta(models.Model):
 
 	def __unicode__(self):
 		return self.it
+
+	"""def natural_key(self):
+		return ({
+			"cmenu" : self.cmenu.natural_key(),
+			"it" : self.it,
+			"cplato" : self.cplato.natural_key(),
+			"nplato" : self.nplato,
+			"canti" : self.canti,
+			"vunita" : self.vunita,
+			"vtotal" : self.vtotal,
+		})"""

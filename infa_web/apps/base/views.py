@@ -432,3 +432,57 @@ class IDTypesList(CustomListView):
 	model = Tiide
 	template_name = "base/list-id-types.html"
 # Tiide #
+
+
+# Models find #
+import json
+import django.apps
+
+@csrf_exempt
+def ModelFind(request):
+	data = json.loads(request.body)
+	models = [ {"app":model._meta.app_label,"model":model._meta.object_name} for model in django.apps.apps.get_models() ]
+	model = filter(lambda x: x["model"] == data["model"], models)
+
+	if len(model) != 1:
+		return JsonResponse({"objs":None},status=400)
+	else:
+		model = model[0]
+
+	model = apps.get_model(app_label=model["app"],model_name=model["model"])
+	#print json.dumps(models,indent=4)
+
+	filter_dict = data["query"]
+
+
+	if model.objects.using(request.db).filter(**filter_dict).exists():
+		object_db = serializers.serialize("json", model.objects.using(request.db).filter(**filter_dict),use_natural_foreign_keys=True)
+		object_db = json.loads(object_db)
+		return JsonResponse({"objs":object_db})
+	else:
+		return JsonResponse({"objs":None})
+
+
+@csrf_exempt
+def ModelFindOne(request):
+	data = json.loads(request.body)
+	models = [ {"app":model._meta.app_label,"model":model._meta.object_name} for model in django.apps.apps.get_models() ]
+	model = filter(lambda x: x["model"] == data["model"], models)
+
+	if len(model) != 1:
+		return JsonResponse({"obj":None},status=400)
+	else:
+		model = model[0]
+
+	model = apps.get_model(app_label=model["app"],model_name=model["model"])
+
+	filter_dict = data["query"]
+
+	if model.objects.using(request.db).filter(**filter_dict).exists():
+		objects = serializers.serialize("json", [model.objects.using(request.db).get(**filter_dict)],use_natural_foreign_keys=True)
+		objects = json.loads(objects)[0]
+		return JsonResponse({"obj":objects})
+	else:
+		return JsonResponse({"obj":None})
+
+# Models find #

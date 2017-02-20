@@ -6,6 +6,10 @@ from infa_web.apps.base.constantes import *
 from django.core.validators import MinValueValidator
 
 class Esdo(models.Model):
+
+	class Meta:
+		ordering = ["nesdo"]
+
 	cesdo = models.AutoField(primary_key=True)
 	nesdo = models.CharField(max_length=40)
 	estavali = models.CharField(max_length=10)
@@ -17,6 +21,10 @@ class Esdo(models.Model):
 		return (self.cesdo)
 
 class MediosPago(models.Model):
+
+	class Meta:
+		ordering = ["nmpago"]
+
 	cmpago = models.AutoField(primary_key=True)
 	nmpago = models.CharField(max_length=40)
 	ifdoc = models.BooleanField()
@@ -25,6 +33,10 @@ class MediosPago(models.Model):
 		return self.nmpago
 
 class Timo(models.Model):
+
+	class Meta:
+		ordering = ["ctimo"]
+
 	ctimo = models.IntegerField(primary_key=True)
 	ntimo = models.CharField(max_length=40)
 	prefijo = models.CharField(max_length=4)
@@ -35,6 +47,10 @@ class Timo(models.Model):
 		return self.ntimo
 
 class Bode(models.Model):
+
+	class Meta:
+		ordering = ["cbode"]
+
 	cbode = models.AutoField(primary_key=True)
 	nbode = models.CharField(max_length=80)
 	esbode = models.CharField(max_length=2)
@@ -44,11 +60,15 @@ class Bode(models.Model):
 		return self.nbode
 
 class Modules(models.Model):
+
+	class Meta:
+		ordering = ["nmodule"]
+
 	smodule = models.CharField(max_length=5)
 	nmodule = models.CharField(max_length=20)
 	enabled_enterprise = models.BooleanField()
 	enabled = models.BooleanField()
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO) 
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nmodule
@@ -68,14 +88,22 @@ class Parameters(models.Model):
 		return self.nparam
 
 class Ubica(models.Model):
+
+	class Meta:
+		ordering = ["nubica"]
+
 	cubica = models.AutoField(primary_key=True)
 	nubica = models.CharField(max_length=80)
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO) 
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 
 	def __str__(self):
 		return self.nubica
 
 class Departamento(models.Model):
+
+	class Meta:
+		ordering = ["ndepar"]
+
 	cdepar = models.AutoField(primary_key=True)
 	ndepar = models.CharField(max_length=45)
 
@@ -88,6 +116,10 @@ class Departamento(models.Model):
 		return (self.cdepar)
 
 class Ciudad(models.Model):
+
+	class Meta:
+		ordering = ["cciu","nciu"]
+
 	cciu = models.AutoField(primary_key=True)
 	nciu = models.CharField(max_length=40)
 	cdepar = models.ForeignKey(Departamento)
@@ -97,6 +129,10 @@ class Ciudad(models.Model):
 		return self.nciu
 
 class Iva(models.Model):
+
+	class Meta:
+		ordering = ["niva"]
+
 	civa = models.AutoField(primary_key=True)
 	niva = models.CharField(max_length=40)
 	poriva = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0)])
@@ -107,6 +143,10 @@ class Iva(models.Model):
 		return self.niva
 
 class Regiva(models.Model):
+
+	class Meta:
+		ordering = ["nregiva"]
+
 	cregiva = models.AutoField(primary_key=True)
 	nregiva = models.CharField(max_length=40)
 
@@ -114,6 +154,10 @@ class Regiva(models.Model):
 		return self.nregiva
 
 class Tiide(models.Model):
+
+	class Meta:
+		ordering = ["ntiide"]
+
 	idtiide = models.AutoField(primary_key=True)
 	ntiide = models.CharField(max_length=40)
 
@@ -121,6 +165,10 @@ class Tiide(models.Model):
 		return self.ntiide
 
 class Emdor(models.Model):
+
+	class Meta:
+		ordering = ["nemdor"]
+
 	cemdor = models.AutoField(primary_key=True)
 	nemdor = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -129,6 +177,10 @@ class Emdor(models.Model):
 		return self.nemdor
 
 class Domici(models.Model):
+
+	class Meta:
+		ordering = ["ndomici"]
+
 	cdomici = models.AutoField(primary_key=True)
 	ndomici = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -137,6 +189,10 @@ class Domici(models.Model):
 		return self.ndomici
 
 class Tifopa(models.Model):
+
+	class Meta:
+		ordering = ["ntifopa"]
+
 	ctifopa = models.AutoField(primary_key=True)
 	ntifopa = models.CharField(max_length=40)
 	ndiasfopa = models.IntegerField()
@@ -163,6 +219,10 @@ class Cta(models.Model):
 		return self.ncta
 
 class Banfopa(models.Model):
+
+	class Meta:
+		ordering = ["nbanfopa"]
+
 	cbanfopa = models.CharField(max_length=6, primary_key=True)
 	nbanfopa = models.CharField(max_length=80)
 	porcomi = models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0)])
@@ -205,6 +265,10 @@ class Talo(models.Model):
 		return self.prefijo
 
 class Tiservi(models.Model):
+
+	class Meta:
+		ordering = ["ntiservi"]
+
 	ctiservi = models.AutoField(primary_key=True)
 	ntiservi = models.CharField(max_length=40)
 

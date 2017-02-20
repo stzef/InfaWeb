@@ -11,6 +11,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 class Mesas(models.Model):
+
+	class Meta:
+		ordering = ["nmesa"]
+
 	cmesa = models.IntegerField(primary_key=True)
 	nmesa = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -23,6 +27,10 @@ class Mesas(models.Model):
 		return self.nmesa
 
 class Meseros(models.Model):
+
+	class Meta:
+		ordering = ["nmero"]
+
 	cmero = models.IntegerField(primary_key=True)
 	nmero = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -79,8 +87,8 @@ class Resupedipago(models.Model):
 		return self.cresupedi
 
 class Coda(models.Model):
-	ctalocoda = models.IntegerField(primary_key=True)
-	ccoda = models.ForeignKey(Talocoda)
+	ccoda = models.IntegerField(primary_key=True)
+	ctalocoda = models.ForeignKey(Talocoda)
 	fcoda = models.DateTimeField(auto_now_add=True)
 	cmesa = models.ForeignKey(Mesas)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -103,7 +111,7 @@ class Codadeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
 	def __str__(self):
-		return self.ccoda
+		return self.it
 
 	def __unicode__(self):
-		return self.ccoda
+		return self.it

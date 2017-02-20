@@ -15,7 +15,7 @@ def GetCommandsOrder(request, cmesa):
 	return comandas
 
 def TakeOrder(request):
-	gruposMenu = GposMenus.objects.using(request.db).all()
+	gruposMenu = GposMenus.objects.using(request.db).all().order_by("orden")
 	for grupoMenu in gruposMenu:
 		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
 

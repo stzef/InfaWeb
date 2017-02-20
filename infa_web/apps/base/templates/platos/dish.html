@@ -118,6 +118,7 @@
 								<thead>
 									<tr>
 									<th>Item</th>
+									<th>Codigo</th>
 									<th>Ingrediente</th>
 									<th>Cantidad</th>
 									<th>Unidad</th>
@@ -128,6 +129,7 @@
 								<tfoot>
 									<tr>
 									<th>Item</th>
+									<th>Codigo</th>
 									<th>Ingrediente</th>
 									<th>Cantidad</th>
 									<th>Unidad</th>
@@ -146,11 +148,12 @@
 	<div id="customTemplate">
 		<div class="col-md-12 form-group">
 			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
-			<div class="col-sm-8">
+			<div class="">
 				<div class="input-group">
 					<editor-field name="ingredientes.cingre"></editor-field>
 					<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 				</div>
+				<editor-field name="ingredientes.ningre"></editor-field>
 			</div>
 		</div>
 
@@ -158,11 +161,11 @@
 
 			<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
 			<div class="col-sm-8">
-				<editor-field name="ingredientes.canti"></editor-field>
+				<div class="input-group">
+					<editor-field name="ingredientes.canti"></editor-field>
+					<span id="nunidad" class="input-group-addon"></span>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-12 form-group">
-			<div>Unidades: <span id="nunidad"></span></div>
 		</div>
 	</div>
 
@@ -239,8 +242,14 @@
 						"type" : "hidden"
 					},
 					{
-						label: "Ingrediente:",
+						label: "Codigo:",
 						name:  "ingredientes.cingre",
+						//"type" : "select"
+					},
+					{
+						label: "Ingrediente:",
+						name:  "ingredientes.ningre",
+						type: "text",
 						//"type" : "select"
 					},
 					{
@@ -283,6 +292,7 @@
 				console.log(arguments)
 				event.target.field("ingredientes.cingre").enable()
 				event.target.field("ingredientes.canti").set(1)
+					event.target.field("ingredientes.ningre").disable()
 				if(action == "edit"){
 					event.target.field("ingredientes.cingre").disable()
 				}
@@ -290,7 +300,20 @@
 				$("#nunidad").html("")
 				$("[id*=-cingre]").change(function(){
 					var input = this
-					$.ajax({
+					console.log(input)
+
+			Models.objects.findOne("Ingredientes",{cingre : input.value},function(error,ingrediente){
+				console.warn(ingrediente)
+				if(!ingrediente){
+					$(input).val("")
+					tooltipBootstrap($(input),".DTE_Field","Este Ingrediente no se encuentra registrado.")
+				}else{
+					$("#nunidad").html(ingrediente.fields.cunidad.nunidad)
+					event.target.field("ingredientes.ningre").set(ingrediente.fields.ningre)
+				}
+			})
+
+					/*$.ajax({
 						url: '{% url 'api-get-object' %}',
 						type: 'POST',
 						data: JSON.stringify({
@@ -300,14 +323,8 @@
 						}),
 						contentType: "application/json",
 						success: function(response){
-							if(!response.object){
-								$(input).val("")
-								tooltipBootstrap($(input),".DTE_Field","Este Ingrediente no se encuentra registrado.")
-							}
-							response.object = JSON.parse(response.object)[0]
-							$("#nunidad").html(response.object.fields.cunidad.nunidad)
 						}
-					})
+					})*/
 				})
 			})
 
@@ -320,6 +337,7 @@
 				columns: [
 					{ data: "ingredientes.it" },
 					{ data: "ingredientes.cingre" },
+					{ data: "ingredientes.ningre" },
 					{ data: "ingredientes.canti" },
 					{ data: "ingredientes.cunidad" },
 					{ data: "ingredientes.vunita" },

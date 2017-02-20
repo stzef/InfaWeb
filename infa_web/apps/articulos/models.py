@@ -9,6 +9,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 class Tiarlos(models.Model):
+	class Meta:
+		ordering = ["ntiarlos"]
+
 	ctiarlos = models.AutoField(primary_key=True)
 	ntiarlos = models.CharField(max_length=40)
 
@@ -16,6 +19,10 @@ class Tiarlos(models.Model):
 		return self.ntiarlos
 
 class Gpo(models.Model):
+
+	class Meta:
+		ordering = ["ngpo"]
+
 	cgpo = models.IntegerField(primary_key=True,validators=[MinValueValidator(0)])
 	ngpo = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -27,6 +34,10 @@ class Gpo(models.Model):
 		return self.ngpo
 
 class Marca(models.Model):
+
+	class Meta:
+		ordering = ["nmarca"]
+
 	cmarca = models.AutoField(primary_key=True)
 	nmarca = models.CharField(max_length=60)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -41,6 +52,10 @@ class Marca(models.Model):
 		ordering = ['nmarca']
 
 class Unidades(models.Model):
+
+	class Meta:
+		ordering = ["nunidad"]
+
 	cunidad = models.AutoField(primary_key=True)
 	nunidad = models.CharField(max_length=60)
 	peso = models.IntegerField(validators=[MinValueValidator(0)])

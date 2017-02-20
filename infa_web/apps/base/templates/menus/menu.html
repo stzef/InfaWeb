@@ -176,9 +176,9 @@
 								<thead>
 									<tr>
 									<th>Item</th>
+									<th>Codigo</th>
 									<th>Plato</th>
 									<th>Cantidad</th>
-									<!--<th>Unidades</th>-->
 									<th>Valor Unitario</th>
 									<th>Valor Total</th>
 									</tr>
@@ -186,9 +186,9 @@
 								<tfoot>
 									<tr>
 									<th>Item</th>
+									<th>Codigo</th>
 									<th>Plato</th>
 									<th>Cantidad</th>
-									<!--<th>Unidades</th>-->
 									<th>Valor Unitario</th>
 									<th>Valor Total</th>
 									</tr>
@@ -209,6 +209,7 @@
 					<editor-field name="detail.cplato"></editor-field>
 					<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-search"></i></a></span>
 				</div>
+				<editor-field name="detail.nplato"></editor-field>
 			</div>
 		</div>
 
@@ -218,9 +219,6 @@
 			<div class="col-sm-8">
 				<editor-field name="detail.canti"></editor-field>
 			</div>
-		</div>
-		<div class="col-md-12 form-group">
-			<div>Unidades: <span id="nunidad"></span></div>
 		</div>
 	</div>
 
@@ -298,9 +296,14 @@
 						"type" : "hidden"
 					},
 					{
-						label: "Plato:",
+						label: "Codigo:",
 						name:  "detail.cplato",
 						//"type" : "select"
+					},
+					{
+						label: "Plato:",
+						name:  "detail.nplato",
+						"type" : "text"
 					},
 					{
 						label: "Cantidad:",
@@ -334,32 +337,27 @@
 			}).on("preOpen",function(event, frame, action){
 				console.log(arguments)
 				event.target.field("detail.canti").set(1)
+				event.target.field("detail.nplato").disable()
 				event.target.field("detail.cplato").enable()
 				if(action == "edit"){
 					event.target.field("detail.cplato").disable()
 				}
 			}).on("open",function(event, frame, action){
-				//$("#nunidad").html("")
+
+
+
 				$("[id*=-cplato]").change(function(){
 					var input = this
-					$.ajax({
-						url: '{% url 'api-get-object' %}',
-						type: 'POST',
-						data: JSON.stringify({
-							'model': 34,
-							'field': "cplato",
-							'value': input.value
-						}),
-						contentType: "application/json",
-						success: function(response){
-							if(!response.object){
-								$(input).val("")
-								tooltipBootstrap($(input),".DTE_Field","Este Plato no se encuentra registrado.")
-							}
-							//response.object = JSON.parse(response.object)[0]
-							//$("#nunidad").html(response.object.fields.cunidad.nunidad)
+					Models.objects.findOne("Platos",{cplato : input.value},function(error,plato){
+						console.warn(plato)
+						if(!plato){
+							$(input).val("")
+							tooltipBootstrap($(input),".DTE_Field","Este Plato no se encuentra registrado.")
 						}
+						event.target.field("detail.nplato").set(plato.fields.nplato)
 					})
+
+
 				})
 			})
 
@@ -372,8 +370,8 @@
 				columns: [
 					{ data: "detail.it" },
 					{ data: "detail.cplato" },
+					{ data: "detail.nplato" },
 					{ data: "detail.canti" },
-					//{ data: "detail.cunidad" },
 					{ data: "detail.vunita" },
 					{ data: "detail.vtotal" }
 				],

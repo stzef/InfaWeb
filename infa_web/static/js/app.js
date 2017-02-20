@@ -671,3 +671,29 @@ $(document).ready(function(e){
 $(document).ready(function(e){
 	$(".input-currency").inputCurrency()
 })
+
+
+Models = {
+	objects : {
+		find : function(model,query,cb){
+			$.ajax({
+				url: '/models/find/',
+				type: 'POST',
+				data: JSON.stringify({'model': model,'query': query}),
+				contentType: "application/json",
+				success: function(response){cb(null,response.objs)},
+				error: function(response){cb(true,response)}
+			});
+		},
+		findOne : function(model,query,cb){
+			$.ajax({
+				url: '/models/find-one/',
+				type: 'POST',
+				data: JSON.stringify({'model': model,'query': query}),
+				contentType: "application/json",
+				success: function(response){cb(null,response.obj)},
+				error: function(response){cb(true,response)}
+			});
+		}
+	}
+}

@@ -36,6 +36,7 @@ def MenuDetailCreate(data,using):
 				"detail" : {
 					"it" : str(menudeta.it),
 					"cplato" : str(menudeta.cplato.cplato),
+					"nplato" : str(menudeta.cplato.nplato),
 					"canti" : str(menudeta.canti),
 					"vunita" : str(menudeta.vunita),
 					"vtotal" : str(menudeta.vtotal),
@@ -80,6 +81,7 @@ def MenuDetailUpdate(data,using):
 			"detail" : {
 				"it" : str(menudeta.it),
 				"cplato" : str(menudeta.cplato.cplato),
+				"nplato" : str(menudeta.cplato.nplato),
 				"canti" : str(menudeta.canti),
 				"vunita" : str(menudeta.vunita),
 				"vtotal" : str(menudeta.vtotal),
@@ -124,6 +126,7 @@ def GetMenuDetail(request,pk):
 				"DT_RowId": "row_1",
 				"detail" : {
 					"cplato" : str(item.cplato.cplato),
+					"nplato" : str(item.cplato.nplato),
 					"it" : str(item.it),
 					"canti" : str(item.canti),
 					"vunita" : str(item.vunita),

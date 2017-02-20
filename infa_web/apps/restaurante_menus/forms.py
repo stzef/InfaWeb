@@ -201,9 +201,11 @@ class GposMenusForm(forms.ModelForm):
 			'cesdo' : forms.Select(attrs={'class': 'form-control','required':''}),
 			'cgpomenu' : forms.NumberInput(attrs={'class': 'form-control','required': True}),
 			'ngpomenu' : forms.TextInput(attrs={'class': 'form-control','required': True}),
+			'orden' : forms.NumberInput(attrs={'class': 'form-control','required': True}),
 		}
 		labels = {
 			'cgpomenu' : 'Código Interno',
 			'ngpomenu' : 'Nombre',
-			'cesdo' : 'Estado'
+			'cesdo' : 'Estado',
+			'orden' : 'Orden',
 		}

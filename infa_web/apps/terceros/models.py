@@ -7,6 +7,10 @@ from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
 
 class Autorre(models.Model):
+
+	class Meta:
+		ordering = ["nautorre"]
+
 	cautorre = models.AutoField(primary_key=True)
 	nautorre = models.CharField(max_length=40)
 
@@ -14,6 +18,10 @@ class Autorre(models.Model):
 		return self.nautorre
 
 class Vende(models.Model):
+
+	class Meta:
+		ordering = ["nvende"]
+
 	cvende = models.AutoField(primary_key=True)
 	nvende = models.CharField(max_length=80)
 	porventa = models.DecimalField(max_digits=7, decimal_places=4,validators=[MinValueValidator(0)])
@@ -23,6 +31,10 @@ class Vende(models.Model):
 		return self.nvende
 
 class Cobra(models.Model):
+
+	class Meta:
+		ordering = ["ncobra"]
+
 	ccobra = models.AutoField(primary_key=True)
 	ncobra = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -31,6 +43,10 @@ class Cobra(models.Model):
 		return self.ncobra
 
 class Ruta(models.Model):
+
+	class Meta:
+		ordering = ["nruta"]
+
 	cruta = models.AutoField(primary_key=True)
 	nruta = models.CharField(max_length=45)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -39,6 +55,10 @@ class Ruta(models.Model):
 		return self.nruta
 
 class Personas(models.Model):
+
+	class Meta:
+		ordering = ["npersona"]
+
 	cpersona = models.CharField(primary_key=True,max_length=5)
 	npersona = models.CharField(max_length=45)
 
@@ -46,6 +66,10 @@ class Personas(models.Model):
 		return self.npersona
 
 class Zona(models.Model):
+
+	class Meta:
+		ordering = ["nzona"]
+
 	czona = models.AutoField(primary_key=True)
 	nzona = models.CharField(max_length=40)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -98,14 +122,14 @@ class Coti(models.Model):
 	osberini = models.CharField(max_length=250)
 	autoriza = models.CharField(max_length=100)
 	obserfin = models.CharField(max_length=250)
-	#HCOTI                            Char(8), 
+	#HCOTI                            Char(8),
 	ffin = models.DateTimeField()
-	#HFIN                             Char(8), 
+	#HFIN                             Char(8),
 	fentre = models.DateTimeField()
-	#HENTRE                           Char(8), 
+	#HENTRE                           Char(8),
 	ctiservi = models.ForeignKey(Tiservi)
 	cvende = models.ForeignKey(Vende)
-	#CVENDETEC                        Char(4), 
+	#CVENDETEC                        Char(4),
 	ifareglad = models.BooleanField()
 	ctimo = models.ForeignKey(Timo)
 	docuref = models.CharField(max_length=10)
