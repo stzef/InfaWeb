@@ -12,6 +12,7 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.usuarios.models import *
 
 from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.restaurante_comandas.models import *
 
 class Command(BaseCommand):
 
@@ -69,6 +70,11 @@ class Command(BaseCommand):
 
 			#Restaurante_menus
 			GposMenus.objects.using(name_db).all().delete()
+
+			#Restaurante_comandas
+			Mesas.objects.using(name_db).all().delete()
+			Meseros.objects.using(name_db).all().delete()
+			Talocoda.objects.using(name_db).all().delete()
 
 			#Base - Esdo
 			estadoActivo = Esdo.objects.using(name_db).create(nesdo="ACTIVO",estavali="T")
@@ -1440,6 +1446,21 @@ class Command(BaseCommand):
 			GposMenus.objects.using(name_db).create(cgpomenu = 5,ngpomenu = "ENSALADAS",cesdo = estadoActivo,orden = 5)
 			GposMenus.objects.using(name_db).create(cgpomenu = 6,ngpomenu = "COMIDA RAPIDA",cesdo = estadoActivo,orden = 6)
 			print "Grupos de Menus. Registros Creados Correctamente."
+
+			#Restaurante_menus - Grupos Menus
+			Mesas.objects.using(name_db).create(cmesa = 1,nmesa = "Mesa 1",cesdo = estadoActivo,npmax = 4)
+			Mesas.objects.using(name_db).create(cmesa = 2,nmesa = "Mesa 2",cesdo = estadoActivo,npmax = 4)
+			Mesas.objects.using(name_db).create(cmesa = 3,nmesa = "Mesa 3",cesdo = estadoActivo,npmax = 4)
+			Mesas.objects.using(name_db).create(cmesa = 4,nmesa = "Mesa 4",cesdo = estadoActivo,npmax = 4)
+			Mesas.objects.using(name_db).create(cmesa = 5,nmesa = "Mesa 5",cesdo = estadoActivo,npmax = 4)
+			print "Mesas. Registros Creados Correctamente."
+
+			talocoda = Talocoda.objects.using(name_db).create(ctalocoda = 1,ntalocoda = "DF",cesdo = estadoActivo,nini = 1,nfin = 1000)
+			print "Talocoda. Registros Creados Correctamente."
+
+			Meseros.objects.using(name_db).create(cmero = 1,nmero = "MOSTRADOR",ctalocoda = talocoda,cesdo = estadoActivo,telmero = "000 000 0000",dirmero = "Mz x Cs x" ,foto = DEFAULT_IMAGE_WAITERS)
+			print "Meseros. Registros Creados Correctamente."
+
 
 		else:
 			print "Operación Cancelada."

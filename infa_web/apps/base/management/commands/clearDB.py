@@ -11,6 +11,7 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.usuarios.models import *
 
 from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.restaurante_comandas.models import *
 
 class Command(BaseCommand):
 	def add_arguments(self, parser):
@@ -96,6 +97,13 @@ class Command(BaseCommand):
 			#Restaurante_menus
 			GposMenus.objects.using(name_db).all().delete()
 			print "GposMenus. Registros Borrados con Exito."
+			#Restaurante_menus
+			Mesas.objects.using(name_db).all().delete()
+			print "Mesas. Registros Borrados con Exito."
+			Meseros.objects.using(name_db).all().delete()
+			print "Meseros. Registros Borrados con Exito."
+			Talocoda.objects.using(name_db).all().delete()
+			print "Talocoda. Registros Borrados con Exito."
 		else:
 			print "Operación Cancelada."
 

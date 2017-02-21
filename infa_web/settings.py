@@ -27,7 +27,7 @@ SECRET_KEY = '-5g%k^qyp3o@isqyrh8s80n1g-)90@msfcg)#-1xk%+*(ib)j0'
 DEBUG = True
 
 ALLOWED_HOSTS = ['.devappem.com']
-
+APPEND_SLASH=True
 
 # Application definition
 

@@ -18,21 +18,21 @@
 			.menu .more{padding: 0;}
 
 		.section-resumen-pedido{}
-			.section-resumen-pedido > div{min-height: 350px;}
+			.section-resumen-pedido > .section{min-height: 350px;}
 
 		.section_comandas{}
-			.section_comandas > div{min-height: 350px;}
+			.section_comandas > .section{min-height: 350px;}
 
 		.section-mesas{
 			padding: 0;
 		}
-			.section-mesas > div{min-height: 350px;}
+			.section-mesas > .section{min-height: 350px;}
 
 		.section-menu{
 			padding: 0px;
 			min-height: 350px;
 		}
-			.section-menu > div{ padding: 10px; }
+			.section-menu > div{ padding: 10px; min-height: 350px;}
 	</style>
 
 	<div class="modal fade" id="modal_agregar_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="agregar_a_mesa(this,event)">Agregar</button>
+					<button type="button" class="btn btn-app btn-primary" onclick="agregar_mesa(this,event)">Agregar</button>
 				</div>
 			</div>
 		</div>
@@ -113,11 +113,11 @@
 
 				<!-- Mesas -->
 				<div class="section-mesas col-md-1" style="height: 100%">
-					<div class="panel panel-default">
+					<div class="panel panel-default section">
 						<table class="mesas">
 							<thead>
 								<tr>
-									<th>Mesas</th>
+									<th><h4 class="text-center">Mesas</h4></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -135,7 +135,7 @@
 
 				<!-- Detalle Comanda -->
 				<div class="section-resumen-pedido col-md-3">
-					<div class="panel panel-default">
+					<div class="panel panel-default section">
 						<div>
 							<div>
 								<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
@@ -151,49 +151,20 @@
 								</table>
 							</div>
 						</div>
-						<button class="btn-success btn-app" onclick="guardar_comanda()">Guardar</button>
-					</div>
-					<div>
-						<div class="col-md-6">
-							<p> Mesero: ----------- </p>
-							<p> Mesa: ----------- </p>
-						</div>
-						<div class="col-md-6">
-							<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
-							<input type="hidden" id="order_input_vttotal">
-						</div>
-					</div>
-					<div>
-						<div class="text-center">
-							<div class="btn-group">
-								<button class="btn btn-app btn-primary" type="button">
-									<i class="fa fa-plus-square-o"></i>Buscar
-								</button>
-								<button class="btn btn-app btn-primary" type="button">
-									<i class="fa fa-save"></i>Imprimir
-								</button>
-								<a class="btn btn-app  btn-primary" data-new-window href="#">
-									<i class="fa fa-list"></i>Caja
-								</a>
-							</div>
-							<div class="btn-group">
-								<button class="btn btn-app btn-danger" type="button">
-									<i class="fa fa-save"></i>Salir
-								</button>
-								<a class="btn btn-app btn-danger" data-new-window href="#">
-									<i class="fa fa-list"></i>Cancelar
-								</a>
-							</div>
+						<div class="row text-center">
+							<button class="btn-success btn-app" onclick="guardar_comanda()">
+								<i class="fa fa-save"></i>Guardar
+							</button>
 						</div>
 					</div>
 				</div>
 
 				<!-- Comandas Mesa -->
 				<div class="section_comandas col-md-2">
-					<div class="panel panel-default">
+					<div class="panel panel-default section">
 						<table class="comandas">
 							<thead>
-								<tr><th>Comandas</th></tr>
+								<tr><h4 class="text-center">Comandas</h4></tr>
 							</thead>
 							<tbody></tbody>
 						</table>
@@ -202,7 +173,7 @@
 
 				<!-- Menus -->
 				<div class="section-menu col-md-6">
-					<div class="panel panel-default">
+					<div class="panel panel-default section">
 						<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
 							{% for grupo in gruposMenu %}
 								<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
@@ -220,7 +191,7 @@
 												<div class="box-body">
 													<div class="row">
 														{% for menu in grupo.menus %}
-															<div class="text-center col-md-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
+															<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
 																<p class="text-center">{{menu.nmenu}}</p>
 																<div class="col-md-6 foto">
 																	<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
@@ -246,6 +217,41 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+					<div class="col-md-4">
+						<div class="col-md-6">
+							<p> Mesero: ----------- </p>
+							<p> Mesa: ----------- </p>
+						</div>
+						<div class="col-md-6">
+							<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
+							<input type="hidden" id="order_input_vttotal">
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="text-center">
+							<div class="btn-group">
+								<button class="btn btn-app btn-primary" type="button">
+									<i class="fa fa-plus-square-o"></i>Buscar
+								</button>
+								<button class="btn btn-app btn-primary" type="button">
+									<i class="fa fa-save"></i>Imprimir
+								</button>
+								<a class="btn btn-app  btn-primary" data-new-window href="#">
+									<i class="fa fa-list"></i>Caja
+								</a>
+							</div>
+							<div class="btn-group">
+								<button class="btn btn-app btn-danger" type="button">
+									<i class="fa fa-save"></i>Salir
+								</button>
+								<a class="btn btn-app btn-danger" data-new-window href="#">
+									<i class="fa fa-list"></i>Cancelar
+								</a>
+							</div>
+						</div>
+					</div>
 			</div>
 		</section>
 	</div>
@@ -307,33 +313,50 @@
 
 			var data = {
 				deta : table.data().toArray(),
-				cmesa : mesa_activa
+				cmesa : mesa_activa,
+				cols : cols
 			}
 			if (data.deta.length){
 				console.log(data)
+				$.ajax({
+					'url' : "/orders/save/",
+					'type' : "POST",
+					'data' : JSON.stringify(data),
+					'success' : function(response){
+						console.log(response)
+					}
+
+				})
 			}else{
 				var message = alertBootstrap("Agrege almenos un menu a la Comanda","danger")
 				$(".content").prepend(message)
 			}
 
 		}
-		function agregar_a_mesa(button,event){
+		function agregar_mesa(button,event){
 
 			if( $("#modal_input_cmesa").is(":valid") ){
 				var cmesa = $("#modal_input_cmesa").val()
-				Models.objects.findOne("Mesas",{cmesa : cmesa},function(error,mesa){
-					var mesa_template = '<tr>'+
-							'<td>'+
-								'<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="__cmesa__" onclick="activar_mesa(this,event)">'+
-									'<i class="fa fa-save"></i> __nmesa__'+
-								'</button>'+
-							'</td>'+
-						'</tr>'
-					mesa_template = mesa_template.replace(/__nmesa__/g,mesa.fields.nmesa).replace(/__cmesa__/g,mesa.pk)
-					$("table.mesas").find("tbody").prepend($(mesa_template))
-					$("#modal_agregar_mesa").modal("hide")
 
-				})
+				if ( $("table.mesas").find("button[data-cmesa=" + cmesa + "]").length == 0 ){
+					Models.objects.findOne("Mesas",{cmesa : cmesa},function(error,mesa){
+						var mesa_template = '<tr>'+
+								'<td>'+
+									'<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="__cmesa__" onclick="activar_mesa(this,event)">'+
+										'<i class="fa fa-save"></i> __nmesa__'+
+									'</button>'+
+								'</td>'+
+							'</tr>'
+						mesa_template = mesa_template.replace(/__nmesa__/g,mesa.fields.nmesa).replace(/__cmesa__/g,mesa.pk)
+						$("table.mesas").find("tbody").prepend($(mesa_template))
+						$("table.mesas").find("button[data-cmesa=" + mesa.pk + "]").trigger("click")
+						$("#modal_agregar_mesa").modal("hide")
+					})
+				}else{
+					var message = alertBootstrap("La mesa Ya se encuentra registrada","info")
+					$(".content").prepend(message)
+					$("#modal_agregar_mesa").modal("hide")
+				}
 			}else{
 				var message = alertBootstrap("Seleccione una Mesa","danger")
 				$(button).closest(".modal-footer").prepend(message)
@@ -347,16 +370,16 @@
 			Models.objects.find("Coda",{cmesa : cmesa},function(error,comandas){
 				if(comandas){
 					comandas.forEach(function(comanda){
-					var mesa_comanda = '<tr>'+
+						var mesa_comanda = '<tr>'+
 							'<td>'+
 								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda("__ccoda__")">'+
 									'<i class="fa fa-save"></i> __ncoda__'+
 								'</button>'+
 							'</td>'+
 						'</tr>'
+						mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.pk).replace(/__ccoda__/g,comanda.pk)
+						$("table.comandas").find("tbody").prepend($(mesa_comanda))
 					})
-					mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.pk).replace(/__ccoda__/g,comanda.pk)
-					$("table.comandas").find("tbody").prepend($(mesa_comanda))
 				}
 			})
 
@@ -381,6 +404,14 @@
 			var vttotal = valores.reduce(function(a,b){ return a + b },0)
 			console.log(vttotal)
 			$("#order_input_vttotal").val(vttotal).trigger("change")
+		}
+
+		function mostar_detalle_comanda(ccoda){
+			Models.objects.find("Codadeta",{ccoda : ccoda},function(error,detalle){
+				console.log(detalle)
+			})
+
+
 		}
 
 		function agregar_a_comanda(div,event) {

@@ -32,6 +32,9 @@ from infa_web.config.domaindb import DOMAINS
 
 class subdomainMiddleware:
 	def process_request(self, request):
+
+
+
 		host = request.META.get('HTTP_HOST', '')
 		host = host.replace('www.', '').split('.')
 
@@ -51,6 +54,12 @@ class subdomainMiddleware:
 					request.db = DOMAINS[request.subdomain]
 
 					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+
+
+					from infa_web.apps.usuarios.models import Usuario
+					usuario_appem =Usuario.objects.using(request.db).get(user=request.user)
+					print usuario_appem
+
 
 					redirect('/dashboard')
 
