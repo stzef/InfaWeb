@@ -17,6 +17,17 @@ def GetCommandsOrder(request, cmesa):
 
 	return comandas
 
+def generar_ccoda(request_db):
+	try:
+		value = int(Coda.objects.using(request_db).latest("ccoda"))
+		value += 1
+	except Coda.DoesNotExist:
+		value = 1
+	print "--------------------"
+	print value
+	print "--------------------"
+	return model_pk
+
 @csrf_exempt
 def SaveCommand(request):
 
@@ -24,7 +35,7 @@ def SaveCommand(request):
 
 	mesero = Meseros.objects.using(request.db).filter()[0]
 	talocoda = Talocoda.objects.using(request.db).filter()[0]
-	ccoda = 1
+	ccoda = generar_ccoda(request.db)
 
 	dataCoda = {
 

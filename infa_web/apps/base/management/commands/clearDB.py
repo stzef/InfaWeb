@@ -104,6 +104,10 @@ class Command(BaseCommand):
 			print "Meseros. Registros Borrados con Exito."
 			Talocoda.objects.using(name_db).all().delete()
 			print "Talocoda. Registros Borrados con Exito."
+			Usuario.objects.using(name_db).all().delete()
+			print "Usuario. Registros Borrados con Exito."
+			User.objects.using(name_db).all().delete()
+			print "User. Registros Borrados con Exito."
 		else:
 			print "Operación Cancelada."
 

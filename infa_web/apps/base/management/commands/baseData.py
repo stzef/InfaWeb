@@ -14,6 +14,7 @@ from infa_web.apps.usuarios.models import *
 from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.restaurante_comandas.models import *
 
+
 class Command(BaseCommand):
 
 	def add_arguments(self, parser):
@@ -32,6 +33,9 @@ class Command(BaseCommand):
 
 		if(confirmation == "Si"):
 			manageParameters = ManageParameters(name_db)
+
+
+
 
 			#Base
 			Esdo.objects.using(name_db).all().delete()
@@ -1356,6 +1360,27 @@ class Command(BaseCommand):
 				ctimomvsa=Timo.objects.using(name_db).get(ctimo=2001),
 			)
 
+
+			# Usuarios Django
+			User.objects.using(name_db).all().delete()
+
+			user_default_django = User.objects.create_user('default', password='stzEF0987')
+			user_default_django.is_superuser=False
+			user_default_django.is_staff=True
+			user_default_django.save(using=name_db)
+			print "Usuario Django Default. Registros Creados Correctamente."
+
+			superuser = User.objects.create_superuser('root','sistematizaref.programdor5@gmail.com','stzEF0987')
+			superuser.is_superuser=True
+			superuser.is_staff=True
+			superuser.save(using=name_db)
+			print "Usuario Django SuperUser. Registros Creados Correctamente."
+
+			# Usuarios Appem
+			user_default_appem = Usuario.objects.using(name_db).create(user = user_default_django,finusu = "2017-02-20",fveusu = "2017-02-20",cesdo = estadoActivo,foto = "",ifprises =1 ,ccaja = caja,ctalomos = talonario,ctalopos = talonario)
+			print "Usuario Appem Default. Registros Creados Correctamente."
+
+
 			# Articulos - Tiarlos
 			Tiarlos.objects.using(name_db).create(ctiarlos=CTIARLO_ARTICULO,ntiarlos="ARTICULOS")
 			Tiarlos.objects.using(name_db).create(ctiarlos=CTIARLO_SERVICIO,ntiarlos="SERVICIOS")
@@ -1388,7 +1413,7 @@ class Command(BaseCommand):
 			print "Autorre. Registros Creados Correctamente."
 
 			#Terceros - Vende
-			vendedor = Vende.objects.using(name_db).create(nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
+			vendedor = Vende.objects.using(name_db).create(usuario=user_default_appem,nvende="SIN VENDEDOR",porventa=0,cesdo=estadoActivo)
 			print "Vende. Registros Creados Correctamente."
 
 			#Terceros - Ruta
@@ -1458,9 +1483,8 @@ class Command(BaseCommand):
 			talocoda = Talocoda.objects.using(name_db).create(ctalocoda = 1,ntalocoda = "DF",cesdo = estadoActivo,nini = 1,nfin = 1000)
 			print "Talocoda. Registros Creados Correctamente."
 
-			Meseros.objects.using(name_db).create(cmero = 1,nmero = "MOSTRADOR",ctalocoda = talocoda,cesdo = estadoActivo,telmero = "000 000 0000",dirmero = "Mz x Cs x" ,foto = DEFAULT_IMAGE_WAITERS)
+			Meseros.objects.using(name_db).create(usuario=user_default_appem,cmero = 1,nmero = "MOSTRADOR",ctalocoda = talocoda,cesdo = estadoActivo,telmero = "000 000 0000",dirmero = "Mz x Cs x" ,foto = DEFAULT_IMAGE_WAITERS)
 			print "Meseros. Registros Creados Correctamente."
-
 
 		else:
 			print "Operación Cancelada."

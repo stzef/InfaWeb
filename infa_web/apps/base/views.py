@@ -151,7 +151,6 @@ def ParametersList(request):
 			if(len(parameter["field"]["options"]) == 0):
 				parameter["field"]["options"].append({"value": "@","text": "No se encontraron Valores" ,"selected":True})
 
-	#print json.dumps(parameters, indent=4)
 	context['parameters'] = parameters
 
 	return render_to_response("parametros/parameters.html",context)
@@ -197,7 +196,6 @@ class StateCreate(AjaxableResponseMixin,CustomCreateView):
 		#context['context_request'] = context_request
 		self.context_instance = RequestContext(self.request)
 
-		#print context_request
 
 		context['title'] = 'Crear Estado'
 		context['mode_view'] = 'create'
@@ -437,6 +435,14 @@ class IDTypesList(CustomListView):
 # Models find #
 import json
 import django.apps
+def clear_filter_dic(query):
+	for key,value in query.iteritems():
+		if value == "__NULL__":
+			nkey = key + "__isnull"
+			del query[key]
+			query[nkey] = True
+	print query
+	return query
 
 @csrf_exempt
 def ModelFind(request):
@@ -450,9 +456,8 @@ def ModelFind(request):
 		model = model[0]
 
 	model = apps.get_model(app_label=model["app"],model_name=model["model"])
-	#print json.dumps(models,indent=4)
 
-	filter_dict = data["query"]
+	filter_dict = clear_filter_dic(data["query"])
 
 
 	if model.objects.using(request.db).filter(**filter_dict).exists():
@@ -476,7 +481,7 @@ def ModelFindOne(request):
 
 	model = apps.get_model(app_label=model["app"],model_name=model["model"])
 
-	filter_dict = data["query"]
+	filter_dict = clear_filter_dic(data["query"])
 
 	if model.objects.using(request.db).filter(**filter_dict).exists():
 		objects = serializers.serialize("json", [model.objects.using(request.db).get(**filter_dict)],use_natural_foreign_keys=True)

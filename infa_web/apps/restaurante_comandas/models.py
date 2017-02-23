@@ -6,7 +6,7 @@ from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.base.constantes import *
 
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from infa_web.apps.usuarios.models import Usuario
 
 from django.db import models
 
@@ -52,6 +52,7 @@ class Meseros(models.Model):
 	telmero = models.CharField(max_length=50)
 	dirmero = models.CharField(max_length=50)
 	foto = models.FileField(upload_to="img/waiters/", blank=True, null=True, default=DEFAULT_IMAGE_WAITERS)
+	usuario = models.ForeignKey(Usuario)
 
 	def __str__(self):
 		return self.nmero
@@ -83,10 +84,10 @@ class Resupedipago(models.Model):
 
 
 	def __str__(self):
-		return self.cresupedi
+		return str(self.cresupedi)
 
 	def __unicode__(self):
-		return self.cresupedi
+		return str(self.cresupedi)
 
 class Coda(models.Model):
 	ccoda = models.IntegerField(primary_key=True)
@@ -99,10 +100,10 @@ class Coda(models.Model):
 	detaanula = models.CharField(max_length=250)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	def __str__(self):
-		return self.ccoda
+		return str(self.ccoda)
 
 	def __unicode__(self):
-		return self.ccoda
+		return str(self.ccoda)
 
 class Codadeta(models.Model):
 	ccoda = models.ForeignKey(Coda)
@@ -113,7 +114,7 @@ class Codadeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	def __str__(self):
-		return self.it
+		return self.nlargo
 
 	def __unicode__(self):
-		return self.it
+		return self.nlargo

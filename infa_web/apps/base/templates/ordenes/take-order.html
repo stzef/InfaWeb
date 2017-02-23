@@ -20,7 +20,9 @@
 		.section-resumen-pedido{}
 			.section-resumen-pedido > .section{min-height: 350px;}
 
-		.section_comandas{}
+		.section_comandas{
+			padding: 0;
+		}
 			.section_comandas > .section{min-height: 350px;}
 
 		.section-mesas{
@@ -114,17 +116,17 @@
 				<!-- Mesas -->
 				<div class="section-mesas col-md-1" style="height: 100%">
 					<div class="panel panel-default section">
-						<table class="mesas">
+						<table class="table text-center mesas">
 							<thead>
 								<tr>
-									<th><h4 class="text-center">Mesas</h4></th>
+									<th><p class="text-center">Mesas</p></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>
 										<button class="btn btn-app btn-primary" type="button" onclick="mostrar_modal_mesa(this,event)">
-											<i class="fa fa-save"></i>Agregar
+											<i class="fa fa-plus-square-o"></i>Agregar
 										</button>
 									</td>
 								</tr>
@@ -134,7 +136,7 @@
 				</div>
 
 				<!-- Detalle Comanda -->
-				<div class="section-resumen-pedido col-md-3">
+				<div class="section-resumen-pedido col-md-4">
 					<div class="panel panel-default section">
 						<div>
 							<div>
@@ -160,13 +162,21 @@
 				</div>
 
 				<!-- Comandas Mesa -->
-				<div class="section_comandas col-md-2">
+				<div class="section_comandas col-md-1">
 					<div class="panel panel-default section">
-						<table class="comandas">
+						<table class="table text-center comandas">
 							<thead>
-								<tr><h4 class="text-center">Comandas</h4></tr>
+								<tr><th><p class="text-center">Comandas</p></th></tr>
 							</thead>
-							<tbody></tbody>
+							<tbody>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-primary" type="button" onclick="crear_comandas(this,event)">
+											<i class="fa fa-plus-square-o"></i>Agregar
+										</button>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -299,6 +309,8 @@
 	</script>
 	<script>
 		var mesa_activa = null
+		var comanda_activa = null
+
 		$("#order_input_vttotal").change(function(event){
 			$("#order_input_vttotal_label").html(currencyFormat.format($(this).val()))
 		})
@@ -307,6 +319,7 @@
 			var message = alertBootstrap("Seleccione una mesa para continuar con esta accion","danger")
 			$(selector).prepend(message)
 		}
+
 		function guardar_comanda(){
 
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
@@ -333,6 +346,7 @@
 			}
 
 		}
+
 		function agregar_mesa(button,event){
 
 			if( $("#modal_input_cmesa").is(":valid") ){
@@ -362,18 +376,27 @@
 				$(button).closest(".modal-footer").prepend(message)
 			}
 		}
-		function mostrar_modal_mesa(button,event){
-			$("#modal_agregar_mesa").modal("show")
+
+		function mostrar_modal_mesa(button,event){ $("#modal_agregar_mesa").modal("show") }
+
+		function crear_comandas(button,event){
+			if (!mesa_activa) return msg_seleccione_mesa(".content")
+
+			$(".section-resumen-pedido button").show()
+			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
+			comanda_activa = null
+			table.rows().remove().draw()
 		}
 
 		function listar_comandas_mesa(cmesa){
 			Models.objects.find("Coda",{cmesa : cmesa},function(error,comandas){
+				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
 					comandas.forEach(function(comanda){
 						var mesa_comanda = '<tr>'+
 							'<td>'+
-								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda("__ccoda__")">'+
-									'<i class="fa fa-save"></i> __ncoda__'+
+								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda(this,event,__ccoda__)">'+
+									'<i class="fa"></i> __ncoda__'+
 								'</button>'+
 							'</td>'+
 						'</tr>'
@@ -382,9 +405,7 @@
 					})
 				}
 			})
-
 		}
-
 
 		function activar_mesa(button,event){
 			$("button.mesa").removeClass("btn-success").addClass("btn-primary")
@@ -392,6 +413,7 @@
 			var cmesa = $(button).data("cmesa")
 			mesa_activa = cmesa
 			listar_comandas_mesa(cmesa)
+			crear_comandas()
 		}
 
 		function actualizar_total() {
@@ -406,12 +428,24 @@
 			$("#order_input_vttotal").val(vttotal).trigger("change")
 		}
 
-		function mostar_detalle_comanda(ccoda){
-			Models.objects.find("Codadeta",{ccoda : ccoda},function(error,detalle){
+		function mostar_detalle_comanda(button,event,ccoda){
+
+			$(".section-resumen-pedido button").hide()
+
+			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
+			$(button).addClass("btn-success")
+			var ccoda = $(button).data("ccoda")
+			comanda_activa = ccoda
+
+			Models.objects.find("Codadeta",{ccoda : ccoda,ccoda__cresupedi:"__NULL__"},function(error,detalle){
+				table.rows().remove().draw()
 				console.log(detalle)
+				detalle.forEach(function(item){
+					console.info(item)
+					var row = table.row.add([item.fields.cmenu.cmenu,item.fields.canti,item.fields.cmenu.nmenu,item.fields.cmenu.pvta1]).draw( false );
+				})
+				actualizar_total()
 			})
-
-
 		}
 
 		function agregar_a_comanda(div,event) {
@@ -468,5 +502,6 @@
 				}
 			})
 		}
+
 	</script>
 {%endblock%}

@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from infa_web.apps.base.constantes import *
 from infa_web.apps.base.models import *
+from infa_web.apps.usuarios.models import Usuario
 
 class Autorre(models.Model):
 
@@ -26,6 +27,7 @@ class Vende(models.Model):
 	nvende = models.CharField(max_length=80)
 	porventa = models.DecimalField(max_digits=7, decimal_places=4,validators=[MinValueValidator(0)])
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	usuario = models.ForeignKey(Usuario)
 
 	def __str__(self):
 		return self.nvende

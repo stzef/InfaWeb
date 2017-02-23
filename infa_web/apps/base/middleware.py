@@ -55,12 +55,6 @@ class subdomainMiddleware:
 
 					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
-
-					from infa_web.apps.usuarios.models import Usuario
-					usuario_appem =Usuario.objects.using(request.db).get(user=request.user)
-					print usuario_appem
-
-
 					redirect('/dashboard')
 
 			else:
