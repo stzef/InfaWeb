@@ -90,7 +90,9 @@ class Resupedipago(models.Model):
 		return str(self.cresupedi)
 
 class Coda(models.Model):
-	ccoda = models.IntegerField(primary_key=True)
+	class Meta:
+		unique_together = (('ccoda', 'ctalocoda'))
+	ccoda = models.IntegerField()
 	ctalocoda = models.ForeignKey(Talocoda)
 	fcoda = models.DateTimeField(auto_now_add=True)
 	cmesa = models.ForeignKey(Mesas)
@@ -100,10 +102,10 @@ class Coda(models.Model):
 	detaanula = models.CharField(max_length=250)
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	def __str__(self):
-		return str(self.ccoda)
+		return self.detaanula
 
 	def __unicode__(self):
-		return str(self.ccoda)
+		return '%s' % (self.detaanula)
 
 class Codadeta(models.Model):
 	ccoda = models.ForeignKey(Coda)

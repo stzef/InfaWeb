@@ -6,7 +6,7 @@ from django.contrib.auth import login as auth_login
 
 class loginView(FormView):
 	template_name = 'usuarios/login.html'
-	success_url = '/'
+	success_url = '/dashboard'
 	form_class = loginForm
 
 	def get_context_data(self, **kwargs):
@@ -18,7 +18,7 @@ class loginView(FormView):
 		response = form.auth_user(request_bd = self.request.db)
 		if response is not None:
 			auth_login(self.request, response)
-			return HttpResponseRedirect('/')
+			return HttpResponseRedirect('/dashboard')
 		else:
 			return self.form_invalid(form)
 		return super(loginView, self).form_valid(form)

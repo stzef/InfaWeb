@@ -5,6 +5,14 @@ from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.restaurante_comandas.models import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+
+
+from infa_web.apps.base.utils import get_current_user
+from django.db.models import Max
+
+from django.contrib.auth.models import User
+from infa_web.apps.usuarios.models import Usuario
 
 
 def OrdersList(request):
@@ -17,31 +25,33 @@ def GetCommandsOrder(request, cmesa):
 
 	return comandas
 
-def generar_ccoda(request_db):
-	try:
-		value = int(Coda.objects.using(request_db).latest("ccoda"))
-		value += 1
-	except Coda.DoesNotExist:
-		value = 1
-	print "--------------------"
-	print value
-	print "--------------------"
-	return model_pk
+def generar_ccoda(talocoda,request_db):
+	maxCcoda = Coda.objects.using(request_db).filter(ctalocoda=talocoda).aggregate(Max('ccoda'))
+	print "---------------------------"
+	print maxCcoda
+	print "---------------------------"
+	if maxCcoda["ccoda__max"]:
+		ccoda = maxCcoda["ccoda__max"] + 1
+	else:
+		ccoda = 1
+	print ccoda
+	print "---------------------------"
+	return ccoda
+
 
 @csrf_exempt
 def SaveCommand(request):
-
 	data = json.loads(request.body)
 
 	mesero = Meseros.objects.using(request.db).filter()[0]
 	talocoda = Talocoda.objects.using(request.db).filter()[0]
-	ccoda = generar_ccoda(request.db)
+	ccoda = generar_ccoda(talocoda,request.db)
+	mesa = Mesas.objects.using(request.db).get(cmesa= data["cmesa"])
 
 	dataCoda = {
-
 		'ccoda' : ccoda,
 		'ctalocoda' : talocoda,
-		'cmesa' : Mesas.objects.using(request.db).get(cmesa= data["cmesa"]),
+		'cmesa' : mesa,
 		#'cesdo' : CESTADO_ACTIVO,
 		'cmero' : mesero,
 		#'cresupedi' : models.ForeignKey(Resupedi),
@@ -53,13 +63,17 @@ def SaveCommand(request):
 	dataCodadeta = []
 	it = 0
 	for codadeta in data["deta"]:
+
 		cmenu = codadeta[data["cols"]["cmenu"]["i"]]
+		menu = Menus.objects.using(request.db).get(cmenu= cmenu)
+
 		canti = float(codadeta[data["cols"]["canti"]["i"]])
 		vunita = float(codadeta[data["cols"]["vunita"]["i"]])
 
+
 		item = {
 			'it' : it,
-			'cmenu' : Menus.objects.using(request.db).get(cmenu= cmenu),
+			'cmenu' : menu,
 			'nlargo' : "",
 			'canti' : canti,
 			'vunita' : vunita,
@@ -69,28 +83,34 @@ def SaveCommand(request):
 		it += 1
 
 	coda = create_Coda({"coda":dataCoda,"deta":dataCodadeta},request.db)
+	coda = serializers.serialize("json", coda,use_natural_foreign_keys=True)
+	coda = json.loads(coda)[0]
 
-	return HttpResponse(json.dumps({}), "application/json")
+
+	return HttpResponse(json.dumps(coda), "application/json")
 
 def create_Coda(data,name_db):
 	if not isinstance(data,list):
 		data = [data]
 
 	#print data
-
+	list_coda = []
 	coda = None
 	for item in data:
-		item["coda"]["ccoda"] = 1000
 		coda = Coda(**item["coda"])
 		coda.save(using=name_db)
 		for deta in item["deta"]:
 			deta["ccoda"] = coda
 			codadeta = Codadeta(**deta)
 			codadeta.save(using=name_db)
-	return coda
+		list_coda.append(coda)
+	return list_coda
 
 
 def TakeOrder(request):
+
+	mesero = get_current_user(request.db,request.user,mesero=True)
+
 	gruposMenu = GposMenus.objects.using(request.db).all().order_by("orden")
 	for grupoMenu in gruposMenu:
 		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
@@ -99,6 +119,7 @@ def TakeOrder(request):
 
 	context = {
 		'gruposMenu' : gruposMenu,
-		'mesas' : mesas
+		'mesas' : mesas,
+		'mesero' : mesero
 	}
 	return render(request, "ordenes/take-order.html", context)

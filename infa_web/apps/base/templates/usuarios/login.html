@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="col-md-4 col-md-offset-4">
 			<div class="content-white">
-				<h2>Login de {{ domain }}</h2>
+				<h2>Login de <b>{{ request.subdomain }}</b></h2>
 				{% for message in messages %}
 					<p class="text-{{ message.tags }}">{{ message }}</p>
 				{% endfor %}

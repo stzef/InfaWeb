@@ -18,23 +18,23 @@
 			.menu .more{padding: 0;}
 
 		.section-resumen-pedido{}
-			.section-resumen-pedido > .section{min-height: 350px;}
+			.section-resumen-pedido > .section{height: 350px;overflow-y: auto;overflow-x: hidden;}
 
 		.section_comandas{
 			padding: 0;
 		}
-			.section_comandas > .section{min-height: 350px;}
+			.section_comandas > .section{height: 350px;overflow-y: auto;overflow-x: hidden;}
 
 		.section-mesas{
 			padding: 0;
 		}
-			.section-mesas > .section{min-height: 350px;}
+			.section-mesas > .section{height: 350px;overflow-y: auto;overflow-x: hidden;}
 
 		.section-menu{
 			padding: 0px;
 			min-height: 350px;
 		}
-			.section-menu > div{ padding: 10px; min-height: 350px;}
+			.section-menu > div{ padding: 10px; height: 350px;}
 	</style>
 
 	<div class="modal fade" id="modal_agregar_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -153,11 +153,6 @@
 								</table>
 							</div>
 						</div>
-						<div class="row text-center">
-							<button class="btn-success btn-app" onclick="guardar_comanda()">
-								<i class="fa fa-save"></i>Guardar
-							</button>
-						</div>
 					</div>
 				</div>
 
@@ -231,8 +226,8 @@
 			<div class="row">
 					<div class="col-md-4">
 						<div class="col-md-6">
-							<p> Mesero: ----------- </p>
-							<p> Mesa: ----------- </p>
+							<p> Mesero: <b>{{ mesero.nmero }} </b> </p>
+							<p> Mesa: <b><span id="label_nmesa"> - </span></b> </p>
 						</div>
 						<div class="col-md-6">
 							<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
@@ -242,6 +237,9 @@
 					<div class="col-md-8">
 						<div class="text-center">
 							<div class="btn-group">
+								<button class="btn btn-success btn-app" onclick="guardar_comanda()">
+									<i class="fa fa-save"></i>Guardar
+								</button>
 								<button class="btn btn-app btn-primary" type="button">
 									<i class="fa fa-plus-square-o"></i>Buscar
 								</button>
@@ -336,7 +334,10 @@
 					'type' : "POST",
 					'data' : JSON.stringify(data),
 					'success' : function(response){
-						console.log(response)
+						console.info(response)
+						listar_comandas_mesa(mesa_activa,function(){
+							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
+						})
 					}
 
 				})
@@ -388,7 +389,7 @@
 			table.rows().remove().draw()
 		}
 
-		function listar_comandas_mesa(cmesa){
+		function listar_comandas_mesa(cmesa,fn){
 			Models.objects.find("Coda",{cmesa : cmesa},function(error,comandas){
 				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
@@ -400,8 +401,9 @@
 								'</button>'+
 							'</td>'+
 						'</tr>'
-						mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.pk).replace(/__ccoda__/g,comanda.pk)
+						mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.fields.ccoda).replace(/__ccoda__/g,comanda.fields.ccoda)
 						$("table.comandas").find("tbody").prepend($(mesa_comanda))
+						if ( fn ) fn()
 					})
 				}
 			})
@@ -412,6 +414,11 @@
 			$(button).addClass("btn-success")
 			var cmesa = $(button).data("cmesa")
 			mesa_activa = cmesa
+
+			Models.objects.findOne("Mesas",{cmesa : cmesa},function(error,mesa){
+				$("#label_nmesa").html(mesa.fields.nmesa)
+			})
+
 			listar_comandas_mesa(cmesa)
 			crear_comandas()
 		}
@@ -437,7 +444,7 @@
 			var ccoda = $(button).data("ccoda")
 			comanda_activa = ccoda
 
-			Models.objects.find("Codadeta",{ccoda : ccoda,ccoda__cresupedi:"__NULL__"},function(error,detalle){
+			Models.objects.find("Codadeta",{ccoda__ccoda : ccoda,ccoda__cresupedi:"__NULL__"},function(error,detalle){
 				table.rows().remove().draw()
 				console.log(detalle)
 				detalle.forEach(function(item){
