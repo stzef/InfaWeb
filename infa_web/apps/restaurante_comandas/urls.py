@@ -11,6 +11,9 @@ urlOrders = [
 	url(r'^orders/commands/(?P<cmesa>\d+)/$', GetCommandsOrder, name = 'get-order-commands'),
 	url(r'^orders/save/$', SaveCommand, name = 'save-command'),
 
+	url(r'^orders/summary/$', OrderSummary, name = 'order-summary'),
+	url(r'^orders/summary/save/$', SaveSummary, name = 'save-summary'),
+
 ]
 
 urlpatterns = urlOrders

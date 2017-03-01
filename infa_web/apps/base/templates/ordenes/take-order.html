@@ -130,6 +130,15 @@
 										</button>
 									</td>
 								</tr>
+								{% for mesa_activa in mesas_activas %}
+									<tr>
+										<td>
+											<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa_activa.cmesa}}" onclick="activar_mesa(this,event)">
+												<i class="fa fa-save"></i> {{mesa_activa.nmesa}}
+											</button>
+										</td>
+									</tr>
+								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -224,20 +233,18 @@
 				</div>
 			</div>
 			<div class="row">
-					<div class="col-md-4">
-						<div class="col-md-6">
-							<p> Mesero: <b>{{ mesero.nmero }} </b> </p>
-							<p> Mesa: <b><span id="label_nmesa"> - </span></b> </p>
-						</div>
-						<div class="col-md-6">
-							<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
-							<input type="hidden" id="order_input_vttotal">
-						</div>
+					<div class="col-md-2">
+						<p> Mesero: <b>{{ mesero.nmero }} </b> </p>
+						<p> Mesa: <b><span id="label_nmesa"> - </span></b> </p>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-3 text-right">
+						<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
+						<input type="hidden" id="order_input_vttotal">
+					</div>
+					<div class="col-md-7">
 						<div class="text-center">
 							<div class="btn-group">
-								<button class="btn btn-success btn-app" onclick="guardar_comanda()">
+								<button class="btn btn-success btn-app btn-guardar-comanda" onclick="guardar_comanda()">
 									<i class="fa fa-save"></i>Guardar
 								</button>
 								<button class="btn btn-app btn-primary" type="button">
@@ -317,6 +324,10 @@
 			var message = alertBootstrap("Seleccione una mesa para continuar con esta accion","danger")
 			$(selector).prepend(message)
 		}
+		function msg_no_editable(selector){
+			var message = alertBootstrap("Las Comandas no son editables","danger")
+			$(selector).prepend(message)
+		}
 
 		function guardar_comanda(){
 
@@ -363,7 +374,7 @@
 								'</td>'+
 							'</tr>'
 						mesa_template = mesa_template.replace(/__nmesa__/g,mesa.fields.nmesa).replace(/__cmesa__/g,mesa.pk)
-						$("table.mesas").find("tbody").prepend($(mesa_template))
+						$("table.mesas").find("tbody").append($(mesa_template))
 						$("table.mesas").find("button[data-cmesa=" + mesa.pk + "]").trigger("click")
 						$("#modal_agregar_mesa").modal("hide")
 					})
@@ -383,10 +394,11 @@
 		function crear_comandas(button,event){
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
 
-			$(".section-resumen-pedido button").show()
+			$(".btn-guardar-comanda").show()
 			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
 			comanda_activa = null
 			table.rows().remove().draw()
+			actualizar_total()
 		}
 
 		function listar_comandas_mesa(cmesa,fn){
@@ -402,7 +414,7 @@
 							'</td>'+
 						'</tr>'
 						mesa_comanda = mesa_comanda.replace(/__ncoda__/g,comanda.fields.ccoda).replace(/__ccoda__/g,comanda.fields.ccoda)
-						$("table.comandas").find("tbody").prepend($(mesa_comanda))
+						$("table.comandas").find("tbody").append($(mesa_comanda))
 						if ( fn ) fn()
 					})
 				}
@@ -437,7 +449,7 @@
 
 		function mostar_detalle_comanda(button,event,ccoda){
 
-			$(".section-resumen-pedido button").hide()
+			$(".btn-guardar-comanda").hide()
 
 			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
 			$(button).addClass("btn-success")
@@ -458,6 +470,7 @@
 		function agregar_a_comanda(div,event) {
 
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
+			if (comanda_activa) return msg_no_editable(".content")
 
 			var cmenu = $(div).data("cmenu")
 

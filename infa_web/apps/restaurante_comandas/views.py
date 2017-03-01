@@ -27,17 +27,35 @@ def GetCommandsOrder(request, cmesa):
 
 def generar_ccoda(talocoda,request_db):
 	maxCcoda = Coda.objects.using(request_db).filter(ctalocoda=talocoda).aggregate(Max('ccoda'))
-	print "---------------------------"
-	print maxCcoda
-	print "---------------------------"
 	if maxCcoda["ccoda__max"]:
 		ccoda = maxCcoda["ccoda__max"] + 1
 	else:
 		ccoda = 1
-	print ccoda
-	print "---------------------------"
 	return ccoda
 
+@csrf_exempt
+def SaveSummary(request):
+	data = json.loads(request.body)
+
+	mesa = Mesas.objects.using(request.db).get(cmesa= data["cmesa"])
+
+	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True)
+	totales = sum( [ comanda.vttotal for comanda in comandas] )
+	resupedi = Resupedi(
+		cresupedi=Resupedi.objects.latest('cresupedi').cresupedi + 1,
+		fresupedi = "2017-01-01",
+		vttotal = totales,
+		detaanula = "",
+		ifcortesia = False,
+	)
+
+	resupedi.save(using=request.db)
+	for comanda in comandas:
+		comanda.cresupedi = resupedi
+		comanda.save(using=request.db)
+
+
+	return HttpResponse(json.dumps(data), "application/json")
 
 @csrf_exempt
 def SaveCommand(request):
@@ -79,6 +97,7 @@ def SaveCommand(request):
 			'vunita' : vunita,
 			'vtotal' : canti * vunita,
 		}
+		dataCoda["vttotal"] += item["vtotal"]
 		dataCodadeta.append(item)
 		it += 1
 
@@ -93,7 +112,6 @@ def create_Coda(data,name_db):
 	if not isinstance(data,list):
 		data = [data]
 
-	#print data
 	list_coda = []
 	coda = None
 	for item in data:
@@ -106,7 +124,6 @@ def create_Coda(data,name_db):
 		list_coda.append(coda)
 	return list_coda
 
-
 def TakeOrder(request):
 
 	mesero = get_current_user(request.db,request.user,mesero=True)
@@ -116,10 +133,31 @@ def TakeOrder(request):
 		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
 
 	mesas = Mesas.objects.using(request.db).all()
+	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero).values('cmesa'))
+
+	print mesas_activas
 
 	context = {
 		'gruposMenu' : gruposMenu,
 		'mesas' : mesas,
+		'mesas_activas' : mesas_activas,
 		'mesero' : mesero
 	}
 	return render(request, "ordenes/take-order.html", context)
+
+def OrderSummary(request):
+	mesas = Mesas.objects.using(request.db).all()
+
+	for mesa in mesas:
+		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa)
+		print query
+		if query.exists():
+			mesa.comandas = query
+			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
+			mesa.vttotal = totales
+			mesa.mesero = mesa.comandas[0].cmero
+
+	context = {
+		'mesas' : mesas,
+	}
+	return render(request, "ordenes/summary.html", context)

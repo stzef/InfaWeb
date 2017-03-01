@@ -1,0 +1,225 @@
+
+{%extends 'layouts/base.html'%}
+{% load static %}
+{% load humanize %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<style>
+		.mesa{
+			cursor: pointer;
+			background: url("{% static 'img/orders/dining-room.png' %}");
+			background-size: 50%;
+			background-repeat: no-repeat;
+			background-position: 50% ,50%
+		}
+		.mesa.activa{
+			background-color: #00a65a;
+			border-color: #008d4c;
+		}
+		.modal-body{
+			max-height: 400px;
+			overflow: auto;
+		}
+	</style>
+{% endblock content_head %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+
+	<!-- Modal Resumen de Pedido -->
+	<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel1">Resumen de Pedido</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p> Mesa : <span id="label_nmesa"></span></p>
+					<p> Mesero : <span id="label_nmero"></span></p>
+					<p> Fecha : <span id="label_fecha"></span></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Guarda</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Facturar Pedido -->
+	<div class="modal fade" id="modal_accion_facturar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel2">Facturar de Pedido</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="facturar_pedido(this,event)">Guarda</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Anular Comandas -->
+	<div class="modal fade" id="modal_accion_anular" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel3">Anular</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="anular_comanda(this,event)">Guarda</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Seleccionar Accion de Mesa -->
+	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Accion</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group">
+							<label for="modal_input_action" class="col-sm-2 control-label"> Accion </label>
+							<div class="col-sm-10">
+								<select id="modal_input_action" class="form-control" required="">
+									<option value="R"> Resumen de Pedido </option>
+									<option value="F"> Facturar </option>
+									<option value="A"> Anular Comanda </option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="realizar_accion(this,event)">Agregar</button>
+					<input type="hidden" id="modal_input_mesa_activa" value="">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contenido Pagina -->
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content">
+			<div class="panel">
+				<h2>Mesas</h2>
+				{% for mesa in mesas %}
+					<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.comandas %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}">
+						<p> <i class="fa fa-save"></i> {{mesa.nmesa}} </p>{{mesa.comandas.length}}
+						<p> {% if mesa.vttotal != 0 %} $ {{ mesa.vttotal }} {% else %} - {% endif %}  </p>
+						<p> <b>{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %} </b> </p>
+					</div>
+				{% endfor %}
+
+			</div>
+		</section>
+	</div>
+
+	{%include 'elements/footer.html'%}
+{%endblock%}
+
+{% block content_script %}
+	<script>
+		var cmesa_activa = null
+		function accion_mesa(div,event){
+			cmesa_activa = $(div).data("cmesa")
+			$("#modal_input_mesa_activa").val(cmesa_activa)
+			$("#modal_accion_mesa").modal("show")
+		}
+		function realizar_accion(div,event){
+			Models.objects.findOne("Mesas",{cmesa : cmesa_activa},function(error,mesa){
+				if( $("#modal_input_action").val() == "R" ) abrir_modal_resumen_pedido(mesa)
+				if( $("#modal_input_action").val() == "F" ) abrir_modal_facturar_pedido(mesa)
+				if( $("#modal_input_action").val() == "A" ) abrir_modal_anular_comanda(mesa)
+				$("#modal_accion_mesa").modal("hide")
+			})
+		}
+
+		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('hidden.bs.modal', function () {
+			cmesa_activa = null
+			//console.log(1)
+		})
+		$('#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('shown.bs.modal', function() {
+			//console.log(2)
+			cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
+		})
+
+		function abrir_modal_resumen_pedido(mesa){
+			//console.info(mesa)
+			$("#modal_accion_resumen").modal("show")
+			$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
+			$("#modal_accion_resumen").find("#label_nmero").html()
+			$("#modal_accion_resumen").find("#label_fecha").html()
+
+
+			Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__"},function(error,comandas){
+				comandas.forEach(function(comanda){
+					$("#modal_accion_resumen").find(".modal-body").empty()
+					var div = $("<div></div>")
+					//console.warn(comanda)
+					div.append( $("<h2></h2>",{html:"Comanda #" + comanda.fields.ccoda}) )
+					Models.objects.find("Codadeta",{ccoda:comanda.ccoda},function(error,detalles){
+						var table = $("<table class='table'></table>")
+						detalles.forEach(function(detalle){
+							var template_text = "__nmenu__ \t __canti__ \t __vunita__"
+							var template_tr = "<tr><td>__nmenu__</td><td>__canti__</td><td>__vunita__</td></tr>"
+							table.append(
+								$(template_tr.replace("__nmenu__",detalle.fields.cmenu.nmenu).replace("__canti__",detalle.fields.canti).replace("__vunita__",detalle.fields.vunita) )
+							)
+							div.append(table)
+							//console.log(detalle)
+							$("#modal_accion_resumen").find(".modal-body").append(div)
+						})
+					})
+				})
+			})
+
+		}
+		function abrir_modal_facturar_pedido(mesa){
+			$("#modal_accion_facturar").modal("show")
+		}
+		function abrir_modal_anular_comanda(mesa){
+			$("#modal_accion_anular").modal("show")
+		}
+
+		function resumen_pedido(){
+			$.ajax({
+				url : "/orders/summary/save/",
+				type : "POST",
+				data : JSON.stringify( { cmesa : cmesa_activa } ),
+				succes : function ( response ){
+					console.log(response)
+					$("#modal_accion_resumen").modal("hide")
+				}
+			})
+		}
+		function facturar_pedido(){
+			$("#modal_accion_facturar").modal("hide")
+		}
+		function anular_comanda(){
+			$("#modal_accion_anular").modal("hide")
+		}
+
+	</script>
+{%endblock%}
