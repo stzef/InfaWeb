@@ -22,7 +22,7 @@ class Talocoda(models.Model):
 		return self.ctalocoda
 
 	def __unicode__(self):
-		return self.ctalocoda
+		return unicode("Talonariao " + str(self.ntalocoda))
 
 class Mesas(models.Model):
 
@@ -69,10 +69,10 @@ class Resupedi(models.Model):
 	ifcortesia = models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.cresupedi
+		return "Resumen de Pedido " + str(self.cresupedi)
 
 	def __unicode__(self):
-		return self.cresupedi
+		return unicode("Resumen de Pedido " + str(self.cresupedi))
 
 class Resupedipago(models.Model):
 	cresupedi = models.ForeignKey(Resupedi)
@@ -84,10 +84,11 @@ class Resupedipago(models.Model):
 
 
 	def __str__(self):
-		return str(self.cresupedi)
+		return "Pago de Resumen de Pedido " + str(self.cresupedi)
 
 	def __unicode__(self):
-		return str(self.cresupedi)
+		return unicode("Pago de Resumen de Pedido " + str(self.cresupedi))
+
 
 class Coda(models.Model):
 	class Meta:
@@ -99,13 +100,13 @@ class Coda(models.Model):
 	cesdo = models.ForeignKey(Esdo, default=CESTADO_ACTIVO)
 	cmero = models.ForeignKey(Meseros)
 	cresupedi = models.ForeignKey(Resupedi, blank=True, null=True, default=None)
-	detaanula = models.CharField(max_length=250)
+	detaanula = models.CharField(max_length=250,blank=True, null=True, default="")
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	def __str__(self):
-		return self.detaanula
+		return "Comanda " + str(self.ccoda)
 
 	def __unicode__(self):
-		return '%s' % (self.detaanula)
+		return unicode("Comanda " + str(self.ccoda))
 
 class Codadeta(models.Model):
 	ccoda = models.ForeignKey(Coda)
@@ -116,7 +117,7 @@ class Codadeta(models.Model):
 	vunita = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	def __str__(self):
-		return self.nlargo
+		return "Detalle de Comanda " + str(self.ccoda)
 
 	def __unicode__(self):
-		return self.nlargo
+		return unicode("Detalle de Comanda " + str(self.ccoda))

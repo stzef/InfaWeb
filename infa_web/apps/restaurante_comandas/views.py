@@ -14,6 +14,8 @@ from django.db.models import Max
 from django.contrib.auth.models import User
 from infa_web.apps.usuarios.models import Usuario
 
+# pedido actual
+# pedido anterior -> listar las comandas
 
 def OrdersList(request):
 	context = {}
@@ -41,8 +43,13 @@ def SaveSummary(request):
 
 	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True)
 	totales = sum( [ comanda.vttotal for comanda in comandas] )
+	try:
+		cresupedi = Resupedi.objects.latest('cresupedi').cresupedi + 1
+	except Exception as e:
+		cresupedi = 1
+
 	resupedi = Resupedi(
-		cresupedi=Resupedi.objects.latest('cresupedi').cresupedi + 1,
+		cresupedi=cresupedi,
 		fresupedi = "2017-01-01",
 		vttotal = totales,
 		detaanula = "",

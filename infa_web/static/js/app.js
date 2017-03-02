@@ -534,11 +534,14 @@ function open_new_window(event){
 	win.APPEM_ACTION = action_link
 }
 
-function alertBootstrap(message,type){
+function alertBootstrap(message,type,container){
 	var stringHTML = '<div class="alert alert-::type:: alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;<span></button>::message::</div>'
 	stringHTML = stringHTML
 		.replace('::message::',message)
 		.replace('::type::',type)
+	if ( container ){
+		$(container).prepend($(stringHTML))
+	}
 	return $(stringHTML)
 }
 

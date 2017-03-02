@@ -111,6 +111,29 @@
 									Menu
 								</a>
 							</li>
+							<li class="treeview">
+								<li>
+									<a href="#"><i class="fa fa-list-alt"></i> Comandas
+										<span class="pull-right-container">
+											<i class="fa fa-angle-left pull-right"></i>
+										</span>
+									</a>
+									<ul class="treeview-menu">
+										<li>
+											<a href="{% url 'take-order' %}">
+												<i class="fa fa-archive"></i>
+												Tomar
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'order-summary' %}">
+												<i class="fa fa-cutlery"></i>
+												Resumen
+											</a>
+										</li>
+									</ul>
+								</li>
+							</li>
 						</ul>
 					</li>
 				</li>

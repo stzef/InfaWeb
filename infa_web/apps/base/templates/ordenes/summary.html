@@ -8,10 +8,6 @@
 	<style>
 		.mesa{
 			cursor: pointer;
-			background: url("{% static 'img/orders/dining-room.png' %}");
-			background-size: 50%;
-			background-repeat: no-repeat;
-			background-position: 50% ,50%
 		}
 		.mesa.activa{
 			background-color: #00a65a;
@@ -32,7 +28,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel1">Resumen de Pedido</h5>
+					<h3 class="modal-title" id="exampleModalLabel1">Resumen de Pedido <span class="label_nmesa_modal"></span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -54,7 +50,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel2">Facturar de Pedido</h5>
+					<h3 class="modal-title" id="exampleModalLabel2">Facturar de Pedido <span class="label_nmesa_modal"></span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -73,7 +69,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel3">Anular</h5>
+					<h3 class="modal-title" id="exampleModalLabel3">Anular <span class="label_nmesa_modal"></span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -92,7 +88,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Accion</h5>
+					<h3 class="modal-title" id="exampleModalLabel">Accion <span class="label_nmesa_modal"></span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -103,7 +99,8 @@
 							<label for="modal_input_action" class="col-sm-2 control-label"> Accion </label>
 							<div class="col-sm-10">
 								<select id="modal_input_action" class="form-control" required="">
-									<option value="R"> Resumen de Pedido </option>
+									<option value="R"> Pedido Actual </option>
+									<option value="PA"> Pedidos Anteriores </option>
 									<option value="F"> Facturar </option>
 									<option value="A"> Anular Comanda </option>
 								</select>
@@ -126,7 +123,7 @@
 				<h2>Mesas</h2>
 				{% for mesa in mesas %}
 					<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.comandas %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}">
-						<p> <i class="fa fa-save"></i> {{mesa.nmesa}} </p>{{mesa.comandas.length}}
+						<p><h4>{{mesa.nmesa}}</h4></p>
 						<p> {% if mesa.vttotal != 0 %} $ {{ mesa.vttotal }} {% else %} - {% endif %}  </p>
 						<p> <b>{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %} </b> </p>
 					</div>
@@ -158,48 +155,50 @@
 
 		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('hidden.bs.modal', function () {
 			cmesa_activa = null
-			//console.log(1)
 		})
 		$('#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('shown.bs.modal', function() {
-			//console.log(2)
 			cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
 		})
 
 		function abrir_modal_resumen_pedido(mesa){
-			//console.info(mesa)
-			$("#modal_accion_resumen").modal("show")
+			$("#modal_accion_resumen").find(".label_nmesa_modal").html(mesa.fields.nmesa)
+			$("#modal_accion_resumen").find(".modal-body").empty()
 			$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
 			$("#modal_accion_resumen").find("#label_nmero").html()
 			$("#modal_accion_resumen").find("#label_fecha").html()
 
 
 			Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__"},function(error,comandas){
-				comandas.forEach(function(comanda){
-					$("#modal_accion_resumen").find(".modal-body").empty()
+				if ( comandas ) {
+					$("#modal_accion_resumen").modal("show")
 					var div = $("<div></div>")
-					//console.warn(comanda)
-					div.append( $("<h2></h2>",{html:"Comanda #" + comanda.fields.ccoda}) )
-					Models.objects.find("Codadeta",{ccoda:comanda.ccoda},function(error,detalles){
-						var table = $("<table class='table'></table>")
-						detalles.forEach(function(detalle){
-							var template_text = "__nmenu__ \t __canti__ \t __vunita__"
-							var template_tr = "<tr><td>__nmenu__</td><td>__canti__</td><td>__vunita__</td></tr>"
-							table.append(
-								$(template_tr.replace("__nmenu__",detalle.fields.cmenu.nmenu).replace("__canti__",detalle.fields.canti).replace("__vunita__",detalle.fields.vunita) )
-							)
-							div.append(table)
-							//console.log(detalle)
-							$("#modal_accion_resumen").find(".modal-body").append(div)
+					var table = $("<table class='table table-striped'><thead><tr><th>Comanda</th><th>Menu</th><th>Cantidad</th><th>Vr. Unitario</th></tr></thead></table>")
+					comandas.forEach(function(comanda){
+						Models.objects.find("Codadeta",{ccoda:comanda.pk},function(error,detalles){
+							detalles.forEach(function(detalle){
+								var template_text = "__nmenu__ \t __canti__ \t __vunita__"
+								var template_tr = "<tr><td>__ccoda__</td><td>__nmenu__</td><td>__canti__</td><td>__vunita__</td></tr>"
+								table.append(
+									$(template_tr.replace("__nmenu__",detalle.fields.cmenu.nmenu).replace("__canti__",detalle.fields.canti).replace("__vunita__",detalle.fields.vunita).replace("__ccoda__","Comanda #" + comanda.fields.ccoda) )
+								)
+							})
 						})
 					})
-				})
+					div.append(table)
+					$("#modal_accion_resumen").find(".modal-body").append(div)
+				}else{
+					alertBootstrap("Esta Mesa no tiene Comandas Actuales","info",".content")
+				}
+
 			})
 
 		}
 		function abrir_modal_facturar_pedido(mesa){
+			$("#modal_accion_facturar").find(".label_nmesa_modal").html(mesa.fields.nmesa)
 			$("#modal_accion_facturar").modal("show")
 		}
 		function abrir_modal_anular_comanda(mesa){
+			$("#modal_accion_anular").find(".label_nmesa_modal").html(mesa.fields.nmesa)
 			$("#modal_accion_anular").modal("show")
 		}
 
@@ -209,7 +208,6 @@
 				type : "POST",
 				data : JSON.stringify( { cmesa : cmesa_activa } ),
 				succes : function ( response ){
-					console.log(response)
 					$("#modal_accion_resumen").modal("hide")
 				}
 			})
