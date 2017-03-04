@@ -1,0 +1,65 @@
+{% extends 'facturacion/print/half_letter.html' %}
+
+{% load date_appen %}
+{% load humanize %}
+
+{% block head_table %}
+	<section>
+		<table id="header_content">
+			<tbody>
+
+				<tr>
+					<td style="font-weight: bold; padding-bottom: 10px" align="right" colspan="5">{{factura.cfac}}</td>
+				</tr>
+				<tr>
+					<td rowspan=3 width="20%">
+						<img src="{{ 'infa_web/static/img/empresas/ejemplo/logo.png'|get64 }}">
+					</td>
+
+					<td width="10%">Fecha:</td>
+					<td width="30%">{{resupedi.fresupedi|date:"d M Y"}}</td>
+				</tr>
+				<tr>
+					<td width="10%">Identif.:</td>
+					<td width="30%">{{factura.citerce.idterce}}</td>
+
+					<td width="10%">Telefono:</td>
+					<td width="30%">{{factura.citerce.telterce}}</td>
+				</tr>
+
+				<tr>
+					<td width="10%">Nombre:</td>
+					<td width="30%">{{factura.citerce.rasocial}}</td>
+
+					<td width="10%">Ciudad:</td>
+					<td width="30%">{{factura.citerce.ciudad}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+{% endblock head_table %}
+
+{% block content %}
+	{% for comanda in comandas %}
+	<table>
+		<thead>
+			<tr>
+				<th>it</th>
+				<th>cmenu</th>
+				<th>canti</th>
+				<th>vunita</th>
+				<th>vtotal</th>
+			</tr>
+		</thead>
+		{% for detalle in comandas.deta %}
+			<tr>
+				<td>{{ detalle.it }}</td>
+				<td>{{ detalle.cmenu }}</td>
+				<td>{{ detalle.canti }}</td>
+				<td>{{ detalle.vunita|intcomma }}</td>
+				<td>{{ detalle.vtotal|intcomma }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{% endfor %}
+{% endblock content %}

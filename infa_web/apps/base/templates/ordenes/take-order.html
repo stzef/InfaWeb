@@ -402,7 +402,7 @@
 		}
 
 		function listar_comandas_mesa(cmesa,fn){
-			Models.objects.find("Coda",{cmesa : cmesa},function(error,comandas){
+			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__"},function(error,comandas){
 				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
 					comandas.forEach(function(comanda){
@@ -448,22 +448,25 @@
 		}
 
 		function mostar_detalle_comanda(button,event,ccoda){
+			var ccoda = $(button).data("ccoda")
 
 			$(".btn-guardar-comanda").hide()
 
-			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
-			$(button).addClass("btn-success")
-			var ccoda = $(button).data("ccoda")
-			comanda_activa = ccoda
-
 			Models.objects.find("Codadeta",{ccoda__ccoda : ccoda,ccoda__cresupedi:"__NULL__"},function(error,detalle){
-				table.rows().remove().draw()
-				console.log(detalle)
-				detalle.forEach(function(item){
-					console.info(item)
-					var row = table.row.add([item.fields.cmenu.cmenu,item.fields.canti,item.fields.cmenu.nmenu,item.fields.cmenu.pvta1]).draw( false );
-				})
-				actualizar_total()
+				if ( detalle ){
+					$("button.comanda").removeClass("btn-success").addClass("btn-primary")
+					$(button).addClass("btn-success")
+					comanda_activa = ccoda
+
+					table.rows().remove().draw()
+					detalle.forEach(function(item){
+						console.info(item)
+						var row = table.row.add([item.fields.cmenu.cmenu,item.fields.canti,item.fields.cmenu.nmenu,item.fields.cmenu.pvta1]).draw( false );
+					})
+					actualizar_total()
+				}else{
+					alertBootstrap("La mesa no tiene comandas Activas","info",".content")
+				}
 			})
 		}
 

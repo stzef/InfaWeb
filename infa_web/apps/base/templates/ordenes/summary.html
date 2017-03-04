@@ -39,7 +39,8 @@
 					<p> Fecha : <span id="label_fecha"></span></p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Guarda</button>
+					<!--<button type="button" class="btn btn-app btn-primary" onclick="imprimir_resumen_pedido()">Imprimir</button>-->
+					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Guardar</button>
 				</div>
 			</div>
 		</div>
@@ -202,12 +203,19 @@
 			$("#modal_accion_anular").modal("show")
 		}
 
+		function imprimir_resumen_pedido(cresupedi){
+			var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
+			console.log(url)
+			win = window.open(url)
+		}
+
 		function resumen_pedido(){
 			$.ajax({
 				url : "/orders/summary/save/",
 				type : "POST",
 				data : JSON.stringify( { cmesa : cmesa_activa } ),
 				succes : function ( response ){
+					imprimir_resumen_pedido(response.pk)
 					$("#modal_accion_resumen").modal("hide")
 				}
 			})

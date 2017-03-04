@@ -13,6 +13,7 @@ urlOrders = [
 
 	url(r'^orders/summary/$', OrderSummary, name = 'order-summary'),
 	url(r'^orders/summary/save/$', SaveSummary, name = 'save-summary'),
+	url(r'^orders/print/$', OrderPrint.as_view(), name = 'order-print'),
 
 ]
 

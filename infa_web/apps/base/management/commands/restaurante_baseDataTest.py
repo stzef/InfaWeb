@@ -16,6 +16,12 @@ class Command(BaseCommand):
 			default="default",
 			help='DB for connection',
 		)
+	def gvting(self,ing):
+		valores = [i.vcosto for i in ing]
+		return sum(valores)
+	def gvtpla(self,pla):
+		valores = [p.vttotal for p in pla]
+		return sum(valores)
 	def handle(self, *args, **options):
 
 		name_db =  options["db"]
@@ -31,25 +37,34 @@ class Command(BaseCommand):
 
 			unidad = Unidades.objects.using(name_db).filter()[0]
 			estado = Esdo.objects.using(name_db).get(cesdo=1)
-			grupo = GposMenus.objects.using(name_db).get(cgpomenu=1)
+
+			gplatos_fuerte = GposMenus.objects.using(name_db).get(cgpomenu = 1)
+			gentradas = GposMenus.objects.using(name_db).get(cgpomenu = 2)
+			gbebidas = GposMenus.objects.using(name_db).get(cgpomenu = 3)
+			gplatos_frios = GposMenus.objects.using(name_db).get(cgpomenu = 4)
+			gensaladas = GposMenus.objects.using(name_db).get(cgpomenu = 5)
+			gcomida_rapida = GposMenus.objects.using(name_db).get(cgpomenu = 6)
 
 			arroz = Ingredientes.objects.using(name_db).create(cingre =1000, ningre ="Arroz", canti =100, vcosto =1000, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			papa = Ingredientes.objects.using(name_db).create(cingre =1001, ningre ="Papa", canti =100, vcosto =500, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			sal = Ingredientes.objects.using(name_db).create(cingre =1002, ningre ="Sal", canti =100, vcosto =200, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			agua = Ingredientes.objects.using(name_db).create(cingre =1003, ningre ="Agua", canti =100, vcosto =500, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			cebolla = Ingredientes.objects.using(name_db).create(cingre =1004, ningre ="Cebolla", canti =100, vcosto =300, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
+			salsa = Ingredientes.objects.using(name_db).create(cingre =1005, ningre ="Salsa", canti =100, vcosto =300, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
+			pan = Ingredientes.objects.using(name_db).create(cingre =1006, ningre ="Pan", canti =100, vcosto =300, ifcostear = 1, stomin =1, stomax = 500, ifedinom = 1)
+			mandarina = Ingredientes.objects.using(name_db).create(cingre =1007, ningre ="Mandarina", canti =100, vcosto =300, ifcostear=1, stomin =1, stomax=500, ifedinom = 1)
+			azucar = Ingredientes.objects.using(name_db).create(cingre =1008, ningre ="Azucar", canti =100, vcosto =300, ifcostear = 1, stomin =1, stomax = 500, ifedinom = 1)
 
-			palto_arroz_seco = Platos.objects.using(name_db).create(cplato= 1000, nplato= "Arroz Seco", fcrea= "2017-02-02", npax= 1, vttotal= 0, foto=DEFAULT_IMAGE_DISHES)
 
+			ing = [arroz,sal,agua,cebolla]
+			palto_arroz_seco = Platos.objects.using(name_db).create(cplato= 1000, nplato= "Arroz Seco", fcrea= "2017-02-02", npax= 1, vttotal= self.gvting(ing), foto=DEFAULT_IMAGE_DISHES)
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_seco, cingre=arroz, it=1, canti=1, cunidad=unidad, vunita=arroz.vcosto, vtotal=(arroz.vcosto*1))
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_seco, cingre=sal, it=2, canti=1, cunidad=unidad, vunita=sal.vcosto, vtotal=(sal.vcosto*1))
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_seco, cingre=agua, it=3, canti=1, cunidad=unidad, vunita=agua.vcosto, vtotal=(agua.vcosto*1))
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_seco, cingre=cebolla, it=4, canti=1, cunidad=unidad, vunita=cebolla.vcosto, vtotal=(cebolla.vcosto*1))
 
-
-
-			palto_arroz_papa = Platos.objects.using(name_db).create(cplato= 1001, nplato= "Arroz Seco", fcrea= "2017-02-02", npax= 1, vttotal= 0, foto=DEFAULT_IMAGE_DISHES)
-
+			ing = [arroz,papa,sal,agua,cebolla]
+			palto_arroz_papa = Platos.objects.using(name_db).create(cplato= 1001, nplato= "Arroz Seco", fcrea= "2017-02-02", npax= 1, vttotal= self.gvting(ing), foto=DEFAULT_IMAGE_DISHES)
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_papa, cingre=arroz, it=1, canti=1, cunidad=unidad, vunita=arroz.vcosto, vtotal=(arroz.vcosto*1))
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_papa, cingre=papa, it=2, canti=1, cunidad=unidad, vunita=papa.vcosto, vtotal=(papa.vcosto*1))
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_papa, cingre=sal, it=3, canti=1, cunidad=unidad, vunita=sal.vcosto, vtotal=(sal.vcosto*1))
@@ -57,15 +72,12 @@ class Command(BaseCommand):
 			Platosdeta.objects.using(name_db).create(cplato=palto_arroz_papa, cingre=cebolla, it=5, canti=1, cunidad=unidad, vunita=cebolla.vcosto, vtotal=(cebolla.vcosto*1))
 
 
-
-			menu_1 = Menus.objects.using(name_db).create(cmenu=1000, nmenu="Menu 1", fcrea="2017-02-02", cesdo=estado, cgpomenu=grupo, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=0, foto=DEFAULT_IMAGE_MENUS)
-
+			pla = [palto_arroz_seco]
+			menu_1 = Menus.objects.using(name_db).create(cmenu=1000, nmenu="Menu 1", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto=DEFAULT_IMAGE_MENUS)
 			Menusdeta.objects.using(name_db).create(cmenu=menu_1, it=1, cplato=palto_arroz_seco, nplato=palto_arroz_seco.nplato, canti=1, vunita=palto_arroz_seco.vttotal, vtotal=(palto_arroz_seco.vttotal*1))
 
-
-
-			menu_2 = Menus.objects.using(name_db).create(cmenu=1001, nmenu="Menu 2", fcrea="2017-02-02", cesdo=estado, cgpomenu=grupo, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=0, foto=DEFAULT_IMAGE_MENUS)
-
+			pla = [palto_arroz_papa]
+			menu_2 = Menus.objects.using(name_db).create(cmenu=1001, nmenu="Menu 2", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto=DEFAULT_IMAGE_MENUS)
 			Menusdeta.objects.using(name_db).create(cmenu=menu_2, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
 
 

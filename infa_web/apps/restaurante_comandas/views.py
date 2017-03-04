@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from easy_pdf.views import PDFTemplateView
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from infa_web.parameters import ManageParameters
+
 import json
 import datetime
 from infa_web.apps.restaurante_menus.models import *
@@ -61,8 +65,11 @@ def SaveSummary(request):
 		comanda.cresupedi = resupedi
 		comanda.save(using=request.db)
 
+	resupedi = serializers.serialize("json", [resupedi],fields=('cresupedi','vttotal','detaanula','ifcortesia'),use_natural_foreign_keys=True)
+	resupedi = json.loads(resupedi)[0]
 
-	return HttpResponse(json.dumps(data), "application/json")
+
+	return HttpResponse(json.dumps(resupedi), "application/json")
 
 @csrf_exempt
 def SaveCommand(request):
@@ -168,3 +175,49 @@ def OrderSummary(request):
 		'mesas' : mesas,
 	}
 	return render(request, "ordenes/summary.html", context)
+
+class OrderPrint(PDFTemplateView):
+	template_name = "ordenes/print/format_half_letter.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(OrderPrint, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+		data = self.request.GET
+
+		# Datos de Prueba
+		"""usuario = Usuario.objects.using(self.request.db).filter()[0]
+
+		talonario_MOS = usuario.ctalomos
+		talonario_POS = usuario.ctalopos"""
+		# Datos de Prueba
+
+		formato = data.get('formato')
+		cresupedi = data.get('cresupedi')
+
+		resupedi = Resupedi.objects.using(self.request.db).filter(cresupedi=cresupedi)
+		comandas = Coda.objects.using(self.request.db).filter(cresupedi=resupedi)
+		for comanda in comandas:
+			comandas.deta = Codadeta.objects.using(self.request.db).filter(ccoda=comanda)
+		print comandas
+
+		if formato or formato == "half_letter":
+			self.template_name = "ordenes/print/format_half_letter.html"
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
+
+		elif formato == "neckband":
+			self.template_name = "ordenes/print/format_half_letter.html"
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
+		else:
+			self.template_name = "ordenes/print/format_half_letter.html"
+			#context['orientation'] = 'portrait'
+			context['orientation'] = 'landscape'
+
+		data.company_logo = static(manageParameters.get_param_value('company_logo'))
+
+		context['data'] = data
+		context['title'] = 'Impresion de Resumen de Pedido'
+		context['comandas'] = comandas
+
+		return context

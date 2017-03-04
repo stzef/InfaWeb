@@ -19,6 +19,10 @@ CurrencyFormat.prototype.sToN = function(s){
 	var n = parseFloat(s.replace(/ /g,"").replace(/,/g,"").replace(/\$/g,"").trim())//.replace(/\./g,"")
 	return n
 }
+String.prototype.set = function(key,value){
+	var reg = new RegExp(key,"g")
+	return this.replace(reg,value)
+}
 
 var currencyFormat = new CurrencyFormat()
 
