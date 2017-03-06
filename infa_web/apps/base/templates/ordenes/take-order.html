@@ -348,6 +348,7 @@
 						console.info(response)
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
+							alertBootstrap("Las Comandas se guardo.","success",".content")
 						})
 					}
 

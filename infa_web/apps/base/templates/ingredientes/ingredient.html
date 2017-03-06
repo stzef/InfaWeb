@@ -212,32 +212,26 @@
 			}
 		}
 
-		/*$("[name={{form.cingre.name}}]").change(function(){
+		$("#id_ningre").change(function(){
 			var element = $(this)
 			if(!element.val().length) return
-			$.ajax({
-				url: '{% url 'api-exists' %}',
-				type: 'POST',
-				data: JSON.stringify({
-					'model': 33,
-					'field': this.name,
-					'value': this.value
-				}),
-				contentType: "application/json",
-				success: function(response){
-					if (response.exists){
-						var container = element.closest(".form-group");
 
-						container.attr("title","<span class='html_tooltip'>Este Código de Barras Ya se encuentra Registrado.</span>");
+			var query = element.val().split(" ").map(function(word){ return word })
+
+			Models.objects.find("Ingredientes",{ningre__iregex : query.join("|")},function(error,ingredientes){
+				console.log(ingredientes)
+					if (ingredientes){
+						var nombres = ingredientes.map(function(ingrediente){return ingrediente.fields.ningre})
+						nombres = nombres.join(", ")
+						var text = "El(los) nombres : " + nombres + " ya se encuentran registrados."
+						var container = element.closest(".form-group");
+						container.attr("title","<span class='html_tooltip'>" + text + "</span>");
 						container.tooltip({trigger:"focus",placement:"bottom",html:true});
 						container.tooltip("show");
-						window.setTimeout(function(){
-							container.tooltip("destroy");
-						},3000);
+						window.setTimeout(function(){container.tooltip("destroy");},3000);
 					}
-				}
-			});
-		})*/
+			})
+		})
 
 	</script>
 

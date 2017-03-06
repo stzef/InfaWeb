@@ -165,9 +165,14 @@ def OrderSummary(request):
 	for mesa in mesas:
 		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa)
 		print query
+		mesa.vttotal = 0
+		mesa.mesero = None
 		if query.exists():
 			mesa.comandas = query
 			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
+			print "----------------------"
+			print totales
+			print "----------------------"
 			mesa.vttotal = totales
 			mesa.mesero = mesa.comandas[0].cmero
 

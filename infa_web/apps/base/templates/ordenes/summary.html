@@ -125,8 +125,8 @@
 				{% for mesa in mesas %}
 					<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.comandas %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}">
 						<p><h4>{{mesa.nmesa}}</h4></p>
-						<p> {% if mesa.vttotal != 0 %} $ {{ mesa.vttotal }} {% else %} - {% endif %}  </p>
-						<p> <b>{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %} </b> </p>
+						<p> <span id="menu_vtotal">$ {{ mesa.vttotal }}</span>  </p>
+						<p> <b> <span id="mesa_mesero">{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %}</span> </b> </p>
 					</div>
 				{% endfor %}
 
@@ -214,9 +214,13 @@
 				url : "/orders/summary/save/",
 				type : "POST",
 				data : JSON.stringify( { cmesa : cmesa_activa } ),
-				succes : function ( response ){
-					imprimir_resumen_pedido(response.pk)
+				success : function ( response ){
+					$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
+					$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
+					$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
 					$("#modal_accion_resumen").modal("hide")
+					alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
+					imprimir_resumen_pedido(response.pk)
 				}
 			})
 		}
