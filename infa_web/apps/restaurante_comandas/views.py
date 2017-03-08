@@ -7,6 +7,7 @@ import json
 import datetime
 from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.restaurante_comandas.models import *
+from infa_web.apps.restaurante_comandas.forms import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -164,20 +165,17 @@ def OrderSummary(request):
 
 	for mesa in mesas:
 		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa)
-		print query
 		mesa.vttotal = 0
 		mesa.mesero = None
 		if query.exists():
 			mesa.comandas = query
 			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
-			print "----------------------"
-			print totales
-			print "----------------------"
 			mesa.vttotal = totales
 			mesa.mesero = mesa.comandas[0].cmero
 
 	context = {
 		'mesas' : mesas,
+		'form_medios_pagos' : ResupedipagoForm(request.db)
 	}
 	return render(request, "ordenes/summary.html", context)
 

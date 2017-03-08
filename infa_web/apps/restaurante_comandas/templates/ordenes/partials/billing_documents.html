@@ -1,0 +1,111 @@
+{% load humanize %}
+{% if mode_view == 'edit' %}
+	<div class="panel panel-primary">
+		<div class="panel-heading"> 
+			<h3 class="panel-title">Factura {{related_information_factura.cfac}} - ${{related_information_factura.vttotal|intcomma}}</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Item</th>
+						<th>C. Arlo</th>
+						<th>Nombre</th>
+						<th>Cantidad</th>
+						<th>IVA</th>
+						<th>Vr. Unita</th>
+						<th>Vr Base</th>
+						<th>Vr. IVA</th>
+						<th>Vr. Total</th>
+						<th>(%)Porc</th>
+						<th>pvta Full</th>
+						<th>Vr. Costo</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for facdeta in related_information_factura.facdeta %}
+						<tr>
+							<td>{{ facdeta.itfac}} </td>
+							<td>{{ facdeta.carlos.carlos}} </td>
+							<td>{{ facdeta.nlargo}} </td>
+							<td>{{ facdeta.canti}} </td>
+							<td>{{ facdeta.civa}} </td>
+							<td>{{ facdeta.vunita|intcomma}} </td>
+							<td>{{ facdeta.vbase|intcomma}} </td>
+							<td>{{ facdeta.viva|intcomma}} </td>
+							<td>{{ facdeta.vtotal|intcomma}} </td>
+							<td>{{ facdeta.pordes}} </td>
+							<td>{{ facdeta.pvtafull|intcomma}} </td>
+							<td>{{ facdeta.vcosto|intcomma}} </td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Movimiento de Salida {{related_information_factura.mvsa.cmvsa}} - ${{related_information_factura.mvsa.vttotal|intcomma}}</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Item</th>
+						<th>Cod. Arlo</th>
+						<th>Nombre</th>
+						<th>Cantidad</th>
+						<th>Vr. Unitario</th>
+						<th>Vr. Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for mvsadeta in related_information_factura.mvsa.mvsadeta %}
+						<tr>
+							<td>{{ mvsadeta.it }}</td>
+							<td>{{ mvsadeta.carlos.carlos }}</td>
+							<td>{{ mvsadeta.nlargo }}</td>
+							<td>{{ mvsadeta.canti }}</td>
+							<td>{{ mvsadeta.vunita|intcomma }}</td>
+							<td>{{ mvsadeta.vtotal|intcomma }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading"> <h3 class="panel-title">Movimientos</h3> </div>
+		<div class="panel-body">
+			{% for movi in related_information_factura.movis %}
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Movimiento {{movi.cmovi}} - ${{movi.vttotal|intcomma}}</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Item</th>
+									<th>Doc. Referencia</th>
+									<th>Descripcion</th>
+									<th>Vr. Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for movideta in movi.movideta %}
+									<td>{{ movideta.itmovi }}</td>
+									<td>{{ movideta.docrefe }}</td>
+									<td>{{ movideta.detalle }}</td>
+									<td>{{ movideta.vmovi|intcomma }}</td>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}

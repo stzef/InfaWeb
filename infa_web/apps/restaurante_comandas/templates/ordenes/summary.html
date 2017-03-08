@@ -40,7 +40,7 @@
 				</div>
 				<div class="modal-footer">
 					<!--<button type="button" class="btn btn-app btn-primary" onclick="imprimir_resumen_pedido()">Imprimir</button>-->
-					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Guardar</button>
+					<button type="button" class="btn btn-app btn-primary" onclick="mostrar_resumen_pedido(this,event)">Guardar</button>
 				</div>
 			</div>
 		</div>
@@ -78,7 +78,67 @@
 				<div class="modal-body">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="anular_comanda(this,event)">Guarda</button>
+					<button type="button" class="btn btn-app btn-primary" onclick="anular_comanda(this,event)">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Formas de Pago -->
+	<div class="modal fade" id="modal_formas_pago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel4">Formas de Pago </span></h3>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form_medios_pago">
+						<section id="item_medio_pago">
+							<table class="table table-striped no-footer" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>It</th>
+										<th>Medio de Pago</th>
+										<th>Documento</th>
+										<th>Banco</th>
+										<th>Total</th>
+										<th></th>
+									</tr>
+									<tr>
+										<th>
+											<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
+										</th>
+										<th>{{ form_medios_pagos.cmpago }}</th>
+										<th>{{ form_medios_pagos.docmpago }}</th>
+										<th>{{ form_medios_pagos.banmpago }}</th>
+										<th>{{ form_medios_pagos.vmpago }}</th>
+										<th><button type="submit" title="Agregar Forma de Pago" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
+									</tr>
+								</thead>
+							</table>
+						</section>
+						<section role="form" id="list_medios_pago">
+							<table class="table table-striped no-footer text-center" cellspacing="0">
+								<thead>
+									<tr>
+										<th>It</th>
+										<th>Medio de Pago</th>
+										<th>Documento</th>
+										<th>Banco</th>
+										<th>Total</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</section>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Pagar</button>
 				</div>
 			</div>
 		</div>
@@ -157,7 +217,7 @@
 		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('hidden.bs.modal', function () {
 			cmesa_activa = null
 		})
-		$('#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('shown.bs.modal', function() {
+		$('#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular,#modal_formas_pago').on('shown.bs.modal', function() {
 			cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
 		})
 
@@ -209,7 +269,12 @@
 			win = window.open(url)
 		}
 
+		function mostrar_resumen_pedido(){
+			$("#modal_accion_resumen").modal("hide")
+			$("#modal_formas_pago").modal("show")
+		}
 		function resumen_pedido(){
+			$("#modal_formas_pago").modal("hide")
 			$.ajax({
 				url : "/orders/summary/save/",
 				type : "POST",
