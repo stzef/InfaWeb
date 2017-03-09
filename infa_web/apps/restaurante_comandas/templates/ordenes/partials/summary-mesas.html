@@ -1,0 +1,8 @@
+<h2>Mesas</h2>
+{% for mesa in mesas %}
+	<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.vttotal > 0 %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}">
+		<p><h4>{{mesa.nmesa}}</h4></p>
+		<p> <span id="menu_vtotal">$ {{ mesa.vttotal }}</span>  </p>
+		<p> <b> <span id="mesa_mesero">{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %}</span> </b> </p>
+	</div>
+{% endfor %}

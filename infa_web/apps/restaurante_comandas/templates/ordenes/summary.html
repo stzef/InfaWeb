@@ -65,25 +65,6 @@
 		</div>
 	</div>
 
-	<!-- Modal Anular Comandas -->
-	<div class="modal fade" id="modal_accion_anular" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel3">Anular <span class="label_nmesa_modal"></span></h3>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="anular_comanda(this,event)">Guardar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<!-- Modal Formas de Pago -->
 	<div class="modal fade" id="modal_formas_pago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
@@ -144,6 +125,33 @@
 		</div>
 	</div>
 
+	<!-- Modal Unir Cuentas -->
+	<div class="modal fade" id="modal_unir_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel5">Unir Cuentas </span></h3>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{% for mesa in mesas %}
+						{% if mesa.vttotal > 0 %}
+							<div class="form-group">
+								<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
+								<label for="cuenta_{{mesa.cmesa}}">{{mesa.nmesa}} - $ {{ mesa.vttotal }}</label>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-app btn-primary" onclick="unir_cuentas()">Unir</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal Seleccionar Accion de Mesa -->
 	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -159,11 +167,11 @@
 						<div class="form-group">
 							<label for="modal_input_action" class="col-sm-2 control-label"> Accion </label>
 							<div class="col-sm-10">
-								<select id="modal_input_action" class="form-control" required="">
+								<select id="modal_input_action" class="form-control" required="" size="5">
 									<option value="R"> Pedido Actual </option>
 									<option value="PA"> Pedidos Anteriores </option>
 									<option value="F"> Facturar </option>
-									<option value="A"> Anular Comanda </option>
+									<option value="UC"> Unir Cuentas </option>
 								</select>
 							</div>
 						</div>
@@ -180,16 +188,8 @@
 	<!-- Contenido Pagina -->
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content">
-			<div class="panel">
-				<h2>Mesas</h2>
-				{% for mesa in mesas %}
-					<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.comandas %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}">
-						<p><h4>{{mesa.nmesa}}</h4></p>
-						<p> <span id="menu_vtotal">$ {{ mesa.vttotal }}</span>  </p>
-						<p> <b> <span id="mesa_mesero">{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %}</span> </b> </p>
-					</div>
-				{% endfor %}
-
+			<div class="panel container-mesas">
+				{% include 'ordenes/partials/summary-mesas.html' %}
 			</div>
 		</section>
 	</div>
@@ -209,15 +209,15 @@
 			Models.objects.findOne("Mesas",{cmesa : cmesa_activa},function(error,mesa){
 				if( $("#modal_input_action").val() == "R" ) abrir_modal_resumen_pedido(mesa)
 				if( $("#modal_input_action").val() == "F" ) abrir_modal_facturar_pedido(mesa)
-				if( $("#modal_input_action").val() == "A" ) abrir_modal_anular_comanda(mesa)
+				if( $("#modal_input_action").val() == "UC" ) abrir_modal_unir_cuentas(mesa)
 				$("#modal_accion_mesa").modal("hide")
 			})
 		}
 
-		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular').on('hidden.bs.modal', function () {
+		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
 			cmesa_activa = null
 		})
-		$('#modal_accion_resumen,#modal_accion_facturar,#modal_accion_anular,#modal_formas_pago').on('shown.bs.modal', function() {
+		$('#modal_accion_resumen,#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
 			cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
 		})
 
@@ -229,18 +229,41 @@
 			$("#modal_accion_resumen").find("#label_fecha").html()
 
 
-			Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__"},function(error,comandas){
+
+			Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
 				if ( comandas ) {
 					$("#modal_accion_resumen").modal("show")
 					var div = $("<div></div>")
-					var table = $("<table class='table table-striped'><thead><tr><th>Comanda</th><th>Menu</th><th>Cantidad</th><th>Vr. Unitario</th></tr></thead></table>")
+					var template_thead = "<table class='table table-striped'>"+
+						"<thead>"+
+							"<tr>"+
+								"<th>Comanda</th>"+
+								"<th>Menu</th>"+
+								"<th>Cantidad</th>"+
+								"<th>Vr. Unitario</th>"+
+							"</tr>"+
+						"</thead>"+
+					"</table>"
+					var table = $(template_thead)
 					comandas.forEach(function(comanda){
 						Models.objects.find("Codadeta",{ccoda:comanda.pk},function(error,detalles){
 							detalles.forEach(function(detalle){
-								var template_text = "__nmenu__ \t __canti__ \t __vunita__"
-								var template_tr = "<tr><td>__ccoda__</td><td>__nmenu__</td><td>__canti__</td><td>__vunita__</td></tr>"
+								//var template_text = "__nmenu__ \t __canti__ \t __vunita__"
+								var template_tr = "<tr>"+
+									"<td>Comanda # __ccoda__</td>"+
+									"<td>__nmenu__</td>"+
+									"<td>__canti__</td>"+
+									"<td>__vunita__</td>"+
+								"</tr>"
 								table.append(
-									$(template_tr.replace("__nmenu__",detalle.fields.cmenu.nmenu).replace("__canti__",detalle.fields.canti).replace("__vunita__",detalle.fields.vunita).replace("__ccoda__","Comanda #" + comanda.fields.ccoda) )
+									$(template_tr
+										//.set("__it__",detalle.fields.it)
+										//.set("__cmenu__",detalle.fields.cmenu.cmenu)
+										.set("__nmenu__",detalle.fields.cmenu.nmenu)
+										.set("__canti__",detalle.fields.canti)
+										.set("__vunita__",detalle.fields.vunita)
+										.set("__ccoda__",comanda.fields.ccoda)
+									)
 								)
 							})
 						})
@@ -258,14 +281,36 @@
 			$("#modal_accion_facturar").find(".label_nmesa_modal").html(mesa.fields.nmesa)
 			$("#modal_accion_facturar").modal("show")
 		}
-		function abrir_modal_anular_comanda(mesa){
-			$("#modal_accion_anular").find(".label_nmesa_modal").html(mesa.fields.nmesa)
-			$("#modal_accion_anular").modal("show")
+		function abrir_modal_unir_cuentas(mesa){
+			$("[id*=cuenta_]").prop("checked",false)
+			$("[id*=cuenta_]").closest(".form-group").show()
+			$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
+			$("#modal_unir_cuenta").modal("show")
+		}
+
+		function unir_cuentas(){
+			var mesas = $("#modal_unir_cuenta").find("input:checked")
+			var cmesas = mesas.toArray().map(function(mesa){return mesa.value})
+
+			if( mesas.length != 0 ){
+				$.ajax({
+					url : "/orders/join/",
+					type : "POST",
+					data : JSON.stringify( { mesa : cmesa_activa , mesas : cmesas } ),
+					success : function ( response ){
+						console.log(response)
+						$("container-mesas").empty()
+						$("#modal_unir_cuenta").modal("hide")
+						$("container-mesas").html(response.html)
+					}
+				})
+			}else{
+				alertBootstrap("Seleccion Las mesas a Unir","info","#modal_unir_cuenta .modal-header")
+			}
 		}
 
 		function imprimir_resumen_pedido(cresupedi){
 			var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
-			console.log(url)
 			win = window.open(url)
 		}
 
@@ -273,6 +318,7 @@
 			$("#modal_accion_resumen").modal("hide")
 			$("#modal_formas_pago").modal("show")
 		}
+
 		function resumen_pedido(){
 			$("#modal_formas_pago").modal("hide")
 			$.ajax({

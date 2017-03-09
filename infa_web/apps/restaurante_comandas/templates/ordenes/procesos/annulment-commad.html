@@ -1,0 +1,140 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content-header">
+			<h1>Anulacion de Comandas</h1>
+		</section>
+		<section class="content">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="id_ccoda" class="col-sm-3 control-label">Mesas</label>
+					<div class="col-sm-8">
+						{{ form.mesas }}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_ccoda" class="col-sm-3 control-label">Codigo Comanda</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input class="form-control" type="text" id="id_ccoda" name="ccoda"  required>
+							<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-orders' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div id="tabla_coda_deta"></div>
+				</div>
+				<div class="form-group">
+					<label for="id_detaanula" class="col-sm-3 control-label">¿Por que la Anula?</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" required name="detaanula" id="id_detaanula"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_ccoda" class="col-sm-3 control-label">{{form.cesdo.label_tag}}</label>
+					<div class="col-sm-8">
+						{{form.cesdo}}
+					</div>
+				</div>
+				<div class="text-center">
+					<div class="btn-group">
+						<button class="btn btn-app btn-primary" type="submit">
+							<i class="fa fa-save"></i>Guardar
+						</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+
+{% block content_script %}
+
+<script>
+	$("#id_mesas").change(function(){
+		var that = this
+		var href = $("[data-new-window]").attr("href").split("?")[0]
+		$("[data-new-window]").attr("href",href+"?cmesa="+that.value)
+	})
+
+		function anular_item_coda(event,element,ccoda,it,cmenu){
+			var that = $(element)
+			$.ajax({
+				url : "/orders/commands/proccess/fn/annulment/item/",
+				type : "POST",
+				data : JSON.stringify( { codadeta : [{ccoda:ccoda,it:it,cmenu:cmenu}] } ),
+				success : function ( response ){
+					that.closest("tr").remove()
+				}
+			})
+		}
+
+	$("#id_ccoda").change(function(){
+		var that = this
+		Models.objects.findOne("Coda",{ccoda : that.value},function(error,comanda){
+			$("#tabla_coda_deta").empty()
+			if(comanda){
+				console.log(comanda)
+				Models.objects.find("Codadeta",{ccoda:comanda.pk},function(error,detalles){
+					if( detalles ){
+						var template_thead = "<table class='table table-striped'>"+
+							"<thead>"+
+								"<tr>"+
+									"<th>Menu</th>"+
+									"<th>Cantidad</th>"+
+									"<th>Vr. Unitario</th>"+
+									"<th>Acciones</th>"+
+								"</tr>"+
+							"</thead>"+
+						"</table>"
+						var table = $(template_thead)
+						detalles.forEach(function(detalle){
+							var template_tr = "<tr>"+
+								"<td>__nmenu__</td>"+
+								"<td>__canti__</td>"+
+								"<td>__vunita__</td>"+
+								"<td onclick='anular_item_coda(event,this,__ccoda__,__it__,__cmenu__)'><a href='#'><i class='fa fa-trash-o'></i>Eliminar</a></td>"+
+							"</tr>"
+							table.append(
+								$(template_tr
+									.set("__it__",detalle.fields.it)
+									.set("__cmenu__",detalle.fields.cmenu.cmenu)
+									.set("__nmenu__",detalle.fields.cmenu.nmenu)
+									.set("__canti__",detalle.fields.canti)
+									.set("__vunita__",detalle.fields.vunita)
+									.set("__ccoda__",comanda.fields.ccoda)
+								)
+							)
+						})
+						$("#tabla_coda_deta").append(table)
+					}
+
+					$("#id_cesdo").val(comanda.fields.cesdo)
+				})
+			}else{
+				that.value = ""
+			}
+		})
+	})
+	$("form").submit(function(e){
+		var that = $(this)
+		e.preventDefault()
+			$.ajax({
+				url : "/orders/commands/proccess/fn/annulment/",
+				type : "POST",
+				data : that.serialize(),
+				success : function ( response ){
+					alertBootstrap("Se Cambio el estado Esitosamente","success",".content")
+					$(that).trigger("reset")
+				}
+			})
+	})
+
+</script>
+{% endblock content_script %}

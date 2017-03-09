@@ -6,12 +6,14 @@ from infa_web.parameters import ManageParameters
 import json
 import datetime
 from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.base.forms import CommonForm
 from infa_web.apps.restaurante_comandas.models import *
 from infa_web.apps.restaurante_comandas.forms import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
+from infa_web.custom.generic_views import CustomListView
 
 from infa_web.apps.base.utils import get_current_user
 from django.db.models import Max
@@ -22,13 +24,19 @@ from infa_web.apps.usuarios.models import Usuario
 # pedido actual
 # pedido anterior -> listar las comandas
 
-def OrdersList(request):
-	context = {}
-	return render(request, "ordenes/list-orders.html", context)
+class OrdersList(CustomListView):
+	model = Coda
+	template_name = "ordenes/list-orders.html"
 
+	def get_queryset(self):
+		queryset = Coda.objects.using(self.request.db).filter()
+		cmesa = self.request.GET.get('cmesa',None)
+		if cmesa :
+			queryset = Coda.objects.using(self.request.db).filter(cmesa__cmesa=cmesa)
+		return queryset
 
 def GetCommandsOrder(request, cmesa):
-	comandas = Coda.objects.using(request.db).filter(cmesa=cmesa)
+	comandas = Coda.objects.using(request.db).filter(cmesa=cmesa,cesdo__cesdo=1)
 
 	return comandas
 
@@ -46,7 +54,7 @@ def SaveSummary(request):
 
 	mesa = Mesas.objects.using(request.db).get(cmesa= data["cmesa"])
 
-	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True)
+	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True,cesdo__cesdo=1)
 	totales = sum( [ comanda.vttotal for comanda in comandas] )
 	try:
 		cresupedi = Resupedi.objects.latest('cresupedi').cresupedi + 1
@@ -123,6 +131,92 @@ def SaveCommand(request):
 
 	return HttpResponse(json.dumps(coda), "application/json")
 
+def ViewAnnulmentCommand(request):
+	form = CommonForm(request.db)
+
+	context = {"form":form}
+	return render(request, "ordenes/procesos/annulment-commad.html", context)
+
+
+@csrf_exempt
+def AnnulmentItemCommand(request):
+	data = json.loads(request.body)
+
+	response = []
+	for data in data["codadeta"]:
+		menu = Menus.objects.using(request.db).get(cmenu = data["cmenu"])
+		coda = Coda.objects.using(request.db).get(ccoda = data["ccoda"])
+		codadeta = Codadeta.objects.using(request.db).get(cmenu= menu,ccoda= coda)
+
+		coda.vttotal -= codadeta.vtotal
+		codadeta.delete()
+
+		coda.save(using=request.db)
+
+		coda_json = serializers.serialize("json", [coda],use_natural_foreign_keys=True)
+		coda_json = json.loads(coda_json)[0]
+
+		response.append(coda_json)
+	print response
+
+	return HttpResponse(json.dumps(response), "application/json")
+
+@csrf_exempt
+def AnnulmentCommand(request):
+
+	mesas = request.POST.get("mesas", "")
+	ccoda = request.POST.get("ccoda", "")
+	detaanula = request.POST.get("detaanula", "")
+	cesdo = request.POST.get("cesdo", "")
+
+	response = {}
+	coda = Coda.objects.using(request.db).get(ccoda = ccoda)
+
+	coda.detaanula = detaanula
+	coda.cesdo = Esdo.objects.using(request.db).get(cesdo = cesdo)
+
+	coda.save(using=request.db)
+
+	return HttpResponse(json.dumps(response), "application/json")
+
+@csrf_exempt
+def OrdersJoin(request):
+	data = json.loads(request.body)
+	cmesa = data["mesa"]
+	mesa = Mesas.objects.using(request.db).get(cmesa=cmesa)
+
+	cmesas = data["mesas"]
+	mesas = Mesas.objects.using(request.db).filter(cmesa__in=cmesas)
+	comandas = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa__in=mesas,cesdo__cesdo=1)
+	"""
+	"""
+	for comanda in comandas:
+		comanda.cmesa = mesa
+		comanda.save(using=request.db)
+
+	from django.template import loader, Context
+
+	"""Temp"""
+	mesas = Mesas.objects.using(request.db).all()
+
+	for mesa in mesas:
+		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
+		mesa.vttotal = float(0)
+		mesa.mesero = None
+		if query.exists():
+			mesa.comandas = query
+			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
+			mesa.vttotal = totales
+			mesa.mesero = mesa.comandas[0].cmero
+	"""Temp"""
+
+	t = loader.get_template('ordenes/partials/summary-mesas.html')
+	c = Context({ 'mesas': mesas })
+	rendered = t.render(c)
+
+	response = {"html":rendered}
+	return HttpResponse(json.dumps(response), "application/json")
+
 def create_Coda(data,name_db):
 	if not isinstance(data,list):
 		data = [data]
@@ -148,7 +242,7 @@ def TakeOrder(request):
 		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
 
 	mesas = Mesas.objects.using(request.db).all()
-	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero).values('cmesa'))
+	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero,cesdo__cesdo=1).values('cmesa'))
 
 	print mesas_activas
 
@@ -164,8 +258,8 @@ def OrderSummary(request):
 	mesas = Mesas.objects.using(request.db).all()
 
 	for mesa in mesas:
-		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa)
-		mesa.vttotal = 0
+		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
+		mesa.vttotal = float(0)
 		mesa.mesero = None
 		if query.exists():
 			mesa.comandas = query
@@ -187,18 +281,11 @@ class OrderPrint(PDFTemplateView):
 		manageParameters = ManageParameters(self.request.db)
 		data = self.request.GET
 
-		# Datos de Prueba
-		"""usuario = Usuario.objects.using(self.request.db).filter()[0]
-
-		talonario_MOS = usuario.ctalomos
-		talonario_POS = usuario.ctalopos"""
-		# Datos de Prueba
-
 		formato = data.get('formato')
 		cresupedi = data.get('cresupedi')
 
 		resupedi = Resupedi.objects.using(self.request.db).filter(cresupedi=cresupedi)
-		comandas = Coda.objects.using(self.request.db).filter(cresupedi=resupedi)
+		comandas = Coda.objects.using(self.request.db).filter(cresupedi=resupedi,cesdo__cesdo=1)
 		for comanda in comandas:
 			comandas.deta = Codadeta.objects.using(self.request.db).filter(ccoda=comanda)
 		print comandas

@@ -2,6 +2,7 @@
 from django import forms
 from infa_web.apps.base.models import *
 from infa_web.apps.articulos.models import *
+from infa_web.apps.restaurante_comandas.models import Mesas
 
 class ParametersForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
@@ -183,6 +184,7 @@ class CommonForm(forms.Form):
 
 		name_db = using
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['mesas'].queryset = Mesas.objects.using(name_db).all()
 		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
 		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 
@@ -190,6 +192,11 @@ class CommonForm(forms.Form):
 		label='Estado',
 		widget=forms.Select(attrs={'class':'form-control','required':True,}),
 		queryset=Esdo.objects.all()
+	)
+	mesas = forms.ModelChoiceField(
+		label='Mesa',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Mesas.objects.all()
 	)
 	group = forms.ModelChoiceField(
 		label='Grupo',

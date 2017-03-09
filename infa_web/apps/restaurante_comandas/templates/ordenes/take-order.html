@@ -403,7 +403,7 @@
 		}
 
 		function listar_comandas_mesa(cmesa,fn){
-			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__"},function(error,comandas){
+			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
 				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
 					comandas.forEach(function(comanda){
