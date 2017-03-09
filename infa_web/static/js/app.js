@@ -679,27 +679,45 @@ $(document).ready(function(e){
 	$(".input-currency").inputCurrency()
 })
 
+WaitDialog = {
+	show : function(text){
+		$('.animation').append(
+			"<div class='loading-animation'>"+
+				"<div class='text-center loading'>"+
+					"<img src='/static/img/loading.gif' alt='Cargando' style='width: 50px;'>"+
+					"<h4>"+text+"</h4>"+
+				"</div>"+
+			"</div>"
+		)
+	},
+	hide : function(){
+		$('.animation').empty()
+	}
+}
+
 
 Models = {
 	objects : {
 		find : function(model,query,cb){
+			WaitDialog.show("Espere Por favor, Procesando...")
 			$.ajax({
 				url: '/models/find/',
 				type: 'POST',
 				data: JSON.stringify({'model': model,'query': query}),
 				contentType: "application/json",
-				success: function(response){cb(null,response.objs)},
-				error: function(response){cb(true,response)}
+				success: function(response){WaitDialog.hide();cb(null,response.objs)},
+				error: function(response){WaitDialog.hide();cb(true,response)}
 			});
 		},
 		findOne : function(model,query,cb){
+			WaitDialog.show("Espere Por favor, Procesando...")
 			$.ajax({
 				url: '/models/find-one/',
 				type: 'POST',
 				data: JSON.stringify({'model': model,'query': query}),
 				contentType: "application/json",
-				success: function(response){cb(null,response.obj)},
-				error: function(response){cb(true,response)}
+				success: function(response){WaitDialog.hide();cb(null,response.obj)},
+				error: function(response){WaitDialog.hide();cb(true,response)}
 			});
 		}
 	}

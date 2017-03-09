@@ -293,11 +293,13 @@
 			var cmesas = mesas.toArray().map(function(mesa){return mesa.value})
 
 			if( mesas.length != 0 ){
+				WaitDialog.show("Uniendo Cuentas...")
 				$.ajax({
 					url : "/orders/join/",
 					type : "POST",
 					data : JSON.stringify( { mesa : cmesa_activa , mesas : cmesas } ),
 					success : function ( response ){
+						WaitDialog.hide()
 						console.log(response)
 						$("container-mesas").empty()
 						$("#modal_unir_cuenta").modal("hide")
@@ -321,11 +323,13 @@
 
 		function resumen_pedido(){
 			$("#modal_formas_pago").modal("hide")
+			WaitDialog.show("Generando Resumen de Pedido...")
 			$.ajax({
 				url : "/orders/summary/save/",
 				type : "POST",
 				data : JSON.stringify( { cmesa : cmesa_activa } ),
 				success : function ( response ){
+					WaitDialog.hide()
 					$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
 					$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
 					$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")

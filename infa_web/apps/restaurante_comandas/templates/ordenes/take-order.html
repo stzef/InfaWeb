@@ -426,12 +426,14 @@
 				cmesa : mesa_activa,
 				cols : cols
 			}
+			WaitDialog.show("Guardando Comanda...")
 			if (data.deta.length){
 				$.ajax({
 					'url' : "/orders/save/",
 					'type' : "POST",
 					'data' : JSON.stringify(data),
 					'success' : function(response){
+						WaitDialog.hide()
 						alertBootstrap("Las Comandas se guardo.","success",".content")
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
