@@ -7,17 +7,20 @@
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {%block content%}
-	{# {%include 'elements/nav.html'%} #}
+	{%include 'elements/nav.html'%}
 	{# {%include 'elements/sidebar.html'%} #}
 
 	<style>
 		.menu{
-			padding: 1px
+			padding: 1px;
+			margin: 2px;
 		}
 			.menu .foto{padding: 0;}
 			.menu .more{padding: 0;}
 
-		.section-resumen-pedido{}
+		.section-resumen-pedido{
+			padding: 0;
+		}
 			.section-resumen-pedido > .section{height: 350px;overflow-y: auto;overflow-x: hidden;}
 
 		.section_comandas{
@@ -50,29 +53,34 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group">
-							<label for="modal_agregar_comanda_canti" class="col-sm-2 control-label"> Mesa </label>
-							<div class="col-sm-10">
-								<select id="modal_input_cmesa" class="form-control" required="">
+							<h3 class="text-center"> Mesa </h3>
+							<div class="col-md-12 text-center">
+								{% for mesa in mesas %}
+									<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa.cmesa}}" onclick="agregar_mesa(this,event)">
+										<i class="fa fa-square-o"></i> {{mesa.nmesa}}
+									</button>
+								{% endfor %}
+								<!--<select id="modal_input_cmesa" class="form-control" required="">
 									{% for mesa in mesas %}
 										<option value="{{ mesa.cmesa }}"> {{ mesa.nmesa }} </option>
 									{% endfor %}
-								</select>
+								</select>-->
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="agregar_mesa(this,event)">Agregar</button>
+					<!--<button type="button" class="btn btn-app btn-primary" onclick="agregar_mesa(this,event)">Agregar</button>-->
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="modal_detalle_menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="modal_detalle_menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel0" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel"><span id="modal_menu_nmenu"></span></h5>
+					<h5 class="modal-title" id="exampleModalLabel0"><span id="modal_menu_nmenu"></span></h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -108,6 +116,39 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modal_editar_cantidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel1"> Editar Camtidad<span id="modal_menu_nmenu"></span></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="canti_cmenu">
+								<span class="glyphicon glyphicon-minus"></span>
+							</button>
+						</span>
+						<input type="text" name="canti_cmenu" id="id_canti_cmenu" class="form-control input-number" value="10" min="1" max="100">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="canti_cmenu">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-success" onclick="enviar_cantidad()">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="content-wrapper" style="margin:0;min-height: 921px;">
 		<section class="content">
 			<div class="row">
@@ -134,7 +175,7 @@
 									<tr>
 										<td>
 											<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa_activa.cmesa}}" onclick="activar_mesa(this,event)">
-												<i class="fa fa-save"></i> {{mesa_activa.nmesa}}
+												<i class="fa fa-square-o"></i> {{mesa_activa.nmesa}}
 											</button>
 										</td>
 									</tr>
@@ -275,8 +316,41 @@
 {%endblock%}
 
 {% block content_script %}
+
+
+
+
+
+
+
+
+
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+	<script>
+		function enviar_cantidad(){
+			var ncanti = $("#modal_editar_cantidad").find("#id_canti_cmenu").val()
+			table.row('.selected').cell(table.row('.selected').index(),1).data(ncanti)
+			$("#modal_editar_cantidad").modal("hide")
+		}
+		$('.btn-number').click(function(e){
+			e.preventDefault();
+
+			fieldName = $(this).attr('data-field');
+			type = $(this).attr('data-type');
+			var input = $("input[name='"+fieldName+"']");
+			var currentVal = parseInt(input.val());
+			if (!isNaN(currentVal)) {
+			if(type == 'minus') {
+				if(currentVal > input.attr('min')) {input.val(currentVal - 1).change()}
+			} else if(type == 'plus') {
+				if(currentVal < input.attr('max')) {input.val(currentVal + 1).change()}
+			}
+			} else {input.val(0)}
+		});
+	</script>
+
 	<script>
 	var table,
 		cols = {
@@ -298,7 +372,18 @@
 					}
 				]
 			});
-			$('#example tbody').on( 'click', 'tr', function () {
+
+			$('#example tbody').on( 'click', 'tr[role=row]', function () {
+
+
+				if (!comanda_activa){
+					var row = table.row( this );
+					var data = row.data();
+					$("#modal_editar_cantidad").find("#id_canti_cmenu").val(row.cell(row.index(),1).data())
+					$("#modal_editar_cantidad").modal("show")
+				}
+
+
 				if ( $(this).hasClass('selected') ) {
 					$(this).removeClass('selected');
 				}else {
@@ -334,21 +419,22 @@
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
 
 			var data = {
-				deta : table.data().toArray(),
+				deta : table.data().toArray().map(function(item){
+					item[cols.vunita.i] = currencyFormat.sToN(item[cols.vunita.i])
+					return item
+				}),
 				cmesa : mesa_activa,
 				cols : cols
 			}
 			if (data.deta.length){
-				console.log(data)
 				$.ajax({
 					'url' : "/orders/save/",
 					'type' : "POST",
 					'data' : JSON.stringify(data),
 					'success' : function(response){
-						console.info(response)
+						alertBootstrap("Las Comandas se guardo.","success",".content")
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
-							alertBootstrap("Las Comandas se guardo.","success",".content")
 						})
 					}
 
@@ -362,15 +448,15 @@
 
 		function agregar_mesa(button,event){
 
-			if( $("#modal_input_cmesa").is(":valid") ){
-				var cmesa = $("#modal_input_cmesa").val()
+			//if( $("#modal_input_cmesa").is(":valid") ){
+				var cmesa = $(button).data("cmesa")
 
 				if ( $("table.mesas").find("button[data-cmesa=" + cmesa + "]").length == 0 ){
 					Models.objects.findOne("Mesas",{cmesa : cmesa},function(error,mesa){
 						var mesa_template = '<tr>'+
 								'<td>'+
 									'<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="__cmesa__" onclick="activar_mesa(this,event)">'+
-										'<i class="fa fa-save"></i> __nmesa__'+
+										'<i class="fa fa-square-o"></i> __nmesa__'+
 									'</button>'+
 								'</td>'+
 							'</tr>'
@@ -384,10 +470,10 @@
 					$(".content").prepend(message)
 					$("#modal_agregar_mesa").modal("hide")
 				}
-			}else{
+			/*}else{
 				var message = alertBootstrap("Seleccione una Mesa","danger")
 				$(button).closest(".modal-footer").prepend(message)
-			}
+			}*/
 		}
 
 		function mostrar_modal_mesa(button,event){ $("#modal_agregar_mesa").modal("show") }
@@ -410,7 +496,7 @@
 						var mesa_comanda = '<tr>'+
 							'<td>'+
 								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda(this,event,__ccoda__)">'+
-									'<i class="fa"></i> __ncoda__'+
+									'<i class="fa"></i>Comanda<br/> __ncoda__'+
 								'</button>'+
 							'</td>'+
 						'</tr>'
@@ -440,11 +526,10 @@
 			var data = table.data().toArray()
 			var valores = data.map(function(item){
 				var canti = parseFloat(item[cols.canti.i])
-				var vunita = parseFloat(item[cols.vunita.i])
+				var vunita = parseFloat(currencyFormat.sToN(item[cols.vunita.i]))
 				return canti * vunita
 			})
 			var vttotal = valores.reduce(function(a,b){ return a + b },0)
-			console.log(vttotal)
 			$("#order_input_vttotal").val(vttotal).trigger("change")
 		}
 
@@ -461,8 +546,11 @@
 
 					table.rows().remove().draw()
 					detalle.forEach(function(item){
-						console.info(item)
-						var row = table.row.add([item.fields.cmenu.cmenu,item.fields.canti,item.fields.cmenu.nmenu,item.fields.cmenu.pvta1]).draw( false );
+						var temp_cmenu = item.fields.cmenu.cmenu,
+						temp_canti = parseInt(item.fields.canti),
+						temp_nmenu = item.fields.cmenu.nmenu,
+						temp_pvta1 = currencyFormat.format(item.fields.cmenu.pvta1)
+						var row = table.row.add([temp_cmenu,temp_canti,temp_nmenu,temp_pvta1]).draw( false );
 					})
 					actualizar_total()
 				}else{
@@ -491,7 +579,12 @@
 				actualizar_total()
 			}else{
 				Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
-					var row = table.row.add([menu.pk,1,menu.fields.nmenu,menu.fields.pvta1]).draw( false );
+					var temp_cmenu = menu.pk,
+					temp_canti = 1,
+					temp_nmenu = menu.fields.nmenu,
+					temp_pvta1 = currencyFormat.format(menu.fields.pvta1)
+
+					var row = table.row.add([temp_cmenu,temp_canti,temp_nmenu,temp_pvta1]).draw( false );
 					actualizar_total()
 				})
 			}
@@ -510,7 +603,6 @@
 					$("#modal_detalle_menu").find("#modal_menu_foto").attr("src","/static/"+menu.fields.foto)
 					Models.objects.find("Menusdeta",{cmenu : cmenu},function(error,detalle){
 						detalle.forEach(function(d){
-							console.info(d)
 							var tr = $("<tr></tr>").append(
 								$("<td>",{html:d.fields.cplato.nplato})
 							).append(
@@ -521,7 +613,6 @@
 							$("#modal_detalle_menu").find("table tbody").append(tr)
 
 						})
-						console.log(detalle)
 					})
 				}
 			})

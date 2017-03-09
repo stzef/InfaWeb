@@ -290,7 +290,6 @@
 				data.ingredientes.vtotal = currencyFormat.format(data.ingredientes.vtotal)
 			}).on("preOpen",function(event, frame, action){
 				$("#nunidad").html("")
-				console.log(arguments)
 				event.target.field("ingredientes.cingre").enable()
 				event.target.field("ingredientes.canti").set(1)
 					event.target.field("ingredientes.ningre").disable()
@@ -301,18 +300,16 @@
 				$("#nunidad").html("")
 				$("[id*=-cingre]").change(function(){
 					var input = this
-					console.log(input)
-
-			Models.objects.findOne("Ingredientes",{cingre : input.value},function(error,ingrediente){
-				console.warn(ingrediente)
-				if(!ingrediente){
-					$(input).val("")
-					tooltipBootstrap($(input),".DTE_Field","Este Ingrediente no se encuentra registrado.")
-				}else{
-					$("#nunidad").html(ingrediente.fields.cunidad.nunidad)
-					event.target.field("ingredientes.ningre").set(ingrediente.fields.ningre)
-				}
-			})
+					if( !input.value ) return
+					Models.objects.findOne("Ingredientes",{cingre : input.value},function(error,ingrediente){
+						if(!ingrediente){
+							$(input).val("")
+							tooltipBootstrap($(input),".DTE_Field","Este Ingrediente no se encuentra registrado.")
+						}else{
+							$("#nunidad").html(ingrediente.fields.cunidad.nunidad)
+							event.target.field("ingredientes.ningre").set(ingrediente.fields.ningre)
+						}
+					})
 
 					/*$.ajax({
 						url: '{% url 'api-get-object' %}',
