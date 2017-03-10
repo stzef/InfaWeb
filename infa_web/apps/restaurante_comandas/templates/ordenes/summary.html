@@ -3,7 +3,10 @@
 {% load static %}
 {% load humanize %}
 
+
 {% block content_head %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 	<style>
 		.mesa{
@@ -22,7 +25,13 @@
 {%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
-
+	<div class="hide">
+		<div id="template_it">{{ form_medios_pagos.it }}</div>
+		<div id="template_cmpago">{{ form_medios_pagos.cmpago }}</div>
+		<div id="template_docmpago">{{ form_medios_pagos.docmpago }}</div>
+		<div id="template_banmpago">{{ form_medios_pagos.banmpago }}</div>
+		<div id="template_vmpago">{{ form_medios_pagos.vmpago }}</div>
+	</div>
 	<!-- Modal Resumen de Pedido -->
 	<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -76,7 +85,19 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" id="form_medios_pago">
+					<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>It</th>
+								<th>Medio de Pago</th>
+								<th>Documento</th>
+								<th>Banco</th>
+								<th>Total</th>
+								<th></th>
+							</tr>
+						</thead>
+					</table>
+					<!--<form class="form-horizontal" id="form_medios_pago">
 						<section id="item_medio_pago">
 							<table class="table table-striped no-footer" cellspacing="0" width="100%">
 								<thead>
@@ -116,7 +137,7 @@
 								<tbody></tbody>
 							</table>
 						</section>
-					</form>
+					</form>-->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Pagar</button>
@@ -198,6 +219,9 @@
 {%endblock%}
 
 {% block content_script %}
+	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
 	<script>
 		var cmesa_activa = null
 		function accion_mesa(div,event){
@@ -346,5 +370,83 @@
 			$("#modal_accion_anular").modal("hide")
 		}
 
+	</script>
+	<script>
+
+		function fillTable(){
+
+			editor = new $.fn.dataTable.Editor( {
+				table: "#example",
+				i18n: CONF_DTE.i18n,
+				fields: [
+					{
+						label: "Item:",
+						name:  "medios_pago.it",
+						"type" : "hidden"
+					},
+					{
+						label: "Codigo:",
+						name:  "medios_pago.cmpago",
+						//"type" : "select"
+					},
+					{
+						label: "Ingrediente:",
+						name:  "medios_pago.docmpago",
+						type: "text",
+						//"type" : "select"
+					},
+					{
+						label: "Cantidad:",
+						name:  "medios_pago.banmpago",
+						type: "text",
+						value: 1
+					},
+					{
+						label: "Unidad:",
+						name:  "medios_pago.vmpago",
+						type: "hidden"
+					}
+				]
+			})
+
+			editor.on("submitComplete",function(event, response, data){
+				if(response.message){
+					var message = alertBootstrap(response.message.text,response.message.type)
+					$("#form").prepend(message)
+				}
+				$("#id_vttotal").val(currencyFormat.format(response.plato.fields.vttotal))
+				data = {data:[]}
+			})
+
+			table_crud = $('#example').DataTable( {
+				dom: "Bfrtip",
+				ajax: {
+					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
+					type: 'GET',
+				},
+				columns: [
+					{ data: "medios_pago.it" },
+					{ data: "medios_pago.cmpago" },
+					{ data: "medios_pago.docmpago" },
+					{ data: "medios_pago.banmpago" },
+					{ data: "medios_pago.vmpago" }
+				],
+				select: 'single',
+				buttons: [
+					{ extend: "create", editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text},
+					{ extend: "edit",   editor: editor,className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text},
+					{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
+				],
+				language: CONF_DTE.language
+			}).on( 'xhr', function ( e, settings, data ) {
+				data.data.forEach(function(e){
+					e.medios_pago.vunita = currencyFormat.format(e.medios_pago.vunita)
+					e.medios_pago.vtotal = currencyFormat.format(e.medios_pago.vtotal)
+				})
+			})
+		table_crud.row.add({DT_RowId:"row_1",medios_pago:{
+			it:$("#template_it").html(),cmpago:$("#template_cmpago").html(),docmpago:$("#template_docmpago").html(),banmpago:$("#template_banmpago").html(),vmpago:$("#template_vmpago").html()}
+		}).draw(false)
+		}
 	</script>
 {%endblock%}

@@ -186,6 +186,7 @@
 		CONF_DTE.i18n.remove.confirm["1"] = "Desea Eliminar el Ingrediente?"
 
 		var editor; // use a global for the submit and return data rendering in the examples
+		var table_crud; // use a global for the submit and return data rendering in the examples
 
 		function fn(response){
 			$("[name=cplato]").val(response.pk)
@@ -326,7 +327,7 @@
 				})
 			})
 
-			$('#example').DataTable( {
+			table_crud = $('#example').DataTable( {
 				dom: "Bfrtip",
 				ajax: {
 					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
