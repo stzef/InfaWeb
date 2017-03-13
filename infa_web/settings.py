@@ -29,6 +29,14 @@ DEBUG = True
 ALLOWED_HOSTS = ['.devappem.com']
 APPEND_SLASH=True
 
+#https://mvostorage.blob.core.windows.net/mvofiles
+#http://azure_account_name.blob.core.windows.net/
+
+AZURE_ACCOUNT_NAME = os.environ.get("APPEM_AZURE_ACCOUNT_NAME")
+AZURE_ACCOUNT_KEY = os.environ.get("APPEM_AZURE_ACCOUNT_KEY")
+AZURE_CONTAINER = os.environ.get("APPEM_AZURE_CONTAINER")
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+STATIC_ROOT = "https://appemstatics.blob.core.windows.net/static/"
 # Application definition
 
 DJANGO_APPS = [
@@ -61,6 +69,7 @@ PROJECT_APPS_RESTAURANT = [
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
 
+
 MIDDLEWARE_CLASSES = [
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,6 +83,9 @@ MIDDLEWARE_CLASSES = [
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'infa_web.apps.base.middleware.updateDateAppen',
 ]
+
+
+
 '''
 LOGGING = {
 	'version': 1,
@@ -196,3 +208,7 @@ STATICFILES_DIRS = (
 	#os.path.join(BASE_DIR, 'static'),
 	os.path.join(BASE_DIR, 'infa_web/static'),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+MEDIA_URL = '/media/'

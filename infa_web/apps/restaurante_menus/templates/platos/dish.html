@@ -76,7 +76,7 @@
 									<div class="col-md-6">
 										<div>
 											<div class="panel">
-												<img class="ae-img-article img-responsive img-thumbnail center-block" src="/static/{{url_foto}}" alt="">
+												<img class="ae-img-article img-responsive img-thumbnail center-block" src="{% static url_foto %}" alt="">
 											</div>
 											<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
 											{%if form.foto.errors%}

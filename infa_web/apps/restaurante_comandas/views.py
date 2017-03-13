@@ -68,17 +68,31 @@ def SaveSummary(request):
 		detaanula = "",
 		ifcortesia = False,
 	)
-
 	resupedi.save(using=request.db)
+
+	for medio_pago in data["medios_pago"]:
+		resupedipago = Resupedipago(
+			cresupedi = resupedi,
+			banmpago = Banfopa.objects.using(request.db).get(cbanfopa=int(medio_pago["banmpago"])),
+			cmpago = MediosPago.objects.using(request.db).get(cmpago=int(medio_pago["cmpago"])),
+			docmpago = medio_pago["docmpago"],
+			it = int(medio_pago["it"]),
+			vmpago = float(medio_pago["vmpago"])
+		)
+		resupedipago.save(using=request.db)
+		print "...................................."
+		print resupedipago
+		print "...................................."
+
 	for comanda in comandas:
 		comanda.cresupedi = resupedi
-		comanda.save(using=request.db)
+		#comanda.save(using=request.db)
 
 	resupedi = serializers.serialize("json", [resupedi],fields=('cresupedi','vttotal','detaanula','ifcortesia'),use_natural_foreign_keys=True)
 	resupedi = json.loads(resupedi)[0]
 
 
-	return HttpResponse(json.dumps(resupedi), "application/json")
+	return HttpResponse(json.dumps(data), "application/json")
 
 @csrf_exempt
 def SaveCommand(request):
@@ -254,24 +268,43 @@ def TakeOrder(request):
 	}
 	return render(request, "ordenes/take-order.html", context)
 
+def GetInfoMesa(mesa,request_db):
+	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
+	vttotal = float(0)
+	mesero = None
+	comandas = []
+	if query.exists():
+		comandas = query
+		totales = sum( [ comanda.vttotal for comanda in comandas] )
+		vttotal = totales
+		mesero = comandas[0].cmero
+	return {"vttotal":vttotal,"mesero":mesero,"comandas":comandas}
+
 def OrderSummary(request):
 	mesas = Mesas.objects.using(request.db).all()
 
-	for mesa in mesas:
-		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
-		mesa.vttotal = float(0)
-		mesa.mesero = None
-		if query.exists():
-			mesa.comandas = query
-			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
-			mesa.vttotal = totales
-			mesa.mesero = mesa.comandas[0].cmero
 
-	context = {
-		'mesas' : mesas,
-		'form_medios_pagos' : ResupedipagoForm(request.db)
-	}
-	return render(request, "ordenes/summary.html", context)
+	for mesa in mesas:
+		info_mesa = GetInfoMesa(mesa,request.db)
+		mesa.vttotal = info_mesa["vttotal"]
+		mesa.mesero = info_mesa["mesero"]
+		mesa.comandas = info_mesa["comandas"]
+
+		#query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
+		#if query.exists():
+		#	mesa.comandas = query
+		#	totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
+		#	mesa.vttotal = totales
+		#	mesa.mesero = mesa.comandas[0].cmero
+
+	if request.is_ajax():
+		pass
+	else:
+		context = {
+			'mesas' : mesas,
+			'form_medios_pagos' : ResupedipagoForm(request.db)
+		}
+		return render(request, "ordenes/summary.html", context)
 
 class OrderPrint(PDFTemplateView):
 	template_name = "ordenes/print/format_half_letter.html"

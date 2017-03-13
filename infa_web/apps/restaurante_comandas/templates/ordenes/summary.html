@@ -3,7 +3,6 @@
 {% load static %}
 {% load humanize %}
 
-
 {% block content_head %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
@@ -22,6 +21,7 @@
 		}
 	</style>
 {% endblock content_head %}
+
 {%block content%}
 	{%include 'elements/nav.html'%}
 	{%include 'elements/sidebar.html'%}
@@ -93,51 +93,9 @@
 								<th>Documento</th>
 								<th>Banco</th>
 								<th>Total</th>
-								<th></th>
 							</tr>
 						</thead>
 					</table>
-					<!--<form class="form-horizontal" id="form_medios_pago">
-						<section id="item_medio_pago">
-							<table class="table table-striped no-footer" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th>It</th>
-										<th>Medio de Pago</th>
-										<th>Documento</th>
-										<th>Banco</th>
-										<th>Total</th>
-										<th></th>
-									</tr>
-									<tr>
-										<th>
-											<input type="hidden" name="{{ form_medios_pagos.it.name }}" id="{{ form_medios_pagos.it.id_for_label}}" >
-										</th>
-										<th>{{ form_medios_pagos.cmpago }}</th>
-										<th>{{ form_medios_pagos.docmpago }}</th>
-										<th>{{ form_medios_pagos.banmpago }}</th>
-										<th>{{ form_medios_pagos.vmpago }}</th>
-										<th><button type="submit" title="Agregar Forma de Pago" class="btn btn-success"><i class="fa fa-plus-square"></i></button></th>
-									</tr>
-								</thead>
-							</table>
-						</section>
-						<section role="form" id="list_medios_pago">
-							<table class="table table-striped no-footer text-center" cellspacing="0">
-								<thead>
-									<tr>
-										<th>It</th>
-										<th>Medio de Pago</th>
-										<th>Documento</th>
-										<th>Banco</th>
-										<th>Total</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-						</section>
-					</form>-->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Pagar</button>
@@ -160,8 +118,13 @@
 					{% for mesa in mesas %}
 						{% if mesa.vttotal > 0 %}
 							<div class="form-group">
-								<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
-								<label for="cuenta_{{mesa.cmesa}}">{{mesa.nmesa}} - $ {{ mesa.vttotal }}</label>
+								<label class="btn  btn-primary" for="cuenta_{{mesa.cmesa}}">
+									<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
+									<!--<i class="fa fa-square-o"></i>-->
+									<p>{{mesa.nmesa}}</p>
+									<!--<br>-->
+									<p>$ {{ mesa.vttotal }}</p>
+								</label>
 							</div>
 						{% endif %}
 					{% endfor %}
@@ -189,7 +152,7 @@
 							<label for="modal_input_action" class="col-sm-2 control-label"> Accion </label>
 							<div class="col-sm-10">
 								<select id="modal_input_action" class="form-control" required="" size="5">
-									<option value="R"> Pedido Actual </option>
+									<option value="R" selected> Pedido Actual </option>
 									<option value="PA"> Pedidos Anteriores </option>
 									<option value="F"> Facturar </option>
 									<option value="UC"> Unir Cuentas </option>
@@ -222,231 +185,5 @@
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
-	<script>
-		var cmesa_activa = null
-		function accion_mesa(div,event){
-			cmesa_activa = $(div).data("cmesa")
-			$("#modal_input_mesa_activa").val(cmesa_activa)
-			$("#modal_accion_mesa").modal("show")
-		}
-		function realizar_accion(div,event){
-			Models.objects.findOne("Mesas",{cmesa : cmesa_activa},function(error,mesa){
-				if( $("#modal_input_action").val() == "R" ) abrir_modal_resumen_pedido(mesa)
-				if( $("#modal_input_action").val() == "F" ) abrir_modal_facturar_pedido(mesa)
-				if( $("#modal_input_action").val() == "UC" ) abrir_modal_unir_cuentas(mesa)
-				$("#modal_accion_mesa").modal("hide")
-			})
-		}
-
-		$('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
-			cmesa_activa = null
-		})
-		$('#modal_accion_resumen,#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
-			cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
-		})
-
-		function abrir_modal_resumen_pedido(mesa){
-			$("#modal_accion_resumen").find(".label_nmesa_modal").html(mesa.fields.nmesa)
-			$("#modal_accion_resumen").find(".modal-body").empty()
-			$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
-			$("#modal_accion_resumen").find("#label_nmero").html()
-			$("#modal_accion_resumen").find("#label_fecha").html()
-
-
-
-			Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
-				if ( comandas ) {
-					$("#modal_accion_resumen").modal("show")
-					var div = $("<div></div>")
-					var template_thead = "<table class='table table-striped'>"+
-						"<thead>"+
-							"<tr>"+
-								"<th>Comanda</th>"+
-								"<th>Menu</th>"+
-								"<th>Cantidad</th>"+
-								"<th>Vr. Unitario</th>"+
-							"</tr>"+
-						"</thead>"+
-					"</table>"
-					var table = $(template_thead)
-					comandas.forEach(function(comanda){
-						Models.objects.find("Codadeta",{ccoda:comanda.pk},function(error,detalles){
-							detalles.forEach(function(detalle){
-								//var template_text = "__nmenu__ \t __canti__ \t __vunita__"
-								var template_tr = "<tr>"+
-									"<td>Comanda # __ccoda__</td>"+
-									"<td>__nmenu__</td>"+
-									"<td>__canti__</td>"+
-									"<td>__vunita__</td>"+
-								"</tr>"
-								table.append(
-									$(template_tr
-										//.set("__it__",detalle.fields.it)
-										//.set("__cmenu__",detalle.fields.cmenu.cmenu)
-										.set("__nmenu__",detalle.fields.cmenu.nmenu)
-										.set("__canti__",detalle.fields.canti)
-										.set("__vunita__",detalle.fields.vunita)
-										.set("__ccoda__",comanda.fields.ccoda)
-									)
-								)
-							})
-						})
-					})
-					div.append(table)
-					$("#modal_accion_resumen").find(".modal-body").append(div)
-				}else{
-					alertBootstrap("Esta Mesa no tiene Comandas Actuales","info",".content")
-				}
-
-			})
-
-		}
-		function abrir_modal_facturar_pedido(mesa){
-			$("#modal_accion_facturar").find(".label_nmesa_modal").html(mesa.fields.nmesa)
-			$("#modal_accion_facturar").modal("show")
-		}
-		function abrir_modal_unir_cuentas(mesa){
-			$("[id*=cuenta_]").prop("checked",false)
-			$("[id*=cuenta_]").closest(".form-group").show()
-			$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
-			$("#modal_unir_cuenta").modal("show")
-		}
-
-		function unir_cuentas(){
-			var mesas = $("#modal_unir_cuenta").find("input:checked")
-			var cmesas = mesas.toArray().map(function(mesa){return mesa.value})
-
-			if( mesas.length != 0 ){
-				WaitDialog.show("Uniendo Cuentas...")
-				$.ajax({
-					url : "/orders/join/",
-					type : "POST",
-					data : JSON.stringify( { mesa : cmesa_activa , mesas : cmesas } ),
-					success : function ( response ){
-						WaitDialog.hide()
-						console.log(response)
-						$("container-mesas").empty()
-						$("#modal_unir_cuenta").modal("hide")
-						$("container-mesas").html(response.html)
-					}
-				})
-			}else{
-				alertBootstrap("Seleccion Las mesas a Unir","info","#modal_unir_cuenta .modal-header")
-			}
-		}
-
-		function imprimir_resumen_pedido(cresupedi){
-			var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
-			win = window.open(url)
-		}
-
-		function mostrar_resumen_pedido(){
-			$("#modal_accion_resumen").modal("hide")
-			$("#modal_formas_pago").modal("show")
-		}
-
-		function resumen_pedido(){
-			$("#modal_formas_pago").modal("hide")
-			WaitDialog.show("Generando Resumen de Pedido...")
-			$.ajax({
-				url : "/orders/summary/save/",
-				type : "POST",
-				data : JSON.stringify( { cmesa : cmesa_activa } ),
-				success : function ( response ){
-					WaitDialog.hide()
-					$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
-					$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
-					$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
-					$("#modal_accion_resumen").modal("hide")
-					alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
-					imprimir_resumen_pedido(response.pk)
-				}
-			})
-		}
-		function facturar_pedido(){
-			$("#modal_accion_facturar").modal("hide")
-		}
-		function anular_comanda(){
-			$("#modal_accion_anular").modal("hide")
-		}
-
-	</script>
-	<script>
-
-		function fillTable(){
-
-			editor = new $.fn.dataTable.Editor( {
-				table: "#example",
-				i18n: CONF_DTE.i18n,
-				fields: [
-					{
-						label: "Item:",
-						name:  "medios_pago.it",
-						"type" : "hidden"
-					},
-					{
-						label: "Codigo:",
-						name:  "medios_pago.cmpago",
-						//"type" : "select"
-					},
-					{
-						label: "Ingrediente:",
-						name:  "medios_pago.docmpago",
-						type: "text",
-						//"type" : "select"
-					},
-					{
-						label: "Cantidad:",
-						name:  "medios_pago.banmpago",
-						type: "text",
-						value: 1
-					},
-					{
-						label: "Unidad:",
-						name:  "medios_pago.vmpago",
-						type: "hidden"
-					}
-				]
-			})
-
-			editor.on("submitComplete",function(event, response, data){
-				if(response.message){
-					var message = alertBootstrap(response.message.text,response.message.type)
-					$("#form").prepend(message)
-				}
-				$("#id_vttotal").val(currencyFormat.format(response.plato.fields.vttotal))
-				data = {data:[]}
-			})
-
-			table_crud = $('#example').DataTable( {
-				dom: "Bfrtip",
-				ajax: {
-					url: "/dishes/ingredients/" + $("[name=cplato]").val(),
-					type: 'GET',
-				},
-				columns: [
-					{ data: "medios_pago.it" },
-					{ data: "medios_pago.cmpago" },
-					{ data: "medios_pago.docmpago" },
-					{ data: "medios_pago.banmpago" },
-					{ data: "medios_pago.vmpago" }
-				],
-				select: 'single',
-				buttons: [
-					{ extend: "create", editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text},
-					{ extend: "edit",   editor: editor,className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text},
-					{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
-				],
-				language: CONF_DTE.language
-			}).on( 'xhr', function ( e, settings, data ) {
-				data.data.forEach(function(e){
-					e.medios_pago.vunita = currencyFormat.format(e.medios_pago.vunita)
-					e.medios_pago.vtotal = currencyFormat.format(e.medios_pago.vtotal)
-				})
-			})
-		table_crud.row.add({DT_RowId:"row_1",medios_pago:{
-			it:$("#template_it").html(),cmpago:$("#template_cmpago").html(),docmpago:$("#template_docmpago").html(),banmpago:$("#template_banmpago").html(),vmpago:$("#template_vmpago").html()}
-		}).draw(false)
-		}
-	</script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/app/comandas/index.js' %}"></script>
 {%endblock%}

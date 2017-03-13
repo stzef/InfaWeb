@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from django.core import serializers
 
@@ -42,7 +43,7 @@ class IngredientCreate(AjaxableResponseMixin,CustomCreateView):
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-ingredient')
 
-		context['url_foto'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto'] = static(DEFAULT_IMAGE_ARTICLE)
 
 		manageParameters = ManageParameters(self.request.db)
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
@@ -147,7 +148,7 @@ class DishCreate(AjaxableResponseMixin,CustomCreateView):
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-dish')
-		context['url_foto'] = DEFAULT_IMAGE_DISHES
+		context['url_foto'] = static(DEFAULT_IMAGE_DISHES)
 
 		return context
 
@@ -184,7 +185,7 @@ class DishUpdate(AjaxableResponseMixin,CustomUpdateView):
 
 		plato = Platos.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 
-		context['url_foto'] = plato.foto
+		context['url_foto'] = plato.foto.url
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
@@ -231,7 +232,7 @@ class MenuCreate(AjaxableResponseMixin,CustomCreateView):
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('add-menu')
-		context['url_foto'] = DEFAULT_IMAGE_MENUS
+		context['url_foto'] = static(DEFAULT_IMAGE_MENUS)
 
 		return context
 
@@ -268,7 +269,7 @@ class MenuUpdate(AjaxableResponseMixin,CustomUpdateView):
 
 		menu = Menus.objects.using(self.request.db).get(pk=self.kwargs["pk"])
 
-		context['url_foto'] = menu.foto
+		context['url_foto'] = menu.foto.url
 
 		context['mode_view'] = 'edit'
 		context['current_pk'] = self.kwargs["pk"]
