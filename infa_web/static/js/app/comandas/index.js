@@ -113,21 +113,32 @@ function mostrar_resumen_pedido(){
 
 function resumen_pedido(){
 	//$("#modal_formas_pago").modal("hide")
-	WaitDialog.show("Generando Resumen de Pedido...")
-	$.ajax({
-		url : "/orders/summary/save/",
-		type : "POST",
-		data : JSON.stringify( { cmesa : cmesa_activa, medios_pago: get_medios_pago() } ),
-		success : function ( response ){
-			WaitDialog.hide()
-			$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
-			$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
-			$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
-			$("#modal_accion_resumen").modal("hide")
-			alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
-			imprimir_resumen_pedido(response.pk)
+	if ( customValidationInput($("#modal_formas_pago table tbody")).valid ){
+		//$("#modal_formas_pago").modal("hide")
+		WaitDialog.show("Generando Resumen de Pedido...")
+		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
+		console.info(data_save)
+		if( data_save.medios_pago.length == 0){
+			return alertBootstrap("Seleccione por lo menos un medio de Pago","info","#modal_formas_pago .modal-header")
 		}
-	})
+
+		WaitDialog.show("Generando Resumen de Pedido...")
+		$.ajax({
+			url : "/orders/summary/save/",
+			type : "POST",
+			data : JSON.stringify( data_save ),
+			success : function ( response ){
+				WaitDialog.hide()
+				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
+				$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
+				$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
+				$("#modal_accion_resumen").modal("hide")
+				alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
+				$("#modal_formas_pago").modal("hide")
+				imprimir_resumen_pedido(response.pk)
+			}
+		})
+	}
 }
 
 function facturar_pedido(){
@@ -144,11 +155,23 @@ function get_medios_pago(){
 	})
 }
 
-function verificar_total_pago(){
-	var data = get_medios_pago()
-	var totales = data.map(function(row){return parseFloat(row.vmpago)})
-	var totales = totales.reduce(function(a,b){ return a + b },0)
-	alert(totales)
+function verificar_total_pago(input,event){
+
+	WaitDialog.show("Procesando...")
+	$.ajax({
+		url:"/tables/info-sumary/__cmesa__/".set("__cmesa__",cmesa_activa),
+		type:"POST",
+		success:function(response){
+			WaitDialog.hide()
+			var data = get_medios_pago()
+			var totales = data.map(function(row){return parseFloat(row.vmpago)})
+			var totales = totales.reduce(function(a,b){ return a + b },0)
+			if( totales > response.vttotal ){
+				input.value = ""
+				alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
+			}
+		}
+	})
 }
 
 $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
@@ -171,9 +194,9 @@ var editor = new $.fn.dataTable.Editor( {
 	]
 })
 
-editor.on("create remove",function(event, response, data){
+/*editor.on("create remove",function(event, response, data){
 	verificar_total_pago()
-})
+})*/
 
 var table_crud = $('#example').DataTable( {
 	dom: "Bfrtip",
@@ -192,7 +215,7 @@ var table_crud = $('#example').DataTable( {
 			table_crud.row.add({DT_RowId:"row_1",medios_pago:{
 				it:$("#template_it").html(),cmpago:$("#template_cmpago").html(),docmpago:$("#template_docmpago").html(),banmpago:$("#template_banmpago").html(),vmpago:$("#template_vmpago").html()}
 			}).draw(false)
-			verificar_total_pago()
+			/*verificar_total_pago()*/
 		}},
 		{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
 	],

@@ -22,7 +22,13 @@ urlOrders = [
 	url(r'^orders/summary/$', login_required(OrderSummary), name = 'order-summary'),
 	url(r'^orders/summary/save/$', login_required(SaveSummary), name = 'save-summary'),
 	url(r'^orders/print/$', login_required(OrderPrint.as_view()), name = 'order-print'),
-
 ]
 
-urlpatterns = urlOrders
+urlMesas = [
+	url(r'^tables/$', login_required(TablesList.as_view()), name = 'list-tables'),
+	url(r'^tables/add/$', login_required(TableCreate.as_view()), name = 'add-table'),
+	url(r'^tables/edit/(?P<pk>[0-9]+)/$', login_required(TableUpdate.as_view()), name = 'edit-table'),
+	url(r'^tables/info-sumary/(?P<pk>[0-9]+)/$', login_required(InfoSummaryUpdate), name = 'table-info-summary'),
+]
+
+urlpatterns = urlOrders + urlMesas

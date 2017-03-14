@@ -12,17 +12,93 @@ from infa_web.apps.restaurante_comandas.forms import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-
-from infa_web.custom.generic_views import CustomListView
+from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
 
 from infa_web.apps.base.utils import get_current_user
 from django.db.models import Max
 
 from django.contrib.auth.models import User
 from infa_web.apps.usuarios.models import Usuario
+from infa_web.apps.base.views import AjaxableResponseMixin
+from django.core.urlresolvers import reverse_lazy
 
 # pedido actual
 # pedido anterior -> listar las comandas
+
+def GetInfoMesa(mesa,request_db):
+	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
+	vttotal = float(0)
+	mesero = None
+	comandas = []
+	if query.exists():
+		comandas = query
+		totales = sum( [ comanda.vttotal for comanda in comandas] )
+		vttotal = totales
+		mesero = comandas[0].cmero
+	return {"vttotal":vttotal,"mesero":mesero,"comandas":comandas}
+
+def generar_ccoda(talocoda,request_db):
+	maxCcoda = Coda.objects.using(request_db).filter(ctalocoda=talocoda).aggregate(Max('ccoda'))
+	if maxCcoda["ccoda__max"]:
+		ccoda = maxCcoda["ccoda__max"] + 1
+	else:
+		ccoda = 1
+	return ccoda
+
+def create_Coda(data,name_db):
+	if not isinstance(data,list):
+		data = [data]
+
+	list_coda = []
+	coda = None
+	for item in data:
+		coda = Coda(**item["coda"])
+		coda.save(using=name_db)
+		for deta in item["deta"]:
+			deta["ccoda"] = coda
+			codadeta = Codadeta(**deta)
+			codadeta.save(using=name_db)
+		list_coda.append(coda)
+	return list_coda
+
+# States #
+class TableCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Mesas
+	template_name = "mesas/table.html"
+	form_class = TableForm
+	success_url=reverse_lazy("add-table")
+
+	def get_context_data(self, **kwargs):
+		context = super(TableCreate, self).get_context_data(**kwargs)
+
+		context_request = RequestContext(self.request)
+		#context['context_request'] = context_request
+		self.context_instance = RequestContext(self.request)
+
+
+		context['title'] = 'Crear Mesa'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-table')
+		return context
+
+class TableUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Mesas
+	template_name = "mesas/table.html"
+	form_class = TableForm
+	success_url=reverse_lazy("add-table")
+
+	def get_context_data(self, **kwargs):
+		context = super(TableUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Mesa'
+		context['mode_view'] = 'edit'
+		context['url'] = reverse_lazy('edit-table',kwargs={'pk': self.kwargs["pk"]},)
+		context['current_pk'] = self.kwargs["pk"]
+		return context
+
+class TablesList(CustomListView):
+	model = Mesas
+	template_name = "mesas/list-tables.html"
+# States #
 
 class OrdersList(CustomListView):
 	model = Coda
@@ -39,14 +115,6 @@ def GetCommandsOrder(request, cmesa):
 	comandas = Coda.objects.using(request.db).filter(cmesa=cmesa,cesdo__cesdo=1)
 
 	return comandas
-
-def generar_ccoda(talocoda,request_db):
-	maxCcoda = Coda.objects.using(request_db).filter(ctalocoda=talocoda).aggregate(Max('ccoda'))
-	if maxCcoda["ccoda__max"]:
-		ccoda = maxCcoda["ccoda__max"] + 1
-	else:
-		ccoda = 1
-	return ccoda
 
 @csrf_exempt
 def SaveSummary(request):
@@ -86,7 +154,7 @@ def SaveSummary(request):
 
 	for comanda in comandas:
 		comanda.cresupedi = resupedi
-		#comanda.save(using=request.db)
+		comanda.save(using=request.db)
 
 	resupedi = serializers.serialize("json", [resupedi],fields=('cresupedi','vttotal','detaanula','ifcortesia'),use_natural_foreign_keys=True)
 	resupedi = json.loads(resupedi)[0]
@@ -151,29 +219,42 @@ def ViewAnnulmentCommand(request):
 	context = {"form":form}
 	return render(request, "ordenes/procesos/annulment-commad.html", context)
 
-
 @csrf_exempt
 def AnnulmentItemCommand(request):
 	data = json.loads(request.body)
 
-	response = []
+	responses = []
 	for data in data["codadeta"]:
 		menu = Menus.objects.using(request.db).get(cmenu = data["cmenu"])
 		coda = Coda.objects.using(request.db).get(ccoda = data["ccoda"])
 		codadeta = Codadeta.objects.using(request.db).get(cmenu= menu,ccoda= coda)
 
-		coda.vttotal -= codadeta.vtotal
-		codadeta.delete()
+		response = {}
+		if coda.cresupedi is None:
+			response["message"] = "El Item se eliminio Correctamente %s" % coda.ccoda
+			response["status"] = "success"
+			coda.vttotal -= codadeta.vtotal
+			codadeta.delete()
 
-		coda.save(using=request.db)
+			coda.save(using=request.db)
 
-		coda_json = serializers.serialize("json", [coda],use_natural_foreign_keys=True)
-		coda_json = json.loads(coda_json)[0]
+			coda_json = serializers.serialize("json", [coda],use_natural_foreign_keys=True)
+			coda_json = json.loads(coda_json)[0]
 
-		response.append(coda_json)
-	print response
+			response["json"] = coda_json
+			responses.append(response)
 
-	return HttpResponse(json.dumps(response), "application/json")
+		else:
+			response["message"] = "El Item  No se puede Anular ( Esta Registrada en un Resumen de Pedido )"
+			response["status"] = "danger"
+			responses.append(response)
+
+
+
+
+	print responses
+
+	return HttpResponse(json.dumps(responses), "application/json")
 
 @csrf_exempt
 def AnnulmentCommand(request):
@@ -183,15 +264,36 @@ def AnnulmentCommand(request):
 	detaanula = request.POST.get("detaanula", "")
 	cesdo = request.POST.get("cesdo", "")
 
-	response = {}
 	coda = Coda.objects.using(request.db).get(ccoda = ccoda)
+	response = {}
+	if coda.cresupedi is None:
+		response["message"] = "Se realizo el cambio de estado de la comanda %s" % coda.ccoda
+		response["status"] = "success"
 
-	coda.detaanula = detaanula
-	coda.cesdo = Esdo.objects.using(request.db).get(cesdo = cesdo)
+		coda.detaanula = detaanula
+		coda.cesdo = Esdo.objects.using(request.db).get(cesdo = cesdo)
 
-	coda.save(using=request.db)
+		coda.save(using=request.db)
+	else:
+		response["message"] = "La Comanda No se puede Anular ( Esta Registrada en un Resumen de Pedido )"
+		response["status"] = "danger"
 
 	return HttpResponse(json.dumps(response), "application/json")
+
+@csrf_exempt
+def InfoSummaryUpdate(request,pk):
+	mesa = Mesas.objects.using(request.db).get(cmesa=pk)
+	info_mesa = GetInfoMesa(mesa,request.db)
+
+	mesa = json.loads(serializers.serialize("json", [mesa],use_natural_foreign_keys=True))[0]
+	comandas = json.loads(serializers.serialize("json", info_mesa["comandas"],use_natural_foreign_keys=True))
+	mesero = json.loads(serializers.serialize("json", [info_mesa["mesero"]],use_natural_foreign_keys=True))[0]
+
+	mesa["comandas"] = comandas
+	mesa["vttotal"] = str(info_mesa["vttotal"])
+	mesa["mesero"] = mesero
+
+	return HttpResponse(json.dumps(mesa), "application/json")
 
 @csrf_exempt
 def OrdersJoin(request):
@@ -202,27 +304,20 @@ def OrdersJoin(request):
 	cmesas = data["mesas"]
 	mesas = Mesas.objects.using(request.db).filter(cmesa__in=cmesas)
 	comandas = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa__in=mesas,cesdo__cesdo=1)
-	"""
-	"""
+
 	for comanda in comandas:
 		comanda.cmesa = mesa
 		comanda.save(using=request.db)
 
 	from django.template import loader, Context
 
-	"""Temp"""
 	mesas = Mesas.objects.using(request.db).all()
 
 	for mesa in mesas:
-		query = Coda.objects.using(request.db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
-		mesa.vttotal = float(0)
-		mesa.mesero = None
-		if query.exists():
-			mesa.comandas = query
-			totales = sum( [ comanda.vttotal for comanda in mesa.comandas] )
-			mesa.vttotal = totales
-			mesa.mesero = mesa.comandas[0].cmero
-	"""Temp"""
+		info_mesa = GetInfoMesa(mesa,request.db)
+		mesa.comandas = info_mesa["comandas"]
+		mesa.vttotal = info_mesa["vttotal"]
+		mesa.mesero = info_mesa["mesero"]
 
 	t = loader.get_template('ordenes/partials/summary-mesas.html')
 	c = Context({ 'mesas': mesas })
@@ -230,22 +325,6 @@ def OrdersJoin(request):
 
 	response = {"html":rendered}
 	return HttpResponse(json.dumps(response), "application/json")
-
-def create_Coda(data,name_db):
-	if not isinstance(data,list):
-		data = [data]
-
-	list_coda = []
-	coda = None
-	for item in data:
-		coda = Coda(**item["coda"])
-		coda.save(using=name_db)
-		for deta in item["deta"]:
-			deta["ccoda"] = coda
-			codadeta = Codadeta(**deta)
-			codadeta.save(using=name_db)
-		list_coda.append(coda)
-	return list_coda
 
 def TakeOrder(request):
 
@@ -267,18 +346,6 @@ def TakeOrder(request):
 		'mesero' : mesero
 	}
 	return render(request, "ordenes/take-order.html", context)
-
-def GetInfoMesa(mesa,request_db):
-	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
-	vttotal = float(0)
-	mesero = None
-	comandas = []
-	if query.exists():
-		comandas = query
-		totales = sum( [ comanda.vttotal for comanda in comandas] )
-		vttotal = totales
-		mesero = comandas[0].cmero
-	return {"vttotal":vttotal,"mesero":mesero,"comandas":comandas}
 
 def OrderSummary(request):
 	mesas = Mesas.objects.using(request.db).all()

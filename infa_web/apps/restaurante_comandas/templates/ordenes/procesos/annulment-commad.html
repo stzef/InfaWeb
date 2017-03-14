@@ -70,7 +70,13 @@
 				type : "POST",
 				data : JSON.stringify( { codadeta : [{ccoda:ccoda,it:it,cmenu:cmenu}] } ),
 				success : function ( response ){
-					that.closest("tr").remove()
+					console.log(response)
+					response.forEach(function(item){
+						alertBootstrap(item.message,item.status,".content")
+						if(item.status == "succes"){
+							that.closest("tr").remove()
+						}
+					})
 				}
 			})
 		}
@@ -130,8 +136,9 @@
 				type : "POST",
 				data : that.serialize(),
 				success : function ( response ){
-					alertBootstrap("Se Cambio el estado Esitosamente","success",".content")
+					alertBootstrap(response.message,response.status,".content")
 					$(that).trigger("reset")
+					$("#tabla_coda_deta").empty()
 				}
 			})
 	})

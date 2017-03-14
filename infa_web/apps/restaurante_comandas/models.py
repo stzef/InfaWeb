@@ -29,7 +29,7 @@ class Mesas(models.Model):
 	class Meta:
 		ordering = ["nmesa"]
 
-	cmesa = models.IntegerField(primary_key=True)
+	cmesa = models.AutoField(primary_key=True)
 	nmesa = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo, default=CESTADO_ACTIVO)
 	npmax = models.IntegerField()
@@ -45,7 +45,7 @@ class Meseros(models.Model):
 	class Meta:
 		ordering = ["nmero"]
 
-	cmero = models.IntegerField(primary_key=True)
+	cmero = models.AutoField(primary_key=True)
 	nmero = models.CharField(max_length=50)
 	ctalocoda = models.ForeignKey(Talocoda)
 	cesdo = models.ForeignKey(Esdo, default=CESTADO_ACTIVO)

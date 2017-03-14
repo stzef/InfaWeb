@@ -145,10 +145,25 @@ function get_medios_pago(){
 }
 
 function verificar_total_pago(){
+
 	var data = get_medios_pago()
+	console.warn(data)
 	var totales = data.map(function(row){return parseFloat(row.vmpago)})
 	var totales = totales.reduce(function(a,b){ return a + b },0)
-	alert(totales)
+
+	WaitDialog.show("Procesando...")
+	$.ajax({
+		url:"/tables/info-sumary/__cmesa__/".set("__cmesa__",cmesa_activa),
+		type:"POST",
+		success:function(response){
+			WaitDialog.hide()
+			if( totales > response.vttotal ){
+				alertBootstrap("El Valor No debe superar el saldo de la mesa","info",".content")
+			}
+		}
+	})
+
+	console.info(totales)
 }
 
 $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {

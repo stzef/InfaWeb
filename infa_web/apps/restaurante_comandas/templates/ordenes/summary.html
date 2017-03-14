@@ -30,10 +30,14 @@
 		<div id="template_cmpago">{{ form_medios_pagos.cmpago }}</div>
 		<div id="template_docmpago">{{ form_medios_pagos.docmpago }}</div>
 		<div id="template_banmpago">{{ form_medios_pagos.banmpago }}</div>
-		<div id="template_vmpago">{{ form_medios_pagos.vmpago }}</div>
+		<!--<div id="template_vmpago">{{ form_medios_pagos.vmpago }}</div>-->
+		<div id="template_vmpago">
+			<!--<input class="input-currency form-control" id="id_vmpago" min="0" name="vmpago" step="0.01" type="text" required="" style="text-align: right;">-->
+			<input class="{{form_medios_pagos.vmpago.field.widget.attrs.class}}" id="{{form_medios_pagos.vmpago.id_for_label}}" min="{{form_medios_pagos.vmpago.field.widget.attrs.min}}" name="vmpago" step="{{form_medios_pagos.vmpago.field.widget.attrs.step}}" type="text" required="" style="text-align: right;" onchange="verificar_total_pago(this,event)">
+		</div>
 	</div>
 	<!-- Modal Resumen de Pedido -->
-	<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+	<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -49,14 +53,14 @@
 				</div>
 				<div class="modal-footer">
 					<!--<button type="button" class="btn btn-app btn-primary" onclick="imprimir_resumen_pedido()">Imprimir</button>-->
-					<button type="button" class="btn btn-app btn-primary" onclick="mostrar_resumen_pedido(this,event)">Guardar</button>
+					<button type="button" class="btn btn-app btn-primary text-center" onclick="mostrar_resumen_pedido(this,event)">Formas de </br> Pago</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Modal Facturar Pedido -->
-	<div class="modal fade" id="modal_accion_facturar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+	<div class="modal fade" id="modal_accion_facturar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -68,14 +72,14 @@
 				<div class="modal-body">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="facturar_pedido(this,event)">Guarda</button>
+					<button type="button" class="btn btn-app btn-primary" onclick="facturar_pedido(this,event)">Facturar</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Modal Formas de Pago -->
-	<div class="modal fade" id="modal_formas_pago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+	<div class="modal fade" id="modal_formas_pago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -105,7 +109,7 @@
 	</div>
 
 	<!-- Modal Unir Cuentas -->
-	<div class="modal fade" id="modal_unir_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+	<div class="modal fade" id="modal_unir_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -137,7 +141,7 @@
 	</div>
 
 	<!-- Modal Seleccionar Accion de Mesa -->
-	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -162,7 +166,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="realizar_accion(this,event)">Agregar</button>
+					<button type="button" class="btn btn-app btn-primary text-center" onclick="realizar_accion(this,event)">Realizar</button>
 					<input type="hidden" id="modal_input_mesa_activa" value="">
 				</div>
 			</div>

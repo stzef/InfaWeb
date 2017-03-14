@@ -4,6 +4,29 @@ from infa_web.apps.restaurante_comandas.models import *
 from django.core.exceptions import ValidationError
 from django.db.models import Max
 
+class TableForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(TableForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+
+	class Meta:
+		model = Mesas
+		fields = "__all__"
+		exclude = []
+		widgets = {
+			#'cmesa':forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'nmesa':forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'cesdo': forms.Select(attrs={'class':'form-control','required':True}),
+			'npmax': forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
+		}
+		labels = {
+			'nmesa':'Nombre',
+			'cesdo':'Estado',
+			'npmax':'# Personas',
+		}
+
 class MenuForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(MenuForm, self).__init__(*args, **kwargs)

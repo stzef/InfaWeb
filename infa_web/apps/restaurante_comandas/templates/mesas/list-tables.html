@@ -1,0 +1,60 @@
+{%extends 'layouts/base.html'%}
+{% load static %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+{% load humanize %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Estados</h3>
+				</div>
+				<div class="box-body">
+					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Codigo Interno</th>
+								<th>Nombre</th>
+								<th>Estado</th>
+								<th># Personas</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for table in object_list %}
+								<tr>
+									<td>{{ table.cmesa }}</td>
+									<td>{{ table.nmesa }}</td>
+									<td>{{ table.cesdo }}</td>
+									<td>{{ table.npmax }}</td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-table' table.pk %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ table.pk }}">Seleccionar</button></td>
+
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable({"language": languageDataTable});
+		});
+	</script>
+{% endblock %}
