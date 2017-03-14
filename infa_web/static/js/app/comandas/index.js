@@ -2,6 +2,9 @@ var cmesa_activa = null
 
 function accion_mesa(div,event){
 	cmesa_activa = $(div).data("cmesa")
+	nmesa_activa = $(div).data("nmesa")
+	$("#modal_accion_mesa").find(".label_nmesa_modal").html(nmesa_activa)
+
 	$("#modal_input_mesa_activa").val(cmesa_activa)
 	$("#modal_accion_mesa").modal("show")
 }
@@ -72,10 +75,17 @@ function abrir_modal_facturar_pedido(mesa){
 }
 
 function abrir_modal_unir_cuentas(mesa){
+	$("#modal_unir_cuenta").find(".label_nmesa_modal").html(mesa.fields.nmesa)
 	$("[id*=cuenta_]").prop("checked",false)
 	$("[id*=cuenta_]").closest(".form-group").show()
+
 	$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
-	$("#modal_unir_cuenta").modal("show")
+
+	if ( $("[id*=cuenta_]").length > 1 ){
+		$("#modal_unir_cuenta").modal("show")
+	}else{
+		alertBootstrap("No hay mesas para unir","info",".content")
+	}
 }
 
 function unir_cuentas(){
@@ -90,10 +100,9 @@ function unir_cuentas(){
 			data : JSON.stringify( { mesa : cmesa_activa , mesas : cmesas } ),
 			success : function ( response ){
 				WaitDialog.hide()
-				console.log(response)
 				$("container-mesas").empty()
 				$("#modal_unir_cuenta").modal("hide")
-				$("container-mesas").html(response.html)
+				$(".container-mesas").html(response.html)
 			}
 		})
 	}else{
@@ -107,6 +116,12 @@ function imprimir_resumen_pedido(cresupedi){
 }
 
 function mostrar_resumen_pedido(){
+	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
+
+	$("#modal_formas_pago").find(".label_nmesa_modal").html(div_mesa.data("nmesa"))
+	$("#modal_formas_pago").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
+
+
 	$("#modal_accion_resumen").modal("hide")
 	$("#modal_formas_pago").modal("show")
 }
@@ -115,13 +130,10 @@ function resumen_pedido(){
 	//$("#modal_formas_pago").modal("hide")
 	if ( customValidationInput($("#modal_formas_pago table tbody")).valid ){
 		//$("#modal_formas_pago").modal("hide")
-		WaitDialog.show("Generando Resumen de Pedido...")
 		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
-		console.info(data_save)
 		if( data_save.medios_pago.length == 0){
 			return alertBootstrap("Seleccione por lo menos un medio de Pago","info","#modal_formas_pago .modal-header")
 		}
-
 		WaitDialog.show("Generando Resumen de Pedido...")
 		$.ajax({
 			url : "/orders/summary/save/",
@@ -132,10 +144,17 @@ function resumen_pedido(){
 				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
 				$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
 				$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
+
+				$("#modal_unir_cuenta").find(".container_cuenta___cmesa__".set("__cmesa__",cmesa_activa)).remove()
+
 				$("#modal_accion_resumen").modal("hide")
-				alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
 				$("#modal_formas_pago").modal("hide")
-				imprimir_resumen_pedido(response.pk)
+
+				alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
+
+				table_crud.rows().remove().draw()
+
+				// imprimir_resumen_pedido(response.pk)
 			}
 		})
 	}
@@ -163,9 +182,16 @@ function verificar_total_pago(input,event){
 		type:"POST",
 		success:function(response){
 			WaitDialog.hide()
+			response.vttotal = parseFloat(response.vttotal)
 			var data = get_medios_pago()
-			var totales = data.map(function(row){return parseFloat(row.vmpago)})
+			var totales = data.map(function(row){
+				console.info(parseFloat(row.vmpago))
+				if ( isNaN(parseFloat(row.vmpago)) ){return 0}
+				return parseFloat(row.vmpago)
+			})
 			var totales = totales.reduce(function(a,b){ return a + b },0)
+			console.log(response)
+			console.log(totales)
 			if( totales > response.vttotal ){
 				input.value = ""
 				alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
@@ -176,6 +202,10 @@ function verificar_total_pago(input,event){
 
 $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
 	cmesa_activa = null
+	table_crud.rows().remove().draw()
+})
+$('#modal_formas_pago').on('hidden.bs.modal', function () {
+	table_crud.rows().remove().draw()
 })
 $('#modal_accion_resumen,#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
 	cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
@@ -186,7 +216,6 @@ var editor = new $.fn.dataTable.Editor( {
 	ajax : false,
 	i18n: CONF_DTE.i18n,
 	fields: [
-		{label: "Item:",name:  "medios_pago.it","type" : "hidden"},
 		{label: "Codigo:",name:  "medios_pago.cmpago"},
 		{label: "Ingrediente:",name:  "medios_pago.docmpago",type: "text"},
 		{label: "Cantidad:",name:  "medios_pago.banmpago",type: "text"},
@@ -194,15 +223,10 @@ var editor = new $.fn.dataTable.Editor( {
 	]
 })
 
-/*editor.on("create remove",function(event, response, data){
-	verificar_total_pago()
-})*/
-
 var table_crud = $('#example').DataTable( {
 	dom: "Bfrtip",
 	ajax: false,
 	columns: [
-		{ data: "medios_pago.it" },
 		{ data: "medios_pago.cmpago" },
 		{ data: "medios_pago.docmpago" },
 		{ data: "medios_pago.banmpago" },
@@ -211,11 +235,15 @@ var table_crud = $('#example').DataTable( {
 	select: 'single',
 	buttons: [
 		{ editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text, action: function ( e, dt, node, config ) {
-			console.log("agregar")
-			table_crud.row.add({DT_RowId:"row_1",medios_pago:{
-				it:$("#template_it").html(),cmpago:$("#template_cmpago").html(),docmpago:$("#template_docmpago").html(),banmpago:$("#template_banmpago").html(),vmpago:$("#template_vmpago").html()}
+			table_crud.row.add({
+				DT_RowId:"row_1",
+				medios_pago:{
+					cmpago:$("#template_cmpago").html(),
+					docmpago:$("#template_docmpago").html(),
+					banmpago:$("#template_banmpago").html(),
+					vmpago:$("#template_vmpago").html()
+				}
 			}).draw(false)
-			/*verificar_total_pago()*/
 		}},
 		{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
 	],

@@ -137,16 +137,17 @@ def SaveSummary(request):
 		ifcortesia = False,
 	)
 	resupedi.save(using=request.db)
-
+	medio_pago_it = 1
 	for medio_pago in data["medios_pago"]:
 		resupedipago = Resupedipago(
 			cresupedi = resupedi,
 			banmpago = Banfopa.objects.using(request.db).get(cbanfopa=int(medio_pago["banmpago"])),
 			cmpago = MediosPago.objects.using(request.db).get(cmpago=int(medio_pago["cmpago"])),
 			docmpago = medio_pago["docmpago"],
-			it = int(medio_pago["it"]),
+			it = int(medio_pago_it),
 			vmpago = float(medio_pago["vmpago"])
 		)
+		medio_pago_it += 1
 		resupedipago.save(using=request.db)
 		print "...................................."
 		print resupedipago

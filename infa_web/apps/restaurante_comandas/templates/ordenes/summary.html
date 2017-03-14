@@ -83,16 +83,19 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel4">Formas de Pago </span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
+					<h3 class="modal-title" id="exampleModalLabel4">Formas de Pago </span></h3>
+					<h4 class="modal-title" id="exampleModalLabel4">
+						<span class="label_nmesa_modal"></span>
+						<b> ( <span class="label_vtotal_mesa_modal"></span> ) </b>
+					</h4>
 				</div>
 				<div class="modal-body">
 					<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>It</th>
 								<th>Medio de Pago</th>
 								<th>Documento</th>
 								<th>Banco</th>
@@ -113,16 +116,17 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel5">Unir Cuentas </span></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
+					<h3 class="modal-title" id="exampleModalLabel5">Unir Cuentas </span></h3>
+					<h4 class="text-center">Mesa Principal <span class="label_nmesa_modal"></span></h4>
 				</div>
 				<div class="modal-body">
 					{% for mesa in mesas %}
 						{% if mesa.vttotal > 0 %}
-							<div class="form-group">
-								<label class="btn  btn-primary" for="cuenta_{{mesa.cmesa}}">
+							<div class="form-group container_cuenta_{{mesa.cmesa}}">
+								<label class="btn btn-primary" for="cuenta_{{mesa.cmesa}}">
 									<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
 									<!--<i class="fa fa-square-o"></i>-->
 									<p>{{mesa.nmesa}}</p>
