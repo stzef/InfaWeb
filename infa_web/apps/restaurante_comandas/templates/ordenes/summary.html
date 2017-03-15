@@ -123,19 +123,21 @@
 					<h4 class="text-center">Mesa Principal <span class="label_nmesa_modal"></span></h4>
 				</div>
 				<div class="modal-body">
-					{% for mesa in mesas %}
-						{% if mesa.vttotal > 0 %}
-							<div class="form-group container_cuenta_{{mesa.cmesa}}">
-								<label class="btn btn-primary" for="cuenta_{{mesa.cmesa}}">
-									<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
-									<!--<i class="fa fa-square-o"></i>-->
-									<p>{{mesa.nmesa}}</p>
-									<!--<br>-->
-									<p>$ {{ mesa.vttotal }}</p>
-								</label>
-							</div>
-						{% endif %}
-					{% endfor %}
+					{% comment %}
+						{% for mesa in mesas %}
+							{% if mesa.vttotal > 0 %}
+								<div class="form-group container_cuenta_{{mesa.cmesa}}">
+									<label class="btn btn-primary" for="cuenta_{{mesa.cmesa}}">
+										<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
+										<!--<i class="fa fa-square-o"></i>-->
+										<p>{{mesa.nmesa}}</p>
+										<!--<br>-->
+										<p>$ {{ mesa.vttotal }}</p>
+									</label>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endcomment %}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-app btn-primary" onclick="unir_cuentas()">Unir</button>

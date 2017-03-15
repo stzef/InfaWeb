@@ -34,7 +34,7 @@ jQuery.fn.extend({
 
 		//Selecciona todo lo que no sea un nuemro, una coma, un punto o un espacio
 		var regexp_clear = /([^0-9|\$|\,|\.|\s])/g
-
+		input.focus(function(){$(this).select()})
 		input.change(function(){
 			input = $(this)
 			input.val(input.val().replace(regexp_clear,""))
@@ -193,9 +193,9 @@ var CONF_DTE = {
 			}
 	},
 	buttons:{
-		create: { className: 'btn-app btn-primary', text: '<i class="fa fa-plus-square-o"></i> </br>Agregar'},
-		edit: { className: 'btn-app btn-primary', text: '<i class="fa fa-edit"></i> </br>Editar'},
-		remove: { className: 'btn-app btn-primary', text: '<i class="fa fa-remove"></i> </br>Eliminar'}
+		create: { className: 'btn-app btn-primary btn-create', text: '<i class="fa fa-plus-square-o"></i> </br>Agregar'},
+		edit: { className: 'btn-app btn-primary btn-edit', text: '<i class="fa fa-edit"></i> </br>Editar'},
+		remove: { className: 'btn-app btn-primary btn-remove', text: '<i class="fa fa-remove"></i> </br>Eliminar'}
 	}
 }
 

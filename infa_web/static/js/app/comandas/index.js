@@ -51,10 +51,10 @@ function abrir_modal_resumen_pedido(mesa){
 						"</tr>"
 						table.append(
 							$(template_tr
+								.set("__ccoda__",comanda.fields.ccoda)
 								.set("__nmenu__",detalle.fields.cmenu.nmenu)
 								.set("__canti__",detalle.fields.canti)
-								.set("__vunita__",detalle.fields.vunita)
-								.set("__ccoda__",comanda.fields.ccoda)
+								.set("__vunita__", currencyFormat.format(detalle.fields.vunita))
 							)
 						)
 					})
@@ -75,17 +75,35 @@ function abrir_modal_facturar_pedido(mesa){
 }
 
 function abrir_modal_unir_cuentas(mesa){
-	$("#modal_unir_cuenta").find(".label_nmesa_modal").html(mesa.fields.nmesa)
-	$("[id*=cuenta_]").prop("checked",false)
-	$("[id*=cuenta_]").closest(".form-group").show()
+	var selector = ".mesa.activa:not([data-cmesa=__cmesa__])".set("__cmesa__",cmesa_activa)
+	meses_unificables = $(selector)
 
-	$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
-
-	if ( $("[id*=cuenta_]").length > 1 ){
+	if ( meses_unificables.length >= 1 ){
 		$("#modal_unir_cuenta").modal("show")
+		meses_unificables.toArray().forEach(function(mesa){
+
+			var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",$(mesa).data("cmesa")))
+
+			var t = '<div class="form-group container_cuenta___cmesa__">'+
+						'<label class="btn btn-primary" for="cuenta___cmesa__">'+
+							'<input type="checkbox" id="cuenta___cmesa__" value="__cmesa__">'+
+							'<p>__nmesa__</p>'+
+							'<p>__vttotal__</p>'+
+						'</label>'+
+					'</div>'
+			t = t.set("__cmesa__",div_mesa.data("cmesa")).set("__nmesa__",div_mesa.data("nmesa")).set("__vttotal__",div_mesa.data("vttotal"))
+			$("#modal_unir_cuenta .modal-body").append($(t))
+		})
+
+		$("#modal_unir_cuenta").find(".label_nmesa_modal").html(mesa.fields.nmesa)
+		$("[id*=cuenta_]").prop("checked",false)
+		$("[id*=cuenta_]").closest(".form-group").show()
+
+		$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
 	}else{
 		alertBootstrap("No hay mesas para unir","info",".content")
 	}
+
 }
 
 function unir_cuentas(){
@@ -122,13 +140,16 @@ function mostrar_resumen_pedido(){
 	$("#modal_formas_pago").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
 
 
+
 	$("#modal_accion_resumen").modal("hide")
 	$("#modal_formas_pago").modal("show")
 }
 
 function resumen_pedido(){
 	//$("#modal_formas_pago").modal("hide")
-	if ( customValidationInput($("#modal_formas_pago table tbody")).valid ){
+	var ok_formas_pago = verificar_total_pago()
+	var ok_form_formas_pago = customValidationInput($("#modal_formas_pago table tbody")).valid
+	if ( ok_formas_pago && ok_form_formas_pago ){
 		//$("#modal_formas_pago").modal("hide")
 		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
 		if( data_save.medios_pago.length == 0){
@@ -168,7 +189,13 @@ function get_medios_pago(){
 	return $("#example").find("tbody tr[role=row]").toArray().map(function(row){
 		data = {}
 		$(row).find("input,select").toArray().forEach(function(input){
-			data[input.name] = input.value
+			if ( $(input).hasClass("input-currency") ){
+				console.log(input.value)
+				console.log(typeof input.value)
+				data[input.name] = currencyFormat.sToN(input.value)
+			}else{
+				data[input.name] = input.value
+			}
 		})
 		return data
 	})
@@ -176,7 +203,7 @@ function get_medios_pago(){
 
 function verificar_total_pago(input,event){
 
-	WaitDialog.show("Procesando...")
+	/*WaitDialog.show("Procesando...")
 	$.ajax({
 		url:"/tables/info-sumary/__cmesa__/".set("__cmesa__",cmesa_activa),
 		type:"POST",
@@ -185,28 +212,56 @@ function verificar_total_pago(input,event){
 			response.vttotal = parseFloat(response.vttotal)
 			var data = get_medios_pago()
 			var totales = data.map(function(row){
-				console.info(parseFloat(row.vmpago))
-				if ( isNaN(parseFloat(row.vmpago)) ){return 0}
-				return parseFloat(row.vmpago)
+				var vmpago = row.vmpago
+				if ( isNaN(parseFloat(vmpago)) ){return 0}
+				return parseFloat(vmpago)
 			})
 			var totales = totales.reduce(function(a,b){ return a + b },0)
-			console.log(response)
-			console.log(totales)
 			if( totales > response.vttotal ){
 				input.value = ""
 				alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
 			}
+			if( totales < response.vttotal ){
+				alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
+			}
 		}
+	})*/
+	var ok = true
+	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
+
+	var l_vttotal = parseFloat(div_mesa.data("vttotal"))
+	var data = get_medios_pago()
+	var totales = data.map(function(row){
+		var vmpago = row.vmpago
+		if ( isNaN(parseFloat(vmpago)) ){return 0}
+		return parseFloat(vmpago)
 	})
+	var totales = totales.reduce(function(a,b){ return a + b },0)
+	if( totales > l_vttotal ){
+		input.value = ""
+		alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		var ok = false
+	}
+	if( totales < l_vttotal ){
+		alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		var ok = false
+	}
+	return ok
+
 }
 
 $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
 	cmesa_activa = null
 	table_crud.rows().remove().draw()
 })
+
 $('#modal_formas_pago').on('hidden.bs.modal', function () {
 	table_crud.rows().remove().draw()
 })
+$('#modal_formas_pago').on('shown.bs.modal', function () {
+	table_crud.buttons(".btn-create").trigger()
+})
+
 $('#modal_accion_resumen,#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
 	cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
 })
@@ -244,6 +299,8 @@ var table_crud = $('#example').DataTable( {
 					vmpago:$("#template_vmpago").html()
 				}
 			}).draw(false)
+			$("#modal_formas_pago #id_vmpago").inputCurrency()
+			$("#modal_formas_pago #id_cmpago").val(1000)
 		}},
 		{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
 	],
