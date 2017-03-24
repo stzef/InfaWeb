@@ -7,155 +7,154 @@
 	{%include 'elements/sidebar.html'%}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<div class="content">
-			<h2>{{title}}</h2>
-			<ul class="nav nav-pills">
-				<li class="active"><a data-toggle="pill" href="#tabBasicos">Basicos</a></li>
-			</ul>
-			<form action="" method="POST" role="form" class="form-horizontal">
-				{%csrf_token%}
-				<div class="tab-content">
-					<div id="tabBasicos" class="tab-pane active">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="box box-primary">
-									<div class="box-header with-border">
-										<h3 class="box-title">Basicos</h3>
+
+
+
+
+
+			<form class="form-horizontal" id="form">
+				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
+				<div class="row">
+					{%csrf_token%}
+
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">{{title}}</h3>
+							</div>
+
+							<div class="box-body">
+								<div class="row">
+
+									<div class="col-md-6 form-group">
+										<label for="{{form.cingre.id_for_label}}" class="col-sm-4 control-label">{{form.cingre.label}}</label>
+										{%if form.cingre.errors%}
+										{{form.cingre.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.cingre.id_for_label}}" name="{{form.cingre.html_name}}" >
+										</div>
 									</div>
 
-									<div class="box-body">
-										<div class="row">
-
-											<div class="col-md-6 form-group">
-												<label for="{{form.cingre.id_for_label}}" class="col-sm-4 control-label">{{form.cingre.label}}</label>
-												{%if form.cingre.errors%}
-												{{form.cingre.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.cingre.id_for_label}}" name="{{form.cingre.html_name}}" >
-												</div>
-											</div>
-
-											<div class="col-md-6 form-group">
-												<label for="{{form.cunidad.id_for_label}}" class="col-sm-4 control-label">{{form.cunidad.label}}</label>
-												{%if form.cunidad.errors%}
-												{{form.cunidad.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<div class="input-group">
-														{{form.cunidad}}
-														<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-unit' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-													</div>
-												</div>
-											</div>
-
-										</div>
-
-										<div class="row">
-											<div class="col-md-6 form-group">
-												<label for="{{form.ningre.id_for_label}}" class="col-sm-4 control-label">{{form.ningre.label}}</label>
-												{%if form.ningre.errors%}
-												{{form.ningre.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.ningre}}
-												</div>
+									<div class="col-md-6 form-group">
+										<label for="{{form.cunidad.id_for_label}}" class="col-sm-4 control-label">{{form.cunidad.label}}</label>
+										{%if form.cunidad.errors%}
+										{{form.cunidad.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<div class="input-group">
+												{{form.cunidad}}
+												<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-unit' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
+									</div>
 
-										<div class="row">
-											<div class="col-md-6 form-group">
+								</div>
 
-												<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">
-													{{form.canti.label}}
-													{% if typeInventory != "M" %}
-														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
-													{% endif %}
-												</label>
-												{%if form.canti.errors%}
-												{{form.canti.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<input type="{{form.canti.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.canti.name}}" id="{{form.canti.id_for_label}}" step="{{form.canti.field.widget.attrs.step}}" min="{{form.canti.field.widget.attrs.min}}" class="{{form.canti.field.widget.attrs.class}}" {% if form.canti.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
-												</div>
-											</div>
-											<div class="col-md-6 form-group">
-												<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
-													{{form.vcosto.label}}
-													{% if typeInventory != "M" %}
-														<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
-													{% endif %}
-												</label>
-												{%if form.vcosto.errors%}
-												{{form.vcosto.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.vcosto.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
-												</div>
+								<div class="row">
+									<div class="col-md-6 form-group">
+										<label for="{{form.ningre.id_for_label}}" class="col-sm-4 control-label">{{form.ningre.label}}</label>
+										{%if form.ningre.errors%}
+										{{form.ningre.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											{{form.ningre}}
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6 form-group">
+
+										<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label">
+											{{form.canti.label}}
+											{% if typeInventory != "M" %}
+												<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+											{% endif %}
+										</label>
+										{%if form.canti.errors%}
+										{{form.canti.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<input type="{{form.canti.field.widget.attrs.type_input}}" value="{{form.canti.value}}" name="{{form.canti.name}}" id="{{form.canti.id_for_label}}" step="{{form.canti.field.widget.attrs.step}}" min="{{form.canti.field.widget.attrs.min}}" class="{{form.canti.field.widget.attrs.class}}" {% if form.canti.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
+										</div>
+									</div>
+									<div class="col-md-6 form-group">
+										<label for="{{form.vcosto.id_for_label}}" class="col-sm-4 control-label">
+											{{form.vcosto.label}}
+											{% if typeInventory != "M" %}
+												<i class="glyphicon glyphicon-question-sign" title="Este campo esta bloqueado pues el inventario no es de tipo Manual"></i>
+											{% endif %}
+										</label>
+										{%if form.vcosto.errors%}
+										{{form.vcosto.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<input type="{{form.vcosto.field.widget.attrs.type_input}}" value="{{form.vcosto.value}}" name="{{form.vcosto.name}}" id="{{form.vcosto.id_for_label}}" step="{{form.vcosto.field.widget.attrs.step}}" min="{{form.vcosto.field.widget.attrs.min}}" class="{{form.vcosto.field.widget.attrs.class}}" {% if form.vcosto.field.required %}required{% endif %} {% if typeInventory != "M" %} readonly {% endif %}>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6 form-group">
+										<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
+										{%if form.stomin.errors%}
+										{{form.stomin.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											{{form.stomin}}
+										</div>
+									</div>
+									<div class="col-md-6 form-group">
+										<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
+										{%if form.stomax.errors%}
+										{{form.stomax.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											{{form.stomax}}
+										</div>
+									</div>
+								</div>
+								<div class="row">
+
+									<div class="col-md-6 form-group">
+										<label for="{{form.civa.id_for_label}}" class="col-sm-4 control-label">{{form.civa.label}}</label>
+										{%if form.civa.errors%}
+										{{form.civa.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											<div class="input-group">
+												{{form.civa}}
+												<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
+									</div>
 
-										<div class="row">
-											<div class="col-md-6 form-group">
-												<label for="{{form.stomin.id_for_label}}" class="col-sm-4 control-label">{{form.stomin.label}}</label>
-												{%if form.stomin.errors%}
-												{{form.stomin.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.stomin}}
-												</div>
-											</div>
-											<div class="col-md-6 form-group">
-												<label for="{{form.stomax.id_for_label}}" class="col-sm-4 control-label">{{form.stomax.label}}</label>
-												{%if form.stomax.errors%}
-												{{form.stomax.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.stomax}}
-												</div>
-											</div>
+									<div class="col-md-6 form-group">
+										<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
+										{%if form.cesdo.errors%}
+										{{form.cesdo.errors}}
+										{%endif%}
+										<div class="col-sm-8">
+											{{form.cesdo}}
 										</div>
-										<div class="row">
-
-											<div class="col-md-6 form-group">
-												<label for="{{form.civa.id_for_label}}" class="col-sm-4 control-label">{{form.civa.label}}</label>
-												{%if form.civa.errors%}
-												{{form.civa.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													<div class="input-group">
-														{{form.civa}}
-														<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-iva' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
-													</div>
-												</div>
-											</div>
-
-											<div class="col-md-6 form-group">
-												<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
-												{%if form.cesdo.errors%}
-												{{form.cesdo.errors}}
-												{%endif%}
-												<div class="col-sm-8">
-													{{form.cesdo}}
-												</div>
-											</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-3">
+										<div class="checkbox">
+											<label for="{{form.ifedinom.id_for_label}}" class="col-sm-10 control-label">
+												{{form.ifedinom}}
+												{{form.ifedinom.label}}
+											</label>
 										</div>
-										<div class="row">
-											<div class="form-group col-md-3">
-												<div class="checkbox">
-													<label for="{{form.ifedinom.id_for_label}}" class="col-sm-10 control-label">
-														{{form.ifedinom}}
-														{{form.ifedinom.label}}
-													</label>
-												</div>
-											</div>
-											<div class="form-group col-md-3">
-												<div class="checkbox">
-													<label for="{{form.ifcostear.id_for_label}}" class="col-sm-10 control-label">
-														{{form.ifcostear}}
-														{{form.ifcostear.label}}
-													</label>
-												</div>
-											</div>
+									</div>
+									<div class="form-group col-md-3">
+										<div class="checkbox">
+											<label for="{{form.ifcostear.id_for_label}}" class="col-sm-10 control-label">
+												{{form.ifcostear}}
+												{{form.ifcostear.label}}
+											</label>
 										</div>
 									</div>
 								</div>
@@ -173,6 +172,9 @@
 						</button>
 						<a class="btn btn-app btn-primary" data-new-window data-action="list" href="{% url 'list-ingredients' %}">
 							<i class="fa fa-list"></i>Listar
+						</a>
+						<a class="btn btn-app btn-danger" role="button" href="{% url 'dashboard' %}">
+							<i class="fa fa-close"></i>Salir
 						</a>
 					</div>
 				</div>

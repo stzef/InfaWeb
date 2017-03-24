@@ -56,9 +56,7 @@
 							<h3 class="text-center"> Mesa </h3>
 							<div class="col-md-12 text-center">
 								{% for mesa in mesas %}
-									<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa.cmesa}}" onclick="agregar_mesa(this,event)">
-										<i class="fa fa-square-o"></i> {{mesa.nmesa}}
-									</button>
+									<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa.cmesa}}" onclick="agregar_mesa(this,event)">{{mesa.nmesa}}</button>
 								{% endfor %}
 								<!--<select id="modal_input_cmesa" class="form-control" required="">
 									{% for mesa in mesas %}
@@ -156,7 +154,7 @@
 	<div class="content-wrapper" style="margin:0;min-height: 921px;">
 		<section class="content">
 			<div class="row">
-				<h2>Ordenes</h2>
+				<h2>Comandas</h2>
 
 				<!-- Mesas -->
 				<div class="section-mesas col-md-1" style="height: 100%">
@@ -179,7 +177,7 @@
 									<tr>
 										<td>
 											<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="{{mesa_activa.cmesa}}" onclick="activar_mesa(this,event)">
-												<i class="fa fa-square-o"></i> {{mesa_activa.nmesa}}
+												{{mesa_activa.nmesa}}
 											</button>
 										</td>
 									</tr>
@@ -221,7 +219,7 @@
 								<tr>
 									<td>
 										<button class="btn btn-app btn-primary" type="button" onclick="crear_comandas(this,event)">
-											<i class="fa fa-plus-square-o"></i>Agregar
+											<i class="fa fa-plus-square-o"></i>Nueva
 										</button>
 									</td>
 								</tr>
@@ -282,33 +280,37 @@
 						<p> Mesero: <b>{{ mesero.nmero }} </b> </p>
 						<p> Mesa: <b><span id="label_nmesa"> - </span></b> </p>
 					</div>
-					<div class="col-md-3 text-right">
+					<div class="col-md-1 text-right">
+						<div class="btn-group">
+							<button class="btn btn-success btn-app btn-guardar-comanda" onclick="guardar_comanda()">
+								<i class="fa fa-save"></i>Guardar
+							</button>
+						</div>
+					</div>
+					<div class="col-md-2 text-right">
 						<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
 						<input type="hidden" id="order_input_vttotal">
 					</div>
 					<div class="col-md-7">
 						<div class="text-center">
 							<div class="btn-group">
-								<button class="btn btn-success btn-app btn-guardar-comanda" onclick="guardar_comanda()">
-									<i class="fa fa-save"></i>Guardar
+								<button class="btn btn-app btn-primary" type="button">
+									<i class="fa fa-search"></i>Buscar
 								</button>
 								<button class="btn btn-app btn-primary" type="button">
-									<i class="fa fa-plus-square-o"></i>Buscar
+									<i class="fa fa-print"></i>Imprimir
 								</button>
 								<button class="btn btn-app btn-primary" type="button">
-									<i class="fa fa-save"></i>Imprimir
-								</button>
-								<button class="btn btn-app btn-primary" type="button">
-									<i class="fa fa-save"></i>Caja
+									<i class="fa fa-money"></i>Caja
 								</button>
 							</div>
 							<div class="btn-group">
 								<button class="btn btn-app btn-danger" type="button">
-									<i class="fa fa-save"></i>Salir
+									<i class="fa fa-ban"></i>Cancelar
 								</button>
-								<button class="btn btn-app btn-danger" type="button">
-									<i class="fa fa-save"></i>Cancelar
-								</button>
+								<a class="btn btn-app btn-danger" role="button" href="{% url 'dashboard' %}">
+									<i class="fa fa-close"></i>Salir
+								</a>
 							</div>
 						</div>
 					</div>
@@ -410,12 +412,14 @@
 		})
 
 		function msg_seleccione_mesa(selector){
-			var message = alertBootstrap("Seleccione una mesa para continuar con esta accion","danger")
-			$(selector).prepend(message)
+			//var message = alertBootstrap("Seleccione una mesa para continuar con esta accion","danger")
+			//$(selector).prepend(message)
+			alertify.error("Seleccione una mesa para continuar con esta accion")
 		}
 		function msg_no_editable(selector){
-			var message = alertBootstrap("Las Comandas no son editables","danger")
-			$(selector).prepend(message)
+			//var message = alertBootstrap("Las Comandas no son editables","danger")
+			//$(selector).prepend(message)
+			alertify.error("Las Comandas no son editables")
 		}
 
 		function guardar_comanda(){
@@ -430,15 +434,16 @@
 				cmesa : mesa_activa,
 				cols : cols
 			}
-			WaitDialog.show("Guardando Comanda...")
 			if (data.deta.length){
+				WaitDialog.show("Guardando Comanda...")
 				$.ajax({
 					'url' : "/orders/save/",
 					'type' : "POST",
 					'data' : JSON.stringify(data),
 					'success' : function(response){
 						WaitDialog.hide()
-						alertBootstrap("Las Comandas se guardo.","success",".content")
+						//alertBootstrap("Las Comandas se guardo.","success",".content")
+						alertify.success("Las Comandas se guardo.")
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
 						})
@@ -446,8 +451,11 @@
 
 				})
 			}else{
-				var message = alertBootstrap("Agrege almenos un menu a la Comanda","danger")
-				$(".content").prepend(message)
+
+				//var message = alertBootstrap("Agrege almenos un menu a la Comanda","danger")
+				//$(".content").prepend(message)
+
+				alertify.error("Agrege almenos un menu a la Comanda")
 			}
 
 		}
@@ -472,8 +480,10 @@
 						$("#modal_agregar_mesa").modal("hide")
 					})
 				}else{
-					var message = alertBootstrap("La mesa Ya se encuentra registrada","info")
-					$(".content").prepend(message)
+
+					//var message = alertBootstrap("La mesa Ya se encuentra registrada","info")
+					//$(".content").prepend(message)
+					alertify.warning("La mesa Ya se encuentra registrada")
 					$("#modal_agregar_mesa").modal("hide")
 				}
 			/*}else{
@@ -502,7 +512,7 @@
 						var mesa_comanda = '<tr>'+
 							'<td>'+
 								'<button class="btn btn-app btn-primary comanda" type="button" data-ccoda="__ccoda__" onclick="mostar_detalle_comanda(this,event,__ccoda__)">'+
-									'<i class="fa"></i>Comanda<br/> __ncoda__'+
+									'__ncoda__'+
 								'</button>'+
 							'</td>'+
 						'</tr>'
@@ -560,7 +570,8 @@
 					})
 					actualizar_total()
 				}else{
-					alertBootstrap("La mesa no tiene comandas Activas","info",".content")
+					//alertBootstrap("La mesa no tiene comandas Activas","info",".content")
+					alertify.warning("La mesa no tiene comandas Activas")
 				}
 			})
 		}

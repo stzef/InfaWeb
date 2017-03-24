@@ -21,9 +21,7 @@
 	{% include 'elements/sidebar.html' %}
 
 	<div class="content-wrapper" style="min-height: 921px;">
-		<section class="content-header">
-			<h1>Platos</h1>
-		</section>
+
 		<section class="content">
 			<form class="form-horizontal" id="form">
 				<input type="hidden" value="{{mode_view}}" name="mode_view" id="mode_view">
@@ -99,6 +97,9 @@
 											<i class="fa fa-save"></i>Guardar
 										</button>
 										<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-dishes' %}"><i class="fa fa-list"></i>Listar</a>
+										<a class="btn btn-app btn-danger" role="button" href="{% url 'dashboard' %}">
+											<i class="fa fa-close"></i>Salir
+										</a>
 									</div>
 								</div>
 
@@ -145,30 +146,32 @@
 			</div>
 		</section>
 	</div>
-
-	<div id="customTemplate">
-		<div class="col-md-12 form-group">
-			<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
-			<div class="">
-				<div class="input-group">
-					<editor-field name="ingredientes.cingre"></editor-field>
-					<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+	<div class="hide">
+		<div id="customTemplate">
+			<div class="col-md-12 form-group">
+				<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+				<div class="">
+					<div class="input-group">
+						<editor-field name="ingredientes.cingre"></editor-field>
+						<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+					</div>
+					<editor-field name="ingredientes.ningre"></editor-field>
 				</div>
-				<editor-field name="ingredientes.ningre"></editor-field>
 			</div>
-		</div>
 
-		<div class="col-md-12 form-group">
+			<div class="col-md-12 form-group">
 
-			<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
-			<div class="col-sm-8">
-				<div class="input-group">
-					<editor-field name="ingredientes.canti"></editor-field>
-					<span id="nunidad" class="input-group-addon"></span>
+				<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+				<div class="col-sm-8">
+					<div class="input-group">
+						<editor-field name="ingredientes.canti"></editor-field>
+						<span id="nunidad" class="input-group-addon"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 	{% include 'elements/footer.html' %}
 {% endblock %}
