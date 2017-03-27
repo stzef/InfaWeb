@@ -155,6 +155,7 @@
 		<section class="content">
 			<div class="row">
 				<h2>Comandas</h2>
+				<h4>Comanda <span class="badge" id="label_ccoda_activa"></span> Activa </h4>
 
 				<!-- Mesas -->
 				<div class="section-mesas col-md-1" style="height: 100%">
@@ -497,15 +498,25 @@
 		function crear_comandas(button,event){
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
 
+			// if ( table.data().toArray().length != 0 )
+
 			$(".btn-guardar-comanda").show()
 			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
 			comanda_activa = null
+			$("#label_ccoda_activa").html("")
 			table.rows().remove().draw()
 			actualizar_total()
 		}
 
 		function listar_comandas_mesa(cmesa,fn){
-			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
+			var objd= new Date()
+			var cdate = "__ano__-__mes__-__dia__"
+			var m = objd.getMonth().toString().length == 1 ? "0"+objd.getMonth().toString() : objd.getMonth().toString()
+			cdate = cdate.set("__ano__",objd.getFullYear().toString()).set("__mes__",m).set("__dia__",objd.getDate().toString())
+
+
+
+			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__",cesdo__cesdo:1,fcoda:cdate},function(error,comandas){
 				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
 					comandas.forEach(function(comanda){
@@ -559,7 +570,7 @@
 					$("button.comanda").removeClass("btn-success").addClass("btn-primary")
 					$(button).addClass("btn-success")
 					comanda_activa = ccoda
-
+					$("#label_ccoda_activa").html(ccoda)
 					table.rows().remove().draw()
 					detalle.forEach(function(item){
 						var temp_cmenu = item.fields.cmenu.cmenu,
