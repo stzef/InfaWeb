@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css?family=Advent+Pro")
+@import 'themes/theme-b.styl'
+
+@font-face
+	font-family 'Digital'
+	src url('../fonts/custom/DIGITALDREAM.ttf')  format('truetype')
+
+.ae
+	&-img-list
+		height 50px
+		width auto
+	&-img-article
+		height 100px
+		margin 0 auto
+		width auto
+.app
+	&-input-important
+		background-color #3c8dbc !important
+		color white
+		font-weight bold
+		font-size 1.5rem
+		border none
+	&-input-caja-registradora
+		/*background-color black !important*/
+		background-color #3c8dbc !important
+		font-family 'Digital'
+		color white
+		/*color green*/
+		padding 5px
+		font-weight bold
+		font-size 2rem
+		border none
+
+input[type=number]
+	text-align right
+
+.logo-app
+	&-color
+		&-app
+			color #0E5AAD
+		&-em
+			color #338BDB
+
+	&-blanco
+		&-app
+		&-em
+			text-shadow 0px 0px 30px #000
+			color #FFFFFF
+
+		font-weight bold !important
+		font-family 'Advent Pro', sans-serif !important
+		font-size 3rem !important
+	img
+		//width 80%
+		height 100%
+
+.errorlist
+	margin 0
+	li
+		list-style none
+	.alert
+		margin-bottom 5px
+
+a[disabled]
+	pointer-events none
+
+.html_tooltip
+	font-size 16px
+
+input,select,textarea
+	&:required
+		border 2px solid #3C8DBC
+
+.loading-animation
+	width 100%
+	height 100%
+	top 0
+	bottom 0
+	position fixed
+	background-color rgba(0, 0, 0, 0.54)
+	z-index 100
+	transition 1s
+
+.loading
+	margin 300px auto
+	padding 10px
+	width 200px
+	background-color white
+	border-radius 3px
+	transition 1.2s
+
+/* Modificaicones al framework de estilos */
+.btn-app
+	//background #337ab7
+	color #fff
+	font-weight bold
+	font-size 1.3rem
+	min-width 70px
+	//border-color #3c8dbc
+	margin 0
+
+.content-wrapper, .right-side
+	background-color white
+
+
+/* Modificaicones al framework de estilos */
+
+
+.nopadding
+	padding 0 !important
+
+.form-group
+	margin-bottom 5px
+
+.form-control
+	padding 5px
+
+.form-control:focus
+	border-color #222D32
+	box-shadow none
+
+/* Ocultar rows(spin-button) de los input type number*/
+input[type='number']
+	-moz-appearance textfield
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button
+	-webkit-appearance none
+
+
+input.cesdo-2
+	background-color #DC0101 !important
+
+
