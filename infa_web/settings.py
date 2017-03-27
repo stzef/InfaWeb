@@ -32,10 +32,10 @@ APPEND_SLASH=True
 #https://mvostorage.blob.core.windows.net/mvofiles
 #http://azure_account_name.blob.core.windows.net/
 
-#AZURE_ACCOUNT_NAME = os.environ.get("APPEM_AZURE_ACCOUNT_NAME")
-#AZURE_ACCOUNT_KEY = os.environ.get("APPEM_AZURE_ACCOUNT_KEY")
-#AZURE_CONTAINER = os.environ.get("APPEM_AZURE_CONTAINER")
-#DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+AZURE_ACCOUNT_NAME = os.environ.get("APPEM_AZURE_ACCOUNT_NAME")
+AZURE_ACCOUNT_KEY = os.environ.get("APPEM_AZURE_ACCOUNT_KEY")
+AZURE_CONTAINER = os.environ.get("APPEM_AZURE_CONTAINER")
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 #STATIC_ROOT = "https://appemstatics.blob.core.windows.net/static/"
 # Application definition
 
