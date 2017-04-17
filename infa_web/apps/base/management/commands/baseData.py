@@ -80,6 +80,39 @@ class Command(BaseCommand):
 			Meseros.objects.using(name_db).all().delete()
 			Talocoda.objects.using(name_db).all().delete()
 
+			User.objects.using(name_db).all().delete()
+
+
+			# Usuarios Django
+			user_default_django = User(
+				first_name='default',
+				is_staff=False,
+				is_superuser=True,
+				last_name='default',
+				username='default',
+			)
+			user_default_django.set_password('stzEF0987')
+			#user_default_django = User.objects.using(name_db).create_user('default', password='stzEF0987')
+			#user_default_django.is_superuser=False
+			#user_default_django.is_staff=True
+			user_default_django.save(using=name_db)
+			print "Usuario Django Default. Registros Creados Correctamente."
+
+			superuser = User(
+				first_name='root',
+				is_staff=True,
+				is_superuser=True,
+				last_name='root',
+				username='root',
+			)
+			superuser.set_password('stzEF0987')
+			#superuser = User.objects.using(name_db).create_superuser('root','sistematizaref.programdor5@gmail.com','stzEF0987')
+			#superuser.is_superuser=True
+			#superuser.is_staff=True
+			superuser.save(using=name_db)
+			print "Usuario Django SuperUser. Registros Creados Correctamente."
+
+
 			#Base - Esdo
 			estadoActivo = Esdo.objects.using(name_db).create(nesdo="ACTIVO",estavali="T")
 			Esdo.objects.using(name_db).create(nesdo="ANULADA",estavali="F")
@@ -1359,22 +1392,6 @@ class Command(BaseCommand):
 				ncotalo=1,
 				ctimomvsa=Timo.objects.using(name_db).get(ctimo=2001),
 			)
-
-
-			# Usuarios Django
-			User.objects.using(name_db).all().delete()
-
-			user_default_django = User.objects.create_user('default', password='stzEF0987')
-			user_default_django.is_superuser=False
-			user_default_django.is_staff=True
-			user_default_django.save(using=name_db)
-			print "Usuario Django Default. Registros Creados Correctamente."
-
-			superuser = User.objects.create_superuser('root','sistematizaref.programdor5@gmail.com','stzEF0987')
-			superuser.is_superuser=True
-			superuser.is_staff=True
-			superuser.save(using=name_db)
-			print "Usuario Django SuperUser. Registros Creados Correctamente."
 
 			# Usuarios Appem
 			user_default_appem = Usuario.objects.using(name_db).create(user = user_default_django,finusu = "2017-02-20",fveusu = "2017-02-20",cesdo = estadoActivo,foto = "",ifprises =1 ,ccaja = caja,ctalomos = talonario,ctalopos = talonario)

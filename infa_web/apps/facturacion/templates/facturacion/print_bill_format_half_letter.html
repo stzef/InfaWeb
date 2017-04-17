@@ -1,5 +1,5 @@
   {% extends 'facturacion/print/half_letter.html' %}
- 
+
 {% load date_appen %}
 {% load humanize %}
 
@@ -8,7 +8,7 @@
 	<section>
 		<table id="header_content">
 			<tbody>
-				
+
 				<tr>
 					<td style="font-weight: bold; padding-bottom: 10px" align="right" colspan="5">{{factura.cfac}}</td>
 				</tr>
@@ -117,7 +117,7 @@
 					<td class="border_bottom_bold number" width="15%">{{factura.saldo|intcomma}}</td>
 				</tr>
 			</tbody>
-			
+
 		</table>
 	</section>
 {% endblock content %}

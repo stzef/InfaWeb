@@ -55,5 +55,13 @@ if 'CURRENT_ENV_WORK' in os.environ:
 				'PASSWORD': 'stzEF0987',
 				'HOST': 'localhost',
 				'PORT': '',
-			}
+			},
+			'testfitness_db': {
+				'ENGINE': 'django.db.backends.postgresql_psycopg2',
+				'NAME': 'testfitness_db',
+				'USER': 'root',
+				'PASSWORD': 'stzEF0987',
+				'HOST': 'localhost',
+				'PORT': '',
+			},
 		}

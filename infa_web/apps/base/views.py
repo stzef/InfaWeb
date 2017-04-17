@@ -467,7 +467,6 @@ def ModelFind(request):
 	else:
 		return JsonResponse({"objs":None})
 
-
 @csrf_exempt
 def ModelFindOne(request):
 	data = json.loads(request.body)
@@ -491,3 +490,62 @@ def ModelFindOne(request):
 		return JsonResponse({"obj":None})
 
 # Models find #
+
+# Generales #
+def defaults(request):
+
+	data = {
+		"tercero" : Tercero.objects.using(request.db).filter(citerce=DEFAULT_TERCERO),
+		"domiciliario" : Domici.objects.using(request.db).filter(cdomici=DEFAULT_DOMICILIARIO),
+		"empacador" : Emdor.objects.using(request.db).filter(cemdor=DEFAULT_EMPACADOR),
+		"banco" : Banfopa.objects.using(request.db).filter(cbanfopa=DEFAULT_BANCO),
+		"caja" : Caja.objects.using(request.db).filter(ccaja=DEFAULT_CAJA),
+		"talonario" : Talo.objects.using(request.db).filter(ctalo=DEFAULT_TALONARIO),
+		"medio_pago" : MediosPago.objects.using(request.db).filter(cmpago=DEFAULT_FORMA_PAGO),
+		"marca" : Marca.objects.using(request.db).filter(cmarca=DEFAULT_MARCA),
+		"bodega" : Bode.objects.using(request.db).filter(cbode=DEFAULT_BODEGA),
+		"ubicacion" : Ubica.objects.using(request.db).filter(cubica=DEFAULT_UBICACION),
+		"grupo" : Gpo.objects.using(request.db).filter(cgpo=DEFAULT_GRUPO),
+		"zona" : Zona.objects.using(request.db).filter(czona=DEFAULT_ZONA),
+		"ruta" : Ruta.objects.using(request.db).filter(cruta=DEFAULT_RUTA),
+		"unidad" : Unidades.objects.using(request.db).filter(cunidad=DEFAULT_UNIDAD),
+		"persona" : Personas.objects.using(request.db).filter(cpersona=DEFAULT_PERSONA),
+		#DEFAULT_LISTA_PRECIOS = 1
+		#DEFAULT_AUTORRETENEDOR = 1
+		"iva" : Iva.objects.using(request.db).filter(civa=DEFAULT_IVA),
+		"regimen_iva" : Regiva.objects.using(request.db).filter(cregiva=DEFAULT_REGIMEN_IVA),
+		"vendedor" : Vende.objects.using(request.db).filter(cvende=DEFAULT_VENDE),
+		"tipo_identificacion" : Tiide.objects.using(request.db).filter(idtiide=DEFAULT_TIIDE),
+		"ciudad" : Ciudad.objects.using(request.db).filter(cciu=DEFAULT_CIUDAD),
+		"estado" : Esdo.objects.using(request.db).filter(cesdo=DEFAULT_ACTIVO),
+		"tipo_articulo" : Tiarlos.objects.using(request.db).filter(ctiarlos=DEFAULT_CTIARLO),
+		"forma_pago" : Tifopa.objects.using(request.db).filter(ctifopa=DEFAULT_MEDIO_PAGO),
+	}
+
+	data["tercero"] = json.loads(serializers.serialize("json", data["tercero"],use_natural_foreign_keys=True))[0]
+	data["domiciliario"] = json.loads(serializers.serialize("json", data["domiciliario"],use_natural_foreign_keys=True))[0]
+	data["empacador"] = json.loads(serializers.serialize("json", data["empacador"],use_natural_foreign_keys=True))[0]
+	data["banco"] = json.loads(serializers.serialize("json", data["banco"],use_natural_foreign_keys=True))[0]
+	data["caja"] = json.loads(serializers.serialize("json", data["caja"],use_natural_foreign_keys=True))[0]
+	data["talonario"] = json.loads(serializers.serialize("json", data["talonario"],use_natural_foreign_keys=True))[0]
+	data["medio_pago"] = json.loads(serializers.serialize("json", data["medio_pago"],use_natural_foreign_keys=True))[0]
+	data["marca"] = json.loads(serializers.serialize("json", data["marca"],use_natural_foreign_keys=True))[0]
+	data["bodega"] = json.loads(serializers.serialize("json", data["bodega"],use_natural_foreign_keys=True))[0]
+	data["ubicacion"] = json.loads(serializers.serialize("json", data["ubicacion"],use_natural_foreign_keys=True))[0]
+	data["grupo"] = json.loads(serializers.serialize("json", data["grupo"],use_natural_foreign_keys=True))[0]
+	data["zona"] = json.loads(serializers.serialize("json", data["zona"],use_natural_foreign_keys=True))[0]
+	data["ruta"] = json.loads(serializers.serialize("json", data["ruta"],use_natural_foreign_keys=True))[0]
+	data["unidad"] = json.loads(serializers.serialize("json", data["unidad"],use_natural_foreign_keys=True))[0]
+	data["persona"] = json.loads(serializers.serialize("json", data["persona"],use_natural_foreign_keys=True))[0]
+	data["iva"] = json.loads(serializers.serialize("json", data["iva"],use_natural_foreign_keys=True))[0]
+	data["regimen_iva"] = json.loads(serializers.serialize("json", data["regimen_iva"],use_natural_foreign_keys=True))[0]
+	data["vendedor"] = json.loads(serializers.serialize("json", data["vendedor"],use_natural_foreign_keys=True))[0]
+	data["tipo_identificacion"] = json.loads(serializers.serialize("json", data["tipo_identificacion"],use_natural_foreign_keys=True))[0]
+	data["ciudad"] = json.loads(serializers.serialize("json", data["ciudad"],use_natural_foreign_keys=True))[0]
+	data["estado"] = json.loads(serializers.serialize("json", data["estado"],use_natural_foreign_keys=True))[0]
+	data["tipo_articulo"] = json.loads(serializers.serialize("json", data["tipo_articulo"],use_natural_foreign_keys=True))[0]
+	data["forma_pago"] = json.loads(serializers.serialize("json", data["forma_pago"],use_natural_foreign_keys=True))[0]
+
+	return JsonResponse(data)
+
+# Generales #

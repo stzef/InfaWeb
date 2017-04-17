@@ -370,11 +370,11 @@ def BillSave(request):
 
 	# Calculos
 	calc_vcambio = calcular_valor_cambio(data_ventre,data_vttotal)
-	
+
 	calc_vflete = calcular_total_flete(data_brtefte,data_prtefte)
 	calc_vtbase_vtiva = calcular_vtbase_vtiva(data['mvdeta'],request.db)
 	#calc_vttotal = calcular_total(data['mvdeta'],data_vflete,data_vdescu)
-	
+
 
 	data_vcambio = float(data['vcambio']) if 'vcambio' in data else calc_vcambio
 	data_vrtefte = float(data['vrtefte']) if 'vrtefte' in data else calc_vflete
@@ -482,7 +482,7 @@ def BillSave(request):
 
 		if not data["medios_pagos"]:
 			movideta = save_movideta(
-				request.db, 
+				request.db,
 				{
 					'ctimo': ctimo.pk,
 					'cmovi': movi,
@@ -500,7 +500,7 @@ def BillSave(request):
 
 				data_facpago_docpago = data_facpago['docmpago'] if 'docmpago' in data_facpago else 0
 				fac_pago = save_fac_pago(
-					request.db, 
+					request.db,
 					{
 						'cfac': fac,
 						'it': data_it,
@@ -526,7 +526,7 @@ def BillSave(request):
 				)
 
 				movideta = save_movideta(
-					request.db, 
+					request.db,
 					{
 						'cmovi': movi,
 						'ctimo': ctimo.pk,
@@ -568,6 +568,9 @@ def BillSave(request):
 
 		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
+		print "---------------------------"
+		print float(carlos.vcosto)
+		print "---------------------------"
 		fac_deta = save_fac_deta(
 			request.db,
 			{
@@ -663,11 +666,11 @@ def BillUpdate(request,pk):
 
 	# Calculos
 	calc_vcambio = calcular_valor_cambio(data_ventre,data_vttotal)
-	
+
 	calc_vflete = calcular_total_flete(data_brtefte,data_prtefte)
 	calc_vtbase_vtiva = calcular_vtbase_vtiva(data['mvdeta'],request.db)
 	#calc_vttotal = calcular_total(data['mvdeta'],data_vflete,data_vdescu)
-	
+
 
 	data_vcambio = float(data['vcambio']) if 'vcambio' in data else calc_vcambio
 	data_vrtefte = float(data['vrtefte']) if 'vrtefte' in data else calc_vflete
@@ -992,7 +995,7 @@ class BillEdit(CustomUpdateView):
 		context['related_information_factura'] = related_information
 
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
-		
+
 		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False
 
 		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('itfac')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
@@ -1139,7 +1142,7 @@ class BillPrint(PDFTemplateView):
 
 
 		factura.abono = factura.vefe + factura.vtar + factura.vch + factura.vcred
-		
+
 		factura.saldo = factura.vttotal - factura.abono
 
 		"""
@@ -1219,7 +1222,7 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
-		
+
 		totales["subtotal"] = 0
 		totales["total"] = 0
 
@@ -1245,7 +1248,7 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
-		
+
 		context['colspan_total'] = 5
 		for k,v in cells.iteritems():
 			if v["show"] == False:
@@ -1263,7 +1266,7 @@ class report_fn_bill(PDFTemplateView):
 
 	def get_context_data(self, **kwargs):
 
-		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO) 
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 
 		context = super(report_fn_bill, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
@@ -1302,7 +1305,7 @@ class report_fn_bill(PDFTemplateView):
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
-		
+
 		totales["subtotal"] = 0
 		totales["total"] = 0
 		totales["vtt_otros"] = 0

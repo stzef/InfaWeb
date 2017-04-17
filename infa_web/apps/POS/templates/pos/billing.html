@@ -1,0 +1,409 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+
+	<style>
+		.articulo{
+			padding: 0px;
+			/*margin: 2px;*/
+		}
+			.articulo .foto{padding: 0;}
+			.articulo .more{padding: 0;}
+
+		.section-resumen-pedido{
+			padding: 0;
+		}
+			.section-resumen-pedido > .section{height: 350px;overflow-y: auto;overflow-x: hidden;}
+
+		.section-articulos{
+			padding: 0px;
+			height: 350px;
+		}
+			/*.section-articulos > div.section{ padding: 10px; height: 350px;}*/
+			.section-articulos > div.panel{ height: 100%;}
+			.section-articulos div.section-header{ padding: 0px; height: 60px;}
+			.section-articulos div.section-content{ padding: 0px; height: 290px;overflow-y: scroll;overflow-x: hidden;}
+	</style>
+
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content-header">
+			<h1>{{title}}</h1>
+		</section>
+
+		<section class="content" id="messages-container">
+
+				<div class="modal fade" id="modal_editar_cantidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel1"> Editar Cantidad </h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+
+							<div class="modal-body">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="canti">
+											<span class="glyphicon glyphicon-minus"></span>
+										</button>
+									</span>
+									<input type="text" name="canti" id="id_canti" class="form-control input-number" value="10" min="1" max="100">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-success btn-number" data-type="plus" data-field="canti">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-danger btn-app" data-dismiss="modal">
+								<span class="fa fa-close"></span>Cerrar
+							</button>
+							<button type="button" class="btn btn-success btn-app" onclick="enviar_cantidad()">
+								<span class="fa fa-save"></span>Guardar
+							</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="section-articulos col-md-6">
+					<div class="section-resumen-pedido">
+						<div class="panel panel-default section">
+							<div>
+								<div>
+									<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th>Cod</th>
+												<th>Cantidad</th>
+												<th>Descripcion</th>
+												<th>Precio</th>
+											</tr>
+										</thead>
+										<tbody id="cont-data"></tbody>
+									</table>
+
+									<div class="text-right">
+										<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
+										<input type="hidden" id="order_input_vttotal">
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="section-articulos col-md-6">
+					<div class="panel panel-default section">
+						<div class="section-header">
+							<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
+								{% for grupo in grupos %}
+									<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpo.split|join:'_'|lower}}">{{grupo.ngpo}}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="section-content">
+							<div class="tab-content">
+								{% for grupo in grupos %}
+									<div id="tab{{grupo.ngpo.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="box box-primary">
+													<div class="box-body">
+														<div class="text-center">
+															{% for articulo in grupo.articulos %}
+																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
+																	<img class="img-responsive img-thumbnail" src="{% static articulo.foto1.url %}" />
+																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
+																	<p>{{ articulo.pvta1 | intcomma }}</p>
+																	<!--
+																	<div class="col-md-6 foto">
+																	</div>
+																	<div class="col-md-6 more">
+																		<div class="btn-group">
+																			<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
+																		</div>
+																	</div>
+																	-->
+																</div>
+															{% empty %}
+																<p>No hay Articulos en el Grupo <b>{{grupo.ngpo}}</b> </p>
+															{% endfor %}
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			<div class="text-center buttons-action">
+				<div class="btn-group">
+					<button class="btn btn-app btn-primary" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
+						<i class="fa fa-plus-square-o"></i>
+						Nuevo
+					</button>
+					<button type="button" class="btn btn-app btn-primary" data-toggle="modal" data-target="#modal_descripcion">
+						<i class="fa fa-file-text-o"></i>Descripción
+					</button>
+					<button class="btn btn-app btn-primary" type="button" onclick="show_modal_totalizar()">
+						<i class="fa fa-dollar"></i>
+						Totalizar
+					</button>
+					{% if mode_view == "edit" %}
+						<button class="btn btn-app btn-primary" type="button" id="print_bill">
+							<i class="fa fa-print"></i>
+							Imprimir
+						</button>
+					{% endif %}
+
+					<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
+
+				</div>
+			</div>
+
+		</section>
+	</div>
+	{% include 'elements/footer.html' %}
+{% endblock %}
+
+{% block content_script %}
+	<script src="{% static 'js/moment-with-locales.js' %}"></script>
+
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+	<script type="text/javascript">
+		cols = {
+			carlo:{i:0},
+			canti:{i:1},
+			narlo:{i:2},
+			vunita:{i:3},
+		}
+		function agregar_a_factura(div,event) {
+
+			var carlo = $(div).data("carlos")
+
+			var data = table.data().toArray()
+			var carlos = data.map(function(item,index){return {carlo:item[cols.carlo.i],row:index} })
+			var exists = carlos.some(function(obj){ return obj.carlo == carlo })
+
+			if( exists ){
+				var cell = carlos.find(function(obj){ return obj.carlo == carlo })
+
+				var canti = table.row(cell.row).cell(cell.row,cols.canti.i).data()
+
+				table.row(cell.row).cell(cell.row,cols.canti.i).data( canti + 1 )
+				actualizar_total()
+			}else{
+				Models.objects.findOne("Arlo",{carlos : carlo},function(error,articulo){
+					var t_carlo = articulo.pk,
+						t_canti = 1,
+						t_nmenu = articulo.fields.ncorto,
+						t_pvta1 = currencyFormat.format(articulo.fields.pvta1)
+
+					console.log([t_carlo,t_canti,t_nmenu,t_pvta1])
+					var row = table.row.add([t_carlo,t_canti,t_nmenu,t_pvta1]).draw( false );
+					actualizar_total()
+				})
+			}
+		}
+
+		$("#order_input_vttotal").change(function(event){
+			$("#order_input_vttotal_label").html(currencyFormat.format($(this).val()))
+		})
+
+		function actualizar_total() {
+			var data = table.data().toArray()
+			var valores = data.map(function(item){
+				var canti = parseFloat(item[cols.canti.i])
+				var vunita = parseFloat(currencyFormat.sToN(item[cols.vunita.i]))
+				return canti * vunita
+			})
+			var vttotal = valores.reduce(function(a,b){ return a + b },0)
+			$("#order_input_vttotal").val(vttotal).trigger("change")
+		}
+
+		function enviar_cantidad(){
+			var ncanti = $("#modal_editar_cantidad").find("#id_canti").val()
+			table.row('.selected').cell(table.row('.selected').index(),1).data(ncanti)
+			$("#modal_editar_cantidad").modal("hide")
+			actualizar_total()
+		}
+		$('.btn-number').click(function(e){
+			e.preventDefault();
+
+			fieldName = $(this).attr('data-field');
+			type = $(this).attr('data-type');
+			var input = $("input[name='"+fieldName+"']");
+			var currentVal = parseInt(input.val());
+			if (!isNaN(currentVal)) {
+			if(type == 'minus') {
+				if(currentVal > input.attr('min')) {input.val(currentVal - 1).change()}
+			} else if(type == 'plus') {
+				if(currentVal < input.attr('max')) {input.val(currentVal + 1).change()}
+			}
+			} else {input.val(0)}
+		});
+
+		$(document).ready(function() {
+
+			$.get("/general/defaults",function(data){
+				appem_defaults = data
+			})
+
+			table = $('#example').DataTable({
+				info:false,
+				searching: false,
+				paging: false,
+				"language": languageDataTable,
+				"columnDefs": [
+					{
+						"targets": [ cols.carlo.i ],
+						"visible": false
+					}
+				]
+			});
+			$('#example tbody').on( 'click', 'tr[role=row]', function () {
+				if ( $(this).hasClass('selected') ) {
+					$(this).removeClass('selected');
+				}else {
+					table.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+
+
+				var row = table.row( this );
+				var data = row.data();
+				$("#modal_editar_cantidad").find("#id_canti").val(row.cell(row.index(),1).data())
+				$("#modal_editar_cantidad").modal("show")
+
+			});
+
+			$('#button').click( function () {
+				table.row('.selected').remove().draw( false );
+			});
+		})
+
+		function totalizar(){
+			var vttotal = 1
+
+			var data = {
+				//"mode_view":"create",
+				"citerce":appem_defaults.tercero.pk,
+				"name__citerce":appem_defaults.tercero.fields.nomcomer,
+				"cvende":appem_defaults.vendedor.pk,
+				"cdomici":appem_defaults.domiciliario.pk,
+				"ctifopa":appem_defaults.forma_pago.pk,
+				"femi":moment().format("YYYY-MM-DD"),
+				"fpago":moment().format("YYYY-MM-DD"),
+				"cemdor":appem_defaults.empacador.pk,
+				"ccaja":appem_defaults.caja.pk,
+				"cesdo":appem_defaults.estado.pk,
+				"descri":"",
+				"vttotal":vttotal,
+				"ventre":vttotal,
+				"vcambio":0,
+				"vtbase":vttotal,
+				"vtiva":0,
+				"brtefte":0,
+				"prtefte":0,
+				"vrtefte":0,
+				"vflete":0,
+				"vdescu":0,
+				//"it":"",
+				//"cmpago":"",
+				//"docmpago":"0",
+				//"banmpago":"1000",
+				//"vmpago":null,
+				"medios_pagos":[
+				{
+					"it":1,
+					"cmpago":appem_defaults.medio_pago.pk,
+					"docmpago":0,
+					"banmpago":appem_defaults.banco.pk,
+					"vmpago":vttotal
+				}
+				],
+				"mvdeta":[]
+			}
+			var it = 1
+			data.mvdeta = table.data().toArray().map(function(item){
+					var d = {
+						"itfac":it,
+						"carlos":item[0],
+						"name__carlos":item[2],
+						"canti":item[1],
+						"pordes":0,
+						"civa":1,
+						"vunita":currencyFormat.sToN(item[3]),
+						"vtotal":0
+					}
+					it++
+					d.vtotal = d.canti * d.vunita
+					return d
+				})
+			console.log(data)
+
+			$.ajax({
+				url: "{{url}}",
+				type: 'POST',
+				data: JSON.stringify(data),
+				contentType: "application/json",
+				error: function(response){
+					var message = alertBootstrap(text_message_error_request,"danger")
+					containerMessages.prepend(message)
+					$(".animation").empty()
+				},
+				success: function(response){
+					related_information = response.related_information
+					$(".animation").empty()
+					if(response.error){
+						var message = alertBootstrap(response.message,"danger")
+					}else{
+						if(mode_view != "edit"){
+							//$("[name*=cmv]").val(response.cmv)
+						}
+						var message = alertBootstrap(response.message,"success")
+					}
+
+					containerMessages.prepend(message)
+					console.log(response)
+					if(confirm("Desea Imprimir La Factura")){
+						print_bill(related_information.fields.cfac)
+					}
+
+				}
+			});
+
+
+		}
+
+	</script>
+
+	<!--<script src="{% static 'js/app/pos/index.js' %}"></script>-->
+{% endblock content_script %}

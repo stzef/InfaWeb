@@ -7,6 +7,7 @@ import os
 DOMAINS = {
 	'huevos' : 'prod_db',
 	'testempresa' : 'test_db',
+	'fitness' : 'fitness_db',
 	#'test_local' : 'default',
 }
 
@@ -15,4 +16,5 @@ if 'CURRENT_ENV_WORK' in os.environ:
 		DOMAINS = {
 			'stzef' : 'db_1',
 			'testempresa' : 'db_1',
+			'testfitness' : 'testfitness_db',
 		}

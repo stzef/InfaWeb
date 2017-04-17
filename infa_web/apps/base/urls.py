@@ -10,6 +10,8 @@ urlGeneral = [
 
 	#url(r'^$', dashboard, name = 'dashboard'),
 	url(r'^dashboard/$', login_required(dashboard), name = 'dashboard'),
+
+	url(r'^general/defaults/$', login_required(defaults), name = 'dashboard'),
 ]
 
 urlStates = [

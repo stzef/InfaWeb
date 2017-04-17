@@ -169,7 +169,7 @@ function show_modal_totalizar(){
 
 	$("#medios_pago").modal("show")
 	//$("#medios_pago [name=cmpago]").focus()
-	
+
 }
 
 function set_pago_completo_efectivo(){
@@ -321,7 +321,7 @@ function calcular_total(){/*Revisar*/
 
 	$("[name=vttotal]").val(vttotal_local).trigger("change")
 	$("[data-mask=id_vttotal__mask]").val(vttotal_local).trigger("change")
-	
+
 	$("[name=ventre]").val(vttotal_local).trigger("change")
 	if(valor_descuento > vttotal_local_sin_descuento){
 		$("[name=vdescu]").val("0")
@@ -366,7 +366,7 @@ $("[name=canti]").change(function(){
 	/*
 		Validacion
 		Valida si la cantidad ha vender dedterminado articulo es mayor a la cantidad maxima parametrizada, pregunta si se desa continuar o no
-	*/	
+	*/
 	if(!current_arlo) {
 		$(this).val("1")
 		return alert(text_message_seleccione_articulo)
@@ -416,7 +416,7 @@ $("[name=vttotal]").change(function(){
 				}
 			).reduce(function(a,b){
 				return a.vmpago + b.vmpago;
-				
+
 			}, {vmpago:0});
 		var nuevo_vmpago_efectivo = $("[name=vttotal]").custom_format_val() - sum_medios_pagos_no_efectivo.vmpago
 		var format_nuevo_vmpago_efectivo = currencyFormat.format(nuevo_vmpago_efectivo.toString())
@@ -427,7 +427,7 @@ $("[name=vttotal]").change(function(){
 			.find("[data-name=vmpago]")
 			.attr("data-value",format_nuevo_vmpago_efectivo)
 			.html(format_nuevo_vmpago_efectivo)
-	
+
 	}*/
 
 })
@@ -871,6 +871,7 @@ $("#btn-save").click(function(event){
 	loading_animation("Guardando Movimiento.")
 
 	console.info(data)
+	return
 
 	$.ajax({
 		url: var_template_django_url,
@@ -893,7 +894,7 @@ $("#btn-save").click(function(event){
 				}
 				var message = alertBootstrap(response.message,"success")
 			}
-			
+
 			containerMessages.prepend(message)
 			console.log(response)
 			if(confirm("Desea Imprimir La Factura")){

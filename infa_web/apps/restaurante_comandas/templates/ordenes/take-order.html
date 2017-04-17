@@ -348,6 +348,7 @@
 			var ncanti = $("#modal_editar_cantidad").find("#id_canti_cmenu").val()
 			table.row('.selected').cell(table.row('.selected').index(),1).data(ncanti)
 			$("#modal_editar_cantidad").modal("hide")
+			actualizar_total()
 		}
 		$('.btn-number').click(function(e){
 			e.preventDefault();

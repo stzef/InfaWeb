@@ -1,0 +1,68 @@
+{% extends 'layouts/pdf.html' %}
+{% load humanize %}
+
+{% block head_table %}
+	<tr style="padding-bottom: -3px;">
+		<td>{{title}}</td>
+	</tr> 
+	{% for titulo,valor in header.iteritems %}
+		<tr>
+			<td>{{titulo}} : {{valor}}</td>
+		</tr>
+	{% endfor %}
+{% endblock head_table %}
+
+
+{% block content %}
+<table class="center" cellpadding="3px">
+	<thead>
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1">
+			<th>Factura</th>
+			{% if cells.citerce.show %}
+				<th>Cliente</th>
+			{% endif %}
+			{% if cells.cvende.show %}
+				<th>Vendedor</th>
+			{% endif %}
+			<th>Fecha</th>
+			<th>Vr.Otros</th>
+			<th>Vr.Base IVA</th>
+			<th>Vr.IVA</th>
+			<th>Vr.Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for factura in facturas %}
+			<tr class="cesdo-{{factura.cesdo.pk}}">
+				<td>{{factura.cfac}}</td>
+				{% if cells.citerce.show %}
+					<td>{{factura.citerce.rasocial}}</td>
+				{% endif %}
+				{% if cells.cvende.show %}
+					<td>{{factura.cvende.nvende}}</td>
+				{% endif %}
+				<td>{{factura.femi|date:"d M Y"}}</td>
+				<td>{{factura.data_report.otros_valores|intcomma}}</td>
+				<td>{{factura.data_report.vt_base_iva|intcomma}}</td>
+				<td>{{factura.data_report.vt_iva|intcomma}}</td>
+				<td>{{factura.vttotal|intcomma}}</td>
+			</tr>
+		{% endfor %}
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">SubTotal</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
+			<td>{{totales.vtt_base_iva|intcomma}}</td>
+			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.subtotal|intcomma}}</td>
+		</tr>
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">Total</td>
+			<td>{{totales.vtt_otros|intcomma}}</td>
+			<td>{{totales.vtt_base_iva|intcomma}}</td>
+			<td>{{totales.vtt_iva|intcomma}}</td>
+			<td>{{totales.total|intcomma}}</td>
+		</tr>
+	</tbody>
+</table>
+{% endblock content %}
+

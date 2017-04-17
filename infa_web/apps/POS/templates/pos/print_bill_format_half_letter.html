@@ -1,0 +1,123 @@
+  {% extends 'facturacion/print/half_letter.html' %}
+ 
+{% load date_appen %}
+{% load humanize %}
+
+
+{% block head_table %}
+	<section>
+		<table id="header_content">
+			<tbody>
+				
+				<tr>
+					<td style="font-weight: bold; padding-bottom: 10px" align="right" colspan="5">{{factura.cfac}}</td>
+				</tr>
+				<tr>
+					<td rowspan=3 width="20%">
+						<img src="{{ 'infa_web/static/img/empresas/ejemplo/logo.png'|get64 }}">
+					</td>
+
+					<td width="10%">Fecha:</td>
+					<td width="30%">{{factura.femi|date:"d M Y"}}</td>
+
+					<td width="10%">Dirección:</td>
+					<td width="30%">{{factura.citerce.dirterce}}</td>
+				</tr>
+				<tr>
+					<td width="10%">Identif.:</td>
+					<td width="30%">{{factura.citerce.idterce}}</td>
+
+					<td width="10%">Telefono:</td>
+					<td width="30%">{{factura.citerce.telterce}}</td>
+				</tr>
+
+				<tr>
+					<td width="10%">Nombre:</td>
+					<td width="30%">{{factura.citerce.rasocial}}</td>
+
+					<td width="10%">Ciudad:</td>
+					<td width="30%">{{factura.citerce.ciudad}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+{% endblock head_table %}
+
+{% block content %}
+	<section>
+		<span>{{factura.descri}}</span>
+		<table cellspacing="5px">
+			<thead>
+				<tr style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 3px">
+					<th width="30%">Descripción</th>
+					<th width="20%">Cantidad</th>
+					<th width="20%">Vr. Unitario</th>
+					<th width="20%">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for deta in factura_deta %}
+					{% if deta %}
+						<tr>
+							<td width="30%">{{ deta.carlos.nlargo }}</td>
+							<td width="20%" class="number">{{ deta.canti }}</td>
+							<td width="20%" class="number">{{ deta.vunita|intcomma }}</td>
+							<td width="20%" class="number">{{ deta.vtotal|intcomma }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td width="30%">&nbsp</td>
+							<td width="20%">&nbsp</td>
+							<td width="20%">&nbsp</td>
+							<td width="20%">&nbsp</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+
+	<section>
+		<table width="100%" class="bill_table_totals">
+			<tbody>
+				<tr>
+					<td width="55%" colspan="2">EN LETRAS :{{factura.vttotal_letter.vletras}}</td>
+
+					<td class="border_top_bold" width="10%">SubTotal:</td>
+					<td class="border_top_bold" width="10%"></td>
+					<td class="border_top_bold number" width="15%">{{factura.vtbase|intcomma}}</td>
+				</tr>
+				<tr>
+					<td width="55%" colspan="2">{{factura.text_bill|truncatechars:100}}</td>
+
+					<td width="10%">IVA </td>
+					<td class="number" width="10%"></td>
+					<td class="number" width="15%">{{factura.vtiva|intcomma}}</td>
+				</tr>
+				<tr>
+					<td width="55%" colspan="2"></td>
+
+					<td class="border_bottom_bold" width="10%">Total:</td>
+					<td class="border_bottom_bold" width="10%"></td>
+					<td class="border_bottom_bold number" width="15%">{{factura.vttotal|intcomma}}</td>
+				</tr>
+				<tr>
+					<td width="30%" style="border-top: .5px black solid" >Nombre</td>
+					<td width="25%" style="border-top: .5px black solid" >C.C.</td>
+
+					<td width="10%">Abono:</td>
+					<td width="10%"></td>
+					<td class="number" width="15%">{{factura.abono|intcomma}}</td>
+				</tr>
+				<tr>
+					<td width="55%" colspan="2">{{factura.cfac}}  Atendido por : {{factura.cvende.nvende}}</td>
+
+					<td class="border_bottom_bold" width="10%">Saldo:</td>
+					<td class="border_bottom_bold" width="10%"></td>
+					<td class="border_bottom_bold number" width="15%">{{factura.saldo|intcomma}}</td>
+				</tr>
+			</tbody>
+			
+		</table>
+	</section>
+{% endblock content %}

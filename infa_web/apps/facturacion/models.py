@@ -122,7 +122,7 @@ class Facdeta(models.Model):
 	itfac = models.CharField(max_length=4)
 	carlos = models.ForeignKey(Arlo)
 	nlargo = models.CharField(max_length=100)
-	ncorto = models.CharField(max_length=20)
+	ncorto = models.CharField(max_length=50)
 	canti = models.DecimalField(max_digits=16, decimal_places=2,validators=[MinValueValidator(0)],default=1)
 	civa = models.ForeignKey(Iva,default=DEFAULT_IVA)
 	niva  = models.CharField(max_length=40)
@@ -134,7 +134,7 @@ class Facdeta(models.Model):
 	pordes = models.DecimalField(max_digits=6, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)],default=0)
 	pvtafull = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
 	vcosto = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	
+
 	def __str__(self):
 		return str(self.cfac)+' - '+str(self.carlos)
 
@@ -145,6 +145,6 @@ class Facpago(models.Model):
 	docmpago = models.CharField(max_length=10,default=0)
 	banmpago = models.ForeignKey(Banfopa,default=DEFAULT_BANCO)
 	vmpago = models.DecimalField(max_digits=14, decimal_places=2,validators=[MinValueValidator(0)])
-	
+
 	def __str__(self):
 		return str(self.cfac)+' - '+self.docmpago

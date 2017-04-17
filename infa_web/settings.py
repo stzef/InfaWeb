@@ -56,6 +56,7 @@ PROJECT_APPS = [
 	'infa_web.apps.movimientos',
 	'infa_web.apps.usuarios',
 	'infa_web.apps.facturacion',
+	'infa_web.apps.POS',
 	'infa_web.apps.cartera',
 	'easy_pdf',
 	'infa_web.apps.base.templatetags',
