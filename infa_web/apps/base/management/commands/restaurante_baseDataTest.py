@@ -117,25 +117,53 @@ class Command(BaseCommand):
 			menu_2 = Menus.objects.using(name_db).create(cmenu=1001, nmenu="Arroz Con Papa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
 			Menusdeta.objects.using(name_db).create(cmenu=menu_2, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
 
+			pla = [palto_arroz_papa]
+			menu_3 = Menus.objects.using(name_db).create(cmenu=1002, nmenu="Arroz Con Papa 2", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_3, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_4 = Menus.objects.using(name_db).create(cmenu=1003, nmenu="Arroz Con Papa 3", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_4, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_5 = Menus.objects.using(name_db).create(cmenu=1004, nmenu="Arroz Con Papa 4", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_5, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_6 = Menus.objects.using(name_db).create(cmenu=1005, nmenu="Arroz Con Papa 5", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_6, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_7 = Menus.objects.using(name_db).create(cmenu=1006, nmenu="Arroz Con Papa 6", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_7, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_8 = Menus.objects.using(name_db).create(cmenu=1007, nmenu="Arroz Con Papa 7", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_8, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
+			pla = [palto_arroz_papa]
+			menu_9 = Menus.objects.using(name_db).create(cmenu=1008, nmenu="Arroz Con Papa 8", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_fuerte, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/arroz_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_9, it=1, cplato=palto_arroz_papa, nplato=palto_arroz_papa.nplato, canti=1, vunita=palto_arroz_papa.vttotal, vtotal=(palto_arroz_papa.vttotal*1))
+
 			pla = [hamburgesa]
-			menu_3 = Menus.objects.using(name_db).create(cmenu=1002, nmenu="Hamburgesa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gcomida_rapida, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/hamburguesa.jpg")
-			Menusdeta.objects.using(name_db).create(cmenu=menu_3, it=1, cplato=hamburgesa, nplato=hamburgesa.nplato, canti=1, vunita=hamburgesa.vttotal, vtotal=(hamburgesa.vttotal*1))
+			menu_10 = Menus.objects.using(name_db).create(cmenu=1009, nmenu="Hamburgesa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gcomida_rapida, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/hamburguesa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_10, it=1, cplato=hamburgesa, nplato=hamburgesa.nplato, canti=1, vunita=hamburgesa.vttotal, vtotal=(hamburgesa.vttotal*1))
 
 			pla = [ensalada_papa]
-			menu_4 = Menus.objects.using(name_db).create(cmenu=1003, nmenu="Ensalada De Papa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_frios, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/ensalada_papa.jpg")
-			Menusdeta.objects.using(name_db).create(cmenu=menu_4, it=1, cplato=ensalada_papa, nplato=ensalada_papa.nplato, canti=1, vunita=ensalada_papa.vttotal, vtotal=(ensalada_papa.vttotal*1))
+			menu_11 = Menus.objects.using(name_db).create(cmenu=1010, nmenu="Ensalada De Papa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gplatos_frios, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/ensalada_papa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_11, it=1, cplato=ensalada_papa, nplato=ensalada_papa.nplato, canti=1, vunita=ensalada_papa.vttotal, vtotal=(ensalada_papa.vttotal*1))
 
 			pla = [pataconas]
-			menu_5 = Menus.objects.using(name_db).create(cmenu=1004, nmenu="Pataconas", fcrea="2017-02-02", cesdo=estado, cgpomenu=gentradas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/pataconas.jpg")
-			Menusdeta.objects.using(name_db).create(cmenu=menu_5, it=1, cplato=pataconas, nplato=pataconas.nplato, canti=1, vunita=pataconas.vttotal, vtotal=(pataconas.vttotal*1))
+			menu_12 = Menus.objects.using(name_db).create(cmenu=1011, nmenu="Pataconas", fcrea="2017-02-02", cesdo=estado, cgpomenu=gentradas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/pataconas.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_12, it=1, cplato=pataconas, nplato=pataconas.nplato, canti=1, vunita=pataconas.vttotal, vtotal=(pataconas.vttotal*1))
 
 			pla = [bebida_gaseosa]
-			menu_5 = Menus.objects.using(name_db).create(cmenu=1005, nmenu="Gaseosa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gbebidas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/gaseosa.jpg")
-			Menusdeta.objects.using(name_db).create(cmenu=menu_5, it=1, cplato=bebida_gaseosa, nplato=bebida_gaseosa.nplato, canti=1, vunita=bebida_gaseosa.vttotal, vtotal=(bebida_gaseosa.vttotal*1))
+			menu_13 = Menus.objects.using(name_db).create(cmenu=1012, nmenu="Gaseosa", fcrea="2017-02-02", cesdo=estado, cgpomenu=gbebidas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/gaseosa.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_13, it=1, cplato=bebida_gaseosa, nplato=bebida_gaseosa.nplato, canti=1, vunita=bebida_gaseosa.vttotal, vtotal=(bebida_gaseosa.vttotal*1))
 
 			pla = [ensalada_simple]
-			menu_6 = Menus.objects.using(name_db).create(cmenu=1006, nmenu="Ensalada Simple", fcrea="2017-02-02", cesdo=estado, cgpomenu=gensaladas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/ensalada.jpg")
-			Menusdeta.objects.using(name_db).create(cmenu=menu_6, it=1, cplato=ensalada_simple, nplato=ensalada_simple.nplato, canti=1, vunita=ensalada_simple.vttotal, vtotal=(ensalada_simple.vttotal*1))
+			menu_14 = Menus.objects.using(name_db).create(cmenu=1013, nmenu="Ensalada Simple", fcrea="2017-02-02", cesdo=estado, cgpomenu=gensaladas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/ensalada.jpg")
+			Menusdeta.objects.using(name_db).create(cmenu=menu_14, it=1, cplato=ensalada_simple, nplato=ensalada_simple.nplato, canti=1, vunita=ensalada_simple.vttotal, vtotal=(ensalada_simple.vttotal*1))
 
 
 

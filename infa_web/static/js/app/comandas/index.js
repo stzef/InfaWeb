@@ -19,11 +19,16 @@ function realizar_accion(div,event){
 }
 
 function abrir_modal_resumen_pedido(mesa){
+	console.log(mesa)
+
+	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
+
+	//$("#modal_accion_resumen").find(".label_nmesa_modal").html(div_mesa.data("nmesa"))
+	$("#modal_accion_resumen").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
+
 	$("#modal_accion_resumen").find(".label_nmesa_modal").html(mesa.fields.nmesa)
-	$("#modal_accion_resumen").find(".modal-body").empty()
+	$("#modal_accion_resumen").find("#section-detalle-comanda").empty()
 	$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
-	$("#modal_accion_resumen").find("#label_nmero").html()
-	$("#modal_accion_resumen").find("#label_fecha").html()
 
 	Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
 		if ( comandas ) {
@@ -61,9 +66,10 @@ function abrir_modal_resumen_pedido(mesa){
 				})
 			})
 			div.append(table)
-			$("#modal_accion_resumen").find(".modal-body").append(div)
+			$("#modal_accion_resumen").find("#section-detalle-comanda").append(div)
 		}else{
-			alertBootstrap("Esta Mesa no tiene Comandas Actuales","info",".content")
+			//alertBootstrap("Esta Mesa no tiene Comandas Actuales","info",".content")
+			alertify.warning("Esta Mesa no tiene Comandas Actuales")
 		}
 
 	})
@@ -101,7 +107,8 @@ function abrir_modal_unir_cuentas(mesa){
 
 		$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
 	}else{
-		alertBootstrap("No hay mesas para unir","info",".content")
+		//alertBootstrap("No hay mesas para unir","info",".content")
+		alertify.warning("No hay mesas para unir");
 	}
 
 }
@@ -124,7 +131,8 @@ function unir_cuentas(){
 			}
 		})
 	}else{
-		alertBootstrap("Seleccion Las mesas a Unir","info","#modal_unir_cuenta .modal-header")
+		//alertBootstrap("Seleccion Las mesas a Unir","info","#modal_unir_cuenta .modal-header")
+		alertify.warning("Seleccion Las mesas a Unir")
 	}
 }
 
@@ -132,7 +140,7 @@ function imprimir_resumen_pedido(cresupedi){
 	var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
 	win = window.open(url)
 }
-
+/*
 function mostrar_resumen_pedido(){
 	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
 
@@ -144,8 +152,9 @@ function mostrar_resumen_pedido(){
 	$("#modal_accion_resumen").modal("hide")
 	$("#modal_formas_pago").modal("show")
 }
-
+*/
 function resumen_pedido(){
+
 	//$("#modal_formas_pago").modal("hide")
 	var ok_formas_pago = verificar_total_pago()
 	var ok_form_formas_pago = customValidationInput($("#modal_formas_pago table tbody")).valid
@@ -153,7 +162,8 @@ function resumen_pedido(){
 		//$("#modal_formas_pago").modal("hide")
 		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
 		if( data_save.medios_pago.length == 0){
-			return alertBootstrap("Seleccione por lo menos un medio de Pago","info","#modal_formas_pago .modal-header")
+			//return alertBootstrap("Seleccione por lo menos un medio de Pago","info","#modal_formas_pago .modal-header")
+			return alertify.warning("Seleccione por lo menos un medio de Pago")
 		}
 		WaitDialog.show("Generando Resumen de Pedido...")
 		$.ajax({
@@ -171,7 +181,8 @@ function resumen_pedido(){
 				$("#modal_accion_resumen").modal("hide")
 				$("#modal_formas_pago").modal("hide")
 
-				alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
+				//alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
+				alertify.success("El Resumen de Pedido se Guardo")
 
 				table_crud.rows().remove().draw()
 
@@ -239,11 +250,13 @@ function verificar_total_pago(input,event){
 	var totales = totales.reduce(function(a,b){ return a + b },0)
 	if( totales > l_vttotal ){
 		input.value = ""
-		alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		//alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		alertify.warning("El Valor No debe superar el saldo de la mesa")
 		var ok = false
 	}
 	if( totales < l_vttotal ){
-		alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		//alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
+		alertify.warning("El Valor No debe ser menor a el saldo de la mesa")
 		var ok = false
 	}
 	return ok

@@ -35,9 +35,12 @@
 
 		.section-menu{
 			padding: 0px;
-			min-height: 350px;
+			height: 350px;
 		}
-			.section-menu > div{ padding: 10px; height: 350px;}
+			/*.section-menu > div.section{ padding: 10px; height: 350px;}*/
+			.section-menu > div.panel{ height: 100%;}
+			.section-menu div.section-header{ padding: 0px; height: 60px;}
+			.section-menu div.section-content{ padding: 0px; height: 290px;overflow-y: scroll;overflow-x: hidden;}
 	</style>
 
 	<div class="modal fade" id="modal_agregar_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -154,8 +157,8 @@
 	<div class="content-wrapper" style="margin:0;min-height: 921px;">
 		<section class="content">
 			<div class="row">
-				<h2>Comandas</h2>
-				<h4>Comanda <span class="badge" id="label_ccoda_activa"></span> Activa </h4>
+				<h2 style="margin-top: 0">Comandas</h2>
+				<h4>Comanda <span class="badge" id="label_ccoda_activa">-</span> Activa </h4>
 
 				<!-- Mesas -->
 				<div class="section-mesas col-md-1" style="height: 100%">
@@ -232,48 +235,53 @@
 				<!-- Menus -->
 				<div class="section-menu col-md-6">
 					<div class="panel panel-default section">
-						<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
-							{% for grupo in gruposMenu %}
-								<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
-							{% endfor %}
-						</ul>
-						<div class="tab-content">
-							{% for grupo in gruposMenu %}
-								<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="box box-primary">
-												<div class="box-header with-border">
-													<h3 class="box-title">{{grupo.ngpomenu}}</h3>
-												</div>
-												<div class="box-body">
-													<div class="row">
-														{% for menu in grupo.menus %}
-															<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
-																<p class="text-center">{{menu.nmenu}}</p>
-																<div class="col-md-6 foto">
-																	<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
-																</div>
-																<div class="col-md-6 more">
-																	<p>{{ menu.pvta1 | intcomma }}</p>
-																	<div class="btn-group">
-																		<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
+						<div class="section-header">
+							<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
+								{% for grupo in gruposMenu %}
+									<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="section-content">
+							<div class="tab-content">
+								{% for grupo in gruposMenu %}
+									<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="box box-primary">
+													<!--<div class="box-header with-border">
+														<h3 class="box-title">{{grupo.ngpomenu}}</h3>
+													</div>-->
+													<div class="box-body">
+														<div class="text-center">
+															{% for menu in grupo.menus %}
+																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
+																	<p class="text-center">{{menu.nmenu}}</p>
+																	<div class="col-md-6 foto">
+																		<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
+																	</div>
+																	<div class="col-md-6 more">
+																		<p>{{ menu.pvta1 | intcomma }}</p>
+																		<div class="btn-group">
+																			<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
+																		</div>
 																	</div>
 																</div>
-															</div>
-														{% empty %}
-															<p>No hay Menus del grupo <b>{{grupo.ngpomenu}}</b> </p>
-														{% endfor %}
+															{% empty %}
+																<p>No hay Menus del grupo <b>{{grupo.ngpomenu}}</b> </p>
+															{% endfor %}
 
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							{% endfor %}
+								{% endfor %}
+							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 			<div class="row">
@@ -471,7 +479,7 @@
 						var mesa_template = '<tr>'+
 								'<td>'+
 									'<button class="btn btn-app btn-primary mesa" type="button" data-cmesa="__cmesa__" onclick="activar_mesa(this,event)">'+
-										'<i class="fa fa-square-o"></i> __nmesa__'+
+										'__nmesa__'+
 									'</button>'+
 								'</td>'+
 							'</tr>'
@@ -503,7 +511,7 @@
 			$(".btn-guardar-comanda").show()
 			$("button.comanda").removeClass("btn-success").addClass("btn-primary")
 			comanda_activa = null
-			$("#label_ccoda_activa").html("")
+			$("#label_ccoda_activa").html("-")
 			table.rows().remove().draw()
 			actualizar_total()
 		}
@@ -511,12 +519,12 @@
 		function listar_comandas_mesa(cmesa,fn){
 			var objd= new Date()
 			var cdate = "__ano__-__mes__-__dia__"
-			var m = objd.getMonth().toString().length == 1 ? "0"+objd.getMonth().toString() : objd.getMonth().toString()
+			var m = (objd.getMonth()+1).toString().length == 1 ? "0"+(objd.getMonth()+1).toString() : (objd.getMonth()+1).toString()
 			cdate = cdate.set("__ano__",objd.getFullYear().toString()).set("__mes__",m).set("__dia__",objd.getDate().toString())
 
 
 
-			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__",cesdo__cesdo:1,fcoda:cdate},function(error,comandas){
+			Models.objects.find("Coda",{cmesa : cmesa,cresupedi:"__NULL__",cesdo__cesdo:1,fcoda__date:cdate},function(error,comandas){
 				$("table.comandas").find("button[data-ccoda]").closest("tr").remove()
 				if(comandas){
 					comandas.forEach(function(comanda){
@@ -531,6 +539,8 @@
 						$("table.comandas").find("tbody").append($(mesa_comanda))
 						if ( fn ) fn()
 					})
+				}else{
+					alertify.warning("No hay Comandas")
 				}
 			})
 		}

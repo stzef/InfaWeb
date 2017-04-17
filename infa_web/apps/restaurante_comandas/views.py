@@ -336,7 +336,8 @@ def TakeOrder(request):
 		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
 
 	mesas = Mesas.objects.using(request.db).all()
-	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero,cesdo__cesdo=1).values('cmesa'))
+	today = datetime.date.today()
+	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero,cesdo__cesdo=1,fcoda__date=str(today)).values('cmesa'))
 
 	print mesas_activas
 
