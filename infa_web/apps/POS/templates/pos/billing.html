@@ -246,6 +246,7 @@
 			})
 			var vttotal = valores.reduce(function(a,b){ return a + b },0)
 			$("#order_input_vttotal").val(vttotal).trigger("change")
+			return vttotal
 		}
 
 		function enviar_cantidad(){
@@ -310,7 +311,7 @@
 		})
 
 		function totalizar(){
-			var vttotal = 1
+			var vttotal = actualizar_total()
 
 			var data = {
 				//"mode_view":"create",
@@ -353,20 +354,20 @@
 			}
 			var it = 1
 			data.mvdeta = table.data().toArray().map(function(item){
-					var d = {
-						"itfac":it,
-						"carlos":item[0],
-						"name__carlos":item[2],
-						"canti":item[1],
-						"pordes":0,
-						"civa":1,
-						"vunita":currencyFormat.sToN(item[3]),
-						"vtotal":0
-					}
-					it++
-					d.vtotal = d.canti * d.vunita
-					return d
-				})
+				var d = {
+					"itfac":it,
+					"carlos":item[0],
+					"name__carlos":item[2],
+					"canti":item[1],
+					"pordes":0,
+					"civa":1,
+					"vunita":currencyFormat.sToN(item[3]),
+					"vtotal":0
+				}
+				it++
+				d.vtotal = d.canti * d.vunita
+				return d
+			})
 			console.log(data)
 
 			$.ajax({
@@ -376,6 +377,7 @@
 				contentType: "application/json",
 				error: function(response){
 					var message = alertBootstrap(text_message_error_request,"danger")
+						alertify.notify(response.message,"danger")
 					containerMessages.prepend(message)
 					$(".animation").empty()
 				},
@@ -383,22 +385,25 @@
 					related_information = response.related_information
 					$(".animation").empty()
 					if(response.error){
-						var message = alertBootstrap(response.message,"danger")
+						alertify.notify(response.message,"danger")
 					}else{
-						if(mode_view != "edit"){
-							//$("[name*=cmv]").val(response.cmv)
-						}
-						var message = alertBootstrap(response.message,"success")
+						//if(mode_view != "edit"){}
+						alertify.notify(response.message,"success")
 					}
-
-					containerMessages.prepend(message)
-					console.log(response)
 					if(confirm("Desea Imprimir La Factura")){
 						print_bill(related_information.fields.cfac)
 					}
 
 				}
 			});
+
+			function print_bill(cfac){
+				/*
+					@param cfac String : codigo de factura a imprimir
+					Abre una nueva ventana con la factura en pdf
+				*/
+				window.open("/pos/print?cfac=" + cfac)
+			}
 
 
 		}
