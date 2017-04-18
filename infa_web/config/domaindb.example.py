@@ -5,16 +5,11 @@ import os
 # test_local - DataBase Test - test_manager.py
 
 DOMAINS = {
-	'huevos' : 'prod_db',
-	'testempresa' : 'test_db',
-	'fitness' : 'fitness_db',
-	#'test_local' : 'default',
+	'testempresa' : 'default',
 }
 
 if 'CURRENT_ENV_WORK' in os.environ:
 	if os.environ["CURRENT_ENV_WORK"] == "DEV":
 		DOMAINS = {
-			'stzef' : 'db_1',
-			'testempresa' : 'db_1',
-			'testfitness' : 'testfitness_db',
+			'testempresa' : 'default',
 		}
