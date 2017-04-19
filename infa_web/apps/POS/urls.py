@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 url = [
 	url(r'^pos/$', login_required(BillCreate.as_view()), name = 'pos'),
 	url(r'^pos/print$', login_required(some_view), name = 'some_view'),
+	url(r'^pos/list/$', login_required(BillList.as_view()), name = 'list-pos-bill'),
+
 ]
 
 urlpatterns = url

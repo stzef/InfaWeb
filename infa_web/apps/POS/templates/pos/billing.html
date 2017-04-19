@@ -71,6 +71,9 @@
 							<button type="button" class="btn btn-danger btn-app" data-dismiss="modal">
 								<span class="fa fa-close"></span>Cerrar
 							</button>
+							<button type="button" id="delete_item" class="btn btn-danger btn-app" data-dismiss="modal">
+								<span class="fa fa-remove"></span>Eliminar
+							</button>
 							<button type="button" class="btn btn-success btn-app" onclick="enviar_cantidad()">
 								<span class="fa fa-save"></span>Guardar
 							</button>
@@ -112,15 +115,51 @@
 					<div class="panel panel-default section">
 						<div class="section-header">
 							<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
+									<li class="active" style="display: inline-block;float: none"><a data-toggle="pill" href="#tabtodos">Todos</a></li>
 								{% for grupo in grupos %}
-									<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpo.split|join:'_'|lower}}">{{grupo.ngpo}}</a></li>
+									<li style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpo.split|join:'_'|lower}}">{{grupo.ngpo}}</a></li>
 								{% endfor %}
 							</ul>
 						</div>
 						<div class="section-content">
 							<div class="tab-content">
+
+								<div id="tabtodos" class="tab-pane active">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="box box-primary">
+												<div class="box-body">
+													<div class="text-center">
+														{% for grupo in grupos %}
+															{% for articulo in grupo.articulos %}
+																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
+																	<img class="img-responsive img-thumbnail" src="{% static articulo.foto1.url %}" />
+																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
+																	<p>{{ articulo.pvta1 | intcomma }}</p>
+																	<!--
+																	<div class="col-md-6 foto">
+																	</div>
+																	<div class="col-md-6 more">
+																		<div class="btn-group">
+																			<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
+																		</div>
+																	</div>
+																	-->
+																</div>
+															{% empty %}
+																<p>No hay Articulos </p>
+															{% endfor %}
+														{% endfor %}
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
 								{% for grupo in grupos %}
-									<div id="tab{{grupo.ngpo.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+									<div id="tab{{grupo.ngpo.split|join:'_'|lower}}" class="tab-pane ">
 										<div class="row">
 											<div class="col-md-12">
 												<div class="box box-primary">
@@ -162,14 +201,11 @@
 
 			<div class="text-center buttons-action">
 				<div class="btn-group">
-					<button class="btn btn-app btn-primary" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
+					<!--<button class="btn btn-app btn-primary" id="bnt-new-fac" onclick="reset_form_fac()" type="button">
 						<i class="fa fa-plus-square-o"></i>
 						Nuevo
-					</button>
-					<button type="button" class="btn btn-app btn-primary" data-toggle="modal" data-target="#modal_descripcion">
-						<i class="fa fa-file-text-o"></i>Descripción
-					</button>
-					<button class="btn btn-app btn-primary" type="button" onclick="show_modal_totalizar()">
+					</button>-->
+					<button class="btn btn-app btn-primary" type="button" onclick="totalizar()">
 						<i class="fa fa-dollar"></i>
 						Totalizar
 					</button>
@@ -180,7 +216,7 @@
 						</button>
 					{% endif %}
 
-					<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-bill' %}"><i class="fa fa-list"></i>Listar</a>
+					<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-pos-bill' %}"><i class="fa fa-list"></i>Listar</a>
 
 				</div>
 			</div>
@@ -305,8 +341,10 @@
 
 			});
 
-			$('#button').click( function () {
+			$('#delete_item').click( function () {
 				table.row('.selected').remove().draw( false );
+				$("#modal_editar_cantidad").modal("hide")
+				actualizar_total()
 			});
 		})
 
@@ -369,7 +407,7 @@
 				return d
 			})
 			console.log(data)
-
+			WaitDialog.show("Guardando")
 			$.ajax({
 				url: "{{url}}",
 				type: 'POST',
@@ -379,33 +417,36 @@
 					var message = alertBootstrap(text_message_error_request,"danger")
 						alertify.notify(response.message,"danger")
 					containerMessages.prepend(message)
-					$(".animation").empty()
+					WaitDialog.hide()
 				},
 				success: function(response){
+					WaitDialog.hide()
 					related_information = response.related_information
-					$(".animation").empty()
 					if(response.error){
 						alertify.notify(response.message,"danger")
 					}else{
 						//if(mode_view != "edit"){}
 						alertify.notify(response.message,"success")
 					}
-					if(confirm("Desea Imprimir La Factura")){
+					alertify.confirm("Desea Imprimir La Factura __cfac__".set("__cfac__",related_information.fields.cfac),function(){
 						print_bill(related_information.fields.cfac)
-					}
+					})
+
+
+					table.rows().remove().draw()
 
 				}
 			});
 
-			function print_bill(cfac){
-				/*
-					@param cfac String : codigo de factura a imprimir
-					Abre una nueva ventana con la factura en pdf
-				*/
-				window.open("/pos/print?cfac=" + cfac)
-			}
 
 
+		}
+		function print_bill(cfac){
+			/*
+				@param cfac String : codigo de factura a imprimir
+				Abre una nueva ventana con la factura en pdf
+			*/
+			window.open("/pos/print?cfac=" + cfac)
 		}
 
 	</script>

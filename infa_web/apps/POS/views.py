@@ -6,11 +6,26 @@ from infa_web.apps.articulos.models import *
 
 from django.core.urlresolvers import reverse_lazy
 
+from infa_web.custom.generic_views import CustomListView
+
+class BillList(CustomListView):
+	model = Fac
+	template_name = "pos/list-billings.html"
+	form_class = FacForm
+
+	def get_context_data(self,**kwargs):
+		context = super(BillList, self).get_context_data(**kwargs)
+		context['title'] = "Listar Facturas"
+		context['sorted_object_list'] = Fac.objects.using(self.request.db).all().order_by("femi")
+		print context['sorted_object_list']
+
+		return context
 
 class BillCreate(CustomCreateView):
 	model = Fac
 	template_name = "pos/billing.html"
 	form_class = FacForm
+
 
 	def get_context_data(self,**kwargs):
 		context = super(BillCreate, self).get_context_data(**kwargs)
@@ -84,7 +99,7 @@ from reportlab.lib.enums import TA_CENTER
 def some_view(request):
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
+	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 
 	manageParameters = ManageParameters(request.db)
 	data = request.GET

@@ -22,27 +22,21 @@
 								<th>C. Factura</th>
 								<th>F. Emision</th>
 								<th>Tercero</th>
-								<th>Estado</th>
 								<th>V. Total</th>
-								<th>Forma Pago</th>
-								<th data-cell-action="edit">Editar</th>
 								<th data-cell-action="select" class="hidden">Seleccionar</th>
 								<th data-cell-action="print">Imprimir</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for bill in object_list %}
+							{% for bill in sorted_object_list %}
 								<tr data-object-search="{{ bill.cfac }}">
 									<td>{{bill.cfac}}</td>
 									<td>{{bill.femi}}</td>
 									<td>{{bill.citerce}}</td>
-									<td>{{bill.cesdo}}</td>
 									<td>{{bill.vttotal|intcomma}}</td>
-									<td>{{bill.ctifopa}}</td>
 
-									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-bill' bill.pk %}" target="_blank">Editar</a></td>
 									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ bill.pk }}">Seleccionar</button></td>
-									<td data-cell-action="print"><a data-link-edit href="/bill/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
+									<td data-cell-action="print"><a data-link-edit href="/pos/print?cfac={{bill.cfac}}" target="_blank">Imprimir</a></td>
 
 								</tr>
 							{% endfor %}

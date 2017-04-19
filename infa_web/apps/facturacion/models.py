@@ -12,6 +12,8 @@ from infa_web.apps.movimientos.models import *
 from django.core import serializers
 
 class Fac(models.Model):
+	class Meta:
+		ordering = ["-femi"]
 	cfac = models.CharField(max_length=10)
 	femi = models.DateTimeField()
 	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
