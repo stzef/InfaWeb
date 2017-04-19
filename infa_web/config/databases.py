@@ -4,7 +4,7 @@ os.getenv('KEY_THAT_MIGHT_EXIST', default_value)
 
 DB = {
 	'default': {
-		'ENGINE': os.getenv('APPEM_DEFAULT_DB_ENGINE','')
+		'ENGINE': 'django.db.backends.postgresql_psycopg2'
 		'NAME': os.getenv('APPEM_DEFAULT_DB_NAME','')
 		'USER': os.getenv('APPEM_DEFAULT_DB_USER','')
 		'PASSWORD': os.getenv('APPEM_DEFAULT_DB_PASSWORD','')
@@ -12,7 +12,7 @@ DB = {
 		'PORT': os.getenv('APPEM_DEFAULT_DB_PORT','')
 	},
 	'fitness_juice_db': {
-		'ENGINE': os.getenv('APPEM_FITNESS_JUICE_DB_ENGINE',''),
+		'ENGINE': 'django.db.backends.postgresql_psycopg2'
 		'NAME': os.getenv('APPEM_FITNESS_JUICE_DB_NAME',''),
 		'USER': os.getenv('APPEM_FITNESS_JUICE_DB_USER',''),
 		'PASSWORD': os.getenv('APPEM_FITNESS_JUICE_DB_PASSWORD',''),

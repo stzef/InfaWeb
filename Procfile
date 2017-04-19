@@ -1,1 +1,1 @@
-web: gunicorn infa_web.wsgi
+web: gunicorn infa_web.wsgi:application
