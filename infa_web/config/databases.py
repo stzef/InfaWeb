@@ -1,7 +1,5 @@
 import os
 
-os.getenv('KEY_THAT_MIGHT_EXIST', default_value)
-
 DB = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
