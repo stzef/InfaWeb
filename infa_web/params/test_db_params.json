@@ -176,6 +176,72 @@
         "nparam": "Logo de la Empresa."
     },
     {
+        "cparam": "company_id_name",
+        "type": "String",
+        "value": "CED",
+        "label": {
+            "text": "Nombre del Identificador de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "CED",
+            "type": "text",
+            "id": "company_id_name",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Nombre del Identificador de la Empresa."
+    },
+    {
+        "cparam": "company_id",
+        "type": "String",
+        "value": "3-101-734553",
+        "label": {
+            "text": "Identificador de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "3-101-734553",
+            "type": "text",
+            "id": "company_id",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Identificador de la Empresa."
+    },
+    {
+        "cparam": "company_name",
+        "type": "String",
+        "value": "Fitness Juice",
+        "label": {
+            "text": "Nombre de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "Fitness Juice",
+            "type": "text",
+            "id": "company_name",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Nombre de la Empresa."
+    },
+    {
         "cparam": "theme_presentation",
         "type": "String",
         "value": "theme-a",
@@ -530,6 +596,50 @@
             "label": "col-sm-4 control-label"
         },
         "nparam": "Movimiento de Facturacion por defecto."
+    },
+    {
+        "cparam": "text_header_pos_bill",
+        "type": "String",
+        "value": "Vida Saludable",
+        "label": {
+            "text": "Texto Cabecera para Facturas POS."
+        },
+        "field": {
+            "input": true,
+            "selected": "Vida Saludable",
+            "type": "text",
+            "id": "text_header_pos_bill",
+            "select": false
+        },
+        "smodule": "P",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Texto Cabecera para Facturas POS."
+    },
+    {
+        "cparam": "text_footer_pos_bill",
+        "type": "String",
+        "value": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS",
+        "label": {
+            "text": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
+        },
+        "field": {
+            "input": true,
+            "selected": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS",
+            "type": "text",
+            "id": "text_footer_pos_bill",
+            "select": false
+        },
+        "smodule": "P",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
     },
     {
         "cparam": "ctimo_rc_billing",

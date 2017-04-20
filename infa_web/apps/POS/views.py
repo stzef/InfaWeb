@@ -123,6 +123,9 @@ def some_view(request):
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
 	]
+	print "--------------------"
+	print data_header
+	print "--------------------"
 
 	data = [
 		["===============", "=========", "============"],

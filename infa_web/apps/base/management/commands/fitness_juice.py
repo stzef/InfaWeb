@@ -50,8 +50,10 @@ class Command(BaseCommand):
 			g_kids = Gpo.objects.using(name_db).create(cgpo=7,ngpo="Kids",cesdo=estadoActivo)
 			#g_kids = Gpo.objects.using(name_db).get(cgpo=7)
 
+			#foto1="img/articles/default.jpg",
 			Arlo.objects.using(name_db).create(
 				carlos=1000,
+				foto1="img/articles/arlo_1000.jpg",
 				cbarras='',
 				ncorto='cerezada - Mediano',
 				nlargo='cerezada - Mediano',
@@ -78,6 +80,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1001,
+				foto1="img/articles/arlo_1001.jpg",
 				cbarras='',
 				ncorto='cerezada - Grande',
 				nlargo='cerezada - Grande',
@@ -104,6 +107,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1002,
+				foto1="img/articles/arlo_1002.jpg",
 				cbarras='',
 				ncorto='citrica - Mediano',
 				nlargo='citrica - Mediano',
@@ -130,6 +134,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1003,
+				foto1="img/articles/arlo_1003.jpg",
 				cbarras='',
 				ncorto='citrica - Grande',
 				nlargo='citrica - Grande',
@@ -156,6 +161,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1004,
+				foto1="img/articles/arlo_1004.jpg",
 				cbarras='',
 				ncorto='limacoco - Mediano',
 				nlargo='limacoco - Mediano',
@@ -182,6 +188,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1005,
+				foto1="img/articles/arlo_1005.jpg",
 				cbarras='',
 				ncorto='limacoco - Grande',
 				nlargo='limacoco - Grande',
@@ -208,6 +215,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1006,
+				foto1="img/articles/arlo_1006.jpg",
 				cbarras='',
 				ncorto='mandarinada - Mediano',
 				nlargo='mandarinada - Mediano',
@@ -234,6 +242,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1007,
+				foto1="img/articles/arlo_1007.jpg",
 				cbarras='',
 				ncorto='mandarinada - Grande',
 				nlargo='mandarinada - Grande',
@@ -260,6 +269,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1008,
+				foto1="img/articles/arlo_1008.jpg",
 				cbarras='',
 				ncorto='naranjada - Mediano',
 				nlargo='naranjada - Mediano',
@@ -286,6 +296,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1009,
+				foto1="img/articles/arlo_1009.jpg",
 				cbarras='',
 				ncorto='naranjada - Grande',
 				nlargo='naranjada - Grande',
@@ -312,6 +323,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1010,
+				foto1="img/articles/arlo_1010.jpg",
 				cbarras='',
 				ncorto='tropical - Mediano',
 				nlargo='tropical - Mediano',
@@ -338,6 +350,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1011,
+				foto1="img/articles/arlo_1011.jpg",
 				cbarras='',
 				ncorto='tropical - Grande',
 				nlargo='tropical - Grande',
@@ -364,6 +377,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1012,
+				foto1="img/articles/arlo_1012.jpg",
 				cbarras='',
 				ncorto='ansioso - Mediano',
 				nlargo='ansioso - Mediano',
@@ -390,6 +404,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1013,
+				foto1="img/articles/arlo_1013.jpg",
 				cbarras='',
 				ncorto='ansioso - Grande',
 				nlargo='ansioso - Grande',
@@ -416,6 +431,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1014,
+				foto1="img/articles/arlo_1014.jpg",
 				cbarras='',
 				ncorto='atleta - Mediano',
 				nlargo='atleta - Mediano',
@@ -442,6 +458,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1015,
+				foto1="img/articles/arlo_1015.jpg",
 				cbarras='',
 				ncorto='atleta - Grande',
 				nlargo='atleta - Grande',
@@ -468,6 +485,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1016,
+				foto1="img/articles/arlo_1016.jpg",
 				cbarras='',
 				ncorto='breakfast - Mediano',
 				nlargo='breakfast - Mediano',
@@ -494,6 +512,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1017,
+				foto1="img/articles/arlo_1017.jpg",
 				cbarras='',
 				ncorto='breakfast - Grande',
 				nlargo='breakfast - Grande',
@@ -520,6 +539,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1018,
+				foto1="img/articles/arlo_1018.jpg",
 				cbarras='',
 				ncorto='energizante - Mediano',
 				nlargo='energizante - Mediano',
@@ -546,6 +566,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1019,
+				foto1="img/articles/arlo_1019.jpg",
 				cbarras='',
 				ncorto='energizante - Grande',
 				nlargo='energizante - Grande',
@@ -572,6 +593,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1020,
+				foto1="img/articles/arlo_1020.jpg",
 				cbarras='',
 				ncorto='mente magica - Mediano',
 				nlargo='mente magica - Mediano',
@@ -598,6 +620,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1021,
+				foto1="img/articles/arlo_1021.jpg",
 				cbarras='',
 				ncorto='mente magica - Grande',
 				nlargo='mente magica - Grande',
@@ -624,6 +647,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1022,
+				foto1="img/articles/arlo_1022.jpg",
 				cbarras='',
 				ncorto='pura vida - Mediano',
 				nlargo='pura vida - Mediano',
@@ -650,6 +674,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1023,
+				foto1="img/articles/arlo_1023.jpg",
 				cbarras='',
 				ncorto='pura vida - Grande',
 				nlargo='pura vida - Grande',
@@ -676,6 +701,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1024,
+				foto1="img/articles/arlo_1024.jpg",
 				cbarras='',
 				ncorto='red full - Mediano',
 				nlargo='red full - Mediano',
@@ -702,6 +728,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1025,
+				foto1="img/articles/arlo_1025.jpg",
 				cbarras='',
 				ncorto='red full - Grande',
 				nlargo='red full - Grande',
@@ -728,6 +755,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1026,
+				foto1="img/articles/arlo_1026.jpg",
 				cbarras='',
 				ncorto='voltaje - Mediano',
 				nlargo='voltaje - Mediano',
@@ -754,6 +782,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1027,
+				foto1="img/articles/arlo_1027.jpg",
 				cbarras='',
 				ncorto='voltaje - Grande',
 				nlargo='voltaje - Grande',
@@ -780,6 +809,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1028,
+				foto1="img/articles/arlo_1028.jpg",
 				cbarras='',
 				ncorto='apasionado - Mediano',
 				nlargo='apasionado - Mediano',
@@ -806,6 +836,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1029,
+				foto1="img/articles/arlo_1029.jpg",
 				cbarras='',
 				ncorto='apasionado - Grande',
 				nlargo='apasionado - Grande',
@@ -832,6 +863,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1030,
+				foto1="img/articles/arlo_1030.jpg",
 				cbarras='',
 				ncorto='bronceado - Mediano',
 				nlargo='bronceado - Mediano',
@@ -858,6 +890,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1031,
+				foto1="img/articles/arlo_1031.jpg",
 				cbarras='',
 				ncorto='bronceado - Grande',
 				nlargo='bronceado - Grande',
@@ -884,6 +917,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1032,
+				foto1="img/articles/arlo_1032.jpg",
 				cbarras='',
 				ncorto='colesterol - Mediano',
 				nlargo='colesterol - Mediano',
@@ -910,6 +944,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1033,
+				foto1="img/articles/arlo_1033.jpg",
 				cbarras='',
 				ncorto='colesterol - Grande',
 				nlargo='colesterol - Grande',
@@ -936,6 +971,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1034,
+				foto1="img/articles/arlo_1034.jpg",
 				cbarras='',
 				ncorto='color - Mediano',
 				nlargo='color - Mediano',
@@ -962,6 +998,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1035,
+				foto1="img/articles/arlo_1035.jpg",
 				cbarras='',
 				ncorto='color - Grande',
 				nlargo='color - Grande',
@@ -988,6 +1025,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1036,
+				foto1="img/articles/arlo_1036.jpg",
 				cbarras='',
 				ncorto='digestion - Mediano',
 				nlargo='digestion - Mediano',
@@ -1014,6 +1052,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1037,
+				foto1="img/articles/arlo_1037.jpg",
 				cbarras='',
 				ncorto='digestion - Grande',
 				nlargo='digestion - Grande',
@@ -1040,6 +1079,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1038,
+				foto1="img/articles/arlo_1038.jpg",
 				cbarras='',
 				ncorto='eterna juventud - Mediano',
 				nlargo='eterna juventud - Mediano',
@@ -1066,6 +1106,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1039,
+				foto1="img/articles/arlo_1039.jpg",
 				cbarras='',
 				ncorto='eterna juventud - Grande',
 				nlargo='eterna juventud - Grande',
@@ -1092,6 +1133,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1040,
+				foto1="img/articles/arlo_1040.jpg",
 				cbarras='',
 				ncorto='gripa - Mediano',
 				nlargo='gripa - Mediano',
@@ -1118,6 +1160,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1041,
+				foto1="img/articles/arlo_1041.jpg",
 				cbarras='',
 				ncorto='gripa - Grande',
 				nlargo='gripa - Grande',
@@ -1144,6 +1187,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1042,
+				foto1="img/articles/arlo_1042.jpg",
 				cbarras='',
 				ncorto='metabolismo - Mediano',
 				nlargo='metabolismo - Mediano',
@@ -1170,6 +1214,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1043,
+				foto1="img/articles/arlo_1043.jpg",
 				cbarras='',
 				ncorto='metabolismo - Grande',
 				nlargo='metabolismo - Grande',
@@ -1196,6 +1241,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1044,
+				foto1="img/articles/arlo_1044.jpg",
 				cbarras='',
 				ncorto='piel seca - Mediano',
 				nlargo='piel seca - Mediano',
@@ -1222,6 +1268,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1045,
+				foto1="img/articles/arlo_1045.jpg",
 				cbarras='',
 				ncorto='piel seca - Grande',
 				nlargo='piel seca - Grande',
@@ -1248,6 +1295,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1046,
+				foto1="img/articles/arlo_1046.jpg",
 				cbarras='',
 				ncorto='piel naranja - Mediano',
 				nlargo='piel naranja - Mediano',
@@ -1274,6 +1322,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1047,
+				foto1="img/articles/arlo_1047.jpg",
 				cbarras='',
 				ncorto='piel naranja - Grande',
 				nlargo='piel naranja - Grande',
@@ -1300,6 +1349,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1048,
+				foto1="img/articles/arlo_1048.jpg",
 				cbarras='',
 				ncorto='proteinico - Mediano',
 				nlargo='proteinico - Mediano',
@@ -1326,6 +1376,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1049,
+				foto1="img/articles/arlo_1049.jpg",
 				cbarras='',
 				ncorto='proteinico - Grande',
 				nlargo='proteinico - Grande',
@@ -1352,6 +1403,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1050,
+				foto1="img/articles/arlo_1050.jpg",
 				cbarras='',
 				ncorto='purifiacador - Mediano',
 				nlargo='purifiacador - Mediano',
@@ -1378,6 +1430,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1051,
+				foto1="img/articles/arlo_1051.jpg",
 				cbarras='',
 				ncorto='purifiacador - Grande',
 				nlargo='purifiacador - Grande',
@@ -1404,6 +1457,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1052,
+				foto1="img/articles/arlo_1052.jpg",
 				cbarras='',
 				ncorto='revitalizador - Mediano',
 				nlargo='revitalizador - Mediano',
@@ -1430,6 +1484,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1053,
+				foto1="img/articles/arlo_1053.jpg",
 				cbarras='',
 				ncorto='revitalizador - Grande',
 				nlargo='revitalizador - Grande',
@@ -1456,6 +1511,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1054,
+				foto1="img/articles/arlo_1054.jpg",
 				cbarras='',
 				ncorto='aloe vera - Mediano',
 				nlargo='aloe vera - Mediano',
@@ -1482,6 +1538,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1055,
+				foto1="img/articles/arlo_1055.jpg",
 				cbarras='',
 				ncorto='aloe vera - Grande',
 				nlargo='aloe vera - Grande',
@@ -1508,6 +1565,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1056,
+				foto1="img/articles/arlo_1056.jpg",
 				cbarras='',
 				ncorto='aroma de cafe - Mediano',
 				nlargo='aroma de cafe - Mediano',
@@ -1534,6 +1592,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1057,
+				foto1="img/articles/arlo_1057.jpg",
 				cbarras='',
 				ncorto='aroma de cafe - Grande',
 				nlargo='aroma de cafe - Grande',
@@ -1560,6 +1619,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1058,
+				foto1="img/articles/arlo_1058.jpg",
 				cbarras='',
 				ncorto='colageno - Mediano',
 				nlargo='colageno - Mediano',
@@ -1586,6 +1646,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1059,
+				foto1="img/articles/arlo_1059.jpg",
 				cbarras='',
 				ncorto='colageno - Grande',
 				nlargo='colageno - Grande',
@@ -1612,6 +1673,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1060,
+				foto1="img/articles/arlo_1060.jpg",
 				cbarras='',
 				ncorto='michelada de mango - Mediano',
 				nlargo='michelada de mango - Mediano',
@@ -1638,6 +1700,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1061,
+				foto1="img/articles/arlo_1061.jpg",
 				cbarras='',
 				ncorto='michelada de mango - Grande',
 				nlargo='michelada de mango - Grande',
@@ -1664,6 +1727,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1062,
+				foto1="img/articles/arlo_1062.jpg",
 				cbarras='',
 				ncorto='sirope - Mediano',
 				nlargo='sirope - Mediano',
@@ -1690,6 +1754,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1063,
+				foto1="img/articles/arlo_1063.jpg",
 				cbarras='',
 				ncorto='sirope - Grande',
 				nlargo='sirope - Grande',
@@ -1716,6 +1781,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1064,
+				foto1="img/articles/arlo_1064.jpg",
 				cbarras='',
 				ncorto='pejipower - Mediano',
 				nlargo='pejipower - Mediano',
@@ -1742,6 +1808,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1065,
+				foto1="img/articles/arlo_1065.jpg",
 				cbarras='',
 				ncorto='pejipower - Grande',
 				nlargo='pejipower - Grande',
@@ -1768,6 +1835,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1066,
+				foto1="img/articles/arlo_1066.jpg",
 				cbarras='',
 				ncorto='frutos rojos - Mediano',
 				nlargo='frutos rojos - Mediano',
@@ -1794,6 +1862,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1067,
+				foto1="img/articles/arlo_1067.jpg",
 				cbarras='',
 				ncorto='frutos rojos - Grande',
 				nlargo='frutos rojos - Grande',
@@ -1820,6 +1889,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1068,
+				foto1="img/articles/arlo_1068.jpg",
 				cbarras='',
 				ncorto='tropical - Mediano',
 				nlargo='tropical - Mediano',
@@ -1846,6 +1916,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1069,
+				foto1="img/articles/arlo_1069.jpg",
 				cbarras='',
 				ncorto='tropical - Grande',
 				nlargo='tropical - Grande',
@@ -1872,6 +1943,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1070,
+				foto1="img/articles/arlo_1070.jpg",
 				cbarras='',
 				ncorto='aventura - Mediano',
 				nlargo='aventura - Mediano',
@@ -1898,6 +1970,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1071,
+				foto1="img/articles/arlo_1071.jpg",
 				cbarras='',
 				ncorto='aventura - Grande',
 				nlargo='aventura - Grande',
@@ -1924,6 +1997,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1072,
+				foto1="img/articles/arlo_1072.jpg",
 				cbarras='',
 				ncorto='diversion - Mediano',
 				nlargo='diversion - Mediano',
@@ -1950,6 +2024,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1073,
+				foto1="img/articles/arlo_1073.jpg",
 				cbarras='',
 				ncorto='diversion - Grande',
 				nlargo='diversion - Grande',
@@ -1976,6 +2051,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1074,
+				foto1="img/articles/arlo_1074.jpg",
 				cbarras='',
 				ncorto='magico - Mediano',
 				nlargo='magico - Mediano',
@@ -2002,6 +2078,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1075,
+				foto1="img/articles/arlo_1075.jpg",
 				cbarras='',
 				ncorto='magico - Grande',
 				nlargo='magico - Grande',
@@ -2028,6 +2105,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1076,
+				foto1="img/articles/arlo_1076.jpg",
 				cbarras='',
 				ncorto='superkids - Mediano',
 				nlargo='superkids - Mediano',
@@ -2054,6 +2132,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1077,
+				foto1="img/articles/arlo_1077.jpg",
 				cbarras='',
 				ncorto='superkids - Grande',
 				nlargo='superkids - Grande',
@@ -2080,6 +2159,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1078,
+				foto1="img/articles/arlo_1078.jpg",
 				cbarras='',
 				ncorto='chocofit - Mediano',
 				nlargo='chocofit - Mediano',
@@ -2106,6 +2186,7 @@ class Command(BaseCommand):
 			)
 			Arlo.objects.using(name_db).create(
 				carlos=1079,
+				foto1="img/articles/arlo_1079.jpg",
 				cbarras='',
 				ncorto='chocofit - Grande',
 				nlargo='chocofit - Grande',

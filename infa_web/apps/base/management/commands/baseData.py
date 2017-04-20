@@ -1337,7 +1337,7 @@ class Command(BaseCommand):
 
 			#Base - Tifopa
 			Tifopa.objects.using(name_db).create(ctifopa=1,ntifopa="*** TIPOS DE CONTADO ***",ndiasfopa=0)
-			Tifopa.objects.using(name_db).create(ctifopa=1001,ntifopa="CONTADO",ndiasfopa=0)
+			Tifopa.objects.using(name_db).create(ctifopa=DEFAULT_FORMA_PAGO,ntifopa="CONTADO",ndiasfopa=0)
 			Tifopa.objects.using(name_db).create(ctifopa=2,ntifopa="*** TIPOS DE CREDITO ***",ndiasfopa=0)
 			Tifopa.objects.using(name_db).create(ctifopa=2001,ntifopa="CREDITO",ndiasfopa=30)
 			Tifopa.objects.using(name_db).create(ctifopa=2002,ntifopa="CREDITO 8 DIAS",ndiasfopa=8)
