@@ -97,6 +97,9 @@ from reportlab.lib.enums import TA_CENTER
 
 
 def some_view(request):
+
+	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"
+
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
@@ -104,88 +107,73 @@ def some_view(request):
 	manageParameters = ManageParameters(request.db)
 	data = request.GET
 
-	# Datos de Prueba
-	"""usuario = Usuario.objects.using(request.db).filter()[0]
-
-	talonario_MOS = usuario.ctalomos
-	talonario_POS = usuario.ctalopos"""
-	# Datos de Prueba
-
 	cfac = data.get('cfac')
 
 	factura = Fac.objects.using(request.db).get(cfac=cfac)
 	factura_deta = Facdeta.objects.using(request.db).filter(cfac=factura)
 
-	# Create the PDF object, using the response object as its "file."
-	#p = canvas.Canvas(response)
-	#p = canvas.Canvas({response})
-
-	# Draw things on the PDF. Here's where the PDF generation happens.
-	# See the ReportLab documentation for the full list of functionality.
-	#p.drawString(100, 100, "Hello world.")
-	#p.setPageSize((200, 700)) #some page size, given as a tuple in points
-
 	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
-	hr_linea = "----------------------------------------------------------"
-	hr_puntos = "........................................................."
+	hr_linea = "___________________________________"
 
 	elements = []
 
 	data_header = [
-		["HELADERIA  Y CAFETERIA LA GUACA No 3"],
-		["JEANNETTE PALENCIA DIAZ"],
-		["Iden. 39.563.805-1"],
-		["Regimen Comun"],
-		["Cra 10 25-52 TEL 8954573 Girardot"],
-		#["MANTENIMIENTO Y BACKUP", "1", "60.000"],
-		#["MANTENIMIENTO PORTATILES", "2", "100.000"],
-		#["MANTENIMIENTO PORTATIL CO", "1", "50.000"],
+		[manageParameters.get("company_name")],
+		[manageParameters.get("text_header_pos_bill")],
 	]
 
 	data = [
+		["===============", "=========", "============"],
 		["Descripcion", "Cant", "Vr. Tot"],
-		#["MANTENIMIENTO Y BACKUP", "1", "60.000"],
-		#["MANTENIMIENTO PORTATILES", "2", "100.000"],
-		#["MANTENIMIENTO PORTATIL CO", "1", "50.000"],
+		["_______________", "_________", "____________"],
 	]
 
 	for facdeta in factura_deta:
-		data.append([facdeta.carlos.ncorto[:15],str(facdeta.canti),str(facdeta.vtotal)])
+		data.append([facdeta.carlos.ncorto[:10],str(facdeta.canti),str(facdeta.vtotal)])
 
+	data.append(["_______________", "_________", "____________"])
 	data.append(["Total","-->",str(factura.vttotal)])
+	data.append(["===============", "=========", "============"])
 
 	style_table_header = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
-		#('FONTSIZE', (0, 0), (2, 2), 5),
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
 		('ALIGN',(0,-1),(-1,-1),'CENTER'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
 		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-		#('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
 		('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
 
 	style_table_facdeta = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
-		#('FONTSIZE', (0, 0), (2, 2), 5),
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
 		('ALIGN',(0,-1),(-1,-1),'CENTER'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
 		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-		#('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
 
 	#Configure style and word wrap
 	s = getSampleStyleSheet()
 
-	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12))
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
 	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
 
 	bodytext = s["tirilla"]
@@ -200,25 +188,15 @@ def some_view(request):
 	t_header=Table(data2_header)
 	t_header.setStyle(style_table_header)
 
-	#Send the data and build the file
 	elements.append(t_header)
-	elements.append(Paragraph("<br/>Factura No. %s \t\t" % factura.cfac,s['tirilla']))
-	elements.append(Paragraph("Fecha : %s \t\t" % factura.femi,s['tirilla']))
-	#elements.append(Paragraph("Cliente : %s\t\t" % factura.citerce.nomcomer,s['tirilla']))
-	#elements.append(Paragraph("Caja : %s\t\t" % factura.ccaja.ncaja,s['tirilla']))
-	elements.append(Paragraph("Atendido por : %s \t<br/>" % factura.cvende.nvende,s['tirilla']))
+	elements.append(Paragraph("<br/>Factura No. %s" % factura.cfac,s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % factura.femi,s['tirilla']))
+	elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
-	elements.append(Paragraph("GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS" ,s['tirilla']))
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
 	elements.append(Paragraph(hr_linea ,s['tirilla']))
-	elements.append(Paragraph("AppEm - Software para administracion de Empresas sitematizaref@gmail.com" ,s['tirilla']))
+	elements.append(Paragraph(text_footer_stzef ,s['tirilla']))
 	elements.append(Paragraph(hr_linea ,s['tirilla']))
 	doc.build(elements)
 
-
-
-
-	# Close the PDF object cleanly, and we're done.
-	#p.showPage()
-	#p.save()
 	return response
-# Create your views here.

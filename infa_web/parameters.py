@@ -1,7 +1,7 @@
 from infa_web.settings import BASE_DIR
 import json
 import os.path
-from django.core.exceptions import ImproperlyConfigured 
+from django.core.exceptions import ImproperlyConfigured
 
 from infa_web.custom.utils import get_subdomain_by_name_db
 from django.apps import AppConfig
@@ -11,7 +11,7 @@ class ManageParameters(object):
 		super(ManageParameters, self).__init__()
 		self.name_db = name_db
 		subdomain = get_subdomain_by_name_db(name_db)
-		
+
 		self.path_file = BASE_DIR + '/infa_web/params/' + self.name_db + '_params.json'
 		if not os.path.isfile(self.path_file):
 			raise ImproperlyConfigured(
@@ -110,3 +110,6 @@ class ManageParameters(object):
 			return False
 		except IOError as e:
 			return None
+
+	def get(self,cparam):
+		return self.get_param_value(cparam)

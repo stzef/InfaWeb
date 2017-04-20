@@ -176,6 +176,94 @@
         "nparam": "Logo de la Empresa."
     },
     {
+        "cparam": "company_phone",
+        "type": "String",
+        "value": "000 0000",
+        "label": {
+            "text": "Telefonos de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "000 0000",
+            "type": "text",
+            "id": "company_phone",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Telefonos de la Empresa."
+    },
+    {
+        "cparam": "company_cellphone",
+        "type": "String",
+        "value": "000 0000",
+        "label": {
+            "text": "Celulares de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "000 0000",
+            "type": "text",
+            "id": "company_cellphone",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Celulares de la Empresa."
+    },
+    {
+        "cparam": "company_address",
+        "type": "String",
+        "value": " - ",
+        "label": {
+            "text": "Direccion de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": " - ",
+            "type": "text",
+            "id": "company_address",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Direccion de la Empresa."
+    },
+    {
+        "cparam": "company_name",
+        "type": "String",
+        "value": "Fitness Juice",
+        "label": {
+            "text": "Nombre de la Empresa."
+        },
+        "field": {
+            "input": true,
+            "selected": "Fitness Juice",
+            "type": "text",
+            "id": "company_name",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Nombre de la Empresa."
+    },
+    {
         "cparam": "theme_presentation",
         "type": "String",
         "value": "theme-a",
