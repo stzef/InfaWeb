@@ -200,6 +200,7 @@ def some_view(request):
 	elements.append(Paragraph(hr_linea ,s['tirilla']))
 	elements.append(Paragraph(text_footer_stzef ,s['tirilla']))
 	elements.append(Paragraph(hr_linea ,s['tirilla']))
+	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
 
 	return response
