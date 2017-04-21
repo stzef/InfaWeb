@@ -1,6 +1,6 @@
 
 {%extends 'layouts/base.html'%}
-{% load static %}
+{% load static from staticfiles %}
 {% load humanize %}
 
 {% block content_head %}
@@ -303,9 +303,11 @@
 					<div class="col-md-7">
 						<div class="text-center">
 							<div class="btn-group">
+								<!--
 								<button class="btn btn-app btn-primary" type="button">
 									<i class="fa fa-search"></i>Buscar
 								</button>
+								-->
 								<button class="btn btn-app btn-primary" type="button">
 									<i class="fa fa-print"></i>Imprimir
 								</button>

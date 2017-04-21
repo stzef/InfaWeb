@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 
-{% load static %}
+{% load static from staticfiles %}
+
 {% load humanize %}
 
 {% block content_head %}
@@ -133,7 +134,7 @@
 														{% for grupo in grupos %}
 															{% for articulo in grupo.articulos %}
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
-																	<img class="img-responsive img-thumbnail" src="{% static articulo.foto1.url %}" />
+																	<img class="img-responsive img-thumbnail" src="{{ articulo.foto1.url }}" />
 																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
 																	<p>{{ articulo.pvta1 | intcomma }}</p>
 																	<!--
@@ -167,7 +168,7 @@
 														<div class="text-center">
 															{% for articulo in grupo.articulos %}
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
-																	<img class="img-responsive img-thumbnail" src="{% static articulo.foto1.url %}" />
+																	<img class="img-responsive img-thumbnail" src="{{ articulo.foto1.url }}" />
 																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
 																	<p>{{ articulo.pvta1 | intcomma }}</p>
 																	<!--
@@ -355,13 +356,13 @@
 				//"mode_view":"create",
 				"citerce":appem_defaults.tercero.pk,
 				"name__citerce":appem_defaults.tercero.fields.nomcomer,
-				"cvende":appem_defaults.vendedor.pk,
+				"cvende":appem_defaults.current_vendedor.pk,
 				"cdomici":appem_defaults.domiciliario.pk,
 				"ctifopa":appem_defaults.forma_pago.pk,
 				"femi":moment().format("YYYY-MM-DD"),
 				"fpago":moment().format("YYYY-MM-DD"),
 				"cemdor":appem_defaults.empacador.pk,
-				"ccaja":appem_defaults.caja.pk,
+				"ccaja":appem_defaults.current_user_appem.fields.ccaja,
 				"cesdo":appem_defaults.estado.pk,
 				"descri":"",
 				"vttotal":vttotal,
@@ -374,20 +375,13 @@
 				"vrtefte":0,
 				"vflete":0,
 				"vdescu":0,
-				//"it":"",
-				//"cmpago":"",
-				//"docmpago":"0",
-				//"banmpago":"1000",
-				//"vmpago":null,
-				"medios_pagos":[
-				{
+				"medios_pagos":[{
 					"it":1,
 					"cmpago":appem_defaults.medio_pago.pk,
 					"docmpago":0,
 					"banmpago":appem_defaults.banco.pk,
 					"vmpago":vttotal
-				}
-				],
+				}],
 				"mvdeta":[]
 			}
 			var it = 1

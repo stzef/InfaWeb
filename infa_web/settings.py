@@ -29,15 +29,14 @@ DEBUG = True
 ALLOWED_HOSTS = ['.devappem.com']
 APPEND_SLASH=True
 
-#https://mvostorage.blob.core.windows.net/mvofiles
-#http://azure_account_name.blob.core.windows.net/
+AWS_STORAGE_BUCKET_NAME = os.environ.get("APPEM_AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = os.environ.get("APPEM_AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("APPEM_AWS_SECRET_ACCESS_KEY")
 
-#AZURE_ACCOUNT_NAME = os.environ.get("APPEM_AZURE_ACCOUNT_NAME")
-#AZURE_ACCOUNT_KEY = os.environ.get("APPEM_AZURE_ACCOUNT_KEY")
-#AZURE_CONTAINER = os.environ.get("APPEM_AZURE_CONTAINER")
-#DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
-#STATIC_ROOT = "https://appemstatics.blob.core.windows.net/static/"
-# Application definition
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 DJANGO_APPS = [
 	'django.contrib.admin',
@@ -47,6 +46,7 @@ DJANGO_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.humanize',
+	'storages',
 ]
 PROJECT_APPS = [
 	'infa_web.apps.base',
@@ -85,37 +85,6 @@ MIDDLEWARE_CLASSES = [
 	'infa_web.apps.base.middleware.updateDateAppen',
 ]
 
-
-
-'''
-LOGGING = {
-	'version': 1,
-	'disable_existing_loggers': False,
-	'formatters': {
-		'verbose': {
-			'format': """.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- \n %(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s """
-		},
-		'simple': {
-			'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d - Archivo: %(filename)s, Funcion: %(funcName)s '
-		},
-	},
-	'handlers': {
-		'file': {
-			'level': 'ERROR',
-			'class': 'logging.FileHandler',
-			'filename': os.path.join(BASE_DIR, 'infa_web/logs/debug.log'),
-			'formatter': 'verbose',
-		},
-	},
-	'loggers': {
-		'django': {
-			'handlers': ['file'],
-			'level': 'ERROR',
-			'propagate': True,
-		},
-	},
-}
-'''
 ROOT_URLCONF = 'infa_web.urls'
 
 TEMPLATES = [
@@ -199,17 +168,10 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_ROOT = 'static'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
+#MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
 
 STATICFILES_DIRS = (
-	#os.path.join(BASE_DIR, 'static'),
 	os.path.join(BASE_DIR, 'infa_web/static'),
 )
-
-#MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
-#MEDIA_URL = '/media/'

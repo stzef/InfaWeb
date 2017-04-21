@@ -122,6 +122,7 @@ def some_view(request):
 	data_header = [
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
+		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
 	]
 	print "--------------------"
 	print data_header
