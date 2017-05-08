@@ -17,7 +17,6 @@ class BillList(CustomListView):
 		context = super(BillList, self).get_context_data(**kwargs)
 		context['title'] = "Listar Facturas"
 		context['sorted_object_list'] = Fac.objects.using(self.request.db).all().order_by("femi")
-		print context['sorted_object_list']
 
 		return context
 
@@ -31,51 +30,10 @@ class BillCreate(CustomCreateView):
 		context = super(BillCreate, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
 
-		# Datos de Prueba
-		#usuario = Usuario.objects.using(self.request.db).filter()[0]
-
-		#talonario_MOS = usuario.ctalomos
-		#talonario_POS = usuario.ctalopos
-		# Datos de Prueba
-
-		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
-		medios_pago = MediosPago.objects.using(self.request.db).all()
-
-		context['medios_pago'] = medios_pago
-
-		context['title'] = "Facturas"
-		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm(self.request.db)
+		context['title'] = "POS"
 
 		context['mode_view'] = 'create'
 		context['url'] = reverse_lazy('save-bill')
-
-		context['data_validation'] = manageParameters.to_dict()
-
-		context['company_logo'] = manageParameters.get_param_value('company_logo')
-
-		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
-
-		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 10
-		# Datos de Prueba
-
-		context['data_validation']['formas_pago'] = {}
-		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
-		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
-
-		context['data_validation']['medios_pago'] = {}
-		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
-		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
-
-		context['is_fac_anulada'] = False
-
-		context['data_validation_json'] = json.dumps(context['data_validation'])
 
 		grupos = Gpo.objects.using(self.request.db).all()
 		for grupo in grupos:
@@ -96,7 +54,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
 
-def some_view(request):
+def BillPrint(request):
 
 	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"
 
@@ -112,6 +70,8 @@ def some_view(request):
 	factura = Fac.objects.using(request.db).get(cfac=cfac)
 	factura_deta = Facdeta.objects.using(request.db).filter(cfac=factura)
 
+	sucursal = factura.ccaja.csucur
+
 	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
@@ -123,10 +83,11 @@ def some_view(request):
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
 		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+		[sucursal.nsucur],
+		[sucursal.dirsucur],
+		[sucursal.telsucur],
+		[sucursal.celsucur],
 	]
-	print "--------------------"
-	print data_header
-	print "--------------------"
 
 	data = [
 		["===============", "=========", "============"],

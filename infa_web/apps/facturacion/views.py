@@ -49,8 +49,6 @@ def get_clear_data_fac(request_body):
 		data_deta["vtotal"] = float(data_deta["vtotal"])
 		data_deta["vunita"] = float(data_deta["vunita"])
 
-	print data["medios_pagos"]
-	print data["mvdeta"]
 	return data
 
 
@@ -403,7 +401,10 @@ def BillSave(request):
 
 	medios_pagos_total = vefe_t + vtar_t + vch_t + vncred_t
 
-	fac_pk = code_generate(Fac, ccaja.ctimocj.prefijo, 'cfac', request.db)
+	# Error : cambio de codigo de factura
+	user_appem = get_current_user(request.db,request.user,user_appem=True)
+	fac_pk = code_generate(Fac, user_appem.ctalopos.prefijo, 'cfac', request.db)
+	#fac_pk = code_generate(Fac, ccaja.ctimocj.prefijo, 'cfac', request.db)
 
 	# guarda los datos en factura
 	fac = save_fac(
@@ -568,9 +569,6 @@ def BillSave(request):
 
 		vtiva_vtbase = calcular_vtbase_vtiva_arlo(data_deta,request.db)
 
-		print "---------------------------"
-		print float(carlos.vcosto)
-		print "---------------------------"
 		fac_deta = save_fac_deta(
 			request.db,
 			{
@@ -1276,13 +1274,15 @@ class report_fn_bill(PDFTemplateView):
 		context['title'] = 'Reporte de Ventas Por Rango de Fechas'
 		cells = {
 			"cvende":{"show":True},
-			"citerce":{"show":True}
+			"citerce":{"show":True},
+			"csucur":{"show":True},
 		}
 		context['header'] = {
 			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
 		}
 		cvende = data["cvende"]
 		citerce = data["citerce"]
+		csucur = data["csucur"]
 
 		query_facturas = {}
 		"""
@@ -1301,6 +1301,11 @@ class report_fn_bill(PDFTemplateView):
 			context['title'] += " Por Cliente"
 			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
 			cells["citerce"]["show"] = False
+		if(csucur):
+			query_facturas["cvende__usuario__ctalomos__csucur"] = csucur
+			context['title'] += " Por Sucursales"
+			context['header']["Sucursal"] = Sucursales.objects.using(self.request.db).get(csucur=csucur).nsucur
+			cells["csucur"]["show"] = False
 
 		totales = {}
 
@@ -1332,7 +1337,7 @@ class report_fn_bill(PDFTemplateView):
 		context['totales'] = totales
 
 
-		context['colspan_total'] = 4
+		context['colspan_total'] = 5
 		for k,v in cells.iteritems():
 			if v["show"] == False:
 				context['colspan_total'] -= 1

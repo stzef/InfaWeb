@@ -14,6 +14,7 @@ azure-servicebus==0.20.1
 azure-servicemanagement-legacy==0.20.2
 azure-storage==0.20.3
 backports.functools-lru-cache==1.2.1
+boto==2.46.1
 configparser==3.5.0
 coverage==4.2
 CurrencyConverter==0.8.1

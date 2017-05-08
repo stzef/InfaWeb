@@ -16,5 +16,6 @@ class Usuario(models.Model):
 	ccaja = models.ForeignKey(Caja)
 	ctalomos = models.ForeignKey(Talo,related_name="ctalomos",null=True,blank=True)#CTALOMOS                         Char(10),
 	ctalopos = models.ForeignKey(Talo,related_name="ctalopos",null=True,blank=True)#CTALOPOS                         Char(10),
+	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
 	#cvende = models.ForeignKey(Vende)
 

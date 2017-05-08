@@ -170,7 +170,7 @@ USE_TZ = False
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
-#MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
+MEDIA_ROOT = os.path.join(BASE_DIR,'infa_web/static')
 
 STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'infa_web/static'),

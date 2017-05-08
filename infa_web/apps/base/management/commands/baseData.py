@@ -57,6 +57,7 @@ class Command(BaseCommand):
 			Banfopa.objects.using(name_db).all().delete()
 			Caja.objects.using(name_db).all().delete()
 			Talo.objects.using(name_db).all().delete()
+			Sucursales.objects.using(name_db).all().delete()
 			# Articulos
 			Tiarlos.objects.using(name_db).all().delete()
 			Gpo.objects.using(name_db).all().delete()
@@ -176,6 +177,10 @@ class Command(BaseCommand):
 			MediosPago.objects.using(name_db).create(pk=1002,nmpago="Cheque",ifdoc=True)
 			MediosPago.objects.using(name_db).create(pk=1003,nmpago="Nota Credito",ifdoc=True)
 			print "MediosPago. Registros Creados Correctamente."
+
+			#Base - Sucursales
+			Sucursales.objects.using(name_db).create(csucur=DEFAULT_SUCURSAL,nsucur="SIN SUCURSAL",cesdo=estadoActivo,dirsucur="",telsucur="",celsucur="")
+			print "Sucursales. Registros Creados Correctamente."
 
 			#Base - Bode
 			Bode.objects.using(name_db).create(cbode=DEFAULT_BODEGA,nbode="SIN BODEGA",esbode=1,cesdo=estadoActivo)

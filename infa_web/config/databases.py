@@ -1,23 +1,29 @@
 import os
+import dj_database_url
 
-DB = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': os.getenv('APPEM_DEFAULT_DB_NAME',''),
-		'USER': os.getenv('APPEM_DEFAULT_DB_USER',''),
-		'PASSWORD': os.getenv('APPEM_DEFAULT_DB_PASSWORD',''),
-		'HOST': os.getenv('APPEM_DEFAULT_DB_HOST',''),
-		'PORT': os.getenv('APPEM_DEFAULT_DB_PORT',''),
-	},
-	'fitness_juice_db': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': os.getenv('APPEM_FITNESS_JUICE_DB_NAME',''),
-		'USER': os.getenv('APPEM_FITNESS_JUICE_DB_USER',''),
-		'PASSWORD': os.getenv('APPEM_FITNESS_JUICE_DB_PASSWORD',''),
-		'HOST': os.getenv('APPEM_FITNESS_JUICE_DB_HOST',''),
-		'PORT': os.getenv('APPEM_FITNESS_JUICE_DB_PORT',''),
+if "DATABASE_URL" in os.environ:
+	DATABASES = {
+		'default' : dj_database_url.parse(os.environ.get("DATABASE_URL"), conn_max_age=600)
 	}
-}
+else:
+	DB = {
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': os.getenv('APPEM_DEFAULT_DB_NAME',''),
+			'USER': os.getenv('APPEM_DEFAULT_DB_USER',''),
+			'PASSWORD': os.getenv('APPEM_DEFAULT_DB_PASSWORD',''),
+			'HOST': os.getenv('APPEM_DEFAULT_DB_HOST',''),
+			'PORT': os.getenv('APPEM_DEFAULT_DB_PORT',''),
+		},
+		'fitness_juice_db': {
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': os.getenv('APPEM_FITNESS_JUICE_DB_NAME',''),
+			'USER': os.getenv('APPEM_FITNESS_JUICE_DB_USER',''),
+			'PASSWORD': os.getenv('APPEM_FITNESS_JUICE_DB_PASSWORD',''),
+			'HOST': os.getenv('APPEM_FITNESS_JUICE_DB_HOST',''),
+			'PORT': os.getenv('APPEM_FITNESS_JUICE_DB_PORT',''),
+		}
+	}
 
 if 'CURRENT_ENV_WORK' in os.environ:
 	if os.environ["CURRENT_ENV_WORK"] == "DEV":

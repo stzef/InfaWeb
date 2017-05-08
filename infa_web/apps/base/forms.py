@@ -187,6 +187,8 @@ class CommonForm(forms.Form):
 		self.fields['mesas'].queryset = Mesas.objects.using(name_db).all()
 		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
 		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
+		self.fields['sucursales'].queryset = Sucursales.objects.using(name_db).all()
+		print self.fields['sucursales'].queryset
 
 	cesdo = forms.ModelChoiceField(
 		label='Estado',
@@ -197,6 +199,11 @@ class CommonForm(forms.Form):
 		label='Mesa',
 		widget=forms.Select(attrs={'class':'form-control','required':True,}),
 		queryset=Mesas.objects.all()
+	)
+	sucursales = forms.ModelChoiceField(
+		label='Sucursal',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Sucursales.objects.all()
 	)
 	group = forms.ModelChoiceField(
 		label='Grupo',

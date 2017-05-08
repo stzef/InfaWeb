@@ -16,10 +16,10 @@ class FacForm(forms.ModelForm):
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['cdomici'].queryset = Domici.objects.using(name_db).all()
 		self.fields['cemdor'].queryset = Emdor.objects.using(name_db).all()
-		
+
 		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
 		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
-		
+
 	class Meta:
 		model = Fac
 		fields = "__all__"
@@ -48,9 +48,9 @@ class FacForm(forms.ModelForm):
 			'vcambio' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'readonly':True,'step':'0.01','min':0}),
 			'brtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
 			'vrtefte' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
-			
+
 			'prtefte' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			
+
 			'vncre' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
 			'tpordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),#Revisar
 			'vdescu' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),#Revisar
@@ -126,10 +126,10 @@ class FacdetaForm(forms.ModelForm):
 			'poriva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
 			'canti' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'pordes' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0,"max":100}),
-			
+
 			'viva' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
 			'vbase' : forms.NumberInput(attrs={'class': 'form-control','required':True,'step':'0.01','min':0}),
-			
+
 			'vunita' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0}),
 			'vtotal' : forms.TextInput(attrs={'class': 'input-currency form-control','required':True,'step':'0.01','min':0, 'readonly':True}),
 
@@ -202,13 +202,19 @@ class ReportVentaForm(forms.Form):
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Tifopa.objects.all()
 	)
+	csucur = forms.ModelChoiceField(
+		label='Sucursal',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Sucursales.objects.all()
+	)
 	def __init__(self, using='', *args, **kwargs):
 		super(ReportVentaForm, self).__init__(*args, **kwargs)
 		name_db = using
 
 		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
 		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
-		
+		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
+
 		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
 		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
 

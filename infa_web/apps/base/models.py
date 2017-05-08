@@ -5,6 +5,8 @@ from infa_web.apps.base.constantes import *
 #from infa_web.apps.articulos.models import *
 from django.core.validators import MinValueValidator
 
+
+
 class Esdo(models.Model):
 
 	class Meta:
@@ -19,6 +21,31 @@ class Esdo(models.Model):
 
 	def natural_key(self):
 		return (self.cesdo)
+
+class Sucursales(models.Model):
+
+	class Meta:
+		ordering = ["csucur"]
+
+	csucur = models.AutoField(primary_key=True)
+	nsucur = models.CharField(max_length=40)
+	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	dirsucur = models.CharField(max_length=255)
+	telsucur = models.CharField(max_length=255)
+	celsucur = models.CharField(max_length=255)
+
+	def __str__(self):
+		return self.nsucur
+
+	def natural_key(self):
+		return {
+			"csucur" : self.csucur,
+			"nsucur" : self.nsucur,
+			"cesdo" : self.cesdo.natural_key(),
+			"dirsucur" : self.dirsucur,
+			"telsucur" : self.telsucur,
+			"celsucur" : self.celsucur,
+		}
 
 class MediosPago(models.Model):
 
@@ -234,6 +261,7 @@ class Banfopa(models.Model):
 class Caja(models.Model):
 	ccaja = models.AutoField(primary_key=True)
 	ncaja = models.CharField(max_length=80)
+	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
 	caseri = models.CharField(max_length=4)
 	ctimocj = models.ForeignKey(Timo)
@@ -244,6 +272,7 @@ class Caja(models.Model):
 
 class Talo(models.Model):
 	ctalo = models.AutoField(primary_key=True)
+	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
 	prefijo = models.CharField(max_length=2)
 	conse_ini = models.IntegerField()
 	conse_fin = models.IntegerField()

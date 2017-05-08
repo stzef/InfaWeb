@@ -4,7 +4,7 @@
 {% block head_table %}
 	<tr style="padding-bottom: -3px;">
 		<td>{{title}}</td>
-	</tr> 
+	</tr>
 	{% for titulo,valor in header.iteritems %}
 		<tr>
 			<td>{{titulo}} : {{valor}}</td>
@@ -24,6 +24,9 @@
 			{% if cells.cvende.show %}
 				<th>Vendedor</th>
 			{% endif %}
+			{% if cells.csucur.show %}
+				<th>Sucursal</th>
+			{% endif %}
 			<th>Fecha</th>
 			<th>Vr.Otros</th>
 			<th>Vr.Base IVA</th>
@@ -40,6 +43,9 @@
 				{% endif %}
 				{% if cells.cvende.show %}
 					<td>{{factura.cvende.nvende}}</td>
+				{% endif %}
+				{% if cells.csucur.show %}
+					<td>{{factura.cvende.usuario.ctalomos.csucur.nsucur}}</td>
 				{% endif %}
 				<td>{{factura.femi|date:"d M Y"}}</td>
 				<td>{{factura.data_report.otros_valores|intcomma}}</td>

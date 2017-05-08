@@ -17,6 +17,7 @@ class Talocoda(models.Model):
 	cesdo = models.ForeignKey(Esdo, default=CESTADO_ACTIVO)
 	nini = models.IntegerField()
 	nfin = models.IntegerField()
+	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
 
 	def __str__(self):
 		return self.ctalocoda
