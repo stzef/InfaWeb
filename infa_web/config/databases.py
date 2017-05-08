@@ -8,6 +8,7 @@ if "DATABASE_URL" in os.environ:
 else:
 	DB = {
 		'default': {
+
 			'ENGINE': 'django.db.backends.postgresql_psycopg2',
 			'NAME': os.getenv('APPEM_DEFAULT_DB_NAME',''),
 			'USER': os.getenv('APPEM_DEFAULT_DB_USER',''),
