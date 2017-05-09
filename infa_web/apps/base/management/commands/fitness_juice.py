@@ -40,7 +40,6 @@ class Command(BaseCommand):
 			Arlo.objects.using(name_db).all().delete()
 			Gpo.objects.using(name_db).all().delete()
 
-
 			g_refrescante = Gpo.objects.using(name_db).create(cgpo=2,ngpo="Refrescante",cesdo=estadoActivo)
 			#g_refrescante = Gpo.objects.using(name_db).get(cgpo=2)
 			g_vitalidad = Gpo.objects.using(name_db).create(cgpo=3,ngpo="Vitalidad",cesdo=estadoActivo)
@@ -53,7 +52,7 @@ class Command(BaseCommand):
 			#g_ensalada_de_frutas = Gpo.objects.using(name_db).get(cgpo=6)
 			g_kids = Gpo.objects.using(name_db).create(cgpo=7,ngpo="Kids",cesdo=estadoActivo)
 			#g_kids = Gpo.objects.using(name_db).get(cgpo=7)
-			g_equilibrio = Gpo.objects.using(name_db).create(cgpo=7,ngpo="Equilibrio",cesdo=estadoActivo)
+			g_equilibrio = Gpo.objects.using(name_db).create(cgpo=8,ngpo="Equilibrio",cesdo=estadoActivo)
 
 			Arlo.objects.using(name_db).create(
 				carlos=1000,

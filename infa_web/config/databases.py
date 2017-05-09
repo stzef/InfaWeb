@@ -2,6 +2,8 @@ import os
 import dj_database_url
 
 if "DATABASE_URL" in os.environ:
+	print "PROD"
+
 	DB = {
 		'default' : dj_database_url.parse(os.environ.get("DATABASE_URL"), conn_max_age=600),
 		'fitness_juice_db' : dj_database_url.parse(os.environ.get("DATABASE_URL"), conn_max_age=600)
