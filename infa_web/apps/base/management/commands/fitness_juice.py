@@ -37,6 +37,10 @@ class Command(BaseCommand):
 			iva = Iva.objects.using(name_db).get(civa=1)
 			unidad = Unidades.objects.using(name_db).get(cunidad=8)
 
+			Arlo.objects.using(name_db).all().delete()
+			Gpo.objects.using(name_db).all().delete()
+
+
 			g_refrescante = Gpo.objects.using(name_db).create(cgpo=2,ngpo="Refrescante",cesdo=estadoActivo)
 			#g_refrescante = Gpo.objects.using(name_db).get(cgpo=2)
 			g_vitalidad = Gpo.objects.using(name_db).create(cgpo=3,ngpo="Vitalidad",cesdo=estadoActivo)
