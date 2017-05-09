@@ -9,6 +9,7 @@
 				<div class="pull-left info">
 					{% if request.user.is_authenticated %}
 						<p><b>{{ request.user.username }}</b></p>
+						<p><b>{{ sucursal }}</b></p>
 					{% else %}
 						<p>Usuario Desconocido</p>
 					{% endif %}
