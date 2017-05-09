@@ -204,7 +204,7 @@ class ReportVentaForm(forms.Form):
 	)
 	csucur = forms.ModelChoiceField(
 		label='Sucursal',
-		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Sucursales.objects.all()
 	)
 	def __init__(self, using='', *args, **kwargs):

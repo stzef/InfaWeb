@@ -40,6 +40,8 @@ class Command(BaseCommand):
 			Arlo.objects.using(name_db).all().delete()
 			Gpo.objects.using(name_db).all().delete()
 
+			Gpo.objects.using(name_db).create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
+
 			g_refrescante = Gpo.objects.using(name_db).create(cgpo=2,ngpo="Refrescante",cesdo=estadoActivo)
 			#g_refrescante = Gpo.objects.using(name_db).get(cgpo=2)
 			g_vitalidad = Gpo.objects.using(name_db).create(cgpo=3,ngpo="Vitalidad",cesdo=estadoActivo)

@@ -1194,7 +1194,12 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		}
 
 
-		query_facturas = {}
+		query_facturas = {
+			"femi__range" : [
+				data.get("fecha_inicial"),
+				data.get("fecha_final"),
+			]
+		}
 		"""
 		query_facturas = {
 			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
@@ -1283,12 +1288,18 @@ class report_fn_bill(PDFTemplateView):
 		cvende = data["cvende"]
 		citerce = data["citerce"]
 		csucur = data["csucur"]
+		print data.get("fecha_inicial")
 
-		query_facturas = {}
+		query_facturas = {
+			"femi__range" : [
+				data.get("fecha_inicial"),
+				data.get("fecha_final"),
+			]
+		}
 		"""
 		query_facturas = {
-			"cmven__fmven__gte" : data["start_date"].replace(hour=0, minute=0, second=0, microsecond=0)
-			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
+			"cmven__fmven__gte" : data["fecha_inicial"].replace(hour=0, minute=0, second=0, microsecond=0)
+			"cmven__fmven__lte" : data["fecha_final"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
 		"""
 		if(cvende):
@@ -1310,6 +1321,7 @@ class report_fn_bill(PDFTemplateView):
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
+		print query_facturas
 
 		totales["subtotal"] = 0
 		totales["total"] = 0
