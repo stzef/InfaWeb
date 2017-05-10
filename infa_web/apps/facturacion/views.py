@@ -1313,7 +1313,7 @@ class report_fn_bill(PDFTemplateView):
 			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
 			cells["citerce"]["show"] = False
 		if(csucur):
-			query_facturas["cvende__usuario__ctalomos__csucur"] = csucur
+			query_facturas["ccaja__csucur__csucur"] = csucur
 			context['title'] += " Por Sucursales"
 			context['header']["Sucursal"] = Sucursales.objects.using(self.request.db).get(csucur=csucur).nsucur
 			cells["csucur"]["show"] = False
