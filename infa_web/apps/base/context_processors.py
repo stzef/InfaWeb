@@ -4,8 +4,12 @@ def var_globals(request):
 	sucursal = None
 	subdomain = None
 	if request.user.is_authenticated():
-		user_appem = Usuario.objects.using(request.db).get(user=request.user)
-		sucursal = user_appem.csucur.nsucur
+		try:
+			user_appem = Usuario.objects.using(request.db).get(user=request.user)
+			sucursal = user_appem.csucur.nsucur
+		except Usuario.DoesNotExist:
+			user_appem = None
+			sucursal = None
 	if 'subdomain' in request:
 		subdomain = request.subdomain
 	return {
