@@ -8,7 +8,7 @@ class ThirdPartyForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(ThirdPartyForm, self).__init__(*args, **kwargs)
 		name_db = using
-		
+
 		manageParameters = ManageParameters(name_db)
 
 		self.fields['ctiide'].queryset = Tiide.objects.using(name_db).all()
@@ -20,7 +20,7 @@ class ThirdPartyForm(forms.ModelForm):
 		self.fields['czona'].queryset = Zona.objects.using(name_db).all()
 		self.fields['cruta'].queryset = Ruta.objects.using(name_db).all()
 		self.fields['cpersona'].queryset = Personas.objects.using(name_db).all()
-		
+
 		self.fields['ciudad'].initial = manageParameters.get_param_value("city_third_party")
 
 	class Meta:
@@ -148,5 +148,28 @@ class ZoneForm(forms.ModelForm):
 		labels = {
 			'cruta':'Código Interno',
 			'nzona':'Nombre',
+			'cesdo':'Estado',
+		}
+class VendeForm(forms.ModelForm):
+	def __init__(self, using='', *args, **kwargs):
+		super(VendeForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+
+	class Meta:
+		model = Vende
+		fields = "__all__"
+		exclude = ["cvende"]
+		widgets = {
+			'nvende' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'porventa' : forms.TextInput(attrs={'class': 'form-control','required':True}),
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+			#cvende
+			#usuario
+		}
+		labels = {
+			'nvende':'Vendedor',
+			'porventa':'Porcentaje de Venta',
 			'cesdo':'Estado',
 		}

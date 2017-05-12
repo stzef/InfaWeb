@@ -56,6 +56,12 @@ urlIDTypes = [
 	url(r'^id-type/edit/(?P<pk>[0-9])+/$', login_required(IDTypeUpdate.as_view()),name = 'edit-id-type'),
 ]
 
+urlSucursales = [
+	url(r'^branch/$', login_required(BanchsList.as_view()),name = 'list-branchs'),
+	url(r'^branch/add/$', login_required(BanchCreate.as_view()),name = 'add-branch'),
+	url(r'^branch/edit/(?P<pk>[0-9])+/$', login_required(BanchUpdate.as_view()),name = 'edit-branch'),
+]
+
 urlParameters = [
 	url(r'^parameters/$', login_required(ParametersList), name = 'list-parameter'),
 	url(r'^parameters/save/$', login_required(ParametersSave), name = 'save-parameters'),
@@ -66,4 +72,4 @@ urlModels = [
 	url(r'^models/find-one/$', login_required(ModelFindOne), name = 'model-find-one'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlIDTypes + urlModels
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlSucursales + urlIDTypes + urlModels

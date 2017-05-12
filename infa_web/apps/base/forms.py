@@ -146,6 +146,35 @@ class IvaForm(forms.ModelForm):
 			'cesdo':'Estado',
 		}
 
+class SucursalForm(forms.ModelForm):
+	def __init__(self,using='', *args, **kwargs):
+		super(SucursalForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+
+	class Meta:
+		model = Sucursales
+		fields = "__all__"
+		exclude = ["civa"]
+		widgets = {
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+
+			'csucur':forms.TextInput(attrs={'class':'form-control','required':True}),
+			'nsucur':forms.TextInput(attrs={'class':'form-control','required':True,'step':'0.01'}),
+			'dirsucur':forms.TextInput(attrs={'class':'form-control','required':True}),
+			'telsucur':forms.TextInput(attrs={'class':'form-control','required':True}),
+			'celsucur':forms.TextInput(attrs={'class':'form-control','required':True}),
+		}
+		labels = {
+			'cesdo':'Estado',
+			'csucur':'Código Interno',
+			'nsucur':'Nombre',
+			'dirsucur':'Direccion',
+			'telsucur':'Telefono',
+			'celsucur':'Celular',
+		}
+
 class RegivaForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(RegivaForm, self).__init__(*args, **kwargs)

@@ -431,6 +431,42 @@ class IDTypesList(CustomListView):
 	template_name = "base/list-id-types.html"
 # Tiide #
 
+# Sucursales #
+
+class BanchCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Sucursales
+	form_class = SucursalForm
+	template_name = "base/sucursal.html"
+	success_url=reverse_lazy("add-branch")
+
+	def get_context_data(self, **kwargs):
+		context = super(BanchCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Sucursal'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-branch')
+
+		return context
+
+class BanchUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Sucursales
+	form_class = SucursalForm
+	template_name = "base/sucursal.html"
+	success_url=reverse_lazy("add-branch")
+
+	def get_context_data(self, **kwargs):
+		context = super(BanchUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Sucursal'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-branch',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class BanchsList(CustomListView):
+	model = Sucursales
+	template_name = "base/list-sucursales.html"
+# Sucursales #
+
 
 # Models find #
 import json
