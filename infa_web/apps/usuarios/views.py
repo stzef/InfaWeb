@@ -1,3 +1,5 @@
+import json
+
 from .forms import *
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -5,12 +7,16 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render
 from infa_web.apps.usuarios.forms import *
+from django.http import HttpResponse, JsonResponse
+
 
 from django.contrib.auth.models import User
 from infa_web.apps.terceros.models import Vende
-from infa_web.apps.restaurante_comandas.models import Meseros
+from infa_web.apps.restaurante_comandas.models import Meseros,Talocoda
 from infa_web.apps.usuarios.models import Usuario
+from infa_web.apps.base.models import Talo
 
+from django.views.decorators.csrf import csrf_exempt
 
 class loginView(FormView):
 	template_name = 'usuarios/login.html'
@@ -30,26 +36,32 @@ class loginView(FormView):
 		else:
 			return self.form_invalid(form)
 		return super(loginView, self).form_valid(form)
+
+@csrf_exempt
 def RegistarUsuario(request):
 	if request.method == "GET" :
 		form = ManageUsers(request.db)
 		return render(request, 'usuarios/registrar.html', {'form': form})
 
-	data = json.loads(request.body)
+	print type(request.POST)
+	print request.POST
+
+	data = request.POST
 
 	# General
 	cesdo = data["cesdo"]
 	estado = Esdo.objects.using(request.db).get(cesdo=cesdo)
 
-	ccaja = data[""]
+	ccaja = data["ccaja"]
 	caja = Caja.objects.using(request.db).get(ccaja=ccaja)
 
-	csucur = data[""]
+	csucur = data["csucur"]
 	sucursal = Sucursales.objects.using(request.db).get(csucur=csucur)
 
-	foto = data[""]
-	ctalocoda = data[""]
-	porventa = data[""]
+	foto = "1" # data["foto"]
+	ctalocoda = "1" # data["ctalocoda"]
+	talocoda = Talocoda.objects.using(request.db).get(ctalocoda=ctalocoda)
+	porventa = "1" # data["porventa"]
 	# User Django
 	first_name = data["first_name"]
 	last_name = data["last_name"]
@@ -57,11 +69,13 @@ def RegistarUsuario(request):
 	password = data["password"]
 	cpassword = data["cpassword"]
 	# User App
-	finusu = data["factivacion"]
-	fveusu = data["fdesactivacion"]
-	ifprises = data[""]
-	ctalomos = data[""]
-	ctalopos = data[""]
+	finusu = "2017-05-12 00:00:00" # data["factivacion"]
+	fveusu = "2017-05-12 00:00:00" # data["fdesactivacion"]
+	ifprises = "1" # data["ifprises"]
+	ctalomos = "1" # data["ctalomos"]
+	talomos = Talo.objects.using(request.db).get(ctalo=ctalomos)
+	ctalopos = "1" # data["ctalopos"]
+	talopos = Talo.objects.using(request.db).get(ctalo=ctalopos)
 	# Vendedor
 	nvende = "%s %s" % (first_name,last_name)
 	# Meseros
@@ -69,11 +83,13 @@ def RegistarUsuario(request):
 	telmero = data["telefono"]
 	dirmero = data["direccion"]
 
+	issuperuser = True # data["direccion"]
+
 	# Crear Usuario Django
 	user = User(
 		first_name=first_name,
-		is_staff=False,
-		is_superuser=True,
+		is_staff=issuperuser,
+		is_superuser=issuperuser,
 		last_name=last_name,
 		username=username,
 	)
@@ -88,8 +104,8 @@ def RegistarUsuario(request):
 		foto = foto,
 		ifprises = ifprises,
 		ccaja = caja,
-		ctalomos = ctalomos,
-		ctalopos = ctalopos,
+		ctalomos = talomos,
+		ctalopos = talopos,
 		csucur = sucursal,
 	)
 	usuario.save(using=request.db)
@@ -104,13 +120,19 @@ def RegistarUsuario(request):
 	mesero = Meseros(
 		#cmero,
 		nmero = nmero,
-		ctalocoda = ctalocoda,
+		ctalocoda = talocoda,
 		cesdo = estado,
 		telmero = telmero,
 		dirmero = dirmero,
 		foto = foto,
 		usuario = usuario,
 	)
+	mesero.save(using=request.db)
 
+	#user.delete()
+	#usuario.delete()
+	#vendedor.delete()
+	#mesero.delete()
 	response = {}
+
 	return HttpResponse(json.dumps(response), "application/json")

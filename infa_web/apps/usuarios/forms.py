@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth import authenticate
-from infa_web.apps.base.models import Esdo
+from infa_web.apps.base.models import Esdo, Caja,Sucursales
 
 class loginForm(forms.Form):
 	username = forms.CharField(error_messages={'required': 'Ingresa tu Usuario, '},widget=forms.TextInput(attrs={'class':'form-control ','placeholder':'nombre de usuario','autofocus':''}))
@@ -19,6 +19,8 @@ class ManageUsers(forms.Form):
 
 		name_db = using
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
+		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
 
 	username = forms.CharField(
 		label='Usuario',
@@ -74,6 +76,16 @@ class ManageUsers(forms.Form):
 		label='Estado',
 		widget=forms.Select(attrs={'class':'form-control','required':True,}),
 		queryset=Esdo.objects.all()
+	)
+	ccaja = forms.ModelChoiceField(
+		label='Caja',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Caja.objects.all()
+	)
+	csucur = forms.ModelChoiceField(
+		label='Sucursal',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Sucursales.objects.all()
 	)
 
 	widgets = {}
