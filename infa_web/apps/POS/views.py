@@ -33,7 +33,7 @@ class BillCreate(CustomCreateView):
 	template_name = "pos/billing.html"
 	form_class = FacForm
 
-	@method_decorator(permission_required("pos.add_fac",raise_exception=True))
+	@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
 	def dispatch(self, *args, **kwargs):
 		return super(BillCreate, self).dispatch(*args, **kwargs)
 
@@ -65,7 +65,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-@permission_required("pos.add_fac",raise_exception=True)
+@permission_required("facturacion.add_fac_pos",raise_exception=True)
 def BillPrint(request):
 
 	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"

@@ -39,6 +39,7 @@
 						{% if perms.movimientos.add_mvsa %}
 							<li><a href="{% url 'add-output-movement' %}"><i class="fa  fa-arrow-left"></i>Salida</a></li>
 						{% endif %}
+						<!--
 						<li>
 							<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 							<ul class="treeview-menu">
@@ -51,6 +52,7 @@
 								<li><a href="{% url 'proccess_view_costing_and_stock' %}"><i class="fa fa-arrows-h"></i>Calculo Costos Existencias</a></li>
 							</ul>
 						</li>
+						-->
 					</ul>
 				</li>
 				<li class="treeview">
@@ -107,6 +109,7 @@
 						</ul>
 					</li>
 				</li>
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-usd"></i> Cartera por Cobrar
@@ -124,6 +127,8 @@
 						</ul>
 					</li>
 				</li>
+				-->
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-list-alt"></i> Restaurante
@@ -185,6 +190,7 @@
 						</ul>
 					</li>
 				</li>
+				-->
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-circle-o"></i> Basicos
@@ -328,16 +334,18 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'list-parameter' %}">
-									<i class="fa fa-cogs"></i>
-									Parametros
-								</a>
+							{% if perms.admin.add_parameters %}
+								<li>
+									<a href="{% url 'list-parameter' %}">
+										<i class="fa fa-cogs"></i>
+										Parametros
+									</a>
 							</li>
+							{% endif %}
 							<li>
 								<a href="#"><i class="fa fa-wrench"></i> Anulaciones<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
-									{% if movimientos.change_mven and movimientos.change_mvsa %}
+									{% if perms.movimientos.change_mven and perms.movimientos.change_mvsa %}
 										<li><a href="{% url 'proccess_view_annulment' %}"><i class="fa fa-arrows-h"></i>Movimientos de Inventario</a></li>
 									{% endif %}
 									{% if perms.facturacion.change_fac %}
