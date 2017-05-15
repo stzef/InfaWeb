@@ -89,7 +89,7 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							{% if perms.pos.add_fac %}
+							{% if perms.facturacion.add_fac_pos %}
 								<li>
 									<a href="{% url 'create-pos' %}">
 										<i class="fa fa-dollar "></i>
@@ -348,7 +348,7 @@
 									{% endif %}
 								</ul>
 							</li>
-							{% if perms.admin.no %}
+							{% if perms.auth.add_user %}
 								<li>
 									<a href="#"><i class="fa fa-users"></i> Usuarios<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 									<ul class="treeview-menu">
