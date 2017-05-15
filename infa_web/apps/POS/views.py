@@ -17,7 +17,7 @@ class BillList(CustomListView):
 	template_name = "pos/list-billings.html"
 	form_class = FacForm
 
-	@method_decorator(permission_required("pos.add_fac",raise_exception=True))
+	@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
 	def dispatch(self, *args, **kwargs):
 		return super(BillList, self).dispatch(*args, **kwargs)
 
