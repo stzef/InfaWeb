@@ -175,6 +175,72 @@ class SucursalForm(forms.ModelForm):
 			'celsucur':'Celular',
 		}
 
+class TaloForm(forms.ModelForm):
+	def __init__(self,using='', *args, **kwargs):
+		super(TaloForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		print "---------------------"
+		print name_db
+		print "---------------------"
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
+		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
+		self.fields['ctimomvsa'].queryset = Timo.objects.using(name_db).all()
+
+	class Meta:
+		model = Talo
+		fields = "__all__"
+		exclude = []
+		widgets = {
+
+
+			"prefijo" : forms.TextInput(attrs={'class':'form-control','required':True}),
+			"resodian" : forms.TextInput(attrs={'class':'form-control','required':True}),
+			"nrepo" : forms.TextInput(attrs={'class':'form-control','required':True}),
+			"descri" : forms.TextInput(attrs={'class':'form-control','required':True}),
+			"prefi_real" : forms.TextInput(attrs={'class':'form-control','required':True}),
+
+			"conse_ini" : forms.NumberInput(attrs={'class':'form-control','required':True}),
+			"conse_fin" : forms.NumberInput(attrs={'class':'form-control','required':True}),
+			"lar_conse" : forms.NumberInput(attrs={'class':'form-control','required':True}),
+			"filas" : forms.NumberInput(attrs={'class':'form-control','required':True}),
+			"ncotalo" : forms.NumberInput(attrs={'class':'form-control','required':True}),
+
+			#ifmostrado = models.BooleanField()
+			#ifpos = models.BooleanField()
+
+			"csucur" : forms.Select(attrs={'class':'form-control','required':''}),
+			"ctifopa" : forms.Select(attrs={'class':'form-control','required':''}),
+			"cesdo" : forms.Select(attrs={'class':'form-control','required':''}),
+			"ccaja" : forms.Select(attrs={'class':'form-control','required':''}),
+			"ctimomvsa" : forms.Select(attrs={'class':'form-control','required':''}),
+
+		}
+		labels = {
+			"prefijo" : "Prefijo",
+			"resodian" : "Resolucion DIAN",
+			"nrepo" : "N Reporte",
+			"descri" : "Descripcion",
+			"prefi_real" : "Prefijo Real",
+
+			"conse_ini" : "Consecutivo Inicial",
+			"conse_fin" : "Consecutivo Final",
+			"lar_conse" : "Lar Consecutivo",
+			"filas" : "Numero Filas",
+			"ncotalo" : "Ncotalo",
+
+			#ifmostrado = models.BooleanField()
+			#ifpos = models.BooleanField()
+
+			"csucur" : "Sucursal",
+			"ctifopa" : "",
+			"cesdo" : "Estado",
+			"ccaja" : "Caja",
+			"ctimomvsa" : "Tipo Movimiento Salida",
+		}
+
 class RegivaForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(RegivaForm, self).__init__(*args, **kwargs)

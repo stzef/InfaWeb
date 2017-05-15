@@ -30,6 +30,15 @@
 								</div>
 							</div>
 							<div class="col-md-6 form-group">
+								<label for="{{form.email.id_for_label}}" class="col-sm-4 control-label">{{form.email.label}}</label>
+								{%if form.email.errors%}
+								{{form.email.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.email }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
 								<label for="{{form.password.id_for_label}}" class="col-sm-4 control-label">{{form.password.label}}</label>
 								{%if form.password.errors%}
 								{{form.password.errors}}
@@ -45,15 +54,6 @@
 								{%endif%}
 								<div class="col-sm-8">
 									{{ form.cpassword }}
-								</div>
-							</div>
-							<div class="col-md-6 form-group">
-								<label for="{{form.email.id_for_label}}" class="col-sm-4 control-label">{{form.email.label}}</label>
-								{%if form.email.errors%}
-								{{form.email.errors}}
-								{%endif%}
-								<div class="col-sm-8">
-									{{ form.email }}
 								</div>
 							</div>
 							<div class="col-md-6 form-group">
@@ -75,6 +75,25 @@
 								</div>
 							</div>
 							<div class="col-md-6 form-group">
+								<label for="{{form.auth_cgrupo.id_for_label}}" class="col-sm-4 control-label">{{form.auth_cgrupo.label}}</label>
+								{%if form.auth_cgrupo.errors%}
+								{{form.auth_cgrupo.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.auth_cgrupo }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.ctalo.id_for_label}}" class="col-sm-4 control-label">{{form.ctalo.label}}</label>
+								{%if form.ctalo.errors%}
+								{{form.ctalo.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.ctalo }}
+								</div>
+							</div>
+							<!--
+							<div class="col-md-6 form-group">
 								<label for="{{form.telefono.id_for_label}}" class="col-sm-4 control-label">{{form.telefono.label}}</label>
 								{%if form.telefono.errors%}
 								{{form.telefono.errors}}
@@ -93,21 +112,21 @@
 								</div>
 							</div>
 							<div class="col-md-6 form-group">
-								<label for="{{form.factivacion.id_for_label}}" class="col-sm-4 control-label">{{form.factivacion.label}}</label>
-								{%if form.factivacion.errors%}
-								{{form.factivacion.errors}}
-								{%endif%}
-								<div class="col-sm-8">
-									{{ form.factivacion }}
-								</div>
-							</div>
-							<div class="col-md-6 form-group">
 								<label for="{{form.fdesactivacion.id_for_label}}" class="col-sm-4 control-label">{{form.fdesactivacion.label}}</label>
 								{%if form.fdesactivacion.errors%}
 								{{form.fdesactivacion.errors}}
 								{%endif%}
 								<div class="col-sm-8">
 									{{ form.fdesactivacion }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.factivacion.id_for_label}}" class="col-sm-4 control-label">{{form.factivacion.label}}</label>
+								{%if form.factivacion.errors%}
+								{{form.factivacion.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.factivacion }}
 								</div>
 							</div>
 							<div class="col-md-6 form-group">
@@ -119,6 +138,7 @@
 									{{form.cesdo}}
 								</div>
 							</div>
+							-->
 
 							<div class="col-md-6 form-group">
 								<label for="{{form.csucur.id_for_label}}" class="col-sm-4 control-label">{{form.csucur.label}}</label>
@@ -176,8 +196,13 @@
 			url:"/users/registar/",
 			data:$("form").serialize(),
 			contentType:"application/x-www-form-urlencoded",
-			success:function(){
-				console.log(arguments)
+			success:function(response){
+				console.log(response)
+				alertify.success(response.message)
+			},
+			error:function(response){
+				console.log(response)
+				alertify.error(response.responseJSON.message)
 			}
 		})
 	})

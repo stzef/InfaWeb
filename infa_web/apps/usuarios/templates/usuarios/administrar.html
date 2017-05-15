@@ -14,6 +14,77 @@
 			<h2>{{title}}</h2>
 
 
+				{% for usuario in usuarios %}
+
+					<div id="modal_user_{{ usuario.id }}" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group alert-danger">
+										<label class="alert-danger"> Nueva Contraseña </label>
+										<input form="form_user_{{ usuario.id }}" class="alert-danger form-control" type="password" name="npassword">
+									</div>
+									<div class="form-group alert-danger">
+										<label class="alert-danger"> Confirmar Contraseña </label>
+										<input form="form_user_{{ usuario.id }}" class="alert-danger form-control" type="password" name="cpassword">
+									</div>
+									<div class="form-group ">
+										<label class=""> Fecha Expiracion </label>
+										<input form="form_user_{{ usuario.id }}" class="date form-control" type="text" name="date_joined" value="{{ usuario.date_joined | date:'Y-m-d' }}">
+									</div>
+									<div class="form-group ">
+										<input form="form_user_{{ usuario.id }}" type="checkbox" name="is_superuser" {% if usuario.is_superuser %} checked {% endif %}>
+										<label class=""> Super Usuario </label>
+									</div>
+									<div class="form-group ">
+										<label class=""> Sucursal </label>
+										<select disabled form="form_user_{{ usuario.id }}" id="id_csucur" name="csucur" class="form-control">
+											{% for x,y in form.fields.csucur.choices %}
+												<option value="{{ x }}"{% if form.fields.csucur.value == usuario.ccaja %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="form-group ">
+										<label class=""> Caja </label>
+										<select disabled form="form_user_{{ usuario.id }}" id="id_ccaja" name="ccaja" class="form-control">
+											{% for x,y in form.fields.ccaja.choices %}
+												<option value="{{ x }}"{% if form.fields.ccaja.value == usuario.ccaja %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="form-group ">
+										<label class=""> Caja </label>
+										<select disabled form="form_user_{{ usuario.id }}" id="id_ctalo" name="ctalo" class="form-control">
+											{% for x,y in form.fields.ctalo.choices %}
+												<option value="{{ x }}"{% if form.fields.ctalo.value == usuario.ctalo %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="form-group ">
+										<label class=""> Grupo </label>
+										<select disabled form="form_user_{{ usuario.id }}" id="id_auth_cgrupo" name="auth_cgrupo" class="form-control">
+											{% for x,y in form.fields.auth_cgrupo.choices %}
+												<option value="{{ x }}"{% if x == usuario.groups.all.0.id %} selected{% endif %}>{{ y }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<p> Ultimo Ingreso : {{ usuario.last_login | date:'Y-m-d' }}</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				{% endfor %}
 				<div class="box box-primary">
 					<div class="box-header with-border">
 						<h3 class="box-title">Nuevo Usuario</h3>
@@ -27,14 +98,9 @@
 								<th> Apellidos </th>
 								<th> Activo </th>
 								<!--<th> is_staff </th>-->
-								<th> Super Usuario </th>
-								<th> Expiracion </th>
-								<th> Ultimo Ingreso </th>
-								<th class="alert-danger"> Nueva Contraseña </th>
-								<th class="alert-danger"> Confirmar Contraseña </th>
 							</tr>
 							{% for usuario in usuarios %}
-								<form class="form-horizontal">
+								<form class="form-horizontal" id="form_user_{{ usuario.id }}">
 									{%csrf_token%}
 										<tr>
 											<td>
@@ -46,13 +112,8 @@
 											<td> <input class="form-control" type="text" name="last_name" value="{{ usuario.last_name }}"></td>
 											<td> <input type="checkbox" name="is_active" {% if usuario.is_active %} checked {% endif %}></td>
 											<!-- <td>{% comment %} {{ usuario.is_staff }} {% endcomment %}</td>-->
-											<td> <input type="checkbox" name="is_superuser" {% if usuario.is_superuser %} checked {% endif %}></td>
-											<td> <input class="date form-control" type="text" name="date_joined" value="{{ usuario.date_joined | date:'Y-m-d' }}"></td>
-											<td> <input class="date form-control" disabled type="text" name="last_login" value="{{ usuario.last_login | date:'Y-m-d' }}"></td>
 
-											<td class="alert-danger"> <input class="alert-danger form-control" type="password" name="npassword"></td>
-											<td class="alert-danger"> <input class="alert-danger form-control" type="password" name="cpassword"></td>
-
+											<td> <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_user_{{ usuario.id }}">Mas...</button> </td>
 											<td> <input type="submit" value="Guardar" class="btn btn-success"> </td>
 										</tr>
 									</form>
@@ -91,8 +152,11 @@ $(".date").datetimepicker({
 			url:"/users/administrar/",
 			data:that.serialize(),
 			//contentType:"application/x-www-form-urlencoded",
-			success:function(){
-				console.log(arguments)
+			success:function(response){
+				alertify.success(response.message)
+			},
+			error:function(response){
+				alertify.error("Ha Ocurrido un Error.")
 			}
 		})
 	})

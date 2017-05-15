@@ -193,7 +193,15 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							{% if perms.base.add_sucursales %}
+							{% if perms.base.add_talo %}
+								<li>
+									<a href="{% url 'add-cheque-book' %}">
+										<i class="fa fa-users"></i>
+										Talonarios
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.base.add_talo %}
 								<li>
 									<a href="{% url 'add-branch' %}">
 										<i class="fa fa-users"></i>

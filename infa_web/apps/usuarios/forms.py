@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth import authenticate
-from infa_web.apps.base.models import Esdo, Caja,Sucursales
+from infa_web.apps.base.models import Esdo, Caja,Sucursales, Talo
+from django.contrib.auth.models import Group
 
 class loginForm(forms.Form):
 	username = forms.CharField(error_messages={'required': 'Ingresa tu Usuario, '},widget=forms.TextInput(attrs={'class':'form-control ','placeholder':'nombre de usuario','autofocus':''}))
@@ -21,26 +22,28 @@ class ManageUsers(forms.Form):
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
 		self.fields['ccaja'].queryset = Caja.objects.using(name_db).all()
+		self.fields['ctalo'].queryset = Talo.objects.using(name_db).all()
+		self.fields['auth_cgrupo'].queryset = Group.objects.using(name_db).all()
 
 	username = forms.CharField(
 		label='Usuario',
 		error_messages={'required': 'Ingresa tu Usuario, '},
-		widget=forms.TextInput(attrs={'class':'form-control ','placeholder':'Nombre de usuario'})
+		widget=forms.TextInput(attrs={'class':'form-control ','placeholder':'Nombre de usuario','required':True,})
 	)
 	password = forms.CharField(
 		label='Contraseña',
 		error_messages={'required': 'Ingresa tu Contraseña'},
-		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Contraseña'})
+		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Contraseña','required':True,})
 	)
 	cpassword = forms.CharField(
 		label='Confirmar Contraseña',
 		error_messages={'required': 'Ingresa tu Contraseña'},
-		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirmar Contraseña'})
+		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirmar Contraseña','required':True,})
 	)
 	email = forms.CharField(
 		label='Correo',
 		error_messages={'required': 'Ingresa tu Contraseña'},
-		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Correo'})
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Correo','required':True,})
 	)
 	telefono = forms.CharField(
 		label='Telefono',
@@ -55,22 +58,22 @@ class ManageUsers(forms.Form):
 	first_name = forms.CharField(
 		label='Nombres',
 		error_messages={'required': ''},
-		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Nombres'})
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nombres','required':True,})
 	)
 
 	factivacion = forms.CharField(
 		label='Fecha Activacion',
 		error_messages={'required': ''},
-		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Fecha Activacion'})
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Fecha Activacion'})
 	)
 	fdesactivacion = forms.CharField(
 		label='Fecha Desactivacion',
 		error_messages={'required': ''},
-		widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Fecha Desactivacion'})
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Fecha Desactivacion','required':True,})
 	)
 	last_name = forms.CharField(
 		label='Apellidos',
-		error_messages={'required': ''},widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Apellidos'})
+		error_messages={'required': ''},widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Apellidos','required':True,})
 	)
 	cesdo = forms.ModelChoiceField(
 		label='Estado',
@@ -86,6 +89,16 @@ class ManageUsers(forms.Form):
 		label='Sucursal',
 		widget=forms.Select(attrs={'class':'form-control','required':True,}),
 		queryset=Sucursales.objects.all()
+	)
+	ctalo = forms.ModelChoiceField(
+		label='Talonario',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Talo.objects.all()
+	)
+	auth_cgrupo = forms.ModelChoiceField(
+		label='Grupo',
+		widget=forms.Select(attrs={'class':'form-control','required':True,}),
+		queryset=Group.objects.all()
 	)
 
 	widgets = {}

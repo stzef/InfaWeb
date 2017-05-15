@@ -62,6 +62,12 @@ urlSucursales = [
 	url(r'^branch/edit/(?P<pk>[0-9])+/$', login_required(BanchUpdate.as_view()),name = 'edit-branch'),
 ]
 
+urlTalonarios = [
+	url(r'^cheque_book/$', login_required(ChequeBooksList.as_view()),name = 'list-cheque-books'),
+	url(r'^cheque_book/add/$', login_required(ChequeBookCreate.as_view()),name = 'add-cheque-book'),
+	url(r'^cheque_book/edit/(?P<pk>[0-9])+/$', login_required(ChequeBookUpdate.as_view()),name = 'edit-cheque-book'),
+]
+
 urlParameters = [
 	url(r'^parameters/$', login_required(ParametersList), name = 'list-parameter'),
 	url(r'^parameters/save/$', login_required(ParametersSave), name = 'save-parameters'),
@@ -72,4 +78,4 @@ urlModels = [
 	url(r'^models/find-one/$', login_required(ModelFindOne), name = 'model-find-one'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlSucursales + urlIDTypes + urlModels
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlSucursales + urlTalonarios + urlIDTypes + urlModels

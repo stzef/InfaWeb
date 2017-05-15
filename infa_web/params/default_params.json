@@ -274,6 +274,38 @@
         "nparam": "Tema de Presentaci\u00f3n"
     },
     {
+        "cparam": "type_currency",
+        "type": "String",
+        "value": "peso-colombiano",
+        "label": {
+            "text": "Tipo de Moneda"
+        },
+        "field": {
+            "selected": "peso-colombiano",
+            "options": [
+                {
+                    "text": "Peso Colombiano",
+                    "selected": true,
+                    "value": "peso-colombiano"
+                },
+                {
+                    "text": "Colon",
+                    "selected": false,
+                    "value": "colon"
+                }
+            ],
+            "select": true,
+            "id": "type_currency"
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8 checkbox",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Tipo de Moneda"
+    },
+    {
         "cparam": "type_costing_and_stock",
         "type": "String",
         "value": "P",

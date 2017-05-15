@@ -9,8 +9,9 @@ from django.shortcuts import render
 from infa_web.apps.usuarios.forms import *
 from django.http import HttpResponse, JsonResponse
 
+from infa_web.apps.base.constantes import *
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from infa_web.apps.terceros.models import Vende
 from infa_web.apps.restaurante_comandas.models import Meseros,Talocoda
 from infa_web.apps.usuarios.models import Usuario
@@ -43,13 +44,11 @@ def RegistarUsuario(request):
 		form = ManageUsers(request.db)
 		return render(request, 'usuarios/registrar.html', {'form': form})
 
-	print type(request.POST)
-	print request.POST
 
 	data = request.POST
 
 	# General
-	cesdo = data["cesdo"]
+	cesdo = CESDO_ACTIVO
 	estado = Esdo.objects.using(request.db).get(cesdo=cesdo)
 
 	ccaja = data["ccaja"]
@@ -61,40 +60,56 @@ def RegistarUsuario(request):
 	foto = "1" # data["foto"]
 	ctalocoda = "1" # data["ctalocoda"]
 	talocoda = Talocoda.objects.using(request.db).get(ctalocoda=ctalocoda)
-	porventa = "1" # data["porventa"]
+	porventa = "0" # data["porventa"]
 	# User Django
 	first_name = data["first_name"]
 	last_name = data["last_name"]
 	username = data["username"]
 	password = data["password"]
 	cpassword = data["cpassword"]
+	auth_cgrupo = data["auth_cgrupo"]
 	# User App
 	finusu = "2017-05-12 00:00:00" # data["factivacion"]
 	fveusu = "2017-05-12 00:00:00" # data["fdesactivacion"]
 	ifprises = "1" # data["ifprises"]
-	ctalomos = "1" # data["ctalomos"]
+	ctalomos = data["ctalo"] # data["ctalomos"]
 	talomos = Talo.objects.using(request.db).get(ctalo=ctalomos)
-	ctalopos = "1" # data["ctalopos"]
+	ctalopos = data["ctalo"] # data["ctalopos"]
 	talopos = Talo.objects.using(request.db).get(ctalo=ctalopos)
 	# Vendedor
 	nvende = "%s %s" % (first_name,last_name)
 	# Meseros
 	nmero = "%s %s" % (first_name,last_name)
-	telmero = data["telefono"]
-	dirmero = data["direccion"]
+	telmero = " - "
+	dirmero = " - "
 
-	issuperuser = True # data["direccion"]
+	issuperuser = False # data["direccion"]
 
+	response = {
+		"message" : "El usuario %s Se registro." % username
+	}
 	# Crear Usuario Django
-	user = User(
-		first_name=first_name,
-		is_staff=issuperuser,
-		is_superuser=issuperuser,
-		last_name=last_name,
-		username=username,
-	)
-	user.set_password(password)
-	user.save(using=request.db)
+	try:
+		user = User(
+			first_name=first_name,
+			is_staff=issuperuser,
+			is_superuser=issuperuser,
+			last_name=last_name,
+			username=username,
+		)
+		user.set_password(password)
+		user.save(using=request.db)
+
+		user.groups.clear()
+		group = Group.objects.using(request.db).get(id=auth_cgrupo)
+		user.groups.add(group)
+	except Exception as e:
+		print e
+		response["message"] = "Ha Ocurrido un Error"
+		if 'auth_user_username_key' in e.message:
+			response["message"] = "El Nombre de Usuario %s ya Existe" % username
+		return HttpResponse(json.dumps(response), "application/json",status=400)
+
 
 	usuario = Usuario(
 		user = user,
@@ -129,12 +144,6 @@ def RegistarUsuario(request):
 	)
 	mesero.save(using=request.db)
 
-	#user.delete()
-	#usuario.delete()
-	#vendedor.delete()
-	#mesero.delete()
-	response = {}
-
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
@@ -142,10 +151,48 @@ def AdministrarUsuario(request):
 
 	if request.method == "GET" :
 		usuarios = User.objects.using(request.db).all()
-		return render(request, 'usuarios/administrar.html', {'usuarios': usuarios})
+		form = ManageUsers(request.db)
 
-	response = {}
+		for usuario in usuarios:
+			try:
+				usuario.appemuser = Usuario.objects.using(request.db).get(user=usuario)
+			except Exception as e:
+				usuario.appemuser = None
+		return render(request, 'usuarios/administrar.html', {'usuarios': usuarios,'form': form})
+
+	response = {
+		"message" : "Edicion de usuarios completada"
+	}
 	data = request.POST
+
+	cesdo = CESDO_ACTIVO
+	estado = Esdo.objects.using(request.db).get(cesdo=cesdo)
+
+	first_name = data["first_name"]
+	last_name = data["last_name"]
+	npassword = data["npassword"]
+	cpassword = data["cpassword"]
+
+	nvende = "%s %s" % (first_name,last_name)
+	# Meseros
+	nmero = "%s %s" % (first_name,last_name)
+
+	if 'ccaja' in data and data['ccaja'] != "":
+		ccaja = data["ccaja"]
+		caja = Caja.objects.using(request.db).get(ccaja=ccaja)
+
+	if 'csucur' in data and data['csucur'] != "":
+		csucur = data["csucur"]
+		sucursal = Sucursales.objects.using(request.db).get(csucur=csucur)
+		print sucursal
+
+	if 'ctalo' in data and data['ctalo'] != "":
+		ctalomos = data["ctalo"] # data["ctalomos"]
+		talomos = Talo.objects.using(request.db).get(ctalo=ctalomos)
+
+	if 'ctalo' in data and data['ctalo'] != "":
+		ctalopos = data["ctalo"] # data["ctalopos"]
+		talopos = Talo.objects.using(request.db).get(ctalo=ctalopos)
 
 	user = User.objects.using(request.db).get(id=data["id"])
 
@@ -159,12 +206,13 @@ def AdministrarUsuario(request):
 	user.date_joined = data["date_joined"]
 
 	if 'npassword' in data and 'cpassword' in data:
-		if data['npassword'] == data['cpassword']:
-			print data['npassword']
-			user.set_password(data['npassword'])
-			response["message"] = "Clave cambiada"
-		else:
-			response["message"] = "Las claves no coinciden"
+		if data['npassword'] != "":
+			if data['npassword'] == data['cpassword'] :
+				print data['npassword']
+				user.set_password(data['npassword'])
+				response["message"] = "Clave cambiada"
+			else:
+				response["message"] = "Las claves no coinciden"
 
 
 	user.save(using=request.db)
@@ -172,12 +220,21 @@ def AdministrarUsuario(request):
 	usuario = Usuario.objects.using(request.db).get(user=user)
 	#usuario.cesdo =
 	#usuario.foto =
-	#usuario.ccaja =
-	#usuario.ctalomos =
-	#usuario.ctalopos =
-	#usuario.csucur =
-	usuario.save(using=request.db)
 
+	if 'ccaja' in data and data["ccaja"] != "":
+		usuario.ccaja = caja
+	if 'csucur' in data and data["csucur"] != "":
+		usuario.csucur = sucursal
+		print "Hlaaaaaaaaaaaaaaaaaaaaaa"
+	if 'ctalo' in data and data["ctalo"] != "":
+		usuario.ctalomos = talomos
+		usuario.ctalopos = talopos
+	if 'auth_cgrupo' in data and data["auth_cgrupo"] != "":
+		auth_cgrupo = data["auth_cgrupo"]
+
+	usuario.save(using=request.db)
+	print usuario
+	print usuario.csucur
 	vendedor = Vende.objects.using(request.db).get(usuario=usuario)
 	nvende = "%s %s" %(user.first_name, user.last_name)
 	#porventa =

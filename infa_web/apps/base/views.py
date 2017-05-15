@@ -467,6 +467,44 @@ class BanchsList(CustomListView):
 	template_name = "base/list-sucursales.html"
 # Sucursales #
 
+# Sucursales #
+
+
+
+class ChequeBookCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Talo
+	form_class = TaloForm
+	template_name = "base/talonario.html"
+	success_url=reverse_lazy("add-cheque-book")
+
+	def get_context_data(self, **kwargs):
+		context = super(ChequeBookCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Talonario'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-cheque-book')
+
+		return context
+
+class ChequeBookUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Talo
+	form_class = TaloForm
+	template_name = "base/talonario.html"
+	success_url=reverse_lazy("add-cheque-book")
+
+	def get_context_data(self, **kwargs):
+		context = super(ChequeBookUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Talonario'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-cheque-book',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class ChequeBooksList(CustomListView):
+	model = Talo
+	template_name = "base/talonarios.html"
+# Sucursales #
+
 
 # Models find #
 import json

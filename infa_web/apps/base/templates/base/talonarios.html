@@ -1,0 +1,62 @@
+{%extends 'layouts/base.html'%}
+{% load static from staticfiles %}
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+{% endblock content_head %}
+{% load humanize %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Talonarios</h3>
+				</div>
+				<div class="box-body">
+					<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>prefijo</th>
+								<th>resodian</th>
+								<th>descri</th>
+								<th>conse_ini</th>
+								<th>conse_fin</th>
+								<th data-cell-action="edit">Editar</th>
+								<th data-cell-action="select" class="hidden">Seleccionar</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for talonario in object_list %}
+								<tr>
+									<td>{{ talonario.prefijo }}</td>
+									<td>{{ talonario.resodian }}</td>
+									<td>{{ talonario.descri }}</td>
+									<td>{{ talonario.conse_ini }}</td>
+									<td>{{ talonario.conse_fin }}</td>
+									<td data-cell-action="edit"><a data-link-edit href="{% url 'edit-cheque-book' talonario.ctalo %}" target="_blank">Editar</a></td>
+									<td data-cell-action="select" class="hidden"><button class="btn btn-primary" data-object-search="{{ talonario.ctalo }}">Seleccionar</button></td>
+
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable({"language": languageDataTable});
+		});
+	</script>
+{% endblock %}

@@ -96,9 +96,9 @@ def BillPrint(request):
 		[manageParameters.get("text_header_pos_bill")],
 		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
 		[sucursal.nsucur],
-		[sucursal.dirsucur],
-		[sucursal.telsucur],
-		[sucursal.celsucur],
+		["Dir:" + sucursal.dirsucur],
+		["Tel:" + sucursal.telsucur],
+		["Cel:" + sucursal.celsucur],
 	]
 
 	data = [
