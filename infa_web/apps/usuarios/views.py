@@ -169,10 +169,29 @@ def AdministrarUsuario(request):
 
 	user.save(using=request.db)
 
+	usuario = Usuario.objects.using(request.db).get(user=user)
+	#usuario.cesdo =
+	#usuario.foto =
+	#usuario.ccaja =
+	#usuario.ctalomos =
+	#usuario.ctalopos =
+	#usuario.csucur =
+	usuario.save(using=request.db)
 
+	vendedor = Vende.objects.using(request.db).get(usuario=usuario)
+	nvende = "%s %s" %(user.first_name, user.last_name)
+	#porventa =
+	#cesdo =
+	vendedor.save(using=request.db)
 
-
-
+	mesero = Meseros.objects.using(request.db).get(usuario=usuario)
+	mesero.nmero = "%s %s" %(user.first_name, user.last_name)
+	#mesero.ctalocoda =
+	#mesero.cesdo =
+	#mesero.telmero =
+	#mesero.dirmero =
+	#mesero.foto =
+	mesero.save(using=request.db)
 
 
 	return JsonResponse(response)

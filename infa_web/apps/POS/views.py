@@ -8,10 +8,18 @@ from django.core.urlresolvers import reverse_lazy
 
 from infa_web.custom.generic_views import CustomListView
 
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+
+
 class BillList(CustomListView):
 	model = Fac
 	template_name = "pos/list-billings.html"
 	form_class = FacForm
+
+	@method_decorator(permission_required("pos.add_fac",raise_exception=True))
+	def dispatch(self, *args, **kwargs):
+		return super(BillList, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self,**kwargs):
 		context = super(BillList, self).get_context_data(**kwargs)
@@ -25,8 +33,12 @@ class BillCreate(CustomCreateView):
 	template_name = "pos/billing.html"
 	form_class = FacForm
 
+	@method_decorator(permission_required("pos.add_fac",raise_exception=True))
+	def dispatch(self, *args, **kwargs):
+		return super(BillCreate, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self,**kwargs):
+		print self.request.user.get_all_permissions()
 		context = super(BillCreate, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
 
@@ -53,7 +65,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-
+@permission_required("pos.add_fac",raise_exception=True)
 def BillPrint(request):
 
 	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"

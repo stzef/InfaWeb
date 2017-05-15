@@ -27,10 +27,18 @@
 						</span>
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="{% url 'add-article' %}"><i class="fa fa-archive"></i>Articulos</a></li>
-						<li><a href="{% url 'inventory_list' %}"><i class="fa fa-list-alt"></i>Inventario Inicial</a></li>
-						<li><a href="{% url 'add-input-movement' %}"><i class="fa fa-arrow-right"></i>Entrada</a></li>
-						<li><a href="{% url 'add-output-movement' %}"><i class="fa  fa-arrow-left"></i>Salida</a></li>
+						{% if perms.articulos.add_arlo %}
+							<li><a href="{% url 'add-article' %}"><i class="fa fa-archive"></i>Articulos</a></li>
+						{% endif %}
+						{% if perms.inventarios.add_invinicab %}
+							<li><a href="{% url 'inventory_list' %}"><i class="fa fa-list-alt"></i>Inventario Inicial</a></li>
+						{% endif %}
+						{% if perms.movimientos.add_mven %}
+							<li><a href="{% url 'add-input-movement' %}"><i class="fa fa-arrow-right"></i>Entrada</a></li>
+						{% endif %}
+						{% if perms.movimientos.add_mvsa %}
+							<li><a href="{% url 'add-output-movement' %}"><i class="fa  fa-arrow-left"></i>Salida</a></li>
+						{% endif %}
 						<li>
 							<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 							<ul class="treeview-menu">
@@ -53,17 +61,21 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'create-bill' %}">
-									<i class="fa fa-dollar "></i>
-									Facturar
-								</a>
-							</li>
+							{% if perms.facturacion.add_fac %}
+								<li>
+									<a href="{% url 'create-bill' %}">
+										<i class="fa fa-dollar "></i>
+										Facturar
+									</a>
+								</li>
+							{% endif %}
 							<li>
 								<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
-									<li><a href="{% url 'report_view_bill' %}"><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
-									<li><a href="{% url 'report_view_bill_payment_methods' %}"><i class="fa fa-sticky-note-o"></i>Ventas por Formas de Pago</a></li>
+									{% if perms.facturacion.generate_report_billing %}
+										<li><a href="{% url 'report_view_bill' %}"><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
+										<li><a href="{% url 'report_view_bill_payment_methods' %}"><i class="fa fa-sticky-note-o"></i>Ventas por Formas de Pago</a></li>
+									{% endif %}
 								</ul>
 							</li>
 						</ul>
@@ -77,12 +89,14 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'create-pos' %}">
-									<i class="fa fa-dollar "></i>
-									Facturar
-								</a>
-							</li>
+							{% if perms.pos.add_fac %}
+								<li>
+									<a href="{% url 'create-pos' %}">
+										<i class="fa fa-dollar "></i>
+										Facturar
+									</a>
+								</li>
+							{% endif %}
 							<!--<li>
 								<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
@@ -118,24 +132,31 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'add-ingredient' %}">
-									<i class="fa fa-archive"></i>
-									Ingredientes
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-dish' %}">
-									<i class="fa fa-cutlery"></i>
-									Platos
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-menu' %}">
-									<i class="fa fa-list-alt"></i>
-									Menu
-								</a>
-							</li>
+							{% if perms.restaurante_menus.add_ingredientes %}
+
+								<li>
+									<a href="{% url 'add-ingredient' %}">
+										<i class="fa fa-archive"></i>
+										Ingredientes
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.restaurante_menus.add_platos %}
+								<li>
+									<a href="{% url 'add-dish' %}">
+										<i class="fa fa-cutlery"></i>
+										Platos
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.restaurante_menus.add_menus %}
+								<li>
+									<a href="{% url 'add-menu' %}">
+										<i class="fa fa-list-alt"></i>
+										Menu
+									</a>
+								</li>
+							{% endif %}
 							<li class="treeview">
 								<li>
 									<a href="#"><i class="fa fa-list-alt"></i> Comandas
@@ -144,12 +165,14 @@
 										</span>
 									</a>
 									<ul class="treeview-menu">
-										<li>
-											<a href="{% url 'take-order' %}">
-												<i class="fa fa-archive"></i>
-												Tomar
-											</a>
-										</li>
+										{% if perms.restaurante_comandas.add_coda %}
+											<li>
+												<a href="{% url 'take-order' %}">
+													<i class="fa fa-archive"></i>
+													Tomar
+												</a>
+											</li>
+										{% endif %}
 										<li>
 											<a href="{% url 'order-summary' %}">
 												<i class="fa fa-cutlery"></i>
@@ -170,114 +193,122 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'add-branch' %}">
-									<i class="fa fa-users"></i>
-									Sucursales
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<i class="fa fa-users"></i>
-									Usuarios
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-third-party' %}">
-									<i class="fa fa-users"></i>
-									Terceros
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-brand' %}">
-									<i class="fa fa-circle-o"></i>
-									Marcas
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-group' %}">
-									<i class="fa fa-circle-o"></i>
-									Grupos
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-menu-group' %}">
-									<i class="fa fa-circle-o"></i>
-									Grupos Menus
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-iva' %}">
-									<i class="fa fa-circle-o"></i>
-									Ivas
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-zone' %}">
-									<i class="fa fa-map-o"></i>
-									Zonas
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-unit' %}">
-									<i class="fa fa-circle-o"></i>
-									Unidades
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-route' %}">
-									<i class="fa  fa-map-signs"></i>
-									Rutas
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-autorretenedor' %}">
-									<i class="fa fa-circle-o"></i>
-									Autorretenedores
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-id-type' %}">
-									<i class="fa fa-circle-o"></i>
-									Tipos de Identificacion
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-reg-iva' %}">
-									<i class="fa fa-circle-o"></i>
-									Regimenes de IVA
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-type-article' %}">
-									<i class="fa fa-circle-o"></i>
-									Tipos de Articulos
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-state' %}">
-									<i class="fa fa-circle-o"></i>
-									Estados
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-location' %}">
-									<i class="fa fa-circle-o"></i>
-									Ubicaciones
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-city' %}">
-									<i class="fa fa-circle-o"></i>
-									Ciudades
-								</a>
-							</li>
-							<li>
-								<a href="{% url 'add-departament' %}">
-									<i class="fa fa-circle-o"></i>
-									Departamentos
-								</a>
-							</li>
+							{% if perms.base.add_sucursales %}
+								<li>
+									<a href="{% url 'add-branch' %}">
+										<i class="fa fa-users"></i>
+										Sucursales
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.terceros.add_tercero %}
+								<li>
+									<a href="{% url 'add-third-party' %}">
+										<i class="fa fa-users"></i>
+										Terceros
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.articulos.add_marca %}
+								<li>
+									<a href="{% url 'add-brand' %}">
+										<i class="fa fa-circle-o"></i>
+										Marcas
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.articulos.add_gpo %}
+								<li>
+									<a href="{% url 'add-group' %}">
+										<i class="fa fa-circle-o"></i>
+										Grupos
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.restaurante_menus.add_gposmenus %}
+								<li>
+									<a href="{% url 'add-menu-group' %}">
+										<i class="fa fa-circle-o"></i>
+										Grupos Menus
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.articulos.add_unidades %}
+								<li>
+									<a href="{% url 'add-unit' %}">
+										<i class="fa fa-circle-o"></i>
+										Unidades
+									</a>
+								</li>
+							{% endif %}
+								<!--
+								<li>
+									<a href="{% url 'add-iva' %}">
+										<i class="fa fa-circle-o"></i>
+										Ivas
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-zone' %}">
+										<i class="fa fa-map-o"></i>
+										Zonas
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-route' %}">
+										<i class="fa  fa-map-signs"></i>
+										Rutas
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-autorretenedor' %}">
+										<i class="fa fa-circle-o"></i>
+										Autorretenedores
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-id-type' %}">
+										<i class="fa fa-circle-o"></i>
+										Tipos de Identificacion
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-reg-iva' %}">
+										<i class="fa fa-circle-o"></i>
+										Regimenes de IVA
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-type-article' %}">
+										<i class="fa fa-circle-o"></i>
+										Tipos de Articulos
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-state' %}">
+										<i class="fa fa-circle-o"></i>
+										Estados
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-location' %}">
+										<i class="fa fa-circle-o"></i>
+										Ubicaciones
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-city' %}">
+										<i class="fa fa-circle-o"></i>
+										Ciudades
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'add-departament' %}">
+										<i class="fa fa-circle-o"></i>
+										Departamentos
+									</a>
+								</li>
+								-->
 						</ul>
 					</li>
 				</li>
@@ -298,11 +329,26 @@
 							<li>
 								<a href="#"><i class="fa fa-wrench"></i> Anulaciones<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
-									<li><a href="{% url 'proccess_view_annulment' %}"><i class="fa fa-arrows-h"></i>Movimientos de Inventario</a></li>
-									<li><a href="{% url 'bill_proccess_view_annulment' %}"><i class="fa fa-money"></i>Facturas</a></li>
-									<li><a href="{% url 'order-command-proccess-view-annulment' %}"><i class="fa fa-money"></i>Comandas</a></li>
+									{% if movimientos.change_mven and movimientos.change_mvsa %}
+										<li><a href="{% url 'proccess_view_annulment' %}"><i class="fa fa-arrows-h"></i>Movimientos de Inventario</a></li>
+									{% endif %}
+									{% if perms.facturacion.change_fac %}
+										<li><a href="{% url 'bill_proccess_view_annulment' %}"><i class="fa fa-money"></i>Facturas</a></li>
+									{% endif %}
+									{% if restaurante_comandas.change_coda %}
+										<li><a href="{% url 'order-command-proccess-view-annulment' %}"><i class="fa fa-money"></i>Comandas</a></li>
+									{% endif %}
 								</ul>
 							</li>
+							{% if perms.admin.no %}
+								<li>
+									<a href="#"><i class="fa fa-users"></i> Usuarios<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+									<ul class="treeview-menu">
+										<li><a href="{% url 'registrar-usuario' %}"><i class="fa fa-arrows-h"></i>Nuevo</a></li>
+										<li><a href="{% url 'administrar-usuarios' %}"><i class="fa fa-money"></i>Administrar</a></li>
+									</ul>
+								</li>
+							{% endif %}
 						</ul>
 					</li>
 				</li>
