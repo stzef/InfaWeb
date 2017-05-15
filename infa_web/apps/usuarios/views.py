@@ -136,3 +136,45 @@ def RegistarUsuario(request):
 	response = {}
 
 	return HttpResponse(json.dumps(response), "application/json")
+
+@csrf_exempt
+def AdministrarUsuario(request):
+
+	if request.method == "GET" :
+		usuarios = User.objects.using(request.db).all()
+		return render(request, 'usuarios/administrar.html', {'usuarios': usuarios})
+
+	response = {}
+	data = request.POST
+
+	user = User.objects.using(request.db).get(id=data["id"])
+
+	user.email = data["email"]
+	user.first_name = data["first_name"]
+	user.last_name = data["last_name"]
+
+	user.is_active = True if "is_active" in data else False
+	user.is_superuser = True if "is_superuser" in data else False
+
+	user.date_joined = data["date_joined"]
+
+	if 'npassword' in data and 'cpassword' in data:
+		if data['npassword'] == data['cpassword']:
+			print data['npassword']
+			user.set_password(data['npassword'])
+			response["message"] = "Clave cambiada"
+		else:
+			response["message"] = "Las claves no coinciden"
+
+
+	user.save(using=request.db)
+
+
+
+
+
+
+
+	return JsonResponse(response)
+
+

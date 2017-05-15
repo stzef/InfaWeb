@@ -1192,13 +1192,14 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 		context['header'] = {
 			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"]
 		}
-
+		estadoActivo = Esdo.objects.using(self.request.db).get(cesdo=CESTADO_ACTIVO)
 
 		query_facturas = {
 			"femi__range" : [
 				data.get("fecha_inicial"),
 				data.get("fecha_final"),
-			]
+			],
+			"cesdo" : estadoActivo
 		}
 		"""
 		query_facturas = {
@@ -1206,6 +1207,7 @@ class report_fn_bill_payment_methods(PDFTemplateView):
 			"cmven__fmven__lte" : data["end_date"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
 		"""
+		context['header']["Fecha Generacion"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		if(ctifopa):
 			query_facturas["ctifopa__ctifopa"] = ctifopa
 			context['title'] += " Por Medios De Pagor"
@@ -1290,11 +1292,14 @@ class report_fn_bill(PDFTemplateView):
 		csucur = data["csucur"]
 		print data.get("fecha_inicial")
 
+		estadoActivo = Esdo.objects.using(self.request.db).get(cesdo=CESTADO_ACTIVO)
+
 		query_facturas = {
 			"femi__range" : [
 				data.get("fecha_inicial"),
 				data.get("fecha_final"),
-			]
+			],
+			"cesdo" : estadoActivo
 		}
 		"""
 		query_facturas = {
@@ -1302,6 +1307,7 @@ class report_fn_bill(PDFTemplateView):
 			"cmven__fmven__lte" : data["fecha_final"].replace(hour=0, minute=0, second=0, microsecond=0)
 		}
 		"""
+		context['header']["Fecha Generacion"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		if(cvende):
 			query_facturas["cvende__cvende"] = cvende
 			context['title'] += " Por Vendedor"
