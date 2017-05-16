@@ -121,7 +121,9 @@ def ParametersList(request):
 
 	if(manageParameters.get_all() == None):
 		context['parameters'] = []
-		return render_to_response("parametros/parameters.html",context)
+		#return render_to_response("parametros/parameters.html",context)
+		return render(request, 'parametros/parameters.html', context)
+
 
 	parameters = manageParameters.get_all()
 	for parameter in parameters:
@@ -153,7 +155,9 @@ def ParametersList(request):
 
 	context['parameters'] = parameters
 
-	return render_to_response("parametros/parameters.html",context)
+	#return render_to_response("parametros/parameters.html",context)
+	return render(request, 'parametros/parameters.html', context)
+
 
 @csrf_exempt
 def ParametersSave(request):

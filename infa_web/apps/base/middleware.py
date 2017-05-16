@@ -10,7 +10,8 @@ class verifyConfigurationFile(object):
 		manageParameters = ManageParameters(request.db)
 		if not manageParameters.ok():
 			context = {"message":"Existe un problema con el Archivo de configuracion."}
-			return render_to_response("layouts/error.html",context)
+			#return render_to_response("layouts/error.html",context)
+			return render(request,"layouts/error.html",context)
 
 
 class updateDateAppen(object):
