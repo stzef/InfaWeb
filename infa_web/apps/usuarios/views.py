@@ -85,6 +85,8 @@ def RegistarUsuario(request):
 
 	issuperuser = False # data["direccion"]
 
+
+
 	response = {
 		"message" : "El usuario %s Se registro." % username
 	}
@@ -97,7 +99,14 @@ def RegistarUsuario(request):
 			last_name=last_name,
 			username=username,
 		)
-		user.set_password(password)
+		if 'password' in data and 'cpassword' in data:
+			if data['password'] != "":
+				if data['password'] == data['cpassword'] :
+					user.set_password(data['password'])
+				else:
+					response["message"] = "Las claves no coinciden"
+					return HttpResponse(json.dumps(response), "application/json",status=400)
+
 		user.save(using=request.db)
 
 		user.groups.clear()
@@ -213,6 +222,8 @@ def AdministrarUsuario(request):
 				response["message"] = "Clave cambiada"
 			else:
 				response["message"] = "Las claves no coinciden"
+				return HttpResponse(json.dumps(response), "application/json",status=400)
+
 
 
 	user.save(using=request.db)

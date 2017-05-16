@@ -170,16 +170,6 @@
 						<button class="btn btn-app btn-primary" type="submit">
 							<i class="fa fa-save"></i>Guardar
 						</button>
-						<a class="btn btn-app btn-primary" data-new-window data-action="list" href="{% url 'list-articles' %}">
-							<i class="fa fa-list"></i>Listar
-						</a>
-						{% if mode_view == "edit" %}
-							<a class="btn btn-app btn-primary" href="{% url 'copy-article' current_pk %}" target="_blank">
-						{% else %}
-							<a class="btn btn-app btn-primary" href="#" disabled>
-						{% endif %}
-							<i class="fa fa-copy"></i>Duplicar
-						</a>
 					</div>
 				</div>
 			</form>

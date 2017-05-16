@@ -59,7 +59,7 @@
 										</select>
 									</div>
 									<div class="form-group ">
-										<label class=""> Caja </label>
+										<label class=""> Talonario </label>
 										<select disabled form="form_user_{{ usuario.id }}" id="id_ctalo" name="ctalo" class="form-control">
 											{% for x,y in form.fields.ctalo.choices %}
 												<option value="{{ x }}"{% if form.fields.ctalo.value == usuario.ctalo %} selected{% endif %}>{{ y }}</option>
