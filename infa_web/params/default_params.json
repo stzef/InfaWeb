@@ -298,12 +298,12 @@
     {
         "cparam": "type_currency",
         "type": "String",
-        "value": "peso-colombiano",
+        "value": "colon",
         "label": {
             "text": "Tipo de Moneda"
         },
         "field": {
-            "selected": "peso-colombiano",
+            "selected": "colon",
             "options": [
                 {
                     "text": "Peso Colombiano",
