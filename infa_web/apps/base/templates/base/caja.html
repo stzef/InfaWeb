@@ -7,7 +7,6 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-
 				<div class="box box-primary">
 					<div class="box-header with-border">
 						<h3 class="box-title">{{ title }}</h3>
@@ -17,41 +16,24 @@
 						<div class="box-body">
 							<section class="row col-md-12">
 								<div class="form-group">
-									<label for="{{form.nsucur.id_for_label}}" class="col-sm-2 control-label">{{form.nsucur.label}}</label>
-									{%if form.nsucur.errors%}
-									{{form.nsucur.errors}}
+									<label for="{{form.ncaja.id_for_label}}" class="col-sm-2 control-label">{{form.ncaja.label}}</label>
+									{%if form.ncaja.errors%}
+									{{form.ncaja.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										{{form.nsucur}}
+										{{form.ncaja}}
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="{{form.dirsucur.id_for_label}}" class="col-sm-2 control-label">{{form.dirsucur.label}}</label>
-									{%if form.dirsucur.errors%}
-									{{form.dirsucur.errors}}
+									<label for="{{form.caseri.id_for_label}}" class="col-sm-2 control-label">{{form.caseri.label}}</label>
+									{%if form.caseri.errors%}
+									{{form.caseri.errors}}
 									{%endif%}
 									<div class="col-sm-10">
-										{{form.dirsucur}}
+										{{form.caseri}}
 									</div>
 								</div>
-								<div class="form-group">
-									<label for="{{form.telsucur.id_for_label}}" class="col-sm-2 control-label">{{form.telsucur.label}}</label>
-									{%if form.telsucur.errors%}
-									{{form.telsucur.errors}}
-									{%endif%}
-									<div class="col-sm-10">
-										{{form.telsucur}}
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="{{form.celsucur.id_for_label}}" class="col-sm-2 control-label">{{form.celsucur.label}}</label>
-									{%if form.celsucur.errors%}
-									{{form.celsucur.errors}}
-									{%endif%}
-									<div class="col-sm-10">
-										{{form.celsucur}}
-									</div>
-								</div>
+
 								<div class="form-group">
 									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
 									{%if form.cesdo.errors%}
@@ -59,6 +41,24 @@
 									{%endif%}
 									<div class="col-sm-10">
 										{{form.cesdo}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cbode.id_for_label}}" class="col-sm-2 control-label">{{form.cbode.label}}</label>
+									{%if form.cbode.errors%}
+									{{form.cbode.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.cbode}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ctimocj.id_for_label}}" class="col-sm-2 control-label">{{form.ctimocj.label}}</label>
+									{%if form.ctimocj.errors%}
+									{{form.ctimocj.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ctimocj}}
 									</div>
 								</div>
 							</section>
@@ -70,7 +70,7 @@
 									<button class="btn btn-app btn-primary" type="submit">
 										<i class="fa fa-save"></i>Guardar
 									</button>
-									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-branchs' %}"><i class="fa fa-list"></i>Listar</a>
+									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-cajas' %}"><i class="fa fa-list"></i>Listar</a>
 								</div>
 							</div>
 						</div>

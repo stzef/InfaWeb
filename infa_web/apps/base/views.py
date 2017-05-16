@@ -469,6 +469,42 @@ class BanchsList(CustomListView):
 
 # Sucursales #
 
+class CajaCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Caja
+	form_class = CajaForm
+	template_name = "base/caja.html"
+	success_url=reverse_lazy("add-caja")
+
+	def get_context_data(self, **kwargs):
+		context = super(CajaCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Caja'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-caja')
+
+		return context
+
+class CajaUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Caja
+	form_class = CajaForm
+	template_name = "base/caja.html"
+	success_url=reverse_lazy("add-caja")
+
+	def get_context_data(self, **kwargs):
+		context = super(CajaUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Caja'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-caja',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class CajasList(CustomListView):
+	model = Caja
+	template_name = "base/list-cajas.html"
+# Sucursales #
+
+# Sucursales #
+
 
 
 class ChequeBookCreate(AjaxableResponseMixin,CustomCreateView):

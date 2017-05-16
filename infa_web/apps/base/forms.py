@@ -175,14 +175,44 @@ class SucursalForm(forms.ModelForm):
 			'celsucur':'Celular',
 		}
 
+class CajaForm(forms.ModelForm):
+	def __init__(self,using='', *args, **kwargs):
+		super(CajaForm, self).__init__(*args, **kwargs)
+
+		name_db = using
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
+		self.fields['cbode'].queryset = Bode.objects.using(name_db).all()
+		self.fields['ctimocj'].queryset = Timo.objects.using(name_db).all()
+
+	class Meta:
+		model = Caja
+		fields = "__all__"
+		exclude = ["civa"]
+		widgets = {
+			'cesdo':forms.Select(attrs={'class':'form-control','required':''}),
+
+			'ncaja' :forms.TextInput(attrs={'class':'form-control','required':True}),
+			'caseri' :forms.TextInput(attrs={'class':'form-control','required':True}),
+
+			'csucur' :forms.Select(attrs={'class':'form-control','required':''}),
+			'ctimocj' :forms.Select(attrs={'class':'form-control','required':''}),
+			'cbode' :forms.Select(attrs={'class':'form-control','required':''}),
+		}
+		labels = {
+			'cesdo':'Estado',
+			'ncaja':'Nombre',
+			'caseri':'caseri',
+			'csucur':'Sucursal',
+			'ctimocj':'Movimiento',
+			'cbode':'Bodega',
+		}
+
 class TaloForm(forms.ModelForm):
 	def __init__(self,using='', *args, **kwargs):
 		super(TaloForm, self).__init__(*args, **kwargs)
 
 		name_db = using
-		print "---------------------"
-		print name_db
-		print "---------------------"
 		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
 		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
 		self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()

@@ -199,18 +199,26 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							{% if perms.base.add_talo %}
+							{% if perms.base.add_caja %}
 								<li>
-									<a href="{% url 'add-cheque-book' %}">
-										<i class="fa fa-users"></i>
-										Talonarios
+									<a href="{% url 'add-caja' %}">
+										<i class="fa fa-square"></i>
+										Caja
 									</a>
 								</li>
 							{% endif %}
 							{% if perms.base.add_talo %}
 								<li>
+									<a href="{% url 'add-cheque-book' %}">
+										<i class="fa fa-list"></i>
+										Talonarios
+									</a>
+								</li>
+							{% endif %}
+							{% if perms.base.add_sucursal %}
+								<li>
 									<a href="{% url 'add-branch' %}">
-										<i class="fa fa-users"></i>
+										<i class="fa fa-code-fork"></i>
 										Sucursales
 									</a>
 								</li>

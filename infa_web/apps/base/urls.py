@@ -68,6 +68,12 @@ urlTalonarios = [
 	url(r'^cheque_book/edit/(?P<pk>[0-9])+/$', login_required(ChequeBookUpdate.as_view()),name = 'edit-cheque-book'),
 ]
 
+urlCajas = [
+	url(r'^caja/$', login_required(CajasList.as_view()),name = 'list-cajas'),
+	url(r'^caja/add/$', login_required(CajaCreate.as_view()),name = 'add-caja'),
+	url(r'^caja/edit/(?P<pk>[0-9])+/$', login_required(CajaUpdate.as_view()),name = 'edit-caja'),
+]
+
 urlParameters = [
 	url(r'^parameters/$', login_required(ParametersList), name = 'list-parameter'),
 	url(r'^parameters/save/$', login_required(ParametersSave), name = 'save-parameters'),
@@ -78,4 +84,4 @@ urlModels = [
 	url(r'^models/find-one/$', login_required(ModelFindOne), name = 'model-find-one'),
 ]
 
-urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlSucursales + urlTalonarios + urlIDTypes + urlModels
+urlpatterns = urlGeneral + urlStates + urlCities + urlDepartaments + urlLocations + urlIva + urlRegiva + urlParameters + urlSucursales + urlTalonarios + urlCajas + urlIDTypes + urlModels
