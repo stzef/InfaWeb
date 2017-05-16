@@ -95,6 +95,7 @@ def BillPrint(request):
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
 		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+		["I.V.I Serie 5205964"],
 		[sucursal.nsucur],
 		["Dir:" + sucursal.dirsucur],
 		["Tel:" + sucursal.telsucur],
@@ -108,7 +109,8 @@ def BillPrint(request):
 	]
 
 	for facdeta in factura_deta:
-		data.append([facdeta.carlos.ncorto[:10],str(facdeta.canti),str(facdeta.vtotal)])
+		data.append([facdeta.carlos.ncorto[:10],str(facdeta.canti),""])
+		data.append(["IVI","",str(facdeta.vtotal)])
 
 	data.append(["_______________", "_________", "____________"])
 	data.append(["Total","-->",str(factura.vttotal)])
