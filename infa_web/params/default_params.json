@@ -176,6 +176,28 @@
         "nparam": "Logo de la Empresa."
     },
     {
+        "cparam": "emails",
+        "type": "String",
+        "value": "email@domain.com",
+        "label": {
+            "text": "Correos Electronicos ( separados por coma )."
+        },
+        "field": {
+            "input": true,
+            "selected": "email@domain.com",
+            "type": "text",
+            "id": "emails",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Correos Electronicos ( separados por coma )."
+    },
+    {
         "cparam": "company_id_name",
         "type": "String",
         "value": "CED",
@@ -656,7 +678,7 @@
         "type": "String",
         "value": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS",
         "label": {
-            "text": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
+            "text": "Texto Pie Pagina POS"
         },
         "field": {
             "input": true,
@@ -671,7 +693,7 @@
             "field_container": "col-sm-8",
             "label": "col-sm-4 control-label"
         },
-        "nparam": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
+        "nparam": "Texto Pie Pagina POS"
     },
     {
         "cparam": "ctimo_rc_billing",

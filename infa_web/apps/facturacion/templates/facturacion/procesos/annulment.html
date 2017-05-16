@@ -12,7 +12,7 @@
 	{% include 'elements/sidebar.html' %}
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content-header">
-			<h1>Anulacion de Movimientos de Inventario</h1>
+			<h1>Anulacion de Facturas</h1>
 		</section>
 		<section class="content">
 			<form class="form-horizontal">
@@ -26,25 +26,29 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="id_citerce" class="col-sm-3 control-label">Tercero</label>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" readonly="" name="citerce" id="id_citerce">
-					</div>
-					<div class="col-sm-3">
-						<input type="text" class="form-control" readonly="" name="name_citerce" id="name_citerce">
+					<div class="form-group col-md-12">
+						<label for="id_citerce" class="col-sm-2 control-label">Tercero</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" readonly="" name="citerce" id="id_citerce">
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" readonly="" name="name_citerce" id="name_citerce">
+						</div>
 					</div>
 
 				</div>
 				<div class="form-group">
-					<label for="id_fmv" class="col-sm-3 control-label">Fecha</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" readonly="fmv" name="" id="id_fmv">
+					<div class="form-group col-md-6">
+						<label for="id_fmv" class="col-sm-3 control-label">Fecha</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" readonly="fmv" name="" id="id_fmv">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="id_vttotal" class="col-sm-3 control-label">Total</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" readonly="" name="vttotal" id="id_vttotal">
+					<div class="form-group col-md-6">
+						<label for="id_vttotal" class="col-sm-3 control-label">Total</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" readonly="" name="vttotal" id="id_vttotal">
+						</div>
 					</div>
 				</div>
 

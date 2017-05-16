@@ -202,7 +202,7 @@ class CajaForm(forms.ModelForm):
 		labels = {
 			'cesdo':'Estado',
 			'ncaja':'Nombre',
-			'caseri':'caseri',
+			'caseri':'Serial Maquina',
 			'csucur':'Sucursal',
 			'ctimocj':'Movimiento',
 			'cbode':'Bodega',
@@ -250,7 +250,7 @@ class TaloForm(forms.ModelForm):
 		}
 		labels = {
 			"prefijo" : "Prefijo",
-			"resodian" : "Resolucion DIAN",
+			"resodian" : "Resolucion Impuesto",
 			"nrepo" : "N Reporte",
 			"descri" : "Descripcion",
 			"prefi_real" : "Prefijo Real",

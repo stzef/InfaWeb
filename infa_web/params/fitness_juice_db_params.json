@@ -176,6 +176,28 @@
         "nparam": "Logo de la Empresa."
     },
     {
+        "cparam": "emails",
+        "type": "String",
+        "value": "email@domain.com",
+        "label": {
+            "text": "Correos Electronicos ( separados por coma )."
+        },
+        "field": {
+            "input": true,
+            "selected": "email@domain.com",
+            "type": "text",
+            "id": "emails",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Correos Electronicos ( separados por coma )."
+    },
+    {
         "cparam": "company_id_name",
         "type": "String",
         "value": "CED",
