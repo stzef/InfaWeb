@@ -36,7 +36,7 @@ if 'CURRENT_ENV_WORK' in os.environ:
 			'default': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
 				'NAME': 'infaweb_db',
-				'USER': 'root',
+				'USER': 'postgres',
 				'PASSWORD': 'stzEF0987',
 				'HOST': 'localhost',
 				'PORT': '',
@@ -44,7 +44,7 @@ if 'CURRENT_ENV_WORK' in os.environ:
 			'testfitness_db': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
 				'NAME': 'testfitness_db',
-				'USER': 'root',
+				'USER': 'postgres',
 				'PASSWORD': 'stzEF0987',
 				'HOST': 'localhost',
 				'PORT': '',

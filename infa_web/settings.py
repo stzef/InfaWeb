@@ -39,6 +39,7 @@ MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 DJANGO_APPS = [
+	"djrill",
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -69,7 +70,8 @@ PROJECT_APPS_RESTAURANT = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
-
+EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
+MANDRILL_API_KEY = "F0iN_O0DFD9oEVd-A8zswA"
 
 MIDDLEWARE_CLASSES = [
 	'django.middleware.security.SecurityMiddleware',

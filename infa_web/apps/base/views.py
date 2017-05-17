@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 
 import json
 
+from infa_web.mandrill_mail import enviarmail
+
 from infa_web.parameters import ManageParameters
 from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
@@ -112,6 +114,7 @@ class AjaxableResponseMixin(object):
 
 # Parameters #
 def ParametersList(request):
+	enviarmail()
 	context = {}
 	context['title'] = 'Parametros'
 
