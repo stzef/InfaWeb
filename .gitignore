@@ -11,13 +11,15 @@ run_server
 report_test.txt
 *.log
 infa_web/logs/debug.log
-#infa_web/config/databases.py
-#infa_web/config/domaindb.py
+
+infa_web/params/*.json
+
+infa_web/config/databases.py
+infa_web/config/domaindb.py
 
 infa_web/logs/*
 htmlcov/*
 
-!infa_web/params/*.json
 !infa_web/static/img/articles/default.jpg
 !infa_web/static/img/articles/default.png
 !infa_web/static/img/users/default.png
