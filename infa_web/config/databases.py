@@ -33,6 +33,14 @@ if 'CURRENT_ENV_WORK' in os.environ:
 	if os.environ["CURRENT_ENV_WORK"] == "DEV":
 		print " DEV"
 		DB = {
+			#'default': {
+			#	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			#	'NAME': 'infaweb_db',
+			#	'USER': 'root',
+			#	'PASSWORD': 'stzEF0987',
+			#	'HOST': 'localhost',
+			#	'PORT': '',
+			#},
 			'default': {
 				'ENGINE': 'django.db.backends.postgresql_psycopg2',
 				'NAME': 'infaweb_db',

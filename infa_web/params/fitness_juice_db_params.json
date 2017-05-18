@@ -176,6 +176,28 @@
         "nparam": "Logo de la Empresa."
     },
     {
+        "cparam": "emails",
+        "type": "String",
+        "value": "email@domain.com",
+        "label": {
+            "text": "Correos Electronicos ( separados por coma )."
+        },
+        "field": {
+            "input": true,
+            "selected": "email@domain.com",
+            "type": "text",
+            "id": "emails",
+            "select": false
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Correos Electronicos ( separados por coma )."
+    },
+    {
         "cparam": "company_id_name",
         "type": "String",
         "value": "CED",
@@ -272,6 +294,38 @@
             "label": "col-sm-4 control-label"
         },
         "nparam": "Tema de Presentaci\u00f3n"
+    },
+    {
+        "cparam": "type_currency",
+        "type": "String",
+        "value": "colon",
+        "label": {
+            "text": "Tipo de Moneda"
+        },
+        "field": {
+            "selected": "colon",
+            "options": [
+                {
+                    "text": "Peso Colombiano",
+                    "selected": true,
+                    "value": "peso-colombiano"
+                },
+                {
+                    "text": "Colon",
+                    "selected": false,
+                    "value": "colon"
+                }
+            ],
+            "select": true,
+            "id": "type_currency"
+        },
+        "smodule": "G",
+        "css": {
+            "field": "form-control",
+            "field_container": "col-sm-8 checkbox",
+            "label": "col-sm-4 control-label"
+        },
+        "nparam": "Tipo de Moneda"
     },
     {
         "cparam": "type_costing_and_stock",
@@ -624,7 +678,7 @@
         "type": "String",
         "value": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS",
         "label": {
-            "text": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
+            "text": "Texto Pie Pagina POS"
         },
         "field": {
             "input": true,
@@ -639,7 +693,7 @@
             "field_container": "col-sm-8",
             "label": "col-sm-4 control-label"
         },
-        "nparam": "GRACIAS POR SU VISITA LO ESPERAMOS PUEDES CONTAR CON NOSOTROS"
+        "nparam": "Texto Pie Pagina POS"
     },
     {
         "cparam": "ctimo_rc_billing",

@@ -124,7 +124,9 @@ def ParametersList(request):
 
 	if(manageParameters.get_all() == None):
 		context['parameters'] = []
-		return render_to_response("parametros/parameters.html",context)
+		#return render_to_response("parametros/parameters.html",context)
+		return render(request, 'parametros/parameters.html', context)
+
 
 	parameters = manageParameters.get_all()
 	for parameter in parameters:
@@ -156,7 +158,9 @@ def ParametersList(request):
 
 	context['parameters'] = parameters
 
-	return render_to_response("parametros/parameters.html",context)
+	#return render_to_response("parametros/parameters.html",context)
+	return render(request, 'parametros/parameters.html', context)
+
 
 @csrf_exempt
 def ParametersSave(request):
@@ -433,6 +437,116 @@ class IDTypesList(CustomListView):
 	model = Tiide
 	template_name = "base/list-id-types.html"
 # Tiide #
+
+# Sucursales #
+
+class BanchCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Sucursales
+	form_class = SucursalForm
+	template_name = "base/sucursal.html"
+	success_url=reverse_lazy("add-branch")
+
+	def get_context_data(self, **kwargs):
+		context = super(BanchCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Sucursal'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-branch')
+
+		return context
+
+class BanchUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Sucursales
+	form_class = SucursalForm
+	template_name = "base/sucursal.html"
+	success_url=reverse_lazy("add-branch")
+
+	def get_context_data(self, **kwargs):
+		context = super(BanchUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Sucursal'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-branch',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class BanchsList(CustomListView):
+	model = Sucursales
+	template_name = "base/list-sucursales.html"
+# Sucursales #
+
+# Sucursales #
+
+class CajaCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Caja
+	form_class = CajaForm
+	template_name = "base/caja.html"
+	success_url=reverse_lazy("add-caja")
+
+	def get_context_data(self, **kwargs):
+		context = super(CajaCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Caja'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-caja')
+
+		return context
+
+class CajaUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Caja
+	form_class = CajaForm
+	template_name = "base/caja.html"
+	success_url=reverse_lazy("add-caja")
+
+	def get_context_data(self, **kwargs):
+		context = super(CajaUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Caja'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-caja',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class CajasList(CustomListView):
+	model = Caja
+	template_name = "base/list-cajas.html"
+# Sucursales #
+
+# Sucursales #
+
+
+
+class ChequeBookCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Talo
+	form_class = TaloForm
+	template_name = "base/talonario.html"
+	success_url=reverse_lazy("add-cheque-book")
+
+	def get_context_data(self, **kwargs):
+		context = super(ChequeBookCreate, self).get_context_data(**kwargs)
+		context['title'] = 'Crear Talonario'
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-cheque-book')
+
+		return context
+
+class ChequeBookUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Talo
+	form_class = TaloForm
+	template_name = "base/talonario.html"
+	success_url=reverse_lazy("add-cheque-book")
+
+	def get_context_data(self, **kwargs):
+		context = super(ChequeBookUpdate, self).get_context_data(**kwargs)
+		context['title'] = 'Editar Talonario'
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-cheque-book',kwargs={'pk': self.kwargs["pk"]},)
+
+		return context
+
+class ChequeBooksList(CustomListView):
+	model = Talo
+	template_name = "base/talonarios.html"
+# Sucursales #
 
 
 # Models find #

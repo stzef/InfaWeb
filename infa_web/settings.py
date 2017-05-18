@@ -151,7 +151,7 @@ LANGUAGE_CODE = 'es-CO'
 
 LOGIN_URL = '/login'
 
-TIME_ZONE = 'America/Bogota'
+TIME_ZONE = 'America/Bogota' #America/Costa_Rica
 
 USE_I18N = True
 

@@ -291,7 +291,7 @@ class Talo(models.Model):
 	ctimomvsa = models.ForeignKey(Timo)
 
 	def __str__(self):
-		return self.prefijo
+		return "%s - %s" % (self.prefijo,self.descri)
 
 class Tiservi(models.Model):
 

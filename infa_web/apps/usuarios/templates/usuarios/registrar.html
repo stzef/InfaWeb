@@ -1,0 +1,200 @@
+{% extends 'layouts/base.html' %}
+
+{% block content_head %}
+
+{% endblock content_head %}
+
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+		<div class="content">
+			<h2>{{title}}</h2>
+
+			<form action="" method="POST" role="form" class="form-horizontal">
+				{%csrf_token%}
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Nuevo Usuario</h3>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label for="{{form.username.id_for_label}}" class="col-sm-4 control-label">{{form.username.label}}</label>
+								{%if form.username.errors%}
+								{{form.username.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.username }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.email.id_for_label}}" class="col-sm-4 control-label">{{form.email.label}}</label>
+								{%if form.email.errors%}
+								{{form.email.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.email }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.password.id_for_label}}" class="col-sm-4 control-label">{{form.password.label}}</label>
+								{%if form.password.errors%}
+								{{form.password.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.password }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.cpassword.id_for_label}}" class="col-sm-4 control-label">{{form.cpassword.label}}</label>
+								{%if form.cpassword.errors%}
+								{{form.cpassword.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.cpassword }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.first_name.id_for_label}}" class="col-sm-4 control-label">{{form.first_name.label}}</label>
+								{%if form.first_name.errors%}
+								{{form.first_name.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.first_name }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.last_name.id_for_label}}" class="col-sm-4 control-label">{{form.last_name.label}}</label>
+								{%if form.last_name.errors%}
+								{{form.last_name.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.last_name }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.auth_cgrupo.id_for_label}}" class="col-sm-4 control-label">{{form.auth_cgrupo.label}}</label>
+								{%if form.auth_cgrupo.errors%}
+								{{form.auth_cgrupo.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.auth_cgrupo }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.ctalo.id_for_label}}" class="col-sm-4 control-label">{{form.ctalo.label}}</label>
+								{%if form.ctalo.errors%}
+								{{form.ctalo.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.ctalo }}
+								</div>
+							</div>
+							<!--
+							<div class="col-md-6 form-group">
+								<label for="{{form.telefono.id_for_label}}" class="col-sm-4 control-label">{{form.telefono.label}}</label>
+								{%if form.telefono.errors%}
+								{{form.telefono.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.telefono }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.direccion.id_for_label}}" class="col-sm-4 control-label">{{form.direccion.label}}</label>
+								{%if form.direccion.errors%}
+								{{form.direccion.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.direccion }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.fdesactivacion.id_for_label}}" class="col-sm-4 control-label">{{form.fdesactivacion.label}}</label>
+								{%if form.fdesactivacion.errors%}
+								{{form.fdesactivacion.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.fdesactivacion }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.factivacion.id_for_label}}" class="col-sm-4 control-label">{{form.factivacion.label}}</label>
+								{%if form.factivacion.errors%}
+								{{form.factivacion.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{ form.factivacion }}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.cesdo.id_for_label}}" class="col-sm-4 control-label">{{form.cesdo.label}}</label>
+								{%if form.cesdo.errors%}
+								{{form.cesdo.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{form.cesdo}}
+								</div>
+							</div>
+							-->
+
+							<div class="col-md-6 form-group">
+								<label for="{{form.csucur.id_for_label}}" class="col-sm-4 control-label">{{form.csucur.label}}</label>
+								{%if form.csucur.errors%}
+								{{form.csucur.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{form.csucur}}
+								</div>
+							</div>
+							<div class="col-md-6 form-group">
+								<label for="{{form.ccaja.id_for_label}}" class="col-sm-4 control-label">{{form.ccaja.label}}</label>
+								{%if form.ccaja.errors%}
+								{{form.ccaja.errors}}
+								{%endif%}
+								<div class="col-sm-8">
+									{{form.ccaja}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="text-center">
+					<div class="btn-group">
+						<button class="btn btn-app btn-primary" type="button" action="reset-form">
+							<i class="fa fa-plus-square-o"></i>Nuevo
+						</button>
+						<button class="btn btn-app btn-primary" type="submit">
+							<i class="fa fa-save"></i>Guardar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{%block content_script%}
+<script>
+	$("form").submit(function (event) {
+		event.preventDefault()
+		$.ajax({
+			type:"POST",
+			url:"/users/registar/",
+			data:$("form").serialize(),
+			contentType:"application/x-www-form-urlencoded",
+			success:function(response){
+				console.log(response)
+				alertify.success(response.message)
+			},
+			error:function(response){
+				console.log(response)
+				alertify.error(response.responseJSON.message)
+			}
+		})
+	})
+</script>
+{%endblock%}

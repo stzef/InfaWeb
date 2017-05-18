@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export APPEMPRESARIAL_USER=root
-export APPEMPRESARIAL_EMAIL=sistematizaref.programador5@gmail.com
-export APPEMPRESARIAL_PASS=stzEF0987
+export APPEMPRESARIAL_USER="root"
+export APPEMPRESARIAL_EMAIL="sistematizaref.programador5@gmail.com"
+export APPEMPRESARIAL_PASS="stzEF0987"
 
 export CURRENT_ENV_WORK=DEV
 

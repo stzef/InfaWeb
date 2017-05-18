@@ -1,0 +1,90 @@
+{%extends 'layouts/base.html'%}
+{% load static from staticfiles %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">{{ title }}</h3>
+					</div>
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row col-md-12">
+								<div class="form-group">
+									<label for="{{form.nsucur.id_for_label}}" class="col-sm-2 control-label">{{form.nsucur.label}}</label>
+									{%if form.nsucur.errors%}
+									{{form.nsucur.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.nsucur}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.dirsucur.id_for_label}}" class="col-sm-2 control-label">{{form.dirsucur.label}}</label>
+									{%if form.dirsucur.errors%}
+									{{form.dirsucur.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.dirsucur}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.telsucur.id_for_label}}" class="col-sm-2 control-label">{{form.telsucur.label}}</label>
+									{%if form.telsucur.errors%}
+									{{form.telsucur.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.telsucur}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.celsucur.id_for_label}}" class="col-sm-2 control-label">{{form.celsucur.label}}</label>
+									{%if form.celsucur.errors%}
+									{{form.celsucur.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.celsucur}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									{%if form.cesdo.errors%}
+									{{form.cesdo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.cesdo}}
+									</div>
+								</div>
+							</section>
+							<div class="text-center">
+								<div class="btn-group">
+									{% if mode_view == "create" %}
+										<button class="btn btn-app btn-primary" type="button" action="reset-form">
+											<i class="fa fa-plus-square-o"></i>Nuevo
+										</button>
+									{% endif %}
+									<button class="btn btn-app btn-primary" type="submit">
+										<i class="fa fa-save"></i>Guardar
+									</button>
+									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-branchs' %}"><i class="fa fa-list"></i>Listar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>AJAXGenericView("form","select[name=ivas_civa]","niva","{{url}}",defaultfn,"Creando Valor de Iva");</script>
+{% endblock %}
+

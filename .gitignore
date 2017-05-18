@@ -4,6 +4,8 @@
 *.gif
 .gif
 *.sh
+activate_env
+run_server
 .env
 *.json
 report_test.txt

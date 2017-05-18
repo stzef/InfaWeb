@@ -1,0 +1,124 @@
+{%extends 'layouts/base.html'%}
+{% load static from staticfiles %}
+{%block content%}
+	{%include 'elements/nav.html'%}
+	{%include 'elements/sidebar.html'%}
+	<div class="content-wrapper" style="min-height: 921px;">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">{{ title }}</h3>
+					</div>
+					<form action="" method="POST" role="form" class="form-horizontal">
+						{%csrf_token%}
+						<div class="box-body">
+							<section class="row col-md-12">
+								<input type="hidden" name="ctifopa" value="1">
+								<input type="hidden" name="ctimomvsa" value="308">
+								<input type="hidden" name="filas" value="1">
+								<input type="hidden" name="lar_conse" value="1">
+								<input type="hidden" name="ncotalo" value="1">
+								<input type="hidden" name="nrepo" value="1">
+								<input type="hidden" name="prefi_real" value="1">
+								<div class="form-group">
+									<label for="{{form.csucur.id_for_label}}" class="col-sm-2 control-label">{{form.csucur.label}}</label>
+									{%if form.csucur.errors%}
+									{{form.csucur.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.csucur}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.ccaja.id_for_label}}" class="col-sm-2 control-label">{{form.ccaja.label}}</label>
+									{%if form.ccaja.errors%}
+									{{form.ccaja.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.ccaja}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.prefijo.id_for_label}}" class="col-sm-2 control-label">{{form.prefijo.label}}</label>
+									{%if form.prefijo.errors%}
+									{{form.prefijo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.prefijo}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.resodian.id_for_label}}" class="col-sm-2 control-label">{{form.resodian.label}}</label>
+									{%if form.resodian.errors%}
+									{{form.resodian.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.resodian}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.descri.id_for_label}}" class="col-sm-2 control-label">{{form.descri.label}}</label>
+									{%if form.descri.errors%}
+									{{form.descri.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.descri}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.conse_ini.id_for_label}}" class="col-sm-2 control-label">{{form.conse_ini.label}}</label>
+									{%if form.conse_ini.errors%}
+									{{form.conse_ini.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.conse_ini}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.conse_fin.id_for_label}}" class="col-sm-2 control-label">{{form.conse_fin.label}}</label>
+									{%if form.conse_fin.errors%}
+									{{form.conse_fin.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.conse_fin}}
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
+									{%if form.cesdo.errors%}
+									{{form.cesdo.errors}}
+									{%endif%}
+									<div class="col-sm-10">
+										{{form.cesdo}}
+									</div>
+								</div>
+							</section>
+							<div class="text-center">
+								<div class="btn-group">
+									{% if mode_view == "create" %}
+										<button class="btn btn-app btn-primary" type="button" action="reset-form">
+											<i class="fa fa-plus-square-o"></i>Nuevo
+										</button>
+									{% endif %}
+									<button class="btn btn-app btn-primary" type="submit">
+										<i class="fa fa-save"></i>Guardar
+									</button>
+									<a data-new-window data-action="list" class="btn btn-app btn-primary" href="{% url 'list-cheque-books' %}"><i class="fa fa-list"></i>Listar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{%include 'elements/footer.html'%}
+{%endblock%}
+{% block content_script %}
+	<script>AJAXGenericView("form","select[name=ivas_civa]","niva","{{url}}",defaultfn,"Creando Valor de Iva");</script>
+{% endblock %}
+

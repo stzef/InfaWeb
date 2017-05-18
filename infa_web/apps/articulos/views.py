@@ -135,9 +135,9 @@ class ArticleCopy(CustomUpdateView):
 		context['mode_view'] = 'copy'
 		context['url'] = reverse_lazy('add-article')
 
-		context['url_foto1'] = current_article.foto1
-		context['url_foto2'] = current_article.foto2
-		context['url_foto3'] = current_article.foto3
+		context['url_foto1'] = current_article.foto1.url
+		context['url_foto2'] = current_article.foto2.url
+		context['url_foto3'] = current_article.foto3.url
 
 		manageParameters = ManageParameters(self.request.db)
 		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
@@ -170,9 +170,9 @@ class ArticleUpdate(AjaxableResponseMixin,CustomUpdateView):
 		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
 		context['typeInventory'] = typeInventory
 
-		context['url_foto1'] = current_article.foto1
-		context['url_foto2'] = current_article.foto2
-		context['url_foto3'] = current_article.foto3
+		context['url_foto1'] = current_article.foto1.url
+		context['url_foto2'] = current_article.foto2.url
+		context['url_foto3'] = current_article.foto3.url
 		return context
 
 def article_list(request):
