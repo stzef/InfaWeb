@@ -26,7 +26,7 @@ SECRET_KEY = '-5g%k^qyp3o@isqyrh8s80n1g-)90@msfcg)#-1xk%+*(ib)j0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.devappem.com''.appem.com']
+ALLOWED_HOSTS = ['.devappem.com''.appem.co']
 APPEND_SLASH=True
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get("APPEM_AWS_STORAGE_BUCKET_NAME")
