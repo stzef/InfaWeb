@@ -51,7 +51,6 @@ class subdomainMiddleware:
 					# validar si dominio existe
 					if not(request.subdomain in DOMAINS):
 						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
-
 					request.db = DOMAINS[request.subdomain]
 
 					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
