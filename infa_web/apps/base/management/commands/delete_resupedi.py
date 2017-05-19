@@ -7,20 +7,28 @@ from infa_web.apps.restaurante_comandas.models import *
 class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument(
-			'--db',
+			'--database',
 			action='store',
-			dest='db',
+			dest='database',
 			default="default",
 			help='DB for connection',
 		)
 	def handle(self, *args, **options):
 
-		name_db =  options["db"]
+		name_db =  options["database"]
 		print "DB Actual '%s'" % name_db
 
-		confirmation = raw_input("Seguro? (Si/No) ")
+		prosiga_bajo_su_responsabilidad = False
 
+		confirmation = raw_input("Seguro? (Si/No) ")
 		if(confirmation == "Si"):
+			confirmation = raw_input("Completamente Seguro? (Si/No) ")
+			if(confirmation == "Si"):
+				confirmation = raw_input("Ultima Palabra? (Si/No) ")
+				if(confirmation == "Si"):
+					prosiga_bajo_su_responsabilidad = True
+
+		if(prosiga_bajo_su_responsabilidad):
 			for coda in Coda.objects.using(name_db).all():
 				coda.cresupedi = None
 				coda.save(using=name_db)

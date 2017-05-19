@@ -134,7 +134,7 @@
 														{% for grupo in grupos %}
 															{% for articulo in grupo.articulos %}
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
-																	<img class="img-responsive img-thumbnail" src="{{ articulo.foto1.url }}" />
+																	<img class="img-responsive img-thumbnail" src="{% static 'img/loading.gif' %}" data-src="{{ articulo.foto1.url }}" />
 																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
 																	<p>{{ articulo.pvta1 | intcomma }}</p>
 																	<!--
@@ -168,7 +168,7 @@
 														<div class="text-center">
 															{% for articulo in grupo.articulos %}
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well articulo" onclick="agregar_a_factura(this,event)" data-carlos="{{articulo.carlos}}" title="{{articulo.ncorto}}">
-																	<img class="img-responsive img-thumbnail" src="{{ articulo.foto1.url }}" />
+																	<img class="img-responsive img-thumbnail" src="{% static 'img/loading.gif' %}" data-src="{{ articulo.foto1.url }}" />
 																	<p class="text-center"  >{{articulo.ncorto|truncatechars:15}}</p>
 																	<p>{{ articulo.pvta1 | intcomma }}</p>
 																	<!--
@@ -234,7 +234,22 @@
 
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 
+	<script src="{% static 'js/jquery.unveil.js' %}"></script>
+
 	<script type="text/javascript">
+		$(".nav-pills li").click(function(event){
+			var that = $(this)
+			var selector = that.find("a").attr("href")
+			$(selector).find("img").unveil();
+			$(window).trigger('lookup');
+		})
+		$(".nav-pills li.active").trigger("click")
+
+		$("section-content").scroll(function(){
+			/*Cargar Imagenes en scroll*/
+			$(window).trigger('lookup');
+		})
+
 		cols = {
 			carlo:{i:0},
 			canti:{i:1},

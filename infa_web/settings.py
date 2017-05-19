@@ -48,6 +48,10 @@ DJANGO_APPS = [
 	'django.contrib.humanize',
 	'storages',
 ]
+
+#DATABASE_ROUTERS = ['infa_web.custom_routes.AuthRouter']
+
+
 PROJECT_APPS = [
 	'infa_web.apps.base',
 	'infa_web.apps.terceros',

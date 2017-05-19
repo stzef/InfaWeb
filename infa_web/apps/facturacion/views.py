@@ -65,9 +65,13 @@ class BillList(CustomListView):
 def code_generate(Model, prefijo, value_get, request_db):
 	try:
 		value = str(Model.objects.using(request_db).latest(value_get))
+		print "value : %s" % value
 		value_sum = str(int(value[2:]) + 1)
+		print "value_sum : %s" % value_sum
 		cant_space = 8-int(len(value_sum))
+		print "cant_space : %s" % cant_space
 		model_pk = prefijo + (cant_space * '0') + value_sum
+		print "model_pk : %s" % model_pk
 	except Model.DoesNotExist:
 		model_pk = prefijo+'00001000'
 	return model_pk
@@ -1013,8 +1017,8 @@ def bill_proccess_fn_annulment(request):
 
 	estado = Esdo.objects.using(request.db).get(pk=data["cesdo"])
 	current_datetime = str(datetime.datetime.now())
-	user = "Usuario Estatico"
-	detaanula = data["detaanula"] + " " + current_datetime + " " + user
+	user = request.user
+	detaanula = data["detaanula"] + " " + current_datetime + " " + user.username
 
 	try:
 		factura = Fac.objects.using(request.db).get(cfac=data["cfac"])
@@ -1283,6 +1287,7 @@ class report_fn_bill(PDFTemplateView):
 			"cvende":{"show":True},
 			"citerce":{"show":True},
 			"csucur":{"show":True},
+			"detaanula":{"show":False},
 		}
 		context['header'] = {
 			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
@@ -1290,16 +1295,18 @@ class report_fn_bill(PDFTemplateView):
 		cvende = data["cvende"]
 		citerce = data["citerce"]
 		csucur = data["csucur"]
+		cesdo = data["cesdo"]
 		print data.get("fecha_inicial")
 
 		estadoActivo = Esdo.objects.using(self.request.db).get(cesdo=CESTADO_ACTIVO)
+		context['header']["Estado"] = estadoActivo.nesdo
 
 		query_facturas = {
 			"femi__range" : [
 				data.get("fecha_inicial"),
 				data.get("fecha_final"),
 			],
-			"cesdo" : estadoActivo
+			"cesdo__cesdo" : CESTADO_ACTIVO
 		}
 		"""
 		query_facturas = {
@@ -1323,11 +1330,21 @@ class report_fn_bill(PDFTemplateView):
 			context['title'] += " Por Sucursales"
 			context['header']["Sucursal"] = Sucursales.objects.using(self.request.db).get(csucur=csucur).nsucur
 			cells["csucur"]["show"] = False
+		if(cesdo):
+			query_facturas["cesdo__cesdo"] = cesdo
+			if ( int(cesdo) == int(CESDO_ANULADO) ):
+				estado = Esdo.objects.using(self.request.db).get(cesdo=cesdo)
+				context['header']["Estado"] = estado.nesdo
+				cells["detaanula"]["show"] = True
+
+
+
 
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
 		print query_facturas
+
 
 		totales["subtotal"] = 0
 		totales["total"] = 0
@@ -1344,20 +1361,24 @@ class report_fn_bill(PDFTemplateView):
 			factura.data_report["vt_base_iva"] = factura.vtbase
 			factura.data_report["vt_iva"] = factura.vtiva
 
+			totales["vtt_otros"] += factura.data_report["otros_valores"]
+			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
+			totales["vtt_iva"] += factura.data_report["vt_iva"]
+			"""
 			if factura.cesdo != cesdo_anulado:
 				totales["vtt_otros"] += factura.data_report["otros_valores"]
 				totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 				totales["vtt_iva"] += factura.data_report["vt_iva"]
+			"""
 
 		context['data'] = data
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
 
-
-		context['colspan_total'] = 5
+		context['colspan_total'] = 6
 		for k,v in cells.iteritems():
-			if v["show"] == False:
+			if not v["show"]:
 				context['colspan_total'] -= 1
 
 		return context

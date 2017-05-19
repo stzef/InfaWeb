@@ -14,20 +14,28 @@ from infa_web.apps.usuarios.models import *
 class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument(
-			'--db',
+			'--database',
 			action='store',
-			dest='db',
+			dest='database',
 			default="default",
 			help='DB for connection',
 		)
 	def handle(self, *args, **options):
 
-		name_db =  options["db"]
+		name_db =  options["database"]
 		print "DB Actual '%s'" % name_db
 
-		confirmation = raw_input("Seguro? (Si/No) ")
+		prosiga_bajo_su_responsabilidad = False
 
+		confirmation = raw_input("Seguro? (Si/No) ")
 		if(confirmation == "Si"):
+			confirmation = raw_input("Completamente Seguro? (Si/No) ")
+			if(confirmation == "Si"):
+				confirmation = raw_input("Ultima Palabra? (Si/No) ")
+				if(confirmation == "Si"):
+					prosiga_bajo_su_responsabilidad = True
+
+		if(prosiga_bajo_su_responsabilidad):
 			#Base
 			for fac in Fac.objects.using(name_db).all():
 				print "------------------------"
@@ -37,7 +45,7 @@ class Command(BaseCommand):
 					print "Mv Salida %s" % mvsa.cmvsa
 					Mvsadeta.objects.using(name_db).filter(cmvsa = mvsa.cmvsa).delete()
 					mvsa.delete()
-				
+
 				movideta = Movideta.objects.using(name_db).filter(docrefe=fac.cfac)
 				cmovis = list(set(map(lambda x: x.cmovi.cmovi, movideta)))
 				for cmovi in cmovis:

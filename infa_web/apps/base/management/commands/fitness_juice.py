@@ -14,14 +14,14 @@ from infa_web.apps.usuarios.models import *
 class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument(
-			'--db',
+			'--database',
 			action='store',
-			dest='db',
+			dest='database',
 			default="default",
 			help='DB for connection',
 		)
 	def handle(self, *args, **options):
-		name_db =  options["db"]
+		name_db =  options["database"]
 		print "DB Actual '%s'" % name_db
 
 		confirmation = raw_input("Seguro? (Si/No) ")
@@ -39,6 +39,7 @@ class Command(BaseCommand):
 
 			Arlo.objects.using(name_db).all().delete()
 			Gpo.objects.using(name_db).all().delete()
+			print "Articulos y Grupos Borrados"
 
 			Gpo.objects.using(name_db).create(cgpo=DEFAULT_GRUPO,ngpo="SIN GRUPO",cesdo=estadoActivo)
 
@@ -2486,3 +2487,4 @@ class Command(BaseCommand):
 				cgpo=g_equilibrio,
 				cunidad=unidad
 			)
+			print "Articulos Creados"
