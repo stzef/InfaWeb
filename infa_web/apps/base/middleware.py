@@ -5,9 +5,9 @@ from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
 from termcolor import colored
 
-from threading import local
+#from threading import local
 
-my_local_global = local()
+#my_local_global = local()
 
 class verifyConfigurationFile(object):
 	def process_request(self, request):
@@ -45,7 +45,7 @@ class subdomainMiddleware:
 		if server == "testserver":
 			request.subdomain = "test_local"
 			request.db = DOMAINS[request.subdomain]
-			my_local_global.db = DOMAINS[request.subdomain]
+			#my_local_global.db = DOMAINS[request.subdomain]
 			redirect('/dashboard')
 		else:
 			print host
@@ -55,7 +55,7 @@ class subdomainMiddleware:
 					if not(request.subdomain in DOMAINS):
 						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 					request.db = DOMAINS[request.subdomain]
-					my_local_global.db = DOMAINS[request.subdomain]
+					#my_local_global.db = DOMAINS[request.subdomain]
 
 					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
@@ -63,6 +63,6 @@ class subdomainMiddleware:
 
 			else:
 				request.db = 'default'
-				my_local_global.db = 'default'
+				#my_local_global.db = 'default'
 				#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 				redirect('/')
