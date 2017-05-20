@@ -241,14 +241,16 @@
 			var that = $(this)
 			var selector = that.find("a").attr("href")
 			$(selector).find("img").unveil();
+
 			$(window).trigger('lookup');
+			console.log("Hola")
 		})
-		$(".nav-pills li.active").trigger("click")
 
 		$("section-content").scroll(function(){
 			/*Cargar Imagenes en scroll*/
 			$(window).trigger('lookup');
 		})
+		$(".nav-pills li.active").trigger("click")
 
 		cols = {
 			carlo:{i:0},
@@ -427,6 +429,11 @@
 						alertify.notify(response.message,"danger")
 					containerMessages.prepend(message)
 					WaitDialog.hide()
+				},
+				error: function(response){
+					WaitDialog.hide()
+					console.info(response)
+					alertify.notify(response.responseJSON.message,"error")
 				},
 				success: function(response){
 					WaitDialog.hide()
