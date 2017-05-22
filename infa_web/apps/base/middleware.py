@@ -4,6 +4,8 @@ from infa_web.parameters import ManageParameters
 from django.shortcuts import render,render_to_response, redirect
 from django.http import HttpResponseNotFound
 from termcolor import colored
+from infa_web import settings
+from infa_web.config import CONFIG
 
 #from threading import local
 
@@ -34,6 +36,7 @@ class updateDateAppen(object):
 
 from infa_web.config.domaindb import DOMAINS
 # Agrega al request el subdominio actual
+
 
 class subdomainMiddleware:
 	def process_request(self, request):
@@ -66,3 +69,20 @@ class subdomainMiddleware:
 				#my_local_global.db = 'default'
 				#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 				redirect('/')
+
+import pytz
+from django.utils import timezone
+
+class timeZoneMiddleware:
+	def process_request(self, request):
+
+		print CONFIG
+		print CONFIG[request.subdomain]["tz"]
+
+		#tzname = request.session.get('django_timezone')
+		tzname = CONFIG[request.subdomain]["tz"]
+		if tzname:
+			timezone.activate(pytz.timezone(tzname))
+		else:
+			timezone.deactivate()
+		#print timezone.get_current_timezone()

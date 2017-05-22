@@ -26,7 +26,7 @@ SECRET_KEY = '-5g%k^qyp3o@isqyrh8s80n1g-)90@msfcg)#-1xk%+*(ib)j0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.devappem.com''.appem.co']
+ALLOWED_HOSTS = ['.devappem.com','.appem.co']
 APPEND_SLASH=True
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get("APPEM_AWS_STORAGE_BUCKET_NAME")
@@ -49,7 +49,7 @@ DJANGO_APPS = [
 	'storages',
 ]
 
-#DATABASE_ROUTERS = ['infa_web.custom_routes.AuthRouter']
+#DATABASE_ROUTERS = ['infa_web.custom_routes.MultiDBModelAdmin']
 
 
 PROJECT_APPS = [
@@ -87,6 +87,7 @@ MIDDLEWARE_CLASSES = [
 	'infa_web.apps.base.middleware.subdomainMiddleware',
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'infa_web.apps.base.middleware.updateDateAppen',
+	'infa_web.apps.base.middleware.timeZoneMiddleware',
 ]
 
 ROOT_URLCONF = 'infa_web.urls'
@@ -142,8 +143,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-	'infa_web.apps.usuarios.auth_backend.UserBackend',
 	'django.contrib.auth.backends.ModelBackend',
+	'infa_web.apps.usuarios.auth_backend.UserBackend',
 )
 
 # Internationalization
@@ -167,7 +168,7 @@ DECIMAL_SEPARATOR = '.'
 
 NUMBER_GROUPING = 3
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

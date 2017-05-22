@@ -14,12 +14,24 @@ class UserBackend(object):
 		except UserModel.DoesNotExist:
 			return None
 
-	def get_user(self, user_id):
+	def get_user(self, user_id, *args):
 		try:
-			#print "-------------------"
-			#print my_local_global.db
-			#print "-------------------"
-			#return User.objects.using(my_local_global.db).get(pk=user_id)
-			return User.objects.get(pk=user_id)
+			'''
+				Modificacion al codigo duente de Django 1.9.6
+				archivo django/contrib/auth/__init__.py
+				function get_user
+				linea 174
+
+				...
+				user = backend.get_user(user_id) # Original
+				user = backend.get_user(user_id, request) # Modificada
+				...
+
+				Se agrego el request como parametro ( en la tupla args )
+
+			'''
+			request = args[0]
+			return User.objects.using(request.db).get(pk=user_id)
+			#return User.objects.get(pk=user_id)
 		except User.DoesNotExist:
 			return None

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from infa_web.apps.facturacion.views import *
 
 from django.contrib.auth.decorators import login_required
