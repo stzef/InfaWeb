@@ -241,13 +241,14 @@
 			var that = $(this)
 			var selector = that.find("a").attr("href")
 			$(selector).find("img").unveil();
+			$(selector).trigger('lookup');
 
-			$(window).trigger('lookup');
 			console.log("Hola")
 		})
 
-		$("section-content").scroll(function(){
+		$(".section-content").scroll(function(){
 			/*Cargar Imagenes en scroll*/
+			$(".section-content").find("img").unveil();
 			$(window).trigger('lookup');
 		})
 		$(".nav-pills li.active").trigger("click")

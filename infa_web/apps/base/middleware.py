@@ -51,23 +51,19 @@ class subdomainMiddleware:
 			#my_local_global.db = DOMAINS[request.subdomain]
 			redirect('/dashboard')
 		else:
-			print host
 			if len(host) > 2:
 					request.subdomain = ''.join(host[:-2])
 					# validar si dominio existe
 					if not(request.subdomain in DOMAINS):
 						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 					request.db = DOMAINS[request.subdomain]
-					#my_local_global.db = DOMAINS[request.subdomain]
 
-					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+					#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
 					redirect('/dashboard')
 
 			else:
 				request.db = 'default'
-				#my_local_global.db = 'default'
-				#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 				redirect('/')
 
 import pytz
@@ -75,14 +71,8 @@ from django.utils import timezone
 
 class timeZoneMiddleware:
 	def process_request(self, request):
-
-		print CONFIG
-		print CONFIG[request.subdomain]["tz"]
-
-		#tzname = request.session.get('django_timezone')
 		tzname = CONFIG[request.subdomain]["tz"]
 		if tzname:
 			timezone.activate(pytz.timezone(tzname))
 		else:
 			timezone.deactivate()
-		#print timezone.get_current_timezone()

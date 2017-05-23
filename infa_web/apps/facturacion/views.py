@@ -790,8 +790,9 @@ def code_generate(Model, prefijo, value_get, min_value, max_value,request_db):
 		if max_value:
 			if int(value_sum) > int(max_value):
 				response["model_pk"] = None
-				response["message"] = "No puede Facturar mas"
+				response["message"] = "No se pudo Generar la Factura. El rango Habilitado es %s - %s, y se intento generar la factura %s" % (min_value,max_value,value_sum)
 				response["error"] = True
+				return response
 
 		cant_space = 8-int(len(value_sum))
 		model_pk = prefijo + (cant_space * '0') + value_sum

@@ -92,7 +92,7 @@
 					<div class="box-body">
 						<table class="table">
 							<tr>
-								<th> Usario </th>
+								<th> Usuario </th>
 								<th> Email </th>
 								<th> Nombres </th>
 								<th> Apellidos </th>
@@ -121,17 +121,6 @@
 						</table>
 					</div>
 				</div>
-
-				<div class="text-center">
-					<div class="btn-group">
-						<button class="btn btn-app btn-primary" type="button" action="reset-form">
-							<i class="fa fa-plus-square-o"></i>Nuevo
-						</button>
-						<button class="btn btn-app btn-primary" type="submit">
-							<i class="fa fa-save"></i>Guardar
-						</button>
-					</div>
-				</div>
 		</div>
 	</div>
 	{%include 'elements/footer.html'%}
@@ -147,15 +136,19 @@ $(".date").datetimepicker({
 	$("form").submit(function (event) {
 		var that = $(this)
 		event.preventDefault()
+		WaitDialog.show("Creando Usuario")
+
 		$.ajax({
 			type:"POST",
 			url:"/users/administrar/",
 			data:that.serialize(),
 			//contentType:"application/x-www-form-urlencoded",
 			success:function(response){
+				WaitDialog.hide()
 				alertify.success(response.message)
 			},
 			error:function(response){
+				WaitDialog.hide()
 				alertify.error("Ha Ocurrido un Error.")
 			}
 		})
