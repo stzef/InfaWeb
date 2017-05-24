@@ -6,7 +6,7 @@ class AuthRouter(object):
     """
     def db_for_read(self, model, **hints):
         print "---------------------"
-            print os.environ["CURRENT_DB"]
+        print os.environ["CURRENT_DB"]
         print "---------------------"
         if 'CURRENT_DB' in os.environ:
             return os.environ["CURRENT_DB"]
@@ -19,7 +19,7 @@ class AuthRouter(object):
             #return 'auth_db'
         if 'CURRENT_DB' in os.environ:
             print "---------------------"
-                print os.environ["CURRENT_DB"]
+            print os.environ["CURRENT_DB"]
             print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
@@ -33,7 +33,7 @@ class AuthRouter(object):
             #return 'auth_db'
         if 'CURRENT_DB' in os.environ:
             print "---------------------"
-                print os.environ["CURRENT_DB"]
+            print os.environ["CURRENT_DB"]
             print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
@@ -48,7 +48,7 @@ class AuthRouter(object):
            #return True
         if 'CURRENT_DB' in os.environ:
             print "---------------------"
-                print os.environ["CURRENT_DB"]
+            print os.environ["CURRENT_DB"]
             print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
@@ -63,7 +63,7 @@ class AuthRouter(object):
             #return db == 'auth_db'
         if 'CURRENT_DB' in os.environ:
             print "---------------------"
-                print os.environ["CURRENT_DB"]
+            print os.environ["CURRENT_DB"]
             print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
