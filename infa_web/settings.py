@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import dj_database_url
 
+os.environ["CURRENT_DB"] = "default"
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -54,7 +56,7 @@ DJANGO_APPS = [
 	'storages',
 ]
 
-#DATABASE_ROUTERS = ['infa_web.custom_routes.MultiDBModelAdmin']
+DATABASE_ROUTERS = ['infa_web.custom_routes.AuthRouter']
 
 
 PROJECT_APPS = [

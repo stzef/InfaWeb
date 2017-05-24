@@ -30,8 +30,7 @@ class UserBackend(object):
 				Se agrego el request como parametro ( en la tupla args )
 
 			'''
-			request = args[0]
-			return User.objects.using(request.db).get(pk=user_id)
-			#return User.objects.get(pk=user_id)
+			#return User.objects.using(request.db).get(pk=user_id)
+			return User.objects.get(pk=user_id)
 		except User.DoesNotExist:
 			return None
