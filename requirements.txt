@@ -1,18 +1,5 @@
 appdirs==1.4.3
 astroid==1.4.8
-azure==1.0.3
-azure-common==1.1.4
-azure-mgmt==0.20.2
-azure-mgmt-common==0.20.0
-azure-mgmt-compute==0.20.1
-azure-mgmt-network==0.20.1
-azure-mgmt-nspkg==1.0.0
-azure-mgmt-resource==0.20.1
-azure-mgmt-storage==0.20.0
-azure-nspkg==1.0.0
-azure-servicebus==0.20.1
-azure-servicemanagement-legacy==0.20.2
-azure-storage==0.20.3
 backports.functools-lru-cache==1.2.1
 boto==2.46.1
 configparser==3.5.0
@@ -37,6 +24,7 @@ pylint==1.6.4
 pyparsing==2.2.0
 PyPDF2==1.26.0
 python-dateutil==2.5.3
+pytz==2017.2
 reportlab==3.3.0
 requests==2.13.0
 six==1.10.0

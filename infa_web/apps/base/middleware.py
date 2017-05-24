@@ -48,7 +48,6 @@ class subdomainMiddleware:
 		if server == "testserver":
 			request.subdomain = "test_local"
 			request.db = DOMAINS[request.subdomain]
-			os.environ["CURRENT_DB"] = request.db
 			#my_local_global.db = DOMAINS[request.subdomain]
 			redirect('/dashboard')
 		else:
@@ -58,7 +57,6 @@ class subdomainMiddleware:
 					if not(request.subdomain in DOMAINS):
 						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 					request.db = DOMAINS[request.subdomain]
-					os.environ["CURRENT_DB"] = request.db
 
 					#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
@@ -66,7 +64,6 @@ class subdomainMiddleware:
 
 			else:
 				request.db = 'default'
-				os.environ["CURRENT_DB"] = request.db
 				redirect('/')
 
 import pytz

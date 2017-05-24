@@ -5,9 +5,6 @@ class AuthRouter(object):
     auth application.
     """
     def db_for_read(self, model, **hints):
-        print "---------------------"
-        print os.environ["CURRENT_DB"]
-        print "---------------------"
         if 'CURRENT_DB' in os.environ:
             return os.environ["CURRENT_DB"]
         else:
@@ -18,9 +15,6 @@ class AuthRouter(object):
         #if model._meta.app_label == 'auth':
             #return 'auth_db'
         if 'CURRENT_DB' in os.environ:
-            print "---------------------"
-            print os.environ["CURRENT_DB"]
-            print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
             return None
@@ -32,9 +26,6 @@ class AuthRouter(object):
         #if model._meta.app_label == 'auth':
             #return 'auth_db'
         if 'CURRENT_DB' in os.environ:
-            print "---------------------"
-            print os.environ["CURRENT_DB"]
-            print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
             return None
@@ -47,9 +38,6 @@ class AuthRouter(object):
            #obj2._meta.app_label == 'auth':
            #return True
         if 'CURRENT_DB' in os.environ:
-            print "---------------------"
-            print os.environ["CURRENT_DB"]
-            print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
             return None
@@ -62,9 +50,6 @@ class AuthRouter(object):
         #if app_label == 'auth':
             #return db == 'auth_db'
         if 'CURRENT_DB' in os.environ:
-            print "---------------------"
-            print os.environ["CURRENT_DB"]
-            print "---------------------"
             return os.environ["CURRENT_DB"]
         else:
             return None
