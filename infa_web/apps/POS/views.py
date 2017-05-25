@@ -17,7 +17,7 @@ class BillList(CustomListView):
 	template_name = "pos/list-billings.html"
 	form_class = FacForm
 
-	@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
+	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
 	def dispatch(self, *args, **kwargs):
 		return super(BillList, self).dispatch(*args, **kwargs)
 
@@ -33,7 +33,7 @@ class BillCreate(CustomCreateView):
 	template_name = "pos/billing.html"
 	form_class = FacForm
 
-	@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
+	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
 	def dispatch(self, *args, **kwargs):
 		return super(BillCreate, self).dispatch(*args, **kwargs)
 
@@ -66,7 +66,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.utils import timezone
 
-@permission_required("facturacion.add_fac_pos",raise_exception=True)
+#@permission_required("facturacion.add_fac_pos",raise_exception=True)
 def BillPrint(request):
 
 	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"

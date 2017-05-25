@@ -33,6 +33,38 @@ from infa_web.apps.base.utils import *
 from infa_web.routines import costing_and_stock
 from django.core.exceptions import ObjectDoesNotExist
 
+def code_generate(Model, prefijo, value_get, min_value, max_value,request_db):
+	min_value = str(min_value)
+	response = {
+		"error" : False,
+		"message" : "OK",
+		"model_pk" : ""
+	}
+	try:
+		key_dic = value_get+"__contains"
+		dic_find = {}
+		dic_find[key_dic] = prefijo
+		print dic_find
+		value = str(Model.objects.using(request_db).filter(**dic_find).latest(value_get))
+		value_sum = str(int(value[2:]) + 1)
+
+		if max_value:
+			if int(value_sum) > int(max_value):
+				response["model_pk"] = None
+				response["message"] = "Talonario %s No se pudo Generar la Factura. El rango Habilitado es %s - %s, y se intento generar la factura %s" % (prefijo,min_value,max_value,value_sum)
+				response["error"] = True
+				return response
+
+		cant_space = 8-int(len(value_sum))
+		model_pk = prefijo + (cant_space * '0') + value_sum
+		response["model_pk"] = model_pk
+	except Model.DoesNotExist:
+		cant_space = 8-int(len(min_value))
+		n = (cant_space * '0') + min_value
+		model_pk = prefijo+n
+		response["model_pk"] = model_pk
+	return response
+
 class BillList(CustomListView):
 	model = Fac
 	template_name = "facturacion/list-billings.html"
@@ -774,35 +806,6 @@ def get_clear_data_fac(request_body):
 		data_deta["vunita"] = float(data_deta["vunita"])
 
 	return data
-
-def code_generate(Model, prefijo, value_get, min_value, max_value,request_db):
-	min_value = str(min_value)
-	response = {
-		"error" : False,
-		"message" : "OK",
-		"model_pk" : ""
-	}
-	try:
-
-		value = str(Model.objects.using(request_db).latest(value_get))
-		value_sum = str(int(value[2:]) + 1)
-
-		if max_value:
-			if int(value_sum) > int(max_value):
-				response["model_pk"] = None
-				response["message"] = "No se pudo Generar la Factura. El rango Habilitado es %s - %s, y se intento generar la factura %s" % (min_value,max_value,value_sum)
-				response["error"] = True
-				return response
-
-		cant_space = 8-int(len(value_sum))
-		model_pk = prefijo + (cant_space * '0') + value_sum
-		response["model_pk"] = model_pk
-	except Model.DoesNotExist:
-		cant_space = 8-int(len(min_value))
-		n = (cant_space * '0') + min_value
-		model_pk = prefijo+n
-		response["model_pk"] = model_pk
-	return response
 
 def value_tot(query_array, code_find):
 	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)

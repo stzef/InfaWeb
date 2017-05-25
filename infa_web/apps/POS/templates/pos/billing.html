@@ -328,8 +328,18 @@
 
 		$(document).ready(function() {
 
-			$.get("/general/defaults",function(data){
-				appem_defaults = data
+			WaitDialog.show("Cargando...")
+			$.ajax({
+				type  : "GET",
+				url : "/general/defaults",
+				success: function(data){
+					WaitDialog.hide()
+					appem_defaults = data
+				},
+				error : function(data){
+					WaitDialog.hide()
+					WaitDialog.show("Ocurrio Un Error el la Carga")
+				}
 			})
 
 			table = $('#example').DataTable({
@@ -418,6 +428,10 @@
 				d.vtotal = d.canti * d.vunita
 				return d
 			})
+			if ( data.mvdeta.length == 0 ){
+				alertify.warning("No ha Escogido Ningun Producto")
+				return
+			}
 			console.log(data)
 			WaitDialog.show("Guardando")
 			$.ajax({
