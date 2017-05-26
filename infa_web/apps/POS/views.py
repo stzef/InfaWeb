@@ -17,15 +17,6 @@ class BillList(CustomListView):
 	template_name = "pos/list-billings.html"
 	form_class = FacForm
 
-	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
-<<<<<<< HEAD
-	#def dispatch(self, *args, **kwargs):
-	#	return super(BillList, self).dispatch(*args, **kwargs)
-=======
-	def dispatch(self, *args, **kwargs):
-		return super(BillList, self).dispatch(*args, **kwargs)
->>>>>>> 7f1fa0717a8b71f26a8ca26c3479ff52cc002148
-
 	def get_context_data(self,**kwargs):
 		context = super(BillList, self).get_context_data(**kwargs)
 		context['title'] = "Listar Facturas"
@@ -38,14 +29,6 @@ class BillCreate(CustomCreateView):
 	template_name = "pos/billing.html"
 	form_class = FacForm
 
-	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
-<<<<<<< HEAD
-	#def dispatch(self, *args, **kwargs):
-	#	return super(BillCreate, self).dispatch(*args, **kwargs)
-=======
-	def dispatch(self, *args, **kwargs):
-		return super(BillCreate, self).dispatch(*args, **kwargs)
->>>>>>> 7f1fa0717a8b71f26a8ca26c3479ff52cc002148
 
 	def get_context_data(self,**kwargs):
 		print self.request.user.get_all_permissions()
@@ -76,7 +59,6 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.utils import timezone
 
-#@permission_required("facturacion.add_fac_pos",raise_exception=True)
 def BillPrint(request):
 
 	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"
