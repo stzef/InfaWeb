@@ -20,7 +20,7 @@ url = [
 
 	url(r'^bill/reports/fn/ventas$', permission_required('facturacion.add_fac')(login_required(report_fn_bill.as_view())), name = 'report_fn_bill'),
 	url(r'^bill/reports/view/ventas$', permission_required('facturacion.add_fac')(login_required(report_view_bill)), name = 'report_view_bill'),
-
+	url(r'^bill/send/$',login_required(send_email), name="send_email"),
 	url(r'^bill/reports/fn/ventas_formas_pago$', permission_required('facturacion.add_fac')(login_required(report_fn_bill_payment_methods.as_view())), name = 'report_fn_bill_payment_methods'),
 	url(r'^bill/reports/view/ventas_formas_pago$', permission_required('facturacion.add_fac')(login_required(report_view_bill_payment_methods)), name = 'report_view_bill_payment_methods'),
 ]

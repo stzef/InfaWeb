@@ -3,9 +3,9 @@ from email.MIMEBase import MIMEBase
 from email import encoders 
 from settings import *
 
-def enviarmail():
+def enviarmail(mail):
 
-    mensaje = EmailMessage(subject='prueba', from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=['sistematizaref.programador4@gmail.com'])
+    mensaje = EmailMessage(subject='prueba', from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=[mail])
     fp = open('infa_web/static/prueba.pdf','rb')
     adjunto = MIMEBase('multipart', 'encrypted')
     #lo insertamos en una variable
