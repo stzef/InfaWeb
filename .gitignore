@@ -13,6 +13,8 @@ report_test.txt
 *.txt
 infa_web/logs/debug.log
 
+infa_web/static/temp/*
+
 infa_web/params/*.json
 
 infa_web/config/__init__.py

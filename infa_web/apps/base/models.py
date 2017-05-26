@@ -11,6 +11,9 @@ class Esdo(models.Model):
 
 	class Meta:
 		ordering = ["nesdo"]
+		permissions = (
+			("list_esdo", "Puede Listar Estados"),
+		)
 
 	cesdo = models.AutoField(primary_key=True)
 	nesdo = models.CharField(max_length=40)
@@ -26,7 +29,9 @@ class Sucursales(models.Model):
 
 	class Meta:
 		ordering = ["csucur"]
-
+		permissions = (
+			("list_sucursales", "Puede Listar Sucursales"),
+		)
 	csucur = models.AutoField(primary_key=True)
 	nsucur = models.CharField(max_length=40)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
@@ -77,6 +82,9 @@ class Bode(models.Model):
 
 	class Meta:
 		ordering = ["cbode"]
+		permissions = (
+			("list_caja", "Puede Listar Bodejas"),
+		)
 
 	cbode = models.AutoField(primary_key=True)
 	nbode = models.CharField(max_length=80)
@@ -130,6 +138,9 @@ class Departamento(models.Model):
 
 	class Meta:
 		ordering = ["ndepar"]
+		permissions = (
+			("list_esdo", "Puede Listar Departamentos"),
+		)
 
 	cdepar = models.AutoField(primary_key=True)
 	ndepar = models.CharField(max_length=45)
@@ -146,6 +157,9 @@ class Ciudad(models.Model):
 
 	class Meta:
 		ordering = ["cciu","nciu"]
+		permissions = (
+			("list_esdo", "Puede Listar Ciudades"),
+		)
 
 	cciu = models.AutoField(primary_key=True)
 	nciu = models.CharField(max_length=40)
@@ -249,6 +263,9 @@ class Banfopa(models.Model):
 
 	class Meta:
 		ordering = ["nbanfopa"]
+		permissions = (
+			("list_esdo", "Puede Listar Bancos"),
+		)
 
 	cbanfopa = models.CharField(max_length=6, primary_key=True)
 	nbanfopa = models.CharField(max_length=80)
@@ -259,6 +276,12 @@ class Banfopa(models.Model):
 		return self.nbanfopa
 
 class Caja(models.Model):
+	class Meta:
+		ordering = ["ncaja"]
+		permissions = (
+			("list_caja", "Puede Listar Cajas"),
+		)
+
 	ccaja = models.AutoField(primary_key=True)
 	ncaja = models.CharField(max_length=80)
 	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)

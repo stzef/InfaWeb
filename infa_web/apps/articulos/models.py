@@ -128,6 +128,11 @@ class Arlo(models.Model):
 
 	class Meta:
 		ordering = ['-nlargo']
+		permissions = (
+			("list_arlo", "Puede Listar Articulos"),
+			("list_gpo", "Puede Listar Grupos"),
+			("list_tiarlos", "Puede Listar Tipo de Articulos"),
+		)
 
 class Arlosdesglo(models.Model):
 	carlosp = models.ForeignKey(Arlo, related_name='carlosp')

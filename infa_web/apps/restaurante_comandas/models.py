@@ -29,7 +29,9 @@ class Mesas(models.Model):
 
 	class Meta:
 		ordering = ["nmesa"]
-
+		permissions = (
+			("list_mesas", "Puede Listar Mesas"),
+		)
 	cmesa = models.AutoField(primary_key=True)
 	nmesa = models.CharField(max_length=50)
 	cesdo = models.ForeignKey(Esdo, default=CESTADO_ACTIVO)
@@ -94,6 +96,9 @@ class Resupedipago(models.Model):
 class Coda(models.Model):
 	class Meta:
 		unique_together = (('ccoda', 'ctalocoda'))
+		permissions = (
+			("list_coda", "Puede Listar Comandas"),
+		)
 	ccoda = models.IntegerField()
 	ctalocoda = models.ForeignKey(Talocoda)
 	fcoda = models.DateTimeField(auto_now_add=True)

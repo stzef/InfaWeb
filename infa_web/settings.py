@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-5g%k^qyp3o@isqyrh8s80n1g-)90@msfcg)#-1xk%+*(ib)j0'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -81,7 +81,7 @@ PROJECT_APPS_RESTAURANT = [
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
-MANDRILL_API_KEY = "F0iN_O0DFD9oEVd-A8zswA"
+MANDRILL_API_KEY = os.environ.get("MANDRILL_API_KEY")
 
 
 MIDDLEWARE_CLASSES = [

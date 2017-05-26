@@ -14,6 +14,16 @@ from django.core import serializers
 class Fac(models.Model):
 	class Meta:
 		ordering = ["-femi"]
+		permissions = (
+			("add_fac_pos", "Puede Crear Facturas POS"),
+			("print_fac_pos", "Puede Imprimir facturas POS"),
+			("list_fac_pos", "Puede Listar Facturas POS"),
+			("list_fac", "Puede Listar Facturas"),
+			("print_fac", "Puede Imprimir Facturas"),
+			("annulment_fac", "Puede Anular Facturas"),
+			("report_fac_bill", "Puede Generar Reporte de Ventas"),
+			("report_fac_bill_payment", "Puede Generar Reporte de Ventas Por medio de Pago"),
+		)
 	cfac = models.CharField(max_length=10)
 	femi = models.DateTimeField()
 	citerce = models.ForeignKey(Tercero,default=DEFAULT_TERCERO)
