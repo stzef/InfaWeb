@@ -185,8 +185,24 @@ class FacpagoForm(forms.ModelForm):
 		}
 
 class ReportVentaForm(forms.Form):
+
+	def __init__(self, using='', *args, **kwargs):
+		super(ReportVentaForm, self).__init__(*args, **kwargs)
+		name_db = using
+
+		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
+		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
+		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
+		self.fields['cesdo'].queryset = Esdo.objects.using(name_db).all()
+
+		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
+		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
+
+		manageParameters = ManageParameters(name_db)
+
 	fecha_inicial = forms.CharField(label = 'Fecha Inicial', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
 	fecha_final = forms.CharField(label = 'Fecha Final', widget = forms.TextInput(attrs = {'class': 'form-control date', 'required': True}))
+
 	cvende = forms.ModelChoiceField(
 		label='Vendedor',
 		widget=forms.Select(attrs={'class':'form-control'}),
@@ -207,15 +223,8 @@ class ReportVentaForm(forms.Form):
 		widget=forms.Select(attrs={'class':'form-control'}),
 		queryset=Sucursales.objects.all()
 	)
-	def __init__(self, using='', *args, **kwargs):
-		super(ReportVentaForm, self).__init__(*args, **kwargs)
-		name_db = using
-
-		self.fields['cvende'].queryset = Vende.objects.using(name_db).all()
-		self.fields['citerce'].queryset = Tercero.objects.using(name_db).all()
-		self.fields['csucur'].queryset = Sucursales.objects.using(name_db).all()
-
-		#self.fields['ctifopa'].queryset = Tifopa.objects.using(name_db).all()
-		self.fields['ctifopa'].widget.choices = get_choices_tifopa(name_db)
-
-		manageParameters = ManageParameters(name_db)
+	cesdo = forms.ModelChoiceField(
+		label='Estado',
+		widget=forms.Select(attrs={'class':'form-control'}),
+		queryset=Esdo.objects.all()
+	)

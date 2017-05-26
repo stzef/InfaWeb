@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 import os
 from infa_web.parameters import ManageParameters
 from datetime import datetime
@@ -19,14 +19,14 @@ class Command(BaseCommand):
 
 	def add_arguments(self, parser):
 		parser.add_argument(
-			'--db',
+			'--database',
 			action='store',
-			dest='db',
+			dest='database',
 			default="default",
 			help='DB for connection',
 		)
 	def handle(self, *args, **options):
-		name_db =  options["db"]
+		name_db =  options["database"]
 		print "DB Actual '%s'" % name_db
 
 		confirmation = raw_input("Seguro? (Si/No) ")
@@ -82,7 +82,11 @@ class Command(BaseCommand):
 			Talocoda.objects.using(name_db).all().delete()
 
 			User.objects.using(name_db).all().delete()
+			Group.objects.using(name_db).all().delete()
 
+			g_administradores = Group.objects.using(name_db).create(name='Administradores')
+			g_vendedores = Group.objects.using(name_db).create(name='Vendedores')
+			g_meseros = Group.objects.using(name_db).create(name='Meseros')
 
 			# Usuarios Django
 			user_default_django = User(
@@ -96,6 +100,8 @@ class Command(BaseCommand):
 			#user_default_django = User.objects.using(name_db).create_user('default', password='stzEF0987')
 			#user_default_django.is_superuser=False
 			#user_default_django.is_staff=True
+			user_default_django.groups.add(g_vendedores)
+
 			user_default_django.save(using=name_db)
 			print "Usuario Django Default. Registros Creados Correctamente."
 

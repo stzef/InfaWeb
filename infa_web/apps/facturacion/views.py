@@ -32,24 +32,37 @@ from infa_web.apps.base.utils import *
 from infa_web.routines import costing_and_stock
 from django.core.exceptions import ObjectDoesNotExist
 
-def get_clear_data_fac(request_body):
-	data = json.loads(request_body)
+def code_generate(Model, prefijo, value_get, min_value, max_value,request_db):
+	min_value = str(min_value)
+	response = {
+		"error" : False,
+		"message" : "OK",
+		"model_pk" : ""
+	}
+	try:
+		key_dic = value_get+"__contains"
+		dic_find = {}
+		dic_find[key_dic] = prefijo
+		print dic_find
+		value = str(Model.objects.using(request_db).filter(**dic_find).latest(value_get))
+		value_sum = str(int(value[2:]) + 1)
 
-	data["vttotal"] = float(data["vttotal"])
-	data["vdescu"] = float(data["vdescu"])
+		if max_value:
+			if int(value_sum) > int(max_value):
+				response["model_pk"] = None
+				response["message"] = "Talonario %s No se pudo Generar la Factura. El rango Habilitado es %s - %s, y se intento generar la factura %s" % (prefijo,min_value,max_value,value_sum)
+				response["error"] = True
+				return response
 
-	for medio_pago in data["medios_pagos"]:
-		medio_pago["cmpago"] = int(medio_pago["cmpago"])
-		medio_pago["vmpago"] = float(medio_pago["vmpago"])
-
-	for data_deta in data["mvdeta"]:
-		data_deta["canti"] = float(data_deta["canti"])
-		data_deta["pordes"] = int(data_deta["pordes"])
-		data_deta["vtotal"] = float(data_deta["vtotal"])
-		data_deta["vunita"] = float(data_deta["vunita"])
-
-	return data
-
+		cant_space = 8-int(len(value_sum))
+		model_pk = prefijo + (cant_space * '0') + value_sum
+		response["model_pk"] = model_pk
+	except Model.DoesNotExist:
+		cant_space = 8-int(len(min_value))
+		n = (cant_space * '0') + min_value
+		model_pk = prefijo+n
+		response["model_pk"] = model_pk
+	return response
 
 class BillList(CustomListView):
 	model = Fac
@@ -61,257 +74,130 @@ class BillList(CustomListView):
 		context['title'] = "Listar Facturas"
 		return context
 
-def code_generate(Model, prefijo, value_get, request_db):
-	try:
-		value = str(Model.objects.using(request_db).latest(value_get))
-		value_sum = str(int(value[2:]) + 1)
-		cant_space = 8-int(len(value_sum))
-		model_pk = prefijo + (cant_space * '0') + value_sum
-	except Model.DoesNotExist:
-		model_pk = prefijo+'00001000'
-	return model_pk
+class BillCreate(CustomCreateView):
+	model = Fac
+	template_name = "facturacion/billing.html"
+	form_class = FacForm
 
-def value_tot(query_array, code_find):
-	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
+	def get_context_data(self,**kwargs):
+		context = super(BillCreate, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
 
-def save_fac(request_db, fac_array):
-	fac = get_or_none(Fac, request_db, cfac = fac_array['fac_pk'])
-	if fac is not None:
-		fac.citerce = fac_array['citerce']
-		fac.cesdo = fac_array['cesdo']
-		fac.fpago = fac_array['fpago']
-		fac.ctifopa = fac_array['ctifopa']
-		fac.descri = fac_array['descri']
-		fac.vtbase = fac_array['vtbase']
-		fac.vtiva = fac_array['vtiva']
-		fac.vflete = fac_array['vflete']
-		fac.vdescu = fac_array['vdescu']
-		fac.vttotal = fac_array['vttotal']
-		fac.ventre = fac_array['ventre']
-		fac.vcambio = fac_array['vcambio']
-		fac.cvende = fac_array['cvende']
-		fac.cdomici = fac_array['cdomici']
-		fac.tpordes = fac_array['tpordes']
-		fac.cemdor = fac_array['cemdor']
-		fac.brtefte = fac_array['brtefte']
-		fac.prtefte = fac_array['prtefte']
-		fac.vrtefte = fac_array['vrtefte']
-		fac.vefe = fac_array['vefe']
-		fac.vtar = fac_array['vtar']
-		fac.vch = fac_array['vch']
-		fac.vcred = fac_array['vcred']
-	else:
-		fac = Fac(
-			cfac = fac_array['fac_pk'],
-			femi = fac_array['femi'],
-			citerce = fac_array['citerce'],
-			cesdo = fac_array['cesdo'],
-			fpago = fac_array['fpago'],
-			ctifopa = fac_array['ctifopa'],
-			descri = fac_array['descri'],
-			vtbase = fac_array['vtbase'],
-			vtiva = fac_array['vtiva'],
-			vflete = fac_array['vflete'],
-			vdescu = fac_array['vdescu'],
-			vttotal = fac_array['vttotal'],
-			ventre = fac_array['ventre'],
-			vcambio = fac_array['vcambio'],
-			ccaja = fac_array['ccaja'],
-			cvende = fac_array['cvende'],
-			cdomici = fac_array['cdomici'],
-			tpordes = fac_array['tpordes'],
-			cemdor = fac_array['cemdor'],
-			brtefte = fac_array['brtefte'],
-			prtefte = fac_array['prtefte'],
-			vrtefte = fac_array['vrtefte'],
-			vefe = fac_array['vefe'],
-			vtar = fac_array['vtar'],
-			vch = fac_array['vch'],
-			vcred = fac_array['vcred']
-		)
-	fac.save(using = request_db)
-	return fac
+		# Datos de Prueba
+		#usuario = Usuario.objects.using(self.request.db).filter()[0]
 
-def save_mvsa(request_db, mvsa_array):
-	mvsa = get_or_none(Mvsa, request_db, docrefe = mvsa_array['docrefe'])
-	if mvsa is not None:
-		mvsa.citerce = mvsa_array['citerce']
-		mvsa.vttotal = mvsa_array['vttotal']
-	else:
-		mvsa = Mvsa(
-			fmvsa = mvsa_array['fmvsa'],
-			docrefe = mvsa_array['docrefe'],
-			citerce = mvsa_array['citerce'],
-			ctimo = mvsa_array['ctimo'],
-			cesdo = mvsa_array['cesdo'],
-			vttotal = mvsa_array['vttotal'],
-			descri = mvsa_array['descri']
-		)
-	mvsa.save(using = request_db)
-	return mvsa
+		#talonario_MOS = usuario.ctalomos
+		#talonario_POS = usuario.ctalopos
+		# Datos de Prueba
 
-def save_movi(request_db, movi_array):
-	movi = movi_find(movi_array['cfac'], request_db, movi_array['ctimo'].pk)
-	if movi:
-		movi = movi[0]
-		movi.citerce = movi_array['citerce']
-		movi.vttotal = movi_array['vttotal']
-		movi.vefe = movi_array['vefe']
-		movi.vtar = movi_array['vtar']
-		movi.vch = movi_array['vch']
-		movi.vcred = movi_array['vcred']
-		movi.ventre = movi_array['ventre']
-		movi.vcambio = movi_array['vcambio']
-		movi.baseiva = movi_array['baseiva']
-		movi.vtiva = movi_array['vtiva']
-		movi.vtsuma = movi_array['vtsuma']
-		movi.vtdescu = movi_array['vtdescu']
-	else:
-		movi = Movi(
-			cmovi = movi_array['cmovi'],
-			ctimo = movi_array['ctimo'],
-			citerce = movi_array['citerce'],
-			fmovi = movi_array['fmovi'],
-			descrimovi = movi_array['descrimovi'],
-			vttotal = movi_array['vttotal'],
-			cesdo = movi_array['cesdo'],
-			vefe = movi_array['vefe'],
-			vtar = movi_array['vtar'],
-			vch = movi_array['vch'],
-			vcred = movi_array['vcred'],
-			ventre = movi_array['ventre'],
-			vcambio = movi_array['vcambio'],
-			ccaja = movi_array['ccaja'],
-			baseiva = movi_array['baseiva'],
-			vtiva = movi_array['vtiva'],
-			vtsuma = movi_array['vtsuma'],
-			vtdescu = movi_array['vtdescu']
-		)
-	movi.save(using = request_db)
-	return movi
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
+		medios_pago = MediosPago.objects.using(self.request.db).all()
 
-def movi_find(fac, request_db, ctimo_billing):
-	return Movi.objects.using(request_db).filter(movideta__docrefe = fac, ctimo__pk = ctimo_billing)
+		context['medios_pago'] = medios_pago
 
-def ctimo_billing(ctimo_billing, request_db):
-	manageParameters = ManageParameters(request_db)
-	ctimo_billing = manageParameters.get_param_value(ctimo_billing)
-	return Timo.objects.using(request_db).get(pk = ctimo_billing)
+		context['title'] = "Facturas"
+		context['form_movement_detail'] = FacdetaForm(self.request.db)
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
 
-def save_movideta(request_db, movideta_array):
-	movi = movi_find(movideta_array['docrefe'], request_db, movideta_array['ctimo'])
-	movi =  Movi.objects.using(request_db).get(cmovi = (movideta_array['cmovi'].cmovi if not movi else (movi[0] if movi.count() > 1 else movi)))
-	try:
-		movideta = movi.movideta_set.using(request_db).get(itmovi = movideta_array['itmovi'])
-		movideta.vmovi = movideta_array['vmovi']
-	except Movideta.DoesNotExist:
-		movideta = Movideta(
-			cmovi = movi,
-			itmovi = movideta_array['itmovi'],
-			docrefe = movideta_array['docrefe'],
-			detalle = movideta_array['detalle'],
-			vmovi = movideta_array['vmovi']
-		)
-	movideta.save(using = request_db)
-	return movideta
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('save-bill')
 
-def save_fac_pago(request_db, fac_pago_array):
-	fac_pago = get_or_none(Facpago, request_db, cfac = fac_pago_array['cfac'].pk, it = fac_pago_array['it'])
-	if fac_pago is not None:
-		fac_pago.cmpago = fac_pago_array['cmpago']
-		fac_pago.docmpago = fac_pago_array['docmpago']
-		fac_pago.banmpago = fac_pago_array['banmpago']
-		fac_pago.vmpago = fac_pago_array['vmpago']
-	else:
-		fac_pago = Facpago(
-			cfac = fac_pago_array['cfac'],
-			it = fac_pago_array['it'],
-			cmpago = fac_pago_array['cmpago'],
-			docmpago = fac_pago_array['docmpago'],
-			banmpago = fac_pago_array['banmpago'],
-			vmpago = fac_pago_array['vmpago']
-		)
-	fac_pago.save(using=request_db)
-	return fac_pago
+		context['data_validation'] = manageParameters.to_dict()
 
-def save_movi_pago(request_db, movi_pago_array):
-	movi_pago = get_or_none(Movipago, request_db, cmovi = movi_pago_array['cmovi'].pk, it = movi_pago_array['it'])
-	if movi_pago is not None:
-		movi_pago.cmpago = movi_pago_array['cmpago']
-		movi_pago.docmpago = movi_pago_array['docmpago']
-		movi_pago.banmpago = movi_pago_array['banmpago']
-		movi_pago.vmpago = movi_pago_array['vmpago']
-	else:
-		movi_pago = Movipago(
-			cmovi = movi_pago_array['cmovi'],
-			it = movi_pago_array['it'],
-			cmpago = movi_pago_array['cmpago'],
-			docmpago = movi_pago_array['docmpago'],
-			banmpago = movi_pago_array['banmpago'],
-			vmpago = movi_pago_array['vmpago']
-		)
-	movi_pago.save(using=request_db)
-	return movi_pago
+		context['company_logo'] = manageParameters.get_param_value('company_logo')
 
-def save_fac_deta(request_db, fac_deta_array):
-	fac_deta = get_or_none(Facdeta, request_db, cfac = fac_deta_array['cfac'].pk, itfac = fac_deta_array['itfac'])
-	if fac_deta is not None:
-		fac_deta.nlargo = fac_deta_array['nlargo']
-		fac_deta.ncorto = fac_deta_array['ncorto']
-		fac_deta.canti = fac_deta_array['canti']
-		fac_deta.civa = fac_deta_array['civa']
-		fac_deta.niva = fac_deta_array['niva']
-		fac_deta.poriva = fac_deta_array['poriva']
-		fac_deta.pordes = fac_deta_array['pordes']
-		fac_deta.vunita = fac_deta_array['vunita']
-		fac_deta.viva = fac_deta_array['viva']
-		fac_deta.vbase = fac_deta_array['vbase']
-		fac_deta.vtotal = fac_deta_array['vtotal']
-		fac_deta.pvtafull = fac_deta_array['pvtafull']
-		fac_deta.vcosto = fac_deta_array['vcosto']
-	else:
-		fac_deta = Facdeta(
-			cfac = fac_deta_array['cfac'],
-			itfac = fac_deta_array['itfac'],
-			carlos = fac_deta_array['carlos'],
-			nlargo = fac_deta_array['nlargo'],
-			ncorto = fac_deta_array['ncorto'],
-			canti = fac_deta_array['canti'],
-			civa = fac_deta_array['civa'],
-			niva = fac_deta_array['niva'],
-			poriva = fac_deta_array['poriva'],
-			pordes = fac_deta_array['pordes'],
-			vunita = fac_deta_array['vunita'],
-			viva = fac_deta_array['viva'],
-			vbase = fac_deta_array['vbase'],
-			vtotal = fac_deta_array['vtotal'],
-			pvtafull = fac_deta_array['pvtafull'],
-			vcosto = fac_deta_array['vcosto'],
-		)
-	fac_deta.save(using=request_db)
-	return fac_deta
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
 
-def save_mvsa_deta(request_db, mvsa_deta_array):
-	mvsa_deta = get_or_none(Mvsadeta, request_db, cmvsa = mvsa_deta_array['cmvsa'].pk, carlos = mvsa_deta_array['carlos'].pk)
-	if mvsa_deta is not None:
-		mvsa_deta.it = mvsa_deta_array['it']
-		mvsa_deta.carlos = mvsa_deta_array['carlos']
-		mvsa_deta.nlargo = mvsa_deta_array['nlargo']
-		mvsa_deta.canti = mvsa_deta_array['canti']
-		mvsa_deta.vunita = mvsa_deta_array['vunita']
-		mvsa_deta.vtotal = mvsa_deta_array['vtotal']
-	else:
-		mvsa_deta = Mvsadeta(
-			cmvsa = mvsa_deta_array['cmvsa'],
-			it = mvsa_deta_array['it'],
-			carlos = mvsa_deta_array['carlos'],
-			nlargo = mvsa_deta_array['nlargo'],
-			canti = mvsa_deta_array['canti'],
-			vunita = mvsa_deta_array['vunita'],
-			vtotal = mvsa_deta_array['vtotal'],
-		)
-	mvsa_deta.save(using=request_db)
-	return mvsa_deta
+		# Datos de Prueba
+		context['data_validation']['maximum_number_items_billing'] = 10
+		# Datos de Prueba
+
+		context['data_validation']['formas_pago'] = {}
+		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
+		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+
+		context['data_validation']['medios_pago'] = {}
+		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
+		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
+
+		context['is_fac_anulada'] = False
+
+		context['data_validation_json'] = json.dumps(context['data_validation'])
+
+		return context
+
+class BillEdit(CustomUpdateView):
+	model = Fac
+	template_name = "facturacion/billing.html"
+	form_class = FacForm
+
+	def get_context_data(self,**kwargs):
+		context = super(BillEdit, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+
+		# Datos de Prueba
+		#usuario = Usuario.objects.using(self.request.db).filter()[0]
+
+		#talonario_MOS = usuario.ctalomos
+		#talonario_POS = usuario.ctalopos
+		# Datos de Prueba
+
+		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
+		medios_pago = MediosPago.objects.using(self.request.db).all()
+
+		context['medios_pago'] = medios_pago
+
+		context['title'] = "Facturar"
+		context['form_movement_detail'] = FacdetaForm(self.request.db)
+		context['form_medios_pagos'] = FacpagoForm(self.request.db)
+
+		context['mode_view'] = 'edit'
+		#context['url'] = reverse_lazy('save-bill')
+		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
+
+		context['data_validation'] = manageParameters.to_dict()
+
+		context['company_logo'] = manageParameters.get_param_value('company_logo')
+
+		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
+		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
+		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
+		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
+		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
+		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+
+		# Datos de Prueba
+		context['data_validation']['maximum_number_items_billing'] = 10
+		# Datos de Prueba
+
+		context['data_validation']['formas_pago'] = {}
+		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
+		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+
+		context['data_validation']['medios_pago'] = {}
+		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
+		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
+
+		context['data_validation_json'] = json.dumps(context['data_validation'])
+
+		factura = Fac.objects.using(self.request.db).get(pk=self.kwargs["pk"])
+		related_information = factura.get_related_information(self.request.db,False)
+		context['related_information_factura'] = related_information
+
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
+
+		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False
+
+		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('itfac')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('it')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+		return context
+
 
 @csrf_exempt
 def BillSave(request):
@@ -325,7 +211,15 @@ def BillSave(request):
 	response["message"] = "Factura Guardada con Exito"
 
 	# Datos de Prueba - Cambiar Posteriormente
-	usuario_actual = Usuario.objects.using(request.db).all()[0]
+	try:
+		usuario_actual = Usuario.objects.using(request.db).get(user=request.user)
+	except Exception as e:
+		response["error"] = True
+		response["message"] = "El Usuario Actual No puede Facturar"
+		return HttpResponse(json.dumps(response), "application/json",status=400)
+
+
+	#usuario_actual = Usuario.objects.using(request.db).all()[0]
 	# Datos de Prueba - Cambiar Posteriormente
 
 	# variable para total de medios de pago
@@ -402,7 +296,15 @@ def BillSave(request):
 
 	# Error : cambio de codigo de factura
 	user_appem = get_current_user(request.db,request.user,user_appem=True)
-	fac_pk = code_generate(Fac, user_appem.ctalopos.prefijo, 'cfac', request.db)
+	#conse_fin
+	data_code = code_generate(Fac, user_appem.ctalopos.prefijo, 'cfac',user_appem.ctalopos.conse_ini,user_appem.ctalopos.conse_fin, request.db)
+
+	if data_code["error"]:
+		response["error"] = True
+		response["message"] = data_code["message"]
+		return HttpResponse(json.dumps(response), "application/json",status=400)
+	else:
+		fac_pk = data_code["model_pk"]
 	#fac_pk = code_generate(Fac, ccaja.ctimocj.prefijo, 'cfac', request.db)
 
 	# guarda los datos en factura
@@ -453,7 +355,16 @@ def BillSave(request):
 	)
 
 	while(val_cont != 0):
-		movi_pk = code_generate(Movi, ctimo.prefijo, 'cmovi', request.db)
+		movi_pk = code_generate(Movi, ctimo.prefijo, 'cmovi',user_appem.ctalopos.conse_ini,user_appem.ctalopos.conse_fin, request.db)
+		if movi_pk["error"]:
+			response = {}
+			response["error"] = True
+			response["message"] = movi_pk["message"]
+			fac.delete()
+			mvsa.delete()
+			return HttpResponse(json.dumps(response), "application/json",status=400)
+		else:
+			movi_pk = movi_pk["model_pk"]
 
 		movi = save_movi(
 			request.db,
@@ -636,7 +547,8 @@ def BillUpdate(request,pk):
 	exclude_arlo = []
 
 	# Datos de Prueba - Cambiar Posteriormente
-	usuario_actual = Usuario.objects.using(request.db).all()[0]
+	usuario_actual = Usuario.objects.using(request.db).get(user=request.user)
+	#usuario_actual = Usuario.objects.using(request.db).all()[0]
 	# Datos de Prueba - Cambiar Posteriormente
 
 	# Valores por defecto para calculos de facturacion
@@ -876,129 +788,265 @@ def BillUpdate(request,pk):
 
 	return HttpResponse(json.dumps(response), "application/json")
 
-class BillCreate(CustomCreateView):
-	model = Fac
-	template_name = "facturacion/billing.html"
-	form_class = FacForm
+def get_clear_data_fac(request_body):
+	data = json.loads(request_body)
 
-	def get_context_data(self,**kwargs):
-		context = super(BillCreate, self).get_context_data(**kwargs)
-		manageParameters = ManageParameters(self.request.db)
+	data["vttotal"] = float(data["vttotal"])
+	data["vdescu"] = float(data["vdescu"])
 
-		# Datos de Prueba
-		#usuario = Usuario.objects.using(self.request.db).filter()[0]
+	for medio_pago in data["medios_pagos"]:
+		medio_pago["cmpago"] = int(medio_pago["cmpago"])
+		medio_pago["vmpago"] = float(medio_pago["vmpago"])
 
-		#talonario_MOS = usuario.ctalomos
-		#talonario_POS = usuario.ctalopos
-		# Datos de Prueba
+	for data_deta in data["mvdeta"]:
+		data_deta["canti"] = float(data_deta["canti"])
+		data_deta["pordes"] = int(data_deta["pordes"])
+		data_deta["vtotal"] = float(data_deta["vtotal"])
+		data_deta["vunita"] = float(data_deta["vunita"])
 
-		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
-		medios_pago = MediosPago.objects.using(self.request.db).all()
+	return data
 
-		context['medios_pago'] = medios_pago
+def value_tot(query_array, code_find):
+	return sum(float(data['vmpago']) for data in query_array if data['cmpago'] == code_find)
 
-		context['title'] = "Facturas"
-		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm(self.request.db)
+def save_fac(request_db, fac_array):
+	fac = get_or_none(Fac, request_db, cfac = fac_array['fac_pk'])
+	if fac is not None:
+		fac.citerce = fac_array['citerce']
+		fac.cesdo = fac_array['cesdo']
+		fac.fpago = fac_array['fpago']
+		fac.ctifopa = fac_array['ctifopa']
+		fac.descri = fac_array['descri']
+		fac.vtbase = fac_array['vtbase']
+		fac.vtiva = fac_array['vtiva']
+		fac.vflete = fac_array['vflete']
+		fac.vdescu = fac_array['vdescu']
+		fac.vttotal = fac_array['vttotal']
+		fac.ventre = fac_array['ventre']
+		fac.vcambio = fac_array['vcambio']
+		fac.cvende = fac_array['cvende']
+		fac.cdomici = fac_array['cdomici']
+		fac.tpordes = fac_array['tpordes']
+		fac.cemdor = fac_array['cemdor']
+		fac.brtefte = fac_array['brtefte']
+		fac.prtefte = fac_array['prtefte']
+		fac.vrtefte = fac_array['vrtefte']
+		fac.vefe = fac_array['vefe']
+		fac.vtar = fac_array['vtar']
+		fac.vch = fac_array['vch']
+		fac.vcred = fac_array['vcred']
+	else:
+		fac = Fac(
+			cfac = fac_array['fac_pk'],
+			femi = fac_array['femi'],
+			citerce = fac_array['citerce'],
+			cesdo = fac_array['cesdo'],
+			fpago = fac_array['fpago'],
+			ctifopa = fac_array['ctifopa'],
+			descri = fac_array['descri'],
+			vtbase = fac_array['vtbase'],
+			vtiva = fac_array['vtiva'],
+			vflete = fac_array['vflete'],
+			vdescu = fac_array['vdescu'],
+			vttotal = fac_array['vttotal'],
+			ventre = fac_array['ventre'],
+			vcambio = fac_array['vcambio'],
+			ccaja = fac_array['ccaja'],
+			cvende = fac_array['cvende'],
+			cdomici = fac_array['cdomici'],
+			tpordes = fac_array['tpordes'],
+			cemdor = fac_array['cemdor'],
+			brtefte = fac_array['brtefte'],
+			prtefte = fac_array['prtefte'],
+			vrtefte = fac_array['vrtefte'],
+			vefe = fac_array['vefe'],
+			vtar = fac_array['vtar'],
+			vch = fac_array['vch'],
+			vcred = fac_array['vcred']
+		)
+	fac.save(using = request_db)
+	return fac
 
-		context['mode_view'] = 'create'
-		context['url'] = reverse_lazy('save-bill')
+def save_mvsa(request_db, mvsa_array):
+	mvsa = get_or_none(Mvsa, request_db, docrefe = mvsa_array['docrefe'])
+	if mvsa is not None:
+		mvsa.citerce = mvsa_array['citerce']
+		mvsa.vttotal = mvsa_array['vttotal']
+	else:
+		mvsa = Mvsa(
+			fmvsa = mvsa_array['fmvsa'],
+			docrefe = mvsa_array['docrefe'],
+			citerce = mvsa_array['citerce'],
+			ctimo = mvsa_array['ctimo'],
+			cesdo = mvsa_array['cesdo'],
+			vttotal = mvsa_array['vttotal'],
+			descri = mvsa_array['descri']
+		)
+	mvsa.save(using = request_db)
+	return mvsa
 
-		context['data_validation'] = manageParameters.to_dict()
+def save_movi(request_db, movi_array):
+	movi = movi_find(movi_array['cfac'], request_db, movi_array['ctimo'].pk)
+	if movi:
+		movi = movi[0]
+		movi.citerce = movi_array['citerce']
+		movi.vttotal = movi_array['vttotal']
+		movi.vefe = movi_array['vefe']
+		movi.vtar = movi_array['vtar']
+		movi.vch = movi_array['vch']
+		movi.vcred = movi_array['vcred']
+		movi.ventre = movi_array['ventre']
+		movi.vcambio = movi_array['vcambio']
+		movi.baseiva = movi_array['baseiva']
+		movi.vtiva = movi_array['vtiva']
+		movi.vtsuma = movi_array['vtsuma']
+		movi.vtdescu = movi_array['vtdescu']
+	else:
+		movi = Movi(
+			cmovi = movi_array['cmovi'],
+			ctimo = movi_array['ctimo'],
+			citerce = movi_array['citerce'],
+			fmovi = movi_array['fmovi'],
+			descrimovi = movi_array['descrimovi'],
+			vttotal = movi_array['vttotal'],
+			cesdo = movi_array['cesdo'],
+			vefe = movi_array['vefe'],
+			vtar = movi_array['vtar'],
+			vch = movi_array['vch'],
+			vcred = movi_array['vcred'],
+			ventre = movi_array['ventre'],
+			vcambio = movi_array['vcambio'],
+			ccaja = movi_array['ccaja'],
+			baseiva = movi_array['baseiva'],
+			vtiva = movi_array['vtiva'],
+			vtsuma = movi_array['vtsuma'],
+			vtdescu = movi_array['vtdescu']
+		)
+	movi.save(using = request_db)
+	return movi
 
-		context['company_logo'] = manageParameters.get_param_value('company_logo')
+def save_movideta(request_db, movideta_array):
+	movi = movi_find(movideta_array['docrefe'], request_db, movideta_array['ctimo'])
+	movi =  Movi.objects.using(request_db).get(cmovi = (movideta_array['cmovi'].cmovi if not movi else (movi[0] if movi.count() > 1 else movi)))
+	try:
+		movideta = movi.movideta_set.using(request_db).get(itmovi = movideta_array['itmovi'])
+		movideta.vmovi = movideta_array['vmovi']
+	except Movideta.DoesNotExist:
+		movideta = Movideta(
+			cmovi = movi,
+			itmovi = movideta_array['itmovi'],
+			docrefe = movideta_array['docrefe'],
+			detalle = movideta_array['detalle'],
+			vmovi = movideta_array['vmovi']
+		)
+	movideta.save(using = request_db)
+	return movideta
 
-		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
+def save_fac_pago(request_db, fac_pago_array):
+	fac_pago = get_or_none(Facpago, request_db, cfac = fac_pago_array['cfac'].pk, it = fac_pago_array['it'])
+	if fac_pago is not None:
+		fac_pago.cmpago = fac_pago_array['cmpago']
+		fac_pago.docmpago = fac_pago_array['docmpago']
+		fac_pago.banmpago = fac_pago_array['banmpago']
+		fac_pago.vmpago = fac_pago_array['vmpago']
+	else:
+		fac_pago = Facpago(
+			cfac = fac_pago_array['cfac'],
+			it = fac_pago_array['it'],
+			cmpago = fac_pago_array['cmpago'],
+			docmpago = fac_pago_array['docmpago'],
+			banmpago = fac_pago_array['banmpago'],
+			vmpago = fac_pago_array['vmpago']
+		)
+	fac_pago.save(using=request_db)
+	return fac_pago
 
-		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 10
-		# Datos de Prueba
+def save_movi_pago(request_db, movi_pago_array):
+	movi_pago = get_or_none(Movipago, request_db, cmovi = movi_pago_array['cmovi'].pk, it = movi_pago_array['it'])
+	if movi_pago is not None:
+		movi_pago.cmpago = movi_pago_array['cmpago']
+		movi_pago.docmpago = movi_pago_array['docmpago']
+		movi_pago.banmpago = movi_pago_array['banmpago']
+		movi_pago.vmpago = movi_pago_array['vmpago']
+	else:
+		movi_pago = Movipago(
+			cmovi = movi_pago_array['cmovi'],
+			it = movi_pago_array['it'],
+			cmpago = movi_pago_array['cmpago'],
+			docmpago = movi_pago_array['docmpago'],
+			banmpago = movi_pago_array['banmpago'],
+			vmpago = movi_pago_array['vmpago']
+		)
+	movi_pago.save(using=request_db)
+	return movi_pago
 
-		context['data_validation']['formas_pago'] = {}
-		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
-		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
+def save_fac_deta(request_db, fac_deta_array):
+	fac_deta = get_or_none(Facdeta, request_db, cfac = fac_deta_array['cfac'].pk, itfac = fac_deta_array['itfac'])
+	if fac_deta is not None:
+		fac_deta.nlargo = fac_deta_array['nlargo']
+		fac_deta.ncorto = fac_deta_array['ncorto']
+		fac_deta.canti = fac_deta_array['canti']
+		fac_deta.civa = fac_deta_array['civa']
+		fac_deta.niva = fac_deta_array['niva']
+		fac_deta.poriva = fac_deta_array['poriva']
+		fac_deta.pordes = fac_deta_array['pordes']
+		fac_deta.vunita = fac_deta_array['vunita']
+		fac_deta.viva = fac_deta_array['viva']
+		fac_deta.vbase = fac_deta_array['vbase']
+		fac_deta.vtotal = fac_deta_array['vtotal']
+		fac_deta.pvtafull = fac_deta_array['pvtafull']
+		fac_deta.vcosto = fac_deta_array['vcosto']
+	else:
+		fac_deta = Facdeta(
+			cfac = fac_deta_array['cfac'],
+			itfac = fac_deta_array['itfac'],
+			carlos = fac_deta_array['carlos'],
+			nlargo = fac_deta_array['nlargo'],
+			ncorto = fac_deta_array['ncorto'],
+			canti = fac_deta_array['canti'],
+			civa = fac_deta_array['civa'],
+			niva = fac_deta_array['niva'],
+			poriva = fac_deta_array['poriva'],
+			pordes = fac_deta_array['pordes'],
+			vunita = fac_deta_array['vunita'],
+			viva = fac_deta_array['viva'],
+			vbase = fac_deta_array['vbase'],
+			vtotal = fac_deta_array['vtotal'],
+			pvtafull = fac_deta_array['pvtafull'],
+			vcosto = fac_deta_array['vcosto'],
+		)
+	fac_deta.save(using=request_db)
+	return fac_deta
 
-		context['data_validation']['medios_pago'] = {}
-		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
-		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
+def save_mvsa_deta(request_db, mvsa_deta_array):
+	mvsa_deta = get_or_none(Mvsadeta, request_db, cmvsa = mvsa_deta_array['cmvsa'].pk, carlos = mvsa_deta_array['carlos'].pk)
+	if mvsa_deta is not None:
+		mvsa_deta.it = mvsa_deta_array['it']
+		mvsa_deta.carlos = mvsa_deta_array['carlos']
+		mvsa_deta.nlargo = mvsa_deta_array['nlargo']
+		mvsa_deta.canti = mvsa_deta_array['canti']
+		mvsa_deta.vunita = mvsa_deta_array['vunita']
+		mvsa_deta.vtotal = mvsa_deta_array['vtotal']
+	else:
+		mvsa_deta = Mvsadeta(
+			cmvsa = mvsa_deta_array['cmvsa'],
+			it = mvsa_deta_array['it'],
+			carlos = mvsa_deta_array['carlos'],
+			nlargo = mvsa_deta_array['nlargo'],
+			canti = mvsa_deta_array['canti'],
+			vunita = mvsa_deta_array['vunita'],
+			vtotal = mvsa_deta_array['vtotal'],
+		)
+	mvsa_deta.save(using=request_db)
+	return mvsa_deta
 
-		context['is_fac_anulada'] = False
+def movi_find(fac, request_db, ctimo_billing):
+	return Movi.objects.using(request_db).filter(movideta__docrefe = fac, ctimo__pk = ctimo_billing)
 
-		context['data_validation_json'] = json.dumps(context['data_validation'])
-
-		return context
-
-class BillEdit(CustomUpdateView):
-	model = Fac
-	template_name = "facturacion/billing.html"
-	form_class = FacForm
-
-	def get_context_data(self,**kwargs):
-		context = super(BillEdit, self).get_context_data(**kwargs)
-		manageParameters = ManageParameters(self.request.db)
-
-		# Datos de Prueba
-		#usuario = Usuario.objects.using(self.request.db).filter()[0]
-
-		#talonario_MOS = usuario.ctalomos
-		#talonario_POS = usuario.ctalopos
-		# Datos de Prueba
-
-		#medios_pago = [(serializers.serialize("json", [x],use_natural_foreign_keys=True, use_natural_primary_keys=True)) for x in MediosPago.objects.using(self.request.db).all()]
-		medios_pago = MediosPago.objects.using(self.request.db).all()
-
-		context['medios_pago'] = medios_pago
-
-		context['title'] = "Facturar"
-		context['form_movement_detail'] = FacdetaForm(self.request.db)
-		context['form_medios_pagos'] = FacpagoForm(self.request.db)
-
-		context['mode_view'] = 'edit'
-		#context['url'] = reverse_lazy('save-bill')
-		context['url'] = reverse_lazy('update-bill',kwargs={'pk': self.kwargs["pk"]},)
-
-		context['data_validation'] = manageParameters.to_dict()
-
-		context['company_logo'] = manageParameters.get_param_value('company_logo')
-
-		#context['data_validation']['top_discount_bills'] = manageParameters.get_param_value('top_discount_bills')
-		#context['data_validation']['rounding_discounts'] = manageParameters.get_param_value('rounding_discounts')
-		#context['data_validation']['top_sales_invoice'] = manageParameters.get_param_value('top_sales_invoice')
-		#context['data_validation']['invoice_below_minimum_sales_price'] = manageParameters.get_param_value('invoice_below_minimum_sales_price')
-		#context['data_validation']['maximum_amount_items_billing'] = manageParameters.get_param_value('maximum_amount_items_billing')
-		#context['data_validation']['invoice_without_stock'] = manageParameters.get_param_value('invoice_without_stock')
-
-		# Datos de Prueba
-		context['data_validation']['maximum_number_items_billing'] = 10
-		# Datos de Prueba
-
-		context['data_validation']['formas_pago'] = {}
-		context['data_validation']['formas_pago']['FORMA_PAGO_CONTADO'] = str(FORMA_PAGO_CONTADO)
-		context['data_validation']['formas_pago']['FORMA_PAGO_CREDITO'] = str(FORMA_PAGO_CREDITO)
-
-		context['data_validation']['medios_pago'] = {}
-		context['data_validation']['medios_pago']['MEDIO_PAGO_EFECTIVO'] = str(MEDIO_PAGO_EFECTIVO)
-		context['data_validation']['medios_pago']['DEFAULT_BANCO'] = str(DEFAULT_BANCO)
-
-		context['data_validation_json'] = json.dumps(context['data_validation'])
-
-		factura = Fac.objects.using(self.request.db).get(pk=self.kwargs["pk"])
-		related_information = factura.get_related_information(self.request.db,False)
-		context['related_information_factura'] = related_information
-
-		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
-
-		context['is_fac_anulada'] =  True if factura.cesdo == cesdo_anulado else False
-
-		context['facdeta_json'] = serializers.serialize("json", list(Facdeta.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('itfac')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
-		context['facpagos_json'] = serializers.serialize("json", list(Facpago.objects.using(self.request.db).filter(cfac=self.kwargs["pk"]).order_by('it')),use_natural_foreign_keys=True, use_natural_primary_keys=True)
-
-		return context
+def ctimo_billing(ctimo_billing, request_db):
+	manageParameters = ManageParameters(request_db)
+	ctimo_billing = manageParameters.get_param_value(ctimo_billing)
+	return Timo.objects.using(request_db).get(pk = ctimo_billing)
 
 def bill_proccess_view_annulment(request):
 	form = CommonForm(request.db)
@@ -1012,8 +1060,8 @@ def bill_proccess_fn_annulment(request):
 
 	estado = Esdo.objects.using(request.db).get(pk=data["cesdo"])
 	current_datetime = str(datetime.datetime.now())
-	user = "Usuario Estatico"
-	detaanula = data["detaanula"] + " " + current_datetime + " " + user
+	user = request.user
+	detaanula = data["detaanula"] + " " + current_datetime + " " + user.username
 
 	try:
 		factura = Fac.objects.using(request.db).get(cfac=data["cfac"])
@@ -1293,6 +1341,7 @@ class report_fn_bill(PDFTemplateView):
 			"cvende":{"show":True},
 			"citerce":{"show":True},
 			"csucur":{"show":True},
+			"detaanula":{"show":False},
 		}
 		context['header'] = {
 			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
@@ -1300,16 +1349,17 @@ class report_fn_bill(PDFTemplateView):
 		cvende = data["cvende"]
 		citerce = data["citerce"]
 		csucur = data["csucur"]
-		print data.get("fecha_inicial")
+		cesdo = data["cesdo"]
 
 		estadoActivo = Esdo.objects.using(self.request.db).get(cesdo=CESTADO_ACTIVO)
+		context['header']["Estado"] = estadoActivo.nesdo
 
 		query_facturas = {
 			"femi__range" : [
 				data.get("fecha_inicial"),
 				data.get("fecha_final"),
 			],
-			"cesdo" : estadoActivo
+			"cesdo__cesdo" : CESTADO_ACTIVO
 		}
 		"""
 		query_facturas = {
@@ -1333,11 +1383,20 @@ class report_fn_bill(PDFTemplateView):
 			context['title'] += " Por Sucursales"
 			context['header']["Sucursal"] = Sucursales.objects.using(self.request.db).get(csucur=csucur).nsucur
 			cells["csucur"]["show"] = False
+		if(cesdo):
+			query_facturas["cesdo__cesdo"] = cesdo
+			if ( int(cesdo) == int(CESDO_ANULADO) ):
+				estado = Esdo.objects.using(self.request.db).get(cesdo=cesdo)
+				context['header']["Estado"] = estado.nesdo
+				cells["detaanula"]["show"] = True
+
+
+
 
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
-		print query_facturas
+
 
 		totales["subtotal"] = 0
 		totales["total"] = 0
@@ -1354,20 +1413,24 @@ class report_fn_bill(PDFTemplateView):
 			factura.data_report["vt_base_iva"] = factura.vtbase
 			factura.data_report["vt_iva"] = factura.vtiva
 
+			totales["vtt_otros"] += factura.data_report["otros_valores"]
+			totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
+			totales["vtt_iva"] += factura.data_report["vt_iva"]
+			"""
 			if factura.cesdo != cesdo_anulado:
 				totales["vtt_otros"] += factura.data_report["otros_valores"]
 				totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
 				totales["vtt_iva"] += factura.data_report["vt_iva"]
+			"""
 
 		context['data'] = data
 		context['facturas'] = facturas
 		context['cells'] = cells
 		context['totales'] = totales
 
-
-		context['colspan_total'] = 5
+		context['colspan_total'] = 6
 		for k,v in cells.iteritems():
-			if v["show"] == False:
+			if not v["show"]:
 				context['colspan_total'] -= 1
 
 		return context

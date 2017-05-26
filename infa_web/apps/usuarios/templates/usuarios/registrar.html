@@ -180,6 +180,7 @@
 {%block content_script%}
 <script>
 	$("form").submit(function (event) {
+		WaitDialog.show("Creando Usuario")
 		event.preventDefault()
 		$.ajax({
 			type:"POST",
@@ -187,11 +188,11 @@
 			data:$("form").serialize(),
 			contentType:"application/x-www-form-urlencoded",
 			success:function(response){
-				console.log(response)
+				WaitDialog.hide()
 				alertify.success(response.message)
 			},
 			error:function(response){
-				console.log(response)
+				WaitDialog.hide()
 				alertify.error(response.responseJSON.message)
 			}
 		})

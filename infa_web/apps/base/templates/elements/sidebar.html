@@ -128,7 +128,7 @@
 					</li>
 				</li>
 				-->
-				<!--
+
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-list-alt"></i> Restaurante
@@ -138,7 +138,6 @@
 						</a>
 						<ul class="treeview-menu">
 							{% if perms.restaurante_menus.add_ingredientes %}
-
 								<li>
 									<a href="{% url 'add-ingredient' %}">
 										<i class="fa fa-archive"></i>
@@ -178,19 +177,21 @@
 												</a>
 											</li>
 										{% endif %}
-										<li>
-											<a href="{% url 'order-summary' %}">
-												<i class="fa fa-cutlery"></i>
-												Rack
-											</a>
-										</li>
+										{% if perms.restaurante_comandas.add_coda %}
+											<li>
+												<a href="{% url 'order-summary' %}">
+													<i class="fa fa-cutlery"></i>
+													Rack
+												</a>
+											</li>
+										{% endif %}
 									</ul>
 								</li>
 							</li>
 						</ul>
 					</li>
 				</li>
-				-->
+
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-circle-o"></i> Basicos

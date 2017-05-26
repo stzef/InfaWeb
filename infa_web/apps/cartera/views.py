@@ -18,7 +18,8 @@ from infa_web.apps.facturacion.views import value_tot,code_generate
 from infa_web.apps.base.utils import *
 from django.core import serializers
 
-def save_movi(data_array,request_db):
+def save_movi(data_array,request):
+	request_db = request.db
 	movi = get_or_none(Movi, request_db, cmovi=data_array['cmovi'])
 
 	# sumatoria para cada forma de pago
@@ -27,13 +28,16 @@ def save_movi(data_array,request_db):
 	data_array['vch'] = float(value_tot(data_array["mpagos"], 1002))
 	data_array['vcred'] = float(value_tot(data_array["mpagos"], 1003))
 
-	usuario_actual = Usuario.objects.using(request_db).all()[0]
+	usuario_actual = Usuario.objects.using(request_db).get(user=request.user)
+	#usuario_actual = Usuario.objects.using(request_db).all()[0]
+
 	#ccaja = Cakja.objects.using(request_db).get(ccaja = data_array['ccaja'])
 	caja = usuario_actual.ccaja
 
 	data_array["vttotal"] = data_array['vefe']+data_array['vtar']+data_array['vch']+data_array['vcred']
 
-	data_array['cmovi'] = code_generate(Movi, caja.ctimocj.prefijo, 'cmovi', request_db)
+	data_code = code_generate(Movi, caja.ctimocj.prefijo,'cmovi',1000,None, request_db)
+	data_array['cmovi'] = data_code["model_pk"]
 
 	#vtbase_vtiva = calcular_vtbase_vtiva(data_array["deta"],request_db)
 	#data_array["baseiva"] = vtbase_vtiva["vtbase"]
@@ -161,7 +165,7 @@ def PaymentSave(request):
 	data = json.loads(request.body)
 	response = {}
 
-	movi = save_movi(data,request.db)
+	movi = save_movi(data,request)
 
 	save_movi_deta(movi, data["deta"], request.db)
 	save_movi_pago(movi, data["mpagos"], request.db)
@@ -174,7 +178,7 @@ def PaymentSave(request):
 def PaymentUpdate(request):
 	data = json.loads(request.body)
 
-	movi = save_movi(data,request.db)
+	movi = save_movi(data,request)
 
 	save_movi_deta(movi, data["deta"], request.db)
 	save_movi_pago(movi, data["mpagos"], request.db)

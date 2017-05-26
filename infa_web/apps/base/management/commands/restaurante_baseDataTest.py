@@ -10,9 +10,9 @@ from infa_web.apps.base.constantes import DEFAULT_IMAGE_DISHES, DEFAULT_IMAGE_ME
 class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument(
-			'--db',
+			'--database',
 			action='store',
-			dest='db',
+			dest='database',
 			default="default",
 			help='DB for connection',
 		)
@@ -24,7 +24,7 @@ class Command(BaseCommand):
 		return sum(valores)
 	def handle(self, *args, **options):
 
-		name_db =  options["db"]
+		name_db =  options["database"]
 		print "DB Actual '%s'" % name_db
 		confirmation = raw_input("Seguro? (Si/No) ")
 
@@ -34,6 +34,8 @@ class Command(BaseCommand):
 			Platosdeta.objects.using(name_db).all().delete()
 			Menus.objects.using(name_db).all().delete()
 			Menusdeta.objects.using(name_db).all().delete()
+			print "Ingredientes, Platos, Platosdeta, Menus y Menusdeta Borrados"
+
 
 			unidad = Unidades.objects.using(name_db).filter()[0]
 			estado = Esdo.objects.using(name_db).get(cesdo=1)
@@ -45,6 +47,7 @@ class Command(BaseCommand):
 			gensaladas = GposMenus.objects.using(name_db).get(cgpomenu = 5)
 			gcomida_rapida = GposMenus.objects.using(name_db).get(cgpomenu = 6)
 
+			print "Procesando ..."
 			arroz = Ingredientes.objects.using(name_db).create(cingre =1000, ningre ="Arroz", canti =100, vcosto =1000, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			papa = Ingredientes.objects.using(name_db).create(cingre =1001, ningre ="Papa", canti =100, vcosto =500, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
 			sal = Ingredientes.objects.using(name_db).create(cingre =1002, ningre ="Sal", canti =100, vcosto =200, ifcostear = 1, stomin =1, stomax = 100, ifedinom = 1)
@@ -165,7 +168,7 @@ class Command(BaseCommand):
 			menu_14 = Menus.objects.using(name_db).create(cmenu=1013, nmenu="Ensalada Simple", fcrea="2017-02-02", cesdo=estado, cgpomenu=gensaladas, npax=1, pvta1=1000, pvta2=1200, pvta3=1400, vttotal=self.gvtpla(pla), foto="img/menus/ensalada.jpg")
 			Menusdeta.objects.using(name_db).create(cmenu=menu_14, it=1, cplato=ensalada_simple, nplato=ensalada_simple.nplato, canti=1, vunita=ensalada_simple.vttotal, vtotal=(ensalada_simple.vttotal*1))
 
-
+			print "Terminado"
 
 		else:
 			print "Operación Cancelada."

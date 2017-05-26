@@ -159,7 +159,7 @@ def RegistarUsuario(request):
 def AdministrarUsuario(request):
 
 	if request.method == "GET" :
-		usuarios = User.objects.using(request.db).all()
+		usuarios = User.objects.using(request.db).all().order_by("username")
 		form = ManageUsers(request.db)
 
 		for usuario in usuarios:
@@ -228,39 +228,46 @@ def AdministrarUsuario(request):
 
 	user.save(using=request.db)
 
-	usuario = Usuario.objects.using(request.db).get(user=user)
-	#usuario.cesdo =
-	#usuario.foto =
+	try:
+		usuario = Usuario.objects.using(request.db).get(user=user)
+		#usuario.cesdo =
+		#usuario.foto =
 
-	if 'ccaja' in data and data["ccaja"] != "":
-		usuario.ccaja = caja
-	if 'csucur' in data and data["csucur"] != "":
-		usuario.csucur = sucursal
-		print "Hlaaaaaaaaaaaaaaaaaaaaaa"
-	if 'ctalo' in data and data["ctalo"] != "":
-		usuario.ctalomos = talomos
-		usuario.ctalopos = talopos
-	if 'auth_cgrupo' in data and data["auth_cgrupo"] != "":
-		auth_cgrupo = data["auth_cgrupo"]
+		if 'ccaja' in data and data["ccaja"] != "":
+			usuario.ccaja = caja
+		if 'csucur' in data and data["csucur"] != "":
+			usuario.csucur = sucursal
+		if 'ctalo' in data and data["ctalo"] != "":
+			usuario.ctalomos = talomos
+			usuario.ctalopos = talopos
+		if 'auth_cgrupo' in data and data["auth_cgrupo"] != "":
+			auth_cgrupo = data["auth_cgrupo"]
 
-	usuario.save(using=request.db)
-	print usuario
-	print usuario.csucur
-	vendedor = Vende.objects.using(request.db).get(usuario=usuario)
-	nvende = "%s %s" %(user.first_name, user.last_name)
-	#porventa =
-	#cesdo =
-	vendedor.save(using=request.db)
+		usuario.save(using=request.db)
+	except Exception as e:
+		response["message"] += "<br>No se ha podido actualizar el Usuario"
 
-	mesero = Meseros.objects.using(request.db).get(usuario=usuario)
-	mesero.nmero = "%s %s" %(user.first_name, user.last_name)
-	#mesero.ctalocoda =
-	#mesero.cesdo =
-	#mesero.telmero =
-	#mesero.dirmero =
-	#mesero.foto =
-	mesero.save(using=request.db)
+	try:
+		vendedor = Vende.objects.using(request.db).get(usuario=usuario)
+		nvende = "%s %s" %(user.first_name, user.last_name)
+		#porventa =
+		#cesdo =
+		vendedor.save(using=request.db)
+	except Exception as e:
+		response["message"] += "<br>No se ha podido actualizar el Vendedor"
 
+
+	try:
+		mesero = Meseros.objects.using(request.db).get(usuario=usuario)
+		mesero.nmero = "%s %s" %(user.first_name, user.last_name)
+		#mesero.ctalocoda =
+		#mesero.cesdo =
+		#mesero.telmero =
+		#mesero.dirmero =
+		#mesero.foto =
+		mesero.save(using=request.db)
+	except Exception as e:
+		response["message"] += "<br>No se ha podido actualizar el Mesero"
 
 	return JsonResponse(response)
 

@@ -24,9 +24,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-5g%k^qyp3o@isqyrh8s80n1g-)90@msfcg)#-1xk%+*(ib)j0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['.devappem.com']
+if "APPEM_DEBUG" in os.environ:
+	APPEM_DEBUG = os.environ.get("APPEM_DEBUG")
+	DEBUG = True if APPEM_DEBUG == "True" else False
+else:
+	DEBUG = False
+
+ALLOWED_HOSTS = ['.devappem.com','.appem.co']
 APPEND_SLASH=True
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get("APPEM_AWS_STORAGE_BUCKET_NAME")
@@ -49,6 +54,10 @@ DJANGO_APPS = [
 	'django.contrib.humanize',
 	'storages',
 ]
+
+DATABASE_ROUTERS = ['infa_web.custom_routes.AuthRouter']
+
+
 PROJECT_APPS = [
 	'infa_web.apps.base',
 	'infa_web.apps.terceros',
@@ -62,6 +71,7 @@ PROJECT_APPS = [
 	'easy_pdf',
 	'infa_web.apps.base.templatetags',
 ]
+
 PROJECT_APPS_RESTAURANT = [
 	'infa_web.apps.restaurante_comandas',
 	'infa_web.apps.restaurante_inventarios',
@@ -72,6 +82,7 @@ PROJECT_APPS_RESTAURANT = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + PROJECT_APPS_RESTAURANT
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 MANDRILL_API_KEY = "F0iN_O0DFD9oEVd-A8zswA"
+
 
 MIDDLEWARE_CLASSES = [
 	'django.middleware.security.SecurityMiddleware',
@@ -85,6 +96,7 @@ MIDDLEWARE_CLASSES = [
 	'infa_web.apps.base.middleware.subdomainMiddleware',
 	'infa_web.apps.base.middleware.verifyConfigurationFile',
 	'infa_web.apps.base.middleware.updateDateAppen',
+	'infa_web.apps.base.middleware.timeZoneMiddleware',
 ]
 
 ROOT_URLCONF = 'infa_web.urls'
@@ -106,11 +118,9 @@ TEMPLATES = [
 	},
 ]
 
-
 LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'infa_web.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -165,7 +175,7 @@ DECIMAL_SEPARATOR = '.'
 
 NUMBER_GROUPING = 3
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

@@ -18,8 +18,13 @@ class BillList(CustomListView):
 	form_class = FacForm
 
 	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
+<<<<<<< HEAD
 	#def dispatch(self, *args, **kwargs):
 	#	return super(BillList, self).dispatch(*args, **kwargs)
+=======
+	def dispatch(self, *args, **kwargs):
+		return super(BillList, self).dispatch(*args, **kwargs)
+>>>>>>> 7f1fa0717a8b71f26a8ca26c3479ff52cc002148
 
 	def get_context_data(self,**kwargs):
 		context = super(BillList, self).get_context_data(**kwargs)
@@ -34,8 +39,13 @@ class BillCreate(CustomCreateView):
 	form_class = FacForm
 
 	#@method_decorator(permission_required("facturacion.add_fac_pos",raise_exception=True))
+<<<<<<< HEAD
 	#def dispatch(self, *args, **kwargs):
 	#	return super(BillCreate, self).dispatch(*args, **kwargs)
+=======
+	def dispatch(self, *args, **kwargs):
+		return super(BillCreate, self).dispatch(*args, **kwargs)
+>>>>>>> 7f1fa0717a8b71f26a8ca26c3479ff52cc002148
 
 	def get_context_data(self,**kwargs):
 		print self.request.user.get_all_permissions()
@@ -64,6 +74,7 @@ from reportlab.lib.pagesizes import A4, inch, landscape, portrait
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
+from django.utils import timezone
 
 #@permission_required("facturacion.add_fac_pos",raise_exception=True)
 def BillPrint(request):
@@ -169,7 +180,8 @@ def BillPrint(request):
 
 	elements.append(t_header)
 	elements.append(Paragraph("<br/>Factura No. %s" % factura.cfac,s['tirilla']))
-	elements.append(Paragraph("Fecha : %s " % factura.femi,s['tirilla']))
+
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(factura.femi),s['tirilla']))
 	elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
