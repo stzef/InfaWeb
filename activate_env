@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export APPEMPRESARIAL_USER="root"
+export APPEMPRESARIAL_EMAIL="sistematizaref.programador5@gmail.com"
+export APPEMPRESARIAL_PASS="stzEF0987"
+
+export CURRENT_ENV_WORK=DEV
+
+export APPEM_DEFAULT_DB_NAME="d1e6lv1qvghpv4"
+export APPEM_DEFAULT_DB_USER="zcmxfilhhxlhfe"
+export APPEM_DEFAULT_DB_PASSWORD="Rv_JkDujcFszA040TuDvAnO_3p"
+export APPEM_DEFAULT_DB_HOST="ec2-54-243-52-209.compute-1.amazonaws.com"
+export APPEM_DEFAULT_DB_PORT="5432"
+
+export APPEM_AWS_STORAGE_BUCKET_NAME="appemstatics"
+export APPEM_AWS_ACCESS_KEY_ID="AKIAIWI4WVWEPY3QH4DA"
+export APPEM_AWS_SECRET_ACCESS_KEY="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"
+
+export APPEM_FITNESS_JUICE_DB_NAME="dfm9cbqe2jbkkm"
+export APPEM_FITNESS_JUICE_DB_USER="zdrvqxddhzkgel"
+export APPEM_FITNESS_JUICE_DB_PASSWORD="edb73a4ba9943cb1f76c10c1c4ee6d60edaca7a8139b851d75013078e97d0288"
+export APPEM_FITNESS_JUICE_DB_HOST="ec2-174-129-223-193.compute-1.amazonaws.com"
+export APPEM_FITNESS_JUICE_DB_PORT="5432"
+
+source /home/poseidon/Documentos/infa_web_folder/env/bin/activate
+

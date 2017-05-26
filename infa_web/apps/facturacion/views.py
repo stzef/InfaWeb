@@ -18,9 +18,8 @@ import datetime
 from infa_web.parameters import ManageParameters
 
 from infa_web.apps.base.value_letters import number_to_letter
-
+from infa_web.mandrill_mail import enviarmail
 from easy_pdf.views import PDFTemplateView
-
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.bills_fn import *
@@ -1217,8 +1216,16 @@ def report_view_bill_payment_methods(request):
 	form_common = CommonForm(request.db)
 	return render(request,"facturacion/reportes/views/ventas_formas_pago.html",{"title":"Reporte de Ventas Por Formas de Pago","form":form,"form_common":form_common})
 
+def send_email(request):
+	manageParameters = ManageParameters(request.db)
+	mail = manageParameters.get_param_value("emails")
+	enviar=enviarmail(mail)
+	return render(request,"home/dashboard.html")
+
+
 class report_fn_bill_payment_methods(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas_formas_pago.html"
+
 
 	def get_context_data(self, **kwargs):
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
@@ -1314,9 +1321,12 @@ def report_view_bill(request):
 	form_common = CommonForm(request.db)
 	return render(request,"facturacion/reportes/views/ventas.html",{"title":"Reporte de Ventas","form":form,"form_common":form_common})
 
+
 class report_fn_bill(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas.html"
 
+
+	# def enviarmail(email):
 	def get_context_data(self, **kwargs):
 
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
