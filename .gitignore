@@ -10,6 +10,7 @@ run_server
 *.json
 report_test.txt
 *.log
+*.txt
 infa_web/logs/debug.log
 
 infa_web/params/*.json
