@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required,permission_required
 #url(r'^articles/$', login_required(ArticleList.as_view()), name = 'list-articles'),
 urlIngredients = [
 	url(r'^ingredients/$', permission_required('restaurante_inventarios.add_invinicabingre')(login_required(IngredientsList.as_view())), name = 'list-ingredients'),
-	url(r'^ingredients/get-list/$', permission_required('')(login_required(Ingredients_list)), name = 'ingrediends_list'),
+	url(r'^ingredients/get-list/$', login_required(Ingredients_list), name = 'ingrediends_list'),
 	url(r'^ingredients/add/$', permission_required('restaurante_inventarios.add_invinicabingre')(login_required(IngredientCreate.as_view())), name = 'add-ingredient'),
 	url(r'^ingredients/edit/(?P<pk>\d+)/$', permission_required('restaurante_inventarios.change_invinicabingre')(login_required(IngredientUpdate.as_view())), name = 'edit-ingredient'),
 ]

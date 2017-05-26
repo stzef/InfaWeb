@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required,permission_required
 #url(r'^articles/$', login_required(ArticleList.as_view()), name = 'list-articles'),
 urlArticles = [
 	url(r'^articles/$', permission_required('articulos.list_arlo')(login_required(ArticleList.as_view())), name = 'list-articles'),
-	url(r'^articles/get-list/$', permission_required('')(login_required(article_list)), name = 'articles_list'),
+	url(r'^articles/get-list/$', login_required(article_list), name = 'articles_list'),
 	#url(r'^articles/add/$', ArticleCreate, name = 'add-article'),
 	url(r'^articles/add/$', permission_required('articulos.add_arlo')(login_required(ArticleCreate.as_view())), name = 'add-article'),
 	url(r'^articles/edit/(?P<pk>\d+)/$', permission_required('articulos.change_arlo')(login_required(ArticleUpdate.as_view())), name = 'edit-article'),
@@ -42,8 +42,8 @@ urlUnits = [
 ]
 
 urlAPI = [
-	url(r'^api/existis/$', permission_required('')(login_required(API_exists)), name = 'api-exists'),
-	url(r'^api/get-object/$', permission_required('')(login_required(API_get_object)), name = 'api-get-object'),
+	url(r'^api/existis/$', login_required(API_exists), name = 'api-exists'),
+	url(r'^api/get-object/$', login_required(API_get_object), name = 'api-get-object'),
 ]
 
 """urlpatterns = urlArticles + urlGroups + urlBreakdownArticles + urlBrands + urlAPI + urlTypesArticles"""
