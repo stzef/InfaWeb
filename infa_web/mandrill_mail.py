@@ -6,7 +6,7 @@ from settings import *
 def enviarmail(subject,mails,attachments,template_name="pr"):
     mensaje = EmailMessage(subject=subject, from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=mails)
     for attachment in attachments:
-        filename = MEDIA_ROOT+"/temp/"+attachment
+        filename = attachment
         fp = open(filename,'rb')
         adjunto = MIMEBase('multipart', 'encrypted')
         #lo insertamos en una variable

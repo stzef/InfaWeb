@@ -17,6 +17,7 @@ import json
 import os
 import datetime
 from infa_web.parameters import ManageParameters
+import infa_web.settings as settings
 
 from infa_web.apps.base.value_letters import number_to_letter
 from infa_web.mandrill_mail import enviarmail
@@ -1220,7 +1221,7 @@ def report_view_bill_payment_methods(request):
 def send_email(request):
 	manageParameters = ManageParameters(request.db)
 	mails = manageParameters.get_param_value("emails").split(",")
-	attachments = ["reporte_ventastest_fitness_juice_db.pdf"]
+	attachments = [settings.MEDIA_ROOT+"/temp/reporte_ventas.pdf"]
 	print attachments
 	for index,attachment in enumerate(attachments):
 		if not os.path.isfile(attachment):
@@ -1340,8 +1341,9 @@ class report_fn_bill(PDFTemplateView):
 
 	# def enviarmail(email):
 	def get_context_data(self, **kwargs):
+		data = self.request.GET
 
-		self.pdf_kwargs["filename_to_save"] = "temp/reporte_ventas_"+data.get("fecha_inicial")+"_"+data.get("fecha_final")+".pdf"
+		self.pdf_kwargs["filename_to_save"] = "temp/reporte_ventas.pdf"
 
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 
