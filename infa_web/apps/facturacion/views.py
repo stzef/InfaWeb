@@ -19,9 +19,11 @@ import datetime
 from infa_web.parameters import ManageParameters
 import infa_web.settings as settings
 
+#from easy_pdf.views import PDFTemplateView
+from infa_web.custom.easy_pdf.views import PDFTemplateView
+
 from infa_web.apps.base.value_letters import number_to_letter
 from infa_web.mandrill_mail import enviarmail
-from easy_pdf.views import PDFTemplateView
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.bills_fn import *
