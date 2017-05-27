@@ -13,6 +13,8 @@ class Esdo(models.Model):
 		ordering = ["nesdo"]
 		permissions = (
 			("list_esdo", "Puede Listar Estados"),
+			("list_parameters", "Puede Listar Parametros"),
+			("save_parameters", "Puede Crear Parametros"),
 		)
 
 	cesdo = models.AutoField(primary_key=True)

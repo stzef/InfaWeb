@@ -345,7 +345,7 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							{% if perms.admin.add_parameters %}
+							{% if perms.base.save_parameters %}
 								<li>
 									<a href="{% url 'list-parameter' %}">
 										<i class="fa fa-cogs"></i>
