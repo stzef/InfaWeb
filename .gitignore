@@ -10,6 +10,7 @@ run_server
 *.json
 report_test.txt
 *.log
+*.txt
 infa_web/logs/debug.log
 
 infa_web/params/*.json
@@ -32,4 +33,3 @@ htmlcov/*
 !infa_web/static/img/logo-app-h-color.png
 !infa_web/static/img/logo-app-v-blanco.png
 !infa_web/static/img/logo-app-v-color.png
-
