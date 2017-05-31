@@ -100,9 +100,9 @@ class Command(BaseCommand):
 			#user_default_django = User.objects.using(name_db).create_user('default', password='stzEF0987')
 			#user_default_django.is_superuser=False
 			#user_default_django.is_staff=True
-			user_default_django.groups.add(g_vendedores)
 
 			user_default_django.save(using=name_db)
+			user_default_django.groups.add(g_vendedores)
 			print "Usuario Django Default. Registros Creados Correctamente."
 
 			superuser = User(
