@@ -11,6 +11,9 @@ class Autorre(models.Model):
 
 	class Meta:
 		ordering = ["nautorre"]
+		permissions = (
+			("list_autorre", "Puede Listar Autorretenedores"),
+		)
 
 	cautorre = models.AutoField(primary_key=True)
 	nautorre = models.CharField(max_length=40)
@@ -80,6 +83,13 @@ class Zona(models.Model):
 		return self.nzona
 
 class Tercero(models.Model):
+
+	class Meta:
+		ordering = ["rasocial"]
+		permissions = (
+			("list_terceros", "Puede Listar Terceros"),
+		)
+
 	citerce = models.AutoField(primary_key=True)
 	idterce = models.CharField(max_length=20)
 	dv = models.CharField(max_length=1)

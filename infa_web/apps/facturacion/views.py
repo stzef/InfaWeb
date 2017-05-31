@@ -14,12 +14,16 @@ from django.db.models import Q
 from infa_web.apps.base.constantes import *
 
 import json
+import os
 import datetime
 from infa_web.parameters import ManageParameters
+import infa_web.settings as settings
+
+#from easy_pdf.views import PDFTemplateView
+from infa_web.custom.easy_pdf.views import PDFTemplateView
 
 from infa_web.apps.base.value_letters import number_to_letter
 from infa_web.mandrill_mail import enviarmail
-from easy_pdf.views import PDFTemplateView
 from infa_web.apps.movimientos.models import *
 from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.bills_fn import *
@@ -1218,8 +1222,18 @@ def report_view_bill_payment_methods(request):
 
 def send_email(request):
 	manageParameters = ManageParameters(request.db)
-	mail = manageParameters.get_param_value("emails")
-	enviar=enviarmail(mail)
+	mails = manageParameters.get_param_value("emails").split(",")
+	attachments = [settings.MEDIA_ROOT+"/temp/reporte_ventas.pdf"]
+	print attachments
+	for index,attachment in enumerate(attachments):
+		if not os.path.isfile(attachment):
+			attachments.pop(index)
+	print attachments
+
+	enviar=enviarmail("Reportes de Ventas",mails,attachments)
+
+	print enviar
+
 	return render(request,"home/dashboard.html")
 
 
@@ -1324,16 +1338,19 @@ def report_view_bill(request):
 
 class report_fn_bill(PDFTemplateView):
 	template_name = "facturacion/reportes/fn/ventas.html"
+	pdf_kwargs = { "filename_to_save" : "temp/reporte_ventas.pdf" }
 
 
 	# def enviarmail(email):
 	def get_context_data(self, **kwargs):
+		data = self.request.GET
+
+		self.pdf_kwargs["filename_to_save"] = "temp/reporte_ventas.pdf"
 
 		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
 
 		context = super(report_fn_bill, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
-		data = self.request.GET
 
 
 		context['title'] = 'Reporte de Ventas Por Rango de Fechas'

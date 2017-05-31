@@ -74,8 +74,10 @@
 							<li>
 								<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
-									{% if perms.facturacion.generate_report_billing %}
+									{% if perms.facturacion.report_fac_bill %}
 										<li><a href="{% url 'report_view_bill' %}"><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
+									{% endif %}
+									{% if perms.facturacion.report_fac_bill_payment %}
 										<li><a href="{% url 'report_view_bill_payment_methods' %}"><i class="fa fa-sticky-note-o"></i>Ventas por Formas de Pago</a></li>
 									{% endif %}
 								</ul>
@@ -343,7 +345,7 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							{% if perms.admin.add_parameters %}
+							{% if perms.base.save_parameters %}
 								<li>
 									<a href="{% url 'list-parameter' %}">
 										<i class="fa fa-cogs"></i>

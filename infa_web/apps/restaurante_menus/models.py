@@ -73,6 +73,10 @@ class Ingredientes(models.Model):
 		})"""
 
 class Platos(models.Model):
+	class Meta:
+		permissions = (
+			("list_platos", "Puede Listar Platos"),
+		)
 	cplato = models.IntegerField(primary_key=True)
 	nplato = models.CharField(max_length=50)
 	fcrea = models.DateTimeField(auto_now_add=True)
@@ -124,6 +128,11 @@ class Platosdeta(models.Model):
 		})"""
 
 class Menus(models.Model):
+
+	class Meta:
+		permissions = (
+			("list_menus", "Puede Listar Menus"),
+		)
 	cmenu = models.IntegerField(primary_key=True)
 	nmenu = models.CharField(max_length=50)
 	fcrea = models.DateTimeField(auto_now_add=True)
