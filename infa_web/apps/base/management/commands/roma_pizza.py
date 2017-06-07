@@ -59,7 +59,7 @@ class Command(BaseCommand):
 			print "Procesando ..."
 
 			#PIZZA TRADICIONAL
-			menu_1 = Menus.objects.using(name_db).create(cmenu=1000, nmenu="PIZZA DE LA CASA", fcrea="2017-02-02", cesdo=estado, cgpomenu=gpizza_tradicional, npax=1, pvta1=6000, pvta2=6000, pvta3=6000, vttotal=6000, foto="img/menus/1000.jpg")
+			menu_1 = Menus.objects.using(name_db).create(cmenu=1000, nmenu="PIZZA DE LA CASA", fcrea="2017-02-02", cesdo=estado, cgpomenu=gpizza_tradicional, npax=1, pvta1=6000, pvta2=6000, pvta3=6000, vttotal=6000, foto="img/menus/menu_1000.jpg")
 			menu_2 = Menus.objects.using(name_db).create(cmenu=1001, nmenu="PIZZA DE CARNE", fcrea="2017-02-02", cesdo=estado, cgpomenu=gpizza_tradicional,	npax=1, pvta1=6000, pvta2=6000, pvta3=6000, vttotal=6000, foto="img/menus/menu_1001.jpg")
 			menu_3 = Menus.objects.using(name_db).create(cmenu=1002, nmenu="PIZZA DE POLLO CON CHAMPIÑONES", fcrea="2017-02-02", cesdo=estado, cgpomenu=gpizza_tradicional,	npax=1, pvta1=6000, pvta2=6000, pvta3=6000, vttotal=6000, foto="img/menus/menu_1002.jpg")
 			menu_4 = Menus.objects.using(name_db).create(cmenu=1003, nmenu="PIZZA DE POLLO CON MAIZ TIERNO", fcrea="2017-02-02", cesdo=estado, cgpomenu=gpizza_tradicional, npax=1, pvta1=6000, pvta2=6000, pvta3=6000, vttotal=6000, foto="img/menus/menu_1003.jpg")

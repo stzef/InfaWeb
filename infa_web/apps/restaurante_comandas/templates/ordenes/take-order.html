@@ -258,7 +258,7 @@
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
 																	<p class="text-center">{{menu.nmenu}}</p>
 																	<div class="col-md-6 foto">
-																		<img class="img-responsive img-thumbnail" src="{% static menu.foto.url %}" />
+																		<img class="img-responsive img-thumbnail" src="{{ menu.foto.url }}" />
 																	</div>
 																	<div class="col-md-6 more">
 																		<p>{{ menu.pvta1 | intcomma }}</p>
