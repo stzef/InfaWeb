@@ -71,8 +71,9 @@ from django.utils import timezone
 
 class timeZoneMiddleware:
 	def process_request(self, request):
-		tzname = CONFIG[request.subdomain]["tz"]
-		if tzname:
-			timezone.activate(pytz.timezone(tzname))
-		else:
-			timezone.deactivate()
+		if 'subdomain' in request:
+			tzname = CONFIG[request.subdomain]["tz"]
+			if tzname:
+				timezone.activate(pytz.timezone(tzname))
+			else:
+				timezone.deactivate()
