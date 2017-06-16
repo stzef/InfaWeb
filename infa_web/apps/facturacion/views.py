@@ -298,9 +298,7 @@ def BillSave(request):
 
 	medios_pagos_total = vefe_t + vtar_t + vch_t + vncred_t
 
-	# Error : cambio de codigo de factura
 	user_appem = get_current_user(request.db,request.user,user_appem=True)
-	#conse_fin
 	data_code = code_generate(Fac, user_appem.ctalopos.prefijo, 'cfac',user_appem.ctalopos.conse_ini,user_appem.ctalopos.conse_fin, request.db)
 
 	if data_code["error"]:
