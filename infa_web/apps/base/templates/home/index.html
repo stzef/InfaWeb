@@ -18,6 +18,8 @@
 
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
@@ -45,7 +47,9 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Appem</a>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <img width="100px" src="{% static 'img/logo-app-h-blanco.png' %}" alt="">
+                </a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,6 +60,9 @@
                     </li>
                     <li>
                         <a class="page-scroll" href="#services">Caracteristicas</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#como_funciona">Como funciona</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contacto</a>
@@ -73,9 +80,9 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1 id="homeHeading">Appem</h1>
+                <h1 style="color : black" id="homeHeading">Appem</h1>
                 <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p style="color : black">Aplicación Empresarial para el control de Inventarios y Facturacion, Caja y Cartera</p>
             </div>
         </div>
     </header>
@@ -86,12 +93,27 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">La solución tecnologica para su negocio!</h2>
                     <hr class="light">
-                    <p class="text-faded">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="text-faded">
+                        AppEm es una aplicación que de manera fácil y desde cualquier parte puede monitorear su negocios en cuanto a:
+                    </p>
+                    <div class="row" style="color: black">
+                        <div class="well col-md-6">
+                            <i class="fa fa-4x fa-money"></i>
+                            <h4>Controlar sus ventas.<br>&nbsp;</h4>
+                        </div>
+                        <div class="well col-md-6">
+                            <i class="fa fa-4x fa-list-alt"></i>
+                            <h4>Conocer sus inventarios.<br>&nbsp;</h4>
+                        </div>
+                        <div class="well col-md-6">
+                            <i class="fa fa-4x fa-usd"></i>
+                            <h4>Determinar rápidamente quien me debe.<br>&nbsp;</h4>
+                        </div>
+                        <div class="well col-md-6">
+                            <i class="fa fa-4x fa-sticky-note-o"></i>
+                            <h4>Saber que ingresos y egresos hubo y por que conceptos.</h4>
+                        </div>
+                    </div>
                     <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Conozca Mas!</a>
                 </div>
             </div>
@@ -111,44 +133,88 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
-                        <h3>Inventario</h3>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
+                        <i class="fa fa-4x fa-money text-primary sr-icons"></i>
                         <h3>Facturación</h3>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p class="text-muted">
+                            Controlar sus ventas.
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                        <i class="fa fa-4x fa-list-alt text-primary sr-icons"></i>
+                        <h3>Inventario</h3>
+                        <p class="text-muted">
+                            Conocer sus inventarios.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-usd text-primary sr-icons"></i>
                         <h3>Cartera</h3>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p class="text-muted">
+                            Determinar rápidamente quien me debe.
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
-                        <h3>Web y Movil</h3>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <i class="fa fa-4x fa-cloud text-primary sr-icons"></i>
+                        <h3>Web</h3>
+                        <p class="text-muted">
+                            Acceso en la nube desde cualquier lugar del Mundo.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <aside class="bg-dark">
-        <div class="container text-center">
-            <div class="call-to-action">
-                <h2>App Movil</h2>
-                <a href="#" class="btn btn-default btn-xl sr-button">Google Play!</a>
+    <section id="como_funciona">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Como Funciona</h2>
+                    <hr class="primary">
+                </div>
             </div>
         </div>
-    </aside>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 text-center well">
+                    <img width="100%" src="{% static 'img/landing_page/como_funciona_1.png' %}" alt="">
+                    <div class="service-box">
+                        <h3>Facturación</h3>
+                        <p class="text-muted">
+                            Venda de manera facil
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 text-center well">
+                    <img width="100%" src="{% static 'img/landing_page/como_funciona_2.png' %}" alt="">
+                    <div class="service-box">
+                        <h3>Inventario</h3>
+                        <p class="text-muted">
+                            Cree rápidamente artículos y servicios
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 text-center well">
+                    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 text-center">
+                        <img width="100%" src="{% static 'img/landing_page/como_funciona_2.png' %}" alt="">
+                    </div>
+                    <div class="service-box">
+                        <h3>Reportes</h3>
+                        <p class="text-muted">
+                            Mantengase informado del estado de su negocio
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <section id="contact">
         <div class="container">
@@ -156,7 +222,7 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">SistematizarEF!</h2>
                     <hr class="primary">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p></p>
                 </div>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x sr-contact"></i>
@@ -165,7 +231,7 @@
                 </div>
                 <div class="col-lg-4 text-center">
                     <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                    <p><a href="#">sistematizaref@gmail.com</a></p>
+                    <p>sistematizaref@gmail.com</p>
                 </div>
                 <div>
                 	<a href='http://www.freepik.es/foto-gratis/terminando-una-reunion_856540.htm'>Designed by Freepik</a>
