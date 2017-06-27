@@ -242,8 +242,6 @@
 			var selector = that.find("a").attr("href")
 			$(selector).find("img").unveil();
 			$(selector).trigger('lookup');
-
-			console.log("Hola")
 		})
 
 		$(".section-content").scroll(function(){
@@ -280,8 +278,6 @@
 						t_canti = 1,
 						t_nmenu = articulo.fields.ncorto,
 						t_pvta1 = currencyFormat.format(articulo.fields.pvta1)
-
-					console.log([t_carlo,t_canti,t_nmenu,t_pvta1])
 					var row = table.row.add([t_carlo,t_canti,t_nmenu,t_pvta1]).draw( false );
 					actualizar_total()
 				})
@@ -432,7 +428,6 @@
 				alertify.warning("No ha Escogido Ningun Producto")
 				return
 			}
-			console.log(data)
 			WaitDialog.show("Guardando")
 			$.ajax({
 				url: "{{url}}",
@@ -447,7 +442,6 @@
 				},
 				error: function(response){
 					WaitDialog.hide()
-					console.info(response)
 					alertify.notify(response.responseJSON.message,"error")
 				},
 				success: function(response){

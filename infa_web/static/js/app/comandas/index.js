@@ -19,8 +19,6 @@ function realizar_accion(div,event){
 }
 
 function abrir_modal_resumen_pedido(mesa){
-	console.log(mesa)
-
 	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
 
 	//$("#modal_accion_resumen").find(".label_nmesa_modal").html(div_mesa.data("nmesa"))
@@ -201,8 +199,6 @@ function get_medios_pago(){
 		data = {}
 		$(row).find("input,select").toArray().forEach(function(input){
 			if ( $(input).hasClass("input-currency") ){
-				console.log(input.value)
-				console.log(typeof input.value)
 				data[input.name] = currencyFormat.sToN(input.value)
 			}else{
 				data[input.name] = input.value

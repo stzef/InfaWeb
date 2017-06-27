@@ -7,13 +7,19 @@
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {%block content%}
-	{%include 'elements/nav.html'%}
+	{# {% include 'elements/nav.html' %} #}
 	{# {%include 'elements/sidebar.html'%} #}
 
 	<style>
 		.menu{
 			padding: 1px;
+			/*
 			margin: 2px;
+			*/
+		}
+		img{
+			height: 100px !important;
+			width: auto !important;
 		}
 			.menu .foto{padding: 0;}
 			.menu .more{padding: 0;}
@@ -90,7 +96,7 @@
 					<div class="row">
 
 						<div class="col-md-12">
-							<p>Precio :</p>
+							<p>Precio : <span id="modal_menu_precio"></span></p>
 						</div>
 						<div class="col-md-6">
 							<img class="img-responsive" src="" id="modal_menu_foto" alt="">
@@ -111,7 +117,7 @@
 
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 				</div>
 			</div>
 		</div>
@@ -157,11 +163,10 @@
 	<div class="content-wrapper" style="margin:0;min-height: 921px;">
 		<section class="content">
 			<div class="row">
-				<h2 style="margin-top: 0">Comandas</h2>
-				<h4>Comanda Activa : <span class="badge" id="label_ccoda_activa">-</span> </h4>
+				<h3 style="margin-top: 0">Comandas. Comanda Activa : <span class="badge" id="label_ccoda_activa">-</span></h3>
 
 				<!-- Mesas -->
-				<div class="section-mesas col-md-1" style="height: 100%">
+				<div class="section-mesas col-md-1 col-lg-1 col-sm-2 col-xs-2" style="height: 100%">
 					<div class="panel panel-default section">
 						<table class="table text-center mesas">
 							<thead>
@@ -191,8 +196,28 @@
 					</div>
 				</div>
 
+				<!-- Comandas Mesa -->
+				<div class="section_comandas col-md-1 col-lg-1 col-sm-2 col-xs-2">
+					<div class="panel panel-default section">
+						<table class="table text-center comandas">
+							<thead>
+								<tr><th><p class="text-center">Comandas</p></th></tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<button class="btn btn-app btn-primary" type="button" onclick="crear_comandas(this,event)">
+											<i class="fa fa-plus-square-o"></i>Nueva
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
 				<!-- Detalle Comanda -->
-				<div class="section-resumen-pedido col-md-4">
+				<div class="section-resumen-pedido col-md-4 col-lg-4 col-sm-8 col-xs-8">
 					<div class="panel panel-default section">
 						<div>
 							<div>
@@ -212,28 +237,8 @@
 					</div>
 				</div>
 
-				<!-- Comandas Mesa -->
-				<div class="section_comandas col-md-1">
-					<div class="panel panel-default section">
-						<table class="table text-center comandas">
-							<thead>
-								<tr><th><p class="text-center">Comandas</p></th></tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<button class="btn btn-app btn-primary" type="button" onclick="crear_comandas(this,event)">
-											<i class="fa fa-plus-square-o"></i>Nueva
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
 				<!-- Menus -->
-				<div class="section-menu col-md-6">
+				<div class="section-menu col-md-6 col-lg-6 col-sm-12 col-xs-12">
 					<div class="panel panel-default section">
 						<div class="section-header">
 							<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
@@ -255,15 +260,15 @@
 													<div class="box-body">
 														<div class="text-center">
 															{% for menu in grupo.menus %}
-																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}">
-																	<p class="text-center">{{menu.nmenu}}</p>
+																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}" title="{{menu.nmenu}}">
+																	<p class="text-center">{{menu.nmenu|truncatechars:15}}</p>
 																	<div class="col-md-6 foto">
-																		<img class="img-responsive img-thumbnail" src="{{ menu.foto.url }}" />
+																		<img class="img-responsive img-thumbnail" data-src="{{ menu.foto.url }}" />
 																	</div>
 																	<div class="col-md-6 more">
 																		<p>{{ menu.pvta1 | intcomma }}</p>
 																		<div class="btn-group">
-																			<button class="btn btn-info" onclick="mostrar_detalle(this,event)">Info..</button>
+																			<button class="btn btn-info" onclick="mostrar_detalle(this,event)"> <b>+</b> </button>
 																		</div>
 																	</div>
 																</div>
@@ -297,7 +302,7 @@
 						</div>
 					</div>
 					<div class="col-md-2 text-right">
-						<h2>Total : <b id="order_input_vttotal_label">$ 0</b></h2>
+						<h3>Total : <b id="order_input_vttotal_label">$ 0</b></h3>
 						<input type="hidden" id="order_input_vttotal">
 					</div>
 					<div class="col-md-7">
@@ -333,19 +338,28 @@
 {%endblock%}
 
 {% block content_script %}
-
-
-
-
-
-
-
-
-
+	<script src="{% static 'js/jquery.unveil.js' %}"></script>
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 
 	<script>
+
+		$(".nav-pills li").click(function(event){
+			var that = $(this)
+			var selector = that.find("a").attr("href")
+
+			$(selector).find("img").unveil();
+			//$(selector).trigger('lookup');
+			$(window).trigger('lookup');
+		})
+
+		$(".section-content").scroll(function(){
+			/*Cargar Imagenes en scroll*/
+			$(".section-content").find("img").unveil();
+			$(window).trigger('lookup');
+		})
+		$(".nav-pills li.active").trigger("click")
+
 		function enviar_cantidad(){
 			var ncanti = $("#modal_editar_cantidad").find("#id_canti_cmenu").val()
 			table.row('.selected').cell(table.row('.selected').index(),1).data(ncanti)
@@ -638,22 +652,27 @@
 
 			Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
 				if(menu){
+
+					var element = $("[data-cmenu="+cmenu+"]")
+
 					$("#modal_detalle_menu").find("table tbody").empty()
 					$("#modal_detalle_menu").modal("show")
 					$("#modal_detalle_menu").find("#modal_menu_nmenu").html(menu.fields.nmenu)
-					$("#modal_detalle_menu").find("#modal_menu_foto").attr("src","/static/"+menu.fields.foto)
+					$("#modal_detalle_menu").find("#modal_menu_precio").html(currencyFormat.format(menu.fields.pvta1))
+					$("#modal_detalle_menu").find("#modal_menu_foto").attr("src",element.find("img").attr("src"))
 					Models.objects.find("Menusdeta",{cmenu : cmenu},function(error,detalle){
-						detalle.forEach(function(d){
-							var tr = $("<tr></tr>").append(
-								$("<td>",{html:d.fields.cplato.nplato})
-							).append(
-								$("<td>").append( $("<img width='50px' class='img-responsive img-thumbnail'>").attr("src","/static/"+d.fields.cplato.foto) )
-							).append(
-								$("<td>",{html:d.fields.vunita})
-							)
-							$("#modal_detalle_menu").find("table tbody").append(tr)
-
-						})
+						if ( detalle ){
+							detalle.forEach(function(d){
+								var tr = $("<tr></tr>").append(
+									$("<td>",{html:d.fields.cplato.nplato})
+								).append(
+									$("<td>").append( $("<img width='50px' class='img-responsive img-thumbnail'>").attr("src","/static/"+d.fields.cplato.foto) )
+								).append(
+									$("<td>",{html:d.fields.vunita})
+								)
+								$("#modal_detalle_menu").find("table tbody").append(tr)
+							})
+						}
 					})
 				}
 			})

@@ -2,6 +2,8 @@
 
 from infa_web.apps.usuarios.models import Usuario
 from infa_web.parameters import ManageParameters
+import datetime
+from django.utils import timezone
 
 
 def var_globals(request):
@@ -22,6 +24,10 @@ def var_globals(request):
 		try:
 			user_appem = Usuario.objects.using(request.db).get(user=request.user)
 			sucursal = user_appem.csucur.nsucur
+			d1 = request.user.date_joined
+			now = timezone.now() # datetime.datetime.now()
+			dif = now - d1
+			print (dif.days)
 		except Usuario.DoesNotExist:
 			user_appem = None
 			sucursal = None

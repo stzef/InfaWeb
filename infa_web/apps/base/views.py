@@ -573,7 +573,6 @@ def ModelFind(request):
 
 	filter_dict = clear_filter_dic(data["query"])
 
-
 	if model.objects.using(request.db).filter(**filter_dict).exists():
 		object_db = serializers.serialize("json", model.objects.using(request.db).filter(**filter_dict),use_natural_foreign_keys=True)
 		object_db = json.loads(object_db)
