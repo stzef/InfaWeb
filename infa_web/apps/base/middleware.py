@@ -40,6 +40,7 @@ from infa_web.config.domaindb import DOMAINS
 
 class subdomainMiddleware:
 	def process_request(self, request):
+		print colored("\nCURRENT_DB : %s" % (os.environ.get("CURRENT_DB")), 'white', attrs=['bold','reverse', 'blink'])
 
 		host = request.META.get('HTTP_HOST', '')
 		host = host.replace('www.', '').split('.')
@@ -58,7 +59,7 @@ class subdomainMiddleware:
 						return HttpResponseNotFound('<h1>' + request.subdomain + ' cuenta no existe.</h1>')
 					request.db = DOMAINS[request.subdomain]
 
-					#print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
+					print colored("\nSubdominio : %s , DB : %s\n" % (request.subdomain,request.db), 'white', attrs=['bold','reverse', 'blink'])
 
 					redirect('/dashboard')
 

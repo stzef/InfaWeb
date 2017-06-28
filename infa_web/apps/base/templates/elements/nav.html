@@ -12,42 +12,59 @@
 		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
 			<span class="sr-only">Toggle navigation</span>
 		</a>
-	<div class="navbar-custom-menu">
-		<ul class="nav navbar-nav">
-			<li class="dropdown user user-menu">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<img src="/static/img/users/default.png" class="user-image" alt="User Image">
-					<span class="hidden-xs">
-						{% if request.user.is_authenticated %}
-							<b>{{ request.user.username }}</b>
-						{% else %}
-							Usuario Desconocido
-						{% endif %}
-					</span>
-				</a>
-			<ul class="dropdown-menu">
-				<li class="user-header">
-				<img src="/static/img/users/default.png" class="img-circle" alt="User Image">
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
 
-					{% if request.user.is_authenticated %}
-						<p><b>{{ request.user.username }}</b></p>
-					{% else %}
-						<p>Usuario Desconocido</p>
-					{% endif %}
-			  </li>
-			  <!-- Menu Footer-->
-			  <li class="user-footer">
-				<div class="pull-right">
-				  <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Salir</a>
-				</div>
-			  </li>
+				<!--
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Modulos</a>
+					<ul class="dropdown-menu">
+						{% for module in modules %}
+							<li class="item-module">
+								<button type="button" class="btn btn-primary btn-block">
+									<input type="checkbox" name="{{ module.smodule }}" id="module_{{ module.smodule }}" >
+									<label for="module_{{ module.smodule }}">{{ module.nmodule }}</label>
+								</button>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+				-->
+
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<img src="/static/img/users/default.png" class="user-image" alt="User Image">
+						<span class="hidden-xs">
+							{% if request.user.is_authenticated %}
+								<b>{{ request.user.username }}</b>
+							{% else %}
+								Usuario Desconocido
+							{% endif %}
+						</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="user-header">
+							<img src="/static/img/users/default.png" class="img-circle" alt="User Image">
+
+								{% if request.user.is_authenticated %}
+									<p><b>{{ request.user.username }}</b></p>
+								{% else %}
+									<p>Usuario Desconocido</p>
+								{% endif %}
+						</li>
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-right">
+								<a href="{% url 'logout' %}" class="btn btn-default btn-flat">Salir</a>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<!-- Control Sidebar Toggle Button -->
+				<li>
+					<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+				</li>
 			</ul>
-		  </li>
-		  <!-- Control Sidebar Toggle Button -->
-		  <li>
-			<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-		  </li>
-		</ul>
-	  </div>
+		</div>
 	</nav>
-  </header>
+</header>

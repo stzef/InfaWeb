@@ -194,13 +194,13 @@ class Command(BaseCommand):
 
 			#Base - Modules
 			Modules.objects.using(name_db).create(smodule="I",nmodule="Inventarios",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
-			Modules.objects.using(name_db).create(smodule="F",nmodule="Facturacion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="P",nmodule="POS",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="CAR",nmodule="Cartera",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="CAJ",nmodule="Caja",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
-			Modules.objects.using(name_db).create(smodule="G",nmodule="General",cesdo=estadoActivo,enabled_enterprise=True,enabled=False)
+			Modules.objects.using(name_db).create(smodule="F",nmodule="Facturacion",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="P",nmodule="POS",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="CAR",nmodule="Cartera",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="CAJ",nmodule="Caja",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="G",nmodule="General",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
 			print "Modules. Registros Creados Correctamente."
 
 			#Base - Ubica

@@ -29,7 +29,6 @@ def save_movi(data_array,request):
 	data_array['vcred'] = float(value_tot(data_array["mpagos"], 1003))
 
 	usuario_actual = Usuario.objects.using(request_db).get(user=request.user)
-	#usuario_actual = Usuario.objects.using(request_db).all()[0]
 
 	#ccaja = Cakja.objects.using(request_db).get(ccaja = data_array['ccaja'])
 	caja = usuario_actual.ccaja

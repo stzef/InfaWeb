@@ -19,3 +19,15 @@ class Usuario(models.Model):
 	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
 	#cvende = models.ForeignKey(Vende)
 
+	def natural_key(self):
+		return ({
+			#"finusu" : self.finusu,
+			#"fveusu" : self.fveusu,
+			"cesdo" : self.cesdo.natural_key(),
+			#"foto" : self.foto.url,
+			"ifprises" : self.ifprises,
+			"ccaja" : self.ccaja.natural_key(),
+			"ctalomos" : self.ctalomos.natural_key(),
+			"ctalopos" : self.ctalopos.natural_key(),
+			"csucur" : self.csucur.natural_key(),
+		})

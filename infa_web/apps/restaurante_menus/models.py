@@ -95,7 +95,7 @@ class Platos(models.Model):
 		return ({
 			"cplato" : self.cplato,
 			"nplato" : self.nplato,
-			"fcrea" : self.fcrea,
+			#"fcrea" : self.fcrea,
 			"npax" : self.npax,
 			"vttotal" : self.vttotal,
 			"foto" : self.foto.url,
@@ -158,7 +158,7 @@ class Menus(models.Model):
 		return ({
 			"cmenu" : self.cmenu,
 			"nmenu" : self.nmenu,
-			"fcrea" : self.fcrea,
+			#"fcrea" : self.fcrea,
 			"cesdo" : self.cesdo.natural_key(),
 			"cgpomenu" : self.cgpomenu.natural_key(),
 			"npax" : self.npax,

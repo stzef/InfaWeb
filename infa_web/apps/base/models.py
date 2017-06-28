@@ -295,6 +295,18 @@ class Caja(models.Model):
 	def __str__(self):
 		return self.ncaja
 
+	def natural_key(self):
+		return ({
+			"ccaja" : self.ccaja,
+			"ncaja" : self.ncaja,
+			"csucur" : self.csucur.natural_key(),
+			"cesdo" : self.cesdo.natural_key(),
+			"caseri" : self.caseri,
+			#"ctimocj" : self.ctimocj,
+			#"cbode" : self.cbode,
+		})
+
+
 class Talo(models.Model):
 	ctalo = models.AutoField(primary_key=True)
 	csucur = models.ForeignKey(Sucursales,default=DEFAULT_SUCURSAL)
@@ -317,6 +329,28 @@ class Talo(models.Model):
 
 	def __str__(self):
 		return "%s - %s" % (self.prefijo,self.descri)
+
+	def natural_key(self):
+		return ({
+			"ctalo" : self.ctalo,
+			"csucur" : self.csucur.natural_key(),
+			"prefijo" : self.prefijo,
+			"conse_ini" : self.conse_ini,
+			"conse_fin" : self.conse_fin,
+			"lar_conse" : self.lar_conse,
+			"resodian" : self.resodian,
+			"nrepo" : self.nrepo,
+			"filas" : self.filas,
+			"descri" : self.descri,
+			#"ctifopa" : self.ctifopa,
+			"ifmostrado" : self.ifmostrado,
+			"ifpos" : self.ifpos,
+			"cesdo" : self.cesdo.natural_key(),
+			"prefi_real" : self.prefi_real,
+			"ncotalo" : self.ncotalo,
+			"ccaja" : self.ccaja.natural_key(),
+			#"ctimomvsa" : self.ctimomvsa,
+		})
 
 class Tiservi(models.Model):
 

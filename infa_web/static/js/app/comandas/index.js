@@ -21,7 +21,6 @@ function realizar_accion(div,event){
 function abrir_modal_resumen_pedido(mesa){
 	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
 
-	//$("#modal_accion_resumen").find(".label_nmesa_modal").html(div_mesa.data("nmesa"))
 	$("#modal_accion_resumen").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
 
 	$("#modal_accion_resumen").find(".label_nmesa_modal").html(mesa.fields.nmesa)
@@ -44,30 +43,31 @@ function abrir_modal_resumen_pedido(mesa){
 			"</table>"
 			var table = $(template_thead)
 			comandas.forEach(function(comanda){
-				Models.objects.find("Codadeta",{ccoda:comanda.pk},function(error,detalles){
-					detalles.forEach(function(detalle){
-						var template_tr = "<tr>"+
-							"<td>Comanda # __ccoda__</td>"+
-							"<td>__nmenu__</td>"+
-							"<td>__canti__</td>"+
-							"<td>__vunita__</td>"+
-						"</tr>"
-						table.append(
-							$(template_tr
-								.set("__ccoda__",comanda.fields.ccoda)
-								.set("__nmenu__",detalle.fields.cmenu.nmenu)
-								.set("__canti__",detalle.fields.canti)
-								.set("__vunita__", currencyFormat.format(detalle.fields.vunita))
+				Models.objects.find("Codadeta",{ccoda__ccoda:comanda.pk},function(error,detalles){
+					if ( detalles ){
+						detalles.forEach(function(detalle){
+							var template_tr = "<tr>"+
+								"<td>Comanda # __ccoda__</td>"+
+								"<td>__nmenu__</td>"+
+								"<td>__canti__</td>"+
+								"<td>__vunita__</td>"+
+							"</tr>"
+							table.append(
+								$(template_tr
+									.set("__ccoda__",comanda.fields.ccoda)
+									.set("__nmenu__",detalle.fields.cmenu.nmenu)
+									.set("__canti__",detalle.fields.canti)
+									.set("__vunita__", currencyFormat.format(detalle.fields.vunita))
+								)
 							)
-						)
-					})
+						})
+					}
 				})
 			})
 			div.append(table)
 			$("#modal_accion_resumen").find("#section-detalle-comanda").append(div)
 		}else{
-			//alertBootstrap("Esta Mesa no tiene Comandas Actuales","info",".content")
-			alertify.warning("Esta Mesa no tiene Comandas Actuales")
+			alertify.warning("Esta mesa no tiene comandas actuales")
 		}
 
 	})
@@ -105,7 +105,6 @@ function abrir_modal_unir_cuentas(mesa){
 
 		$("[id=cuenta_"+cmesa_activa+"]").closest(".form-group").hide()
 	}else{
-		//alertBootstrap("No hay mesas para unir","info",".content")
 		alertify.warning("No hay mesas para unir");
 	}
 
@@ -129,8 +128,7 @@ function unir_cuentas(){
 			}
 		})
 	}else{
-		//alertBootstrap("Seleccion Las mesas a Unir","info","#modal_unir_cuenta .modal-header")
-		alertify.warning("Seleccion Las mesas a Unir")
+		alertify.warning("Seleccion las mesas a unir")
 	}
 }
 
@@ -138,29 +136,13 @@ function imprimir_resumen_pedido(cresupedi){
 	var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
 	win = window.open(url)
 }
-/*
-function mostrar_resumen_pedido(){
-	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
-
-	$("#modal_formas_pago").find(".label_nmesa_modal").html(div_mesa.data("nmesa"))
-	$("#modal_formas_pago").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
-
-
-
-	$("#modal_accion_resumen").modal("hide")
-	$("#modal_formas_pago").modal("show")
-}
-*/
 function resumen_pedido(){
 
-	//$("#modal_formas_pago").modal("hide")
 	var ok_formas_pago = verificar_total_pago()
-	var ok_form_formas_pago = customValidationInput($("#modal_formas_pago table tbody")).valid
+	var ok_form_formas_pago = customValidationInput($("#modal_accion_resumen table tbody")).valid
 	if ( ok_formas_pago && ok_form_formas_pago ){
-		//$("#modal_formas_pago").modal("hide")
 		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
 		if( data_save.medios_pago.length == 0){
-			//return alertBootstrap("Seleccione por lo menos un medio de Pago","info","#modal_formas_pago .modal-header")
 			return alertify.warning("Seleccione por lo menos un medio de Pago")
 		}
 		WaitDialog.show("Generando Resumen de Pedido...")
@@ -177,10 +159,9 @@ function resumen_pedido(){
 				$("#modal_unir_cuenta").find(".container_cuenta___cmesa__".set("__cmesa__",cmesa_activa)).remove()
 
 				$("#modal_accion_resumen").modal("hide")
-				$("#modal_formas_pago").modal("hide")
+				// $("#modal_formas_pago").modal("hide")
 
-				//alertBootstrap("El Resumen de Pedido se Guardo","success",".content")
-				alertify.success("El Resumen de Pedido se Guardo")
+				alertify.success("El resumen de pedido se guardo.")
 
 				table_crud.rows().remove().draw()
 
@@ -210,29 +191,6 @@ function get_medios_pago(){
 
 function verificar_total_pago(input,event){
 
-	/*WaitDialog.show("Procesando...")
-	$.ajax({
-		url:"/tables/info-sumary/__cmesa__/".set("__cmesa__",cmesa_activa),
-		type:"POST",
-		success:function(response){
-			WaitDialog.hide()
-			response.vttotal = parseFloat(response.vttotal)
-			var data = get_medios_pago()
-			var totales = data.map(function(row){
-				var vmpago = row.vmpago
-				if ( isNaN(parseFloat(vmpago)) ){return 0}
-				return parseFloat(vmpago)
-			})
-			var totales = totales.reduce(function(a,b){ return a + b },0)
-			if( totales > response.vttotal ){
-				input.value = ""
-				alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
-			}
-			if( totales < response.vttotal ){
-				alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
-			}
-		}
-	})*/
 	var ok = true
 	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
 
@@ -245,18 +203,15 @@ function verificar_total_pago(input,event){
 	})
 	var totales = totales.reduce(function(a,b){ return a + b },0)
 	if( totales > l_vttotal ){
-		input.value = ""
-		//alertBootstrap("El Valor No debe superar el saldo de la mesa","info","#modal_formas_pago .modal-header")
-		alertify.warning("El Valor No debe superar el saldo de la mesa")
+		// input.value = ""
+		alertify.warning("El valor no debe superar el saldo de la mesa.")
 		var ok = false
 	}
 	if( totales < l_vttotal ){
-		//alertBootstrap("El Valor No debe ser menor a el saldo de la mesa","info","#modal_formas_pago .modal-header")
-		alertify.warning("El Valor No debe ser menor a el saldo de la mesa")
+		alertify.warning("El valor no debe ser menor a el saldo de la mesa.")
 		var ok = false
 	}
 	return ok
-
 }
 
 $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_cuenta').on('hidden.bs.modal', function () {
@@ -264,28 +219,27 @@ $('#modal_accion_mesa,#modal_accion_resumen,#modal_accion_facturar,#modal_unir_c
 	table_crud.rows().remove().draw()
 })
 
-$('#modal_formas_pago').on('hidden.bs.modal', function () {
+//$('#modal_formas_pago').on('hidden.bs.modal', function () {
+$('#modal_accion_resumen').on('hidden.bs.modal', function () {
 	table_crud.rows().remove().draw()
 })
-$('#modal_formas_pago').on('shown.bs.modal', function () {
-	table_crud.buttons(".btn-create").trigger()
+//$('#modal_formas_pago').on('shown.bs.modal', function () {
+$('#modal_accion_resumen').on('shown.bs.modal', function () {
+	// table_crud.buttons(".btn-create").trigger()
+	cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
+	table_crud.button(".btn-create").trigger("click")
+
+	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
+	var l_vttotal = parseFloat(div_mesa.data("vttotal"))
+
+	$('#modal_accion_resumen').find("[name=vmpago]").val(l_vttotal).trigger("change")
+	$('#modal_accion_resumen').find("[name=cmpago]").val(1000).trigger("change")
 })
 
-$('#modal_accion_resumen,#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
+$('#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.modal', function() {
 	cmesa_activa = parseInt($("#modal_input_mesa_activa").val())
 })
 
-var editor = new $.fn.dataTable.Editor( {
-	table: "#example",
-	ajax : false,
-	i18n: CONF_DTE.i18n,
-	fields: [
-		{label: "Codigo:",name:  "medios_pago.cmpago"},
-		{label: "Ingrediente:",name:  "medios_pago.docmpago",type: "text"},
-		{label: "Cantidad:",name:  "medios_pago.banmpago",type: "text"},
-		{label: "Vr Total:",name:  "medios_pago.vmpago",type: "text"}
-	]
-})
 
 var table_crud = $('#example').DataTable( {
 	dom: "Bfrtip",
@@ -298,20 +252,32 @@ var table_crud = $('#example').DataTable( {
 	],
 	select: 'single',
 	buttons: [
-		{ editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text, action: function ( e, dt, node, config ) {
-			table_crud.row.add({
-				DT_RowId:"row_1",
-				medios_pago:{
-					cmpago:$("#template_cmpago").html(),
-					docmpago:$("#template_docmpago").html(),
-					banmpago:$("#template_banmpago").html(),
-					vmpago:$("#template_vmpago").html()
-				}
-			}).draw(false)
-			$("#modal_formas_pago #id_vmpago").inputCurrency()
-			$("#modal_formas_pago #id_cmpago").val(1000)
-		}},
-		{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
+		{
+			className:CONF_DTE.buttons.create.className,
+			text:CONF_DTE.buttons.create.text,
+			action : function ( e, dt, node, config ) {
+				table_crud.row.add({
+					DT_RowId:"row_1",
+					medios_pago:{
+						cmpago:$("#template_cmpago").html(),
+						docmpago:$("#template_docmpago").html(),
+						banmpago:$("#template_banmpago").html(),
+						vmpago:$("#template_vmpago").html()
+					}
+				}).draw(false)
+				$("#modal_accion_resumen #id_vmpago").inputCurrency()
+				$("#modal_accion_resumen #id_cmpago").val(1000)
+			}
+		},
+		{
+			className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text,
+			action : function(){
+				table_crud.rows({selecte:true}).remove().draw()
+			}
+		}
+
 	],
 	language: CONF_DTE.language
 })
+
+// table_crud.button(".btn-create").trigger("click")

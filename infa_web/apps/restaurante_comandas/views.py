@@ -167,8 +167,9 @@ def SaveSummary(request):
 def SaveCommand(request):
 	data = json.loads(request.body)
 
-	mesero = Meseros.objects.using(request.db).filter()[0]
-	talocoda = Talocoda.objects.using(request.db).filter()[0]
+	mesero = get_current_user(request.db,request.user,mesero=True)
+
+	talocoda = mesero.ctalocoda
 	ccoda = generar_ccoda(talocoda,request.db)
 	mesa = Mesas.objects.using(request.db).get(cmesa= data["cmesa"])
 
@@ -330,6 +331,8 @@ def OrdersJoin(request):
 def TakeOrder(request):
 
 	mesero = get_current_user(request.db,request.user,mesero=True)
+	print "_-________________"
+	print mesero
 
 	gruposMenu = GposMenus.objects.using(request.db).all().order_by("orden")
 	for grupoMenu in gruposMenu:
@@ -337,9 +340,16 @@ def TakeOrder(request):
 
 	mesas = Mesas.objects.using(request.db).all()
 	today = datetime.date.today()
-	mesas_activas = Mesas.objects.using(request.db).filter(cmesa__in=Coda.objects.using(request.db).filter(cmero=mesero,cesdo__cesdo=1,fcoda__date=str(today)).values('cmesa'))
+	mesas_activas = Mesas.objects.using(request.db).filter(
+		cmesa__in=Coda.objects.using(request.db).filter(
+			cmero=mesero,
+			cesdo__cesdo=1,
+			fcoda__date=str(today)
+		).values('cmesa')
+	)
 
 	print mesas_activas
+	print "_-________________"
 
 	context = {
 		'gruposMenu' : gruposMenu,

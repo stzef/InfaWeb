@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from infa_web.apps.usuarios.models import Usuario
+from infa_web.apps.base.models import Modules
+
 from infa_web.parameters import ManageParameters
 import datetime
 from django.utils import timezone
@@ -17,6 +19,7 @@ def var_globals(request):
 
 	parameters["symbol_currency"] = types_currency[parameters["type_currency"]]["symbol"]
 
+	modules = Modules.objects.using(request.db).filter(enabled_enterprise=True,enabled=True)
 
 	sucursal = None
 	subdomain = None
@@ -37,4 +40,5 @@ def var_globals(request):
 		'sucursal':sucursal,
 		'subdomain':subdomain,
 		'gparameters':parameters,
+		'modules':modules,
 	}

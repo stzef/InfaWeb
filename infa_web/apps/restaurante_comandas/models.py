@@ -25,6 +25,16 @@ class Talocoda(models.Model):
 	def __unicode__(self):
 		return unicode("Talonariao " + str(self.ntalocoda))
 
+	def natural_key(self):
+		return ({
+			"ctalocoda" : self.ctalocoda,
+			"ntalocoda" : self.ntalocoda,
+			"cesdo" : self.cesdo.natural_key(),
+			"nini" : self.nini,
+			"nfin" : self.nfin,
+			"csucur" : self.csucur.natural_key(),
+		})
+
 class Mesas(models.Model):
 
 	class Meta:
@@ -42,6 +52,14 @@ class Mesas(models.Model):
 
 	def __unicode__(self):
 		return self.nmesa
+
+	def natural_key(self):
+		return ({
+			"cmesa" : self.cmesa,
+			"nmesa" : self.nmesa,
+			"cesdo" : self.cesdo.natural_key(),
+			"npmax" : self.npmax,
+		})
 
 class Meseros(models.Model):
 
@@ -63,6 +81,18 @@ class Meseros(models.Model):
 	def __unicode__(self):
 		return self.nmero
 
+	def natural_key(self):
+		return ({
+			"cmero" : self.cmero,
+			"nmero" : self.nmero,
+			"ctalocoda" : self.ctalocoda.natural_key(),
+			"cesdo" : self.cesdo.natural_key(),
+			"telmero" : self.telmero,
+			"dirmero" : self.dirmero,
+			#"foto" : self.foto.url,
+			"usuario" : self.usuario.natural_key(),
+		})
+
 class Resupedi(models.Model):
 	cresupedi = models.IntegerField(primary_key=True)
 	fresupedi = models.DateTimeField()
@@ -76,6 +106,15 @@ class Resupedi(models.Model):
 
 	def __unicode__(self):
 		return unicode("Resumen de Pedido " + str(self.cresupedi))
+
+	def natural_key(self):
+		return ({
+			"cresupedi" : self.cresupedi,
+			#"fresupedi" : self.fresupedi,
+			"vttotal" : self.vttotal,
+			"detaanula" : self.detaanula,
+			"ifcortesia" : self.ifcortesia,
+		})
 
 class Resupedipago(models.Model):
 	cresupedi = models.ForeignKey(Resupedi)
@@ -114,6 +153,19 @@ class Coda(models.Model):
 	def __unicode__(self):
 		return unicode("Comanda " + str(self.ccoda))
 
+	def natural_key(self):
+		return ({
+			"ccoda" : self.ccoda,
+			"ctalocoda" : self.ctalocoda.natural_key(),
+			"fcoda" : self.fcoda,
+			"cmesa" : self.cmesa.natural_key(),
+			"cesdo" : self.cesdo.natural_key(),
+			"cmero" : self.cmero.natural_key(),
+			"cresupedi" : self.cresupedi,
+			"detaanula" : self.detaanula,
+			"vttotal" : self.vttotal,
+		})
+
 class Codadeta(models.Model):
 	ccoda = models.ForeignKey(Coda)
 	it = models.IntegerField()
@@ -127,3 +179,14 @@ class Codadeta(models.Model):
 
 	def __unicode__(self):
 		return unicode("Detalle de Comanda " + str(self.ccoda))
+
+	def natural_key(self):
+		return ({
+			"ccoda" : self.ccoda,
+			"it" : self.it,
+			#"cmenu" : self.cmenu,
+			"nlargo" : self.nlargo,
+			"canti" : self.canti,
+			"vunita" : self.vunita,
+			"vtotal" : self.vtotal,
+		})
