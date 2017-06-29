@@ -19,6 +19,40 @@
 			<!-- sidebar menu: : style can be found in sidebar.less -->
 			<ul class="sidebar-menu">
 				<li class="header">NAVEGACIÓN</li>
+
+				{% for menu in nav_menu %}
+					<li class="treeview" data-menu data-module="{{menu.module.smodule}}">
+						<a href="#">
+							<i class="fa {{menu.icon}}"></i> <span>{{menu.name}}</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							{% for submenu in menu.submenus %}
+								{% if submenu.anchor %}
+									<li data-menu data-module="{{submenu.module.smodule}}">
+										<a href="#"><i class="fa {{submenu.icon}}"></i> {{submenu.name}}<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+										<ul class="treeview-menu">
+											{% for submenu_2 in submenu.submenus %}
+												{% if submenu_2.anchor %}
+													<li data-menu data-module="{{submenu_2.module.smodule}}"><a href="#"><i class="fa {{submenu_2.icon}}"></i>{{submenu_2.name}}</a></li>
+												{% else %}
+													<li data-menu data-module="{{submenu_2.module.smodule}}"><a href="{% url submenu_2.url %}?module={{submenu_2.module.smodule}}"><i class="fa {{submenu_2.icon}}"></i>{{submenu_2.name}}</a></li>
+												{% endif %}
+											{% endfor %}
+										</ul>
+									</li>
+								{% else %}
+									<li data-menu data-module="{{submenu.module.smodule}}"><a href="{% url submenu.url %}?module={{submenu.module.smodule}}"><i class="fa {{submenu.icon}}"></i>{{submenu.name}}</a></li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</li>
+
+				{% endfor %}
+
+				<!--
 				<li class="treeview">
 					<a href="#">
 						<i class="fa fa-list-alt"></i> <span>Inventario</span>
@@ -39,7 +73,6 @@
 						{% if perms.movimientos.add_mvsa %}
 							<li><a href="{% url 'add-output-movement' %}"><i class="fa  fa-arrow-left"></i>Salida</a></li>
 						{% endif %}
-						<!--
 						<li>
 							<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 							<ul class="treeview-menu">
@@ -52,9 +85,10 @@
 								<li><a href="{% url 'proccess_view_costing_and_stock' %}"><i class="fa fa-arrows-h"></i>Calculo Costos Existencias</a></li>
 							</ul>
 						</li>
-						-->
 					</ul>
 				</li>
+				-->
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-money"></i> Facturacion
@@ -85,6 +119,8 @@
 						</ul>
 					</li>
 				</li>
+				-->
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-money"></i> POS
@@ -101,99 +137,19 @@
 									</a>
 								</li>
 							{% endif %}
-							<!--<li>
+							<li>
 								<a href="#"><i class="fa fa-sticky-note-o"></i> Reportes<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 								<ul class="treeview-menu">
 									<li><a href="{% url 'report_view_bill' %}"><i class="fa fa-sticky-note-o"></i>Ventas</a></li>
 									<li><a href="{% url 'report_view_bill_payment_methods' %}"><i class="fa fa-sticky-note-o"></i>Ventas por Formas de Pago</a></li>
 								</ul>
-							</li>-->
-						</ul>
-					</li>
-				</li>
-
-				<li class="treeview">
-					<li>
-						<a href="#"><i class="fa fa-usd"></i> Cartera por Cobrar
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li>
-								<a href="{% url 'list-cartera' %}">
-									<i class="fa fa-list"></i>
-									Lista de cartera
-								</a>
 							</li>
 						</ul>
 					</li>
 				</li>
+				-->
 
-
-				<li class="treeview">
-					<li>
-						<a href="#"><i class="fa fa-list-alt"></i> Restaurante
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							{% if perms.restaurante_menus.add_ingredientes %}
-								<li>
-									<a href="{% url 'add-ingredient' %}">
-										<i class="fa fa-archive"></i>
-										Ingredientes
-									</a>
-								</li>
-							{% endif %}
-							{% if perms.restaurante_menus.add_platos %}
-								<li>
-									<a href="{% url 'add-dish' %}">
-										<i class="fa fa-cutlery"></i>
-										Platos
-									</a>
-								</li>
-							{% endif %}
-							{% if perms.restaurante_menus.add_menus %}
-								<li>
-									<a href="{% url 'add-menu' %}">
-										<i class="fa fa-list-alt"></i>
-										Menu
-									</a>
-								</li>
-							{% endif %}
-							<li class="treeview">
-								<li>
-									<a href="#"><i class="fa fa-list-alt"></i> Comandas
-										<span class="pull-right-container">
-											<i class="fa fa-angle-left pull-right"></i>
-										</span>
-									</a>
-									<ul class="treeview-menu">
-										{% if perms.restaurante_comandas.add_coda %}
-											<li>
-												<a href="{% url 'take-order' %}">
-													<i class="fa fa-archive"></i>
-													Tomar
-												</a>
-											</li>
-										{% endif %}
-										{% if perms.restaurante_comandas.add_coda %}
-											<li>
-												<a href="{% url 'order-summary' %}">
-													<i class="fa fa-cutlery"></i>
-													Rack
-												</a>
-											</li>
-										{% endif %}
-									</ul>
-								</li>
-							</li>
-						</ul>
-					</li>
-				</li>
-
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa fa-circle-o"></i> Basicos
@@ -266,77 +222,12 @@
 									</a>
 								</li>
 							{% endif %}
-								<!--
-								<li>
-									<a href="{% url 'add-iva' %}">
-										<i class="fa fa-circle-o"></i>
-										Ivas
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-zone' %}">
-										<i class="fa fa-map-o"></i>
-										Zonas
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-route' %}">
-										<i class="fa  fa-map-signs"></i>
-										Rutas
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-autorretenedor' %}">
-										<i class="fa fa-circle-o"></i>
-										Autorretenedores
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-id-type' %}">
-										<i class="fa fa-circle-o"></i>
-										Tipos de Identificacion
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-reg-iva' %}">
-										<i class="fa fa-circle-o"></i>
-										Regimenes de IVA
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-type-article' %}">
-										<i class="fa fa-circle-o"></i>
-										Tipos de Articulos
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-state' %}">
-										<i class="fa fa-circle-o"></i>
-										Estados
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-location' %}">
-										<i class="fa fa-circle-o"></i>
-										Ubicaciones
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-city' %}">
-										<i class="fa fa-circle-o"></i>
-										Ciudades
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'add-departament' %}">
-										<i class="fa fa-circle-o"></i>
-										Departamentos
-									</a>
-								</li>
-								-->
 						</ul>
 					</li>
 				</li>
+				-->
+
+				<!--
 				<li class="treeview">
 					<li>
 						<a href="#"><i class="fa  fa-cog"></i> Configuracion
@@ -379,6 +270,101 @@
 						</ul>
 					</li>
 				</li>
+				-->
+
+				<!--
+				Falta
+				<li class="treeview">
+					<li>
+						<a href="#"><i class="fa fa-usd"></i> Cartera por Cobrar
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="{% url 'list-cartera' %}">
+									<i class="fa fa-list"></i>
+									Lista de cartera
+								</a>
+							</li>
+						</ul>
+					</li>
+				</li>
+
+
+				<li class="treeview">
+					<li>
+						<a href="#"><i class="fa fa-list-alt"></i> Restaurante
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li class="treeview">
+								<a href="#"><i class="fa fa-list-alt"></i> Basicos
+									<span class="pull-right-container">
+										<i class="fa fa-angle-left pull-right"></i>
+									</span>
+								</a>
+								<ul class="treeview-menu">
+									{% if perms.restaurante_menus.add_ingredientes %}
+										<li>
+											<a href="{% url 'add-ingredient' %}">
+												<i class="fa fa-archive"></i>
+												Ingredientes
+											</a>
+										</li>
+									{% endif %}
+									{% if perms.restaurante_menus.add_platos %}
+										<li>
+											<a href="{% url 'add-dish' %}">
+												<i class="fa fa-cutlery"></i>
+												Platos
+											</a>
+										</li>
+									{% endif %}
+									{% if perms.restaurante_menus.add_menus %}
+										<li>
+											<a href="{% url 'add-menu' %}">
+												<i class="fa fa-list-alt"></i>
+												Menu
+											</a>
+										</li>
+									{% endif %}
+								</ul>
+							</li>
+							<li class="treeview">
+								<li>
+									<a href="#"><i class="fa fa-list-alt"></i> Comandas
+										<span class="pull-right-container">
+											<i class="fa fa-angle-left pull-right"></i>
+										</span>
+									</a>
+									<ul class="treeview-menu">
+										{% if perms.restaurante_comandas.add_coda %}
+											<li>
+												<a href="{% url 'take-order' %}">
+													<i class="fa fa-archive"></i>
+													Tomar
+												</a>
+											</li>
+										{% endif %}
+										{% if perms.restaurante_comandas.add_coda %}
+											<li>
+												<a href="{% url 'order-summary' %}">
+													<i class="fa fa-cutlery"></i>
+													Rack
+												</a>
+											</li>
+										{% endif %}
+									</ul>
+								</li>
+							</li>
+						</ul>
+					</li>
+				</li>
+				-->
 
 				<li class="treeview">
 					<a href="{% url 'logout' %}">

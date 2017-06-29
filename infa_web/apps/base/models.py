@@ -5,7 +5,7 @@ from infa_web.apps.base.constantes import *
 #from infa_web.apps.articulos.models import *
 from django.core.validators import MinValueValidator
 
-
+from django.contrib.auth.models import Permission
 
 class Esdo(models.Model):
 
@@ -362,3 +362,40 @@ class Tiservi(models.Model):
 
 	def __str__(self):
 		return self.ntiservi
+
+class NavMenus(models.Model):
+
+	class Meta:
+		ordering = ["name"]
+
+	name = models.TextField(max_length=255)
+	icon = models.TextField(max_length=255)
+	main = models.BooleanField(default=False)
+	enabled = models.BooleanField(default=True)
+	anchor = models.BooleanField() # Link Ancla
+	url = models.TextField(max_length=255,null=True, blank=True)
+	permission = models.TextField(max_length=1000,null=True, blank=True)
+	module = models.ForeignKey(Modules,null=True, blank=True)
+	general = models.BooleanField(default=False)
+	father = models.ForeignKey('NavMenus',null=True, blank=True)
+	quick_access = models.BooleanField(default=False)
+
+	def __str__(self):
+		return "%s - %s (%s)" % (self.id,self.name,self.father)
+
+	def __unicode__(self):
+		return "%s - %s (%s)" % (self.id,self.name,self.father)
+
+	def natural_key(self):
+		return ({
+			name : self.name,
+			icon : self.icon,
+			main : self.main,
+			enabled : self.enabled,
+			anchor : self.anchor,
+			url : self.url,
+			#permission : self.permission,
+			#module : self.module,
+			general : self.general,
+			#father : self.father,
+		})

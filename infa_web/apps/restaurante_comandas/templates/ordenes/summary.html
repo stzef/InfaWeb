@@ -72,20 +72,6 @@
 				</div>
 				<div class="modal-body">
 					<div class="panel-group" id="accordion">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
-									<h4 class="panel-title">
-										Detalle
-									</h4>
-								</a>
-							</div>
-							<div id="collapse_detail" class="panel-collapse collapse in">
-								<div class="panel-body">
-									<div id="section-detalle-comanda"></div>
-								</div>
-							</div>
-						</div>
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -93,7 +79,7 @@
 									<h4 class="panel-title">Formas de Pago</h4>
 								</a>
 							</div>
-							<div id="collapse_head" class="panel-collapse collapse">
+							<div id="collapse_head" class="panel-collapse collapse in">
 								<div class="panel-body">
 									<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
 										<thead>
@@ -108,6 +94,22 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
+									<h4 class="panel-title">
+										Detalle
+									</h4>
+								</a>
+							</div>
+							<div id="collapse_detail" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div id="section-detalle-comanda"></div>
+								</div>
+							</div>
+						</div>
+
 					</div>
 
 
@@ -217,20 +219,26 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group">
-							<label for="modal_input_action" class="col-sm-2 control-label"> Accion </label>
-							<div class="col-sm-10">
+							<!-- <label for="modal_input_action" class="col-sm-2 control-label"> Accion </label> -->
+							<div class="col-sm-12">
+								<button onclick="realizar_accion(this,event)" data-value="R" class="btn btn-primary btn-block"> Generar Cuenta </button>
+								<button onclick="realizar_accion(this,event)" data-value="PA" class="btn btn-primary btn-block"> Pedidos Anteriores </button>
+								<button onclick="realizar_accion(this,event)" data-value="F" class="btn btn-primary btn-block"> Facturar </button>
+								<button onclick="realizar_accion(this,event)" data-value="UC" class="btn btn-primary btn-block"> Unir Cuentas </button>
+								<!--
 								<select id="modal_input_action" class="form-control" required="" size="5">
 									<option value="R" selected> Generar Cuenta </option>
 									<option value="PA"> Pedidos Anteriores </option>
 									<option value="F"> Facturar </option>
 									<option value="UC"> Unir Cuentas </option>
 								</select>
+								-->
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary text-center" onclick="realizar_accion(this,event)">Realizar</button>
+					<!-- <button type="button" class="btn btn-app btn-primary text-center" onclick="realizar_accion(this,event)">Realizar</button> -->
 					<input type="hidden" id="modal_input_mesa_activa" value="">
 				</div>
 			</div>

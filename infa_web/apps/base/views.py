@@ -23,6 +23,391 @@ from infa_web.settings import BASE_DIR
 
 
 def dashboard(request):
+	from infa_web.apps.base.models import NavMenus, Modules
+	name_db = "test_roma_pizza_db"
+	NavMenus.objects.using(name_db).all().delete()
+
+	facturacion = Modules.objects.using(name_db).get(smodule="F")
+	inventario = Modules.objects.using(name_db).get(smodule="I")
+	mod_pos = Modules.objects.using(name_db).get(smodule="P")
+	mod_general = Modules.objects.using(name_db).get(smodule="G")
+	mod_adm = Modules.objects.using(name_db).get(smodule="A")
+
+	m_facturacion = NavMenus.objects.using(name_db).create(
+		name="Facturacion",
+		main=True,
+		enabled=True,
+		anchor=True,
+		url=None,
+		permission=None,
+		module=facturacion,
+		general=False,
+		father=None,
+		icon='fa-dollar',
+	)
+	m_facturacion_facturar = NavMenus.objects.using(name_db).create(
+		name="Facturar",
+		main=False,
+		enabled=True,
+		anchor=False,
+		url='create-bill',
+		permission='facturacion.add_fac',
+		module=facturacion,
+		general=False,
+		father=m_facturacion,
+		icon='fa-dollar',
+	)
+	m_facturacion_reportes = NavMenus.objects.using(name_db).create(
+		name="Reportes",
+		main=False,
+		enabled=True,
+		anchor=True,
+		url=None,
+		permission=None,
+		module=facturacion,
+		general=False,
+		father=m_facturacion,
+		icon='fa-sticky-note-o',
+	)
+	m_facturacion_reportes_1 = NavMenus.objects.using(name_db).create(
+		name="Ventas",
+		main=False,
+		enabled=True,
+		anchor=False,
+		url='report_view_bill',
+		permission='facturacion.report_fac_bill',
+		module=facturacion,
+		general=False,
+		father=m_facturacion_reportes,
+		icon='fa-sticky-note-o',
+	)
+	m_facturacion_reportes_2 = NavMenus.objects.using(name_db).create(
+		name="Ventas por Formas de Pago",
+		main=False,
+		enabled=True,
+		anchor=False,
+		url='report_view_bill_payment_methods',
+		permission='facturacion.report_fac_bill_payment',
+		module=facturacion,
+		general=False,
+		father=m_facturacion_reportes,
+		icon='fa-sticky-note-o',
+	)
+
+	m_inventario = NavMenus.objects.using(name_db).create(
+		name = 'Inventario',
+		main = True,
+		enabled=True,
+		anchor=True,
+		url = None,
+		permission = None,
+		module = inventario,
+		general=False,
+		father = None,
+		icon = 'fa-list-alt',
+	)
+	m_inventario_articulos = NavMenus.objects.using(name_db).create(
+		name = 'Articulos',
+		main = False,
+		enabled=True,
+		anchor=False,
+		url = 'add-article',
+		permission = 'articulos.add_arlo',
+		module = inventario,
+		general=False,
+		father = m_inventario,
+		icon = 'fa-archive',
+		quick_access = True,
+	)
+	m_inventario_inv_inicial = NavMenus.objects.using(name_db).create(
+		name = 'Inventario Inicial',
+		main = False,
+		enabled=True,
+		anchor=False,
+		url = 'inventory_list',
+		permission = 'inventarios.add_invinicab',
+		module = inventario,
+		general=False,
+		father = m_inventario,
+		icon = 'fa-list-alt',
+	)
+	m_inventario_entradas = NavMenus.objects.using(name_db).create(
+		name = 'Entrada',
+		main = False,
+		enabled=True,
+		anchor=False,
+		url = 'add-input-movement',
+		permission = 'movimientos.add_mven',
+		module = inventario,
+		general=False,
+		father = m_inventario,
+		icon = 'fa-arrow-right',
+	)
+	m_inventario_salidas = NavMenus.objects.using(name_db).create(
+		name = 'Salida',
+		main = False,
+		enabled=True,
+		anchor=False,
+		url = 'add-output-movement',
+		permission = 'movimientos.add_mvsa',
+		module = inventario,
+		general=False,
+		father = m_inventario,
+		icon = 'fa-arrow-left',
+	)
+
+	m_pos = NavMenus.objects.using(name_db).create(
+		name = 'POS',
+		main = True,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = None,
+		icon = 'fa-money',
+		module = mod_pos,
+	)
+	m_pos_facturar = NavMenus.objects.using(name_db).create(
+		permission = 'facturacion.add_fac_pos',
+		url = 'create-pos',
+		icon = 'fa-dollar',
+		name = 'Facturar',
+		module = mod_pos,
+		main = False,
+		enabled = True,
+		anchor = False,
+		general=False,
+		father = m_pos,
+		quick_access = True,
+	)
+
+	m_basicos = NavMenus.objects.using(name_db).create(
+		name = 'Basicos',
+		main = True,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = None,
+		icon = 'fa-circle-o',
+		module = mod_general,
+	)
+	m_basicos_Caja = NavMenus.objects.using(name_db).create(
+		permission = 'base.add_caja',
+		url = 'add-caja',
+		icon = 'fa-square',
+		name = 'Caja',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Talonarios = NavMenus.objects.using(name_db).create(
+		permission = 'base.add_talo',
+		url = 'add-cheque-book',
+		icon = 'fa-list',
+		name = 'Talonarios',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Sucursales = NavMenus.objects.using(name_db).create(
+		permission = 'base.add_sucursales',
+		url = 'add-branch',
+		icon = 'fa-code-fork',
+		name = 'Sucursales',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Terceros = NavMenus.objects.using(name_db).create(
+		permission = 'terceros.add_tercero',
+		url = 'add-third-party',
+		icon = 'fa-users',
+		name = 'Terceros',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Marcas = NavMenus.objects.using(name_db).create(
+		permission = 'articulos.add_marca',
+		url = 'add-brand',
+		icon = 'fa-circle-o',
+		name = 'Marcas',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Grupos = NavMenus.objects.using(name_db).create(
+		permission = 'articulos.add_gpo',
+		url = 'add-group',
+		icon = 'fa-circle-o',
+		name = 'Grupos',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Grupos_Menus = NavMenus.objects.using(name_db).create(
+		permission = 'restaurante_menus.add_gposmenus',
+		url = 'add-menu-group',
+		icon = 'fa-circle-o',
+		name = 'Grupos Menus',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+	m_basicos_Unidades = NavMenus.objects.using(name_db).create(
+		permission = 'articulos.add_unidades',
+		url = 'add-unit',
+		icon = 'fa-circle-o',
+		name = 'Unidades',
+		father = m_basicos,
+		general = False,
+		enabled = True,
+		main = False,
+		anchor = False,
+		module = mod_general,
+	)
+
+	m_conf = NavMenus.objects.using(name_db).create(
+		name = 'Configuracion',
+		main = True,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = None,
+		icon = 'fa-cog',
+		module = mod_adm,
+	)
+	m_conf_parametros = NavMenus.objects.using(name_db).create(
+		name = 'Parametros',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'list-parameter',
+		permission = 'base.save_parameters',
+		general=False,
+		father = m_conf,
+		icon = 'fa-cogs',
+		module = mod_adm,
+	)
+	m_conf_anulaciones = NavMenus.objects.using(name_db).create(
+		name = 'Anulaciones',
+		main = False,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = m_conf,
+		icon = 'fa-wrench',
+		module = mod_adm,
+	)
+	m_conf_anulaciones_mov_inv = NavMenus.objects.using(name_db).create(
+		name = 'Movimientos de Inventario',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'proccess_view_annulment',
+		permission = 'movimientos.change_mven',
+		general=False,
+		father = m_conf_anulaciones,
+		icon = 'fa-arrows-h',
+		module = mod_adm,
+	)
+	m_conf_anulaciones_factura = NavMenus.objects.using(name_db).create(
+		name = 'Facturas',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'bill_proccess_view_annulment',
+		permission = 'facturacion.change_fac',
+		general=False,
+		father = m_conf_anulaciones,
+		icon = 'fa-money',
+		module = mod_adm,
+	)
+	m_conf_anulaciones_comandas = NavMenus.objects.using(name_db).create(
+		name = 'Comandas',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'order-command-proccess-view-annulment',
+		permission = 'restaurante_comandas.change_coda',
+		general=False,
+		father = m_conf_anulaciones,
+		icon = 'fa-money',
+		module = mod_adm,
+	)
+	m_conf_usuarios = NavMenus.objects.using(name_db).create(
+		name = 'Usuarios',
+		main = False,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = m_conf,
+		icon = 'fa-users',
+		module = mod_adm,
+	)
+	m_conf_usuarios_nuevo = NavMenus.objects.using(name_db).create(
+		name = 'Nuevo',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'registrar-usuario',
+		permission = 'auth.add_user',
+		general=False,
+		father = m_conf_usuarios,
+		icon = 'fa-arrows-h',
+		module = mod_adm,
+	)
+	m_conf_usuarios_administrar = NavMenus.objects.using(name_db).create(
+		name = 'Administrar',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'administrar-usuarios',
+		permission = 'auth.add_user',
+		general=False,
+		father = m_conf_usuarios,
+		icon = 'fa-money',
+		module = mod_adm,
+	)
+
+
+
+
+
+
+
+
+
 	return render(request, 'home/dashboard.html', {'title': 'Dashboard'})
 
 def get_custom_message_response(instance,object):

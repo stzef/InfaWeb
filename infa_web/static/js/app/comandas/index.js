@@ -9,11 +9,11 @@ function accion_mesa(div,event){
 	$("#modal_accion_mesa").modal("show")
 }
 
-function realizar_accion(div,event){
+function realizar_accion(button,event){
 	Models.objects.findOne("Mesas",{cmesa : cmesa_activa},function(error,mesa){
-		if( $("#modal_input_action").val() == "R" ) abrir_modal_resumen_pedido(mesa)
-		if( $("#modal_input_action").val() == "F" ) abrir_modal_facturar_pedido(mesa)
-		if( $("#modal_input_action").val() == "UC" ) abrir_modal_unir_cuentas(mesa)
+		if( $(button).data("value") == "R" ) abrir_modal_resumen_pedido(mesa)
+		if( $(button).data("value") == "F" ) abrir_modal_facturar_pedido(mesa)
+		if( $(button).data("value") == "UC" ) abrir_modal_unir_cuentas(mesa)
 		$("#modal_accion_mesa").modal("hide")
 	})
 }
@@ -81,6 +81,7 @@ function abrir_modal_facturar_pedido(mesa){
 function abrir_modal_unir_cuentas(mesa){
 	var selector = ".mesa.activa:not([data-cmesa=__cmesa__])".set("__cmesa__",cmesa_activa)
 	meses_unificables = $(selector)
+	console.info(meses_unificables)
 
 	if ( meses_unificables.length >= 1 ){
 		$("#modal_unir_cuenta").modal("show")

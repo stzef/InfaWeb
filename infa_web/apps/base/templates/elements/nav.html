@@ -14,22 +14,30 @@
 		</a>
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
-
-				<!--
+				{% for quick_access in nav_quick_access %}
+					<li>
+						<a class="btn btn-primary" href="{% url quick_access.url %}?module={{quick_access.module.smodule}}">
+							<!-- ({{quick_access.module.nmodule}}) <br> -->
+							<i class="fa {{quick_access.icon}}"></i>
+							{{quick_access.name}}
+						</a>
+					</li>
+				{% endfor %}
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Modulos</a>
 					<ul class="dropdown-menu">
 						{% for module in modules %}
 							<li class="item-module">
 								<button type="button" class="btn btn-primary btn-block">
-									<input type="checkbox" name="{{ module.smodule }}" id="module_{{ module.smodule }}" >
-									<label for="module_{{ module.smodule }}">{{ module.nmodule }}</label>
+									<label class="" for="module_{{ module.smodule }}">
+										<input type="radio" name="modules" data-slug="{{ module.smodule }}" id="module_{{ module.smodule }}" >
+										{{ module.nmodule }}
+									</label>
 								</button>
 							</li>
 						{% endfor %}
 					</ul>
 				</li>
-				-->
 
 				<li class="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -61,10 +69,10 @@
 					</ul>
 				</li>
 				<!-- Control Sidebar Toggle Button -->
-				<li>
-					<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-				</li>
+
 			</ul>
 		</div>
 	</nav>
 </header>
+
+

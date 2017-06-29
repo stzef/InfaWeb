@@ -1,6 +1,9 @@
 from infa_web.config.domaindb import DOMAINS
 from infa_web.apps.base.models import *
 
+from django.contrib.auth.models import Permission
+
+from django.db.models import Q
 
 def get_subdomain_by_name_db(name_db):
 	domain = ""
@@ -8,6 +11,38 @@ def get_subdomain_by_name_db(name_db):
 		if ndb == name_db:
 			domain =nempresa
 	return domain
+
+def get_user_permissions(user,db):
+	# Retorna los permisos (object db) de un usuarios
+	if user.is_superuser:
+		return Permission.objects.using(db).all()
+	return user.user_permissions.all() | Permission.objects.using(db).filter(group__user=user)
+
+def get_nav_submenu(id,permissions,db):
+	menu = NavMenus.objects.using(db).get(pk=id)
+
+	#menus = NavMenus.objects.using(db).filter(father=menu,permission__in=permissions)
+	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
+	menus = NavMenus.objects.using(db).filter(father=menu).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None))
+	for submenu in menus:
+		submenu.submenus = get_nav_submenu(submenu.id,permissions,db)
+
+	return menus
+
+def get_nav_menu(permissions,db):
+	#menus = NavMenus.objects.using(db).filter(main=True,permission__in=permissions)
+	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
+	menus = NavMenus.objects.using(db).filter(main=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None))
+
+	for menu in menus:
+		menu.submenus = get_nav_submenu(menu.id,permissions,db)
+
+	return menus
+
+def get_quick_access(permissions,db):
+	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
+	quick_access = NavMenus.objects.using(db).filter(quick_access=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None));
+	return quick_access
 
 def get_choices_timo(using,query={}):
 	query["prefijo"] = ""

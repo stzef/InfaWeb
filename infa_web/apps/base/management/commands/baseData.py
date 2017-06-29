@@ -201,6 +201,7 @@ class Command(BaseCommand):
 			Modules.objects.using(name_db).create(smodule="CON",nmodule="Contabilidad",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
 			Modules.objects.using(name_db).create(smodule="A",nmodule="Administracion",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
 			Modules.objects.using(name_db).create(smodule="G",nmodule="General",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
+			Modules.objects.using(name_db).create(smodule="R",nmodule="Restaurante",cesdo=estadoActivo,enabled_enterprise=True,enabled=True)
 			print "Modules. Registros Creados Correctamente."
 
 			#Base - Ubica
