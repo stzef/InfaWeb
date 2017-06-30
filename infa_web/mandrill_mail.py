@@ -25,13 +25,6 @@ def emailsender(subject,mails,data,template_name):
 
         mensaje = EmailMessage(subject=subject, from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=mails)
         mensaje.template_name=template_name
-        mensaje.global_merge_vars = {
-            'NAME' : data.get('nombre'),
-            'NEGOCIO': data.get('empresa'),
-            'DIRECCION': data.get('direccion'),
-            'PHONE': data.get('telefono'),
-            'CITY': data.get('ciudad'),
-            'EMAIL' : data.get('email')
-        }
+        mensaje.global_merge_vars = data
         mensaje.send()
 

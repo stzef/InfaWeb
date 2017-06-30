@@ -25,14 +25,14 @@ from infa_web.mandrill_mail import emailsender
 @csrf_exempt
 def send_email_get_demo(request):
 	data = {
-		'nombre': request.POST.get("nombre"),
-		'empresa': request.POST.get("empresa"),
-		'direccion': request.POST.get("direccion"),
-		'telefono': request.POST.get("telefono"),
-		'ciudad': request.POST.get("ciudad"),
-		'email': request.POST.get("email")
+		"NAME":request.POST.get("nombre"),
+		"NEGOCIO":request.POST.get("empresa"),
+		"DIRECCION":request.POST.get("direccion"),
+		"PHONE":request.POST.get("telefono"),
+		"CITY":request.POST.get("ciudad"),
+		"EMAIL":request.POST.get("email")
 	}
-	emailsender("Contacto Appem",["sistematizaref.programador5@gmail.com"],data,"form")
+	emailsender("Contacto Appem",["sistematizaref.programador4@gmail.com"],data,"FormContactIndex")
 	return JsonResponse(data)
 
 def dashboard(request):
