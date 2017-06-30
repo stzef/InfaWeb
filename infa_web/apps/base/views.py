@@ -20,12 +20,19 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
 from infa_web.settings import BASE_DIR
-from infa_web.mandrill_mail import enviarmail
+from infa_web.mandrill_mail import emailsender
 
 @csrf_exempt
 def send_email_get_demo(request):
-	data = {}
-	enviarmail("Contacto Appem",["sistematizaref.programador5@gmail.com"],[],"pr")
+	data = {
+		'nombre': request.POST.get("nombre"),
+		'empresa': request.POST.get("empresa"),
+		'direccion': request.POST.get("direccion"),
+		'telefono': request.POST.get("telefono"),
+		'ciudad': request.POST.get("ciudad"),
+		'email': request.POST.get("email")
+	}
+	emailsender("Contacto Appem",["sistematizaref.programador5@gmail.com"],data,"form")
 	return JsonResponse(data)
 
 def dashboard(request):

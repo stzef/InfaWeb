@@ -3,7 +3,7 @@ from email.MIMEBase import MIMEBase
 from email import encoders
 from settings import *
 
-def enviarmail(subject,mails,attachments,template_name="pr"):
+def enviarmail(subject,mails,attachments,template_name):
     mensaje = EmailMessage(subject=subject, from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=mails)
     for attachment in attachments:
         filename = attachment
@@ -20,5 +20,18 @@ def enviarmail(subject,mails,attachments,template_name="pr"):
         mensaje.attach(adjunto)
 
     mensaje.template_name=template_name
-
     mensaje.send()
+def emailsender(subject,mails,data,template_name):
+
+        mensaje = EmailMessage(subject=subject, from_email='fitnessjuice@fitnessjuicevidasaludable.com', to=mails)
+        mensaje.template_name=template_name
+        mensaje.global_merge_vars = {
+            'NAME' : data.get('nombre'),
+            'NEGOCIO': data.get('empresa'),
+            'DIRECCION': data.get('direccion'),
+            'PHONE': data.get('telefono'),
+            'CITY': data.get('ciudad'),
+            'EMAIL' : data.get('email')
+        }
+        mensaje.send()
+

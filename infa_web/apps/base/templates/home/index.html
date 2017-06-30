@@ -424,7 +424,7 @@
             if ( grecaptcha.getResponse() == "" ){
                 alert("Complete la Captcha")
             }else{
-                var data = $(this).serialize()
+                var data = $('form').serialize()
                 $.ajax({
                     url : "send_email_get_demo/",
                     type : "POST",
