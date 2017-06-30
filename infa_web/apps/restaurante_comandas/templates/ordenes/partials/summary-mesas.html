@@ -1,7 +1,7 @@
 {% load humanize %}
 <h2>Mesas</h2>
 {% for mesa in mesas %}
-	<div class="well col-md-2 col-sm-2 col-xs-3 text-center mesa {% if mesa.vttotal > 0 %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}" data-nmesa="{{mesa.nmesa}}" data-vttotal="{{mesa.vttotal}}">
+	<div class="well col-md-3 col-lg-3 col-sm-6 col-xs-12 text-center mesa {% if mesa.vttotal > 0 %}activa{% endif %}" onclick="accion_mesa(this,event)" data-cmesa="{{mesa.cmesa}}" data-nmesa="{{mesa.nmesa}}" data-vttotal="{{mesa.vttotal}}">
 		<p><h4>{{mesa.nmesa}}</h4></p>
 		<p> <span id="menu_vtotal">$ {{ mesa.vttotal|intcomma }}</span>  </p>
 		<p> <b> <span id="mesa_mesero">{% if mesa.mesero %} {{ mesa.mesero.nmero }} {% else %} - {% endif %}</span> </b> </p>

@@ -1,13 +1,15 @@
-{%extends 'layouts/base.html'%}
+{% extends 'layouts/base.html' %}
+
 {% load static from staticfiles %}
+
 {% load humanize %}
 
 {% block content_head %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
 	<!--
 	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
-	-->
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+	-->
 	<style>
 		.mesa{
 			cursor: pointer;
@@ -23,9 +25,10 @@
 	</style>
 {% endblock content_head %}
 
-{%block content%}
-	{%include 'elements/nav.html'%}
-	{%include 'elements/sidebar.html'%}
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+
 	<div class="hide">
 		<div id="template_it">{{ form_medios_pagos.it }}</div>
 		<div id="template_cmpago">{{ form_medios_pagos.cmpago }}</div>
@@ -255,13 +258,16 @@
 	</div>
 
 	{%include 'elements/footer.html'%}
-{%endblock%}
+{% endblock %}
 
 {% block content_script %}
-	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+
 	<!--
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	-->
+
+	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/app/comandas/index.js' %}"></script>
-{%endblock%}
+{% endblock %}

@@ -7,12 +7,6 @@
 {% block content_head %}
 	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 	<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.css' %}">
-{% endblock content_head %}
-
-{% block content %}
-	{% include 'elements/nav.html' %}
-	{% include 'elements/sidebar.html' %}
-
 	<style>
 		.articulo{
 			padding: 0px;
@@ -35,6 +29,11 @@
 			.section-articulos div.section-header{ padding: 0px; height: 60px;}
 			.section-articulos div.section-content{ padding: 0px; height: 290px;overflow-y: scroll;overflow-x: hidden;}
 	</style>
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
 
 	<div class="content-wrapper" style="min-height: 921px;">
 		<section class="content-header">
@@ -478,4 +477,4 @@
 	</script>
 
 	<!--<script src="{% static 'js/app/pos/index.js' %}"></script>-->
-{% endblock content_script %}
+{% endblock %}

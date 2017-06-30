@@ -11,6 +11,8 @@ urlGeneral = [
 	#url(r'^$', dashboard, name = 'dashboard'),
 	url(r'^dashboard/$',login_required(dashboard), name = 'dashboard'),
 
+	url(r'^send_email_get_demo/$',send_email_get_demo, name = 'send_email_get_demo'),
+
 	url(r'^general/defaults/$', login_required(defaults), name = 'appem_defaults'),
 ]
 

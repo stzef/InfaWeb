@@ -20,9 +20,16 @@ from infa_web.apps.articulos.models import *
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
 from infa_web.settings import BASE_DIR
+from infa_web.mandrill_mail import enviarmail
 
+@csrf_exempt
+def send_email_get_demo(request):
+	data = {}
+	enviarmail("Contacto Appem",["sistematizaref.programador5@gmail.com"],[],"pr")
+	return JsonResponse(data)
 
 def dashboard(request):
+	"""
 	from infa_web.apps.base.models import NavMenus, Modules
 	name_db = "test_roma_pizza_db"
 	NavMenus.objects.using(name_db).all().delete()
@@ -32,6 +39,8 @@ def dashboard(request):
 	mod_pos = Modules.objects.using(name_db).get(smodule="P")
 	mod_general = Modules.objects.using(name_db).get(smodule="G")
 	mod_adm = Modules.objects.using(name_db).get(smodule="A")
+	mod_cartera = Modules.objects.using(name_db).get(smodule="CAR")
+	mod_restaurante = Modules.objects.using(name_db).get(smodule="R")
 
 	m_facturacion = NavMenus.objects.using(name_db).create(
 		name="Facturacion",
@@ -400,14 +409,130 @@ def dashboard(request):
 		module = mod_adm,
 	)
 
+	m_cartera = NavMenus.objects.using(name_db).create(
+		name = 'Cartera por Cobrar',
+		main = True,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = None,
+		icon = 'fa-usd',
+		module = mod_cartera,
+	)
+	m_cartera_lista = NavMenus.objects.using(name_db).create(
+		name = 'Lista de cartera',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'list-cartera',
+		permission = None,
+		general=False,
+		father = m_cartera,
+		icon = 'fa-list',
+		module = mod_cartera,
+	)
 
-
-
-
-
-
-
-
+	m_restaurante = NavMenus.objects.using(name_db).create(
+		name = 'Restaurante',
+		main = True,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = None,
+		icon = 'fa-list-alt',
+		module = mod_restaurante,
+	)
+	m_restaurante_basicos = NavMenus.objects.using(name_db).create(
+		name = 'Basicos',
+		main = False,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = m_restaurante,
+		icon = 'fa-list-alt',
+		module = mod_restaurante,
+	)
+	m_restaurante_basicos_Ingredientes = NavMenus.objects.using(name_db).create(
+		name = 'Ingredientes',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'add-ingredient',
+		permission = 'restaurante_menus.add_ingredientes',
+		general=False,
+		father = m_restaurante_basicos,
+		icon = 'fa-archive',
+		module = mod_restaurante,
+	)
+	m_restaurante_basicos_Platos = NavMenus.objects.using(name_db).create(
+		name = 'Platos',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'add-dish',
+		permission = 'restaurante_menus.add_platos',
+		general=False,
+		father = m_restaurante_basicos,
+		icon = 'fa-cutlery',
+		module = mod_restaurante,
+	)
+	m_restaurante_basicos_Menu = NavMenus.objects.using(name_db).create(
+		name = 'Menu',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'add-menu',
+		permission = 'restaurante_menus.add_menus',
+		general=False,
+		father = m_restaurante_basicos,
+		icon = 'fa-list-alt',
+		module = mod_restaurante,
+	)
+	m_restaurante_comandas = NavMenus.objects.using(name_db).create(
+		name = 'Comandas',
+		main = False,
+		enabled = True,
+		anchor = True,
+		url = None,
+		permission = None,
+		general=False,
+		father = m_restaurante,
+		icon = 'fa-list-alt',
+		module = mod_restaurante,
+	)
+	m_restaurante_comandas_Tomar = NavMenus.objects.using(name_db).create(
+		name = 'Tomar',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'take-order',
+		permission = 'restaurante_comandas.add_coda',
+		general=False,
+		father = m_restaurante_comandas,
+		icon = 'fa-archive',
+		module = mod_restaurante,
+		quick_access = True,
+	)
+	m_restaurante_comandas_Rack = NavMenus.objects.using(name_db).create(
+		name = 'Rack',
+		main = False,
+		enabled = True,
+		anchor = False,
+		url = 'order-summary',
+		permission = 'restaurante_comandas.add_coda',
+		general=False,
+		father = m_restaurante_comandas,
+		icon = 'fa-cutlery',
+		module = mod_restaurante,
+		quick_access = True,
+	)
+	"""
 	return render(request, 'home/dashboard.html', {'title': 'Dashboard'})
 
 def get_custom_message_response(instance,object):

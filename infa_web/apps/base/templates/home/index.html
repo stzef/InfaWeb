@@ -309,6 +309,56 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form action="" onsubmit="sendEmail(event)" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Nombre Contacto</label>
+                                <div class="col-md-10">
+                                    <input required type="text" class="form-control" name="nombre" placeholder="Nombre Contacto">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Empresa</label>
+                                <div class="col-md-10">
+                                    <input required type="text" class="form-control" name="empresa" placeholder="Empresa">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Dirección</label>
+                                <div class="col-md-10">
+                                    <input required type="text" class="form-control" name="direccion" placeholder="Dirección">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Telefono</label>
+                                <div class="col-md-10">
+                                    <input required type="text" class="form-control" name="telefono" placeholder="Telefono">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Ciudad</label>
+                                <div class="col-md-10">
+                                    <input required type="text" class="form-control" name="ciudad" placeholder="Ciudad">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="label-control col-md-2">Email</label>
+                                <div class="col-md-10">
+                                    <input required type="email" class="form-control" name="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="html_element"></div>
+
+                                <input type="submit" class="btn btn-success" value="Enviar">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
           </div>
         </footer>
         <!--footer start from here-->
@@ -361,6 +411,31 @@
 
     <!-- Theme JavaScript -->
     <script src="{% static 'js/index/creative.js' %}"></script>
+    <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>
+    <script>
+        var onloadCallback = function() {
+            grecaptcha.render('html_element', {
+              'sitekey' : '6LcQbycUAAAAAOcQXlQL1UO50k0RlIn77-XXAOVl'
+            });
+
+        };
+        function sendEmail(event){
+            event.preventDefault()
+            if ( grecaptcha.getResponse() == "" ){
+                alert("Complete la Captcha")
+            }else{
+                var data = $(this).serialize()
+                $.ajax({
+                    url : "send_email_get_demo/",
+                    type : "POST",
+                    data : data,
+                    success : function(response){},
+                    error : function(response){},
+                })
+            }
+
+        }
+    </script>
 
 </body>
 

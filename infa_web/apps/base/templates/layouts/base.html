@@ -72,8 +72,6 @@
 		var smodule = Utilities.url.getUrlParameter("module")
 		if ( smodule ){
 			var s = `#module_${smodule}`
-			console.log(smodule)
-			console.log(s)
 			$(s).attr("checked",true).trigger("change")
 		}
 

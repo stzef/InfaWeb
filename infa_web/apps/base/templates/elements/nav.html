@@ -28,12 +28,12 @@
 					<ul class="dropdown-menu">
 						{% for module in modules %}
 							<li class="item-module">
-								<button type="button" class="btn btn-primary btn-block">
-									<label class="" for="module_{{ module.smodule }}">
-										<input type="radio" name="modules" data-slug="{{ module.smodule }}" id="module_{{ module.smodule }}" >
+								<label class="btn btn-primary btn-block" for="module_{{ module.smodule }}">
+									<input type="radio" name="modules" data-slug="{{ module.smodule }}" id="module_{{ module.smodule }}" >
+									<b>
 										{{ module.nmodule }}
-									</label>
-								</button>
+									</b>
+								</label>
 							</li>
 						{% endfor %}
 					</ul>
@@ -63,7 +63,7 @@
 						<!-- Menu Footer-->
 						<li class="user-footer">
 							<div class="pull-right">
-								<a href="{% url 'logout' %}" class="btn btn-default btn-flat">Salir</a>
+								<a href="{% url 'logout' %}" class="btn btn-danger btn-flat">Salir</a>
 							</div>
 						</li>
 					</ul>
