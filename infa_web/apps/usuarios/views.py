@@ -172,6 +172,7 @@ def AdministrarUsuario(request):
 	response = {
 		"message" : "Edicion de usuarios completada"
 	}
+
 	data = request.POST
 
 	cesdo = CESDO_ACTIVO
@@ -193,7 +194,6 @@ def AdministrarUsuario(request):
 	if 'csucur' in data and data['csucur'] != "":
 		csucur = data["csucur"]
 		sucursal = Sucursales.objects.using(request.db).get(csucur=csucur)
-		print sucursal
 
 	if 'ctalo' in data and data['ctalo'] != "":
 		ctalomos = data["ctalo"] # data["ctalomos"]
