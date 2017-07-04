@@ -23,7 +23,7 @@ def get_nav_submenu(id,permissions,db):
 
 	#menus = NavMenus.objects.using(db).filter(father=menu,permission__in=permissions)
 	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
-	menus = NavMenus.objects.using(db).filter(father=menu).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None))
+	menus = NavMenus.objects.using(db).filter(father=menu).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None)).order_by('orden')
 	for submenu in menus:
 		submenu.submenus = get_nav_submenu(submenu.id,permissions,db)
 
@@ -32,7 +32,7 @@ def get_nav_submenu(id,permissions,db):
 def get_nav_menu(permissions,db):
 	#menus = NavMenus.objects.using(db).filter(main=True,permission__in=permissions)
 	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
-	menus = NavMenus.objects.using(db).filter(main=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None))
+	menus = NavMenus.objects.using(db).filter(main=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None)).order_by('orden')
 
 	for menu in menus:
 		menu.submenus = get_nav_submenu(menu.id,permissions,db)
@@ -41,7 +41,7 @@ def get_nav_menu(permissions,db):
 
 def get_quick_access(permissions,db):
 	modules_enabled = Modules.objects.using(db).filter(enabled=True,enabled_enterprise=True)
-	quick_access = NavMenus.objects.using(db).filter(quick_access=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None));
+	quick_access = NavMenus.objects.using(db).filter(quick_access=True).filter(module__in=modules_enabled).filter(Q(permission__in=permissions) | Q(permission=None)).order_by('orden')
 	return quick_access
 
 def get_choices_timo(using,query={}):

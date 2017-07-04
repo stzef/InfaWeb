@@ -377,6 +377,7 @@ class NavMenus(models.Model):
 	permission = models.TextField(max_length=1000,null=True, blank=True)
 	module = models.ForeignKey(Modules,null=True, blank=True)
 	general = models.BooleanField(default=False)
+	orden = models.IntegerField(default=0)
 	father = models.ForeignKey('NavMenus',null=True, blank=True)
 	quick_access = models.BooleanField(default=False)
 
@@ -394,8 +395,9 @@ class NavMenus(models.Model):
 			enabled : self.enabled,
 			anchor : self.anchor,
 			url : self.url,
-			#permission : self.permission,
+			permission : self.permission,
 			#module : self.module,
 			general : self.general,
 			#father : self.father,
+			orden : self.orden,
 		})
