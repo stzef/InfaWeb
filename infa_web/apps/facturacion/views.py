@@ -1228,7 +1228,7 @@ def send_email(request):
 			attachments.pop(index)
 	print attachments
 
-	enviar=enviarmail("Reportes de Ventas",mails,attachments)
+	enviar=enviarmail("Reportes de Ventas",mails,attachments,'ReporteVentas')
 
 	print enviar
 

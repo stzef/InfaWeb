@@ -65,7 +65,7 @@ urlSucursales = [
 ]
 
 urlTalonarios = [
-	url(r'^cheque_book/$', permission_required('base.list_talo')(login_required(ChequeBooksList.as_view())),name = 'list-cheque-books'),
+	url(r'^cheque_book/$', permission_required('base.add_talo')(login_required(ChequeBooksList.as_view())),name = 'list-cheque-books'),
 	url(r'^cheque_book/add/$', permission_required('base.add_talo')(login_required(ChequeBookCreate.as_view())),name = 'add-cheque-book'),
 	url(r'^cheque_book/edit/(?P<pk>[0-9])+/$', permission_required('base.change_talo')(login_required(ChequeBookUpdate.as_view())),name = 'edit-cheque-book'),
 ]
