@@ -11,8 +11,9 @@ def MenuDetailCreate(data,using):
 	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
-		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
-		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
+		print value
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
+		menu = Menus.objects.using(using).get(pk=value["cmenu"])
 
 		if not Menusdeta.objects.using(using).filter(cmenu=menu,cplato=plato).exists():
 			it = Menusdeta.objects.using(using).filter(cmenu=menu).aggregate(Max('it'))
@@ -21,15 +22,15 @@ def MenuDetailCreate(data,using):
 			else:
 				it = 1
 
-			value["detail"]["cmenu"] = menu
-			value["detail"]["cplato"] = plato
+			value["cmenu"] = menu
+			value["cplato"] = plato
 
-			value["detail"]["it"] = it
+			value["it"] = it
 
-			value["detail"]["vunita"] = plato.vttotal
-			value["detail"]["vtotal"] = float(value["detail"]["vunita"]) * float(value["detail"]["canti"])
+			value["vunita"] = plato.vttotal
+			value["vtotal"] = float(value["vunita"]) * float(value["canti"])
 
-			menudeta = Menusdeta(**value["detail"])
+			menudeta = Menusdeta(**value)
 
 			response["data"].append({
 				"DT_RowId": "row_1",
@@ -57,12 +58,12 @@ def MenuDetailUpdate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		#ingrediente = Ingredientes.objects.using(using).get(pk=value["detail"]["cingre"])
-		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
-		menu = Menus.objects.using(using).get(pk=value["detail"]["cmenu"])
+		#ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
+		menu = Menus.objects.using(using).get(pk=value["cmenu"])
 
-		value["detail"]["cmenu"] = menu
-		value["detail"]["cplato"] = plato
+		value["cmenu"] = menu
+		value["cplato"] = plato
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato.cplato,cmenu=menu)
 
 		menu.vttotal -= decimal.Decimal(menudeta.vtotal)
@@ -72,9 +73,9 @@ def MenuDetailUpdate(data,using):
 
 		menudeta.vtotal = menudeta.canti * menudeta.vunita
 
-		menudeta.canti = float(value["detail"]["canti"])
-		menudeta.vunita = float(value["detail"]["vunita"])
-		menudeta.vtotal = float(value["detail"]["canti"]) * float(value["detail"]["vunita"])
+		menudeta.canti = float(value["canti"])
+		menudeta.vunita = float(value["vunita"])
+		menudeta.vtotal = float(value["canti"]) * float(value["vunita"])
 
 		response["data"].append({
 			"DT_RowId": "row_1",
@@ -101,8 +102,8 @@ def MenuDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		menu = Menus.objects.using(using).get(cmenu=value["detail"]["cmenu"])
-		plato = Platos.objects.using(using).get(pk=value["detail"]["cplato"])
+		menu = Menus.objects.using(using).get(cmenu=value["cmenu"])
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato,cmenu=menu)
 
 		response["data"].append({})

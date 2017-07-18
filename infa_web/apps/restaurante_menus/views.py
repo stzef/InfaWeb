@@ -280,6 +280,7 @@ class MenuUpdate(AjaxableResponseMixin,CustomUpdateView):
 @csrf_exempt
 def MenuDetailCRUD(request):
 	data = json.loads(request.body)
+	print data["data"]
 	if ( data["action"] == "create" ):
 		response = MenuDetailCreate(data["data"].iteritems(),request.db)
 	elif ( data["action"] == "edit" ):

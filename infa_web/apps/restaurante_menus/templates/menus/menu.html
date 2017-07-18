@@ -193,6 +193,51 @@
 		</div>
 	</div>
 
+<div id="modal_action_create_plato" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Modal Header</h4>
+		</div>
+		<div class="modal-body">
+			<form action="">
+				<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
+				<div class="form-group">
+					<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+					<div class="input-group">
+						<label for="">Plato</label>
+						<input required="" type="text" class="form-control" name="cplato" id="cplato">
+						<!-- <editor-field name="detail.cplato"></editor-field> -->
+						<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="">Nombre</label>
+					<input required="" type="text" class="form-control" name="nplato" id="nplato" readonly="">
+					<!-- <editor-field name="detail.nplato"></editor-field> -->
+				</div>
+
+				<div class="form-group">
+
+					<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+					<!-- <editor-field name="detail.canti"></editor-field> -->
+					<label for="">Cantidad</label>
+					<input required="" type="text" class="form-control" name="canti" id="canti">
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-success" onclick="guardar_plato()" form="">Guardar</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+		</div>
+	</div>
+
+	</div>
+</div>
+
 	<div class="hide">
 
 		<div id="customTemplate">
@@ -223,11 +268,11 @@
 {% block content_script %}
 
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
+	<!-- <script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script> -->
+	<!-- <script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script> -->
 
 	<script>
-
+		var table_platos;
 		CONF_DTE.i18n.create.title = "Menu: Nuevo Plato"
 		CONF_DTE.i18n.edit.title = "Menu: Editar Plato"
 		CONF_DTE.i18n.remove.title = "Menu: Eliminar Plato"
@@ -244,6 +289,77 @@
 				fillTable()
 			}
 		}
+		function get_data_action(action){
+			data = {
+				action : action, // edit or remove
+				data : {
+					detail : {
+						// "it" : "1",
+						"cplato" : $("#cplato").val(),
+						"nplato" : $("#nplato").val(),
+						"canti" : $("#canti").val(),
+						"cmenu" : $("[name=cmenu]").val(),
+						"vunita" : "1",
+						"vtotal" : "1",
+					}
+				}
+			}
+
+			return data
+		}
+		function guardar_plato(){
+			var data = get_data_action($("#action_detail_menu").val())
+			$.ajax({
+				"url": "/menus/dishes/",
+				"type": "POST",
+				"dataType": "json",
+				"contentType": "application/json",
+				"data": JSON.stringify(data),
+				success: function(response){
+					console.log(response)
+					table_platos.rows( { selected: true } ).remove().draw(false)
+					table_platos.rows.add(response.data).draw(false)
+					$("#modal_action_create_plato").modal("hide")
+				}
+			})
+		}
+
+		function action_create_plato(){
+			$("#action_detail_menu").val("create")
+			table_platos.rows().deselect()
+			$("#modal_action_create_plato").modal("show")
+		}
+
+		function action_edit_plato(){
+			$("#action_detail_menu").val("edit")
+			var count = table_platos.rows( { selected: true } ).count();
+			if ( count == 1 ){
+				var data = table_platos.rows( { selected: true } ).data()[0].detail
+				$("#cplato").val(data.cplato)
+				$("#nplato").val(data.nplato)
+				$("#canti").val(data.canti)
+				$("#modal_action_create_plato").modal("show")
+			}else{
+				alertify.warning("Solo debe seleccionar un plato para la edición.")
+			}
+		}
+
+		function action_remove_plato(){
+			var count = table_platos.rows( { selected: true } ).count();
+			var data = table_platos.rows( { selected: true } ).data()[0].detail
+			data.cmenu = $("[name=cmenu]").val()
+			$.ajax({
+				"url": "/menus/dishes/",
+				"type": "POST",
+				"dataType": "json",
+				"contentType": "application/json",
+				"data": JSON.stringify({data:{detail:data},action:"remove"}),
+				success: function(response){
+					console.log(response)
+					table_platos.rows( { selected: true } ).remove().draw(false)
+				}
+			})
+		}
 
 		function clear_data(d) {
 			console.log(d)
@@ -257,7 +373,7 @@
 
 		function fillTable(){
 
-			editor = new $.fn.dataTable.Editor( {
+			/*editor = new $.fn.dataTable.Editor( {
 				template : "#customTemplate",
 				ajax: {
 					create : {
@@ -338,9 +454,6 @@
 					event.target.field("detail.cplato").disable()
 				}
 			}).on("open",function(event, frame, action){
-
-
-
 				$("[id*=-cplato]").change(function(){
 					var input = this
 					Models.objects.findOne("Platos",{cplato : input.value},function(error,plato){
@@ -351,12 +464,10 @@
 						}
 						event.target.field("detail.nplato").set(plato.fields.nplato)
 					})
-
-
 				})
-			})
+			})*/
 
-			$('#example').DataTable( {
+			table_platos = $('#example').DataTable( {
 				dom: "Bfrtip",
 				ajax: {
 					url: "/menus/dishes/" + $("[name=cmenu]").val(),
@@ -372,9 +483,9 @@
 				],
 				select: 'single',
 				buttons: [
-					{ extend: "create", editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text},
-					{ extend: "edit",   editor: editor,className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text},
-					{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
+					{ className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text, action : action_create_plato},
+					{ className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text, action : action_edit_plato},
+					{ className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text, action : action_remove_plato }
 				],
 				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {
