@@ -12,9 +12,9 @@ def DishDetailCreate(data,using):
 	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
-		del value["ingredientes"]["ningre"]
-		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
-		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
+		del value["ningre"]
+		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
 
 		if not Platosdeta.objects.using(using).filter(cingre=ingrediente,cplato=plato).exists():
 			it = Platosdeta.objects.using(using).filter(cplato=plato).aggregate(Max('it'))
@@ -24,18 +24,18 @@ def DishDetailCreate(data,using):
 				it = 1
 
 
-			value["ingredientes"]["cingre"] = ingrediente
-			value["ingredientes"]["cplato"] = plato
+			value["cingre"] = ingrediente
+			value["cplato"] = plato
 
-			value["ingredientes"]["it"] = it
+			value["it"] = it
 
-			value["ingredientes"]["vunita"] = ingrediente.vcosto
-			value["ingredientes"]["vtotal"] = float(value["ingredientes"]["vunita"]) * float(value["ingredientes"]["canti"])
+			value["vunita"] = ingrediente.vcosto
+			value["vtotal"] = float(value["vunita"]) * float(value["canti"])
 
-			value["ingredientes"]["cunidad"] = ingrediente.cunidad
+			value["cunidad"] = ingrediente.cunidad
 
 
-			platodeta = Platosdeta(**value["ingredientes"])
+			platodeta = Platosdeta(**value)
 
 			response["data"].append({
 				"DT_RowId": "row_1",
@@ -67,11 +67,11 @@ def DishDetailUpdate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
-		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
+		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
 
-		value["ingredientes"]["cingre"] = ingrediente
-		value["ingredientes"]["cplato"] = plato
+		value["cingre"] = ingrediente
+		value["cplato"] = plato
 		platodeta = Platosdeta.objects.using(using).get(cplato=plato.cplato,cingre=ingrediente.cingre)
 
 		plato.vttotal -= decimal.Decimal(platodeta.vtotal)
@@ -81,11 +81,11 @@ def DishDetailUpdate(data,using):
 
 		platodeta.vtotal = platodeta.canti * platodeta.vunita
 
-		platodeta.canti = float(value["ingredientes"]["canti"])
-		platodeta.vunita = float(value["ingredientes"]["vunita"])
-		platodeta.vtotal = float(value["ingredientes"]["canti"]) * float(value["ingredientes"]["vunita"])
+		platodeta.canti = float(value["canti"])
+		platodeta.vunita = float(value["vunita"])
+		platodeta.vtotal = float(value["canti"]) * float(value["vunita"])
 
-		value["ingredientes"]["cunidad"] = ingrediente.cunidad
+		value["cunidad"] = ingrediente.cunidad
 
 		response["data"].append({
 			"DT_RowId": "row_1",
@@ -116,9 +116,9 @@ def DishDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		#del value["ingredientes"]["cunidad"]
-		ingrediente = Ingredientes.objects.using(using).get(pk=value["ingredientes"]["cingre"])
-		plato = Platos.objects.using(using).get(pk=value["ingredientes"]["cplato"])
+		#del value["cunidad"]
+		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		plato = Platos.objects.using(using).get(pk=value["cplato"])
 		platodeta = Platosdeta.objects.using(using).get(cplato=plato.cplato,cingre=ingrediente.cingre)
 
 		response["data"].append({})

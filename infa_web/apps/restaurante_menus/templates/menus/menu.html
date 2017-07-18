@@ -193,50 +193,50 @@
 		</div>
 	</div>
 
-<div id="modal_action_create_plato" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+	<div id="modal_action_create_plato" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-	<!-- Modal content-->
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Modal Header</h4>
-		</div>
-		<div class="modal-body">
-			<form action="">
-				<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
-				<div class="form-group">
-					<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
-					<div class="input-group">
-						<label for="">Plato</label>
-						<input required="" type="text" class="form-control" name="cplato" id="cplato">
-						<!-- <editor-field name="detail.cplato"></editor-field> -->
-						<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<form action="">
+					<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
+					<div class="form-group">
+						<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+						<div class="input-group">
+							<label for="">Plato</label>
+							<input required="" type="text" class="form-control" name="cplato" id="cplato">
+							<!-- <editor-field name="detail.cplato"></editor-field> -->
+							<span class="input-group-addon"><a data-new-window data-action="select" href="{% url 'list-dishes' %}" target="_blank"><i class="fa fa-search"></i></a></span>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="">Nombre</label>
-					<input required="" type="text" class="form-control" name="nplato" id="nplato" readonly="">
-					<!-- <editor-field name="detail.nplato"></editor-field> -->
-				</div>
+					<div class="form-group">
+						<label for="">Nombre</label>
+						<input required="" type="text" class="form-control" name="nplato" id="nplato" readonly="">
+						<!-- <editor-field name="detail.nplato"></editor-field> -->
+					</div>
 
-				<div class="form-group">
+					<div class="form-group">
 
-					<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
-					<!-- <editor-field name="detail.canti"></editor-field> -->
-					<label for="">Cantidad</label>
-					<input required="" type="text" class="form-control" name="canti" id="canti">
-				</div>
-			</form>
+						<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+						<!-- <editor-field name="detail.canti"></editor-field> -->
+						<label for="">Cantidad</label>
+						<input required="" type="text" class="form-control" name="canti" id="canti">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" onclick="guardar_plato()" form="">Guardar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+			</div>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-success" onclick="guardar_plato()" form="">Guardar</button>
-			<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
 		</div>
 	</div>
-
-	</div>
-</div>
 
 	<div class="hide">
 
@@ -285,7 +285,7 @@
 
 			if( mode_view == "create" ){
 				$("#section_menu_deatil").removeClass("hidden")
-				$("form").find("input,button:not([action=reset-form])").prop("disabled",true)
+				$("form#form").find("input,button:not([action=reset-form])").prop("disabled",true)
 				fillTable()
 			}
 		}
@@ -299,14 +299,15 @@
 						"nplato" : $("#nplato").val(),
 						"canti" : $("#canti").val(),
 						"cmenu" : $("[name=cmenu]").val(),
-						"vunita" : "1",
-						"vtotal" : "1",
+						// "vunita" : "1",
+						// "vtotal" : "1",
 					}
 				}
 			}
 
 			return data
 		}
+
 		function guardar_plato(){
 			var data = get_data_action($("#action_detail_menu").val())
 			$.ajax({
@@ -345,20 +346,25 @@
 		}
 
 		function action_remove_plato(){
-			var count = table_platos.rows( { selected: true } ).count();
-			var data = table_platos.rows( { selected: true } ).data()[0].detail
-			data.cmenu = $("[name=cmenu]").val()
-			$.ajax({
-				"url": "/menus/dishes/",
-				"type": "POST",
-				"dataType": "json",
-				"contentType": "application/json",
-				"data": JSON.stringify({data:{detail:data},action:"remove"}),
-				success: function(response){
-					console.log(response)
-					table_platos.rows( { selected: true } ).remove().draw(false)
-				}
-			})
+			alertify.confirm("Realmente desea borrar el plato ?",
+			function (){
+				var count = table_platos.rows( { selected: true } ).count();
+				var data = table_platos.rows( { selected: true } ).data()[0].detail
+				data.cmenu = $("[name=cmenu]").val()
+				$.ajax({
+					"url": "/menus/dishes/",
+					"type": "POST",
+					"dataType": "json",
+					"contentType": "application/json",
+					"data": JSON.stringify({data:{detail:data},action:"remove"}),
+					success: function(response){
+						console.log(response)
+						table_platos.rows( { selected: true } ).remove().draw(false)
+					}
+				})
+			},
+			function(){}
+			)
 		}
 
 		function clear_data(d) {

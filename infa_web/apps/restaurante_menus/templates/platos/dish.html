@@ -12,7 +12,7 @@
 	-->
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}"> -->
 
 {% endblock content_head %}
 
@@ -74,7 +74,7 @@
 									<div class="col-md-6">
 										<div>
 											<div class="panel">
-												<img class="ae-img-article img-responsive img-thumbnail center-block" src="{% static url_foto %}" alt="">
+												<img class="ae-img-article img-responsive img-thumbnail center-block" src="{{url_foto}}" alt="">
 											</div>
 											<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
 											{%if form.foto.errors%}
@@ -146,6 +146,58 @@
 			</div>
 		</section>
 	</div>
+
+	<div id="modal_action_create_ingrediente" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+				<form action="">
+					<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
+
+					<div class="form-group">
+						<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
+						<div class="input-group">
+							<!-- <editor-field name="ingredientes.cingre"></editor-field> -->
+							<label for="">Ingrediente</label>
+							<input required="" type="text" name="cingre" id="cingre" class="form-control">
+							<span class="input-group-addon">
+								<a data-new-window data-action="select" href="{% url 'list-ingredients' %}" target="_blank"><i class="fa fa-search"></i></a>
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="">Nombre</label>
+						<input required="" type="text" name="ningre" id="ningre" readonly="" class="form-control">
+						<!-- <editor-field name="ingredientes.ningre"></editor-field> -->
+					</div>
+
+					<div class="form-group">
+						<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
+							<label for="">Cantidad</label>
+							<div class="input-group">
+								<!-- <editor-field name="ingredientes.canti"></editor-field> -->
+								<input required="" type="text" name="canti" id="canti" class="form-control">
+								<span id="nunidad" class="input-group-addon"></span>
+							</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" onclick="guardar_ingrediente()" form="">Guardar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+
+		</div>
+	</div>
+
 	<div class="hide">
 		<div id="customTemplate">
 			<div class="col-md-12 form-group">
@@ -178,8 +230,8 @@
 
 {% block content_script %}
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script>
-	<script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script>
+	<!-- <script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/dataTables.editor.min.js' %}"></script> -->
+	<!-- <script type="text/javascript" charset="utf-8" src="{% static 'js/editor_js/editor.bootstrap.min.js' %}"></script> -->
 
 	<script>
 
@@ -191,12 +243,92 @@
 		var editor; // use a global for the submit and return data rendering in the examples
 		var table_crud; // use a global for the submit and return data rendering in the examples
 
+		function get_data_action(action){
+			data = {
+				action : action, // edit or remove
+				data : {
+					"ingredientes" : {
+						// "it" : "",
+						"cingre" : $("#cingre").val(),
+						"ningre" : $("#ningre").val(),
+						"canti" : $("#canti").val(),
+						cplato : $("[name=cplato]").val(),
+						// "vunita" : "1",
+						// "vtotal" : "1",
+						// "cunidad" : "1",
+					}
+				}
+			}
+
+			return data
+		}
+
+		function guardar_ingrediente(){
+			var data = get_data_action($("#action_detail_menu").val())
+			$.ajax({
+				"url": "/dishes/ingredients/",
+				"type": "POST",
+				"dataType": "json",
+				"contentType": "application/json",
+				"data": JSON.stringify(data),
+				success: function(response){
+					console.log(response)
+					table_crud.rows( { selected: true } ).remove().draw(false)
+					table_crud.rows.add(response.data).draw(false)
+					$("#modal_action_create_ingrediente").modal("hide")
+				}
+			})
+		}
+
+		function action_create_ingrediente(){
+			$("#action_detail_menu").val("create")
+			table_crud.rows().deselect()
+			$("#modal_action_create_ingrediente").modal("show")
+		}
+		function action_edit_ingrediente(){
+			$("#action_detail_menu").val("edit")
+			var count = table_crud.rows( { selected: true } ).count();
+			if ( count == 1 ){
+				var data = table_crud.rows( { selected: true } ).data()[0].ingredientes
+
+				$("#cingre").val(data.cingre)
+				$("#ningre").val(data.ningre)
+				$("#canti").val(data.canti)
+
+				$("#modal_action_create_ingrediente").modal("show")
+			}else{
+				alertify.warning("Solo debe seleccionar un ingrediente para la edición.")
+			}
+		}
+		function action_remove_ingrediente(){
+			alertify.confirm("Desea Eliminar el ingrediente ?",
+			function (){
+				var count = table_crud.rows( { selected: true } ).count();
+				var data = table_crud.rows( { selected: true } ).data()[0].ingredientes
+				data.cplato = $("[name=cplato]").val()
+				$.ajax({
+					"url": "/dishes/ingredients/",
+					"type": "POST",
+					"dataType": "json",
+					"contentType": "application/json",
+					"data": JSON.stringify({data:{ingredientes:data},action:"remove"}),
+					success: function(response){
+						console.log(response)
+						table_crud.rows( { selected: true } ).remove().draw(false)
+					}
+				})
+
+			},
+			function(){}
+			)
+		}
+
 		function fn(response){
 			$("[name=cplato]").val(response.pk)
 
 			if( mode_view == "create" ){
 				$("#section_dish_deatil").removeClass("hidden")
-				$("form").find("input,button:not([action=reset-form])").prop("disabled",true)
+				$("form#form").find("input,button:not([action=reset-form])").prop("disabled",true)
 				fillTable()
 			}
 		}
@@ -212,7 +344,7 @@
 
 		function fillTable(){
 
-			editor = new $.fn.dataTable.Editor( {
+			/*editor = new $.fn.dataTable.Editor( {
 				template : "#customTemplate",
 				ajax: {
 					//url : "/dishes/load_deta/"
@@ -279,9 +411,9 @@
 						"type" : "hidden"
 					}
 				]
-			})
+			})*/
 
-			editor.on("submitComplete",function(event, response, data){
+			/*editor.on("submitComplete",function(event, response, data){
 				if(response.message){
 					var message = alertBootstrap(response.message.text,response.message.type)
 					$("#form").prepend(message)
@@ -315,20 +447,8 @@
 						}
 					})
 
-					/*$.ajax({
-						url: '{% url 'api-get-object' %}',
-						type: 'POST',
-						data: JSON.stringify({
-							'model': 33,
-							'field': "cingre",
-							'value': input.value
-						}),
-						contentType: "application/json",
-						success: function(response){
-						}
-					})*/
 				})
-			})
+			})*/
 
 			table_crud = $('#example').DataTable( {
 				dom: "Bfrtip",
@@ -347,9 +467,9 @@
 				],
 				select: 'single',
 				buttons: [
-					{ extend: "create", editor: editor,className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text},
-					{ extend: "edit",   editor: editor,className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text},
-					{ extend: "remove", editor: editor,className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text}
+					{ className:CONF_DTE.buttons.create.className, text:CONF_DTE.buttons.create.text, action : action_create_ingrediente},
+					{ className:CONF_DTE.buttons.edit.className, text:CONF_DTE.buttons.edit.text, action : action_edit_ingrediente},
+					{ className:CONF_DTE.buttons.remove.className, text:CONF_DTE.buttons.remove.text, action : action_remove_ingrediente}
 				],
 				language: CONF_DTE.language
 			}).on( 'xhr', function ( e, settings, data ) {
