@@ -271,18 +271,6 @@ class Command(BaseCommand):
 				anchor = False,
 				module = mod_general,
 			)
-			m_basicos_Grupos_Menus = NavMenus.objects.using(name_db).create(
-				permission = 'restaurante_menus.add_gposmenus',
-				url = 'add-menu-group',
-				icon = 'fa-circle-o',
-				name = 'Grupos Menus',
-				father = m_basicos,
-				general = False,
-				enabled = True,
-				main = False,
-				anchor = False,
-				module = mod_general,
-			)
 			m_basicos_Unidades = NavMenus.objects.using(name_db).create(
 				permission = 'articulos.add_unidades',
 				url = 'add-unit',
@@ -484,7 +472,7 @@ class Command(BaseCommand):
 				enabled = True,
 				anchor = False,
 				url = 'add-menu',
-				permission = 'restaurante_menus.add_menus',
+				permission = 'articulos.add_arlo',
 				general=False,
 				father = m_restaurante_basicos,
 				icon = 'fa-list-alt',

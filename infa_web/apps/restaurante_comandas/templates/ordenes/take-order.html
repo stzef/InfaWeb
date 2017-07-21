@@ -242,27 +242,27 @@
 						<div class="section-header">
 							<ul class="nav nav-pills" style="display: block;white-space: nowrap;overflow: auto;">
 								{% for grupo in gruposMenu %}
-									<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpomenu.split|join:'_'|lower}}">{{grupo.ngpomenu}}</a></li>
+									<li class="{% if forloop.first %}active {% endif %}" style="display: inline-block;float: none"><a data-toggle="pill" href="#tab{{grupo.ngpo.split|join:'_'|lower}}">{{grupo.ngpo}}</a></li>
 								{% endfor %}
 							</ul>
 						</div>
 						<div class="section-content">
 							<div class="tab-content">
 								{% for grupo in gruposMenu %}
-									<div id="tab{{grupo.ngpomenu.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
+									<div id="tab{{grupo.ngpo.split|join:'_'|lower}}" class="tab-pane {% if forloop.first %}active {% endif %}">
 										<div class="row">
 											<div class="col-md-12">
 												<div class="box box-primary">
 													<!--<div class="box-header with-border">
-														<h3 class="box-title">{{grupo.ngpomenu}}</h3>
+														<h3 class="box-title">{{grupo.ngpo}}</h3>
 													</div>-->
 													<div class="box-body">
 														<div class="text-center">
 															{% for menu in grupo.menus %}
-																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.cmenu}}" title="{{menu.nmenu}}">
-																	<p class="text-center">{{menu.nmenu|truncatechars:15}}</p>
+																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.carlos}}" title="{{menu.ncorto}}">
+																	<p class="text-center">{{menu.ncorto|truncatechars:15}}</p>
 																	<div class="col-md-6 foto">
-																		<img class="img-responsive img-thumbnail" src="{% static 'img/loading.gif' %}" data-src="{{ menu.foto.url }}" />
+																		<img class="img-responsive img-thumbnail" src="{% static 'img/loading.gif' %}" data-src="{{ menu.foto1.url }}" />
 																	</div>
 																	<div class="col-md-6 more">
 																		<p>{{ menu.pvta1 | intcomma }}</p>
@@ -272,7 +272,7 @@
 																	</div>
 																</div>
 															{% empty %}
-																<p>No hay Menus del grupo <b>{{grupo.ngpomenu}}</b> </p>
+																<p>No hay Menus del grupo <b>{{grupo.ngpo}}</b> </p>
 															{% endfor %}
 
 														</div>
@@ -471,7 +471,7 @@
 					'success' : function(response){
 						WaitDialog.hide()
 						//alertBootstrap("Las Comandas se guardo.","success",".content")
-						alertify.success("Las Comandas se guardo.")
+						alertify.success("La Comanda se guardo.")
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
 						})
@@ -602,11 +602,12 @@
 					$("#label_ccoda_activa").html(ccoda)
 					table.rows().remove().draw()
 					detalle.forEach(function(item){
-						var temp_cmenu = item.fields.cmenu.cmenu,
+						console.warn(item)
+						var temp_cmenu = item.fields.cmenu.carlos,
 						temp_canti = parseInt(item.fields.canti),
-						temp_nmenu = item.fields.cmenu.nmenu,
+						temp_ncorto = item.fields.cmenu.ncorto,
 						temp_pvta1 = currencyFormat.format(item.fields.cmenu.pvta1)
-						var row = table.row.add([temp_cmenu,temp_canti,temp_nmenu,temp_pvta1]).draw( false );
+						var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_pvta1]).draw( false );
 					})
 					actualizar_total()
 				}else{
@@ -635,13 +636,13 @@
 				table.row(cell.row).cell(cell.row,cols.canti.i).data( canti + 1 )
 				actualizar_total()
 			}else{
-				Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
+				Models.objects.findOne("Arlo",{carlos : cmenu},function(error,menu){
 					var temp_cmenu = menu.pk,
 					temp_canti = 1,
-					temp_nmenu = menu.fields.nmenu,
+					temp_ncorto = menu.fields.ncorto,
 					temp_pvta1 = currencyFormat.format(menu.fields.pvta1)
 
-					var row = table.row.add([temp_cmenu,temp_canti,temp_nmenu,temp_pvta1]).draw( false );
+					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_pvta1]).draw( false );
 					actualizar_total()
 				})
 			}
@@ -652,14 +653,14 @@
 			var div_menu = $(button).closest(".menu"),
 				cmenu = div_menu.data("cmenu")
 
-			Models.objects.findOne("Menus",{cmenu : cmenu},function(error,menu){
+			Models.objects.findOne("Arlo",{carlos : cmenu},function(error,menu){
 				if(menu){
 
 					var element = $("[data-cmenu="+cmenu+"]")
 
 					$("#modal_detalle_menu").find("table tbody").empty()
 					$("#modal_detalle_menu").modal("show")
-					$("#modal_detalle_menu").find("#modal_menu_nmenu").html(menu.fields.nmenu)
+					$("#modal_detalle_menu").find("#modal_menu_nmenu").html(menu.fields.ncorto)
 					$("#modal_detalle_menu").find("#modal_menu_precio").html(currencyFormat.format(menu.fields.pvta1))
 					$("#modal_detalle_menu").find("#modal_menu_foto").attr("src",element.find("img").attr("src"))
 					Models.objects.find("Menusdeta",{cmenu : cmenu},function(error,detalle){

@@ -36,10 +36,12 @@ urlGroups = [
 	#url(r'^menus/groups/edit/(?P<pk>\d+)/$', login_required(GroupUpdate.as_view()), name = 'edit-group-menu'),
 ]
 
+"""
 urlGroups = [
 	url(r'^menu-groups/$', permission_required('restaurante_menus')(login_required(GroupList.as_view())), name = 'list-menu-groups'),
 	url(r'^menu-groups/add/$', permission_required('restaurante_menus')(login_required(GroupCreate.as_view())), name = 'add-menu-group'),
 	url(r'^menu-groups/edit/(?P<pk>\d+)/$', permission_required('restaurante_menus')(login_required(GroupUpdate.as_view())), name = 'edit-menu-group'),
 ]
+"""
 
 urlpatterns = urlIngredients + urlDishes + urlMenu + urlGroups

@@ -109,6 +109,7 @@ class DishDetailForm(forms.ModelForm):
 			'vtotal':'Valor Total',
 		}
 
+"""
 class MenuForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(MenuForm, self).__init__(*args, **kwargs)
@@ -149,6 +150,7 @@ class MenuForm(forms.ModelForm):
 			'foto' : 'Foto',
 
 		}
+"""
 
 class MenuDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
@@ -178,6 +180,7 @@ class MenuDetailForm(forms.ModelForm):
 			'vtotal': 'V Total'
 		}
 
+"""
 class GposMenusForm(forms.ModelForm):
 
 	def __init__(self, using='', *args, **kwargs):
@@ -209,3 +212,4 @@ class GposMenusForm(forms.ModelForm):
 			'cesdo' : 'Estado',
 			'orden' : 'Orden',
 		}
+"""

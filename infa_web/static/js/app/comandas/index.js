@@ -66,7 +66,7 @@ function abrir_modal_resumen_pedido(mesa){
 			comandas.forEach(function(comanda){
 				Models.objects.find("Codadeta",{ccoda__ccoda:comanda.fields.ccoda},function(error,detalles){
 					console.warn(detalles)
-					if ( detalles.length ){
+					if ( detalles ){
 						detalles.forEach(function(detalle){
 							var template_tr = "<tr>"+
 								"<td>Comanda # __ccoda__</td>"+
@@ -77,7 +77,7 @@ function abrir_modal_resumen_pedido(mesa){
 							table.append(
 								$(template_tr
 									.set("__ccoda__",comanda.fields.ccoda)
-									.set("__nmenu__",detalle.fields.cmenu.nmenu)
+									.set("__nmenu__",detalle.fields.cmenu.ncorto)
 									.set("__canti__",detalle.fields.canti)
 									.set("__vunita__", currencyFormat.format(detalle.fields.vunita))
 								)
@@ -280,8 +280,8 @@ function facturar_pedido(cresupedi){
 					data.mvdeta = detalles.map(function(item){
 						var d = {
 							"itfac":it,
-							"carlos":item.fields.cmenu.cmenu,
-							"name__carlos":item.fields.cmenu.nmenu,
+							"carlos":item.fields.cmenu.carlos,
+							"name__carlos":item.fields.cmenu.ncorto,
 							"canti":item.fields.canti,
 							"pordes":0,
 							"civa":1,

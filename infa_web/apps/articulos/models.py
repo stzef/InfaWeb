@@ -126,6 +126,46 @@ class Arlo(models.Model):
 	def __unicode__(self):
 		return self.nlargo
 
+	def natural_key(self):
+		return ({
+			"carlos" : self.carlos,
+			"cbarras" : self.cbarras,
+			#"cgpo" : self.cgpo,
+			"ncorto" : self.ncorto,
+			"nlargo" : self.nlargo,
+			"canti" : self.canti,
+			"vcosto" : self.vcosto,
+			"ifcostear" : self.ifcostear,
+			"ifpvfijo" : self.ifpvfijo,
+			#"cesdo" : self.cesdo,
+			#"ctiarlo" : self.ctiarlo,
+			#"cunidad" : self.cunidad,
+			#"ivas_civa" : self.ivas_civa,
+			"stomin" : self.stomin,
+			"stomax" : self.stomax,
+			"pvta1" : self.pvta1,
+			"pvta2" : self.pvta2,
+			"pvta3" : self.pvta3,
+			"pvta4" : self.pvta4,
+			"pvta5" : self.pvta5,
+			"pvta6" : self.pvta6,
+			"ifedinom" : self.ifedinom,
+			"refe" : self.refe,
+			#"cmarca" : self.cmarca,
+			"ifdesglo" : self.ifdesglo,
+			"mesesgara" : self.mesesgara,
+			#"cubica" : self.cubica,
+			"porult1" : self.porult1,
+			"porult2" : self.porult2,
+			"porult3" : self.porult3,
+			"porult4" : self.porult4,
+			"porult5" : self.porult5,
+			"porult6" : self.porult6,
+			"foto1" : self.foto1.url,
+			"foto2" : self.foto2.url,
+			"foto3" : self.foto3.url,
+		})
+
 	class Meta:
 		ordering = ['-nlargo']
 		permissions = (
@@ -133,6 +173,7 @@ class Arlo(models.Model):
 			("list_gpo", "Puede Listar Grupos"),
 			("list_tiarlos", "Puede Listar Tipo de Articulos"),
 		)
+
 
 class Arlosdesglo(models.Model):
 	carlosp = models.ForeignKey(Arlo, related_name='carlosp')

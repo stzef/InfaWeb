@@ -74,7 +74,6 @@ class Command(BaseCommand):
 			Usuario.objects.using(name_db).all().delete()
 
 			#Restaurante_menus
-			GposMenus.objects.using(name_db).all().delete()
 
 			#Restaurante_comandas
 			Mesas.objects.using(name_db).all().delete()
@@ -1491,15 +1490,6 @@ class Command(BaseCommand):
 				ctiide = Tiide.objects.using(name_db).get(pk=DEFAULT_TIIDE),
 			)
 			print "Terceros. Registros Creados Correctamente."
-
-			#Restaurante_menus - Grupos Menus
-			GposMenus.objects.using(name_db).create(cgpomenu = 1,ngpomenu = "PLATOS FUERTES",cesdo = estadoActivo,orden = 1)
-			GposMenus.objects.using(name_db).create(cgpomenu = 2,ngpomenu = "ENTRADAS",cesdo = estadoActivo,orden = 2)
-			GposMenus.objects.using(name_db).create(cgpomenu = 3,ngpomenu = "BEBIDAS",cesdo = estadoActivo,orden = 3)
-			GposMenus.objects.using(name_db).create(cgpomenu = 4,ngpomenu = "PLATOS FRIOS",cesdo = estadoActivo,orden = 4)
-			GposMenus.objects.using(name_db).create(cgpomenu = 5,ngpomenu = "ENSALADAS",cesdo = estadoActivo,orden = 5)
-			GposMenus.objects.using(name_db).create(cgpomenu = 6,ngpomenu = "COMIDA RAPIDA",cesdo = estadoActivo,orden = 6)
-			print "Grupos de Menus. Registros Creados Correctamente."
 
 			#Restaurante_menus - Grupos Menus
 			Mesas.objects.using(name_db).create(cmesa = 1,nmesa = "Mesa 1",cesdo = estadoActivo,npmax = 4)

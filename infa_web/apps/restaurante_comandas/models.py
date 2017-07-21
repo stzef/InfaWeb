@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from infa_web.apps.base.models import *
 from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.articulos.models import  Arlo
 
 from infa_web.apps.base.constantes import *
 
@@ -169,7 +170,7 @@ class Coda(models.Model):
 class Codadeta(models.Model):
 	ccoda = models.ForeignKey(Coda)
 	it = models.IntegerField()
-	cmenu = models.ForeignKey(Menus)
+	cmenu = models.ForeignKey(Arlo)
 	nlargo = models.CharField(max_length=50)
 	canti = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
@@ -185,6 +186,7 @@ class Codadeta(models.Model):
 			"ccoda" : self.ccoda,
 			"it" : self.it,
 			#"cmenu" : self.cmenu,
+			"cmenu" : self.cmenu.natural_key(),
 			"nlargo" : self.nlargo,
 			"canti" : self.canti,
 			"vunita" : self.vunita,

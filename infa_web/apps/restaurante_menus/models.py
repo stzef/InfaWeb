@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from infa_web.apps.base.models import *
-from infa_web.apps.articulos.models import Unidades
+from infa_web.apps.articulos.models import Unidades, Arlo
 
 from infa_web.apps.base.constantes import *
 
@@ -10,6 +10,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.db import models
 
+"""
 class GposMenus(models.Model):
 
 	class Meta:
@@ -33,6 +34,7 @@ class GposMenus(models.Model):
 			"cesdo" : self.cesdo.natural_key(),
 			"orden" : self.orden,
 		})
+"""
 
 class Ingredientes(models.Model):
 	cingre = models.IntegerField(primary_key=True)
@@ -127,6 +129,7 @@ class Platosdeta(models.Model):
 			"vtotal" : self.vtotal,
 		})"""
 
+"""
 class Menus(models.Model):
 
 	class Meta:
@@ -168,9 +171,10 @@ class Menus(models.Model):
 			"vttotal" : self.vttotal,
 			"foto" : self.foto.url,
 		})
+"""
 
 class Menusdeta(models.Model):
-	cmenu = models.ForeignKey(Menus)
+	cmenu = models.ForeignKey(Arlo)
 	it = models.CharField(max_length=50)
 	cplato = models.ForeignKey(Platos)
 	nplato = models.CharField(max_length=50)

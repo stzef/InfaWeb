@@ -651,29 +651,121 @@ def defaults(request):
 		"forma_pago" : Tifopa.objects.using(request.db).filter(ctifopa=DEFAULT_MEDIO_PAGO),
 	}
 
-	data["tercero"] = json.loads(serializers.serialize("json", data["tercero"],use_natural_foreign_keys=True))[0]
-	data["domiciliario"] = json.loads(serializers.serialize("json", data["domiciliario"],use_natural_foreign_keys=True))[0]
-	data["empacador"] = json.loads(serializers.serialize("json", data["empacador"],use_natural_foreign_keys=True))[0]
-	data["banco"] = json.loads(serializers.serialize("json", data["banco"],use_natural_foreign_keys=True))[0]
-	data["caja"] = json.loads(serializers.serialize("json", data["caja"],use_natural_foreign_keys=True))[0]
-	data["talonario"] = json.loads(serializers.serialize("json", data["talonario"],use_natural_foreign_keys=True))[0]
-	data["medio_pago"] = json.loads(serializers.serialize("json", data["medio_pago"],use_natural_foreign_keys=True))[0]
-	data["marca"] = json.loads(serializers.serialize("json", data["marca"],use_natural_foreign_keys=True))[0]
-	data["bodega"] = json.loads(serializers.serialize("json", data["bodega"],use_natural_foreign_keys=True))[0]
-	data["ubicacion"] = json.loads(serializers.serialize("json", data["ubicacion"],use_natural_foreign_keys=True))[0]
-	data["grupo"] = json.loads(serializers.serialize("json", data["grupo"],use_natural_foreign_keys=True))[0]
-	data["zona"] = json.loads(serializers.serialize("json", data["zona"],use_natural_foreign_keys=True))[0]
-	data["ruta"] = json.loads(serializers.serialize("json", data["ruta"],use_natural_foreign_keys=True))[0]
-	data["unidad"] = json.loads(serializers.serialize("json", data["unidad"],use_natural_foreign_keys=True))[0]
-	data["persona"] = json.loads(serializers.serialize("json", data["persona"],use_natural_foreign_keys=True))[0]
-	data["iva"] = json.loads(serializers.serialize("json", data["iva"],use_natural_foreign_keys=True))[0]
-	data["regimen_iva"] = json.loads(serializers.serialize("json", data["regimen_iva"],use_natural_foreign_keys=True))[0]
-	data["vendedor"] = json.loads(serializers.serialize("json", data["vendedor"],use_natural_foreign_keys=True))[0]
-	data["tipo_identificacion"] = json.loads(serializers.serialize("json", data["tipo_identificacion"],use_natural_foreign_keys=True))[0]
-	data["ciudad"] = json.loads(serializers.serialize("json", data["ciudad"],use_natural_foreign_keys=True))[0]
-	data["estado"] = json.loads(serializers.serialize("json", data["estado"],use_natural_foreign_keys=True))[0]
-	data["tipo_articulo"] = json.loads(serializers.serialize("json", data["tipo_articulo"],use_natural_foreign_keys=True))[0]
-	data["forma_pago"] = json.loads(serializers.serialize("json", data["forma_pago"],use_natural_foreign_keys=True))[0]
+	data["tercero"] = json.loads(serializers.serialize(
+		"json",
+		data["tercero"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["domiciliario"] = json.loads(serializers.serialize(
+		"json",
+		data["domiciliario"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["empacador"] = json.loads(serializers.serialize(
+		"json",
+		data["empacador"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["banco"] = json.loads(serializers.serialize(
+		"json",
+		data["banco"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["caja"] = json.loads(serializers.serialize(
+		"json",
+		data["caja"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["talonario"] = json.loads(serializers.serialize(
+		"json",
+		data["talonario"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["medio_pago"] = json.loads(serializers.serialize(
+		"json",
+		data["medio_pago"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["marca"] = json.loads(serializers.serialize(
+		"json",
+		data["marca"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["bodega"] = json.loads(serializers.serialize(
+		"json",
+		data["bodega"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["ubicacion"] = json.loads(serializers.serialize(
+		"json",
+		data["ubicacion"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["grupo"] = json.loads(serializers.serialize(
+		"json",
+		data["grupo"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["zona"] = json.loads(serializers.serialize(
+		"json",
+		data["zona"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["ruta"] = json.loads(serializers.serialize(
+		"json",
+		data["ruta"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["unidad"] = json.loads(serializers.serialize(
+		"json",
+		data["unidad"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["persona"] = json.loads(serializers.serialize(
+		"json",
+		data["persona"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["iva"] = json.loads(serializers.serialize(
+		"json",
+		data["iva"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["regimen_iva"] = json.loads(serializers.serialize(
+		"json",
+		data["regimen_iva"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["vendedor"] = json.loads(serializers.serialize(
+		"json",
+		data["vendedor"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["tipo_identificacion"] = json.loads(serializers.serialize(
+		"json",
+		data["tipo_identificacion"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["ciudad"] = json.loads(serializers.serialize(
+		"json",
+		data["ciudad"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["estado"] = json.loads(serializers.serialize(
+		"json",
+		data["estado"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["tipo_articulo"] = json.loads(serializers.serialize(
+		"json",
+		data["tipo_articulo"],
+		use_natural_foreign_keys=True
+	))[0]
+	data["forma_pago"] = json.loads(serializers.serialize(
+		"json",
+		data["forma_pago"],
+		use_natural_foreign_keys=True
+	))[0]
 
 	user_django = get_current_user(request.db,request.user,user_django=True)
 	if user_django is not None:

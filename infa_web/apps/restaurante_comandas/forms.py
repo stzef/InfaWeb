@@ -26,7 +26,7 @@ class TableForm(forms.ModelForm):
 			'cesdo':'Estado',
 			'npmax':'# Personas',
 		}
-
+"""
 class MenuForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(MenuForm, self).__init__(*args, **kwargs)
@@ -66,7 +66,7 @@ class MenuForm(forms.ModelForm):
 			'foto' : 'Foto',
 
 		}
-
+"""
 class MenuDetailForm(forms.ModelForm):
 	def __init__(self, using='', *args, **kwargs):
 		super(MenuDetailForm, self).__init__(*args, **kwargs)

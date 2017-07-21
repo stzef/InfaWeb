@@ -11,7 +11,10 @@ from django.db.models import Max
 from infa_web.parameters import ManageParameters
 from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.base.views import AjaxableResponseMixin
+
 from infa_web.apps.restaurante_menus.forms import *
+from infa_web.apps.articulos.forms import *
+
 from infa_web.apps.base.constantes import *
 
 
@@ -207,6 +210,7 @@ def DishDetailCRUD(request):
 # dish #
 
 # menu #
+"""
 class MenusList(CustomListView):
 	model = Menus
 	template_name = "menus/list-menus.html"
@@ -276,6 +280,100 @@ class MenuUpdate(AjaxableResponseMixin,CustomUpdateView):
 		context['url'] = reverse_lazy('edit-menu',kwargs={'pk': self.kwargs["pk"]},)
 
 		return context
+"""
+
+
+
+
+
+
+class MenuCreate(AjaxableResponseMixin,CustomCreateView):
+	model = Arlo
+	# template_name = "articulos/article.html"
+	template_name = "menus/menu.html"
+	form_class = ArticleForm
+	success_url=reverse_lazy("add-article")
+	success_message = "Menu creado."
+
+	def get_context_data(self, **kwargs):
+		context = super(MenuCreate, self).get_context_data(**kwargs)
+		context['title'] = "Crear Menu"
+		context['mode_view'] = 'create'
+		context['url'] = reverse_lazy('add-article')
+
+		context['url_foto1'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto2'] = DEFAULT_IMAGE_ARTICLE
+		context['url_foto3'] = DEFAULT_IMAGE_ARTICLE
+
+		manageParameters = ManageParameters(self.request.db)
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
+
+		return context
+
+	def post(self, request, *args, **kwargs):
+		mutable_data = request.POST.copy()
+
+		manageParameters = ManageParameters(self.request.db)
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+
+		maxCarlos = Arlo.objects.using(request.db).aggregate(Max('carlos'))
+		if maxCarlos["carlos__max"]:
+			carlos = maxCarlos["carlos__max"] + 1
+		else:
+			carlos = minCodeArlos
+
+		mutable_data["carlos"] = carlos
+
+		request.POST = mutable_data
+
+		return super(MenuCreate, self).post(request, *args, **kwargs)
+
+class MenuUpdate(AjaxableResponseMixin,CustomUpdateView):
+	model = Arlo
+	# template_name = "articulos/article.html"
+	template_name = "menus/menu.html"
+	success_url=reverse_lazy("add-article")
+	form_class = ArticleForm
+
+	def get_context_data(self, **kwargs):
+		context = super(MenuUpdate, self).get_context_data(**kwargs)
+		context['title'] = "Editar Menu"
+		context['mode_view'] = 'edit'
+		context['current_pk'] = self.kwargs["pk"]
+		context['url'] = reverse_lazy('edit-article',kwargs={'pk': self.kwargs["pk"]},)
+
+		current_article = Arlo.objects.using(self.request.db).get(pk=self.kwargs["pk"])
+
+		manageParameters = ManageParameters(self.request.db)
+		minCodeArlos = manageParameters.get_param_value("min_code_arlos")
+		typeInventory = manageParameters.get_param_value("type_costing_and_stock")
+		context['typeInventory'] = typeInventory
+
+		context['url_foto1'] = current_article.foto1.url
+		context['url_foto2'] = current_article.foto2.url
+		context['url_foto3'] = current_article.foto3.url
+		return context
+
+class MenusList(CustomListView):
+	model = Arlo
+	# template_name = "articulos/list-articles.html"
+	template_name = "menus/list-menus.html"
+
+# Articles #
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @csrf_exempt
 def MenuDetailCRUD(request):
@@ -292,6 +390,7 @@ def MenuDetailCRUD(request):
 # menu #
 
 # Groups #
+"""
 class GroupCreate(AjaxableResponseMixin,CustomCreateView):
 	model = GposMenus
 	form_class = GposMenusForm
@@ -342,4 +441,5 @@ class GroupList(CustomListView):
 				ordering = (ordering,)
 			queryset = queryset.order_by(*ordering)
 		return queryset
+"""
 # Groups #

@@ -5,7 +5,11 @@ from infa_web.parameters import ManageParameters
 
 import json
 import datetime
+
 from infa_web.apps.restaurante_menus.models import *
+
+from infa_web.apps.articulos.models import Gpo, Arlo
+
 from infa_web.apps.base.forms import CommonForm
 from infa_web.apps.restaurante_comandas.models import *
 from infa_web.apps.restaurante_comandas.forms import *
@@ -192,7 +196,7 @@ def SaveCommand(request):
 	for codadeta in data["deta"]:
 
 		cmenu = codadeta[data["cols"]["cmenu"]["i"]]
-		menu = Menus.objects.using(request.db).get(cmenu= cmenu)
+		menu = Arlo.objects.using(request.db).get(carlos= cmenu)
 
 		canti = float(codadeta[data["cols"]["canti"]["i"]])
 		vunita = float(codadeta[data["cols"]["vunita"]["i"]])
@@ -229,7 +233,7 @@ def AnnulmentItemCommand(request):
 
 	responses = []
 	for data in data["codadeta"]:
-		menu = Menus.objects.using(request.db).get(cmenu = data["cmenu"])
+		menu = Arlo.objects.using(request.db).get(carlos = data["cmenu"])
 		coda = Coda.objects.using(request.db).get(ccoda = data["ccoda"])
 		codadeta = Codadeta.objects.using(request.db).get(cmenu= menu,ccoda= coda)
 
@@ -350,11 +354,11 @@ def TakeOrder(request):
 
 	mesero = get_current_user(request.db,request.user,mesero=True)
 	print "_-________________"
-	print mesero
 
-	gruposMenu = GposMenus.objects.using(request.db).all().order_by("orden")
+	gruposMenu = Gpo.objects.using(request.db).all()# .order_by("orden")
+	print gruposMenu
 	for grupoMenu in gruposMenu:
-		grupoMenu.menus = Menus.objects.using(request.db).filter(cgpomenu=grupoMenu)
+		grupoMenu.menus = Arlo.objects.using(request.db).filter(cgpo=grupoMenu)
 
 	mesas = Mesas.objects.using(request.db).all()
 	today = datetime.date.today()
@@ -366,7 +370,6 @@ def TakeOrder(request):
 		).values('cmesa')
 	)
 
-	print mesas_activas
 	print "_-________________"
 
 	context = {
