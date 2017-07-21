@@ -503,7 +503,7 @@ def OrderPrint(request):
 	for comanda in comandas:
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
 		for detalle in detalles:
-			data.append([detalle.cmenu.nmenu[:10],str(detalle.canti),str(detalle.vtotal)])
+			data.append([detalle.cmenu.ncorto[:10],str(detalle.canti),str(detalle.vtotal)])
 
 	data.append(["_______________", "_________", "____________"])
 	data.append(["Total","-->",str(resupedi.vttotal)])

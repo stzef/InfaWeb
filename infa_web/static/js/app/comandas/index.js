@@ -221,16 +221,16 @@ function resumen_pedido(){
 		})
 	}
 }
-
+function print_bill(cfac){
+	/*
+		@param cfac String : codigo de factura a imprimir
+		Abre una nueva ventana con la factura en pdf
+	*/
+	window.open("/pos/print?cfac=" + cfac)
+}
 function facturar_pedido(cresupedi){
 	console.log('Facturando... ' + cresupedi)
 
-
-
-
-
-
-	var cresupedi = 1
 	Models.objects.findOne("Resupedi",{cresupedi : cresupedi},function(error,resupedi){
 		console.log(resupedi)
 		if ( resupedi ){
@@ -293,9 +293,9 @@ function facturar_pedido(cresupedi){
 						return d
 					})
 					console.log(data)
-					/*WaitDialog.show("Guardando")
+					WaitDialog.show("Guardando")
 					$.ajax({
-						url: "",
+						url: "/bill/save/",
 						type: 'POST',
 						data: JSON.stringify(data),
 						contentType: "application/json",
@@ -316,7 +316,7 @@ function facturar_pedido(cresupedi){
 							})
 
 						}
-					});*/
+					});
 
 
 				})
