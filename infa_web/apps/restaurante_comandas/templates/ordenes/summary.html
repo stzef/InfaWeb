@@ -118,7 +118,8 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary text-center" onclick="resumen_pedido(this,event)">Pagar</button>
+					<button type="button" id="btn_pagar_pedido" class="btn btn-app btn-primary text-center" onclick="resumen_pedido(this,event)">Pagar</button>
+					<button type="button" data-cresupedi="" id="btn_facturar_pedido" class="btn btn-app btn-primary text-center" onclick="facturar_pedido(this.dataset.cresupedi)">Facturar</button>
 				</div>
 			</div>
 		</div>
@@ -209,6 +210,39 @@
 		</div>
 	</div>
 
+	<!-- Modal Listado de Pedidos -->
+	<div class="modal fade" id="modal_listado_pedidos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title" id="exampleModalLabel6"> Listado Pedidos </span></h3>
+				</div>
+				<div class="modal-body">
+				<table id="table-resupedi">
+					<thead>
+						<tr>
+							<th>Pedido</th>
+							<th>Vr Total</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<!--
+					/orders/print/?cresupedi=4
+					order-print
+				-->
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal Seleccionar Accion de Mesa -->
 	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 		<div class="modal-dialog modal-lg" role="document">
@@ -225,8 +259,8 @@
 							<!-- <label for="modal_input_action" class="col-sm-2 control-label"> Accion </label> -->
 							<div class="col-sm-12">
 								<button onclick="realizar_accion(this,event)" data-value="R" class="btn btn-primary btn-block"> Generar Cuenta </button>
-								<button onclick="realizar_accion(this,event)" data-value="PA" class="btn btn-primary btn-block"> Pedidos Anteriores </button>
-								<button onclick="realizar_accion(this,event)" data-value="F" class="btn btn-primary btn-block"> Facturar </button>
+								<button onclick="realizar_accion(this,event)" data-value="PA" class="btn btn-primary btn-block"> Listado Pedidos </button>
+								<!-- <button onclick="realizar_accion(this,event)" data-value="F" class="btn btn-primary btn-block"> Facturar </button> -->
 								<button onclick="realizar_accion(this,event)" data-value="UC" class="btn btn-primary btn-block"> Unir Cuentas </button>
 								<!--
 								<select id="modal_input_action" class="form-control" required="" size="5">
@@ -247,6 +281,7 @@
 			</div>
 		</div>
 	</div>
+<div id="print_button_container"></div>
 
 	<!-- Contenido Pagina -->
 	<div class="content-wrapper" style="min-height: 921px;">
@@ -266,6 +301,9 @@
 	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	-->
+	<script src="https://www.google.com/cloudprint/client/cpgadget.js"></script>
+
+	<script src="{% static 'js/moment-with-locales.js' %}"></script>
 
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
 

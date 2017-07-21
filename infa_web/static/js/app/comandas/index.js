@@ -1,5 +1,22 @@
 var cmesa_activa = null
 
+$(document).ready(function() {
+
+	WaitDialog.show("Cargando...")
+	$.ajax({
+		type  : "GET",
+		url : "/general/defaults",
+		success: function(data){
+			WaitDialog.hide()
+			appem_defaults = data
+		},
+		error : function(data){
+			WaitDialog.hide()
+			WaitDialog.show("Ocurrio Un Error el la Carga")
+		}
+	})
+})
+
 function accion_mesa(div,event){
 	cmesa_activa = $(div).data("cmesa")
 	nmesa_activa = $(div).data("nmesa")
@@ -12,13 +29,16 @@ function accion_mesa(div,event){
 function realizar_accion(button,event){
 	Models.objects.findOne("Mesas",{cmesa : cmesa_activa},function(error,mesa){
 		if( $(button).data("value") == "R" ) abrir_modal_resumen_pedido(mesa)
-		if( $(button).data("value") == "F" ) abrir_modal_facturar_pedido(mesa)
+		// if( $(button).data("value") == "F" ) abrir_modal_facturar_pedido(mesa)
 		if( $(button).data("value") == "UC" ) abrir_modal_unir_cuentas(mesa)
+		if( $(button).data("value") == "PA" ) abrir_modal_listado_pedidos(mesa)
 		$("#modal_accion_mesa").modal("hide")
 	})
 }
 
 function abrir_modal_resumen_pedido(mesa){
+	$("#modal_accion_resumen #btn_pagar_pedido").removeClass("hide")
+
 	var div_mesa = $(".mesa[data-cmesa=__cmesa__]".set("__cmesa__",cmesa_activa))
 
 	$("#modal_accion_resumen").find(".label_vtotal_mesa_modal").html( currencyFormat.format( div_mesa.data("vttotal") ) )
@@ -28,6 +48,7 @@ function abrir_modal_resumen_pedido(mesa){
 	$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
 
 	Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
+		console.info(comandas)
 		if ( comandas ) {
 			$("#modal_accion_resumen").modal("show")
 			var div = $("<div></div>")
@@ -43,8 +64,9 @@ function abrir_modal_resumen_pedido(mesa){
 			"</table>"
 			var table = $(template_thead)
 			comandas.forEach(function(comanda){
-				Models.objects.find("Codadeta",{ccoda__ccoda:comanda.pk},function(error,detalles){
-					if ( detalles ){
+				Models.objects.find("Codadeta",{ccoda__ccoda:comanda.fields.ccoda},function(error,detalles){
+					console.warn(detalles)
+					if ( detalles.length ){
 						detalles.forEach(function(detalle){
 							var template_tr = "<tr>"+
 								"<td>Comanda # __ccoda__</td>"+
@@ -73,10 +95,12 @@ function abrir_modal_resumen_pedido(mesa){
 	})
 }
 
+/*
 function abrir_modal_facturar_pedido(mesa){
 	$("#modal_accion_facturar").find(".label_nmesa_modal").html(mesa.fields.nmesa)
 	$("#modal_accion_facturar").modal("show")
 }
+*/
 
 function abrir_modal_unir_cuentas(mesa){
 	var selector = ".mesa.activa:not([data-cmesa=__cmesa__])".set("__cmesa__",cmesa_activa)
@@ -109,6 +133,32 @@ function abrir_modal_unir_cuentas(mesa){
 		alertify.warning("No hay mesas para unir");
 	}
 
+}
+
+function abrir_modal_listado_pedidos(mesa){
+	console.log(mesa)
+	$("#modal_listado_pedidos").modal("show")
+	var cmesa = mesa.pk
+	$.ajax({
+		url : `/tables/info-resupedi/${cmesa}/`,
+		type : "POST",
+		dataType : "json",
+		success : function(response){
+			table_resupedi.rows().remove().draw(false)
+			response.forEach( resupedi => {
+				table_resupedi.rows.add([
+					{
+						resupedi: {
+							credupedi: resupedi.pk,
+							vttotal: currencyFormat.format(resupedi.fields.vttotal),
+							btn_fac: `<button class='btn btn-info' onclick="facturar_pedido(${resupedi.pk})">Facturar</button>`,
+							btn_print: `<a class='btn btn-info' target='_blank' href='/orders/print/?cresupedi=${resupedi.pk}'>Imprimir</a>`
+						}
+					}
+				]).draw(false)
+			} )
+		}
+	})
 }
 
 function unir_cuentas(){
@@ -150,30 +200,131 @@ function resumen_pedido(){
 		$.ajax({
 			url : "/orders/summary/save/",
 			type : "POST",
+			dataType : 'json',
 			data : JSON.stringify( data_save ),
 			success : function ( response ){
+				imprimir_resumen_pedido(response.resupedi.pk)
 				WaitDialog.hide()
 				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
 				$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
 				$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
 
 				$("#modal_unir_cuenta").find(".container_cuenta___cmesa__".set("__cmesa__",cmesa_activa)).remove()
-
-				$("#modal_accion_resumen").modal("hide")
-				// $("#modal_formas_pago").modal("hide")
+				$("#modal_accion_resumen #btn_pagar_pedido").addClass("hide")
+				$("#modal_accion_resumen #btn_facturar_pedido").attr("data-cresupedi",response.resupedi.pk)
+				// $("#modal_accion_resumen").modal("hide")
 
 				alertify.success("El resumen de pedido se guardo.")
 
 				table_crud.rows().remove().draw()
-
-				// imprimir_resumen_pedido(response.pk)
 			}
 		})
 	}
 }
 
-function facturar_pedido(){
-	$("#modal_accion_facturar").modal("hide")
+function facturar_pedido(cresupedi){
+	console.log('Facturando... ' + cresupedi)
+
+
+
+
+
+
+	var cresupedi = 1
+	Models.objects.findOne("Resupedi",{cresupedi : cresupedi},function(error,resupedi){
+		console.log(resupedi)
+		if ( resupedi ){
+			Models.objects.find("Coda",{cresupedi__cresupedi : resupedi.pk},function(error,comandas){
+				console.log(comandas)
+				var ccodas = comandas.map( comanda => comanda.fields.ccoda )
+				console.log(ccodas)
+				Models.objects.find("Codadeta",{ccoda__ccoda : ccodas[0]},function(error,detalles){
+					console.info(detalles)
+
+
+					var vttotal = resupedi.fields.vttotal
+
+					var data = {
+						//"mode_view":"create",
+						"citerce":appem_defaults.tercero.pk,
+						"name__citerce":appem_defaults.tercero.fields.nomcomer,
+						"cvende":appem_defaults.current_vendedor.pk,
+						"cdomici":appem_defaults.domiciliario.pk,
+						"ctifopa":appem_defaults.forma_pago.pk,
+						"femi":moment().format("YYYY-MM-DD"),
+						"fpago":moment().format("YYYY-MM-DD"),
+						"cemdor":appem_defaults.empacador.pk,
+						"ccaja":appem_defaults.current_user_appem.fields.ccaja,
+						"cesdo":appem_defaults.estado.pk,
+						"descri":"",
+						"vttotal":vttotal,
+						"ventre":vttotal,
+						"vcambio":0,
+						"vtbase":vttotal,
+						"vtiva":0,
+						"brtefte":0,
+						"prtefte":0,
+						"vrtefte":0,
+						"vflete":0,
+						"vdescu":0,
+						"medios_pagos":[{
+							"it":1,
+							"cmpago":appem_defaults.medio_pago.pk,
+							"docmpago":0,
+							"banmpago":appem_defaults.banco.pk,
+							"vmpago":vttotal
+						}],
+						"mvdeta":[]
+					}
+					var it = 1
+					data.mvdeta = detalles.map(function(item){
+						var d = {
+							"itfac":it,
+							"carlos":item.fields.cmenu.cmenu,
+							"name__carlos":item.fields.cmenu.nmenu,
+							"canti":item.fields.canti,
+							"pordes":0,
+							"civa":1,
+							"vunita":currencyFormat.sToN(item.fields.cmenu.pvta1),
+							"vtotal":0
+						}
+						it++
+						d.vtotal = d.canti * d.vunita
+						return d
+					})
+					console.log(data)
+					/*WaitDialog.show("Guardando")
+					$.ajax({
+						url: "",
+						type: 'POST',
+						data: JSON.stringify(data),
+						contentType: "application/json",
+						error: function(response){
+							WaitDialog.hide()
+							alertify.notify(response.responseJSON.message,"error")
+						},
+						success: function(response){
+							WaitDialog.hide()
+							related_information = response.related_information
+							if(response.error){
+								alertify.notify(response.message,"danger")
+							}else{
+								alertify.notify(response.message,"success")
+							}
+							alertify.confirm("Desea Imprimir La Factura __cfac__".set("__cfac__",related_information.fields.cfac),function(){
+								print_bill(related_information.fields.cfac)
+							})
+
+						}
+					});*/
+
+
+				})
+			})
+		}
+	})
+
+
 }
 
 function get_medios_pago(){
@@ -242,6 +393,15 @@ $('#modal_accion_facturar,#modal_formas_pago,#modal_unir_cuenta').on('shown.bs.m
 })
 
 
+var table_resupedi = $('#table-resupedi').DataTable( {
+	language: CONF_DTE.language,
+	columns: [
+		{ data: "resupedi.credupedi" },
+		{ data: "resupedi.vttotal" },
+		{ data: "resupedi.btn_fac" },
+		{ data: "resupedi.btn_print" }
+	],
+} )
 var table_crud = $('#example').DataTable( {
 	dom: "Bfrtip",
 	ajax: false,

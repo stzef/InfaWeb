@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core import serializers
 import json
 
 from infa_web.apps.base.models import *
@@ -9,7 +10,6 @@ from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.movimientos.models import *
 
-from django.core import serializers
 
 class Fac(models.Model):
 	class Meta:

@@ -30,13 +30,11 @@ class Command(BaseCommand):
 
 		if(prosiga_bajo_su_responsabilidad):
 			for coda in Coda.objects.using(name_db).all():
-				coda.cresupedi = None
-				coda.save(using=name_db)
-
-			for resupedi in Resupedi.objects.using(name_db).all():
-				print "Resupedi %s Borrado " % resupedi.cresupedi
-				Resupedipago.objects.using(name_db).filter(cresupedi=resupedi).delete()
-				resupedi.delete()
+				for codadeta in Codadeta.objects.using(name_db).filter(ccoda=coda):
+					print "Codadeta %s Borrado " % codadeta.pk
+					codadeta.delete()
+				coda.delete()
+				print "Coda %s Borrado " % coda.ccoda
 
 				print "------------------------"
 		else:

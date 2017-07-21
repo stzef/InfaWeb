@@ -15,7 +15,7 @@ from django.core import serializers
 from infa_web.custom.generic_views import CustomListView, CustomCreateView, CustomUpdateView
 
 from infa_web.apps.base.utils import get_current_user
-from django.db.models import Max
+from django.db.models import Max, Count
 
 from django.contrib.auth.models import User
 from infa_web.apps.usuarios.models import Usuario
@@ -128,10 +128,10 @@ def SaveSummary(request):
 		cresupedi = Resupedi.objects.latest('cresupedi').cresupedi + 1
 	except Exception as e:
 		cresupedi = 1
-
+	today = datetime.date.today().strftime("%Y-%m-%d")
 	resupedi = Resupedi(
 		cresupedi=cresupedi,
-		fresupedi = "2017-01-01",
+		fresupedi = today, #"2017-01-01",
 		vttotal = totales,
 		detaanula = "",
 		ifcortesia = False,
@@ -160,8 +160,10 @@ def SaveSummary(request):
 	resupedi = serializers.serialize("json", [resupedi],fields=('cresupedi','vttotal','detaanula','ifcortesia'),use_natural_foreign_keys=True)
 	resupedi = json.loads(resupedi)[0]
 
-
-	return HttpResponse(json.dumps(data), "application/json")
+	response = {
+		"resupedi" : resupedi
+	}
+	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
 def SaveCommand(request):
@@ -298,6 +300,22 @@ def InfoSummaryUpdate(request,pk):
 	return HttpResponse(json.dumps(mesa), "application/json")
 
 @csrf_exempt
+def GetResupediMesa(request,cmesa):
+	# data = json.loads(request.body)
+	mesa = Mesas.objects.using(request.db).get(cmesa = cmesa)
+
+	# comandas = Coda.objects.using(request.db).all().annotate(Count("cresupedi"))
+	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=False).annotate(Count("cresupedi"))
+	comandas = map( lambda c: c.cresupedi, comandas )
+	print comandas
+	comandas_json = json.loads(serializers.serialize("json", comandas,use_natural_foreign_keys=True))
+
+
+
+	response = comandas_json
+
+	return HttpResponse(json.dumps(response), "application/json")
+
 def OrdersJoin(request):
 	data = json.loads(request.body)
 	cmesa = data["mesa"]
@@ -385,6 +403,7 @@ def OrderSummary(request):
 		}
 		return render(request, "ordenes/summary.html", context)
 
+"""
 class OrderPrint(PDFTemplateView):
 	template_name = "ordenes/print/format_half_letter.html"
 
@@ -423,3 +442,132 @@ class OrderPrint(PDFTemplateView):
 		context['comandas'] = comandas
 
 		return context
+
+"""
+
+import reportlab
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4, inch, landscape, portrait
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
+from django.utils import timezone
+
+def OrderPrint(request):
+
+	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"
+
+	# Create the HttpResponse object with the appropriate PDF headers.
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+
+	manageParameters = ManageParameters(request.db)
+	data = request.GET
+
+	formato = data.get('formato')
+	cresupedi = data.get('cresupedi')
+
+	resupedi = Resupedi.objects.using(request.db).get(cresupedi=cresupedi)
+	comandas = Coda.objects.using(request.db).filter(cresupedi=resupedi,cesdo__cesdo=1)
+
+	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc.pagesize = portrait((190, 1900))
+
+	hr_linea = "___________________________________"
+
+	elements = []
+
+	data_header = [
+		[manageParameters.get("company_name")],
+		[manageParameters.get("text_header_pos_bill")],
+		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+		# ["I.V.I Serie 5205964"],
+		# [sucursal.nsucur],
+		# ["Dir:" + sucursal.dirsucur],
+		# ["Tel:" + sucursal.telsucur],
+		# ["Cel:" + sucursal.celsucur],
+	]
+
+	data = [
+		["===============", "=========", "============"],
+		["Descripcion", "Cant", "Vr. Tot"],
+		["_______________", "_________", "____________"],
+	]
+
+	for comanda in comandas:
+		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
+		for detalle in detalles:
+			data.append([detalle.cmenu.nmenu[:10],str(detalle.canti),str(detalle.vtotal)])
+
+	data.append(["_______________", "_________", "____________"])
+	data.append(["Total","-->",str(resupedi.vttotal)])
+	data.append(["===============", "=========", "============"])
+
+	style_table_header = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	])
+
+	style_table_facdeta = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+	])
+
+	#Configure style and word wrap
+	s = getSampleStyleSheet()
+
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
+	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+
+	bodytext = s["tirilla"]
+	headertext = s["header"]
+	#s.wordWrap = 'CJK'
+	bodytext.wordWrap = 'LTR'
+	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
+	t=Table(data2)
+	t.setStyle(style_table_facdeta)
+
+	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
+	t_header=Table(data2_header)
+	t_header.setStyle(style_table_header)
+
+	elements.append(t_header)
+	elements.append(Paragraph("<br/>Resumen de Pedido No. %s" % resupedi.cresupedi,s['tirilla']))
+
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(resupedi.fresupedi),s['tirilla']))
+	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
+	elements.append(t)
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
+	elements.append(Paragraph(hr_linea ,s['tirilla']))
+	elements.append(Paragraph(text_footer_stzef ,s['tirilla']))
+	elements.append(Paragraph(hr_linea ,s['tirilla']))
+	elements.append(Paragraph("." ,s['tirilla']))
+	doc.build(elements)
+
+	return response

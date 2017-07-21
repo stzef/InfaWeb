@@ -161,7 +161,7 @@ class Coda(models.Model):
 			"cmesa" : self.cmesa.natural_key(),
 			"cesdo" : self.cesdo.natural_key(),
 			"cmero" : self.cmero.natural_key(),
-			"cresupedi" : self.cresupedi,
+			"cresupedi" : self.cresupedi.natural_key() if self.cresupedi is not None else self.cresupedi,
 			"detaanula" : self.detaanula,
 			"vttotal" : self.vttotal,
 		})
