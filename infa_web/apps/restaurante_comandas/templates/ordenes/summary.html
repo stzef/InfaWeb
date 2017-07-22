@@ -6,10 +6,8 @@
 
 {% block content_head %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
-	<!--
-	<link rel="stylesheet" type="text/css" href="{% static 'css/editor.dataTables.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
-	-->
+
+
 	<style>
 		.mesa{
 			cursor: pointer;
@@ -29,262 +27,195 @@
 	{% include 'elements/nav.html' %}
 	{% include 'elements/sidebar.html' %}
 
-	<div class="hide">
-		<div id="template_it">{{ form_medios_pagos.it }}</div>
-		<div id="template_cmpago">{{ form_medios_pagos.cmpago }}</div>
-		<div id="template_docmpago">{{ form_medios_pagos.docmpago }}</div>
-		<div id="template_banmpago">{{ form_medios_pagos.banmpago }}</div>
-		<!--<div id="template_vmpago">{{ form_medios_pagos.vmpago }}</div>-->
-		<div id="template_vmpago">
-			<!--<input class="input-currency form-control" id="id_vmpago" min="0" name="vmpago" step="0.01" type="text" required="" style="text-align: right;">-->
-			<input class="{{form_medios_pagos.vmpago.field.widget.attrs.class}}" id="{{form_medios_pagos.vmpago.id_for_label}}" min="{{form_medios_pagos.vmpago.field.widget.attrs.min}}" name="vmpago" step="{{form_medios_pagos.vmpago.field.widget.attrs.step}}" type="text" required="" style="text-align: right;" onchange="verificar_total_pago(this,event)">
-		</div>
-	</div>
-	<!-- Modal Resumen de Pedido -->
-	<!--<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel1">Cuenta <span class="label_nmesa_modal"></span></h3>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p> Mesa : <span id="label_nmesa"></span></p>
-					<p> Mesero : <span id="label_nmero"></span></p>
-					<p> Fecha : <span id="label_fecha"></span></p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary text-center" onclick="mostrar_resumen_pedido(this,event)">Formas de </br> Pago</button>
-				</div>
-			</div>
-		</div>
-	</div>-->
-	<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h3 class="modal-title" id="exampleModalLabel1">Cuenta <span class="label_nmesa_modal"></span></h3>
-					<h4 class="modal-title" id="exampleModalLabel4">
-						<b><span class="label_vtotal_mesa_modal"></span></b>
-					</h4>
-				</div>
-				<div class="modal-body">
-					<div class="panel-group" id="accordion">
-
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
-									<h4 class="panel-title">Formas de Pago</h4>
-								</a>
-							</div>
-							<div id="collapse_head" class="panel-collapse collapse in">
-								<div class="panel-body">
-									<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
-										<thead>
-											<tr>
-												<th>Medio de Pago</th>
-												<th>Documento</th>
-												<th>Banco</th>
-												<th>Total</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
-							</div>
-						</div>
-
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
-									<h4 class="panel-title">
-										Detalle
-									</h4>
-								</a>
-							</div>
-							<div id="collapse_detail" class="panel-collapse collapse">
-								<div class="panel-body">
-									<div id="section-detalle-comanda"></div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" id="btn_pagar_pedido" class="btn btn-app btn-primary text-center" onclick="resumen_pedido(this,event)">Pagar</button>
-					<button type="button" data-cresupedi="" id="btn_facturar_pedido" class="btn btn-app btn-primary text-center" onclick="facturar_pedido(this.dataset.cresupedi)">Facturar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal Facturar Pedido -->
-	<div class="modal fade" id="modal_accion_facturar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel2">Facturar de Pedido <span class="label_nmesa_modal"></span></h3>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="facturar_pedido(this,event)">Facturar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal Formas de Pago -->
-	<!--<div class="modal fade" id="modal_formas_pago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h3 class="modal-title" id="exampleModalLabel4">Formas de Pago </span></h3>
-					<h4 class="modal-title" id="exampleModalLabel4">
-						<span class="label_nmesa_modal"></span>
-						<b> ( <span class="label_vtotal_mesa_modal"></span> ) </b>
-					</h4>
-				</div>
-				<div class="modal-body">
-					<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>Medio de Pago</th>
-								<th>Documento</th>
-								<th>Banco</th>
-								<th>Total</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="resumen_pedido(this,event)">Pagar</button>
-				</div>
-			</div>
-		</div>
-	</div>-->
-
-	<!-- Modal Unir Cuentas -->
-	<div class="modal fade" id="modal_unir_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h3 class="modal-title" id="exampleModalLabel5">Unir Cuentas </span></h3>
-					<h4 class="text-center">Mesa Principal <span class="label_nmesa_modal"></span></h4>
-				</div>
-				<div class="modal-body">
-					{% comment %}
-						{% for mesa in mesas %}
-							{% if mesa.vttotal > 0 %}
-								<div class="form-group container_cuenta_{{mesa.cmesa}}">
-									<label class="btn btn-primary" for="cuenta_{{mesa.cmesa}}">
-										<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
-										<p>{{mesa.nmesa}}</p>
-										<p>$ {{ mesa.vttotal }}</p>
-									</label>
-								</div>
-							{% endif %}
-						{% endfor %}
-					{% endcomment %}
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-app btn-primary" onclick="unir_cuentas()">Unir</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal Listado de Pedidos -->
-	<div class="modal fade" id="modal_listado_pedidos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h3 class="modal-title" id="exampleModalLabel6"> Listado Pedidos </span></h3>
-				</div>
-				<div class="modal-body">
-				<table id="table-resupedi">
-					<thead>
-						<tr>
-							<th>Pedido</th>
-							<th>Vr Total</th>
-							<th></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-				<!--
-					/orders/print/?cresupedi=4
-					order-print
-				-->
-				</div>
-				<div class="modal-footer">
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal Seleccionar Accion de Mesa -->
-	<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel">Accion <span class="label_nmesa_modal"></span></h3>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="form-group">
-							<!-- <label for="modal_input_action" class="col-sm-2 control-label"> Accion </label> -->
-							<div class="col-sm-12">
-								<button onclick="realizar_accion(this,event)" data-value="R" class="btn btn-primary btn-block"> Generar Cuenta </button>
-								<button onclick="realizar_accion(this,event)" data-value="PA" class="btn btn-primary btn-block"> Listado Pedidos </button>
-								<!-- <button onclick="realizar_accion(this,event)" data-value="F" class="btn btn-primary btn-block"> Facturar </button> -->
-								<button onclick="realizar_accion(this,event)" data-value="UC" class="btn btn-primary btn-block"> Unir Cuentas </button>
-								<!--
-								<select id="modal_input_action" class="form-control" required="" size="5">
-									<option value="R" selected> Generar Cuenta </option>
-									<option value="PA"> Pedidos Anteriores </option>
-									<option value="F"> Facturar </option>
-									<option value="UC"> Unir Cuentas </option>
-								</select>
-								-->
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<!-- <button type="button" class="btn btn-app btn-primary text-center" onclick="realizar_accion(this,event)">Realizar</button> -->
-					<input type="hidden" id="modal_input_mesa_activa" value="">
-				</div>
-			</div>
-		</div>
-	</div>
-<div id="print_button_container"></div>
-
 	<!-- Contenido Pagina -->
 	<div class="content-wrapper" style="min-height: 921px;">
+
+		<div class="hide">
+			<div id="template_it">{{ form_medios_pagos.it }}</div>
+			<div id="template_cmpago">{{ form_medios_pagos.cmpago }}</div>
+			<div id="template_docmpago">{{ form_medios_pagos.docmpago }}</div>
+			<div id="template_banmpago">{{ form_medios_pagos.banmpago }}</div>
+			<!--<div id="template_vmpago">{{ form_medios_pagos.vmpago }}</div>-->
+			<div id="template_vmpago">
+				<!--<input class="input-currency form-control" id="id_vmpago" min="0" name="vmpago" step="0.01" type="text" required="" style="text-align: right;">-->
+				<input class="{{form_medios_pagos.vmpago.field.widget.attrs.class}}" id="{{form_medios_pagos.vmpago.id_for_label}}" min="{{form_medios_pagos.vmpago.field.widget.attrs.min}}" name="vmpago" step="{{form_medios_pagos.vmpago.field.widget.attrs.step}}" type="text" required="" style="text-align: right;" onchange="verificar_total_pago(this,event)">
+			</div>
+		</div>
+
+		<div class="modal fade" id="modal_accion_resumen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title" id="exampleModalLabel1">Cuenta <span class="label_nmesa_modal"></span></h3>
+						<h4 class="modal-title" id="exampleModalLabel4">
+							<b><span class="label_vtotal_mesa_modal"></span></b>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="panel-group" id="accordion">
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapse_head">
+										<h4 class="panel-title">Formas de Pago</h4>
+									</a>
+								</div>
+								<div id="collapse_head" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<table class="table table-striped no-footer" id="example" cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<th>Medio de Pago</th>
+													<th>Documento</th>
+													<th>Banco</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">
+										<h4 class="panel-title">
+											Detalle
+										</h4>
+									</a>
+								</div>
+								<div id="collapse_detail" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div id="section-detalle-comanda"></div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="btn_pagar_pedido" class="btn btn-app btn-primary text-center" onclick="resumen_pedido(this,event)">Pagar</button>
+						<button type="button" data-cresupedi="" id="btn_facturar_pedido" class="btn btn-app btn-primary text-center" onclick="facturar_pedido(this.dataset.cresupedi)">Facturar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal Facturar Pedido -->
+		<div class="modal fade" id="modal_accion_facturar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="exampleModalLabel2">Facturar de Pedido <span class="label_nmesa_modal"></span></h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-app btn-primary" onclick="facturar_pedido(this,event)">Facturar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal Unir Cuentas -->
+		<div class="modal fade" id="modal_unir_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title" id="exampleModalLabel5">Unir Cuentas </span></h3>
+						<h4 class="text-center">Mesa Principal <span class="label_nmesa_modal"></span></h4>
+					</div>
+					<div class="modal-body">
+						{% comment %}
+							{% for mesa in mesas %}
+								{% if mesa.vttotal > 0 %}
+									<div class="form-group container_cuenta_{{mesa.cmesa}}">
+										<label class="btn btn-primary" for="cuenta_{{mesa.cmesa}}">
+											<input type="checkbox" id="cuenta_{{mesa.cmesa}}" value="{{mesa.cmesa}}">
+											<p>{{mesa.nmesa}}</p>
+											<p>$ {{ mesa.vttotal }}</p>
+										</label>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endcomment %}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-app btn-primary" onclick="unir_cuentas()">Unir</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal Listado de Pedidos -->
+		<div class="modal fade" id="modal_listado_pedidos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title" id="exampleModalLabel6"> Listado Pedidos </span></h3>
+					</div>
+					<div class="modal-body">
+					<table id="table-resupedi">
+						<thead>
+							<tr>
+								<th>Pedido</th>
+								<th>Vr Total</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					</div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal Seleccionar Accion de Mesa -->
+		<div class="modal fade" id="modal_accion_mesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="exampleModalLabel">Accion <span class="label_nmesa_modal"></span></h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button onclick="realizar_accion(this,event)" data-value="R" class="btn btn-primary btn-block"> Generar Cuenta </button>
+									<button onclick="realizar_accion(this,event)" data-value="PA" class="btn btn-primary btn-block"> Listado Pedidos </button>
+									<button onclick="realizar_accion(this,event)" data-value="UC" class="btn btn-primary btn-block"> Unir Cuentas </button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<!-- <button type="button" class="btn btn-app btn-primary text-center" onclick="realizar_accion(this,event)">Realizar</button> -->
+						<input type="hidden" id="modal_input_mesa_activa" value="">
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<section class="content">
 			<div class="panel container-mesas">
 				{% include 'ordenes/partials/summary-mesas.html' %}
@@ -293,19 +224,13 @@
 	</div>
 
 	{%include 'elements/footer.html'%}
-{% endblock %}
+{% endblock content %}
 
 {% block content_script %}
-
-	<!--
-	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
-	-->
-	<script src="https://www.google.com/cloudprint/client/cpgadget.js"></script>
 
 	<script src="{% static 'js/moment-with-locales.js' %}"></script>
 
 	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
 
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/app/comandas/index.js' %}"></script>
-{% endblock %}
+{% endblock content_script %}
