@@ -2,8 +2,10 @@
 {% load humanize %}
 {% load static from staticfiles %}
 
+{% load date_appen %}
 {% block content_head %}
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.15/b-1.3.1/se-1.2.2/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.css">
+
 
 	<style>
 		.mesa{
@@ -226,6 +228,8 @@
 {% block content_script %}
 
 	<script src="{% static 'js/moment-with-locales.js' %}"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.15/b-1.3.1/se-1.2.2/datatables.min.js"></script>
+
+	<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/se-1.2.0/datatables.min.js"></script>
+
 	<script type="text/javascript" charset="utf-8" src="{% static 'js/app/comandas/index.js' %}"></script>
 {% endblock content_script %}

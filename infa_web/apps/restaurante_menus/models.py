@@ -10,32 +10,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.db import models
 
-"""
-class GposMenus(models.Model):
-
-	class Meta:
-		ordering = ["ngpomenu"]
-
-	cgpomenu = models.IntegerField(primary_key=True)
-	ngpomenu = models.CharField(max_length=50)
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	orden = models.IntegerField(default=0)
-
-	def __str__(self):
-		return self.ngpomenu
-
-	def __unicode__(self):
-		return self.ngpomenu
-
-	def natural_key(self):
-		return ({
-			"cgpomenu" : self.cgpomenu,
-			"ngpomenu" : self.ngpomenu,
-			"cesdo" : self.cesdo.natural_key(),
-			"orden" : self.orden,
-		})
-"""
-
 class Ingredientes(models.Model):
 	cingre = models.IntegerField(primary_key=True)
 	ningre = models.CharField(max_length=50)
@@ -59,7 +33,8 @@ class Ingredientes(models.Model):
 	class Meta:
 		ordering = ['-ningre']
 
-	"""def natural_key(self):
+	"""
+	def natural_key(self):
 		return ({
 			"cingre" : self.cingre,
 			"ningre" : self.ningre,
@@ -72,7 +47,8 @@ class Ingredientes(models.Model):
 			"cesdo" : self.cesdo.natural_key(),
 			"cunidad" : self.cunidad.natural_key(),
 			"civa" : self.civa.natural_key(),
-		})"""
+		})
+	"""
 
 class Platos(models.Model):
 	class Meta:
@@ -118,7 +94,8 @@ class Platosdeta(models.Model):
 	def __unicode__(self):
 		return self.it
 
-	"""def natural_key(self):
+	"""
+	def natural_key(self):
 		return ({
 			"cplato" : self.cplato.natural_key(),
 			"cingre" : self.cingre.natural_key(),
@@ -127,51 +104,8 @@ class Platosdeta(models.Model):
 			"cunidad" : self.cunidad.natural_key(),
 			"vunita" : self.vunita,
 			"vtotal" : self.vtotal,
-		})"""
-
-"""
-class Menus(models.Model):
-
-	class Meta:
-		permissions = (
-			("list_menus", "Puede Listar Menus"),
-		)
-	cmenu = models.IntegerField(primary_key=True)
-	nmenu = models.CharField(max_length=50)
-	fcrea = models.DateTimeField(auto_now_add=True)
-	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
-	cgpomenu = models.ForeignKey(GposMenus,default=CESTADO_ACTIVO)
-	npax = models.IntegerField(default=1)
-	pvta1 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
-	pvta2 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
-	pvta3 = models.DecimalField(max_digits=15, decimal_places=2,default=0,blank=True, null=True,validators=[MinValueValidator(0)])
-
-	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)],default=0.00)
-
-	foto = models.FileField(upload_to="img/menus/", blank=True, null=True,default=DEFAULT_IMAGE_MENUS)
-
-	def __str__(self):
-		return self.nmenu
-
-	def __unicode__(self):
-		return self.nmenu
-
-
-	def natural_key(self):
-		return ({
-			"cmenu" : self.cmenu,
-			"nmenu" : self.nmenu,
-			#"fcrea" : self.fcrea,
-			"cesdo" : self.cesdo.natural_key(),
-			"cgpomenu" : self.cgpomenu.natural_key(),
-			"npax" : self.npax,
-			"pvta1" : self.pvta1,
-			"pvta2" : self.pvta2,
-			"pvta3" : self.pvta3,
-			"vttotal" : self.vttotal,
-			"foto" : self.foto.url,
 		})
-"""
+	"""
 
 class Menusdeta(models.Model):
 	cmenu = models.ForeignKey(Arlo)
@@ -189,7 +123,8 @@ class Menusdeta(models.Model):
 	def __unicode__(self):
 		return self.it
 
-	"""def natural_key(self):
+	"""
+	def natural_key(self):
 		return ({
 			"cmenu" : self.cmenu.natural_key(),
 			"it" : self.it,
@@ -198,4 +133,5 @@ class Menusdeta(models.Model):
 			"canti" : self.canti,
 			"vunita" : self.vunita,
 			"vtotal" : self.vtotal,
-		})"""
+		})
+	"""

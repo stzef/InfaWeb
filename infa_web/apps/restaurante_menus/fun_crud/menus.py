@@ -1,4 +1,5 @@
 from infa_web.apps.restaurante_menus.models import *
+from infa_web.apps.articulos.models import Arlo
 from django.db.models import Max
 from django.core import serializers
 from django.http import HttpResponse
@@ -13,7 +14,7 @@ def MenuDetailCreate(data,using):
 	for key, value in data:
 		print value
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
-		menu = Menus.objects.using(using).get(pk=value["cmenu"])
+		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
 
 		if not Menusdeta.objects.using(using).filter(cmenu=menu,cplato=plato).exists():
 			it = Menusdeta.objects.using(using).filter(cmenu=menu).aggregate(Max('it'))
@@ -28,6 +29,7 @@ def MenuDetailCreate(data,using):
 			value["it"] = it
 
 			value["vunita"] = plato.vttotal
+			print value
 			value["vtotal"] = float(value["vunita"]) * float(value["canti"])
 
 			menudeta = Menusdeta(**value)
@@ -46,7 +48,8 @@ def MenuDetailCreate(data,using):
 
 			menudeta.save(using=using)
 
-			menu.vttotal += decimal.Decimal(menudeta.vtotal)
+			# Confirmar a que attr se le debe aumentar el valor
+			menu.pvta1 += decimal.Decimal(menudeta.vtotal)
 			menu.save(using=using)
 		else:
 			response["message"] = {"text":"El plato ya se encuentra registrado en el menu","type":"info"}
@@ -60,13 +63,14 @@ def MenuDetailUpdate(data,using):
 	for key, value in data:
 		#ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
-		menu = Menus.objects.using(using).get(pk=value["cmenu"])
+		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
 
 		value["cmenu"] = menu
 		value["cplato"] = plato
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato.cplato,cmenu=menu)
 
-		menu.vttotal -= decimal.Decimal(menudeta.vtotal)
+		# Confirmar a que attr se le debe aumentar el valor
+		menu.pvta1 -= decimal.Decimal(menudeta.vtotal)
 
 		menudeta.canti = float(menudeta.canti)
 		menudeta.vunita = float(menudeta.vunita)
@@ -91,7 +95,8 @@ def MenuDetailUpdate(data,using):
 
 		menudeta.save(using=using)
 
-		menu.vttotal += decimal.Decimal(menudeta.vtotal)
+		# Confirmar a que attr se le debe aumentar el valor
+		menu.pvta1 += decimal.Decimal(menudeta.vtotal)
 		menu.save(using=using)
 
 	response["menu"] = json.loads(serializers.serialize("json", list([menu]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]
@@ -102,7 +107,7 @@ def MenuDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		menu = Menus.objects.using(using).get(cmenu=value["cmenu"])
+		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato,cmenu=menu)
 
@@ -110,7 +115,8 @@ def MenuDetailRemove(data,using):
 
 		menudeta.delete(using=using)
 
-		menu.vttotal -= decimal.Decimal(menudeta.vtotal)
+		# Confirmar a que attr se le debe aumentar el valor
+		menu.pvta1 -= decimal.Decimal(menudeta.vtotal)
 		menu.save(using=using)
 
 	response["menu"] = json.loads(serializers.serialize("json", list([menu]),use_natural_foreign_keys=True, use_natural_primary_keys=True))[0]

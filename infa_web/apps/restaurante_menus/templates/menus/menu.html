@@ -33,33 +33,33 @@
 								<div class="col-md-6">
 
 									<div class="form-group">
-										<label for="{{form.cmenu.id_for_label}}" class="col-sm-2 control-label">{{form.cmenu.label}}</label>
-										{%if form.cmenu.errors%}
-										{{form.cmenu.errors}}
+										<label for="{{form.carlos.id_for_label}}" class="col-sm-2 control-label">{{form.carlos.label}}</label>
+										{%if form.carlos.errors%}
+										{{form.carlos.errors}}
 										{%endif%}
 										<div class="col-sm-10">
-											<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.cmenu.id_for_label}}" name="{{form.cmenu.html_name}}" >
+											<input class="form-control" type="number" readonly value="{{current_pk}}" id="{{form.carlos.id_for_label}}" name="{{form.carlos.html_name}}" >
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="{{form.nmenu.id_for_label}}" class="col-sm-2 control-label">{{form.nmenu.label}}</label>
-										{%if form.nmenu.errors%}
-										{{form.nmenu.errors}}
+										<label for="{{form.ncorto.id_for_label}}" class="col-sm-2 control-label">{{form.ncorto.label}}</label>
+										{%if form.ncorto.errors%}
+										{{form.ncorto.errors}}
 										{%endif%}
 										<div class="col-sm-10">
-											{{form.nmenu}}
+											{{form.ncorto}}
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label for="{{form.cgpomenu.id_for_label}}" class="col-sm-2 control-label">{{form.cgpomenu.label}}</label>
-										{%if form.cgpomenu.errors%}
-										{{form.cgpomenu.errors}}
+										<label for="{{form.cgpo.id_for_label}}" class="col-sm-2 control-label">{{form.cgpo.label}}</label>
+										{%if form.cgpo.errors%}
+										{{form.cgpo.errors}}
 										{%endif%}
 										<div class="col-sm-10">
 											<div class="input-group">
-												{{form.cgpomenu}}
+												{{form.cgpo}}
 												<span class="input-group-addon"><a data-new-window data-action="create" href="{% url 'add-group' %}" target="_blank"><i class="fa fa-plus-square"></i></a></span>
 											</div>
 										</div>
@@ -98,18 +98,19 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<div class="panel">
-											<img class="ae-img-article img-responsive img-thumbnail center-block" src="{{ url_foto }}" alt="">
+											<img class="ae-img-article img-responsive img-thumbnail center-block" src="{{ url_foto1 }}" alt="">
 										</div>
-										<label for="{{form.foto.id_for_label}}" class="col-sm-4 control-label">{{form.foto.label}}</label>
-										{%if form.foto.errors%}
-										{{form.foto.errors}}
+										<label for="{{form.foto1.id_for_label}}" class="col-sm-4 control-label">{{form.foto1.label}}</label>
+										{%if form.foto1.errors%}
+										{{form.foto1.errors}}
 										{%endif%}
 										<div class="col-sm-8">
-											{{form.foto}}
+											{{form.foto1}}
 										</div>
 									</div>
 
 
+									<!--
 									<div class="form-group">
 										<label for="{{form.npax.id_for_label}}" class="col-sm-2 control-label">{{form.npax.label}}</label>
 										{%if form.npax.errors%}
@@ -119,6 +120,18 @@
 											{{form.npax}}
 										</div>
 									</div>
+									-->
+
+									<input type="hidden" value="{{ form.stomin.value }}" name="{{ form.stomin.name }}">
+									<input type="hidden" value="{{ form.stomax.value }}" name="{{ form.stomax.name }}">
+									<input type="hidden" value="{{ form.canti.value }}" name="{{ form.canti.name }}" >
+									<input type="hidden" value="{{ form.cmarca.value }}" name="{{ form.cmarca.name }}" >
+									<input type="hidden" value="{{ form.ctiarlo.value }}" name="{{ form.ctiarlo.name }}" >
+									<input type="hidden" value="{{ form.cubica.value }}" name="{{ form.cubica.name }}" >
+									<input type="hidden" value="{{ form.cunidad.value }}" name="{{ form.cunidad.name }}" >
+									<input type="hidden" value="{{ form.ivas_civa.value }}" name="{{ form.ivas_civa.name }}" >
+									<input type="hidden" value="{{ form.nlargo.value }}" name="{{ form.nlargo.name }}" >
+									<input type="hidden" value="{{ form.vcosto.value }}" name="{{ form.vcosto.name }}" >
 
 									<div class="form-group">
 										<label for="{{form.cesdo.id_for_label}}" class="col-sm-2 control-label">{{form.cesdo.label}}</label>
@@ -281,7 +294,7 @@
 		var editor; // use a global for the submit and return data rendering in the examples
 
 		function fn(response){
-			$("[name=cmenu]").val(response.pk)
+			$("[name=carlos]").val(response.pk)
 
 			if( mode_view == "create" ){
 				$("#section_menu_deatil").removeClass("hidden")
@@ -298,7 +311,7 @@
 						"cplato" : $("#cplato").val(),
 						"nplato" : $("#nplato").val(),
 						"canti" : $("#canti").val(),
-						"cmenu" : $("[name=cmenu]").val(),
+						"cmenu" : $("[name=carlos]").val(),
 						// "vunita" : "1",
 						// "vtotal" : "1",
 					}
@@ -350,7 +363,7 @@
 			function (){
 				var count = table_platos.rows( { selected: true } ).count();
 				var data = table_platos.rows( { selected: true } ).data()[0].detail
-				data.cmenu = $("[name=cmenu]").val()
+				data.cmenu = $("[name=carlos]").val()
 				$.ajax({
 					"url": "/menus/dishes/",
 					"type": "POST",
@@ -372,7 +385,7 @@
 			for (var key in d.data){
 				d.data[key].detail.vunita = currencyFormat.sToN(d.data[key].detail.vunita)
 				d.data[key].detail.vtotal = currencyFormat.sToN(d.data[key].detail.vtotal)
-				d.data[key].detail.cmenu = $("[name=cmenu]").val()
+				d.data[key].detail.cmenu = $("[name=carlos]").val()
 			}
 			return JSON.stringify(d);
 		}
@@ -476,7 +489,7 @@
 			table_platos = $('#example').DataTable( {
 				dom: "Bfrtip",
 				ajax: {
-					url: "/menus/dishes/" + $("[name=cmenu]").val(),
+					url: "/menus/dishes/" + $("[name=carlos]").val(),
 					type: 'GET',
 				},
 				columns: [
@@ -503,7 +516,7 @@
 
 		}
 
-		AJAXGenericView("form","select[name=cmenu]","nmenu","{{url}}",fn,"Creando el Menu.");
+		AJAXGenericView("form","select[name=carlos]","nmenu","{{url}}",fn,"Creando el Menu.");
 
 		var mode_view = $("#mode_view").val()
 

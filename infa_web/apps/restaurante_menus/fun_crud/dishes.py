@@ -72,6 +72,8 @@ def DishDetailUpdate(data,using):
 
 		value["cingre"] = ingrediente
 		value["cplato"] = plato
+		value["vunita"] = ingrediente.vcosto
+
 		platodeta = Platosdeta.objects.using(using).get(cplato=plato.cplato,cingre=ingrediente.cingre)
 
 		plato.vttotal -= decimal.Decimal(platodeta.vtotal)

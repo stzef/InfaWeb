@@ -16,7 +16,6 @@ infa_web/logs/debug.log
 infa_web/static/temp/*
 
 infa_web/params/*.json
-
 infa_web/config/__init__.py
 infa_web/config/databases.py
 infa_web/config/domaindb.py
