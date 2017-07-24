@@ -32,7 +32,7 @@ def send_email_get_demo(request):
 		"CITY":request.POST.get("ciudad"),
 		"EMAIL":request.POST.get("email")
 	}
-	emailsender("Contacto Appem",["sistematizaref.ventas@gmail.com","sistematizaref@gmail.com"],data,"FormContactIndex")
+	emailsender("Contacto Appem",["sistematizaref.ventas@gmail.com","sistematizaref@gmail.com"],data,"FormContactIndex",request.db)
 	return JsonResponse(data)
 
 def dashboard(request):

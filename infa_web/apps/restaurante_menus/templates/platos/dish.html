@@ -157,7 +157,7 @@
 				<h4 class="modal-title">Modal Header</h4>
 			</div>
 			<div class="modal-body">
-				<form action="">
+				<form action="" id="form_guardar_ingrediente" onsubmit="guardar_ingrediente(event)" >
 					<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
 
 					<div class="form-group">
@@ -173,7 +173,7 @@
 					</div>
 					<div class="form-group">
 						<label for="">Nombre</label>
-						<input required="" type="text" name="ningre" id="ningre" readonly="" class="form-control">
+						<input type="text" name="ningre" id="ningre" readonly="" class="form-control">
 						<!-- <editor-field name="ingredientes.ningre"></editor-field> -->
 					</div>
 
@@ -182,7 +182,7 @@
 							<label for="">Cantidad</label>
 							<div class="input-group">
 								<!-- <editor-field name="ingredientes.canti"></editor-field> -->
-								<input required="" type="text" name="canti" id="canti" class="form-control">
+								<input required="" type="number" name="canti" id="canti" class="form-control">
 								<span id="nunidad" class="input-group-addon"></span>
 							</div>
 					</div>
@@ -190,7 +190,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" onclick="guardar_ingrediente()" form="">Guardar</button>
+				<button type="submit" form="form_guardar_ingrediente" class="btn btn-success" form="">Guardar</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -263,7 +263,8 @@
 			return data
 		}
 
-		function guardar_ingrediente(){
+		function guardar_ingrediente(event){
+			event.preventDefault()
 			var data = get_data_action($("#action_detail_menu").val())
 			$.ajax({
 				"url": "/dishes/ingredients/",
@@ -276,6 +277,7 @@
 					table_crud.rows( { selected: true } ).remove().draw(false)
 					table_crud.rows.add(response.data).draw(false)
 					$("#modal_action_create_ingrediente").modal("hide")
+					$("#modal_action_create_ingrediente input").val("")
 				}
 			})
 		}

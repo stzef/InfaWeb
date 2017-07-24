@@ -13,7 +13,12 @@ def DishDetailCreate(data,using):
 
 	for key, value in data:
 		del value["ningre"]
-		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		try:
+			ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		except Ingredientes.DoesNotExist as e:
+			response["message"] = {"text":"El ingrediente no se encuentra","type":"info"}
+			return response
+
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
 
 		if not Platosdeta.objects.using(using).filter(cingre=ingrediente,cplato=plato).exists():
@@ -67,7 +72,13 @@ def DishDetailUpdate(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
-		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		try:
+			ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		except Ingredientes.DoesNotExist as e:
+			response["message"] = {"text":"El ingrediente no se encuentra","type":"info"}
+			return response
+
+
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
 
 		value["cingre"] = ingrediente
@@ -119,6 +130,13 @@ def DishDetailRemove(data,using):
 
 	for key, value in data:
 		#del value["cunidad"]
+
+		try:
+			ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
+		except Ingredientes.DoesNotExist as e:
+			response["message"] = {"text":"El ingrediente no se encuentra","type":"info"}
+			return response
+
 		ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
 		plato = Platos.objects.using(using).get(pk=value["cplato"])
 		platodeta = Platosdeta.objects.using(using).get(cplato=plato.cplato,cingre=ingrediente.cingre)

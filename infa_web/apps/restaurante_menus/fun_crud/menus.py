@@ -12,8 +12,12 @@ def MenuDetailCreate(data,using):
 	response = { "data" : [] , "message" : False }
 
 	for key, value in data:
-		print value
-		plato = Platos.objects.using(using).get(pk=value["cplato"])
+		try:
+			plato = Platos.objects.using(using).get(pk=value["cplato"])
+		except Platos.DoesNotExist as e:
+			response["message"] = {"text":"El plato no se encuentra","type":"info"}
+			return response
+
 		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
 
 		if not Menusdeta.objects.using(using).filter(cmenu=menu,cplato=plato).exists():
@@ -62,7 +66,14 @@ def MenuDetailUpdate(data,using):
 
 	for key, value in data:
 		#ingrediente = Ingredientes.objects.using(using).get(pk=value["cingre"])
-		plato = Platos.objects.using(using).get(pk=value["cplato"])
+
+
+		try:
+			plato = Platos.objects.using(using).get(pk=value["cplato"])
+		except Platos.DoesNotExist as e:
+			response["message"] = {"text":"El plato no se encuentra","type":"info"}
+			return response
+
 		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
 
 		value["cmenu"] = menu
@@ -107,8 +118,15 @@ def MenuDetailRemove(data,using):
 	response = { "data" : []  }
 
 	for key, value in data:
+
+		try:
+			plato = Platos.objects.using(using).get(pk=value["cplato"])
+		except Platos.DoesNotExist as e:
+			response["message"] = {"text":"El plato no se encuentra","type":"info"}
+			return response
+
+
 		menu = Arlo.objects.using(using).get(carlos=value["cmenu"])
-		plato = Platos.objects.using(using).get(pk=value["cplato"])
 		menudeta = Menusdeta.objects.using(using).get(cplato=plato,cmenu=menu)
 
 		response["data"].append({})

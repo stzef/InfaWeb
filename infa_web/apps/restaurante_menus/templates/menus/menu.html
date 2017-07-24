@@ -216,7 +216,7 @@
 				<h4 class="modal-title">Modal Header</h4>
 			</div>
 			<div class="modal-body">
-				<form action="">
+				<form action="" id="form_guardar_plato" onsubmit="guardar_plato(event)">
 					<input type="hidden" name="action_detail_menu" id="action_detail_menu" value="create">
 					<div class="form-group">
 						<!--<label for="{{form.cgpo.id_for_label}}" class="col-sm-4 control-label"> Ingrediente </label>-->
@@ -229,7 +229,7 @@
 					</div>
 					<div class="form-group">
 						<label for="">Nombre</label>
-						<input required="" type="text" class="form-control" name="nplato" id="nplato" readonly="">
+						<input type="text" class="form-control" name="nplato" id="nplato" readonly="">
 						<!-- <editor-field name="detail.nplato"></editor-field> -->
 					</div>
 
@@ -238,12 +238,12 @@
 						<!--<label for="{{form.canti.id_for_label}}" class="col-sm-4 control-label"> Cantidad </label>-->
 						<!-- <editor-field name="detail.canti"></editor-field> -->
 						<label for="">Cantidad</label>
-						<input required="" type="text" class="form-control" name="canti" id="canti">
+						<input required="" type="number" class="form-control" name="canti" id="canti">
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" onclick="guardar_plato()" form="">Guardar</button>
+				<button type="submit" form="form_guardar_plato" class="btn btn-success" >Guardar</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -321,7 +321,8 @@
 			return data
 		}
 
-		function guardar_plato(){
+		function guardar_plato(event){
+			event.preventDefault()
 			var data = get_data_action($("#action_detail_menu").val())
 			$.ajax({
 				"url": "/menus/dishes/",
@@ -331,9 +332,12 @@
 				"data": JSON.stringify(data),
 				success: function(response){
 					console.log(response)
+					alertify.success(response.message.text)
 					table_platos.rows( { selected: true } ).remove().draw(false)
 					table_platos.rows.add(response.data).draw(false)
 					$("#modal_action_create_plato").modal("hide")
+					$("#modal_action_create_plato input").val("")
+
 				}
 			})
 		}

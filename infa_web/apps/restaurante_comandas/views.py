@@ -320,6 +320,7 @@ def GetResupediMesa(request,cmesa):
 
 	return HttpResponse(json.dumps(response), "application/json")
 
+@csrf_exempt
 def OrdersJoin(request):
 	data = json.loads(request.body)
 	cmesa = data["mesa"]
