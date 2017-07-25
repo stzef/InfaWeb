@@ -26,6 +26,8 @@ class Gpo(models.Model):
 	cgpo = models.IntegerField(primary_key=True,validators=[MinValueValidator(0)])
 	ngpo = models.CharField(max_length=80)
 	cesdo = models.ForeignKey(Esdo,default=CESTADO_ACTIVO)
+	orden = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	impresora = models.CharField(max_length=100,default="")
 
 	def __str__(self):
 		return self.ngpo
@@ -119,6 +121,9 @@ class Arlo(models.Model):
 	foto1 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
 	foto2 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
 	foto3 = models.FileField(upload_to="img/articles/", blank=True, null=True,default=DEFAULT_IMAGE_ARTICLE)
+
+	npax = models.IntegerField(default=0)
+	fcrea = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
 	def __str__(self):
 		return self.nlargo

@@ -24,6 +24,10 @@ urlOrders = [
 	url(r'^orders/print/$', permission_required('rastaurante_comandas')(login_required(OrderPrint)), name = 'order-print'),
 ]
 
+urlComandas = [
+	url(r'^commands/print/$', permission_required('rastaurante_comandas')(login_required(CommandPrint)), name = 'command-print'),
+]
+
 urlMesas = [
 	url(r'^tables/$', permission_required('restaurante_comandas.list_mesas')(login_required(TablesList.as_view())), name = 'list-tables'),
 	url(r'^tables/add/$',permission_required('restaurante_comandas.add_mesas')(login_required(TableCreate.as_view())), name = 'add-table'),
@@ -31,6 +35,7 @@ urlMesas = [
 	url(r'^tables/info-sumary/(?P<pk>[0-9]+)/$', permission_required('restaurante_comandas')(login_required(InfoSummaryUpdate)), name = 'table-info-summary'),
 
 	url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
+	url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
 ]
 
-urlpatterns = urlOrders + urlMesas
+urlpatterns = urlOrders + urlMesas + urlComandas

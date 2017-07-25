@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from infa_web.apps.base.models import *
 from infa_web.apps.restaurante_menus.models import *
 from infa_web.apps.articulos.models import  Arlo
+from infa_web.apps.facturacion.models import Fac
 
 from infa_web.apps.base.constantes import *
 
@@ -101,6 +102,8 @@ class Resupedi(models.Model):
 	vttotal = models.DecimalField(max_digits=15, decimal_places=2,validators=[MinValueValidator(0)], default=0.00)
 	detaanula = models.CharField(max_length=250)
 	ifcortesia = models.BooleanField(default=False)
+	cfac = models.ForeignKey(Fac,blank=True, null=True,default=None)
+
 
 	def __str__(self):
 		return "Resumen de Pedido " + str(self.cresupedi)
@@ -175,6 +178,8 @@ class Codadeta(models.Model):
 	canti = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
 	vunita = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
 	vtotal = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0)], default=0.00)
+
+	descripcion = models.TextField(blank=True,null=True)
 	def __str__(self):
 		return "Detalle de Comanda " + str(self.ccoda)
 
