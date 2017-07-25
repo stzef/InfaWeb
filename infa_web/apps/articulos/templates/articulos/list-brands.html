@@ -2,7 +2,6 @@
 {% load static from staticfiles %}
 
 {% block content_head %}
-	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 {% endblock content_head %}
 {% load humanize %}
 {%block content%}
@@ -48,8 +47,6 @@
 	{%include 'elements/footer.html'%}
 {%endblock%}
 {% block content_script %}
-	<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
 	<script>
 		$(document).ready(function() {
 			$('#example').DataTable({"language": languageDataTable});
