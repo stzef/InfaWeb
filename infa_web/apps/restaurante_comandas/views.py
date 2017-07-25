@@ -194,12 +194,15 @@ def SaveCommand(request):
 	dataCodadeta = []
 	it = 0
 	for codadeta in data["deta"]:
+		print data["deta"]
 
 		cmenu = codadeta[data["cols"]["cmenu"]["i"]]
 		menu = Arlo.objects.using(request.db).get(carlos= cmenu)
 
 		canti = float(codadeta[data["cols"]["canti"]["i"]])
 		vunita = float(codadeta[data["cols"]["vunita"]["i"]])
+
+		descripcion = codadeta[data["cols"]["desc"]["i"]]
 
 
 		item = {
@@ -209,6 +212,7 @@ def SaveCommand(request):
 			'canti' : canti,
 			'vunita' : vunita,
 			'vtotal' : canti * vunita,
+			'descripcion' : descripcion,
 		}
 		dataCoda["vttotal"] += item["vtotal"]
 		dataCodadeta.append(item)

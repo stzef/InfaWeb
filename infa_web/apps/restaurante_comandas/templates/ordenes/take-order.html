@@ -223,8 +223,9 @@
 								<table id="example" class="table table-striped dataTable no-footer" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Codigo Menu</th>
+											<th>Cod</th>
 											<th>Cantidad</th>
+											<th>Menu</th>
 											<th>Descripcion</th>
 											<th>Precio</th>
 										</tr>
@@ -384,12 +385,13 @@
 	</script>
 
 	<script>
-	var table,
+		var table,
 		cols = {
 			cmenu:{i:0},
 			canti:{i:1},
 			nmenu:{i:2},
-			vunita:{i:3},
+			desc:{i:3},
+			vunita:{i:4},
 		}
 		$(document).ready(function() {
 			table = $('#example').DataTable({
@@ -454,7 +456,9 @@
 
 			var data = {
 				deta : table.data().toArray().map(function(item){
+					console.info(item)
 					item[cols.vunita.i] = currencyFormat.sToN(item[cols.vunita.i])
+					item[cols.desc.i] = $(item[cols.desc.i]).val()
 					return item
 				}),
 				cmesa : mesa_activa,
@@ -605,7 +609,8 @@
 						temp_canti = parseInt(item.fields.canti),
 						temp_ncorto = item.fields.cmenu.ncorto,
 						temp_pvta1 = currencyFormat.format(item.fields.cmenu.pvta1)
-						var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_pvta1]).draw( false );
+						temp_desc = item.fields.descripcion
+						var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_desc,temp_pvta1]).draw( false );
 					})
 					actualizar_total()
 				}else{
@@ -638,9 +643,10 @@
 					var temp_cmenu = menu.pk,
 					temp_canti = 1,
 					temp_ncorto = menu.fields.ncorto,
-					temp_pvta1 = currencyFormat.format(menu.fields.pvta1)
+					temp_pvta1 = currencyFormat.format(menu.fields.pvta1),
+					text_area = "<p contenteditable='true'></p>"
 
-					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_pvta1]).draw( false );
+					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,text_area,temp_pvta1]).draw( false );
 					actualizar_total()
 				})
 			}
