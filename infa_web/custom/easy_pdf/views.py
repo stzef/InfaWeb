@@ -41,11 +41,14 @@ class PDFTemplateResponseMixin(TemplateResponseMixin):
         :rtype: :class:`dict`
         """
         default_filename_to_save = "temp/temp.pdf"
+        
         if self.pdf_kwargs is None:
-            return { 'filename_to_save' : default_filename_to_save }
+            self.pdf_kwargs = { 'filename_to_save' : default_filename_to_save }
         #: Nombre del archivo pdf a generar ( usado para guardar en el sistema de archivos )
-        if 'filename_to_save' not in pdf_kwargs:
-            pdf_kwargs['filename_to_save'] = default_filename_to_save
+        
+        if 'filename_to_save' not in self.pdf_kwargs:
+            self.pdf_kwargs['filename_to_save'] = default_filename_to_save
+            
         return copy.copy(self.pdf_kwargs)
 
     def get_pdf_response(self, context, **response_kwargs):

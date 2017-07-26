@@ -67,6 +67,13 @@ class Fac(models.Model):
 	fhasdomi = models.DateTimeField(blank=True,null=True)
 	#ccobra char(4)
 
+	def natural_key(self):
+		r = {
+			"cfac" : self.cfac
+		}
+		
+		return r
+
 	def __str__(self):
 		return self.cfac
 

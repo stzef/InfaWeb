@@ -269,7 +269,6 @@ function get_data_list(selector_list){/*Revisar*/
 			var data = {}
 			$(e).children("[data-name]").toArray().forEach(
 				function(e2){
-					console.log(e2)
 					if($(e2).hasClass("value-currency")){
 						data[$(e2).data("name")] = currencyFormat.sToN($(e2).data("value"))
 					}else{
@@ -410,7 +409,7 @@ function AJAXGenericView(selectorForm,selectorInput,nField,url,callback,messageW
 
 		$(this).find(".input-currency").toArray().forEach(function(ic){
 			nVal = currencyFormat.sToN($(ic).val())
-			console.log(nVal)
+			
 			formData.set(ic.name,nVal)
 		})
 
@@ -664,7 +663,6 @@ $(window).on('beforeunload', function (e) {
 
 $(document).ready(function(e){
 	if(window.APPEM_IS_WIN_POPUOT){
-		console.log(window.APPEM_ACTION)
 		if(window.APPEM_ACTION == "select"){
 			$("[data-cell-action='edit']").toggleClass("hidden")
 			$("[data-cell-action='select']").toggleClass("hidden")

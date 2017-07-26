@@ -231,9 +231,11 @@ function print_bill(cfac){
 function facturar_pedido(cresupedi){
 	console.log('Facturando... ' + cresupedi)
 
-	Models.objects.findOne("Resupedi",{cresupedi : cresupedi},function(error,resupedi){
+	Models.objects.findOne("Resupedi",{cresupedi : cresupedi },function(error,resupedi){
 		console.log(resupedi)
-		if ( resupedi ){
+		if ( resupedi.fields.cfac ){
+			print_bill(resupedi.fields.cfac.cfac)
+		}else{
 			Models.objects.find("Coda",{cresupedi__cresupedi : resupedi.pk},function(error,comandas){
 				console.log(comandas)
 				var ccodas = comandas.map( comanda => comanda.fields.ccoda )
@@ -310,6 +312,16 @@ function facturar_pedido(cresupedi){
 								alertify.notify(response.message,"danger")
 							}else{
 								alertify.notify(response.message,"success")
+								var data = {'cfac':related_information.fields.cfac,'cresupedi':cresupedi}
+								$.ajax({
+									url:"/accounts/save/",
+									type:'POST',
+									data:JSON.stringify(data),
+									contentType:"application/json",
+									success:function (response){
+										alertify.notify("Hi","success")
+									}
+								})
 							}
 							alertify.confirm("Desea Imprimir La Factura __cfac__".set("__cfac__",related_information.fields.cfac),function(){
 								print_bill(related_information.fields.cfac)

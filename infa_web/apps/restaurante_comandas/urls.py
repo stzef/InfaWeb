@@ -4,6 +4,9 @@ from infa_web.apps.restaurante_comandas.views import *
 from django.contrib.auth.decorators import login_required,permission_required
 
 #url(r'^articles/$', login_required(ArticleList.as_view()), name = 'list-articles'),
+urlAccounts = [
+	url(r'^accounts/save/$', permission_required('facturacion.add_fac')(login_required(SetResuCfac)), name = 'set-cfac')
+]
 urlOrders = [
 	url(r'^orders/$', permission_required('restaurante_comandas.list_coda')(login_required(OrdersList.as_view())), name = 'list-orders'),
 	url(r'^orders/take/$', permission_required('restaurante_comandas.add_coda')(login_required(TakeOrder)), name = 'take-order'),
@@ -35,7 +38,7 @@ urlMesas = [
 	url(r'^tables/info-sumary/(?P<pk>[0-9]+)/$', permission_required('restaurante_comandas')(login_required(InfoSummaryUpdate)), name = 'table-info-summary'),
 
 	url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
-	url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
+	#url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
 ]
 
-urlpatterns = urlOrders + urlMesas + urlComandas
+urlpatterns = urlOrders + urlMesas + urlComandas + urlAccounts

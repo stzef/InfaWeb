@@ -28,7 +28,18 @@ from django.core.urlresolvers import reverse_lazy
 
 # pedido actual
 # pedido anterior -> listar las comandas
-
+@csrf_exempt
+def SetResuCfac(request):
+	data = json.loads(request.body)
+	resupedi = Resupedi.objects.using(request.db).get(cresupedi= data["cresupedi"])
+	fac = Fac.objects.using(request.db).get(cfac= data["cfac"])
+	resupedi.cfac = fac
+	resupedi.save(using=request.db)
+	response = {
+		"data" : data
+	}
+	print(data)
+	return HttpResponse(json.dumps(response), "application/json")
 def GetInfoMesa(mesa,request_db):
 	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
 	vttotal = float(0)
@@ -172,7 +183,6 @@ def SaveSummary(request):
 @csrf_exempt
 def SaveCommand(request):
 	data = json.loads(request.body)
-
 	mesero = get_current_user(request.db,request.user,mesero=True)
 
 	talocoda = mesero.ctalocoda
@@ -612,7 +622,7 @@ def CommandPrint(request):
 	for detalle in detalles:
 		data.append(["Cantidad : ",str(detalle.canti)])
 		data.append(["Nombre",detalle.cmenu.ncorto])
-		data.append(["Descripcion",""])
+		data.append(["Descripcion",detalle.descripcion])
 		data.append(["_______________", "___________________"])
 
 	style_table_header = TableStyle([

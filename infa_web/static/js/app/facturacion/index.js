@@ -870,8 +870,7 @@ $("#btn-save").click(function(event){
 	}
 	loading_animation("Guardando Movimiento.")
 
-	console.info(data)
-	return
+	// console.info(data)
 
 	$.ajax({
 		url: var_template_django_url,
@@ -896,7 +895,7 @@ $("#btn-save").click(function(event){
 			}
 
 			containerMessages.prepend(message)
-			console.log(response)
+			// console.log(response)
 			if(confirm("Desea Imprimir La Factura")){
 				print_bill(related_information.fields.cfac)
 			}

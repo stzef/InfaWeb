@@ -126,7 +126,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel1"> Editar Camtidad<span id="modal_menu_nmenu"></span></h5>
+					<h5 class="modal-title" id="exampleModalLabel1"> Editar Cantidad<span id="modal_menu_nmenu"></span></h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -454,16 +454,17 @@
 
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
 
+			console.info(table.data())
 			var data = {
 				deta : table.data().toArray().map(function(item){
-					console.info(item)
 					item[cols.vunita.i] = currencyFormat.sToN(item[cols.vunita.i])
-					item[cols.desc.i] = $(item[cols.desc.i]).val()
+					item[cols.desc.i] = $('#desc_'+item[cols.cmenu.i]).text()
 					return item
 				}),
 				cmesa : mesa_activa,
 				cols : cols
 			}
+			console.log(data)
 			if (data.deta.length){
 				WaitDialog.show("Guardando Comanda...")
 				$.ajax({
@@ -604,7 +605,6 @@
 					$("#label_ccoda_activa").html(ccoda)
 					table.rows().remove().draw()
 					detalle.forEach(function(item){
-						console.warn(item)
 						var temp_cmenu = item.fields.cmenu.carlos,
 						temp_canti = parseInt(item.fields.canti),
 						temp_ncorto = item.fields.cmenu.ncorto,
@@ -644,9 +644,9 @@
 					temp_canti = 1,
 					temp_ncorto = menu.fields.ncorto,
 					temp_pvta1 = currencyFormat.format(menu.fields.pvta1),
-					text_area = "<p contenteditable='true'></p>"
+					temp_desc = '<p contenteditable="true" id="desc_'+temp_cmenu+'"></p>'
 
-					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,text_area,temp_pvta1]).draw( false );
+					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_desc,temp_pvta1]).draw( false );
 					actualizar_total()
 				})
 			}
