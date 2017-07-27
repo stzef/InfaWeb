@@ -2,6 +2,7 @@ from django.shortcuts import render
 from easy_pdf.views import PDFTemplateView
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from infa_web.parameters import ManageParameters
+from infa_web.printers import ManagePrinter
 
 import json
 import datetime
@@ -28,6 +29,21 @@ from django.core.urlresolvers import reverse_lazy
 
 # pedido actual
 # pedido anterior -> listar las comandas
+@csrf_exempt
+def GetPrinters(request):
+	data = json.loads(request.body)
+	for codadeta in data:
+		ccoda = codadeta['fields']['ccoda']['ccoda']
+		printer = codadeta['fields']['cmenu']['cgpo']['impresora']
+		cgpo = codadeta['fields']['cmenu']['cgpo']['ngpo']
+		print(printer)
+		managePrinter = ManagePrinter()
+		managePrinter.send_to_print('',printer)
+	response = {
+		"data" : data
+	}
+	return HttpResponse(json.dumps(response), "application/json")
+
 @csrf_exempt
 def SetResuCfac(request):
 	data = json.loads(request.body)
@@ -228,9 +244,12 @@ def SaveCommand(request):
 		dataCodadeta.append(item)
 		it += 1
 
-	coda = create_Coda({"coda":dataCoda,"deta":dataCodadeta},request.db)
-	coda = serializers.serialize("json", coda,use_natural_foreign_keys=True)
+	objcoda = create_Coda({"coda":dataCoda,"deta":dataCodadeta},request.db)
+	
+	coda = serializers.serialize("json", objcoda,use_natural_foreign_keys=True)
+
 	coda = json.loads(coda)[0]
+	coda['codadeta'] = json.loads(serializers.serialize("json",Codadeta.objects.using(request.db).filter(ccoda = objcoda[0]),use_natural_foreign_keys=True))
 
 
 	return HttpResponse(json.dumps(coda), "application/json")
@@ -684,5 +703,5 @@ def CommandPrint(request):
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
-
+	print(doc)
 	return response

@@ -35,6 +35,16 @@ class Gpo(models.Model):
 	def __unicode__(self):
 		return self.ngpo
 
+	def natural_key(self):
+		r = {
+			"cgpo" : self.cgpo,
+			"ngpo" : self.ngpo,
+			# "cesdo" : self.cesdo,
+			"orden" : self.orden,
+			"impresora" : self.impresora,
+		}
+		return r
+
 class Marca(models.Model):
 
 	class Meta:
@@ -132,10 +142,10 @@ class Arlo(models.Model):
 		return self.nlargo
 
 	def natural_key(self):
-		return ({
+		r = {
 			"carlos" : self.carlos,
 			"cbarras" : self.cbarras,
-			#"cgpo" : self.cgpo,
+			"cgpo" : self.cgpo.natural_key(),
 			"ncorto" : self.ncorto,
 			"nlargo" : self.nlargo,
 			"canti" : self.canti,
@@ -169,7 +179,8 @@ class Arlo(models.Model):
 			"foto1" : self.foto1.url,
 			"foto2" : self.foto2.url,
 			"foto3" : self.foto3.url,
-		})
+		}
+		return r
 
 	class Meta:
 		ordering = ['-nlargo']

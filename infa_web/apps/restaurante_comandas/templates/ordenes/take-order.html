@@ -454,7 +454,6 @@
 
 			if (!mesa_activa) return msg_seleccione_mesa(".content")
 
-			console.info(table.data())
 			var data = {
 				deta : table.data().toArray().map(function(item){
 					item[cols.vunita.i] = currencyFormat.sToN(item[cols.vunita.i])
@@ -464,7 +463,6 @@
 				cmesa : mesa_activa,
 				cols : cols
 			}
-			console.log(data)
 			if (data.deta.length){
 				WaitDialog.show("Guardando Comanda...")
 				$.ajax({
@@ -473,8 +471,17 @@
 					'data' : JSON.stringify(data),
 					'success' : function(response){
 						WaitDialog.hide()
-						//alertBootstrap("Las Comandas se guardo.","success",".content")
 						alertify.success("La Comanda se guardo.")
+						console.log(response.codadeta)
+						var coda = response.codadeta
+						$.ajax({
+							'url' : "/commands/printers/",
+							'type' : "POST",
+							'data' : JSON.stringify(coda),
+							'success' : function(response){
+								
+							}
+						})
 						listar_comandas_mesa(mesa_activa,function(){
 							$("table.comandas").find("button[data-ccoda=" + response.fields.ccoda  + "]").click()
 						})

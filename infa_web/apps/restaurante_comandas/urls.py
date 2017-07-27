@@ -29,6 +29,7 @@ urlOrders = [
 
 urlComandas = [
 	url(r'^commands/print/$', permission_required('rastaurante_comandas')(login_required(CommandPrint)), name = 'command-print'),
+	url(r'^commands/printers/$', permission_required('rastaurante_comandas')(login_required(GetPrinters)), name = 'command-print'),
 ]
 
 urlMesas = [
