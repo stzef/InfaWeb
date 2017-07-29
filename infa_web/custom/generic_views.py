@@ -1,5 +1,5 @@
 from django.views.generic import CreateView, ListView, UpdateView, FormView, DetailView
-from django.core.exceptions import ImproperlyConfigured 
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models.query import QuerySet
 from django.utils import six
 
@@ -22,7 +22,7 @@ class CustomCreateView(CreateView):
 			else:
 				return self.request.db
 
-	# Guarda el objeto desde el formulario 
+	# Guarda el objeto desde el formulario
 	def form_valid(self, form):
 		usingAlias = self.get_usignAlias_db()
 
@@ -179,13 +179,9 @@ class CustomUpdateView(UpdateView):
 
 		return self.queryset.all()
 
-	# Guarda el objeto desde el formulario 
+	# Guarda el objeto desde el formulario
 	def form_valid(self, form):
 		usingAlias = self.get_usignAlias_db()
-
-		print "--------------...................---------------------------"
-		print usingAlias
-		print "--------------...................---------------------------"
 
 		obj = form.save(commit=False)
 		self.object = obj.save(using=usingAlias)

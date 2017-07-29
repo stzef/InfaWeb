@@ -313,7 +313,6 @@ class CommonForm(forms.Form):
 		self.fields['group'].queryset = Gpo.objects.using(name_db).all()
 		self.fields['carlos'].queryset = Arlo.objects.using(name_db).all()
 		self.fields['sucursales'].queryset = Sucursales.objects.using(name_db).all()
-		print self.fields['sucursales'].queryset
 
 	cesdo = forms.ModelChoiceField(
 		label='Estado',

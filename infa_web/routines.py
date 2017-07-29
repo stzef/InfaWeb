@@ -42,11 +42,11 @@ def calcular_costo_articulo(carlos,nueva_cantidad,nuevo_costo,is_input,if_save=T
 			response["new_vcosto"] = str(articulo.vcosto)
 			articulo.canti -= nueva_cantidad
 		response["new_canti"] = str(articulo.canti)
-		
+
 
 		#if if_save:
 		articulo.save(using=db_name)
-			
+
 		response["status"] = True
 		return response
 	else:
@@ -59,14 +59,13 @@ def costing_and_stock(date_range=False,if_save=True,query_arlo={},db_name='defau
 	query_arlo["cesdo"] = CESTADO_ACTIVO
 
 	articulos = Arlo.objects.using(db_name).order_by('carlos').filter(**query_arlo)
-	print articulos
 
 	"""
 	No validar costos en 0
 	"""
 
 	initial_note = manageParameters.get_param_value("initial_note")
-	
+
 	try:
 		invinicab = Invinicab.objects.using(db_name).get(cii=initial_note)
 	except Invinicab.DoesNotExist, e:

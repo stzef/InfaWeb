@@ -42,7 +42,6 @@ def var_globals(request):
 			d1 = request.user.date_joined
 			now = timezone.now() # datetime.datetime.now()
 			dif = now - d1
-			print (dif.days)
 		except Usuario.DoesNotExist:
 			user_appem = None
 			sucursal = None

@@ -24,7 +24,6 @@ from infa_web.custom.generic_views import CustomListView, CustomCreateView, Cust
 @csrf_exempt
 def SaveBreakdownArticle(request,pk):
 	data = json.loads(request.body)
-	print type(data)
 	itglo = 0
 	for item in data:
 		#return HttpResponse(json.dumps(item), "application/json")
@@ -71,7 +70,6 @@ class BreakdownArticle(FormView):
 
 	def get_context_data(self,**kwargs):
 		context = super(BreakdownArticle, self).get_context_data(**kwargs)
-		print kwargs
 		#context['article'] = Arlo.objects.using(self.request.db).get()
 		context['article'] = get_object_or_404(Arlo,carlos=self.kwargs["pk"])
 		context["partsArticle"] = Arlosdesglo.objects.using(self.request.db).filter(carlosp=self.kwargs["pk"])
@@ -383,13 +381,9 @@ from django.core import serializers
 def API_exists(request):
 	data = json.loads(request.body)
 	model = apps.get_model(app_label=codeModels[data["model"]]["app"],model_name=codeModels[data["model"]]["name"])
-	print "app_label="+codeModels[data["model"]]["app"]
-	print "model_name="+codeModels[data["model"]]["name"]
 
 	filter_dict = {}
 	filter_dict[data["field"]] = data["value"]
-	print (filter_dict)
-	print type(filter_dict)
 	if model.objects.using(request.db).filter(**filter_dict).exists():
 		return JsonResponse({'exists':True})
 	else:
@@ -402,8 +396,6 @@ def API_get_object(request):
 
 	filter_dict = {}
 	filter_dict[data["field"]] = data["value"]
-	print (filter_dict)
-	print type(filter_dict)
 	if model.objects.using(request.db).filter(**filter_dict).exists():
 		object_db = serializers.serialize("json", [model.objects.using(request.db).get(**filter_dict)],use_natural_foreign_keys=True, use_natural_primary_keys=True)
 		return JsonResponse({'object':object_db})

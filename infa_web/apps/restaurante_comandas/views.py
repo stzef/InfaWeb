@@ -133,7 +133,6 @@ def SetResuCfac(request):
 	response = {
 		"data" : data
 	}
-	print(data)
 	return HttpResponse(json.dumps(response), "application/json")
 def GetInfoMesa(mesa,request_db):
 	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
@@ -259,9 +258,7 @@ def SaveSummary(request):
 		)
 		medio_pago_it += 1
 		resupedipago.save(using=request.db)
-		print "...................................."
-		print resupedipago
-		print "...................................."
+
 
 	for comanda in comandas:
 		comanda.cresupedi = resupedi
@@ -299,7 +296,6 @@ def SaveCommand(request):
 	dataCodadeta = []
 	it = 0
 	for codadeta in data["deta"]:
-		print data["deta"]
 
 		cmenu = codadeta[data["cols"]["cmenu"]["i"]]
 		menu = Arlo.objects.using(request.db).get(carlos= cmenu)
@@ -324,7 +320,7 @@ def SaveCommand(request):
 		it += 1
 
 	objcoda = create_Coda({"coda":dataCoda,"deta":dataCodadeta},request.db)
-	
+
 	coda = serializers.serialize("json", objcoda,use_natural_foreign_keys=True)
 
 	coda = json.loads(coda)[0]
@@ -368,11 +364,6 @@ def AnnulmentItemCommand(request):
 			response["message"] = "El Item  No se puede Anular ( Esta Registrada en un Resumen de Pedido )"
 			response["status"] = "danger"
 			responses.append(response)
-
-
-
-
-	print responses
 
 	return HttpResponse(json.dumps(responses), "application/json")
 
@@ -423,10 +414,7 @@ def GetResupediMesa(request,cmesa):
 	# comandas = Coda.objects.using(request.db).all().annotate(Count("cresupedi"))
 	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=False).annotate(Count("cresupedi"))
 	comandas = map( lambda c: c.cresupedi, comandas )
-	print comandas
 	comandas_json = json.loads(serializers.serialize("json", comandas,use_natural_foreign_keys=True))
-
-
 
 	response = comandas_json
 
@@ -466,10 +454,8 @@ def OrdersJoin(request):
 def TakeOrder(request):
 
 	mesero = get_current_user(request.db,request.user,mesero=True)
-	print "_-________________"
 
 	gruposMenu = Gpo.objects.using(request.db).all()# .order_by("orden")
-	print gruposMenu
 	for grupoMenu in gruposMenu:
 		grupoMenu.menus = Arlo.objects.using(request.db).filter(cgpo=grupoMenu)
 
@@ -482,8 +468,6 @@ def TakeOrder(request):
 			fcoda__date=str(today)
 		).values('cmesa')
 	)
-
-	print "_-________________"
 
 	context = {
 		'gruposMenu' : gruposMenu,
@@ -535,7 +519,6 @@ class OrderPrint(PDFTemplateView):
 		comandas = Coda.objects.using(self.request.db).filter(cresupedi=resupedi,cesdo__cesdo=1)
 		for comanda in comandas:
 			comandas.deta = Codadeta.objects.using(self.request.db).filter(ccoda=comanda)
-		print comandas
 
 		if formato or formato == "half_letter":
 			self.template_name = "ordenes/print/format_half_letter.html"
@@ -782,5 +765,4 @@ def CommandPrint(request):
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
-	print(doc)
 	return response

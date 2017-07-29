@@ -31,7 +31,6 @@ class BillCreate(CustomCreateView):
 
 
 	def get_context_data(self,**kwargs):
-		print self.request.user.get_all_permissions()
 		context = super(BillCreate, self).get_context_data(**kwargs)
 		manageParameters = ManageParameters(self.request.db)
 

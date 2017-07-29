@@ -8,6 +8,26 @@
 			<h1></h1>
 		</section>
 		<section class="content">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Talonario</th>
+						<th> Min Conse </th>
+						<th> Max Conse </th>
+						<th> Max Fac </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for talonario in alerts.facturas.talonarios %}
+						<tr>
+							<td> {{ talonario.prefijo }} </td>
+							<td> {{ talonario.conse_ini }} </td>
+							<td> {{ talonario.conse_fin }} </td>
+							<td> {{ talonario.maxcfac }} </td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</section>
 	</div>
 	{% include 'elements/footer.html' %}

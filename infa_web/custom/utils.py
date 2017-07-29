@@ -57,7 +57,6 @@ def get_choices_timo(using,query={}):
 			list_.append((option.pk,option.ntimo))
 		choice.append(tuple(list_))
 		choices.append(tuple(choice))
-	#print tuple(choices)
 	return tuple(choices)
 
 def get_choices_tifopa(using,query={}):
@@ -73,5 +72,4 @@ def get_choices_tifopa(using,query={}):
 			list_.append((option.pk,option.ntifopa))
 		choice.append(tuple(list_))
 		choices.append(tuple(choice))
-	#print tuple(choices)
 	return tuple(choices)

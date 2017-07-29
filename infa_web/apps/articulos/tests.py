@@ -1,6 +1,6 @@
-from django.core.urlresolvers import reverse 
+from django.core.urlresolvers import reverse
 from django.test import Client
-from django.test import TestCase  
+from django.test import TestCase
 
 from html import HTML
 import codecs
@@ -146,7 +146,7 @@ def create_fac(index,data,using):
 		}
 		it_facdeta += 1
 		body_request_fac_contado["mvdeta"].append(temp_arl)
-		
+
 		body_request_fac_contado["vttotal"] += vunita
 
 		totales = calcular_vtbase_vtiva(body_request_fac_contado["mvdeta"])
@@ -200,7 +200,7 @@ def update_fac(data,using):
 		}
 		it_facdeta += 1
 		body_request_fac_contado["mvdeta"].append(temp_arl)
-		
+
 		body_request_fac_contado["vttotal"] += vunita
 
 		totales = calcular_vtbase_vtiva(body_request_fac_contado["mvdeta"])
@@ -224,10 +224,9 @@ def update_fac(data,using):
 		it_facpagodeta += 1
 		body_request_fac_contado["medios_pagos"].append(temp_mp)
 
-	#print json.dumps(body_request_fac_contado, indent=4)
 
-	
-	
+
+
 	response_fac_contado = c.post(reverse('update-bill',args=[data["pk"]]),json.dumps(body_request_fac_contado),HTTP_X_REQUESTED_WITH='XMLHttpRequest',content_type="application/json")
 	response_fac_contado = json.loads(response_fac_contado.content)
 
@@ -447,7 +446,7 @@ class ExampleTestCase(TestCase):
 			ctimo_cr = ctimo_billing('ctimo_cxc_billing', self.using)
 			ctimo_ab = ctimo_billing('ctimo_ab_billing', self.using)
 			movidetas = Movideta.objects.using(self.using).filter(cmovi__citerce = tercero.pk, cmovi__ctimo__in = [ctimo_cr, ctimo_ab]).order_by('cmovi__fmovi')
-			
+
 			vttotal_cartera = 0
 			for movideta in movidetas:
 				tr = table.tr()

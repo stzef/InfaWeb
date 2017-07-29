@@ -47,7 +47,6 @@ def code_generate(Model, prefijo, value_get, min_value, max_value,request_db):
 		key_dic = value_get+"__contains"
 		dic_find = {}
 		dic_find[key_dic] = prefijo
-		print dic_find
 		value = str(Model.objects.using(request_db).filter(**dic_find).latest(value_get))
 		value_sum = str(int(value[2:]) + 1)
 
@@ -1222,15 +1221,12 @@ def send_email(request):
 	manageParameters = ManageParameters(request.db)
 	mails = manageParameters.get_param_value("emails").split(",")
 	attachments = [settings.MEDIA_ROOT+"/temp/reporte_ventas.pdf"]
-	print attachments
 	for index,attachment in enumerate(attachments):
 		if not os.path.isfile(attachment):
 			attachments.pop(index)
 	print attachments
 
 	enviar=enviarmail("Reportes de Ventas",mails,attachments,'ReporteVentas',request.db)
-
-	print enviar
 
 	return render(request,"home/dashboard.html")
 

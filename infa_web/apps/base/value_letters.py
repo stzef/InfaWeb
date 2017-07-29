@@ -2,7 +2,6 @@ def number_to_letter(numero):
 	indicador = [("",""),("MIL","MIL"),("MILLON","MILLONES"),("MIL","MIL"),("BILLON","BILLONES")]
 	entero = int(numero)
 	decimal = int(round((numero - entero)*100))
-	#print 'decimal : ',decimal 
 	contador = 0
 	numero_letras = ""
 	while entero >0:
@@ -38,7 +37,6 @@ def convierte_cifra(numero,sw):
 	centena = int (numero / 100)
 	decena = int((numero -(centena * 100))/10)
 	unidad = int(numero - (centena * 100 + decena * 10))
-	#print "centena: ",centena, "decena: ",decena,'unidad: ',unidad
 
 	texto_centena = ""
 	texto_decena = ""
@@ -62,7 +60,6 @@ def convierte_cifra(numero,sw):
 		else:
 			texto_decena = texto_decena[0]
 	#Validar las unidades
-	#print "texto_unidad: ",texto_unidad
 	if decena != 1:
 		texto_unidad = lista_unidad[unidad]
 		if unidad == 1:

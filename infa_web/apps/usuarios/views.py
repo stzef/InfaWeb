@@ -217,7 +217,6 @@ def AdministrarUsuario(request):
 	if 'npassword' in data and 'cpassword' in data:
 		if data['npassword'] != "":
 			if data['npassword'] == data['cpassword'] :
-				print data['npassword']
 				user.set_password(data['npassword'])
 				response["message"] = "Clave cambiada"
 			else:

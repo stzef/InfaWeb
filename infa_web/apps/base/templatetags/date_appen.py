@@ -52,7 +52,6 @@ def boton_nuevo(btn_n=True,btn_s=True,btn_l=True):
 
 		buttons += str(html_btn_l)
 
-	print type(buttons)
 
 	stringHTML = """<div class="text-center">
 						<div class="btn-group">
@@ -96,7 +95,6 @@ def saldo_cartera(citerce, request_db):
 	movi = Movi.objects.using(request_db).filter(citerce = citerce, cesdo = cesdo)
 	movi_ab = movi.filter(ctimo = ctimo_abono).aggregate(val_tot = Sum('vttotal'))['val_tot']
 	movi_cr = movi.filter(ctimo = ctimo_cartera).aggregate(val_tot = Sum('vttotal'))['val_tot']
-	print cesdo
 	return float(movi_cr) - float(movi_ab if movi_ab is not None else 0)
 
 @register.filter

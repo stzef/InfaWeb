@@ -17,10 +17,12 @@ import json
 
 from infa_web.parameters import ManageParameters
 from infa_web.apps.articulos.models import *
+from infa_web.apps.facturacion.models import Fac
 from infa_web.apps.articulos.forms import *
 from infa_web.apps.base.forms import *
 from infa_web.settings import BASE_DIR
 from infa_web.mandrill_mail import emailsender
+from django.db.models import Max, Min
 
 @csrf_exempt
 def send_email_get_demo(request):
@@ -36,7 +38,23 @@ def send_email_get_demo(request):
 	return JsonResponse(data)
 
 def dashboard(request):
-	return render(request, 'home/dashboard.html', {'title': 'Dashboard'})
+
+	talos = Talo.objects.using(request.db).all()
+	for talo in talos:
+		maxcfac = Fac.objects.using(request.db).filter(ccaja=talo.ccaja).aggregate(Max('cfac'))
+		mincfac = Fac.objects.using(request.db).filter(ccaja=talo.ccaja).aggregate(Min('cfac'))
+		talo.maxcfac = maxcfac["cfac__max"]
+		talo.mincfac = mincfac["cfac__min"]
+
+	return render(request, 'home/dashboard.html', {
+		'title': 'Dashboard',
+		"alerts": {
+			"facturas": {
+				"talonarios" : talos
+			}
+		}
+	})
+
 
 def get_custom_message_response(instance,object):
 	message = "El proceso se realizo con Exito."
@@ -568,7 +586,6 @@ def clear_filter_dic(query):
 			nkey = key + "__isnull"
 			del query[key]
 			query[nkey] = True
-	print query
 	return query
 
 @csrf_exempt
