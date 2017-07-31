@@ -31,11 +31,11 @@ from django.core.urlresolvers import reverse_lazy
 # pedido anterior -> listar las comandas
 @csrf_exempt
 def GetPrinters(request):
-	comanda = json.loads(request.body)
+	data = json.loads(request.body)
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 	manageParameters = ManageParameters(request.db)
-	for codadeta in comanda:
+	for codadeta in data["fields"]["codadeta"]:
 		ccoda = codadeta['fields']['ccoda']['ccoda']
 		printer = codadeta['fields']['cmenu']['cgpo']['impresora']
 		cgpo = codadeta['fields']['cmenu']['cgpo']['ngpo']
@@ -134,6 +134,7 @@ def SetResuCfac(request):
 		"data" : data
 	}
 	return HttpResponse(json.dumps(response), "application/json")
+
 def GetInfoMesa(mesa,request_db):
 	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
 	vttotal = float(0)
@@ -324,7 +325,7 @@ def SaveCommand(request):
 	coda = serializers.serialize("json", objcoda,use_natural_foreign_keys=True)
 
 	coda = json.loads(coda)[0]
-	coda['codadeta'] = json.loads(serializers.serialize("json",Codadeta.objects.using(request.db).filter(ccoda = objcoda[0]),use_natural_foreign_keys=True))
+	coda['fields']['codadeta'] = json.loads(serializers.serialize("json",Codadeta.objects.using(request.db).filter(ccoda = objcoda[0]),use_natural_foreign_keys=True))
 
 
 	return HttpResponse(json.dumps(coda), "application/json")

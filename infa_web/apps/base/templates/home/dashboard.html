@@ -11,9 +11,11 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Talonario</th>
-						<th> Min Conse </th>
-						<th> Max Conse </th>
+						<th> Talonario </th>
+						<th> Caja </th>
+						<th> Disponibles </th>
+						<th> Rango </th>
+						<th> Min Fac </th>
 						<th> Max Fac </th>
 					</tr>
 				</thead>
@@ -21,8 +23,10 @@
 					{% for talonario in alerts.facturas.talonarios %}
 						<tr>
 							<td> {{ talonario.prefijo }} </td>
-							<td> {{ talonario.conse_ini }} </td>
-							<td> {{ talonario.conse_fin }} </td>
+							<td> {{ talonario.ccaja.ncaja }} </td>
+							<td class="bg-primary"> {{ talonario.disponible }} </td>
+							<td> {{ talonario.conse_ini }} - {{ talonario.conse_fin }} </td>
+							<td> {{ talonario.mincfac }} </td>
 							<td> {{ talonario.maxcfac }} </td>
 						</tr>
 					{% endfor %}

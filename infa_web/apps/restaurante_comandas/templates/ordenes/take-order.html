@@ -472,14 +472,15 @@
 					'success' : function(response){
 						WaitDialog.hide()
 						alertify.success("La Comanda se guardo.")
-						console.log(response.codadeta)
-						var coda = response.codadeta
+						var coda = response
+						window.coda = response
+						console.log(coda)
 						$.ajax({
 							'url' : "/commands/printers/",
 							'type' : "POST",
 							'data' : JSON.stringify(coda),
 							'success' : function(response){
-								
+
 							}
 						})
 						listar_comandas_mesa(mesa_activa,function(){

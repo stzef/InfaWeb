@@ -41,10 +41,13 @@ def dashboard(request):
 
 	talos = Talo.objects.using(request.db).all()
 	for talo in talos:
-		maxcfac = Fac.objects.using(request.db).filter(ccaja=talo.ccaja).aggregate(Max('cfac'))
-		mincfac = Fac.objects.using(request.db).filter(ccaja=talo.ccaja).aggregate(Min('cfac'))
+		maxcfac = Fac.objects.using(request.db).filter(cfac__contains=talo.prefijo,ccaja=talo.ccaja).aggregate(Max('cfac'))
+		mincfac = Fac.objects.using(request.db).filter(cfac__contains=talo.prefijo,ccaja=talo.ccaja).aggregate(Min('cfac'))
 		talo.maxcfac = maxcfac["cfac__max"]
 		talo.mincfac = mincfac["cfac__min"]
+		talo.disponible = talo.conse_fin
+		if talo.maxcfac is not None and talo.mincfac is not None:
+			talo.disponible = talo.conse_fin - int(talo.maxcfac[2:])
 
 	return render(request, 'home/dashboard.html', {
 		'title': 'Dashboard',

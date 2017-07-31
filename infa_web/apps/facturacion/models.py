@@ -10,7 +10,6 @@ from infa_web.apps.terceros.models import *
 from infa_web.apps.articulos.models import *
 from infa_web.apps.movimientos.models import *
 
-
 class Fac(models.Model):
 	class Meta:
 		ordering = ["-femi"]
@@ -71,7 +70,7 @@ class Fac(models.Model):
 		r = {
 			"cfac" : self.cfac
 		}
-		
+
 		return r
 
 	def __str__(self):
