@@ -3,6 +3,7 @@ from easy_pdf.views import PDFTemplateView
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from infa_web.parameters import ManageParameters
 from infa_web.printers import send_to_print
+from io import BytesIO
 
 import json
 import datetime
@@ -36,10 +37,12 @@ def GetPrinters(request):
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 	for cgpo in data:
 		for gpo in cgpo:
+			buffer = BytesIO()
 			ccoda = gpo['fields']['ccoda']['ccoda']
 			print(ccoda)
 			doc = CommandPrint(ccoda,request.db)
-			print(doc)
+			pdf = buffer(doc)
+			print(pdf)
 		#send_to_print(doc,printer)
 	return response
 
@@ -695,9 +698,7 @@ def CommandPrint(coda,requestdb):
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 
 	manageParameters = ManageParameters(requestdb)
-
 	ccoda = coda
-
 	comanda = Coda.objects.using(requestdb).get(ccoda=ccoda,cesdo__cesdo=1)
 
 	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
@@ -780,4 +781,4 @@ def CommandPrint(coda,requestdb):
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
-	return response
+	return doc
