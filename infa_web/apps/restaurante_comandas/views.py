@@ -30,6 +30,8 @@ from django.core.urlresolvers import reverse_lazy
 
 # pedido actual
 # pedido anterior -> listar las comandas
+import random
+
 @csrf_exempt
 def GetPrinters(request):
 	data = json.loads(request.body)
@@ -37,11 +39,11 @@ def GetPrinters(request):
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 	for cgpo in data:
 		for gpo in cgpo:
+			hash = random.getrandbits(128)
 			ccoda = gpo['fields']['ccoda']['ccoda']
-			doc = CommandPrint(ccoda,request.db)
-			pdf = doc.getvalue()
-			send_to_print(pdf,'EPSON_L355_Series')
-			doc.close()
+			name_file = 'infa_web/static/temp/coda_%s.pdf' % hash
+			doc = CommandPrint(name_file,ccoda,request.db)
+			send_to_print(name_file,'EPSON_L355_Series')
 	return response
 
 @csrf_exempt
@@ -689,18 +691,15 @@ def CommandPrint(request):
 	doc.build(elements)
 	return response
 """
-def CommandPrint(coda,requestdb):
+def CommandPrint(name_file,coda,requestdb):
 
 	# Create the HttpResponse object with the appropriate PDF headers.
-
-
-	buffer = BytesIO()
 
 	manageParameters = ManageParameters(requestdb)
 	ccoda = coda
 	comanda = Coda.objects.using(requestdb).get(ccoda=ccoda,cesdo__cesdo=1)
 
-	doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc = SimpleDocTemplate(name_file, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
 	hr_linea = "___________________________________"
@@ -782,4 +781,4 @@ def CommandPrint(coda,requestdb):
 	doc.build(elements)
 
 
-	return buffer
+	return doc

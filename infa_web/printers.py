@@ -1,9 +1,8 @@
 import subprocess
 def send_to_print(file_path, name_printer):
-	cmd = 'echo "%s" | /usr/bin/lpr -P %s' % (file_path, name_printer)
-	print "....................."
-	print cmd
-	print "....................."
+	cmd_print = '/usr/bin/lpr -P %s %s' % (name_printer, file_path)
+	subprocess.Popen(cmd_print, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-	lpr =  subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-	return lpr
+	cmd_delete = 'rm %s' % file_path
+	#subprocess.Popen(cmd_delete, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
