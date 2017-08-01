@@ -41,9 +41,10 @@ def GetPrinters(request):
 		for gpo in cgpo:
 			hash = random.getrandbits(128)
 			ccoda = gpo['fields']['ccoda']['ccoda']
+			cgpo = gpo['fields']['cmenu']['cgpo']
 			name_file = 'infa_web/static/temp/coda_%s.pdf' % hash
 			doc = CommandPrint(name_file,ccoda,request.db)
-			send_to_print(name_file,'EPSON_L355_Series')
+			send_to_print(name_file,cgpo["impresora"])
 	return response
 
 @csrf_exempt
@@ -691,6 +692,17 @@ def CommandPrint(request):
 	doc.build(elements)
 	return response
 """
+def CommandPrintRequest(request):
+	response = HttpResponse(content_type='application/pdf')
+
+	ccoda = data_r.get('ccoda')
+
+	comanda = Coda.objects.using(request.db).get(ccoda=ccoda,cesdo__cesdo=1)
+	content = CommandPrint(None,comanda,request.db)
+
+	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+	return response
+
 def CommandPrint(name_file,coda,requestdb):
 
 	# Create the HttpResponse object with the appropriate PDF headers.
