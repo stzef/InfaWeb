@@ -471,14 +471,20 @@
 					'data' : JSON.stringify(data),
 					'success' : function(response){
 						WaitDialog.hide()
-						alertify.success("La Comanda se guardo.")
 						var coda = response
-						window.coda = response
-						console.log(coda)
+						cgpos = coda.fields.codadeta.map(function(item){ return item.fields.cmenu.cgpo.cgpo })
+						cgpos = cgpos.filter(function(item, pos) {
+							return cgpos.indexOf(item) == pos;
+						})
+						cgpos = cgpos.map(function(cgpo){
+							return coda.fields.codadeta.filter(function(item){ return item.fields.cmenu.cgpo.cgpo == cgpo })
+						})
+						alertify.success("La Comanda se guardo.")
+						console.log(cgpos)
 						$.ajax({
 							'url' : "/commands/printers/",
 							'type' : "POST",
-							'data' : JSON.stringify(coda),
+							'data' : JSON.stringify(cgpos),
 							'success' : function(response){
 
 							}
