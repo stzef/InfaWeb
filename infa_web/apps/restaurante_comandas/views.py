@@ -694,13 +694,18 @@ def CommandPrint(request):
 """
 def CommandPrintRequest(request):
 	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+	data_r = request.GET
 
 	ccoda = data_r.get('ccoda')
 
-	comanda = Coda.objects.using(request.db).get(ccoda=ccoda,cesdo__cesdo=1)
-	content = CommandPrint(None,comanda,request.db)
+	#comanda = Coda.objects.using(request.db).get(ccoda=ccoda,cesdo__cesdo=1)
+	buffer = BytesIO()
 
-	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+	content = CommandPrint(buffer,ccoda,request.db)
+	pdf = buffer.getvalue()
+	buffer.close()
+	response.write(pdf)
 	return response
 
 def CommandPrint(name_file,coda,requestdb):
