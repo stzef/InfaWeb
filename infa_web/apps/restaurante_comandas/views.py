@@ -39,7 +39,9 @@ def GetPrinters(request):
 		for gpo in cgpo:
 			ccoda = gpo['fields']['ccoda']['ccoda']
 			doc = CommandPrint(ccoda,request.db)
-			send_to_print(doc,'printer')
+			pdf = doc.getvalue()
+			send_to_print(pdf,'EPSON_L355_Series')
+			doc.close()
 	return response
 
 @csrf_exempt
@@ -779,10 +781,5 @@ def CommandPrint(coda,requestdb):
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
 
-	pdf = buffer.getvalue()
-	buffer.close()
-	print "--------------------"
-	print pdf
-	print "--------------------"
 
-	return pdf
+	return buffer
