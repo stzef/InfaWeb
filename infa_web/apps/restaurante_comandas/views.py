@@ -37,13 +37,9 @@ def GetPrinters(request):
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 	for cgpo in data:
 		for gpo in cgpo:
-			buffer = BytesIO()
 			ccoda = gpo['fields']['ccoda']['ccoda']
-			print(ccoda)
 			doc = CommandPrint(ccoda,request.db)
-			pdf = buffer(doc)
-			print(pdf)
-		#send_to_print(doc,printer)
+			send_to_print(doc,'printer')
 	return response
 
 @csrf_exempt
@@ -694,14 +690,15 @@ def CommandPrint(request):
 def CommandPrint(coda,requestdb):
 
 	# Create the HttpResponse object with the appropriate PDF headers.
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+
+
+	buffer = BytesIO()
 
 	manageParameters = ManageParameters(requestdb)
 	ccoda = coda
 	comanda = Coda.objects.using(requestdb).get(ccoda=ccoda,cesdo__cesdo=1)
 
-	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
 	hr_linea = "___________________________________"
@@ -781,4 +778,11 @@ def CommandPrint(coda,requestdb):
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
-	return doc
+
+	pdf = buffer.getvalue()
+	buffer.close()
+	print "--------------------"
+	print pdf
+	print "--------------------"
+
+	return pdf

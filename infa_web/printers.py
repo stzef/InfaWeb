@@ -1,6 +1,6 @@
 import subprocess
 def send_to_print(file_path, name_printer):
-	cmd = "/usr/bin/lpr -P %s %s" % (name_printer, file_path)
+	cmd = "cat %s | /usr/bin/lpr -P %s" % (file_path, name_printer)
 
 	lpr =  subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	return lpr
