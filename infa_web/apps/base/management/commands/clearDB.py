@@ -104,8 +104,6 @@ class Command(BaseCommand):
 			print "Usuarios. Registros Borrados con Exito."
 
 			#Restaurante_menus
-			GposMenus.objects.using(name_db).all().delete()
-			print "GposMenus. Registros Borrados con Exito."
 			#Restaurante_menus
 			Mesas.objects.using(name_db).all().delete()
 			print "Mesas. Registros Borrados con Exito."
