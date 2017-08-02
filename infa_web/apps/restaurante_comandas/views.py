@@ -342,6 +342,10 @@ def GetResupediMesa(request,cmesa):
 	# comandas = Coda.objects.using(request.db).all().annotate(Count("cresupedi"))
 	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=False).annotate(Count("cresupedi"))
 	comandas = map( lambda c: c.cresupedi, comandas )
+	print comandas
+
+	comandas = list(set(comandas))
+	print comandas
 	comandas_json = json.loads(serializers.serialize("json", comandas,use_natural_foreign_keys=True))
 
 	response = comandas_json

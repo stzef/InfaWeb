@@ -151,6 +151,9 @@
 				<button type="button" class="btn btn-danger btn-app" data-dismiss="modal">
 					<span class="fa fa-close"></span>Cerrar
 				</button>
+				<button type="button" id="delete_item" class="btn btn-danger btn-app" data-dismiss="modal">
+					<span class="fa fa-remove"></span>Eliminar
+				</button>
 				<button type="button" class="btn btn-success btn-app" onclick="enviar_cantidad()">
 					<span class="fa fa-save"></span>Guardar
 				</button>
@@ -367,6 +370,11 @@
 			$("#modal_editar_cantidad").modal("hide")
 			actualizar_total()
 		}
+		$('#delete_item').click( function () {
+			table.row('.selected').remove().draw( false );
+			$("#modal_editar_cantidad").modal("hide")
+			actualizar_total()
+		});
 		$('.btn-number').click(function(e){
 			e.preventDefault();
 
@@ -663,7 +671,7 @@
 					temp_canti = 1,
 					temp_ncorto = menu.fields.ncorto,
 					temp_pvta1 = currencyFormat.format(menu.fields.pvta1),
-					temp_desc = '<input id="desc_'+temp_cmenu+'"></input>'
+					temp_desc = '<input onclick="event.stopPropagation()" id="desc_'+temp_cmenu+'"></input>'
 
 					var row = table.row.add([temp_cmenu,temp_canti,temp_ncorto,temp_desc,temp_pvta1]).draw( false );
 					actualizar_total()
