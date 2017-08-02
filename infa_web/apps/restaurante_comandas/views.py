@@ -34,18 +34,21 @@ import random
 
 @csrf_exempt
 def GetPrinters(request):
+	response = []
 	data = json.loads(request.body)
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
-	for cgpo in data:
-		for gpo in cgpo:
-			hash = random.getrandbits(128)
-			ccoda = gpo['fields']['ccoda']['ccoda']
-			cgpo = gpo['fields']['cmenu']['cgpo']
-			name_file = 'infa_web/static/temp/coda_%s.pdf' % hash
-			doc = CommandPrint(name_file,ccoda,request.db)
-			send_to_print(name_file,cgpo["impresora"])
-	return response
+	for menus in data["cgpos"]:
+		hash = random.getrandbits(128)
+		ccoda = data['fields']['ccoda']
+		name_file = 'infa_web/static/temp/coda_%s_%s.pdf' % (ccoda,hash)
+
+		print json.dumps(menus["objects"], indent=4, sort_keys=True)
+		objects = list(map((lambda x : Codadeta.objects.using(request.db).get(ccoda__ccoda=ccoda,cmenu__carlos=x["fields"]["cmenu"]["carlos"])), menus["objects"]))
+		print objects
+
+		response.append(name_file)
+		doc = CommandMenusPrint(name_file,ccoda,objects,request.db)
+		send_to_print(name_file,menus["cgpo"]["impresora"])
+	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
 def SetResuCfac(request):
@@ -730,6 +733,98 @@ def CommandPrint(name_file,coda,requestdb):
 		[manageParameters.get("text_header_pos_bill")],
 	]
 	detalles = Codadeta.objects.using(requestdb).filter(ccoda=comanda)
+	data.append(["_______________", "___________________"])
+	for detalle in detalles:
+		data.append(["Cantidad : ",str(detalle.canti)])
+		data.append(["Nombre",detalle.cmenu.ncorto])
+		data.append(["Descripcion",detalle.descripcion])
+		data.append(["_______________", "___________________"])
+
+	style_table_header = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	])
+
+	style_table_facdeta = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+	])
+
+	#Configure style and word wrap
+	s = getSampleStyleSheet()
+
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
+	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+
+	bodytext = s["tirilla"]
+	headertext = s["header"]
+	#s.wordWrap = 'CJK'
+	bodytext.wordWrap = 'LTR'
+	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
+	t=Table(data2)
+	t.setStyle(style_table_facdeta)
+
+	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
+	t_header=Table(data2_header)
+	t_header.setStyle(style_table_header)
+
+	elements.append(t_header)
+	elements.append(Paragraph("<br/>Comanda No. %s" % comanda.ccoda,s['tirilla']))
+
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(comanda.fcoda),s['tirilla']))
+	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
+	elements.append(t)
+	elements.append(Paragraph("." ,s['tirilla']))
+	doc.build(elements)
+
+
+	return doc
+
+def CommandMenusPrint(name_file,ccoda,menus,requestdb):
+
+	# Create the HttpResponse object with the appropriate PDF headers.
+
+	manageParameters = ManageParameters(requestdb)
+
+	doc = SimpleDocTemplate(name_file, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc.pagesize = portrait((190, 1900))
+
+	comanda = Coda.objects.using(requestdb).get(ccoda=ccoda,cesdo__cesdo=1)
+
+	hr_linea = "___________________________________"
+
+	elements = []
+
+	data = []
+
+	data_header = [
+		[manageParameters.get("company_name")],
+		[manageParameters.get("text_header_pos_bill")],
+	]
+	detalles = menus
 	data.append(["_______________", "___________________"])
 	for detalle in detalles:
 		data.append(["Cantidad : ",str(detalle.canti)])

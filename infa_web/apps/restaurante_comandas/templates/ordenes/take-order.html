@@ -473,18 +473,25 @@
 						WaitDialog.hide()
 						var coda = response
 						cgpos = coda.fields.codadeta.map(function(item){ return item.fields.cmenu.cgpo.cgpo })
-						cgpos = cgpos.filter(function(item, pos) {
-							return cgpos.indexOf(item) == pos;
-						})
-						cgpos = cgpos.map(function(cgpo){
-							return coda.fields.codadeta.filter(function(item){ return item.fields.cmenu.cgpo.cgpo == cgpo })
-						})
-						alertify.success("La Comanda se guardo.")
 						console.log(cgpos)
+
+						cgpos = cgpos.filter((item, pos) => cgpos.indexOf(item) == pos)
+						console.log(cgpos)
+
+						cgpos = cgpos.map(function(cgpo){
+							var objects = coda.fields.codadeta.filter(function(item){ return item.fields.cmenu.cgpo.cgpo == cgpo })
+							return {
+								objects : objects,
+								cgpo : objects[0].fields.cmenu.cgpo
+							}
+						})
+						console.log(cgpos)
+						alertify.success("La Comanda se guardo.")
+						coda.cgpos = cgpos
 						$.ajax({
 							'url' : "/commands/printers/",
 							'type' : "POST",
-							'data' : JSON.stringify(cgpos),
+							'data' : JSON.stringify(coda),
 							'success' : function(response){
 
 							}
