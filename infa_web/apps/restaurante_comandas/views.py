@@ -41,9 +41,9 @@ def GetPrinters(request):
 		ccoda = data['fields']['ccoda']
 		name_file = 'infa_web/static/temp/coda_%s_%s.pdf' % (ccoda,hash)
 
-		print json.dumps(menus["objects"], indent=4, sort_keys=True)
+		#print json.dumps(menus["objects"], indent=4, sort_keys=True)
 		objects = list(map((lambda x : Codadeta.objects.using(request.db).get(ccoda__ccoda=ccoda,cmenu__carlos=x["fields"]["cmenu"]["carlos"])), menus["objects"]))
-		print objects
+		#print objects
 
 		response.append(name_file)
 		doc = CommandMenusPrint(name_file,ccoda,objects,request.db)
@@ -825,6 +825,7 @@ def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 		[manageParameters.get("text_header_pos_bill")],
 	]
 	detalles = menus
+
 	data.append(["_______________", "___________________"])
 	for detalle in detalles:
 		data.append(["Cantidad : ",str(detalle.canti)])
