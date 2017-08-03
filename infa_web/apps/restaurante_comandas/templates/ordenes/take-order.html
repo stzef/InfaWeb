@@ -480,22 +480,18 @@
 					'success' : function(response){
 						WaitDialog.hide()
 						var coda = response
-						cgpos = coda.fields.codadeta.map(function(item){ return item.fields.cmenu.cgpo.cgpo })
-						console.log(cgpos)
-
+						cgpos = coda.fields.codadeta.map(function(item){ return item.fields.cmenu.cgpo.impresora })
 						cgpos = cgpos.filter((item, pos) => cgpos.indexOf(item) == pos)
-						console.log(cgpos)
-
 						cgpos = cgpos.map(function(cgpo){
-							var objects = coda.fields.codadeta.filter(function(item){ return item.fields.cmenu.cgpo.cgpo == cgpo })
+							var objects = coda.fields.codadeta.filter(function(item){ return item.fields.cmenu.cgpo.impresora == cgpo })
 							return {
 								objects : objects,
 								cgpo : objects[0].fields.cmenu.cgpo
 							}
 						})
-						console.log(cgpos)
 						alertify.success("La Comanda se guardo.")
 						coda.cgpos = cgpos
+						console.log(cgpos)
 						$.ajax({
 							'url' : "/commands/printers/",
 							'type' : "POST",

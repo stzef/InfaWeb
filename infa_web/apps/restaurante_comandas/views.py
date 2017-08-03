@@ -36,6 +36,7 @@ import random
 def GetPrinters(request):
 	response = []
 	data = json.loads(request.body)
+	cont = 0
 	for menus in data["cgpos"]:
 		hash = random.getrandbits(128)
 		ccoda = data['fields']['ccoda']
@@ -48,6 +49,10 @@ def GetPrinters(request):
 		response.append(name_file)
 		doc = CommandMenusPrint(name_file,ccoda,objects,request.db)
 		send_to_print(name_file,menus["cgpo"]["impresora"])
+		cont +=1
+	print '-----------'
+	print cont
+	print '-----------'
 	return HttpResponse(json.dumps(response), "application/json")
 
 @csrf_exempt
