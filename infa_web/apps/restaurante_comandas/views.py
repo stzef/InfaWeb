@@ -165,10 +165,10 @@ def SaveSummary(request):
 		cresupedi = Resupedi.objects.latest('cresupedi').cresupedi + 1
 	except Exception as e:
 		cresupedi = 1
-	today = datetime.date.today().strftime("%Y-%m-%d")
+	today = datetime.date.today().strftime("%Y-%m-%d %H:%M:%S")
 	resupedi = Resupedi(
 		cresupedi=cresupedi,
-		fresupedi = today, #"2017-01-01",
+		fresupedi = today,
 		vttotal = totales,
 		detaanula = "",
 		ifcortesia = False,
@@ -523,19 +523,19 @@ def OrderPrint(request):
 	]
 
 	data = [
-		["===============", "=========", "============"],
+		["==================", "======", "============"],
 		["Descripcion", "Cant", "Vr. Tot"],
-		["_______________", "_________", "____________"],
+		["__________________", "______", "____________"],
 	]
 
 	for comanda in comandas:
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
 		for detalle in detalles:
-			data.append([detalle.cmenu.ncorto[:10],str(detalle.canti),str(detalle.vtotal)])
+			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),str(detalle.vtotal)])
 
-	data.append(["_______________", "_________", "____________"])
+	data.append(["__________________", "______", "____________"])
 	data.append(["Total","-->",str(resupedi.vttotal)])
-	data.append(["===============", "=========", "============"])
+	data.append(["==================", "======", "============"])
 
 	style_table_header = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
@@ -589,9 +589,9 @@ def OrderPrint(request):
 	t_header.setStyle(style_table_header)
 
 	elements.append(t_header)
-	elements.append(Paragraph("<br/>Resumen de Pedido No. %s" % resupedi.cresupedi,s['tirilla']))
+	elements.append(Paragraph("<br/>Cuenta No. %s" % resupedi.cresupedi,s['tirilla']))
 
-	elements.append(Paragraph("Fecha : %s " % timezone.localtime(resupedi.fresupedi),s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(resupedi.fresupedi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
@@ -798,7 +798,7 @@ def CommandPrint(name_file,coda,requestdb):
 	elements.append(t_header)
 	elements.append(Paragraph("<br/>Comanda No. %s" % comanda.ccoda,s['tirilla']))
 
-	elements.append(Paragraph("Fecha : %s " % timezone.localtime(comanda.fcoda),s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(comanda.fcoda).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))
@@ -830,12 +830,12 @@ def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 	]
 	detalles = menus
 
-	data.append(["_______________", "___________________"])
+	data.append(["__________________________________"])
 	for detalle in detalles:
-		data.append(["Cantidad : ",str(detalle.canti)])
-		data.append(["Nombre",detalle.cmenu.ncorto])
-		data.append(["Descripcion",detalle.descripcion])
-		data.append(["_______________", "___________________"])
+		data.append([str(detalle.canti)])
+		data.append([detalle.cmenu.ncorto])
+		data.append([detalle.descripcion])
+		data.append(["__________________________________"])
 
 	style_table_header = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
@@ -889,9 +889,11 @@ def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 	t_header.setStyle(style_table_header)
 
 	elements.append(t_header)
-	elements.append(Paragraph("<br/>Comanda No. %s" % comanda.ccoda,s['tirilla']))
+	elements.append(Paragraph("<br/>Preparacion de Comanda No. %s" % comanda.ccoda,s['tirilla']))
+	elements.append(Paragraph("Mesa : %s" % comanda.cmesa.nmesa,s['tirilla']))
+	elements.append(Paragraph("Mesero : %s" % comanda.cmero.nmero,s['tirilla']))
 
-	elements.append(Paragraph("Fecha : %s " % timezone.localtime(comanda.fcoda),s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(comanda.fcoda).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph("." ,s['tirilla']))

@@ -203,7 +203,9 @@ function resumen_pedido(){
 			dataType : 'json',
 			data : JSON.stringify( data_save ),
 			success : function ( response ){
-				imprimir_resumen_pedido(response.resupedi.pk)
+				alertify.confirm("¿Desea Imprimir la Cuenta?",function(){
+					imprimir_resumen_pedido(response.resupedi.pk)
+				})
 				WaitDialog.hide()
 				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
 				$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
