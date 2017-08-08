@@ -4,6 +4,8 @@ from infa_web.apps.facturacion.models import *
 from infa_web.apps.facturacion.forms import *
 from infa_web.apps.articulos.models import *
 
+from django.contrib.humanize.templatetags.humanize import intcomma
+
 from django.core.urlresolvers import reverse_lazy
 
 from infa_web.custom.generic_views import CustomListView
@@ -101,11 +103,11 @@ def BillPrint(request):
 	]
 
 	for facdeta in factura_deta:
-		data.append([facdeta.carlos.ncorto[:10],str(facdeta.canti),""])
-		data.append(["IVI","",str(facdeta.vtotal)])
+		data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),""])
+		data.append(["IVI","",intcomma(facdeta.vtotal)])
 
 	data.append(["_______________", "_________", "____________"])
-	data.append(["Total","-->",str(factura.vttotal)])
+	data.append(["Total","-->",intcomma(factura.vttotal)])
 	data.append(["===============", "=========", "============"])
 
 	style_table_header = TableStyle([
@@ -162,7 +164,7 @@ def BillPrint(request):
 	elements.append(t_header)
 	elements.append(Paragraph("<br/>Factura No. %s" % factura.cfac,s['tirilla']))
 
-	elements.append(Paragraph("Fecha : %s " % timezone.localtime(factura.femi),s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(factura.femi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))

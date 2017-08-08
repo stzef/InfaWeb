@@ -143,6 +143,7 @@ class Coda(models.Model):
 		unique_together = (('ccoda', 'ctalocoda'))
 		permissions = (
 			("list_coda", "Puede Listar Comandas"),
+			("report_resupedi", "Puede generar reporte de Cuentas"),
 		)
 	ccoda = models.IntegerField()
 	ctalocoda = models.ForeignKey(Talocoda)

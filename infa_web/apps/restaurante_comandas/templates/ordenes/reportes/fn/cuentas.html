@@ -1,0 +1,70 @@
+{% extends 'layouts/pdf.html' %}
+{% load humanize %}
+
+{% block head_table %}
+	<tr style="padding-bottom: -3px;">
+		<td>{{title}}</td>
+	</tr>
+	{% for titulo,valor in header.iteritems %}
+		<tr>
+			<td>{{titulo}} : {{valor}}</td>
+		</tr>
+	{% endfor %}
+{% endblock head_table %}
+
+
+{% block content %}
+<table class="center" cellpadding="3px">
+	<thead>
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1">
+			<th>Cuenta</th>
+			{% if cells.citerce.show %}
+				<th>Cliente</th>
+			{% endif %}
+			{% if cells.cvende.show %}
+				<th>Vendedor</th>
+			{% endif %}
+			{% if cells.csucur.show %}
+				<th>Sucursal</th>
+			{% endif %}
+			{% if cells.detaanula.show %}
+				<th>Det Anulación</th>
+			{% endif %}
+			<th>Fecha</th>
+			<th>Vr.Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for resupedi in resupedis %}
+			<tr><!--class="cesdo-{{resupedi.cesdo.pk}}"-->
+				<td>{{resupedi.cresupedi}}</td>
+				{% if cells.citerce.show %}
+					<td>{{resupedi.citerce.rasocial}}</td>
+				{% endif %}
+				{% if cells.cvende.show %}
+					<td>{{resupedi.cvende.nvende}}</td>
+				{% endif %}
+				{% if cells.csucur.show %}
+					<td>{{resupedi.cvende.usuario.ctalomos.csucur.nsucur}}</td>
+				{% endif %}
+				{% if cells.detaanula.show %}
+					<td>{{resupedi.detaanula}}</td>
+				{% endif %}
+				<td>{{resupedi.fresupedi|date:"d M Y"}}</td>
+				<td>{{resupedi.vttotal|intcomma}}</td>
+			</tr>
+		{% endfor %}
+		<!--
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">SubTotal</td>
+			<td>{{totales.subtotal|intcomma}}</td>
+		</tr>
+		-->
+		<tr class="border_top_1 border_bottom_1 padding_top_1 padding_bottom_1 text_bold">
+			<td colspan="{{colspan_total}}">Total</td>
+			<td>{{totales.total|intcomma}}</td>
+		</tr>
+	</tbody>
+</table>
+{% endblock content %}
+

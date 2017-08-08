@@ -516,6 +516,30 @@ class Command(BaseCommand):
 				module = mod_restaurante,
 				quick_access = True,
 			)
+			m_restaurante_reportes = NavMenus.objects.using(name_db).create(
+				name = 'Reportes',
+				main = False,
+				enabled = True,
+				anchor = True,
+				url = None,
+				permission = None,
+				general=False,
+				father = m_restaurante,
+				icon = 'fa-list-alt',
+				module = mod_restaurante,
+			)
+			m_restaurante_reportes_cuentas1 = NavMenus.objects.using(name_db).create(
+				name = 'Reporte de Cuentas',
+				main = False,
+				enabled = True,
+				anchor = False,
+				url = 'report_view_accounts',
+				permission = 'restaurante_comandas.report_resupedi',
+				general=False,
+				father = m_restaurante_reportes,
+				icon = 'fa-archive',
+				module = mod_restaurante,
+			)
 
 		else:
 			print "Operación Cancelada."

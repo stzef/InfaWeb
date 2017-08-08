@@ -5,6 +5,10 @@ from infa_web.parameters import ManageParameters
 from infa_web.printers import send_to_print
 from io import BytesIO
 
+from infa_web.apps.facturacion.forms import ReportVentaForm
+
+from django.contrib.humanize.templatetags.humanize import intcomma
+
 import json
 import datetime
 
@@ -170,7 +174,7 @@ def SaveSummary(request):
 		cresupedi = Resupedi.objects.latest('cresupedi').cresupedi + 1
 	except Exception as e:
 		cresupedi = 1
-	today = datetime.date.today().strftime("%Y-%m-%d %H:%M:%S")
+	today = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
 	resupedi = Resupedi(
 		cresupedi=cresupedi,
 		fresupedi = today,
@@ -536,10 +540,10 @@ def OrderPrint(request):
 	for comanda in comandas:
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
 		for detalle in detalles:
-			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),str(detalle.vtotal)])
+			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(detalle.vtotal)])
 
 	data.append(["__________________", "______", "____________"])
-	data.append(["Total","-->",str(resupedi.vttotal)])
+	data.append(["Total","-->",intcomma(resupedi.vttotal)])
 	data.append(["==================", "======", "============"])
 
 	style_table_header = TableStyle([
@@ -744,7 +748,7 @@ def CommandPrint(name_file,coda,requestdb):
 	detalles = Codadeta.objects.using(requestdb).filter(ccoda=comanda)
 	data.append(["_______________", "___________________"])
 	for detalle in detalles:
-		data.append(["Cantidad : ",str(detalle.canti)])
+		data.append(["Cantidad : ",str(int(detalle.canti))])
 		data.append(["Nombre",detalle.cmenu.ncorto])
 		data.append(["Descripcion",detalle.descripcion])
 		data.append(["_______________", "___________________"])
@@ -837,7 +841,7 @@ def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 
 	data.append(["__________________________________"])
 	for detalle in detalles:
-		data.append([str(detalle.canti)])
+		data.append([str(int(detalle.canti))])
 		data.append([detalle.cmenu.ncorto])
 		data.append([detalle.descripcion])
 		data.append(["__________________________________"])
@@ -906,3 +910,101 @@ def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 
 
 	return doc
+
+def report_view_accounts(request):
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"ordenes/reportes/views/cuentas.html",{"title":"Reporte de Cuentas","form":form,"form_common":form_common})
+
+
+class report_fn_accounts(PDFTemplateView):
+	template_name = "ordenes/reportes/fn/cuentas.html"
+	pdf_kwargs = { "filename_to_save" : "temp/reporte_cuentas.pdf" }
+
+
+	def get_context_data(self, **kwargs):
+		data = self.request.GET
+
+		self.pdf_kwargs["filename_to_save"] = "temp/reporte_cuentas.pdf"
+
+		cesdo_anulado = Esdo.objects.using(self.request.db).get(cesdo=CESDO_ANULADO)
+
+		context = super(report_fn_accounts, self).get_context_data(**kwargs)
+		manageParameters = ManageParameters(self.request.db)
+
+
+		context['title'] = 'Reporte de Cuentas Por Rango de Fechas'
+		cells = {
+			"cvende":{"show":False},
+			"citerce":{"show":False},
+			"csucur":{"show":False},
+		}
+		context['header'] = {
+			"Rango de Fechas" : data["fecha_inicial"] + " - " + data["fecha_final"],
+		}
+
+		estadoActivo = Esdo.objects.using(self.request.db).get(cesdo=CESTADO_ACTIVO)
+		context['header']["Estado"] = estadoActivo.nesdo
+
+		query_resupedi = {
+			"fresupedi__range" : [
+				data.get("fecha_inicial"),
+				data.get("fecha_final"),
+			],
+			# "cesdo__cesdo" : CESTADO_ACTIVO
+		}
+
+		"""
+		cvende = data["cvende"]
+		citerce = data["citerce"]
+		csucur = data["csucur"]
+		cesdo = data["cesdo"]
+
+		context['header']["Fecha Generacion"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		if(cvende):
+			query_resupedi["cvende__cvende"] = cvende
+			context['title'] += " Por Vendedor"
+			context['header']["Vendedor"] = Vende.objects.using(self.request.db).get(cvende=cvende).nvende
+			cells["cvende"]["show"] = False
+		if(citerce):
+			query_resupedi["citerce__citerce"] = citerce
+			context['title'] += " Por Cliente"
+			context['header']["Cliente"] = Tercero.objects.using(self.request.db).get(citerce=citerce).rasocial
+			cells["citerce"]["show"] = False
+		if(csucur):
+			query_resupedi["ccaja__csucur__csucur"] = csucur
+			context['title'] += " Por Sucursales"
+			context['header']["Sucursal"] = Sucursales.objects.using(self.request.db).get(csucur=csucur).nsucur
+			cells["csucur"]["show"] = False
+		if(cesdo):
+			query_resupedi["cesdo__cesdo"] = cesdo
+			if ( int(cesdo) == int(CESDO_ANULADO) ):
+				estado = Esdo.objects.using(self.request.db).get(cesdo=cesdo)
+				context['header']["Estado"] = estado.nesdo
+				cells["detaanula"]["show"] = True
+		"""
+
+		totales = {}
+
+		resupedis = Resupedi.objects.using(self.request.db).filter(**query_resupedi)
+
+
+		totales["subtotal"] = 0
+		totales["total"] = 0
+
+		for resupedi in resupedis:
+			resupedi.data_report = {}
+			totales["subtotal"] += resupedi.vttotal
+			totales["total"] += resupedi.vttotal
+
+		context['data'] = data
+		context['resupedis'] = resupedis
+		context['cells'] = cells
+		context['totales'] = totales
+
+		context['colspan_total'] = 5
+		for k,v in cells.iteritems():
+			if not v["show"]:
+				context['colspan_total'] -= 1
+
+		return context

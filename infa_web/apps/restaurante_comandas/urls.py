@@ -41,5 +41,9 @@ urlMesas = [
 	url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
 	#url(r'^tables/info-resupedi/(?P<cmesa>[0-9]+)/$',login_required(GetResupediMesa),name="table-info-resupedi"),
 ]
+urlReportes = [
+	url(r'^orders/reports/fn/accounts$', login_required(report_fn_accounts.as_view()), name = 'report_fn_accounts'),
+	url(r'^orders/reports/view/accounts$', login_required(report_view_accounts), name = 'report_view_accounts'),
+]
 
-urlpatterns = urlOrders + urlMesas + urlComandas + urlAccounts
+urlpatterns = urlOrders + urlMesas + urlComandas + urlAccounts + urlReportes

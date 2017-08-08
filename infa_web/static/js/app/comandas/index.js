@@ -48,7 +48,6 @@ function abrir_modal_resumen_pedido(mesa){
 	$("#modal_accion_resumen").find("#label_nmesa").html(mesa.fields.nmesa)
 
 	Models.objects.find("Coda",{cmesa : cmesa_activa, cresupedi:"__NULL__",cesdo__cesdo:1},function(error,comandas){
-		console.info(comandas)
 		if ( comandas ) {
 			$("#modal_accion_resumen").modal("show")
 			var div = $("<div></div>")
@@ -65,7 +64,6 @@ function abrir_modal_resumen_pedido(mesa){
 			var table = $(template_thead)
 			comandas.forEach(function(comanda){
 				Models.objects.find("Codadeta",{ccoda__ccoda:comanda.fields.ccoda},function(error,detalles){
-					console.warn(detalles)
 					if ( detalles ){
 						detalles.forEach(function(detalle){
 							var template_tr = "<tr>"+
@@ -105,7 +103,6 @@ function abrir_modal_facturar_pedido(mesa){
 function abrir_modal_unir_cuentas(mesa){
 	var selector = ".mesa.activa:not([data-cmesa=__cmesa__])".set("__cmesa__",cmesa_activa)
 	meses_unificables = $(selector)
-	console.info(meses_unificables)
 
 	if ( meses_unificables.length >= 1 ){
 		$("#modal_unir_cuenta").modal("show")
@@ -136,7 +133,6 @@ function abrir_modal_unir_cuentas(mesa){
 }
 
 function abrir_modal_listado_pedidos(mesa){
-	console.log(mesa)
 	$("#modal_listado_pedidos").modal("show")
 	var cmesa = mesa.pk
 	$.ajax({
@@ -231,106 +227,116 @@ function print_bill(cfac){
 	window.open("/pos/print?cfac=" + cfac)
 }
 function facturar_pedido(cresupedi){
-	console.log('Facturando... ' + cresupedi)
 
 	Models.objects.findOne("Resupedi",{cresupedi : cresupedi },function(error,resupedi){
-		console.log(resupedi)
 		if ( resupedi.fields.cfac ){
 			print_bill(resupedi.fields.cfac.cfac)
 		}else{
 			Models.objects.find("Coda",{cresupedi__cresupedi : resupedi.pk},function(error,comandas){
-				console.log(comandas)
 				var ccodas = comandas.map( comanda => comanda.fields.ccoda )
-				console.log(ccodas)
 				Models.objects.find("Codadeta",{ccoda__ccoda : ccodas[0]},function(error,detalles){
-					console.info(detalles)
 
+					Models.objects.find("Resupedipago",{cresupedi__cresupedi : cresupedi},function(error,pagos){
 
-					var vttotal = resupedi.fields.vttotal
+						var vttotal = resupedi.fields.vttotal
 
-					var data = {
-						//"mode_view":"create",
-						"citerce":appem_defaults.tercero.pk,
-						"name__citerce":appem_defaults.tercero.fields.nomcomer,
-						"cvende":appem_defaults.current_vendedor.pk,
-						"cdomici":appem_defaults.domiciliario.pk,
-						"ctifopa":appem_defaults.forma_pago.pk,
-						"femi":moment().format("YYYY-MM-DD"),
-						"fpago":moment().format("YYYY-MM-DD"),
-						"cemdor":appem_defaults.empacador.pk,
-						"ccaja":appem_defaults.current_user_appem.fields.ccaja,
-						"cesdo":appem_defaults.estado.pk,
-						"descri":"",
-						"vttotal":vttotal,
-						"ventre":vttotal,
-						"vcambio":0,
-						"vtbase":vttotal,
-						"vtiva":0,
-						"brtefte":0,
-						"prtefte":0,
-						"vrtefte":0,
-						"vflete":0,
-						"vdescu":0,
-						"medios_pagos":[{
-							"it":1,
-							"cmpago":appem_defaults.medio_pago.pk,
-							"docmpago":0,
-							"banmpago":appem_defaults.banco.pk,
-							"vmpago":vttotal
-						}],
-						"mvdeta":[]
-					}
-					var it = 1
-					data.mvdeta = detalles.map(function(item){
-						var d = {
-							"itfac":it,
-							"carlos":item.fields.cmenu.carlos,
-							"name__carlos":item.fields.cmenu.ncorto,
-							"canti":item.fields.canti,
-							"pordes":0,
-							"civa":1,
-							"vunita":currencyFormat.sToN(item.fields.cmenu.pvta1),
-							"vtotal":0
+						var data = {
+							//"mode_view":"create",
+							"citerce":appem_defaults.tercero.pk,
+							"name__citerce":appem_defaults.tercero.fields.nomcomer,
+							"cvende":appem_defaults.current_vendedor.pk,
+							"cdomici":appem_defaults.domiciliario.pk,
+							"ctifopa":appem_defaults.forma_pago.pk,
+							"femi":moment().format("YYYY-MM-DD"),
+							"fpago":moment().format("YYYY-MM-DD"),
+							"cemdor":appem_defaults.empacador.pk,
+							"ccaja":appem_defaults.current_user_appem.fields.ccaja,
+							"cesdo":appem_defaults.estado.pk,
+							"descri":"",
+							"vttotal":vttotal,
+							"ventre":vttotal,
+							"vcambio":0,
+							"vtbase":vttotal,
+							"vtiva":0,
+							"brtefte":0,
+							"prtefte":0,
+							"vrtefte":0,
+							"vflete":0,
+							"vdescu":0,
+							"medios_pagos": [],
+							/*[{
+								"it":1,
+								"cmpago":appem_defaults.medio_pago.pk,
+								"docmpago":0,
+								"banmpago":appem_defaults.banco.pk,
+								"vmpago":vttotal
+							}],*/
+							"mvdeta":[]
 						}
-						it++
-						d.vtotal = d.canti * d.vunita
-						return d
-					})
-					console.log(data)
-					WaitDialog.show("Guardando")
-					$.ajax({
-						url: "/bill/save/",
-						type: 'POST',
-						data: JSON.stringify(data),
-						contentType: "application/json",
-						error: function(response){
-							WaitDialog.hide()
-							alertify.notify(response.responseJSON.message,"error")
-						},
-						success: function(response){
-							WaitDialog.hide()
-							related_information = response.related_information
-							if(response.error){
-								alertify.notify(response.message,"danger")
-							}else{
-								alertify.notify(response.message,"success")
-								var data = {'cfac':related_information.fields.cfac,'cresupedi':cresupedi}
-								$.ajax({
-									url:"/accounts/save/",
-									type:'POST',
-									data:JSON.stringify(data),
-									contentType:"application/json",
-									success:function (response){
-										alertify.notify("Hi","success")
-									}
-								})
+						var it = 1
+						data.mvdeta = detalles.map(function(item){
+							var d = {
+								"itfac":it,
+								"carlos":item.fields.cmenu.carlos,
+								"name__carlos":item.fields.cmenu.ncorto,
+								"canti":item.fields.canti,
+								"pordes":0,
+								"civa":1,
+								"vunita":currencyFormat.sToN(item.fields.cmenu.pvta1),
+								"vtotal":0
 							}
-							alertify.confirm("Desea Imprimir La Factura __cfac__".set("__cfac__",related_information.fields.cfac),function(){
-								print_bill(related_information.fields.cfac)
-							})
+							it++
+							d.vtotal = d.canti * d.vunita
+							return d
+						})
+						console.log(pagos)
+						data.medios_pagos = pagos.map(function(item){
+							var d = {
+								it: item.fields.it,
+								cmpago: item.fields.cmpago,
+								docmpago: item.fields.docmpago,
+								banmpago: item.fields.banmpago,
+								vmpago: item.fields.vmpago,
+							}
+							return d
+						})
+						console.log(data)
+						WaitDialog.show("Guardando")
+						$.ajax({
+							url: "/bill/save/",
+							type: 'POST',
+							data: JSON.stringify(data),
+							contentType: "application/json",
+							error: function(response){
+								WaitDialog.hide()
+								alertify.notify(response.responseJSON.message,"error")
+							},
+							success: function(response){
+								WaitDialog.hide()
+								related_information = response.related_information
+								if(response.error){
+									alertify.notify(response.message,"danger")
+								}else{
+									alertify.notify(response.message,"success")
+									var data = {'cfac':related_information.fields.cfac,'cresupedi':cresupedi}
+									$.ajax({
+										url:"/accounts/save/",
+										type:'POST',
+										data:JSON.stringify(data),
+										contentType:"application/json",
+										success:function (response){
+											alertify.notify("Hi","success")
+										}
+									})
+								}
+								alertify.confirm("Desea Imprimir La Factura __cfac__".set("__cfac__",related_information.fields.cfac),function(){
+									print_bill(related_information.fields.cfac)
+								})
 
-						}
-					});
+							}
+						});
+					})
+
 
 
 				})
