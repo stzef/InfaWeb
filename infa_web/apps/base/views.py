@@ -798,15 +798,19 @@ def defaults(request):
 	if user_django is not None:
 		data["current_user_django"] = json.loads(serializers.serialize("json", [user_django],use_natural_foreign_keys=True))[0]
 		del data["current_user_django"]["fields"]["password"]
+
 	user_appem = get_current_user(request.db,request.user,user_appem=True)
 	if user_appem is not None:
 		data["current_user_appem"] = json.loads(serializers.serialize("json", [user_appem],use_natural_foreign_keys=True))[0]
+
 	mesero = get_current_user(request.db,request.user,mesero=True)
 	if mesero is not None:
 		data["current_mesero"] = json.loads(serializers.serialize("json", [mesero],use_natural_foreign_keys=True))[0]
+
 	vendedor = get_current_user(request.db,request.user,vendedor=True)
 	if vendedor is not None:
 		data["current_vendedor"] = json.loads(serializers.serialize("json", [vendedor],use_natural_foreign_keys=True))[0]
+
 	return JsonResponse(data)
 
 # Generales #

@@ -78,6 +78,8 @@ def BillPrint(request):
 
 	sucursal = factura.ccaja.csucur
 
+	slug_company = manageParameters.get("slug_company")
+
 	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
@@ -85,16 +87,37 @@ def BillPrint(request):
 
 	elements = []
 
-	data_header = [
-		[manageParameters.get("company_name")],
-		[manageParameters.get("text_header_pos_bill")],
-		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
-		["I.V.I Serie 5205964"],
-		[sucursal.nsucur],
-		["Dir:" + sucursal.dirsucur],
-		["Tel:" + sucursal.telsucur],
-		["Cel:" + sucursal.celsucur],
-	]
+	if slug_company == "fitness_juice":
+		data_header = [
+			[manageParameters.get("company_name")],
+			[manageParameters.get("text_header_pos_bill")],
+			[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+			["I.V.I Serie 5205964"],
+			[sucursal.nsucur],
+			["Dir:" + sucursal.dirsucur],
+			["Tel:" + sucursal.telsucur],
+			["Cel:" + sucursal.celsucur],
+		]
+	elif slug_company == "roma_pizza":
+		data_header = [
+			[manageParameters.get("company_name")],
+			[manageParameters.get("text_header_pos_bill")],
+			[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+			[sucursal.nsucur],
+			["Dir:" + sucursal.dirsucur],
+			["Tel:" + sucursal.telsucur],
+			["Cel:" + sucursal.celsucur],
+		]
+	else:
+		data_header = [
+			[manageParameters.get("company_name")],
+			[manageParameters.get("text_header_pos_bill")],
+			[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+			[sucursal.nsucur],
+			["Dir:" + sucursal.dirsucur],
+			["Tel:" + sucursal.telsucur],
+			["Cel:" + sucursal.celsucur],
+		]
 
 	data = [
 		["===============", "=========", "============"],
@@ -102,9 +125,16 @@ def BillPrint(request):
 		["_______________", "_________", "____________"],
 	]
 
-	for facdeta in factura_deta:
-		data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),""])
-		data.append(["IVI","",intcomma(facdeta.vtotal)])
+	if slug_company == "fitness_juice":
+		for facdeta in factura_deta:
+			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),""])
+			data.append(["IVI","",intcomma(facdeta.vtotal)])
+	elif slug_company == "roma_pizza":
+		for facdeta in factura_deta:
+			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma(facdeta.vtotal)])
+	else:
+		for facdeta in factura_deta:
+			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma(facdeta.vtotal)])
 
 	data.append(["_______________", "_________", "____________"])
 	data.append(["Total","-->",intcomma(factura.vttotal)])
