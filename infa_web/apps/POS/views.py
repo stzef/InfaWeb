@@ -62,7 +62,7 @@ from django.utils import timezone
 
 def BillPrint(request):
 
-	text_footer_stzef = "AppEm - Software para administracion de Empresas sitematizaref@gmail.com"
+	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
 
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(content_type='application/pdf')
