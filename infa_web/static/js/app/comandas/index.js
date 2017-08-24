@@ -274,21 +274,23 @@ function facturar_pedido(cresupedi){
 							"mvdeta":[]
 						}
 						var it = 1
-						data.mvdeta = detalles.map(function(item){
-							var d = {
-								"itfac":it,
-								"carlos":item.fields.cmenu.carlos,
-								"name__carlos":item.fields.cmenu.ncorto,
-								"canti":item.fields.canti,
-								"pordes":0,
-								"civa":1,
-								"vunita":currencyFormat.sToN(item.fields.cmenu.pvta1),
-								"vtotal":0
-							}
-							it++
-							d.vtotal = d.canti * d.vunita
-							return d
-						})
+						if ( detalles.length != 0 ){
+							data.mvdeta = detalles.map(function(item){
+								var d = {
+									"itfac":it,
+									"carlos":item.fields.cmenu.carlos,
+									"name__carlos":item.fields.cmenu.ncorto,
+									"canti":item.fields.canti,
+									"pordes":0,
+									"civa":1,
+									"vunita":currencyFormat.sToN(item.fields.cmenu.pvta1),
+									"vtotal":0
+								}
+								it++
+								d.vtotal = d.canti * d.vunita
+								return d
+							})
+						}
 						console.log(pagos)
 						data.medios_pagos = pagos.map(function(item){
 							var d = {
