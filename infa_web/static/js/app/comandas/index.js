@@ -274,7 +274,7 @@ function facturar_pedido(cresupedi){
 							"mvdeta":[]
 						}
 						var it = 1
-						if ( detalles.length != 0 ){
+						if ( detalles ){
 							data.mvdeta = detalles.map(function(item){
 								var d = {
 									"itfac":it,
@@ -327,7 +327,7 @@ function facturar_pedido(cresupedi){
 										data:JSON.stringify(data),
 										contentType:"application/json",
 										success:function (response){
-											alertify.notify("Hi","success")
+											alertify.notify("La factura se Guardo.","success")
 										}
 									})
 								}
