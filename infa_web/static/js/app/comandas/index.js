@@ -179,9 +179,54 @@ function unir_cuentas(){
 	}
 }
 
-function imprimir_resumen_pedido(cresupedi){
-	var url = "/orders/print?cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
+function imprimir_resumen_pedido(cresupedi,cmesa){
+	var url = "/orders/print?cmesa="+cmesa+"&cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
 	win = window.open(url)
+}
+function print_resupedi(){
+	var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() } 
+	console.log(data_save)
+	var url = "/pre-orders/print?cmesa="+cmesa_activa
+	win = window.open(url)
+}
+
+function facturar_resupedi(){
+
+	var ok_formas_pago = verificar_total_pago()
+	var ok_form_formas_pago = customValidationInput($("#modal_accion_resumen table tbody")).valid
+	if ( ok_formas_pago && ok_form_formas_pago ){
+		var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
+		if( data_save.medios_pago.length == 0){
+			return alertify.warning("Seleccione por lo menos un medio de Pago")
+		}
+		WaitDialog.show("Generando Resumen de Pedido...")
+		$.ajax({
+			url : "/orders/summary/save/",
+			type : "POST",
+			dataType : 'json',
+			data : JSON.stringify( data_save ),
+			success : function ( response ){
+				alertify.confirm("¿Desea Imprimir la Cuenta?",function(){
+					imprimir_resumen_pedido(response.resupedi.pk,cmesa_activa)
+					facturar_pedido(response.resupedi.pk)
+				})
+				WaitDialog.hide()
+				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
+				$("[data-cmesa="+cmesa_activa+"]").find("#menu_vtotal").html("$ 0")
+				$("[data-cmesa="+cmesa_activa+"]").find("#mesa_mesero").html("-")
+
+				$("#modal_unir_cuenta").find(".container_cuenta___cmesa__".set("__cmesa__",cmesa_activa)).remove()
+				$("#modal_accion_resumen #btn_pagar_pedido").addClass("hide")
+				$("#modal_accion_resumen #btn_facturar_pedido").attr("data-cresupedi",response.resupedi.pk)
+				// $("#modal_accion_resumen").modal("hide")
+
+				alertify.success("El resumen de pedido se guardo.")
+
+				table_crud.rows().remove().draw()
+			}
+		})
+	}
+	
 }
 function resumen_pedido(){
 
@@ -200,7 +245,7 @@ function resumen_pedido(){
 			data : JSON.stringify( data_save ),
 			success : function ( response ){
 				alertify.confirm("¿Desea Imprimir la Cuenta?",function(){
-					imprimir_resumen_pedido(response.resupedi.pk)
+					imprimir_resumen_pedido(response.resupedi.pk,cmesa_activa)
 				})
 				WaitDialog.hide()
 				$("[data-cmesa="+cmesa_activa+"]").removeClass("activa")
@@ -219,6 +264,7 @@ function resumen_pedido(){
 		})
 	}
 }
+
 function print_bill(cfac){
 	/*
 		@param cfac String : codigo de factura a imprimir
@@ -345,8 +391,6 @@ function facturar_pedido(cresupedi){
 			})
 		}
 	})
-
-
 }
 
 function get_medios_pago(){

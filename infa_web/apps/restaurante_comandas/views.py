@@ -491,10 +491,11 @@ from django.http import HttpResponse
 from io import BytesIO
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, inch, landscape, portrait
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.utils import timezone
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 def OrderPrint(request):
 
@@ -509,10 +510,9 @@ def OrderPrint(request):
 
 	formato = data.get('formato')
 	cresupedi = data.get('cresupedi')
-
+	mesa = Mesas.objects.using(request.db).get(cmesa = data.get("cmesa"))
 	resupedi = Resupedi.objects.using(request.db).get(cresupedi=cresupedi)
 	comandas = Coda.objects.using(request.db).filter(cresupedi=resupedi,cesdo__cesdo=1)
-
 	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
@@ -532,26 +532,26 @@ def OrderPrint(request):
 	]
 
 	data = [
-		["==================", "======", "============"],
+		["_______________ ", "________", "_____________"],
 		["Descripcion", "Cant", "Vr. Tot"],
-		["__________________", "______", "____________"],
+		["_______________ ", "________", "_____________"]
 	]
 
 	for comanda in comandas:
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
 		for detalle in detalles:
-			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(detalle.vtotal)])
+			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
 
-	data.append(["__________________", "______", "____________"])
-	data.append(["Total","-->",intcomma(resupedi.vttotal)])
-	data.append(["==================", "======", "============"])
+	data.append(["_______________ ", "________", "_____________"])
+	data.append(["Total","-->",intcomma(int(resupedi.vttotal))])
+	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('ALIGN',(1,1), (-1,-1),'CENTER'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
 		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
 
@@ -559,8 +559,9 @@ def OrderPrint(request):
 		('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-
-		('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
+		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
 
 	style_table_facdeta = TableStyle([
@@ -568,7 +569,7 @@ def OrderPrint(request):
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('ALIGN',(0,-1),(-1,-1),'RIGHT'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
 
 		('LEFTPADDING',(0,0),(-1,-1), 0),
@@ -599,15 +600,16 @@ def OrderPrint(request):
 
 	elements.append(t_header)
 	elements.append(Paragraph("<br/>Cuenta No. %s" % resupedi.cresupedi,s['tirilla']))
+	elements.append(Paragraph(" %s" % mesa.nmesa,s['tirilla']))
 
 	elements.append(Paragraph("Fecha : %s " % timezone.localtime(resupedi.fresupedi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
-	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
-	elements.append(Paragraph(hr_linea ,s['tirilla']))
-	elements.append(Paragraph(text_footer_stzef ,s['tirilla']))
-	elements.append(Paragraph(hr_linea ,s['tirilla']))
-	elements.append(Paragraph("." ,s['tirilla']))
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['header']))
+	elements.append(Paragraph(hr_linea ,s['header']))
+	elements.append(Paragraph(text_footer_stzef ,s['header']))
+	elements.append(Paragraph(hr_linea ,s['header']))
+	elements.append(Paragraph("." ,s['header']))
 	doc.build(elements)
 
 	return response
@@ -766,8 +768,9 @@ def CommandPrint(name_file,coda,requestdb):
 		('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-
-		('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
+		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
 
 	style_table_facdeta = TableStyle([
@@ -816,6 +819,120 @@ def CommandPrint(name_file,coda,requestdb):
 
 	return doc
 
+def PreOrderPrint(request):
+	data = request.GET
+	mesa = Mesas.objects.using(request.db).get(cmesa = data.get("cmesa"))
+	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True,cesdo__cesdo=1)
+	totales = sum( [ comanda.vttotal for comanda in comandas] )
+	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
+
+	# Create the HttpResponse object with the appropriate PDF headers.
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+
+	manageParameters = ManageParameters(request.db)
+
+	formato = data.get('formato')
+	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc.pagesize = portrait((190, 1900))
+
+	hr_linea = "___________________________________"
+
+	elements = []
+	#image = Image(staticfiles_storage.url(manageParameters.get("company_logo")), width=128, height=82)
+	data_header = [
+		[manageParameters.get("company_name")],
+		[manageParameters.get("text_header_pos_bill")],
+		[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
+	]
+
+	data = [
+		["_______________ ", "________", "_____________"],
+		["Descripcion", "Cant", "Vr. Tot"],
+		["_______________ ", "________", "_____________"]
+	]
+
+	for comanda in comandas:
+		fecha = comanda.fcoda
+		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
+
+		for detalle in detalles:
+			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
+
+	data.append(["_______________ ", "________", "_____________"])
+	data.append(["Total","-->",intcomma(int(totales))])
+	data.append(["_______________ ", "________", "_____________"])
+
+	style_table_header = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+
+		#('LEFTPADDING',(0,0),(-1,-1), 0),
+		#('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
+		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	])
+
+	style_table_facdeta = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+	])
+
+	#Configure style and word wrap
+	s = getSampleStyleSheet()
+
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
+	s.add(ParagraphStyle(name='header',fontSize=9,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
+
+	bodytext = s["tirilla"]
+	headertext = s["header"]
+	#s.wordWrap = 'CJK'
+	bodytext.wordWrap = 'LTR'
+	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
+	t=Table(data2)
+	t.setStyle(style_table_facdeta)
+
+	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
+	#elements.append(image)
+	t_header=Table(data2_header)
+	t_header.setStyle(style_table_header)
+
+	elements.append(t_header)
+	elements.append(Paragraph("Cuenta %s" % '',s['header']))
+	elements.append(Paragraph("%s" % mesa.nmesa,s['tirilla']))
+
+	elements.append(Paragraph("Fecha : %s " % '',s['tirilla']))
+	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
+	elements.append(t)
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph(text_footer_stzef ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph("." ,s['tirilla']))
+	doc.build(elements)
+
+	return response
+	
 def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 
 	# Create the HttpResponse object with the appropriate PDF headers.
@@ -915,7 +1032,6 @@ def report_view_accounts(request):
 	form = ReportVentaForm(request.db)
 	form_common = CommonForm(request.db)
 	return render(request,"ordenes/reportes/views/cuentas.html",{"title":"Reporte de Cuentas","form":form,"form_common":form_common})
-
 
 class report_fn_accounts(PDFTemplateView):
 	template_name = "ordenes/reportes/fn/cuentas.html"

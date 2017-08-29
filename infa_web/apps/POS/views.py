@@ -120,25 +120,25 @@ def BillPrint(request):
 		]
 
 	data = [
-		["===============", "=========", "============"],
+		["_______________ ", "________", "_____________"],
 		["Descripcion", "Cant", "Vr. Tot"],
-		["_______________", "_________", "____________"],
+		["_______________ ", "________", "_____________"]
 	]
 
 	if slug_company == "fitness_juice":
 		for facdeta in factura_deta:
 			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),""])
-			data.append(["IVI","",intcomma(facdeta.vtotal)])
+			data.append(["IVI","",intcomma( int(facdeta.vtotal))])
 	elif slug_company == "roma_pizza":
 		for facdeta in factura_deta:
-			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma(facdeta.vtotal)])
+			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
 	else:
 		for facdeta in factura_deta:
-			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma(facdeta.vtotal)])
+			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
 
-	data.append(["_______________", "_________", "____________"])
-	data.append(["Total","-->",intcomma(factura.vttotal)])
-	data.append(["===============", "=========", "============"])
+	data.append(["_______________ ", "________", "_____________"])
+	data.append(["Total","-->",intcomma(int(factura.vttotal))])
+	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
 		('ALIGN',(1,1),(-2,-2),'RIGHT'),
@@ -153,8 +153,9 @@ def BillPrint(request):
 		('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-
-		('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
+		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
 
 	style_table_facdeta = TableStyle([
@@ -197,11 +198,11 @@ def BillPrint(request):
 	elements.append(Paragraph("Fecha : %s " % timezone.localtime(factura.femi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
-	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['tirilla']))
-	elements.append(Paragraph(hr_linea ,s['tirilla']))
-	elements.append(Paragraph(text_footer_stzef ,s['tirilla']))
-	elements.append(Paragraph(hr_linea ,s['tirilla']))
-	elements.append(Paragraph("." ,s['tirilla']))
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['header']))
+	elements.append(Paragraph(hr_linea ,s['header']))
+	elements.append(Paragraph(text_footer_stzef ,s['header']))
+	elements.append(Paragraph(hr_linea ,s['header']))
+	elements.append(Paragraph("." ,s['header']))
 	doc.build(elements)
 
 	return response

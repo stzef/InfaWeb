@@ -25,6 +25,7 @@ urlOrders = [
 	url(r'^orders/summary/$', permission_required('rastaurante_comandas')(login_required(OrderSummary)), name = 'order-summary'),
 	url(r'^orders/summary/save/$',permission_required('rastaurante_comandas')(login_required(SaveSummary)), name = 'save-summary'),
 	url(r'^orders/print/$', permission_required('rastaurante_comandas')(login_required(OrderPrint)), name = 'order-print'),
+	url(r'^pre-orders/print/$', permission_required('rastaurante_comandas')(login_required(PreOrderPrint)), name = 'pre-order-print'),
 ]
 
 urlComandas = [
