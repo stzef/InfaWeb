@@ -393,10 +393,10 @@ def OrdersJoin(request):
 	return HttpResponse(json.dumps(response), "application/json")
 
 def TakeOrder(request):
-
+ 
 	mesero = get_current_user(request.db,request.user,mesero=True)
 
-	gruposMenu = Gpo.objects.using(request.db).all()# .order_by("orden")
+	gruposMenu = Gpo.objects.using(request.db).order_by("orden").all()
 	for grupoMenu in gruposMenu:
 		grupoMenu.menus = Arlo.objects.using(request.db).filter(cgpo=grupoMenu)
 
@@ -417,6 +417,16 @@ def TakeOrder(request):
 		'mesero' : mesero
 	}
 	return render(request, "ordenes/take-order.html", context)
+
+def MenuOrder(request):
+	gruposMenu = Gpo.objects.using(request.db).order_by("orden").all()
+	for grupoMenu in gruposMenu:
+		grupoMenu.menus = Arlo.objects.using(request.db).filter(cgpo=grupoMenu)
+
+	context = {
+		'gruposMenu' : gruposMenu,
+	}
+	return render(request, "ordenes/menu-order.html", context)
 
 def OrderSummary(request):
 	mesas = Mesas.objects.using(request.db).all()
@@ -489,14 +499,14 @@ import reportlab
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from io import BytesIO
+import os
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, inch, landscape, portrait
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.utils import timezone
-from django.contrib.staticfiles.storage import staticfiles_storage
-
+from django.contrib.staticfiles.templatetags.staticfiles import static
 def OrderPrint(request):
 
 	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
@@ -519,7 +529,9 @@ def OrderPrint(request):
 	hr_linea = "___________________________________"
 
 	elements = []
-
+	MEDIA_ROOT = os.path.join('infa_web/static')
+	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	image = Image(url, width=128, height=82)
 	data_header = [
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
@@ -541,9 +553,8 @@ def OrderPrint(request):
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
 		for detalle in detalles:
 			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
-
 	data.append(["_______________ ", "________", "_____________"])
-	data.append(["Total","-->",intcomma(int(resupedi.vttotal))])
+	data.append(["TOTAL","--->",intcomma(int(resupedi.vttotal))])
 	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
@@ -559,7 +570,7 @@ def OrderPrint(request):
 		('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    #('LINEABOVE', (0,0), (-1,0), 1, colors.black),
 	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
 		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
@@ -584,7 +595,8 @@ def OrderPrint(request):
 	s = getSampleStyleSheet()
 
 	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
-	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='header',fontSize=8.5,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
 
 	bodytext = s["tirilla"]
 	headertext = s["header"]
@@ -593,7 +605,8 @@ def OrderPrint(request):
 	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
 	t=Table(data2)
 	t.setStyle(style_table_facdeta)
-
+	
+	elements.append(image)
 	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
 	t_header=Table(data2_header)
 	t_header.setStyle(style_table_header)
@@ -605,11 +618,11 @@ def OrderPrint(request):
 	elements.append(Paragraph("Fecha : %s " % timezone.localtime(resupedi.fresupedi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
-	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['header']))
-	elements.append(Paragraph(hr_linea ,s['header']))
-	elements.append(Paragraph(text_footer_stzef ,s['header']))
-	elements.append(Paragraph(hr_linea ,s['header']))
-	elements.append(Paragraph("." ,s['header']))
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph(text_footer_stzef ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph("." ,s['body']))
 	doc.build(elements)
 
 	return response
@@ -794,6 +807,7 @@ def CommandPrint(name_file,coda,requestdb):
 
 	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
 	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
 
 	bodytext = s["tirilla"]
 	headertext = s["header"]
@@ -839,7 +853,9 @@ def PreOrderPrint(request):
 	hr_linea = "___________________________________"
 
 	elements = []
-	#image = Image(staticfiles_storage.url(manageParameters.get("company_logo")), width=128, height=82)
+	MEDIA_ROOT = os.path.join('infa_web/static')
+	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	image = Image(url, width=128, height=82)
 	data_header = [
 		[manageParameters.get("company_name")],
 		[manageParameters.get("text_header_pos_bill")],
@@ -858,9 +874,11 @@ def PreOrderPrint(request):
 
 		for detalle in detalles:
 			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
-
+	print "----------"
+	print fecha
+	print "----------"
 	data.append(["_______________ ", "________", "_____________"])
-	data.append(["Total","-->",intcomma(int(totales))])
+	data.append(["TOTAL","--->",intcomma(int(totales))])
 	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
@@ -876,7 +894,7 @@ def PreOrderPrint(request):
 		#('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    #('LINEABOVE', (0,0), (-1,0), 1, colors.black),
 	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
 		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
@@ -901,7 +919,7 @@ def PreOrderPrint(request):
 	s = getSampleStyleSheet()
 
 	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
-	s.add(ParagraphStyle(name='header',fontSize=9,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='header',fontSize=8.5,leading=12,alignment=TA_CENTER))
 	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
 
 	bodytext = s["tirilla"]
@@ -913,15 +931,15 @@ def PreOrderPrint(request):
 	t.setStyle(style_table_facdeta)
 
 	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
-	#elements.append(image)
+	elements.append(image)
 	t_header=Table(data2_header)
 	t_header.setStyle(style_table_header)
 
 	elements.append(t_header)
-	elements.append(Paragraph("Cuenta %s" % '',s['header']))
+	elements.append(Paragraph("<br/>Cuenta %s" % '',s['tirilla']))
 	elements.append(Paragraph("%s" % mesa.nmesa,s['tirilla']))
 
-	elements.append(Paragraph("Fecha : %s " % '',s['tirilla']))
+	elements.append(Paragraph("Fecha : %s " % timezone.localtime(fecha).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
 	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['body']))

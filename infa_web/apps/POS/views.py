@@ -55,7 +55,7 @@ from django.http import HttpResponse
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, inch, landscape, portrait
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.utils import timezone
@@ -86,7 +86,9 @@ def BillPrint(request):
 	hr_linea = "___________________________________"
 
 	elements = []
-
+	MEDIA_ROOT = os.path.join('infa_web/static')
+	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	image = Image(url, width=128, height=82)
 	if slug_company == "fitness_juice":
 		data_header = [
 			[manageParameters.get("company_name")],
@@ -137,7 +139,7 @@ def BillPrint(request):
 			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
 
 	data.append(["_______________ ", "________", "_____________"])
-	data.append(["Total","-->",intcomma(int(factura.vttotal))])
+	data.append(["TOTAL","-->",intcomma(int(factura.vttotal))])
 	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
@@ -153,7 +155,7 @@ def BillPrint(request):
 		('RIGHTPADDING',(0,0),(-1,-1), 0),
 		('TOPPADDING',(0,0),(-1,-1), 0),
 		('BOTTOMPADDING',(0,0),(-1,-1), 0),
-	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    #('LINEABOVE', (0,0), (-1,0), 1, colors.black),
 	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
 		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
 	])
@@ -178,7 +180,8 @@ def BillPrint(request):
 	s = getSampleStyleSheet()
 
 	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
-	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='header',fontSize=8.5,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
 
 	bodytext = s["tirilla"]
 	headertext = s["header"]
@@ -187,7 +190,7 @@ def BillPrint(request):
 	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
 	t=Table(data2)
 	t.setStyle(style_table_facdeta)
-
+	elements.append(image)
 	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
 	t_header=Table(data2_header)
 	t_header.setStyle(style_table_header)
@@ -198,11 +201,11 @@ def BillPrint(request):
 	elements.append(Paragraph("Fecha : %s " % timezone.localtime(factura.femi).strftime("%Y-%m-%d %H:%M:%S"),s['tirilla']))
 	elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
 	elements.append(t)
-	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['header']))
-	elements.append(Paragraph(hr_linea ,s['header']))
-	elements.append(Paragraph(text_footer_stzef ,s['header']))
-	elements.append(Paragraph(hr_linea ,s['header']))
-	elements.append(Paragraph("." ,s['header']))
+	elements.append(Paragraph(manageParameters.get("text_footer_pos_bill") ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph(text_footer_stzef ,s['body']))
+	elements.append(Paragraph(hr_linea ,s['body']))
+	elements.append(Paragraph("." ,s['body']))
 	doc.build(elements)
 
 	return response

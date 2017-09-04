@@ -9,19 +9,15 @@ urlAccounts = [
 ]
 urlOrders = [
 	url(r'^orders/$', permission_required('restaurante_comandas.list_coda')(login_required(OrdersList.as_view())), name = 'list-orders'),
+	url(r'^orders/menu/$', permission_required('restaurante_comandas.list_coda')(login_required(MenuOrder)), name = 'menu-order'),
 	url(r'^orders/take/$', permission_required('restaurante_comandas.add_coda')(login_required(TakeOrder)), name = 'take-order'),
-
 	url(r'^orders/commands/(?P<cmesa>\d+)/$', permission_required('restaurante_comandas.add_coda')(login_required(GetCommandsOrder)), name = 'get-order-commands'),
 	url(r'^orders/save/$', permission_required('restaurante_comandas.add_coda')(login_required(SaveCommand)), name = 'save-command'),
-
 	#url(r'^orders/commands/annulment/item/$', AnnulmentItemCoda, name = 'annulment-item-coda'),
-
 	url(r'^orders/join/$', permission_required('restaurante_comandas.add_coda')(login_required(OrdersJoin)), name = 'order-join'),
-
 	url(r'^orders/commands/proccess/fn/annulment/item/$', permission_required('restaurante_comandas')(login_required(AnnulmentItemCommand)), name = 'order-command-proccess-fn-annulment-item'),
 	url(r'^orders/commands/proccess/fn/annulment/$', permission_required('rastaurante_comandas')(login_required(AnnulmentCommand)), name = 'order-command-proccess-fn-annulment'),
 	url(r'^orders/commands/proccess/view/annulment/$', permission_required('rastaurante_comandas')(login_required(ViewAnnulmentCommand)), name = 'order-command-proccess-view-annulment'),
-
 	url(r'^orders/summary/$', permission_required('rastaurante_comandas')(login_required(OrderSummary)), name = 'order-summary'),
 	url(r'^orders/summary/save/$',permission_required('rastaurante_comandas')(login_required(SaveSummary)), name = 'save-summary'),
 	url(r'^orders/print/$', permission_required('rastaurante_comandas')(login_required(OrderPrint)), name = 'order-print'),

@@ -1,5 +1,25 @@
 var cmesa_activa = null
-
+$('.sortable').css('cursor', 'move');
+$(".sortable").sortable({
+	create: function( event, ui ) {
+		var idsInOrder = $(".sortable").sortable("toArray");
+		idsInOrder.map( function(item) {
+			$('#index'+item).html("<h4>"+item+"</h4>")
+		})
+	},
+	start: function(event,ui){
+    	console.log("Start position: " + ui.item.index());
+	},
+	change: function(event, ui) {
+		ui.item = ui.placeholder;
+    	console.log("Change the position: " + ui.item.index()+1000);
+    	console.log("New position: " + ui.placeholder.index()+1000);
+		var idsInOrder = $(".sortable").sortable("toArray");
+		idsInOrder.map( function(item) {
+			$('#index2'+item).html("<h4>"+item+"</h4>")
+		})
+	}
+})
 $(document).ready(function() {
 
 	WaitDialog.show("Cargando...")

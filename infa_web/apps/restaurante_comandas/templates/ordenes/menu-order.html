@@ -1,0 +1,33 @@
+{% extends 'layouts/base.html' %}
+{% load humanize %}
+{% load static from staticfiles %}
+
+{% block content_head %}
+
+	<style>
+	</style>
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/nav.html' %}
+	{% include 'elements/sidebar.html' %}
+
+	<!-- Contenido Pagina -->
+	<div class="content-wrapper" style="min-height: 921px;">
+		<section class="content">
+			<div class="panel container-mesas">
+				<div class="panel-body">
+					{% include 'ordenes/partials/load-menus.html' %}
+				</div>
+			</div>
+		</section>
+	</div>
+
+	{%include 'elements/footer.html'%}
+{% endblock content %}
+
+{% block content_script %}
+
+	<script src="{% static 'js/moment-with-locales.js' %}"></script>
+	<script type="text/javascript" charset="utf-8" src="{% static 'js/app/comandas/index.js' %}"></script>
+{% endblock content_script %}
