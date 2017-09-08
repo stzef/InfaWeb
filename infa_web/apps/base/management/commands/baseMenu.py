@@ -317,7 +317,7 @@ class Command(BaseCommand):
 				permission = 'restaurante_comandas.add_coda',
 				general=False,
 				father = m_conf,
-				icon = 'fa-rows',
+				icon = 'fa-arows',
 				module = mod_adm,
 			)
 			m_conf_anulaciones = NavMenus.objects.using(name_db).create(
