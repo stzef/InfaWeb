@@ -71,6 +71,19 @@ def SetResuCfac(request):
 	}
 	return HttpResponse(json.dumps(response), "application/json")
 
+@csrf_exempt
+def SaveOrden(request):
+	data = json.loads(request.body)
+	for index,cgpo in enumerate(data['cgpo']):
+		gpo = Gpo.objects.using(request.db).get(cgpo = cgpo)
+		gpo.orden = data['orden'][index]
+		gpo.save(using=request.db)
+	response = {
+		"data" : data
+	}
+	return HttpResponse(json.dumps(response), "application/json")
+
+
 def GetInfoMesa(mesa,request_db):
 	query = Coda.objects.using(request_db).filter(cresupedi__isnull=True,cmesa=mesa,cesdo__cesdo=1)
 	vttotal = float(0)
@@ -393,7 +406,7 @@ def OrdersJoin(request):
 	return HttpResponse(json.dumps(response), "application/json")
 
 def TakeOrder(request):
- 
+
 	mesero = get_current_user(request.db,request.user,mesero=True)
 
 	gruposMenu = Gpo.objects.using(request.db).order_by("orden").all()
@@ -512,25 +525,27 @@ def OrderPrint(request):
 	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
 
 	# Create the HttpResponse object with the appropriate PDF headers.
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+	#response = HttpResponse(content_type='application/pdf')
+	#response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 
 	manageParameters = ManageParameters(request.db)
 	data = request.GET
-
+	response = []
 	formato = data.get('formato')
 	cresupedi = data.get('cresupedi')
+	name_file = 'infa_web/static/temp/order_%s.pdf' % (cresupedi)
+	response.append(name_file)
 	mesa = Mesas.objects.using(request.db).get(cmesa = data.get("cmesa"))
 	resupedi = Resupedi.objects.using(request.db).get(cresupedi=cresupedi)
 	comandas = Coda.objects.using(request.db).filter(cresupedi=resupedi,cesdo__cesdo=1)
-	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc = SimpleDocTemplate(name_file, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
 	hr_linea = "___________________________________"
 
 	elements = []
 	MEDIA_ROOT = os.path.join('infa_web/static')
-	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	url = MEDIA_ROOT + manageParameters.get("company_logo")
 	image = Image(url, width=128, height=82)
 	data_header = [
 		[manageParameters.get("company_name")],
@@ -605,7 +620,7 @@ def OrderPrint(request):
 	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
 	t=Table(data2)
 	t.setStyle(style_table_facdeta)
-	
+
 	elements.append(image)
 	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
 	t_header=Table(data2_header)
@@ -624,8 +639,8 @@ def OrderPrint(request):
 	elements.append(Paragraph(hr_linea ,s['body']))
 	elements.append(Paragraph("." ,s['body']))
 	doc.build(elements)
-
-	return response
+	send_to_print(name_file,manageParameters.get("fact_printer"))
+	return HttpResponse(json.dumps(response), "application/json")
 """
 def CommandPrint(request):
 
@@ -836,25 +851,27 @@ def CommandPrint(name_file,coda,requestdb):
 def PreOrderPrint(request):
 	data = request.GET
 	mesa = Mesas.objects.using(request.db).get(cmesa = data.get("cmesa"))
+	name_file = 'infa_web/static/temp/pre-order_%s.pdf' % (mesa.cmesa)
 	comandas = Coda.objects.using(request.db).filter(cmesa=mesa,cresupedi__isnull=True,cesdo__cesdo=1)
 	totales = sum( [ comanda.vttotal for comanda in comandas] )
 	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
-
+	response = []
+	response.append(name_file)
 	# Create the HttpResponse object with the appropriate PDF headers.
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
+	# response = HttpResponse(content_type='application/pdf')
+	# response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'
 
 	manageParameters = ManageParameters(request.db)
 
 	formato = data.get('formato')
-	doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc = SimpleDocTemplate(name_file, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
 	doc.pagesize = portrait((190, 1900))
 
 	hr_linea = "___________________________________"
 
 	elements = []
 	MEDIA_ROOT = os.path.join('infa_web/static')
-	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	url = MEDIA_ROOT + manageParameters.get("company_logo")
 	image = Image(url, width=128, height=82)
 	data_header = [
 		[manageParameters.get("company_name")],
@@ -949,8 +966,9 @@ def PreOrderPrint(request):
 	elements.append(Paragraph("." ,s['tirilla']))
 	doc.build(elements)
 
-	return response
-	
+	send_to_print(name_file,manageParameters.get("fact_printer"))
+	return HttpResponse(json.dumps(response), "application/json")
+
 def CommandMenusPrint(name_file,ccoda,menus,requestdb):
 
 	# Create the HttpResponse object with the appropriate PDF headers.

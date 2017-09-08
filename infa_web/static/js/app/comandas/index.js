@@ -4,20 +4,37 @@ $(".sortable").sortable({
 	create: function( event, ui ) {
 		var idsInOrder = $(".sortable").sortable("toArray");
 		idsInOrder.map( function(item) {
-			$('#index'+item).html("<h4>"+item+"</h4>")
+			$('#index'+item).html('<i class="fa fa-arrows"></i>')
 		})
 	},
+	update: function (event, ui) {
+		var idsInOrder = $(".sortable").sortable("toArray");
+	    var cgpo = [];
+	    var or = 1;
+	    var orden = [];
+		idsInOrder.map( function(item) {
+			cgpo.push($('#'+item).data("cgpo"))
+			orden.push(or)
+			or++;
+	    })
+		$.ajax({
+			url : "/orders/save_orden/",
+			type : "POST",
+			data : JSON.stringify( { cgpo : cgpo , orden : orden } ),
+			success : function ( response ){
+				alertify.success("Orden guardado")
+			}
+		})
+	    console.log(cgpo)
+	    console.log(orden)
+    },
 	start: function(event,ui){
     	console.log("Start position: " + ui.item.index());
 	},
 	change: function(event, ui) {
 		ui.item = ui.placeholder;
-    	console.log("Change the position: " + ui.item.index()+1000);
-    	console.log("New position: " + ui.placeholder.index()+1000);
-		var idsInOrder = $(".sortable").sortable("toArray");
-		idsInOrder.map( function(item) {
-			$('#index2'+item).html("<h4>"+item+"</h4>")
-		})
+    	console.log("Change the position: " + ui.item.index());
+    	console.log("New position: " + ui.placeholder.index());
 	}
 })
 $(document).ready(function() {
@@ -202,12 +219,20 @@ function unir_cuentas(){
 function imprimir_resumen_pedido(cresupedi,cmesa){
 	var url = "/orders/print?cmesa="+cmesa+"&cresupedi=_cresupedi_".set("_cresupedi_",cresupedi)
 	win = window.open(url)
+    setTimeout(function() {
+      win.close();
+    }, 100);
+    return false
 }
 function print_resupedi(){
-	var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() } 
+	var data_save = { cmesa : cmesa_activa, medios_pago: get_medios_pago() }
 	console.log(data_save)
 	var url = "/pre-orders/print?cmesa="+cmesa_activa
 	win = window.open(url)
+    setTimeout(function() {
+      win.close();
+    }, 100);
+    return false;
 }
 
 function facturar_resupedi(){
@@ -246,7 +271,7 @@ function facturar_resupedi(){
 			}
 		})
 	}
-	
+
 }
 function resumen_pedido(){
 

@@ -10,6 +10,7 @@ urlAccounts = [
 urlOrders = [
 	url(r'^orders/$', permission_required('restaurante_comandas.list_coda')(login_required(OrdersList.as_view())), name = 'list-orders'),
 	url(r'^orders/menu/$', permission_required('restaurante_comandas.list_coda')(login_required(MenuOrder)), name = 'menu-order'),
+	url(r'^orders/save_orden/$', permission_required('restaurante_comandas.list_coda')(login_required(SaveOrden)), name = 'save-order'),
 	url(r'^orders/take/$', permission_required('restaurante_comandas.add_coda')(login_required(TakeOrder)), name = 'take-order'),
 	url(r'^orders/commands/(?P<cmesa>\d+)/$', permission_required('restaurante_comandas.add_coda')(login_required(GetCommandsOrder)), name = 'get-order-commands'),
 	url(r'^orders/save/$', permission_required('restaurante_comandas.add_coda')(login_required(SaveCommand)), name = 'save-command'),

@@ -308,6 +308,18 @@ class Command(BaseCommand):
 				icon = 'fa-cogs',
 				module = mod_adm,
 			)
+			m_conf_orderMenu = NavMenus.objects.using(name_db).create(
+				name = 'Orden Menú',
+				main = False,
+				enabled = True,
+				anchor = False,
+				url = 'menu-order',
+				permission = 'restaurante_comandas.add_coda',
+				general=False,
+				father = m_conf,
+				icon = 'fa-rows',
+				module = mod_adm,
+			)
 			m_conf_anulaciones = NavMenus.objects.using(name_db).create(
 				name = 'Anulaciones',
 				main = False,
@@ -491,7 +503,7 @@ class Command(BaseCommand):
 				module = mod_restaurante,
 			)
 			m_restaurante_comandas_Tomar = NavMenus.objects.using(name_db).create(
-				name = 'Tomar',
+				name = 'Comandas',
 				main = False,
 				enabled = True,
 				anchor = False,

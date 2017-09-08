@@ -1,12 +1,11 @@
 {% load humanize %}
-<h2>Ordenar Menu</h2>
+<h1>Ordenar Menu</h1>
 <ul class="list-inline sortable">
 	{% for grupo in gruposMenu %}
-  		<li class="well col-md-3 col-lg-3 col-sm-6 col-xs-12 text-center" id="{{grupo.cgpo}}">
+  		<li class="well col-md-2 col-lg-2 col-sm-4 col-xs-10 text-center" id="{{grupo.cgpo}}" data-cgpo="{{grupo.cgpo}}" data-orden="{{grupo.orden}}" style="background-color: #3C8DBC; color:white;">
 			<div>
 				<h3>{{grupo.ngpo}}</h3>
 				<p id='index{{ forloop.counter }}'></p>
-				<p id='index2{{ forloop.counter }}'></p>
 			</div>
 		</li>
 	{% endfor %}
