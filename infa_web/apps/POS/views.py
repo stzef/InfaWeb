@@ -87,7 +87,7 @@ def BillPrint(request):
 
 	elements = []
 	MEDIA_ROOT = os.path.join('infa_web/static')
-	url = MEDIA_ROOT + manageParameters.get("company_logo") 
+	url = MEDIA_ROOT + manageParameters.get("company_logo")
 	image = Image(url, width=128, height=82)
 	if slug_company == "fitness_juice":
 		data_header = [
@@ -106,9 +106,8 @@ def BillPrint(request):
 			[manageParameters.get("text_header_pos_bill")],
 			[manageParameters.get("company_id_name") + " : " + manageParameters.get("company_id")],
 			[sucursal.nsucur],
-			["Dir:" + sucursal.dirsucur],
-			["Tel:" + sucursal.telsucur],
-			["Cel:" + sucursal.celsucur],
+			[manageParameters.get("company_adress")],
+			[manageParameters.get("company_telephone")+" - "+manageParameters.get("company_celphone")],
 		]
 	else:
 		data_header = [
@@ -133,7 +132,7 @@ def BillPrint(request):
 			data.append(["IVI","",intcomma( int(facdeta.vtotal))])
 	elif slug_company == "roma_pizza":
 		for facdeta in factura_deta:
-			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
+			data.append([facdeta.carlos.ncorto[:12]+"...",str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
 	else:
 		for facdeta in factura_deta:
 			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
@@ -179,7 +178,7 @@ def BillPrint(request):
 	#Configure style and word wrap
 	s = getSampleStyleSheet()
 
-	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0,alignment=TA_CENTER))
 	s.add(ParagraphStyle(name='header',fontSize=8.5,leading=12,alignment=TA_CENTER))
 	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
 

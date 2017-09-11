@@ -264,12 +264,12 @@
 														<div class="text-center">
 															{% for menu in grupo.menus %}
 																<div class="text-center col-lg-3 col-md-3 col-sm-2 col-xs-3 well menu" onclick="agregar_a_comanda(this,event)" data-cmenu="{{menu.carlos}}" title="{{menu.ncorto}}">
-																	<p class="text-center">{{menu.ncorto|truncatechars:15}}</p>
+																	<p class="text-center">{{menu.ncorto|truncatechars:25}}</p>
 																	<div class="col-md-12 foto">
 																		<img class="img-responsive img-thumbnail" src="{% static 'img/loading.gif' %}" data-src="{{ menu.foto1.url }}" />
 																	</div>
 																	<div class="col-md-12 more">
-																		<p><strong>{{ menu.pvta1 | intcomma }}</strong></p>
+																		<p><strong>$ {{ menu.pvta1 | intcomma }}</strong></p>
 
 																	</div>
 																</div>

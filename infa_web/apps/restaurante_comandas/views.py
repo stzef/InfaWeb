@@ -888,12 +888,9 @@ def PreOrderPrint(request):
 	for comanda in comandas:
 		fecha = comanda.fcoda
 		detalles = Codadeta.objects.using(request.db).filter(ccoda=comanda)
-
 		for detalle in detalles:
-			data.append([detalle.cmenu.ncorto[:10],str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
-	print "----------"
-	print fecha
-	print "----------"
+			data.append([detalle.cmenu.ncorto[:12]+"...",str(int(detalle.canti)),intcomma(int(detalle.vtotal))])
+
 	data.append(["_______________ ", "________", "_____________"])
 	data.append(["TOTAL","--->",intcomma(int(totales))])
 	data.append(["_______________ ", "________", "_____________"])
@@ -917,7 +914,7 @@ def PreOrderPrint(request):
 	])
 
 	style_table_facdeta = TableStyle([
-		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('ALIGN',(1,1),(-2,-2),'CENTER'),
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
