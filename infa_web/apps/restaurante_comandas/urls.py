@@ -42,7 +42,7 @@ urlMesas = [
 urlReportes = [
 	url(r'^orders/reports/fn/accounts$', login_required(report_fn_accounts.as_view()), name = 'report_fn_accounts'),
 	url(r'^orders/reports/fn/facts$', login_required(FactsPrintRequest), name = 'FactsPrintRequest'),
-	url(r'^orders/reports/view/bills/$',(login_required(report_view_fact)), name = 'report_view_fact'),
+	url(r'^orders/reports/view/bills/$',login_required(report_view_fact), name = 'report_view_fact'),
 	url(r'^orders/reports/view/accounts$', login_required(report_view_accounts), name = 'report_view_accounts'),
 ]
 
