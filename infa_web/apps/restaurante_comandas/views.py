@@ -466,6 +466,11 @@ def OrderSummary(request):
 			'form_medios_pagos' : ResupedipagoForm(request.db)
 		}
 		return render(request, "ordenes/summary.html", context)
+def report_view_fact(request):
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"ordenes/reportes/views/facturas.html",{"title":"Cierre de Caja","form":form,"form_common":form_common})
+
 
 """
 class OrderPrint(PDFTemplateView):
@@ -505,7 +510,6 @@ class OrderPrint(PDFTemplateView):
 		context['comandas'] = comandas
 
 		return context
-
 """
 
 import reportlab
@@ -738,6 +742,161 @@ def CommandPrint(request):
 	doc.build(elements)
 	return response
 """
+def FactsPrintRequest(request):
+	response = []
+	data = request.GET
+
+	cvende = data["cvende"]
+	citerce = data["citerce"]
+	csucur = data["csucur"]
+	cesdo = data["cesdo"]
+
+	query_facturas = {
+		"femi__range" : [
+			data.get("fecha_inicial"),
+			data.get("fecha_final"),
+		],
+		"cesdo__cesdo" : CESTADO_ACTIVO
+	}
+
+	if(cvende):
+		query_facturas["cvende__cvende"] = cvende
+	if(citerce):
+		query_facturas["citerce__citerce"] = citerce
+	if(csucur):
+		query_facturas["ccaja__csucur__csucur"] = csucur
+	if(cesdo):
+		query_facturas["cesdo__cesdo"] = cesdo
+
+	facturas = Fac.objects.using(request.db).filter(**query_facturas)
+
+	buffer = BytesIO()
+	content = FactsPrint(buffer,facturas,request.db,data)
+	pdf = buffer.getvalue()
+	buffer.close()
+	form = ReportVentaForm(request.db)
+	form_common = CommonForm(request.db)
+	return render(request,"ordenes/reportes/views/facturas.html",{"title":"Cierre de Caja","form":form,"form_common":form_common})
+	#comanda = Coda.objects.using(request.db).get(ccoda=ccoda,cesdo__cesdo=1)
+
+def FactsPrint(name_file,facturas,requestdb,data_r):
+
+	# Create the HttpResponse object with the appropriate PDF headers.
+	now = datetime.datetime.now()
+	manageParameters = ManageParameters(requestdb)
+	#comanda = Coda.objects.using(requestdb).get(ccoda=ccoda,cesdo__cesdo=1)
+	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sistematizaref@gmail.com"
+	name_file = 'infa_web/static/temp/report_ventas_%s_%s.pdf' % (data_r.get("fecha_inicial"),data_r.get("fecha_final"))
+
+	doc = SimpleDocTemplate(name_file, pagesize=A4, rightMargin=10,leftMargin=10, topMargin=0,bottomMargin=40)
+	doc.pagesize = portrait((190, 1900))
+
+	hr_linea = "___________________________________"
+
+	elements = []
+
+	MEDIA_ROOT = os.path.join('infa_web/static')
+	url = MEDIA_ROOT + manageParameters.get("company_logo")
+	image = Image(url, width=128, height=82)
+
+	data = []
+
+	data_header = [
+		[''],
+	]
+	detalles = facturas
+	totales = {}
+	totales["subtotal"] = 0
+	totales["total"] = 0
+	totales["vtt_otros"] = 0
+	totales["vtt_base_iva"] = 0
+	totales["vtt_iva"] = 0
+	data.append(["_____________","____________","___________"])
+	for factura in facturas:
+		factura.data_report = {}
+		totales["subtotal"] += factura.vttotal
+		totales["total"] += factura.vttotal
+		factura.data_report["otros_valores"] = factura.vflete
+		factura.data_report["vt_base_iva"] = factura.vtbase
+		factura.data_report["vt_iva"] = factura.vtiva
+		totales["vtt_otros"] += factura.data_report["otros_valores"]
+		totales["vtt_base_iva"] += factura.data_report["vt_base_iva"]
+		totales["vtt_iva"] += factura.data_report["vt_iva"]
+	data.append(["<strong>Factura</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Vr.IVA</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Vr.Total</strong>"])
+	for detalle in detalles:
+		data.append([detalle.cfac,"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+intcomma(int(detalle.data_report['vt_iva'])),"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+intcomma(int(detalle.vttotal))])
+	data.append(["_____________","____________","___________"])
+	data.append(["<strong>SUBTOTAL</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>"+intcomma(int(totales['vtt_iva']))+"</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>"+intcomma(int(totales['subtotal']))+"</strong>"])
+	data.append(["<strong>TOTAL</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>"+intcomma(int(totales['vtt_iva']))+"</strong>","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>"+intcomma(int(totales['total']))+"</strong>"])
+	data.append(["_____________","____________","___________"])
+	style_table_header = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+	    ('LINEABOVE', (0,0), (-1,0), 1, colors.black),
+	    ('LINEBELOW', (0,-1), (-1,-1), 1, colors.black),
+		#('BOX', (0,0), (-1,-1), 0.25, colors.black),
+	])
+
+	style_table_facdeta = TableStyle([
+		('ALIGN',(1,1),(-2,-2),'RIGHT'),
+		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+		('VALIGN',(0,0),(0,-1),'TOP'),
+		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+
+		('LEFTPADDING',(0,0),(-1,-1), 0),
+		('RIGHTPADDING',(0,0),(-1,-1), 0),
+		('TOPPADDING',(0,0),(-1,-1), 0),
+		('BOTTOMPADDING',(0,0),(-1,-1), 0),
+
+		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+	])
+
+	#Configure style and word wrap
+	s = getSampleStyleSheet()
+	s.add(ParagraphStyle(name='tirilla',fontSize=8,leading=12,rightMargin=0,leftMargin=0, topMargin=0,bottomMargin=0))
+	s.add(ParagraphStyle(name='header',fontSize=8,leading=12,alignment=TA_CENTER))
+	s.add(ParagraphStyle(name='body',fontSize=8,leading=12,alignment=TA_CENTER))
+
+	bodytext = s["tirilla"]
+	headertext = s["header"]
+	#s.wordWrap = 'CJK'
+	bodytext.wordWrap = 'LTR'
+	data2 = [[Paragraph(cell, bodytext) for cell in row] for row in data]
+	t=Table(data2)
+	t.setStyle(style_table_facdeta)
+
+	data2_header = [[Paragraph(cell, headertext) for cell in row] for row in data_header]
+	elements.append(image)
+	t_header=Table(data2_header)
+	t_header.setStyle(style_table_header)
+
+	elements.append(t_header)
+	elements.append(Paragraph("<br/>Reporte de Ventas Por Rango de Fechas",s['tirilla']))
+	elements.append(Paragraph("Fecha Generacion : %s" % now.strftime("%d-%m-%y"),s['tirilla']))
+
+	elements.append(Paragraph("Rango de Fechas  : <br/>%s - %s " % (data_r.get("fecha_inicial"),data_r.get("fecha_final")),s['tirilla']))
+	# elements.append(Paragraph("Atendido por : %s <br/>" % factura.cvende.nvende,s['tirilla']))
+	elements.append(t)
+	elements.append(Paragraph(text_footer_stzef ,s['body']))
+	elements.append(Paragraph("." ,s['tirilla']))
+	doc.build(elements)
+
+	send_to_print(name_file,manageParameters.get("fact_printer"))
+	return doc
+
+
 def CommandPrintRequest(request):
 	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'inline; attachment; filename="somefilename.pdf"'

@@ -1401,13 +1401,9 @@ class report_fn_bill(PDFTemplateView):
 				context['header']["Estado"] = estado.nesdo
 				cells["detaanula"]["show"] = True
 
-
-
-
 		totales = {}
 
 		facturas = Fac.objects.using(self.request.db).filter(**query_facturas)
-
 
 		totales["subtotal"] = 0
 		totales["total"] = 0

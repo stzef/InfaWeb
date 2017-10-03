@@ -9,7 +9,7 @@ urlAccounts = [
 ]
 urlOrders = [
 	url(r'^orders/$', permission_required('restaurante_comandas.list_coda')(login_required(OrdersList.as_view())), name = 'list-orders'),
-	url(r'^orders/menu/$', permission_required('restaurante_comandas.list_coda')(login_required(MenuOrder)), name = 'menu-order'),
+	url(r'^orders/menu/$', permission_required('restaurante_comandas.changes_mesas')(login_required(MenuOrder)), name = 'menu-order'),
 	url(r'^orders/save_orden/$', permission_required('restaurante_comandas.list_coda')(login_required(SaveOrden)), name = 'save-order'),
 	url(r'^orders/take/$', permission_required('restaurante_comandas.add_coda')(login_required(TakeOrder)), name = 'take-order'),
 	url(r'^orders/commands/(?P<cmesa>\d+)/$', permission_required('restaurante_comandas.add_coda')(login_required(GetCommandsOrder)), name = 'get-order-commands'),
@@ -41,7 +41,10 @@ urlMesas = [
 ]
 urlReportes = [
 	url(r'^orders/reports/fn/accounts$', login_required(report_fn_accounts.as_view()), name = 'report_fn_accounts'),
+	url(r'^orders/reports/fn/facts$', login_required(FactsPrintRequest), name = 'FactsPrintRequest'),
+	url(r'^orders/reports/view/bills/$',(login_required(report_view_fact)), name = 'report_view_fact'),
 	url(r'^orders/reports/view/accounts$', login_required(report_view_accounts), name = 'report_view_accounts'),
 ]
 
 urlpatterns = urlOrders + urlMesas + urlComandas + urlAccounts + urlReportes
+

@@ -62,7 +62,7 @@ from django.utils import timezone
 
 def BillPrint(request):
 
-	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sitematizaref@gmail.com"
+	text_footer_stzef = "AppEm - Aplicacion para administracion de Empresas sistematizaref@gmail.com"
 
 	# Create the HttpResponse object with the appropriate PDF headers.
 	response = HttpResponse(content_type='application/pdf')
@@ -122,7 +122,7 @@ def BillPrint(request):
 
 	data = [
 		["_______________ ", "________", "_____________"],
-		["Descripcion", "Cant", "Vr. Tot"],
+		["<br/><strong>Descripcion</strong>", "&nbsp;&nbsp;&nbsp;&nbsp;<strong>Cant</strong>", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Vr. Total</strong>"],
 		["_______________ ", "________", "_____________"]
 	]
 
@@ -132,13 +132,13 @@ def BillPrint(request):
 			data.append(["IVI","",intcomma( int(facdeta.vtotal))])
 	elif slug_company == "roma_pizza":
 		for facdeta in factura_deta:
-			data.append([facdeta.carlos.ncorto[:12]+"...",str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
+			data.append(["<br/>"+facdeta.carlos.ncorto,"&nbsp;&nbsp;&nbsp;&nbsp;"+str(int(facdeta.canti)),"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+intcomma( int(facdeta.vtotal))])
 	else:
 		for facdeta in factura_deta:
 			data.append([facdeta.carlos.ncorto[:10],str(int(facdeta.canti)),intcomma( int(facdeta.vtotal))])
 
 	data.append(["_______________ ", "________", "_____________"])
-	data.append(["TOTAL","-->",intcomma(int(factura.vttotal))])
+	data.append(["<br/><strong>TOTAL</strong>","-------->","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>"+intcomma(int(factura.vttotal))+"</strong>"])
 	data.append(["_______________ ", "________", "_____________"])
 
 	style_table_header = TableStyle([
@@ -146,7 +146,7 @@ def BillPrint(request):
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('ALIGN',(0,-1),(-1,-1),'LEFT'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
 		('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
 
@@ -164,7 +164,7 @@ def BillPrint(request):
 		('TEXTCOLOR',(1,1),(-2,-2),colors.red),
 		('VALIGN',(0,0),(0,-1),'TOP'),
 		('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-		('ALIGN',(0,-1),(-1,-1),'CENTER'),
+		('ALIGN',(0,-1),(-1,-1),'LEFT'),
 		('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
 
 		('LEFTPADDING',(0,0),(-1,-1), 0),

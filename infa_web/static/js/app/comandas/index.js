@@ -185,7 +185,7 @@ function abrir_modal_listado_pedidos(mesa){
 							credupedi: resupedi.pk,
 							vttotal: currencyFormat.format(resupedi.fields.vttotal),
 							btn_fac: `<button class='btn btn-info' onclick="facturar_pedido(${resupedi.pk})">Facturar</button>`,
-							btn_print: `<a class='btn btn-info' target='_blank' href='/orders/print/?cresupedi=${resupedi.pk}'>Imprimir</a>`
+							btn_print: `<button class='btn btn-info' onclick="facturar_pedido(${resupedi.pk})">Imprimir</button>`
 						}
 					}
 				]).draw(false)
